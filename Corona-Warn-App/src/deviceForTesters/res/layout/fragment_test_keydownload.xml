@@ -22,11 +22,37 @@
             android:layout_marginEnd="8dp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/info_metered_network"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is metered network: ??" />
+
             <Switch
                 android:id="@+id/allow_metered_toggle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hourly pkgs on metered networks" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/clear_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Clear" />
+                <Button
+                    android:id="@+id/download_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Dpwmöpad" />
+            </LinearLayout>
 
         </LinearLayout>
 

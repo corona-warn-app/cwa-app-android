@@ -28,8 +28,23 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
         vm.allowMeteredConnections.observe2(this) {
             binding.allowMeteredToggle.isChecked = it
         }
-
         binding.allowMeteredToggle.setOnClickListener { vm.toggleAllowMeteredConnections() }
+
+        vm.isMeteredConnection.observe2(this) {
+            binding.infoMeteredNetwork.text = "Is metered network? $it"
+        }
+
+        binding.apply {
+            downloadAction.setOnClickListener { vm.download() }
+            clearAction.setOnClickListener { vm.clearDownloads() }
+        }
+
+        vm.isSyncRunning.observe2(this) { isRunning ->
+            binding.apply {
+                downloadAction.isEnabled = !isRunning
+                clearAction.isEnabled = !isRunning
+            }
+        }
     }
 
     companion object {
