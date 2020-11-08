@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 
-class DefaultAppConfigTest : BaseIOTest() {
+class DefaultAppConfigSourceTest : BaseIOTest() {
     @MockK private lateinit var context: Context
     @MockK private lateinit var assetManager: AssetManager
 
