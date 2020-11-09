@@ -15,7 +15,6 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("MagicNumber")
 open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()

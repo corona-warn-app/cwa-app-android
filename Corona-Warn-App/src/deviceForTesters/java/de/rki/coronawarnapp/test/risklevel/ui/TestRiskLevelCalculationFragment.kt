@@ -24,7 +24,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
 
-@Suppress("MagicNumber", "LongMethod")
+@Suppress("LongMethod")
 class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_level_calculation),
     AutoInject {
     private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()

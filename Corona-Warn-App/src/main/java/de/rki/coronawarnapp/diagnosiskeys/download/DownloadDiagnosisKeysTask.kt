@@ -208,7 +208,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ) : Task.Arguments
 
     data class Config(
-        @Suppress("MagicNumber")
         override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =

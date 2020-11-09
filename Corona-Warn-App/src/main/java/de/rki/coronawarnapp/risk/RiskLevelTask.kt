@@ -146,7 +146,6 @@ class RiskLevelTask @Inject constructor(
 
     data class Config(
         // TODO unit-test that not > 9 min
-        @Suppress("MagicNumber")
         override val executionTimeout: Duration = Duration.standardMinutes(8),
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =

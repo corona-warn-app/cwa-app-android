@@ -31,7 +31,6 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
         internalProgress.close()
     }
 
-    @Suppress("MagicNumber")
     private suspend fun runSafely(arguments: Arguments): Result {
         for (it in 1..10) {
             internalProgress.send(DefaultProgress("${arguments.prefix}: ${Instant.now()}"))
