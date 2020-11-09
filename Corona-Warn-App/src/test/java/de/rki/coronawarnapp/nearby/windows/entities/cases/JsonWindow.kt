@@ -12,5 +12,5 @@ data class JsonWindow(
     @SerializedName("reportType")
     val reportType: Int,
     @SerializedName("scanInstances")
-    val scanInstances: List<ScanInstance>
+    val scanInstances: List<JsonScanInstance>
 )

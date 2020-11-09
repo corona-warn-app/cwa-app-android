@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.nearby.windows.entities.cases
 
 import com.google.gson.annotations.SerializedName
 
-data class ScanInstance(
+data class JsonScanInstance(
     @SerializedName("minAttenuation")
     val minAttenuation: Int,
     @SerializedName("secondsSinceLastScan")
