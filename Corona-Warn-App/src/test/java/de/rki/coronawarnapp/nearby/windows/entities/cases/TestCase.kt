@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.nearby.windows.entities.cases
 
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.nearby.windows.entities.cases.ExposureWindow
 
 data class TestCase(
     @SerializedName("description")
@@ -22,5 +21,5 @@ data class TestCase(
     @SerializedName("expTotalRiskLevel")
     val expTotalRiskLevel: Int,
     @SerializedName("exposureWindows")
-    val exposureWindows: List<ExposureWindow>
+    val exposureWindows: List<JsonWindow>
 )

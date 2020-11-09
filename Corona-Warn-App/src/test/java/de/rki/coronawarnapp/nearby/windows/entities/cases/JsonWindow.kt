@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.nearby.windows.entities.cases
 
 import com.google.gson.annotations.SerializedName
 
-data class ExposureWindow(
+data class JsonWindow(
     @SerializedName("ageInDays")
     val ageInDays: Int,
     @SerializedName("calibrationConfidence")
