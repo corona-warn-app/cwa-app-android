@@ -67,7 +67,7 @@ class DaySyncTool @Inject constructor(
         val downloadedDays = downloads.awaitAll().filterNotNull().also {
             Timber.tag(TAG).v("Downloaded keyfile: %s", it.joinToString("\n"))
         }
-
+        Timber.tag(TAG).i("Download success: ${downloadedDays.size}/${downloads.size}")
         return downloads.size == downloadedDays.size
     }
 

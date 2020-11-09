@@ -19,6 +19,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import timber.log.Timber
@@ -117,8 +118,8 @@ class HourSyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun expectNewHourPackages(cachedHours: List<CachedKey>): Boolean {
-        val previousHour = timeStamper.nowUTC.toLocalTime().minusHours(1)
+    internal fun expectNewHourPackages(cachedHours: List<CachedKey>, now: Instant): Boolean {
+        val previousHour = now.toLocalTime().minusHours(1)
         val newestHour = cachedHours.map { it.info.createdAt }.maxOrNull()?.toLocalTime()
 
         return previousHour.hourOfDay != newestHour?.hourOfDay
@@ -128,9 +129,11 @@ class HourSyncTool @Inject constructor(
     internal suspend fun determineMissingHours(location: LocationCode, forceSync: Boolean): LocationHours? {
         val cachedHours = getCompletedCachedKeys(location, Type.LOCATION_HOUR)
 
-        if (!forceSync && !expectNewHourPackages(cachedHours)) return null
+        val now = timeStamper.nowUTC
 
-        val today = timeStamper.nowUTC.toLocalDate()
+        if (!forceSync && !expectNewHourPackages(cachedHours, now)) return null
+
+        val today = now.toLocalDate()
 
         val availableHours = keyServer.getHourIndex(location, today).let { todaysHours ->
             LocationHours(location, mapOf(today to todaysHours))

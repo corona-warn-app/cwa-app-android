@@ -15,16 +15,17 @@ abstract class BaseSyncTool(
 ) {
 
     internal suspend fun invalidateCachedKeys(invalidatedKeyFiles: Collection<KeyDownloadConfig.InvalidatedKeyFile>) {
+        if (invalidatedKeyFiles.isEmpty()) {
+            Timber.tag(tag).d("No invalid files to delete.")
+            return
+        }
+
         val badEtags = invalidatedKeyFiles.map { it.etag }
         val toDelete = keyCache.getAllCachedKeys()
             .filter { badEtags.contains(it.info.etag) }
 
-        if (toDelete.isNotEmpty()) {
-            Timber.tag(tag).w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
-            keyCache.delete(toDelete.map { it.info })
-        } else {
-            Timber.tag(tag).d("No invalid files to delete.")
-        }
+        Timber.tag(tag).w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
+        keyCache.delete(toDelete.map { it.info })
     }
 
     internal suspend fun requireStorageSpace(data: List<LocationData>): DeviceStorage.CheckResult {

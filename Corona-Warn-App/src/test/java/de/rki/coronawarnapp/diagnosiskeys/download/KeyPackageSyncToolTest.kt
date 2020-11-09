@@ -123,4 +123,14 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     fun `before hour sync is called we check if the connection is metered`() {
         TODO()
     }
+
+    @Test
+    fun `hourly download does not happen on metered connections`() {
+        TODO()
+    }
+
+    @Test
+    fun `hourly download happens on metered connections if enabled via settings`() {
+        TODO()
+    }
 }
