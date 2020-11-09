@@ -17,15 +17,24 @@ class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionCon
             exposureDetectionConfiguration = rawConfig.mapRiskScoreToExposureConfiguration(),
             exposureDetectionParameters = exposureParams,
             maxExposureDetectionsPerDay = exposureParams.maxExposureDetectionsPerDay(),
-            minTimeBetweenDetections = exposureParams.minTimeBetweenExposureDetections()
+            minTimeBetweenDetections = exposureParams.minTimeBetweenExposureDetections(),
+            overAllDetectionTimeout = exposureParams.overAllDetectionTimeout()
         )
     }
 
     data class ExposureDetectionConfigContainer(
         override val exposureDetectionConfiguration: ExposureConfiguration,
         override val exposureDetectionParameters: ExposureDetectionParametersAndroid,
-        override val maxExposureDetectionsPerDay: Int, override val minTimeBetweenDetections: Duration
+        override val maxExposureDetectionsPerDay: Int,
+        override val minTimeBetweenDetections: Duration,
+        override val overAllDetectionTimeout: Duration
     ) : ExposureDetectionConfig
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun ExposureDetectionParametersAndroid.overAllDetectionTimeout(): Duration = when (overallTimeoutInSeconds) {
+    0 -> Duration.standardMinutes(15)
+    else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

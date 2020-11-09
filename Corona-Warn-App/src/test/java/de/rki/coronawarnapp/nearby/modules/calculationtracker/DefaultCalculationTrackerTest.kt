@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.mutate
 import io.kotest.matchers.shouldBe
@@ -31,6 +33,8 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
     @MockK lateinit var storage: CalculationTrackerStorage
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var configProvider: AppConfigProvider
+    @MockK lateinit var appConfigData: ConfigData
 
     @BeforeEach
     fun setup() {
@@ -39,6 +43,9 @@ class DefaultCalculationTrackerTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH
         coEvery { storage.load() } returns emptyMap()
         coEvery { storage.save(any()) } just Runs
+
+        coEvery { configProvider.getAppConfig() } returns appConfigData
+        every { appConfigData.overAllDetectionTimeout } returns Duration.standardMinutes(15)
     }
 
     @AfterEach
@@ -50,7 +57,8 @@ class DefaultCalculationTrackerTest : BaseTest() {
         scope = scope,
         dispatcherProvider = TestDispatcherProvider,
         storage = storage,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        appConfigProvider = configProvider
     )
 
     @Test
@@ -98,6 +106,8 @@ class DefaultCalculationTrackerTest : BaseTest() {
             }
             advanceUntilIdle()
         }
+
+        coVerify { configProvider.getAppConfig() }
     }
 
     @Test

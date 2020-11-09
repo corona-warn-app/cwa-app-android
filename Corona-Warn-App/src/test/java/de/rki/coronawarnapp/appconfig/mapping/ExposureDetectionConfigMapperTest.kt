@@ -49,4 +49,32 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             maxExposureDetectionsPerDay shouldBe 3
         }
     }
+
+    @Test
+    fun `detection timeout is mapped correctly`() {
+        val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder().apply {
+            overallTimeoutInSeconds = 10 * 60
+        }
+        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setMinRiskScore(1)
+            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+            .build()
+        createInstance().map(rawConfig).apply {
+            overAllDetectionTimeout shouldBe Duration.standardMinutes(10)
+        }
+    }
+
+    @Test
+    fun `detection timeout can not be 0`() {
+        val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder().apply {
+            overallTimeoutInSeconds = 0
+        }
+        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setMinRiskScore(1)
+            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+            .build()
+        createInstance().map(rawConfig).apply {
+            overAllDetectionTimeout shouldBe Duration.standardMinutes(15)
+        }
+    }
 }

@@ -9,6 +9,7 @@ interface ExposureDetectionConfig {
 
     val maxExposureDetectionsPerDay: Int
     val minTimeBetweenDetections: Duration
+    val overAllDetectionTimeout: Duration
 
     val exposureDetectionConfiguration: ExposureConfiguration
     val exposureDetectionParameters: ExposureDetectionParameters.ExposureDetectionParametersAndroid

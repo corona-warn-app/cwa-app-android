@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.Result
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -25,7 +26,8 @@ class DefaultCalculationTracker @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: CalculationTrackerStorage,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val appConfigProvider: AppConfigProvider
 ) : CalculationTracker {
 
     init {
@@ -46,10 +48,10 @@ class DefaultCalculationTracker @Inject constructor(
                     hd.updateSafely {
                         val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
-
+                        val timeoutLimit = appConfigProvider.getAppConfig().overAllDetectionTimeout
                         mutate {
                             values.filter { it.isCalculating }.toList().forEach {
-                                if (timeNow.isAfter(it.startedAt.plus(TIMEOUT_LIMIT))) {
+                                if (timeNow.isAfter(it.startedAt.plus(timeoutLimit))) {
                                     Timber.w("Calculation timeout on %s", it)
                                     this[it.identifier] = it.copy(
                                         finishedAt = timeStamper.nowUTC,
@@ -135,6 +137,5 @@ class DefaultCalculationTracker @Inject constructor(
         private const val TAG = "DefaultCalculationTracker"
         private const val MAX_ENTRY_SIZE = 5
         private val TIMEOUT_CHECK_INTERVALL = Duration.standardMinutes(3)
-        private val TIMEOUT_LIMIT = Duration.standardMinutes(15)
     }
 }
