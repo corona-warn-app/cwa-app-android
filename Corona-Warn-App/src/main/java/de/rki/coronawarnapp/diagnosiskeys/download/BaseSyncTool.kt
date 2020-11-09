@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.DeviceStorage
 import timber.log.Timber
 
-abstract class BaseSyncTool(
+open class BaseSyncTool(
     private val keyCache: KeyCacheRepository,
     private val deviceStorage: DeviceStorage,
     private val tag: String

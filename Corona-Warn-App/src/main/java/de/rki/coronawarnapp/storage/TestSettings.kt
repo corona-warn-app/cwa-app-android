@@ -12,5 +12,4 @@ class TestSettings @Inject constructor(
     private val prefs by lazy {
         context.getSharedPreferences("test_settings", Context.MODE_PRIVATE)
     }
-
 }

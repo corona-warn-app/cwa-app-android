@@ -96,7 +96,6 @@ class DaySyncToolTest : CommonSyncToolTest() {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { createdAt } returns Instant.parse("2020-10-30T01:02:03.000Z")
             }
-
         }
         val cachedKey2 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {

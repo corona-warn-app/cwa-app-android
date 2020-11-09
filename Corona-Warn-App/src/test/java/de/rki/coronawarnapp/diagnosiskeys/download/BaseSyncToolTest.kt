@@ -217,7 +217,7 @@ class BaseSyncToolTest : BaseIOTest() {
             LocationCode("EUR"),
             mapOf(
                 "2020-09-01".day to listOf("02".hour),
-                "2020-09-02".day to listOf("01".hour),
+                "2020-09-02".day to listOf("01".hour)
             )
         )
 
@@ -338,5 +338,4 @@ class BaseSyncToolTest : BaseIOTest() {
 //            )
 //        }
 //    }
-
 }

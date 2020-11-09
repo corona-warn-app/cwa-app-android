@@ -104,7 +104,7 @@ class KeyPackageSyncTool @Inject constructor(
 
         syncSettings.lastDownloadHours.update {
             KeyPackageSyncSettings.LastDownload(
-                startedAt = timeStamper.nowUTC,
+                startedAt = timeStamper.nowUTC
             )
         }
 
