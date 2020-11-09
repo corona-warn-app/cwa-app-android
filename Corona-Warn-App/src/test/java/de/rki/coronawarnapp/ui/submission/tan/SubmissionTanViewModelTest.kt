@@ -41,7 +41,6 @@ class SubmissionTanViewModelTest : BaseTest() {
         viewModel.onTanChanged("ZWFPC7NG4A")
         viewModel.state.value!!.isTanValid shouldBe false
         viewModel.state.value!!.isCorrectLength shouldBe true
-
     }
 
     @Test
