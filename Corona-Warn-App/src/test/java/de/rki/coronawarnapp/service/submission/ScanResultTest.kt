@@ -50,7 +50,7 @@ class ScanResultTest {
 
     @Test
     fun containsInvalidGUID() {
-        //extra slashes should be invalid.
+        // extra slashes should be invalid.
         buildQRCodeCases("HTTPS:///LOCALHOST/?", guidUpperCase, false)
         buildQRCodeCases("HTTPS://LOCALHOST//?", guidUpperCase, false)
         buildQRCodeCases("HTTPS://LOCALHOST///?", guidUpperCase, false)
