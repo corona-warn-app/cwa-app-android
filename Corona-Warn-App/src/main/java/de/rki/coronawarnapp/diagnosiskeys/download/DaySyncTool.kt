@@ -127,7 +127,7 @@ class DaySyncTool @Inject constructor(
         val downloads = missingDayData.flatMap { location ->
             location.dayData.map { dayDate -> location to dayDate }
         }
-        Timber.tag(TAG).d("Launching %d downloads, with config: %s", downloads.size, downloadConfig)
+        Timber.tag(TAG).d("Launching %d downloads.", downloads.size)
 
         return downloads.map { (locationData, targetDay) ->
             withContext(context = dispatcherProvider.IO) {

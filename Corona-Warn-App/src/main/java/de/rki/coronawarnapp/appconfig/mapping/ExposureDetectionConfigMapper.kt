@@ -6,20 +6,37 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.server.protocols.internal.ExposureDetectionParameters.ExposureDetectionParametersAndroid
+import org.joda.time.Duration
 import javax.inject.Inject
 
 @Reusable
 class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionConfig.Mapper {
-    override fun map(rawConfig: AppConfig.ApplicationConfiguration): ExposureDetectionConfig =
-        ExposureDetectionConfigContainer(
+    override fun map(rawConfig: AppConfig.ApplicationConfiguration): ExposureDetectionConfig {
+        val exposureParams = rawConfig.androidExposureDetectionParameters
+        return ExposureDetectionConfigContainer(
             exposureDetectionConfiguration = rawConfig.mapRiskScoreToExposureConfiguration(),
-            exposureDetectionParameters = rawConfig.androidExposureDetectionParameters
+            exposureDetectionParameters = exposureParams,
+            maxExposureDetectionsPerDay = exposureParams.maxExposureDetectionsPerDay(),
+            minTimeBetweenDetections = exposureParams.minTimeBetweenExposureDetections()
         )
+    }
 
     data class ExposureDetectionConfigContainer(
         override val exposureDetectionConfiguration: ExposureConfiguration,
-        override val exposureDetectionParameters: ExposureDetectionParametersAndroid
+        override val exposureDetectionParameters: ExposureDetectionParametersAndroid,
+        override val maxExposureDetectionsPerDay: Int, override val minTimeBetweenDetections: Duration
     ) : ExposureDetectionConfig
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun ExposureDetectionParametersAndroid.maxExposureDetectionsPerDay(): Int = when (maxExposureDetectionsPerInterval) {
+    0 -> 6
+    else -> maxExposureDetectionsPerInterval
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun ExposureDetectionParametersAndroid.minTimeBetweenExposureDetections(): Duration {
+    return (24 / maxExposureDetectionsPerDay()).let { Duration.standardHours(it.toLong()) }
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

@@ -80,7 +80,7 @@ class KeyPackageSyncTool @Inject constructor(
 
     private suspend fun runDaySync(locations: List<LocationCode>): BaseSyncTool.SyncResult {
         val lastDownload = syncSettings.lastDownloadDays.value
-        Timber.d("Synchronizing available days (lastDownload=%s).", lastDownload)
+        Timber.tag(TAG).d("Synchronizing available days (lastDownload=%s).", lastDownload)
 
         syncSettings.lastDownloadDays.update {
             KeyPackageSyncSettings.LastDownload(startedAt = timeStamper.nowUTC)

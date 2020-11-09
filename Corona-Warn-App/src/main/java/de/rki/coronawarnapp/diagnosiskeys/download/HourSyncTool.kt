@@ -109,7 +109,7 @@ class HourSyncTool @Inject constructor(
             .flatMap { (location, day, hours) ->
                 hours.map { Triple(location, day, it) }
             }
-        Timber.tag(TAG).d("Launching %d downloads, with config: %s", downloads.size, downloadConfig)
+        Timber.tag(TAG).d("Launching %d downloads.", downloads.size)
 
         return downloads.map { (location, day, missingHour) ->
             withContext(context = dispatcherProvider.IO) {

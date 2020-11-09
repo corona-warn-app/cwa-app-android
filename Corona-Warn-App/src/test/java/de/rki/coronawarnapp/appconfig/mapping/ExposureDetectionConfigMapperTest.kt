@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
+import de.rki.coronawarnapp.server.protocols.internal.ExposureDetectionParameters.ExposureDetectionParametersAndroid
 import io.kotest.matchers.shouldBe
+import org.joda.time.Duration
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -17,6 +19,32 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
         createInstance().map(rawConfig).apply {
             exposureDetectionConfiguration shouldBe rawConfig.mapRiskScoreToExposureConfiguration()
             exposureDetectionParameters shouldBe rawConfig.androidExposureDetectionParameters
+        }
+    }
+
+    @Test
+    fun `detection interval can not be 0`() {
+        val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder()
+        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+            .build()
+        createInstance().map(rawConfig).apply {
+            minTimeBetweenDetections shouldBe Duration.standardHours(24 / 6)
+            maxExposureDetectionsPerDay shouldBe 6
+        }
+    }
+
+    @Test
+    fun `detection interval is mapped correctly`() {
+        val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder().apply {
+            maxExposureDetectionsPerInterval = 3
+        }
+        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+            .build()
+        createInstance().map(rawConfig).apply {
+            minTimeBetweenDetections shouldBe Duration.standardHours(24 / 3)
+            maxExposureDetectionsPerDay shouldBe 3
         }
     }
 }

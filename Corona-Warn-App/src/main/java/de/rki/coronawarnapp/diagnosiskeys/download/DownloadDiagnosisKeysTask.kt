@@ -1,10 +1,13 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.risk.RollbackItem
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
@@ -16,11 +19,13 @@ import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
-import java.io.File
 import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
@@ -30,7 +35,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val enfClient: ENFClient,
     private val environmentSetup: EnvironmentSetup,
     private val appConfigProvider: AppConfigProvider,
-    private val keyFileDownloader: KeyFileDownloader,
+    private val keyPackageSyncTool: KeyPackageSyncTool,
+    private val calculationTracker: CalculationTracker,
     private val timeStamper: TimeStamper
 ) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
 
@@ -70,18 +76,30 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             checkCancel()
 
             // RETRIEVE RISK SCORE PARAMETERS
-            val exposureConfiguration = appConfigProvider.getAppConfig().exposureDetectionConfiguration
+            val exposureConfig: ExposureDetectionConfig = appConfigProvider.getAppConfig()
 
             internalProgress.send(Progress.ApiSubmissionStarted)
             internalProgress.send(Progress.KeyFilesDownloadStarted)
 
             val requestedCountries = arguments.requestedCountries
-            val availableKeyFiles = getAvailableKeyFiles(requestedCountries)
+            val keySyncResult = getAvailableKeyFiles(requestedCountries)
             checkCancel()
 
-            val totalFileSize = availableKeyFiles.fold(0L, { acc, file ->
-                file.length() + acc
-            })
+            val trackedDetections = calculationTracker.calculations.map { it.values }.first()
+            val now = timeStamper.nowUTC
+
+            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedDetections)) {
+                // At most one detection every 6h
+                return object : Task.Result {}
+            }
+
+            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedDetections)) {
+                //  Last check was within 24h, and there are no new files.
+                return object : Task.Result {}
+            }
+
+            val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
+            val totalFileSize = availableKeyFiles.fold(0L, { acc, file -> file.length() + acc })
 
             internalProgress.send(
                 Progress.KeyFilesDownloadFinished(
@@ -92,8 +110,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                keyFiles = availableKeyFiles,
-                configuration = exposureConfiguration,
+                keyFiles = keySyncResult.availableKeys.map { it.path },
+                configuration = exposureConfig.exposureDetectionConfiguration,
                 token = token
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
@@ -115,6 +133,34 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         } finally {
             Timber.i("Finished (isCanceled=$isCanceled).")
             internalProgress.close()
+        }
+    }
+
+    private fun wasLastDetectionPerformedRecently(
+        now: Instant,
+        exposureConfig: ExposureDetectionConfig,
+        trackedDetections: Collection<Calculation>
+    ): Boolean {
+        val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
+        val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
+        return (nextDetectionAt != null && now.isBefore(nextDetectionAt)).also {
+            if (it) Timber.tag(TAG).w("Aborting. Last detection is recent: %s (now=%s)", lastDetection, now)
+        }
+    }
+
+    private fun hasRecentDetectionAndNoNewFiles(
+        now: Instant,
+        keySyncResult: KeyPackageSyncTool.Result,
+        trackedDetections: Collection<Calculation>
+    ): Boolean {
+        // One forced detection every 24h, ignoring the sync results
+        val lastSuccessfulDetection = trackedDetections.filter { it.isSuccessful }.maxByOrNull { it.startedAt }
+        val nextForcedDetectionAt = lastSuccessfulDetection?.startedAt?.plus(Duration.standardDays(1))
+
+        val hasRecentDetection = nextForcedDetectionAt != null && now.isBefore(nextForcedDetectionAt)
+
+        return (hasRecentDetection && keySyncResult.newKeys.isEmpty()).also {
+            if (it) Timber.tag(TAG).w("Aborting. Last detection is recent (<24h) and no new keyfiles.")
         }
     }
 
@@ -168,19 +214,14 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
     }
 
-    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): List<File> {
-        val availableKeyFiles =
-            keyFileDownloader.asyncFetchKeyFiles(if (environmentSetup.useEuropeKeyPackageFiles) {
-                listOf("EUR")
-            } else {
-                requestedCountries
-                    ?: appConfigProvider.getAppConfig().supportedCountries
-            }.map { LocationCode(it) })
+    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): KeyPackageSyncTool.Result {
+        val wantedLocations = if (environmentSetup.useEuropeKeyPackageFiles) {
+            listOf("EUR")
+        } else {
+            requestedCountries ?: appConfigProvider.getAppConfig().supportedCountries
+        }.map { LocationCode(it) }
 
-        if (availableKeyFiles.isEmpty()) {
-            Timber.tag(TAG).w("No keyfiles were available!")
-        }
-        return availableKeyFiles
+        return keyPackageSyncTool.syncKeyFiles(wantedLocations)
     }
 
     private fun checkCancel() {
