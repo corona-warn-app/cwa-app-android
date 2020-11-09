@@ -133,6 +133,6 @@ class KeyPackageSyncTool @Inject constructor(
     )
 
     companion object {
-        internal const val TAG = "KeyPackageSyncTool"
+        internal const val TAG = "KeySync"
     }
 }

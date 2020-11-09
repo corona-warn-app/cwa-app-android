@@ -312,30 +312,4 @@ class BaseSyncToolTest : BaseIOTest() {
         ) shouldBe listOf(key3)
         coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR) }
     }
-
-    //    @Test
-//    fun `not completed cache entries are overwritten`() {
-//        mockAddData(
-//            type = Type.COUNTRY_DAY,
-//            location = "DE".loc,
-//            day = "2020-09-01".day,
-//            hour = null,
-//            isCompleted = false
-//        )
-//
-//        val downloader = createDownloader()
-//
-//        runBlocking {
-//            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 4
-//        }
-//
-//        coVerify {
-//            keyCache.createCacheEntry(
-//                type = Type.COUNTRY_DAY,
-//                location = "DE".loc,
-//                dayIdentifier = "2020-09-01".day,
-//                hourIdentifier = null
-//            )
-//        }
-//    }
 }

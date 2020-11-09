@@ -64,6 +64,6 @@ class KeyDownloadTool @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "KFDL:DownloadTool"
+        private const val TAG = "${KeyPackageSyncTool.TAG}:DownloadTool"
     }
 }
