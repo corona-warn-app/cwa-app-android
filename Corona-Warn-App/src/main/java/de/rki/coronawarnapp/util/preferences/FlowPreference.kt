@@ -23,7 +23,7 @@ class FlowPreference<T> constructor(
             preferences.edit {
                 writer(key, newValue)
             }
-            flowInternal.value = newValue
+            flowInternal.value = internalValue
         }
     val value: T
         get() = internalValue
@@ -59,15 +59,16 @@ class FlowPreference<T> constructor(
                     is Int -> putInt(key, value)
                     is Long -> putLong(key, value)
                     is Float -> putFloat(key, value)
+                    null -> remove(key)
                     else -> throw NotImplementedError()
                 }
             }
     }
 }
 
-inline fun <reified T : Any> SharedPreferences.createFlowPreference(
+inline fun <reified T : Any?> SharedPreferences.createFlowPreference(
     key: String,
-    defaultValue: T
+    defaultValue: T = null as T
 ) = FlowPreference(
     preferences = this,
     key = key,
