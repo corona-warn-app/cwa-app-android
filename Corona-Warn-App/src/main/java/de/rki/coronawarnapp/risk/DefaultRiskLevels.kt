@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -359,14 +360,7 @@ class DefaultRiskLevels @Inject constructor(
             aggregateRiskPerDate(it, exposureWindowsAndResult)
         }
 
-        exposureHistory.forEach {
-            Timber.d(
-                "(date=${it.dateMillisSinceEpoch}, " +
-                    "riskLevel=${it.riskLevel}, " +
-                    "minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, " +
-                    "minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})"
-            )
-        }
+        Timber.d("exposureHistory size: ${exposureHistory.size}")
 
         // 6. Determine `Total Risk`
         val totalRiskLevel =
@@ -449,7 +443,10 @@ class DefaultRiskLevels @Inject constructor(
                 .map { it.riskLevel }
                 .first()
         } catch (e: Exception) {
-            throw IllegalArgumentException("Invalid config for normalizedTimePerDayToRiskLevelMapping")
+            throw ApplicationConfigurationInvalidException(
+                e,
+                "Invalid config for normalizedTimePerDayToRiskLevelMapping"
+            )
         }
 
         Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
