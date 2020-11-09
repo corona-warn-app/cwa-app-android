@@ -26,6 +26,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
     fun `detection interval can not be 0`() {
         val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder()
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setMinRiskScore(1)
             .setAndroidExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
@@ -40,6 +41,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             maxExposureDetectionsPerInterval = 3
         }
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setMinRiskScore(1)
             .setAndroidExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {

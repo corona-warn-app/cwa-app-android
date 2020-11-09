@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -30,7 +29,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
-    @MockK lateinit var keyServer: DiagnosisKeyServer
     @MockK lateinit var keyCache: KeyCacheRepository
     @MockK lateinit var daySyncTool: DaySyncTool
     @MockK lateinit var hourSyncTool: HourSyncTool
@@ -68,7 +66,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        coEvery { keyServer.getLocationIndex() } returns listOf(LocationCode("EUR"))
         coEvery { keyCache.getAllCachedKeys() } returns listOf()
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
         coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
@@ -97,7 +94,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     fun createInstance(): KeyPackageSyncTool = KeyPackageSyncTool(
-        keyServer = keyServer,
         keyCache = keyCache,
         daySyncTool = daySyncTool,
         hourSyncTool = hourSyncTool,
@@ -117,7 +113,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         )
 
         coVerifySequence {
-            keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             lastDownloadDays.value
@@ -150,7 +145,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         )
 
         coVerifySequence {
-            keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             lastDownloadDays.value
@@ -186,7 +180,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             lastDownloadDays.update(any())
             lastDownloadHours.update(any())
 
-            keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             lastDownloadDays.value
@@ -233,7 +226,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             lastDownloadDays.update(any())
             lastDownloadHours.update(any())
 
-            keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             lastDownloadDays.value
@@ -263,7 +255,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         )
 
         coVerifySequence {
-            keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             lastDownloadDays.value
@@ -291,7 +282,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         )
 
         coVerifySequence {
-            keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             lastDownloadDays.value
@@ -312,5 +302,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     @Test
     fun `we clean up stale location data`() {
         // If a whole location is no longer on the index, clean the cache for both days and hours
+        TODO()
     }
 }

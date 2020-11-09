@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -13,7 +12,6 @@ import javax.inject.Inject
 
 @Reusable
 class KeyPackageSyncTool @Inject constructor(
-    private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
     private val daySyncTool: DaySyncTool,
     private val hourSyncTool: HourSyncTool,
@@ -23,22 +21,16 @@ class KeyPackageSyncTool @Inject constructor(
 ) {
 
     suspend fun syncKeyFiles(
-        wanted: List<LocationCode> = listOf(LocationCode("EUR"))
+        wantedLocations: List<LocationCode> = listOf(LocationCode("EUR"))
     ): Result {
-        val targetLocations = keyServer.getLocationIndex().let { available ->
-            available.filter { wanted.contains(it) }.apply {
-                Timber.tag(TAG).v("Available=%s; Wanted=%s; Intersect=%s", available, wanted, this)
-            }
-        }
+        cleanUpStaleLocation(wantedLocations)
 
-        cleanUpStaleLocation(targetLocations)
-
-        val daySyncResult = runDaySync(targetLocations)
+        val daySyncResult = runDaySync(wantedLocations)
 
         val isMeteredConnection = networkStateProvider.networkState.first().isMeteredConnection
         Timber.tag(TAG).d("Checking hour sync... (isMetered=%b)", isMeteredConnection)
         val hourSyncResult = if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
-            runHourSync(targetLocations)
+            runHourSync(wantedLocations)
         } else {
             null
         }
