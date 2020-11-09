@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.storage
 
-import de.rki.coronawarnapp.CoronaWarnApplication
+import android.content.Context
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
@@ -11,11 +11,12 @@ import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPe
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,11 +36,11 @@ import javax.inject.Singleton
  *
  * @see LocalData
  * @see InternalExposureNotificationClient
- * @see RetrieveDiagnosisKeysTransaction
  * @see RiskLevelRepository
  */
 @Singleton
 class TracingRepository @Inject constructor(
+    @AppContext private val context: Context,
     @AppScope private val scope: CoroutineScope,
     private val taskController: TaskController,
     enfClient: ENFClient
@@ -88,18 +89,18 @@ class TracingRepository @Inject constructor(
      * lastTimeDiagnosisKeysFetchedDate is updated. But the the value will only be updated after a
      * successful go through from the RetrievelDiagnosisKeysTransaction.
      *
-     * @see RetrieveDiagnosisKeysTransaction
      * @see RiskLevelRepository
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
             retrievingDiagnosisKeys.value = true
-            try {
-                RetrieveDiagnosisKeysTransaction.start()
-                taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
+            taskController.submitBlocking(
+                DefaultTaskRequest(
+                    DownloadDiagnosisKeysTask::class,
+                    DownloadDiagnosisKeysTask.Arguments()
+                )
+            )
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             refreshLastTimeDiagnosisKeysFetchedDate()
             retrievingDiagnosisKeys.value = false
             TimerHelper.startManualKeyRetrievalTimer()
@@ -121,59 +122,53 @@ class TracingRepository @Inject constructor(
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
      *
-     * @see RiskLevelTransaction
      * @see RiskLevelRepository
      */
     // TODO temp place, this needs to go somewhere better
     fun refreshRiskLevel() {
-        scope.launch {
-            try {
 
-                // get the current date and the date the diagnosis keys were fetched the last time
-                val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
-                val lastFetch = DateTime(
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                    DateTimeZone.UTC
-                )
+        // get the current date and the date the diagnosis keys were fetched the last time
+        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val lastFetch = DateTime(
+            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+            DateTimeZone.UTC
+        )
 
-                // check if the keys were not already retrieved today
-                val keysWereNotRetrievedToday =
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                        currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+        // check if the keys were not already retrieved today
+        val keysWereNotRetrievedToday =
+            LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
 
-                // check if the network is enabled to make the server fetch
-                val isNetworkEnabled =
-                    ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+        // check if the network is enabled to make the server fetch
+        val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(context)
 
-                // only fetch the diagnosis keys if background jobs are enabled, so that in manual
-                // model the keys are only fetched on button press of the user
-                val isBackgroundJobEnabled =
-                    ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
+        // only fetch the diagnosis keys if background jobs are enabled, so that in manual
+        // model the keys are only fetched on button press of the user
+        val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
 
-                Timber.tag(TAG)
-                    .v("Keys were not retrieved today $keysWereNotRetrievedToday")
-                Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
-                Timber.tag(TAG)
-                    .v("Background jobs are enabled $isBackgroundJobEnabled")
+        Timber.tag(TAG).v("Keys were not retrieved today $keysWereNotRetrievedToday")
+        Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
+        Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
 
-                if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
-                    // TODO shouldn't access this directly
-                    retrievingDiagnosisKeys.value = true
-
-                    // start the fetching and submitting of the diagnosis keys
-                    RetrieveDiagnosisKeysTransaction.start()
-                    refreshLastTimeDiagnosisKeysFetchedDate()
-                    TimerHelper.checkManualKeyRetrievalTimer()
-                }
-            } catch (e: TransactionException) {
-                e.cause?.report(ExceptionCategory.INTERNAL)
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.INTERNAL)
-            }
-
-            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+        if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
             // TODO shouldn't access this directly
-            retrievingDiagnosisKeys.value = false
+            retrievingDiagnosisKeys.value = true
+
+            // start the fetching and submitting of the diagnosis keys
+            scope.launch {
+                taskController.submitBlocking(
+                    DefaultTaskRequest(
+                        DownloadDiagnosisKeysTask::class,
+                        DownloadDiagnosisKeysTask.Arguments()
+                    )
+                )
+                refreshLastTimeDiagnosisKeysFetchedDate()
+                TimerHelper.checkManualKeyRetrievalTimer()
+
+                taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+                // TODO shouldn't access this directly
+                retrievingDiagnosisKeys.value = false
+            }
         }
     }
 
