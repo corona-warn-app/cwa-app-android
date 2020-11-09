@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -59,6 +60,8 @@ class DataReset @Inject constructor(
         SecurityHelper.resetSharedPrefs()
         // Reset the current risk level stored in LiveData
         RiskLevelRepository.reset()
+        // Reset the current states stored in LiveData
+        SubmissionRepository.reset()
         keyCacheRepository.clear()
         appConfigProvider.clear()
         interoperabilityRepository.clear()

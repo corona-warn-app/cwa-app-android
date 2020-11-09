@@ -55,10 +55,12 @@ class TestResultNotificationService @Inject constructor(
 
     fun cancelPositiveTestResultNotification() {
         NotificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID)
+        Timber.v("Future positive test result notifications have been canceled")
     }
 
     fun resetPositiveTestResultNotification() {
         cancelPositiveTestResultNotification()
         LocalData.numberOfRemainingPositiveTestResultReminders = Int.MIN_VALUE
+        Timber.v("Positive test result notification counter has been reset")
     }
 }
