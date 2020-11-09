@@ -10,7 +10,8 @@ data class Tan(
 
     val areCharactersValid = allCharactersValid(value)
     val isTanValidFormat = value.length == MAX_LENGTH && isChecksumValid(value)
-    val isTanValid = if (value.length < MAX_LENGTH) true else areCharactersValid && isTanValidFormat
+    val isTanValid = areCharactersValid && isTanValidFormat
+    val isCorrectLength = value.length == MAX_LENGTH
 
     companion object {
         const val MAX_LENGTH = 10
