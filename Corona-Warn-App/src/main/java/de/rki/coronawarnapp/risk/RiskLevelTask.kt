@@ -124,18 +124,18 @@ class RiskLevelTask @Inject constructor(
     }
 
     private suspend fun backgroundJobsEnabled() =
-            backgroundModeStatus.isAutoModeEnabled.first().also {
-                if (it) {
-                    Timber.tag(TAG)
-                            .v("diagnosis keys outdated and active tracing time is above threshold")
-                    Timber.tag(TAG)
-                            .v("manual mode not active (background jobs enabled)")
-                } else {
-                    Timber.tag(TAG)
-                            .v("diagnosis keys outdated and active tracing time is above threshold")
-                    Timber.tag(TAG).v("manual mode active (background jobs disabled)")
-                }
+        backgroundModeStatus.isAutoModeEnabled.first().also {
+            if (it) {
+                Timber.tag(TAG)
+                    .v("diagnosis keys outdated and active tracing time is above threshold")
+                Timber.tag(TAG)
+                    .v("manual mode not active (background jobs enabled)")
+            } else {
+                Timber.tag(TAG)
+                    .v("diagnosis keys outdated and active tracing time is above threshold")
+                Timber.tag(TAG).v("manual mode active (background jobs disabled)")
             }
+        }
 
     override suspend fun cancel() {
         Timber.w("cancel() called.")
