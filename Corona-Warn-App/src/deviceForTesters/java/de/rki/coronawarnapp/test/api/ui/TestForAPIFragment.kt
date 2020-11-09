@@ -13,11 +13,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.view.ViewCompat.generateViewId
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +30,6 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -46,18 +41,17 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
+import de.rki.coronawarnapp.test.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -130,75 +124,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
-
-        // Debug card
-        binding.hourlyKeyPkgMode.apply {
-            setOnClickListener { vm.setHourlyKeyPkgMode(isChecked) }
-        }
-
-        binding.backgroundNotificationsToggle.apply {
-            setOnClickListener { vm.setBackgroundNotifications(isChecked) }
-        }
-        vm.backgroundNotificationsToggleEvent.observe2(this@TestForAPIFragment) {
-            showToast("Background Notifications are activated: $it")
-        }
-        vm.debugOptionsState.observe2(this) { state ->
-            binding.apply {
-                backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-                hourlyKeyPkgMode.isChecked = state.isHourlyTestingMode
-            }
-        }
-        binding.testLogfileToggle.apply {
-            setOnClickListener { vm.setLoggerEnabled(isChecked) }
-        }
-        vm.loggerState.observe2(this) { state ->
-            binding.apply {
-                testLogfileToggle.isChecked = state.isLogging
-                testLogfileShare.setGone(!state.isLogging)
-            }
-        }
-        binding.testLogfileShare.setOnClickListener { vm.shareLogFile() }
-        vm.logShareEvent.observe2(this) { showToast("Logfile copied to $it") }
-
-        // Server environment card
-        binding.environmentToggleGroup.apply {
-            setOnCheckedChangeListener { group, checkedId ->
-                val chip = group.findViewById<RadioButton>(checkedId)
-                if (!chip.isPressed) return@setOnCheckedChangeListener
-                vm.selectEnvironmentTytpe(chip.text.toString())
-            }
-        }
-
-        vm.environmentState.observe2(this) { state ->
-            binding.apply {
-                if (environmentToggleGroup.childCount != state.available.size) {
-                    environmentToggleGroup.removeAllViews()
-                    state.available.forEach { type ->
-                        RadioButton(requireContext()).apply {
-                            id = generateViewId()
-                            text = type.rawKey
-                            layoutParams = RadioGroup.LayoutParams(
-                                RadioGroup.LayoutParams.MATCH_PARENT,
-                                RadioGroup.LayoutParams.WRAP_CONTENT
-                            )
-                            environmentToggleGroup.addView(this)
-                        }
-                    }
-                }
-
-                environmentToggleGroup.children.forEach {
-                    it as RadioButton
-                    it.isChecked = it.text == state.current.rawKey
-                }
-
-                environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
-                environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
-                environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
-            }
-        }
-        vm.environmentChangeEvent.observe2(this) {
-            showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
-        }
 
         // GMS Info card
         vm.gmsState.observe2(this) { state ->
@@ -292,9 +217,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         // Load countries from App config and update Country UI element states
         lifecycleScope.launch {
             lastSetCountries =
-                ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                    .supportedCountriesList
-
+                AppInjector.component.appConfigProvider.getAppConfig().supportedCountries
             binding.inputCountryCodesEditText.setText(
                 lastSetCountries?.joinToString(",")
             )
@@ -469,7 +392,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     enfClient.provideDiagnosisKeys(
                         googleFileList,
-                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
+                        AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")

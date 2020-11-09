@@ -1,11 +1,12 @@
 package de.rki.coronawarnapp.storage.interoperability
 
 import android.text.TextUtils
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.Country
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.Locale
@@ -21,8 +22,11 @@ class InteroperabilityRepository @Inject constructor(
         LocalData.isInteroperabilityShownAtLeastOnce = true
     }
 
-    private val _countryList: MutableLiveData<List<Country>> = MutableLiveData(listOf())
-    val countryList = Transformations.distinctUntilChanged(_countryList)
+    private val countryListFlowInternal = MutableStateFlow(listOf<Country>())
+    val countryListFlow: Flow<List<Country>> = countryListFlowInternal
+
+    @Deprecated("Use  countryListFlow")
+    val countryList = countryListFlow.asLiveData()
 
     init {
         getAllCountries()
@@ -36,7 +40,7 @@ class InteroperabilityRepository @Inject constructor(
         runBlocking {
             try {
                 val countries = appConfigProvider.getAppConfig()
-                    .supportedCountriesList
+                    .supportedCountries
                     .mapNotNull { rawCode ->
                         val countryCode = rawCode.toLowerCase(Locale.ROOT)
 
@@ -44,16 +48,16 @@ class InteroperabilityRepository @Inject constructor(
                         if (mappedCountry == null) Timber.e("Unknown countrycode: %s", rawCode)
                         mappedCountry
                     }
-                _countryList.postValue(countries)
+                countryListFlowInternal.value = countries
                 Timber.d("Country list: ${TextUtils.join(System.lineSeparator(), countries)}")
             } catch (e: Exception) {
                 Timber.e(e)
-                _countryList.postValue(listOf())
+                countryListFlowInternal.value = emptyList()
             }
         }
     }
 
     fun clear() {
-        _countryList.postValue(emptyList())
+        countryListFlowInternal.value = emptyList()
     }
 }

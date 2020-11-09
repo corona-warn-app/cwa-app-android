@@ -7,8 +7,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+            name="uiState"
+            type="de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState" />
     </data>
 
 
@@ -28,11 +28,11 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 android:importantForAccessibility="yes"
-                app:deviceUIState="@{submissionViewModel.deviceUiState}"
+                app:deviceUIState="@{uiState.deviceUiState}"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toTopOf="parent"
-                app:registerDate="@{submissionViewModel.testResultReceivedDate}" />
+                app:registerDate="@{uiState.testResultReceivedDate}" />
 
             <TextView
                 android:id="@+id/submission_test_result_subtitle"
@@ -52,7 +52,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(uiState.deviceUiState)}"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
@@ -63,7 +63,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.deviceUiState)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(uiState.deviceUiState)}"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
@@ -74,7 +74,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.deviceUiState)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(uiState.deviceUiState)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/submission_test_result_negative_steps" />
@@ -85,7 +85,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.deviceUiState)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(uiState.deviceUiState)}"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
@@ -96,7 +96,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.deviceUiState)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(uiState.deviceUiState)}"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />

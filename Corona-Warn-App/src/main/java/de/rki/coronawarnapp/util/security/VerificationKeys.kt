@@ -25,8 +25,8 @@ class VerificationKeys @Inject constructor(
         Signature.getInstance(SecurityConstants.EXPORT_FILE_SIGNATURE_VERIFICATION_ALGORITHM)
 
     fun hasInvalidSignature(
-        export: ByteArray?,
-        signatureListBinary: ByteArray?
+        export: ByteArray,
+        signatureListBinary: ByteArray
     ): Boolean = SecurityHelper.withSecurityCatch {
         signature.getValidSignaturesForExport(export, signatureListBinary)
             .isEmpty()
