@@ -40,7 +40,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             binding.uiState = it
 
             submission_tan_character_error.setGone(it.areCharactersCorrect)
-            submission_tan_error.setGone(it.isTanValidFormat)
+            submission_tan_error.setGone(it.isTanValid)
         }
 
         binding.submissionTanContent.submissionTanInput.listener = { tan ->
