@@ -9,10 +9,16 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.ApiRequestState.SUCCESS
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
+import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import io.kotest.matchers.neverNullMatcher
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -22,6 +28,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -66,7 +73,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingCardStateProvider = tracingCardStateProvider,
         submissionCardsStateProvider = submissionCardsStateProvider,
         tracingRepository = tracingRepository,
-        notificationService = testResultNotificationService
+        testResultNotificationService = testResultNotificationService
     )
 
     @Test
@@ -119,6 +126,34 @@ class HomeFragmentViewModelTest : BaseTest() {
         createInstance().apply {
             this.submissionCardState.observeForTesting { }
             verify { submissionCardsStateProvider.state }
+        }
+    }
+
+    @Test
+    fun `positive test result notification is triggered on positive QR code result`() {
+        val state = SubmissionCardState(PAIRED_POSITIVE, true, SUCCESS)
+        every { submissionCardsStateProvider.state } returns flowOf(state)
+        every {testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
+
+        runBlocking {
+            createInstance().apply {
+                observeTestResultToSchedulePositiveTestResultReminder()
+                verify { testResultNotificationService.schedulePositiveTestResultReminder()}
+            }
+        }
+    }
+
+    @Test
+    fun `positive test result notification is triggered on positive TeleTan code result`() {
+        val state = SubmissionCardState(PAIRED_POSITIVE_TELETAN, true, SUCCESS)
+        every { submissionCardsStateProvider.state } returns flowOf(state)
+        every {testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
+
+        runBlocking {
+            createInstance().apply {
+                observeTestResultToSchedulePositiveTestResultReminder()
+                verify { testResultNotificationService.schedulePositiveTestResultReminder()}
+            }
         }
     }
 }
