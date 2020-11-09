@@ -47,7 +47,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val tracingCardState: LiveData<TracingCardState> = tracingCardStateProvider.state
         .asLiveData(dispatcherProvider.Default)
 
-    @Suppress("MagicNumber")
     val submissionCardState: LiveData<SubmissionCardState> = submissionCardsStateProvider.state
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
