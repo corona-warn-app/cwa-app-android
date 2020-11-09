@@ -18,7 +18,8 @@ import javax.inject.Inject
 @Reusable
 class DeadmanNotificationSender @Inject constructor(
     @AppContext private val context: Context,
-    private val foregroundState: ForegroundState
+    private val foregroundState: ForegroundState,
+    private val notificationManagerCompat: NotificationManagerCompat
 ) {
 
     private val channelId =
@@ -58,7 +59,7 @@ class DeadmanNotificationSender @Inject constructor(
         val content = context.getString(R.string.risk_details_deadman_notification_body)
         val notification =
             buildNotification(title, content) ?: return
-        with(NotificationManagerCompat.from(context)) {
+        with(notificationManagerCompat) {
             notify(DEADMAN_NOTIFICATION_ID, notification)
         }
     }
