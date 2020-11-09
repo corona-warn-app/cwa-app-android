@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -35,8 +36,20 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var networkStateProvider: NetworkStateProvider
     @MockK lateinit var networkState: NetworkStateProvider.State
-    private val lastDownloadHours: FlowPreference<KeyPackageSyncSettings.LastDownload?> = mockFlowPreference(null)
-    private val lastDownloadDays: FlowPreference<KeyPackageSyncSettings.LastDownload?> = mockFlowPreference(null)
+    private val lastDownloadDays: FlowPreference<KeyPackageSyncSettings.LastDownload?> = mockFlowPreference(
+        KeyPackageSyncSettings.LastDownload(
+            startedAt = Instant.EPOCH,
+            finishedAt = Instant.EPOCH,
+            successful = true
+        )
+    )
+    private val lastDownloadHours: FlowPreference<KeyPackageSyncSettings.LastDownload?> = mockFlowPreference(
+        KeyPackageSyncSettings.LastDownload(
+            startedAt = Instant.EPOCH,
+            finishedAt = Instant.EPOCH,
+            successful = true
+        )
+    )
 
     @BeforeEach
     fun setup() {
@@ -46,15 +59,18 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coEvery { keyServer.getLocationIndex() } returns listOf(LocationCode("EUR"))
         coEvery { keyCache.getAllCachedKeys() } returns listOf()
-        coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
+        coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
 
         coEvery { daySyncTool.syncMissingDays(any(), any()) } returns true
         coEvery { hourSyncTool.syncMissingHours(any(), any()) } returns true
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(1))
+
         every { networkStateProvider.networkState } returns flowOf(networkState)
         every { networkState.isMeteredConnection } returns false
+
+        every { syncSettings.allowMeteredConnections } returns mockFlowPreference(false)
     }
 
     @AfterEach
@@ -77,9 +93,76 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     fun `normal call sequence`() = runBlockingTest {
         val instance = createInstance()
 
-        instance.syncKeyFiles()
+        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
+            availableKeys = emptyList(),
+            wasDaySyncSucccessful = true
+        )
 
         coVerifySequence {
+            keyServer.getLocationIndex() // wanted-available=target
+            keyCache.getAllCachedKeys() // To clean up stale locations
+
+            lastDownloadDays.value
+            lastDownloadDays.update(any())
+            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            lastDownloadDays.update(any())
+
+            networkStateProvider.networkState // Check metered
+            lastDownloadHours.value
+            lastDownloadHours.update(any())
+            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            lastDownloadHours.update(any())
+
+            keyCache.getAllCachedKeys()
+        }
+    }
+
+    @Test
+    fun `failed day sync is reflected in results property`() = runBlockingTest {
+        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns false
+        val instance = createInstance()
+
+        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
+            availableKeys = emptyList(),
+            wasDaySyncSucccessful = false
+        )
+
+        coVerifySequence {
+            keyServer.getLocationIndex() // wanted-available=target
+            keyCache.getAllCachedKeys() // To clean up stale locations
+
+            lastDownloadDays.value
+            lastDownloadDays.update(any())
+            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            lastDownloadDays.update(any())
+
+            networkStateProvider.networkState // Check metered
+            lastDownloadHours.value
+            lastDownloadHours.update(any())
+            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            lastDownloadHours.update(any())
+
+            keyCache.getAllCachedKeys()
+        }
+    }
+
+    @Test
+    fun `missing last download causes force sync`() = runBlockingTest {
+        lastDownloadDays.update { null }
+        lastDownloadHours.update { null }
+
+        val instance = createInstance()
+
+        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
+            availableKeys = emptyList(),
+            wasDaySyncSucccessful = true
+        )
+
+        coVerifySequence {
+            // Initial reset
+            lastDownloadDays.update(any())
+            lastDownloadHours.update(any())
+
             keyServer.getLocationIndex() // wanted-available=target
             keyCache.getAllCachedKeys() // To clean up stale locations
 
@@ -99,38 +182,109 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `last download starts failed, and is set successful after sync completes`() {
-        TODO()
-        // Both Day- HourSyncTool need to return successful sync for the download to be considered successful
+    fun `failed last download causes force sync`() = runBlockingTest {
+        lastDownloadDays.update {
+            KeyPackageSyncSettings.LastDownload(
+                startedAt = Instant.EPOCH,
+                finishedAt = Instant.EPOCH,
+                successful = false
+            )
+        }
+        lastDownloadHours.update {
+            KeyPackageSyncSettings.LastDownload(
+                startedAt = Instant.EPOCH,
+                finishedAt = Instant.EPOCH,
+                successful = false
+            )
+        }
+        val instance = createInstance()
+
+        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
+            availableKeys = emptyList(),
+            wasDaySyncSucccessful = true
+        )
+
+        coVerifySequence {
+            // Initial reset
+            lastDownloadDays.update(any())
+            lastDownloadHours.update(any())
+
+            keyServer.getLocationIndex() // wanted-available=target
+            keyCache.getAllCachedKeys() // To clean up stale locations
+
+            lastDownloadDays.value
+            lastDownloadDays.update(any())
+            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), true)
+            lastDownloadDays.update(any())
+
+            networkStateProvider.networkState // Check metered
+            lastDownloadHours.value
+            lastDownloadHours.update(any())
+            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), true)
+            lastDownloadHours.update(any())
+
+            keyCache.getAllCachedKeys()
+        }
     }
 
     @Test
-    fun `failed day sync is reflected in results property`() {
-        TODO()
+    fun `hourly download does not happen on metered connections`() = runBlockingTest {
+        every { networkState.isMeteredConnection } returns true
+        val instance = createInstance()
+
+        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
+            availableKeys = emptyList(),
+            wasDaySyncSucccessful = true
+        )
+
+        coVerifySequence {
+            keyServer.getLocationIndex() // wanted-available=target
+            keyCache.getAllCachedKeys() // To clean up stale locations
+
+            lastDownloadDays.value
+            lastDownloadDays.update(any())
+            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            lastDownloadDays.update(any())
+
+            networkStateProvider.networkState // Check metered
+
+            keyCache.getAllCachedKeys()
+        }
     }
 
     @Test
-    fun `missing last download causes force sync`() {
-        TODO()
+    fun `hourly download happens on metered connections if enabled via settings`() = runBlockingTest {
+        every { networkState.isMeteredConnection } returns true
+        every { syncSettings.allowMeteredConnections } returns mockFlowPreference(true)
+
+        val instance = createInstance()
+
+        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
+            availableKeys = emptyList(),
+            wasDaySyncSucccessful = true
+        )
+
+        coVerifySequence {
+            keyServer.getLocationIndex() // wanted-available=target
+            keyCache.getAllCachedKeys() // To clean up stale locations
+
+            lastDownloadDays.value
+            lastDownloadDays.update(any())
+            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            lastDownloadDays.update(any())
+
+            networkStateProvider.networkState // Check metered
+            lastDownloadHours.value
+            lastDownloadHours.update(any())
+            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            lastDownloadHours.update(any())
+
+            keyCache.getAllCachedKeys()
+        }
     }
 
     @Test
-    fun `failed last download causes force sync`() {
-        TODO()
-    }
-
-    @Test
-    fun `before hour sync is called we check if the connection is metered`() {
-        TODO()
-    }
-
-    @Test
-    fun `hourly download does not happen on metered connections`() {
-        TODO()
-    }
-
-    @Test
-    fun `hourly download happens on metered connections if enabled via settings`() {
-        TODO()
+    fun `we clean up stale location data`() {
+        // If a whole location is no longer on the index, clean the cache for both days and hours
     }
 }

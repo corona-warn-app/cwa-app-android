@@ -10,8 +10,8 @@ fun <T> mockFlowPreference(
 ): FlowPreference<T> {
     val instance = mockk<FlowPreference<T>>()
     val flow = MutableStateFlow(defaultValue)
-    every { instance.flow } returns flow
-    every { instance.value } returns flow.value
+    every { instance.flow } answers { flow }
+    every { instance.value } answers { flow.value }
     every { instance.update(any()) } answers {
         val updateCall = arg<(T) -> T>(0)
         flow.value = updateCall(flow.value)

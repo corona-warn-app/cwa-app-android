@@ -84,14 +84,12 @@ class KeyPackageSyncTool @Inject constructor(
             forceSync = lastDownload == null || !lastDownload.successful
         )
 
-        if (successfulSync) {
-            syncSettings.lastDownloadDays.update {
-                if (it == null) {
-                    Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
-                    null
-                } else {
-                    it.copy(finishedAt = timeStamper.nowUTC, successful = true)
-                }
+        syncSettings.lastDownloadDays.update {
+            if (it == null) {
+                Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
+                null
+            } else {
+                it.copy(finishedAt = timeStamper.nowUTC, successful = successfulSync)
             }
         }
 
@@ -115,14 +113,12 @@ class KeyPackageSyncTool @Inject constructor(
             forceSync = lastDownload == null || !lastDownload.successful
         )
 
-        if (successfulSync) {
-            syncSettings.lastDownloadHours.update {
-                if (it == null) {
-                    Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
-                    null
-                } else {
-                    it.copy(finishedAt = timeStamper.nowUTC, successful = true)
-                }
+        syncSettings.lastDownloadHours.update {
+            if (it == null) {
+                Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
+                null
+            } else {
+                it.copy(finishedAt = timeStamper.nowUTC, successful = successfulSync)
             }
         }
 
@@ -137,6 +133,6 @@ class KeyPackageSyncTool @Inject constructor(
     )
 
     companion object {
-        internal const val TAG = "KeyPackageSync"
+        internal const val TAG = "KeyPackageSyncTool"
     }
 }
