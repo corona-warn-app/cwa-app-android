@@ -3,14 +3,13 @@ package de.rki.coronawarnapp.deadman
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
-import dagger.Lazy
 import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
 class DeadmanNotificationScheduler @Inject constructor(
     val timeCalculation: DeadmanNotificationTimeCalculation,
-    val workManager: Lazy<WorkManager>,
+    val workManager: WorkManager,
     val workBuilder: DeadmanNotificationWorkBuilder
 ) {
 
@@ -26,7 +25,7 @@ class DeadmanNotificationScheduler @Inject constructor(
             return
         } else {
             // Create unique work and enqueue
-            workManager.get().enqueueUniqueWork(
+            workManager.enqueueUniqueWork(
                 ONE_TIME_WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
                 workBuilder.buildOneTimeWork(delay)
@@ -40,7 +39,7 @@ class DeadmanNotificationScheduler @Inject constructor(
      */
     fun schedulePeriodic() {
         // Create unique work and enqueue
-        workManager.get().enqueueUniquePeriodicWork(
+        workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.REPLACE,
             workBuilder.buildPeriodicWork()

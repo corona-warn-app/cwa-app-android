@@ -9,20 +9,23 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class WorkManagerSetup @Inject constructor(
+class WorkManagerProvider @Inject constructor(
     @AppContext private val context: Context,
     private val cwaWorkerFactory: CWAWorkerFactory
 ) {
 
-    fun setup() {
+    val workManager by lazy {
         Timber.v("Setting up WorkManager.")
         val configuration = Configuration.Builder().apply {
             setMinimumLoggingLevel(android.util.Log.DEBUG)
             setWorkerFactory(cwaWorkerFactory)
         }.build()
 
+        Timber.v("WorkManager initialize...")
         WorkManager.initialize(context, configuration)
 
-        Timber.v("WorkManager setup done.")
+        WorkManager.getInstance(context).also {
+            Timber.v("WorkManager setup done: %s", it)
+        }
     }
 }

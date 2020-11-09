@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.worker.WorkManagerProvider
 import javax.inject.Singleton
 
 @Module
@@ -35,6 +36,6 @@ class AndroidModule {
     @Provides
     @Singleton
     fun workManager(
-        @AppContext context: Context
-    ): WorkManager = WorkManager.getInstance(context)
+        workManagerProvider: WorkManagerProvider
+    ): WorkManager = workManagerProvider.workManager
 }

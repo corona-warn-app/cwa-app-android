@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -22,7 +23,6 @@ import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.util.worker.WorkManagerSetup
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
@@ -43,7 +43,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var watchdogService: WatchdogService
     @Inject lateinit var taskController: TaskController
     @Inject lateinit var foregroundState: ForegroundState
-    @Inject lateinit var workManagerSetup: WorkManagerSetup
+    @Inject lateinit var workManager: WorkManager
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -57,8 +57,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.plant(rollingLogHistory)
 
-        Timber.v("onCreate(): Initializing WorkManager")
-        workManagerSetup.setup()
+        Timber.v("onCreate(): WorkManager setup done: $workManager")
 
         NotificationHelper.createNotificationChannel()
 
