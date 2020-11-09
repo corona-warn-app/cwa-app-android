@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.risk.RollbackItem
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
@@ -20,7 +19,6 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
@@ -36,7 +34,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val environmentSetup: EnvironmentSetup,
     private val appConfigProvider: AppConfigProvider,
     private val keyPackageSyncTool: KeyPackageSyncTool,
-    private val calculationTracker: CalculationTracker,
     private val timeStamper: TimeStamper
 ) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
 
@@ -85,7 +82,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
             checkCancel()
 
-            val trackedDetections = calculationTracker.calculations.map { it.values }.first()
+            val trackedDetections = enfClient.latestCalculations().first()
             val now = timeStamper.nowUTC
 
             if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedDetections)) {

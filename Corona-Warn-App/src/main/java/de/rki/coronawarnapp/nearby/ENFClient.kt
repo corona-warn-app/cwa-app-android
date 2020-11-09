@@ -63,6 +63,8 @@ class ENFClient @Inject constructor(
             values.maxBy { it.startedAt }?.isCalculating == true
         }
 
+    fun latestCalculations(): Flow<Collection<Calculation>> = calculationTracker.calculations.map { it.values }
+
     fun latestFinishedCalculation(): Flow<Calculation?> =
         calculationTracker.calculations.map { snapshot ->
             snapshot.values

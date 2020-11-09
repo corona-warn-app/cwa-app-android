@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -17,6 +18,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var keyPackageSyncTool: KeyPackageSyncTool
+    @MockK lateinit var calculationTracker: CalculationTracker
     @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
