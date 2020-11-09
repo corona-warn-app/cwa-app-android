@@ -33,12 +33,14 @@ class KeyPackageSyncTool @Inject constructor(
 
         cleanUpStaleLocation(targetLocations)
 
-        val hasSyncedDays = runDaySync(targetLocations)
+        val daySyncResult = runDaySync(targetLocations)
 
         val isMeteredConnection = networkStateProvider.networkState.first().isMeteredConnection
         Timber.tag(TAG).d("Checking hour sync... (isMetered=%b)", isMeteredConnection)
-        if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
+        val hourSyncResult = if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
             runHourSync(targetLocations)
+        } else {
+            null
         }
 
         val availableKeys = keyCache.getAllCachedKeys()
@@ -51,9 +53,14 @@ class KeyPackageSyncTool @Inject constructor(
             .also { Timber.tag(TAG).i("Returning %d available keyfiles", it.size) }
             .also { Timber.tag(TAG).d("Available keyfiles: %s", it.joinToString("\n")) }
 
+        val newKeys = mutableListOf<CachedKey>()
+        newKeys.addAll(daySyncResult.newPackages)
+        hourSyncResult?.let { newKeys.addAll(it.newPackages) }
+
         return Result(
             availableKeys = availableKeys,
-            wasDaySyncSucccessful = hasSyncedDays
+            newKeys = newKeys,
+            wasDaySyncSucccessful = daySyncResult.successful
         )
     }
 
@@ -71,7 +78,7 @@ class KeyPackageSyncTool @Inject constructor(
         }
     }
 
-    private suspend fun runDaySync(locations: List<LocationCode>): Boolean {
+    private suspend fun runDaySync(locations: List<LocationCode>): BaseSyncTool.SyncResult {
         val lastDownload = syncSettings.lastDownloadDays.value
         Timber.d("Synchronizing available days (lastDownload=%s).", lastDownload)
 
@@ -89,16 +96,16 @@ class KeyPackageSyncTool @Inject constructor(
                 Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
                 null
             } else {
-                it.copy(finishedAt = timeStamper.nowUTC, successful = successfulSync)
+                it.copy(finishedAt = timeStamper.nowUTC, successful = it.successful)
             }
         }
 
         return successfulSync.also {
-            Timber.tag(TAG).d("runDaySync(locations=%s): success=%b", locations, it)
+            Timber.tag(TAG).d("runDaySync(locations=%s): success=%s", locations, it)
         }
     }
 
-    private suspend fun runHourSync(locations: List<LocationCode>): Boolean {
+    private suspend fun runHourSync(locations: List<LocationCode>): BaseSyncTool.SyncResult {
         val lastDownload = syncSettings.lastDownloadHours.value
         Timber.tag(TAG).d("Synchronizing available hours (lastDownload=%s).", lastDownload)
 
@@ -118,17 +125,18 @@ class KeyPackageSyncTool @Inject constructor(
                 Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
                 null
             } else {
-                it.copy(finishedAt = timeStamper.nowUTC, successful = successfulSync)
+                it.copy(finishedAt = timeStamper.nowUTC, successful = it.successful)
             }
         }
 
         return successfulSync.also {
-            Timber.tag(TAG).d("runHourSync(locations=%s): success=%b", locations, it)
+            Timber.tag(TAG).d("runHourSync(locations=%s): success=%s", locations, it)
         }
     }
 
     data class Result(
         val availableKeys: Collection<CachedKey>,
+        val newKeys: Collection<CachedKey>,
         val wasDaySyncSucccessful: Boolean
     )
 

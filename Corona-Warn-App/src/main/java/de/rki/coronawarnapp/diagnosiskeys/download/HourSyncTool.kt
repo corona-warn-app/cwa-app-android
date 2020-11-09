@@ -47,7 +47,7 @@ class HourSyncTool @Inject constructor(
     internal suspend fun syncMissingHours(
         availableLocations: List<LocationCode>,
         forceSync: Boolean
-    ): Boolean {
+    ): SyncResult {
         Timber.tag(TAG).v("syncMissingHours(availableCountries=%s)", availableLocations)
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
@@ -58,7 +58,7 @@ class HourSyncTool @Inject constructor(
         }
         if (missingHours.isEmpty()) {
             Timber.tag(TAG).i("There were no missing hours.")
-            return true
+            return SyncResult(successful = true, newPackages = emptyList())
         }
 
         Timber.tag(TAG).d("Downloading missing hours: %s", missingHours)
@@ -67,14 +67,15 @@ class HourSyncTool @Inject constructor(
         val hourDownloads = launchDownloads(missingHours, downloadConfig)
 
         Timber.tag(TAG).d("Waiting for %d missing hour downloads.", hourDownloads.size)
-        val downloadedHours = hourDownloads.awaitAll().filterNotNull()
-
-        downloadedHours.map { (keyInfo, path) ->
-            Timber.tag(TAG).d("Downloaded keyfile: %s to %s", keyInfo, path)
-            path
+        val downloadedHours = hourDownloads.awaitAll().filterNotNull().also {
+            Timber.tag(TAG).v("Downloaded keyfile: %s", it.joinToString("\n"))
         }
+        Timber.tag(TAG).i("Download success: ${downloadedHours.size}/${hourDownloads.size}")
 
-        return hourDownloads.size == downloadedHours.size
+        return SyncResult(
+            successful = hourDownloads.size == downloadedHours.size,
+            newPackages = downloadedHours
+        )
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

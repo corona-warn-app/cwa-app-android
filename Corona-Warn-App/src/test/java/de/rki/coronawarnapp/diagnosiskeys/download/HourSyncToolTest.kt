@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.mapping.DownloadConfigMapper
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -49,21 +49,24 @@ class HourSyncToolTest : CommonSyncToolTest() {
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
         val instance = createInstance()
-        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe true
+        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+            successful = true,
+            newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
+        )
 
         coVerifySequence {
             configProvider.getAppConfig()
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR) // Get all cached hours
+            keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
             timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY) // Which hours are covered by days already
+            keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
 
             keyCache.delete(listOf(staleHour.info))
 
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
     }
@@ -88,7 +91,10 @@ class HourSyncToolTest : CommonSyncToolTest() {
         )
 
         val instance = createInstance()
-        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe true
+        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+            successful = true,
+            newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
+        )
 
         coVerifySequence {
             configProvider.getAppConfig()
@@ -96,15 +102,15 @@ class HourSyncToolTest : CommonSyncToolTest() {
             keyCache.getAllCachedKeys()
             keyCache.delete(listOf(invalidHour.info))
 
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR) // Get all cached hours
+            keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
             timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY) // Which hours are covered by days already
+            keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
 
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
     }
@@ -148,21 +154,24 @@ class HourSyncToolTest : CommonSyncToolTest() {
         }
 
         val instance = createInstance()
-        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe false
+        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+            successful = false,
+            newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
+        )
 
         coVerifySequence {
             configProvider.getAppConfig()
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR)
+            keyCache.getEntriesForType(Type.LOCATION_HOUR)
             timeStamper.nowUTC
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY)
+            keyCache.getEntriesForType(Type.LOCATION_DAY)
 
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "01:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "01:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
+            keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
     }

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import de.rki.coronawarnapp.appconfig.mapping.DownloadConfigMapper
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -46,16 +47,19 @@ class DaySyncToolTest : CommonSyncToolTest() {
         mockCachedDay("EUR".loc, "2020-01-01".day)
 
         val instance = createInstance()
-        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe true
+        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+            successful = true,
+            newPackages = keyRepoData.values.filterNot { it.info.day == "2020-01-01".day }
+        )
 
         coVerifySequence {
             configProvider.getAppConfig()
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY)
+            keyCache.getEntriesForType(Type.LOCATION_DAY)
             timeStamper.nowUTC
             keyServer.getDayIndex("EUR".loc)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_DAY, "EUR".loc, "2020-01-02".day, null)
+            keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-02".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
+            keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
     }
@@ -122,18 +126,21 @@ class DaySyncToolTest : CommonSyncToolTest() {
         }
 
         val instance = createInstance()
-        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe false
+        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+            successful = false,
+            newPackages = keyRepoData.values.filterNot { it.info.day == "2020-01-02".day }
+        )
 
         coVerifySequence {
             configProvider.getAppConfig()
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY)
+            keyCache.getEntriesForType(Type.LOCATION_DAY)
             timeStamper.nowUTC
             keyServer.getDayIndex("EUR".loc)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_DAY, "EUR".loc, "2020-01-01".day, null)
+            keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-01".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_DAY, "EUR".loc, "2020-01-02".day, null)
+            keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-02".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
+            keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
     }
@@ -153,7 +160,10 @@ class DaySyncToolTest : CommonSyncToolTest() {
         )
 
         val instance = createInstance()
-        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe true
+        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+            successful = true,
+            newPackages = keyRepoData.values.filter { it.info.day == "2020-01-03".day }
+        )
 
         coVerifySequence {
             configProvider.getAppConfig()
@@ -161,11 +171,11 @@ class DaySyncToolTest : CommonSyncToolTest() {
             keyCache.getAllCachedKeys()
             keyCache.delete(listOf(invalidDay.info))
 
-            keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY)
+            keyCache.getEntriesForType(Type.LOCATION_DAY)
             timeStamper.nowUTC
             keyServer.getDayIndex("EUR".loc)
 
-            keyCache.createCacheEntry(CachedKeyInfo.Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
+            keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
     }

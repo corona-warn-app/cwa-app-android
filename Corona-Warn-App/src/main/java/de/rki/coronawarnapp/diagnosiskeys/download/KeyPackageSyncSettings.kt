@@ -36,7 +36,8 @@ class KeyPackageSyncSettings @Inject constructor(
     data class LastDownload(
         val startedAt: Instant,
         val finishedAt: Instant? = null,
-        val successful: Boolean = false
+        val successful: Boolean = false,
+        val newData: Boolean = false
     )
 
     val allowMeteredConnections = prefs.createFlowPreference(

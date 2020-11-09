@@ -91,4 +91,9 @@ open class BaseSyncTool(
             // We overwrite not completed ones
             complete && exists
         }
+
+    data class SyncResult(
+        val successful: Boolean = true,
+        val newPackages: List<CachedKey> = emptyList()
+    )
 }

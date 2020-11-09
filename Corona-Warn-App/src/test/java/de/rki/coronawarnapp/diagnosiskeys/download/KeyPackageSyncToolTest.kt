@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
@@ -13,6 +14,7 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -51,6 +53,15 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         )
     )
 
+    private val cachedDayKey = CachedKey(
+        info = mockk(),
+        path = mockk()
+    )
+    private val cachedHourKey = CachedKey(
+        info = mockk(),
+        path = mockk()
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -62,8 +73,14 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
         coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
 
-        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns true
-        coEvery { hourSyncTool.syncMissingHours(any(), any()) } returns true
+        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns BaseSyncTool.SyncResult(
+            successful = true,
+            newPackages = listOf(cachedDayKey)
+        )
+        coEvery { hourSyncTool.syncMissingHours(any(), any()) } returns BaseSyncTool.SyncResult(
+            successful = true,
+            newPackages = listOf(cachedHourKey)
+        )
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(1))
 
@@ -95,6 +112,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
             availableKeys = emptyList(),
+            newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
 
@@ -119,11 +137,15 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     @Test
     fun `failed day sync is reflected in results property`() = runBlockingTest {
-        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns false
+        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns BaseSyncTool.SyncResult(
+            successful = false,
+            newPackages = listOf(cachedDayKey)
+        )
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
             availableKeys = emptyList(),
+            newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = false
         )
 
@@ -155,6 +177,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
             availableKeys = emptyList(),
+            newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
 
@@ -201,6 +224,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
             availableKeys = emptyList(),
+            newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
 
@@ -234,6 +258,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
             availableKeys = emptyList(),
+            newKeys = listOf(cachedDayKey),
             wasDaySyncSucccessful = true
         )
 
@@ -261,6 +286,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
             availableKeys = emptyList(),
+            newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
 

@@ -44,7 +44,7 @@ class DaySyncTool @Inject constructor(
     internal suspend fun syncMissingDays(
         availableLocations: List<LocationCode>,
         forceSync: Boolean
-    ): Boolean {
+    ): SyncResult {
         Timber.tag(TAG).v("syncMissingDays(availableCountries=%s)", availableLocations)
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
@@ -55,7 +55,7 @@ class DaySyncTool @Inject constructor(
         }
         if (missingDays.isEmpty()) {
             Timber.tag(TAG).i("There were no missing days.")
-            return true
+            return SyncResult(successful = true, newPackages = emptyList())
         }
 
         Timber.tag(TAG).d("Downloading missing days: %s", missingDays)
@@ -68,7 +68,11 @@ class DaySyncTool @Inject constructor(
             Timber.tag(TAG).v("Downloaded keyfile: %s", it.joinToString("\n"))
         }
         Timber.tag(TAG).i("Download success: ${downloadedDays.size}/${downloads.size}")
-        return downloads.size == downloadedDays.size
+
+        return SyncResult(
+            successful = downloads.size == downloadedDays.size,
+            newPackages = downloadedDays
+        )
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

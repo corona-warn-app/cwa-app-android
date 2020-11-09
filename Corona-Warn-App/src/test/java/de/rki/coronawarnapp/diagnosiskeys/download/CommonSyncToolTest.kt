@@ -42,7 +42,7 @@ abstract class CommonSyncToolTest : BaseIOTest() {
     internal val String.loc get() = LocationCode(this)
     internal val String.day get() = LocalDate.parse(this)
     internal val String.hour get() = LocalTime.parse(this)
-    private val keyRepoData = mutableMapOf<String, CachedKey>()
+    val keyRepoData = mutableMapOf<String, CachedKey>()
 
     @BeforeEach
     open fun setup() {
