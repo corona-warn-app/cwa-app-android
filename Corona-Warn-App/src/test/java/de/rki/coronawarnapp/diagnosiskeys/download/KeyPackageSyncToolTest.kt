@@ -2,17 +2,20 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -67,6 +70,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         coEvery { keyCache.getAllCachedKeys() } returns listOf()
+        coEvery { keyCache.delete(any()) } just Runs
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
         coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
 
@@ -300,8 +304,46 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `we clean up stale location data`() {
-        // If a whole location is no longer on the index, clean the cache for both days and hours
-        TODO()
+    fun `we clean up stale location data`() = runBlockingTest {
+        val badLocation = CachedKey(
+            info = mockk<CachedKeyInfo>().apply {
+                every { location } returns LocationCode("NOT-EUR")
+                every { isDownloadComplete } returns true
+            },
+            path = mockk<File>().apply {
+                every { exists() } returns true
+            }
+        )
+        val goodLocation = CachedKey(
+            info = mockk<CachedKeyInfo>().apply {
+                every { location } returns LocationCode("EUR")
+                every { isDownloadComplete } returns true
+            },
+            path = mockk<File>().apply {
+                every { exists() } returns true
+            }
+        )
+        coEvery { keyCache.getAllCachedKeys() } returns listOf(badLocation, goodLocation)
+        val instance = createInstance()
+
+        instance.syncKeyFiles()
+
+        coVerifySequence {
+            keyCache.getAllCachedKeys() // To clean up stale locations
+            keyCache.delete(listOf(badLocation.info))
+
+            lastDownloadDays.value
+            lastDownloadDays.update(any())
+            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            lastDownloadDays.update(any())
+
+            networkStateProvider.networkState // Check metered
+            lastDownloadHours.value
+            lastDownloadHours.update(any())
+            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            lastDownloadHours.update(any())
+
+            keyCache.getAllCachedKeys()
+        }
     }
 }
