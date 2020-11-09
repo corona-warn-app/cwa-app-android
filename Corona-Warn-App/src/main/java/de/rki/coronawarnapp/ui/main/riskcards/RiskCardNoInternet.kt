@@ -15,22 +15,22 @@ data class RiskCardNoInternet(
         return when (lastRiskLevelScoreCalculated) {
             RiskLevelConstants.INCREASED_RISK ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(R.string.risk_card_increased_risk_headline)
+                    .format(c.getString(R.string.risk_card_increased_risk_headline))
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(R.string.risk_card_outdated_risk_headline)
+                    .format(c.getString(R.string.risk_card_outdated_risk_headline))
             RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(R.string.risk_card_no_calculation_possible_headline)
+                    .format(c.getString(R.string.risk_card_no_calculation_possible_headline))
             RiskLevelConstants.LOW_LEVEL_RISK ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(R.string.risk_card_low_risk_headline)
+                    .format(c.getString(R.string.risk_card_low_risk_headline))
             RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(R.string.risk_card_unknown_risk_headline)
+                    .format(c.getString(R.string.risk_card_unknown_risk_headline))
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(R.string.risk_card_unknown_risk_headline)
+                    .format(c.getString(R.string.risk_card_unknown_risk_headline))
             else -> c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
         }
     }

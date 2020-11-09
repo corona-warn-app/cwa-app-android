@@ -43,10 +43,21 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             binding.tracingHeader = it
         }
         vm.tracingCardState.observe2(this) {
-            binding.tracingCard = it
+            if (displayNewRiskCard()) {
+                binding.tracingCard = null
+            } else {
+                binding.tracingCard = it
+            }
         }
         vm.submissionCardState.observe2(this) {
             binding.submissionCard = it
+        }
+        vm.riskCardNoInternet.observe2(this) {
+            if (displayNewRiskCard()) {
+                binding.riskCardNoInternet = it
+            } else {
+                binding.riskCardNoInternet = null
+            }
         }
 
         setupToolbar()
@@ -91,7 +102,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
-            if (it) { showRiskLevelLoweredDialog() }
+            if (it) {
+                showRiskLevelLoweredDialog()
+            }
         }
     }
 
@@ -118,6 +131,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 .setTextColor(context.getColor(R.color.colorTextSemanticRed))
         }
     }
+
+    // TODO: implement real logic for showing new risk card state
+    private fun displayNewRiskCard(): Boolean = true
 
     private fun setupRiskCard() {
         binding.riskCard.setOnClickListener {

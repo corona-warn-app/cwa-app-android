@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
+import de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternet
+import de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternetStateProvider
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -30,6 +32,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStatus: GeneralTracingStatus,
     tracingCardStateProvider: TracingCardStateProvider,
     submissionCardsStateProvider: SubmissionCardsStateProvider,
+    riskCardNoInternetStateProvider: RiskCardNoInternetStateProvider,
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository
 ) : CWAViewModel(
@@ -47,6 +50,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     @Suppress("MagicNumber")
     val submissionCardState: LiveData<SubmissionCardState> = submissionCardsStateProvider.state
         .sample(150L)
+        .asLiveData(dispatcherProvider.Default)
+
+    val riskCardNoInternet: LiveData<RiskCardNoInternet> = riskCardNoInternetStateProvider.state
         .asLiveData(dispatcherProvider.Default)
 
     val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {

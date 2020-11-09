@@ -14,6 +14,9 @@
         <variable
             name="tracingHeader"
             type="de.rki.coronawarnapp.ui.main.home.TracingHeaderState" />
+        <variable
+            name="riskCardNoInternet"
+            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternet" />
     </data>
 
     <ScrollView
@@ -126,26 +129,57 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing" />
 
-            <FrameLayout
-                android:id="@+id/risk_card"
-                style="@style/card"
-                gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/risk_cards_container"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="true"
-                android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                android:backgroundTintMode="src_over"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider">
 
-                <include
-                    android:id="@+id/risk_card_content"
-                    layout="@layout/include_risk_card_content"
-                    app:tracingCard="@{tracingCard}" />
+                <FrameLayout
+                    android:id="@+id/risk_card"
+                    style="@style/card"
+                    gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_small"
+                    android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
+                    android:backgroundTintMode="src_over"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </FrameLayout>
+                    <include
+                        android:id="@+id/risk_card_content"
+                        layout="@layout/include_risk_card_content"
+                        app:tracingCard="@{tracingCard}" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/risk_card_risk_calculation_failed"
+                    style="@style/card"
+                    gone="@{riskCardNoInternet == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_small"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include
+                        android:id="@+id/risk_card_calculation_failed"
+                        layout="@layout/include_risk_card_no_internet"
+                        app:dataClass="@{riskCardNoInternet}" />
+
+                </FrameLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- submission status cards -->
             <include
@@ -153,11 +187,9 @@
                 layout="@layout/include_submission_status_card_unregistered"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                gone="@{submissionCard == null || !submissionCard.isUnregisteredCardVisible()}"
+                app:layout_constraintTop_toBottomOf="@id/risk_cards_container"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@id/risk_card" />
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start" />
 
             <include
                 android:id="@+id/main_test_result"
