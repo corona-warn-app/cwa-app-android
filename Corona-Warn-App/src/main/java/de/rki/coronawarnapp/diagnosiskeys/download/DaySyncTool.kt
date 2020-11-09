@@ -112,8 +112,12 @@ class DaySyncTool @Inject constructor(
                     hourIdentifier = null,
                     type = Type.LOCATION_DAY
                 )
-
-                downloadTool.downloadKeyFile(cachedKey, downloadConfig)
+                try {
+                    downloadTool.downloadKeyFile(cachedKey, downloadConfig)
+                } catch (e: Exception) {
+                    // We can't throw otherwise it cancels the other downloads too (awaitAll)
+                    null
+                }
             }
         }
         val downloads = missingDayData.flatMap { location ->

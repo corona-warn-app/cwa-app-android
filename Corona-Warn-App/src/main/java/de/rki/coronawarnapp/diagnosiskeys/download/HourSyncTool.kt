@@ -91,7 +91,12 @@ class HourSyncTool @Inject constructor(
                         type = Type.LOCATION_HOUR
                     )
 
-                    downloadTool.downloadKeyFile(cachedKey, downloadConfig)
+                    try {
+                        downloadTool.downloadKeyFile(cachedKey, downloadConfig)
+                    } catch (e: Exception) {
+                        // We can't throw otherwise it cancels the other downloads too (awaitAll)
+                        null
+                    }
                 }
             }
 

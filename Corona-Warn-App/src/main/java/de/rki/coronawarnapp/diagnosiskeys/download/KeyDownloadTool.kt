@@ -21,7 +21,7 @@ class KeyDownloadTool @Inject constructor(
     suspend fun downloadKeyFile(
         cachedKey: CachedKey,
         downloadConfig: KeyDownloadConfig
-    ): CachedKey? = try {
+    ): CachedKey = try {
         val saveTo = cachedKey.path
         val keyInfo = cachedKey.info
 
@@ -60,7 +60,7 @@ class KeyDownloadTool @Inject constructor(
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Download failed: %s", cachedKey)
         keyCache.delete(listOf(cachedKey.info))
-        null
+        throw e
     }
 
     companion object {
