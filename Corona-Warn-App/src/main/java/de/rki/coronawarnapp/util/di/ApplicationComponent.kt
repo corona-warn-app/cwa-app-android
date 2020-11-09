@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
+import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
@@ -28,7 +29,6 @@ import de.rki.coronawarnapp.submission.SubmissionTaskModule
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
@@ -63,6 +63,7 @@ import javax.inject.Singleton
         AppConfigModule::class,
         SubmissionModule::class,
         SubmissionTaskModule::class,
+        DownloadDiagnosisKeysTaskModule::class,
         VerificationModule::class,
         PlaybookModule::class,
         TaskModule::class,
@@ -73,9 +74,6 @@ import javax.inject.Singleton
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
-
-    // TODO Remove once Singletons are gone
-    val transRetrieveKeysInjection: RetrieveDiagnosisInjectionHelper
 
     val connectivityHelperInjection: ConnectivityHelperInjection
 
