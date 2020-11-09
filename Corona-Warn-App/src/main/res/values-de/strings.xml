@@ -288,7 +288,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Risiko-Begegnung"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Begegnung mit einer infizierten Person, die ihr positives Testergebnis über die CWA mit anderen geteilt hat. Eine Begegnung muss bestimmte Kriterien hinsichtlich Dauer, Abstand und vermuteter Infektiosität der anderen Person erfüllen, um als Risiko-Begegnung eingestuft zu werden."</string>
+    <string name="main_overview_body_glossary_contact">"Begegnung mit einer infizierten Person, die ihr positives Testergebnis über die App mit anderen geteilt hat. Eine Begegnung muss bestimmte Kriterien hinsichtlich Dauer, Abstand und vermuteter Infektiosität der anderen Person erfüllen, um als Risiko-Begegnung eingestuft zu werden."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Risiko-Benachrichtigung"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -799,9 +799,9 @@
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Zurück"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_title">"Test fehlerhaft"</string>
+    <string name="submission_error_dialog_web_tan_redeemed_title">"QR-Code nicht mehr gültig"</string>
     <!-- XMSG: Dialog body for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_body">"Es gab ein Problem bei der Auswertung Ihres Tests. Ihr QR Code ist bereits abgelaufen."</string>
+    <string name="submission_error_dialog_web_tan_redeemed_body">"Ihr Test liegt länger als 21 Tage zurück und kann nicht mehr in der App registriert werden. Bitte stellen Sie bei zukünftigen Tests sicher, dass Sie den QR-Code scannen, sobald er Ihnen vorliegt."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 

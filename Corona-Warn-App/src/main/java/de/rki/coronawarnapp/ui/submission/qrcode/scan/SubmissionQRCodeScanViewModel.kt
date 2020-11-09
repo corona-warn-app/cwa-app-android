@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -9,38 +8,41 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.Event
+import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import timber.log.Timber
 
-class SubmissionQRCodeScanViewModel @AssistedInject constructor() : CWAViewModel() {
-
+class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
+    CWAViewModel() {
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-    private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
+    val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
+    val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
-    val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
+    open class InvalidQRCodeException : Exception("error in qr code")
 
-    fun validateAndStoreTestGUID(rawResult: String) {
+    fun validateTestGUID(rawResult: String) {
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
-            SubmissionService.storeTestGUID(scanResult.guid!!)
-            _scanStatus.value = Event(ScanStatus.SUCCESS)
+            scanStatusValue.postValue(ScanStatus.SUCCESS)
+            doDeviceRegistration(scanResult)
         } else {
-            _scanStatus.value = Event(ScanStatus.INVALID)
+            scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
 
     val registrationState = MutableLiveData(ApiRequestState.IDLE)
     val registrationError = SingleLiveEvent<CwaWebException>()
 
-    fun doDeviceRegistration() = launch {
+    private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(ApiRequestState.STARTED)
-            SubmissionService.asyncRegisterDevice()
+            checkTestResult(SubmissionService.asyncRegisterDeviceViaGUID(scanResult.guid!!))
             registrationState.postValue(ApiRequestState.SUCCESS)
         } catch (err: CwaWebException) {
             registrationState.postValue(ApiRequestState.FAILED)
@@ -52,9 +54,31 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() : CWAViewModel
                 err.report(ExceptionCategory.INTERNAL)
             }
             registrationState.postValue(ApiRequestState.FAILED)
+        } catch (err: InvalidQRCodeException) {
+            registrationState.postValue(ApiRequestState.FAILED)
+            deregisterTestFromDevice()
+            showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
             registrationState.postValue(ApiRequestState.FAILED)
             err.report(ExceptionCategory.INTERNAL)
+        }
+    }
+
+    private fun checkTestResult(testResult: TestResult) {
+        if (testResult == TestResult.REDEEMED) {
+            throw InvalidQRCodeException()
+        }
+    }
+
+    private fun deregisterTestFromDevice() {
+        launch {
+            Timber.d("deregisterTestFromDevice()")
+            SubmissionService.deleteTestGUID()
+            SubmissionService.deleteRegistrationToken()
+            LocalData.isAllowedToSubmitDiagnosisKeys(false)
+            LocalData.initialTestResultReceivedTimestamp(0L)
+
+            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
     }
 

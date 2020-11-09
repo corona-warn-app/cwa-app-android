@@ -178,10 +178,10 @@ object BackgroundWorkScheduler {
     /**
      * Schedule background noise one time work
      *
-     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     * @see WorkType.BACKGROUND_NOISE_ONE_TIME_WORK
      */
     fun scheduleBackgroundNoiseOneTimeWork() {
-        WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.start()
+        WorkType.BACKGROUND_NOISE_ONE_TIME_WORK.start()
     }
 
     /**

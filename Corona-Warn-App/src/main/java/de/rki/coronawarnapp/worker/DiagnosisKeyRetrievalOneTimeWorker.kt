@@ -5,7 +5,10 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
@@ -17,15 +20,14 @@ import timber.log.Timber
  */
 class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters
+    @Assisted workerParams: WorkerParameters,
+    private val taskController: TaskController
 ) : CoroutineWorker(context, workerParams) {
 
     /**
      * Work execution
      *
      * @return Result
-     *
-     * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
         Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
@@ -35,15 +37,18 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
         )
 
         var result = Result.success()
-        try {
-            RetrieveDiagnosisKeysTransaction.startWithConstraints()
-        } catch (e: Exception) {
+        taskController.submitBlocking(
+            DefaultTaskRequest(
+                DownloadDiagnosisKeysTask::class,
+                DownloadDiagnosisKeysTask.Arguments(null, true)
+            )
+        ).error?.also { error: Throwable ->
             Timber.w(
-                e, "$id: Error during RetrieveDiagnosisKeysTransaction.startWithConstraints()."
+                error, "$id: Error during startWithConstraints()."
             )
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                Timber.w(e, "$id: Retry attempts exceeded.")
+                Timber.w(error, "$id: Retry attempts exceeded.")
 
                 BackgroundWorkHelper.sendDebugNotification(
                     "KeyOneTime Executing: Failure",
@@ -52,7 +57,7 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
 
                 return Result.failure()
             } else {
-                Timber.d(e, "$id: Retrying.")
+                Timber.d(error, "$id: Retrying.")
                 result = Result.retry()
             }
         }
