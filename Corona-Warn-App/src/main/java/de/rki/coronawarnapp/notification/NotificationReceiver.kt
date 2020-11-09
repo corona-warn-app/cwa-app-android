@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
-import de.rki.coronawarnapp.util.coroutine.AppScope
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -13,9 +13,10 @@ typealias NotificationId = Int
 
 class NotificationReceiver : BroadcastReceiver() {
 
-    @Inject @AppScope lateinit var testResultNotificationService: TestResultNotificationService
+    @Inject lateinit var testResultNotificationService: TestResultNotificationService
 
     override fun onReceive(context: Context, intent: Intent) {
+        AndroidInjection.inject(this, context)
         when (val notificationId = intent.getIntExtra(NOTIFICATION_ID, Int.MIN_VALUE)) {
             POSITIVE_RESULT_NOTIFICATION_ID ->
                 testResultNotificationService.showPositiveTestResultNotification(notificationId)
