@@ -66,7 +66,7 @@ import java.lang.reflect.Type
 import java.util.UUID
 import javax.inject.Inject
 
-@SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
+@SuppressWarnings("TooManyFunctions", "LongMethod")
 class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
