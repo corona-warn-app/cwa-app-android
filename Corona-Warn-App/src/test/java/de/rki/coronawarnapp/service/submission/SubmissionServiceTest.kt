@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -52,7 +51,6 @@ class SubmissionServiceTest {
         mockkObject(BackgroundNoise.Companion)
         every { BackgroundNoise.getInstance() } returns backgroundNoise
 
-        mockkObject(SubmitDiagnosisKeysTransaction)
         mockkObject(LocalData)
 
         mockkObject(SubmissionRepository)
@@ -145,29 +143,6 @@ class SubmissionServiceTest {
 
         runBlocking {
             SubmissionService.asyncRequestTestResult() shouldBe TestResult.NEGATIVE
-        }
-    }
-
-    @Test
-    fun submitExposureKeysWithoutRegistrationTokenFails(): Unit = runBlocking {
-        shouldThrow<NoRegistrationTokenSetException> {
-            SubmissionService.asyncSubmitExposureKeys(listOf(), symptoms)
-        }
-    }
-
-    @Test
-    fun submitExposureKeysSucceeds() {
-        every { LocalData.registrationToken() } returns registrationToken
-        coEvery {
-            SubmitDiagnosisKeysTransaction.start(
-                registrationToken,
-                any(),
-                symptoms
-            )
-        } just Runs
-
-        runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf(), symptoms)
         }
     }
 
