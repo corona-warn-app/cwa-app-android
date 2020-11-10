@@ -1,11 +1,11 @@
-package de.rki.coronawarnapp.nearby.modules.calculationtracker
+package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import org.joda.time.Instant
 
 @Keep
-data class Calculation(
+data class TrackedExposureDetection(
     @SerializedName("identifier") val identifier: String,
     @SerializedName("startedAt") val startedAt: Instant,
     @SerializedName("result") val result: Result? = null,

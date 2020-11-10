@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
@@ -84,7 +84,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
             throwIfCancelled()
 
-            val trackedExposureDetections = enfClient.latestCalculations().first()
+            val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
             val now = timeStamper.nowUTC
 
             if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
@@ -138,7 +138,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private fun wasLastDetectionPerformedRecently(
         now: Instant,
         exposureConfig: ExposureDetectionConfig,
-        trackedDetections: Collection<Calculation>
+        trackedDetections: Collection<TrackedExposureDetection>
     ): Boolean {
         val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
         val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
@@ -154,7 +154,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private fun hasRecentDetectionAndNoNewFiles(
         now: Instant,
         keySyncResult: KeyPackageSyncTool.Result,
-        trackedDetections: Collection<Calculation>
+        trackedDetections: Collection<TrackedExposureDetection>
     ): Boolean {
         // One forced detection every 24h, ignoring the sync results
         val lastSuccessfulDetection = trackedDetections.filter { it.isSuccessful }.maxByOrNull { it.startedAt }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.nearby.modules.calculationtracker
+package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
@@ -29,9 +29,9 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 import java.util.UUID
 
-class DefaultCalculationTrackerTest : BaseTest() {
+class DefaultExposureDetectionTrackerTest : BaseTest() {
 
-    @MockK lateinit var storage: CalculationTrackerStorage
+    @MockK lateinit var storage: ExposureDetectionTrackerStorage
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var configProvider: AppConfigProvider
     @MockK lateinit var appConfigData: ConfigData
@@ -53,7 +53,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance(scope: CoroutineScope) = DefaultCalculationTracker(
+    private fun createInstance(scope: CoroutineScope) = DefaultExposureDetectionTracker(
         scope = scope,
         dispatcherProvider = TestDispatcherProvider,
         storage = storage,
@@ -70,7 +70,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
     @Test
     fun `data is restored from storage`() = runBlockingTest2(ignoreActive = true) {
-        val calcData = Calculation(
+        val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
         )
@@ -84,7 +84,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     fun `tracking a new calculation`() = runBlockingTest2(ignoreActive = true) {
         createInstance(scope = this).apply {
             val expectedIdentifier = UUID.randomUUID().toString()
-            trackNewCalaculation(expectedIdentifier)
+            trackNewExposureDetection(expectedIdentifier)
 
             advanceUntilIdle()
 
@@ -92,7 +92,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
             calculationData.entries.single().apply {
                 key shouldBe expectedIdentifier
-                value shouldBe Calculation(
+                value shouldBe TrackedExposureDetection(
                     identifier = expectedIdentifier,
                     startedAt = Instant.EPOCH
                 )
@@ -112,7 +112,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
     @Test
     fun `finish an existing calcluation`() = runBlockingTest2(ignoreActive = true) {
-        val calcData = Calculation(
+        val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
         )
@@ -122,14 +122,14 @@ class DefaultCalculationTrackerTest : BaseTest() {
         val expectedData = initialData.mutate {
             this[calcData.identifier] = this[calcData.identifier]!!.copy(
                 finishedAt = Instant.EPOCH.plus(1),
-                result = Calculation.Result.UPDATED_STATE
+                result = TrackedExposureDetection.Result.UPDATED_STATE
             )
         }
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1)
 
         createInstance(scope = this).apply {
-            finishCalculation(calcData.identifier, Calculation.Result.UPDATED_STATE)
+            finishExposureDetection(calcData.identifier, TrackedExposureDetection.Result.UPDATED_STATE)
 
             advanceUntilIdle()
 
@@ -147,11 +147,11 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
     @Test
     fun `a late calculation overwrites timeout state`() = runBlockingTest2(ignoreActive = true) {
-        val calcData = Calculation(
+        val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH,
             finishedAt = Instant.EPOCH.plus(1),
-            result = Calculation.Result.TIMEOUT
+            result = TrackedExposureDetection.Result.TIMEOUT
         )
         val initialData = mapOf(calcData.identifier to calcData)
         coEvery { storage.load() } returns initialData
@@ -161,12 +161,12 @@ class DefaultCalculationTrackerTest : BaseTest() {
         val expectedData = initialData.mutate {
             this[calcData.identifier] = this[calcData.identifier]!!.copy(
                 finishedAt = Instant.EPOCH.plus(2),
-                result = Calculation.Result.UPDATED_STATE
+                result = TrackedExposureDetection.Result.UPDATED_STATE
             )
         }
 
         createInstance(scope = this).apply {
-            finishCalculation(calcData.identifier, Calculation.Result.UPDATED_STATE)
+            finishExposureDetection(calcData.identifier, TrackedExposureDetection.Result.UPDATED_STATE)
 
             advanceUntilIdle()
 
@@ -177,7 +177,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     @Test
     fun `no more than 10 calcluations are tracked`() = runBlockingTest2(ignoreActive = true) {
         val calcData = (1..15L).map {
-            val calcData = Calculation(
+            val calcData = TrackedExposureDetection(
                 identifier = "$it",
                 startedAt = Instant.EPOCH.plus(it)
             )
@@ -188,7 +188,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1)
         createInstance(scope = this).apply {
-            finishCalculation("7", Calculation.Result.UPDATED_STATE)
+            finishExposureDetection("7", TrackedExposureDetection.Result.UPDATED_STATE)
 
             advanceUntilIdle()
 
@@ -205,32 +205,32 @@ class DefaultCalculationTrackerTest : BaseTest() {
             .plus(2)
 
         // First half will be in the timeout, last half will be ok
-        val timeoutOnRunningCalc = Calculation(
+        val timeoutOnRunningCalc = TrackedExposureDetection(
             identifier = "0",
             startedAt = Instant.EPOCH
         )
-        val timeoutonRunningCalc2 = Calculation(
+        val timeoutonRunningCalc2 = TrackedExposureDetection(
             identifier = "1",
             startedAt = Instant.EPOCH.plus(1)
         )
         // We shouldn't care for timeouts on finished calculations
-        val timeoutIgnoresFinishedCalcs = Calculation(
+        val timeoutIgnoresFinishedCalcs = TrackedExposureDetection(
             identifier = "2",
             startedAt = Instant.EPOCH.plus(1),
             finishedAt = Instant.EPOCH.plus(15)
         )
 
         // This one is right on the edge, testing <= behavior
-        val timeoutRunningOnEdge = Calculation(
+        val timeoutRunningOnEdge = TrackedExposureDetection(
             identifier = "3",
             startedAt = Instant.EPOCH.plus(2)
         )
 
-        val noTimeoutCalcRunning = Calculation(
+        val noTimeoutCalcRunning = TrackedExposureDetection(
             identifier = "4",
             startedAt = Instant.EPOCH.plus(4)
         )
-        val noTimeOutCalcFinished = Calculation(
+        val noTimeOutCalcFinished = TrackedExposureDetection(
             identifier = "5",
             startedAt = Instant.EPOCH.plus(5),
             finishedAt = Instant.EPOCH.plus(15)
@@ -255,11 +255,11 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
                 this["0"] shouldBe timeoutOnRunningCalc.copy(
                     finishedAt = timeStamper.nowUTC,
-                    result = Calculation.Result.TIMEOUT
+                    result = TrackedExposureDetection.Result.TIMEOUT
                 )
                 this["1"] shouldBe timeoutonRunningCalc2.copy(
                     finishedAt = timeStamper.nowUTC,
-                    result = Calculation.Result.TIMEOUT
+                    result = TrackedExposureDetection.Result.TIMEOUT
                 )
                 this["2"] shouldBe timeoutIgnoresFinishedCalcs
 

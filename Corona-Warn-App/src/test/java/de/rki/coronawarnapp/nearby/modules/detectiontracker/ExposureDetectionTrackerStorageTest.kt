@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.nearby.modules.calculationtracker
+package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
 import com.google.gson.GsonBuilder
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 
-class CalculationTrackerStorageTest : BaseIOTest() {
+class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     @MockK private lateinit var context: Context
 
@@ -50,15 +50,15 @@ class CalculationTrackerStorageTest : BaseIOTest() {
         """.trimIndent()
 
     private val demoData = run {
-        val calculation1 = Calculation(
+        val calculation1 = TrackedExposureDetection(
             identifier = "b2b98400-058d-43e6-b952-529a5255248b",
             startedAt = Instant.ofEpochMilli(1234)
         )
-        val calculation2 = Calculation(
+        val calculation2 = TrackedExposureDetection(
             identifier = "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
             startedAt = Instant.ofEpochMilli(5678),
             finishedAt = Instant.ofEpochMilli(1603473968125),
-            result = Calculation.Result.UPDATED_STATE
+            result = TrackedExposureDetection.Result.UPDATED_STATE
         )
         mapOf(
             calculation1.identifier to calculation1,
@@ -78,7 +78,7 @@ class CalculationTrackerStorageTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createStorage() = CalculationTrackerStorage(
+    private fun createStorage() = ExposureDetectionTrackerStorage(
         context = context,
         gson = SerializationModule().baseGson()
     )
@@ -117,7 +117,7 @@ class CalculationTrackerStorageTest : BaseIOTest() {
         createStorage().save(demoData)
         storageFile.exists() shouldBe true
 
-        val storedData: Map<String, Calculation> = gson.fromJson(storageFile)
+        val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(storageFile)
 
         storedData shouldBe demoData
         gson.toJson(storedData) shouldBe demoJsonString
@@ -126,7 +126,7 @@ class CalculationTrackerStorageTest : BaseIOTest() {
     @Test
     fun `gson does weird things to property initialization`() {
         // This makes sure we are using val-getters, otherwise gson inits our @Ŧransient properties to false
-        val storedData: Map<String, Calculation> = gson.fromJson(demoJsonString)
+        val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(demoJsonString)
         storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").isCalculating shouldBe true
         storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").isCalculating shouldBe false
     }

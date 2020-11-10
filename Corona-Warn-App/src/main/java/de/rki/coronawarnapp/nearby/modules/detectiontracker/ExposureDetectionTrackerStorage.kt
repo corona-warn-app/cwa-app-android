@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.nearby.modules.calculationtracker
+package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
 import com.google.gson.Gson
@@ -16,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CalculationTrackerStorage @Inject constructor(
+class ExposureDetectionTrackerStorage @Inject constructor(
     @AppContext private val context: Context,
     @BaseGson gson: Gson
 ) {
@@ -33,36 +33,36 @@ class CalculationTrackerStorage @Inject constructor(
         }
     }
     private val storageFile by lazy { File(storageDir, "calculations.json") }
-    private var lastCalcuationData: Map<String, Calculation>? = null
+    private var lastCalcuationData: Map<String, TrackedExposureDetection>? = null
 
     init {
         Timber.v("init()")
     }
 
-    suspend fun load(): Map<String, Calculation> = mutex.withLock {
+    suspend fun load(): Map<String, TrackedExposureDetection> = mutex.withLock {
         return@withLock try {
             if (!storageFile.exists()) return@withLock emptyMap()
 
-            gson.fromJson<Map<String, Calculation>>(storageFile).also {
-                Timber.v("Loaded calculation data: %s", it)
+            gson.fromJson<Map<String, TrackedExposureDetection>>(storageFile).also {
+                Timber.v("Loaded detection data: %s", it)
                 lastCalcuationData = it
             }
         } catch (e: Exception) {
-            Timber.e(e, "Failed to load tracked calculations.")
+            Timber.e(e, "Failed to load tracked detections.")
             emptyMap()
         }
     }
 
-    suspend fun save(data: Map<String, Calculation>) = mutex.withLock {
+    suspend fun save(data: Map<String, TrackedExposureDetection>) = mutex.withLock {
         if (lastCalcuationData == data) {
             Timber.v("Data didn't change, skipping save.")
             return@withLock
         }
-        Timber.v("Storing calculation data: %s", data)
+        Timber.v("Storing detection data: %s", data)
         try {
             gson.toJson(data, storageFile)
         } catch (e: Exception) {
-            Timber.e(e, "Failed to save tracked calculations.")
+            Timber.e(e, "Failed to save tracked detections.")
         }
     }
 }
