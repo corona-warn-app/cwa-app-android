@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.risk
 
 import androidx.annotation.VisibleForTesting
-import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
@@ -202,8 +201,7 @@ class DefaultRiskLevels @Inject constructor(
             ) && !LocalData.submissionWasSuccessful()
         ) {
             NotificationHelper.sendNotification(
-                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
-                NotificationCompat.PRIORITY_HIGH
+                CoronaWarnApplication.getAppContext().getString(R.string.notification_body)
             )
         }
         if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&

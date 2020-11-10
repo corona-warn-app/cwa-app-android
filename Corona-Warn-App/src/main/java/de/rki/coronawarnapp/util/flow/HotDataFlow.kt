@@ -85,14 +85,7 @@ class HotDataFlow<T : Any>(
     suspend fun updateBlocking(update: suspend T.() -> T): T {
         updateActions.tryEmit(update)
         Timber.tag(tag).v("Waiting for update.")
-        return internalFlow.first {
-            val targetUpdate = it.updatedBy
-            Timber.tag(tag).v(
-                "Comparing %s with %s; match=%b",
-                targetUpdate, update, targetUpdate == update
-            )
-            it.updatedBy == update
-        }.value.also { Timber.tag(tag).v("Returning blocking update result: %s", it) }
+        return internalFlow.first { it.updatedBy == update }.value
     }
 
     internal sealed class Holder<T> {

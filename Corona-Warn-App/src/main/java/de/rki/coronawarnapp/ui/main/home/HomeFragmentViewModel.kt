@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 
@@ -29,9 +31,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
     tracingCardStateProvider: TracingCardStateProvider,
-    submissionCardsStateProvider: SubmissionCardsStateProvider,
+    private val submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
-    private val tracingRepository: TracingRepository
+    private val tracingRepository: TracingRepository,
+    private val testResultNotificationService: TestResultNotificationService
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(settingsViewModel)
@@ -72,6 +75,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     private var isLoweredRiskLevelDialogBeingShown = false
+
+    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+        submissionCardsStateProvider.state
+            .first { it.isPositiveSubmissionCardVisible() }
+            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
