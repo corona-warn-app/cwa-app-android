@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -86,7 +87,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
         jsonFile shouldNotBe null
         val jsonString = FileReader(jsonFile).readText()
         jsonString.length shouldBeGreaterThan 0
-        val json = Gson().fromJson<ExposureWindowsJsonInput>(jsonString, ExposureWindowsJsonInput::class.java)
+        val json = Gson().fromJson<ExposureWindowsJsonInput>(jsonString)
         json shouldNotBe null
 
         // 2 - Check test cases
@@ -137,7 +138,8 @@ class ExposureWindowsCalculationTest: BaseTest() {
         }
     }
 
-    private fun getTestCaseDate(expAge: Long): Instant {
+    private fun getTestCaseDate(expAge: Long?): Instant? {
+        if (expAge == null) return null
         return timeStamper.nowUTC - expAge * DateTimeConstants.MILLIS_PER_DAY
     }
 
@@ -172,14 +174,14 @@ class ExposureWindowsCalculationTest: BaseTest() {
             addPropertyCheckToComparisonDebugTable(
                 "Encounters High Risk",
                 aggregated.totalMinimumDistinctEncountersWithHighRisk,
-                case.expNumberOfExposureWindowsWithHighRisk
+                case.expTotalMinimumDistinctEncountersWithHighRisk
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Encounters Low Risk",
                 aggregated.totalMinimumDistinctEncountersWithLowRisk,
-                case.expNumberOfExposureWindowsWithLowRisk
+                case.expTotalMinimumDistinctEncountersWithLowRisk
             )
         )
         result.append("\n")
@@ -384,6 +386,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
             every { filter.dropIfTrlInRange.max } returns jsonFilter.dropIfTrlInRange.max
             every { filter.dropIfTrlInRange.minExclusive } returns jsonFilter.dropIfTrlInRange.minExclusive
             every { filter.dropIfTrlInRange.maxExclusive } returns jsonFilter.dropIfTrlInRange.maxExclusive
+            trlFilters.add(filter)
         }
         every { testConfig.transmissionRiskLevelFilters} returns trlFilters
     }
@@ -392,7 +395,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
         val exposureWindow: ExposureWindow = mockk()
 
         every { exposureWindow.calibrationConfidence } returns json.calibrationConfidence
-        every { exposureWindow.dateMillisSinceEpoch } returns (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
+        every { exposureWindow.dateMillisSinceEpoch } returns timeStamper.nowUTC.millis - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
         every { exposureWindow.infectiousness } returns json.infectiousness
         every { exposureWindow.reportType } returns json.reportType
         every { exposureWindow.scanInstances } returns json.scanInstances.map { scanInstance ->
