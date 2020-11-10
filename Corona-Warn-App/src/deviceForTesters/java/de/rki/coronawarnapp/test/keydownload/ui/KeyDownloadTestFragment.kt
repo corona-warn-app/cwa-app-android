@@ -29,10 +29,10 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.allowMeteredConnections.observe2(this) {
-            binding.allowMeteredToggle.isChecked = it
+        vm.fakeMeteredConnection.observe2(this) {
+            binding.fakeMeteredConnectionToggle.isChecked = it
         }
-        binding.allowMeteredToggle.setOnClickListener { vm.toggleAllowMeteredConnections() }
+        binding.fakeMeteredConnectionToggle.setOnClickListener { vm.toggleAllowMeteredConnections() }
 
         vm.isMeteredConnection.observe2(this) {
             binding.infoMeteredNetwork.text = "Is metered network? $it"

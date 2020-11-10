@@ -4,7 +4,6 @@ import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import org.joda.time.Instant
 import javax.inject.Inject
@@ -38,10 +37,5 @@ class KeyPackageSyncSettings @Inject constructor(
         val finishedAt: Instant? = null,
         val successful: Boolean = false,
         val newData: Boolean = false
-    )
-
-    val allowMeteredConnections = prefs.createFlowPreference(
-        key = "download.connections.metered.allow",
-        defaultValue = false
     )
 }

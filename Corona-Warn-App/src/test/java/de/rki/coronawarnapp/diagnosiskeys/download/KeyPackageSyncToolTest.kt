@@ -87,8 +87,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         every { networkStateProvider.networkState } returns flowOf(networkState)
         every { networkState.isMeteredConnection } returns false
-
-        every { syncSettings.allowMeteredConnections } returns mockFlowPreference(false)
     }
 
     @AfterEach
@@ -267,37 +265,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
-
-            keyCache.getAllCachedKeys()
-        }
-    }
-
-    @Test
-    fun `hourly download happens on metered connections if enabled via settings`() = runBlockingTest {
-        every { networkState.isMeteredConnection } returns true
-        every { syncSettings.allowMeteredConnections } returns mockFlowPreference(true)
-
-        val instance = createInstance()
-
-        instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
-            newKeys = listOf(cachedDayKey, cachedHourKey),
-            wasDaySyncSucccessful = true
-        )
-
-        coVerifySequence {
-            keyCache.getAllCachedKeys() // To clean up stale locations
-
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
-            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadDays.update(any())
-
-            networkStateProvider.networkState // Check metered
-            lastDownloadHours.value
-            lastDownloadHours.update(any())
-            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()
         }

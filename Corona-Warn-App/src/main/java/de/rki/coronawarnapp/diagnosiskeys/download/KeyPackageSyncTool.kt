@@ -28,10 +28,12 @@ class KeyPackageSyncTool @Inject constructor(
         val daySyncResult = runDaySync(wantedLocations)
 
         val isMeteredConnection = networkStateProvider.networkState.first().isMeteredConnection
-        Timber.tag(TAG).d("Checking hour sync... (isMetered=%b)", isMeteredConnection)
-        val hourSyncResult = if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
+
+        val hourSyncResult = if (!isMeteredConnection) {
+            Timber.tag(TAG).d("Running hour sync...")
             runHourSync(wantedLocations)
         } else {
+            Timber.tag(TAG).d("Hour sync skipped, we are on a metered connection.")
             null
         }
 

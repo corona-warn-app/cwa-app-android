@@ -33,10 +33,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Switch
-                android:id="@+id/allow_metered_toggle"
+                android:id="@+id/fake_metered_connection_toggle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hourly pkgs on metered networks"
+                android:text="Fake metered connection status"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/info_metered_network" />
@@ -49,7 +49,7 @@
                 android:text="Clear"
                 app:layout_constraintEnd_toStartOf="@+id/download_action"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/allow_metered_toggle" />
+                app:layout_constraintTop_toBottomOf="@+id/fake_metered_connection_toggle" />
 
             <Button
                 android:id="@+id/download_action"
@@ -59,7 +59,7 @@
                 android:text="Download"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/clear_action"
-                app:layout_constraintTop_toBottomOf="@+id/allow_metered_toggle" />
+                app:layout_constraintTop_toBottomOf="@+id/fake_metered_connection_toggle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

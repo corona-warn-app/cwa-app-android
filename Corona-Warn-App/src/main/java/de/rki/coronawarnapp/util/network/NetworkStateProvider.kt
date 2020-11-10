@@ -5,6 +5,9 @@ import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -12,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,6 +25,7 @@ import javax.inject.Singleton
 class NetworkStateProvider @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
+    private val testSettings: TestSettings,
     private val networkRequestBuilderProvider: NetworkRequestBuilderProvider
 ) {
     private val manager: ConnectivityManager
@@ -41,9 +46,14 @@ class NetworkStateProvider @Inject constructor(
         }
 
         val request = networkRequestBuilderProvider.get()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addCapability(NET_CAPABILITY_INTERNET)
             .build()
         manager.registerNetworkCallback(request, callback)
+
+        testSettings.fakeMeteredConnection.flow.collect {
+            Timber.v("fakeMeteredConnection=%b", it)
+            send(currentState)
+        }
 
         awaitClose {
             Timber.tag(TAG).v("unregisterNetworkCallback()")
@@ -60,17 +70,19 @@ class NetworkStateProvider @Inject constructor(
             State(
                 activeNetwork = network,
                 capabilities = network?.let { manager.getNetworkCapabilities(it) },
-                linkProperties = network?.let { manager.getLinkProperties(it) }
+                linkProperties = network?.let { manager.getLinkProperties(it) },
+                isFakeMeteredConnection = testSettings.fakeMeteredConnection.value
             )
         }
 
     data class State(
         val activeNetwork: Network?,
         val capabilities: NetworkCapabilities?,
-        val linkProperties: LinkProperties?
+        val linkProperties: LinkProperties?,
+        private val isFakeMeteredConnection: Boolean
     ) {
         val isMeteredConnection: Boolean
-            get() = !(capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) ?: false)
+            get() = isFakeMeteredConnection || !(capabilities?.hasCapability(NET_CAPABILITY_NOT_METERED) ?: false)
     }
 
     companion object {
