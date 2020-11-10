@@ -118,10 +118,4 @@ class HomeFragmentViewModelTest : BaseTest() {
             verify { submissionCardsStateProvider.state }
         }
     }
-
-    @Test
-    fun `if ENF rate limit is reached new error dialog is triggered`() {
-        TODO()
-        // TODO: "Aktualisierung alle 24h" von Karten entfernen
-    }
 }

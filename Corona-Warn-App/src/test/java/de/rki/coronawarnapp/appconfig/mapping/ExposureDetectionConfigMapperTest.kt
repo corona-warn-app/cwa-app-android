@@ -30,7 +30,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setAndroidExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            minTimeBetweenDetections shouldBe Duration.millis(Long.MAX_VALUE)
+            minTimeBetweenDetections shouldBe Duration.standardDays(99)
             maxExposureDetectionsPerUTCDay shouldBe 0
         }
     }
