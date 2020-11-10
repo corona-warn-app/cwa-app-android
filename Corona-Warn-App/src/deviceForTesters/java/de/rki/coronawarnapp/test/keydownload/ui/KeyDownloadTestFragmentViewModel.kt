@@ -8,11 +8,13 @@ import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncTool
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 
 class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -43,6 +45,7 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     val allowMeteredConnections = syncSettings.allowMeteredConnections.flow.asLiveData()
 
     val isSyncRunning = MutableLiveData(false)
+    val errorEvent = SingleLiveEvent<Exception>()
 
     fun toggleAllowMeteredConnections() {
         syncSettings.allowMeteredConnections.update { !it }
@@ -51,7 +54,12 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     fun download() {
         isSyncRunning.postValue(true)
         launch {
-            keyPackageSyncTool.syncKeyFiles()
+            try {
+                keyPackageSyncTool.syncKeyFiles()
+            } catch (e: Exception) {
+                Timber.e(e, "Call to syncKeyFiles() failed.")
+                errorEvent.postValue(e)
+            }
             isSyncRunning.postValue(false)
         }
     }

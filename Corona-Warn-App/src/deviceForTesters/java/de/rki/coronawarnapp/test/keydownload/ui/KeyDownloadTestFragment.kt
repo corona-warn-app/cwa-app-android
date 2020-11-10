@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestKeydownloadBinding
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
@@ -61,6 +62,10 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
             binding.cacheListInfos.text = "${items.size} files, $dayCount days, $hourCount hours."
 
             keyFileAdapter.update(items)
+        }
+
+        vm.errorEvent.observe2(this) {
+            Snackbar.make(requireView(), it.toString(), Snackbar.LENGTH_LONG).show()
         }
     }
 
