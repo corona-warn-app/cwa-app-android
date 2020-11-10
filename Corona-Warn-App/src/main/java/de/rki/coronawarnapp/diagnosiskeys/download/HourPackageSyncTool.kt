@@ -23,6 +23,7 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 @Reusable
@@ -136,8 +137,14 @@ class HourPackageSyncTool @Inject constructor(
 
         val today = now.toLocalDate()
 
-        val availableHours = keyServer.getHourIndex(location, today).let { todaysHours ->
-            LocationHours(location, mapOf(today to todaysHours))
+        val availableHours = run {
+            val hoursToday = try {
+                keyServer.getHourIndex(location, today)
+            } catch (e: IOException) {
+                Timber.tag(TAG).e(e, "failed to get today's hour index.")
+                emptyList()
+            }
+            LocationHours(location, mapOf(today to hoursToday))
         }
 
         // If we have hours in covered by a day, delete the hours
