@@ -1,12 +1,16 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.mapping.InvalidatedKeyFile
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -14,7 +18,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
 import java.io.IOException
 
-class HourSyncToolTest : CommonSyncToolTest() {
+class HourPackageSyncToolTest : CommonSyncToolTest() {
 
     @BeforeEach
     override fun setup() {
@@ -174,5 +178,28 @@ class HourSyncToolTest : CommonSyncToolTest() {
             keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "02:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
+    }
+
+    @Test
+    fun `EXPECT_NEW_HOUR_PACKAGES evaluation`() = runBlockingTest {
+        val cachedKey1 = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns Instant.parse("2020-01-01T00:00:03.000Z").toDateTime(DateTimeZone.UTC)
+            }
+        }
+        val cachedKey2 = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns Instant.parse("2020-01-01T01:00:03.000Z").toDateTime(DateTimeZone.UTC)
+            }
+        }
+
+        val instance = createInstance()
+
+        var now = Instant.parse("2020-01-01T02:00:03.000Z")
+        instance.expectNewHourPackages(listOf(cachedKey1), now) shouldBe true
+        instance.expectNewHourPackages(listOf(cachedKey1, cachedKey2), now) shouldBe false
+
+        now = Instant.parse("2020-01-01T03:00:03.000Z")
+        instance.expectNewHourPackages(listOf(cachedKey1, cachedKey2), now) shouldBe true
     }
 }

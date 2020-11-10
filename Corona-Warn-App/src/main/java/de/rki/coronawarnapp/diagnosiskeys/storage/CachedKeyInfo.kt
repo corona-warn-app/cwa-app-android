@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA1
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -47,6 +49,11 @@ data class CachedKeyInfo(
         etag = etag,
         isDownloadComplete = true
     )
+
+    fun toDateTime(): DateTime = when (type) {
+        Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
+        Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+    }
 
     companion object {
         fun calcluateId(

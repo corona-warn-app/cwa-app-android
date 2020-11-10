@@ -121,7 +121,7 @@ class HourPackageSyncTool @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewHourPackages(cachedHours: List<CachedKey>, now: Instant): Boolean {
         val previousHour = now.toLocalTime().minusHours(1)
-        val newestHour = cachedHours.map { it.info.createdAt }.maxOrNull()?.toLocalTime()
+        val newestHour = cachedHours.map { it.info.toDateTime() }.maxOrNull()?.toLocalTime()
 
         return previousHour.hourOfDay != newestHour?.hourOfDay
     }

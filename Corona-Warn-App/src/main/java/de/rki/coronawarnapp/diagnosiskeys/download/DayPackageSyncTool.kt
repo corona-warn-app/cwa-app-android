@@ -54,11 +54,11 @@ class DayPackageSyncTool @Inject constructor(
             determineMissingDayPackages(it, forceSync)
         }
         if (missingDays.isEmpty()) {
-            Timber.tag(TAG).i("There were no missing days.")
+            Timber.tag(TAG).i("There were no missing day packages.")
             return SyncResult(successful = true, newPackages = emptyList())
         }
 
-        Timber.tag(TAG).d("Downloading missing days: %s", missingDays)
+        Timber.tag(TAG).d("Downloading missing day packages: %s", missingDays)
         requireStorageSpace(missingDays)
 
         val downloads = launchDownloads(missingDays, downloadConfig)
@@ -78,7 +78,7 @@ class DayPackageSyncTool @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewDayPackages(cachedDays: List<CachedKey>): Boolean {
         val yesterday = timeStamper.nowUTC.toLocalDate().minusDays(1)
-        val newestDay = cachedDays.map { it.info.createdAt }.maxOrNull()?.toLocalDate()
+        val newestDay = cachedDays.map { it.info.toDateTime() }.maxOrNull()?.toLocalDate()
 
         return yesterday != newestDay
     }

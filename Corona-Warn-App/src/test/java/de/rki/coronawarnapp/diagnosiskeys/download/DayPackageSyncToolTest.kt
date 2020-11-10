@@ -10,6 +10,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
 import java.io.IOException
 
-class DaySyncToolTest : CommonSyncToolTest() {
+class DayPackageSyncToolTest : CommonSyncToolTest() {
 
     @BeforeEach
     override fun setup() {
@@ -98,12 +99,12 @@ class DaySyncToolTest : CommonSyncToolTest() {
     fun `EXPECT_NEW_DAY_PACKAGES evaluation`() = runBlockingTest {
         val cachedKey1 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { createdAt } returns Instant.parse("2020-10-30T01:02:03.000Z")
+                every { toDateTime() } returns Instant.parse("2020-10-30T01:02:03.000Z").toDateTime(DateTimeZone.UTC)
             }
         }
         val cachedKey2 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { createdAt } returns Instant.parse("2020-10-31T01:02:03.000Z")
+                every { toDateTime() } returns Instant.parse("2020-10-31T01:02:03.000Z").toDateTime(DateTimeZone.UTC)
             }
         }
 

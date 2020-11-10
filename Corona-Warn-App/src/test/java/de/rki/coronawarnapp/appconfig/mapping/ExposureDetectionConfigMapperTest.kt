@@ -23,15 +23,15 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `detection interval can not be 0`() {
+    fun `detection interval 0 defaults to almost infinite delay`() {
         val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder()
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
             .setMinRiskScore(1)
             .setAndroidExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            minTimeBetweenDetections shouldBe Duration.standardHours(24 / 6)
-            maxExposureDetectionsPerUTCDay shouldBe 6
+            minTimeBetweenDetections shouldBe Duration.millis(Long.MAX_VALUE)
+            maxExposureDetectionsPerUTCDay shouldBe 0
         }
     }
 

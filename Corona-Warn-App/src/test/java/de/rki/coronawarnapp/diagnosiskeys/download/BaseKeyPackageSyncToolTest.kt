@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 
-class BaseSyncToolTest : BaseIOTest() {
+class BaseKeyPackageSyncToolTest : BaseIOTest() {
 
     @MockK lateinit var keyCache: KeyCacheRepository
     @MockK lateinit var deviceStorage: DeviceStorage
