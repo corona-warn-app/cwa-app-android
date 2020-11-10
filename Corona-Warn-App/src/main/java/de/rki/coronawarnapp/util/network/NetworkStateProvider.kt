@@ -16,6 +16,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -50,14 +51,18 @@ class NetworkStateProvider @Inject constructor(
             .build()
         manager.registerNetworkCallback(request, callback)
 
-        testSettings.fakeMeteredConnection.flow.collect {
-            Timber.v("fakeMeteredConnection=%b", it)
-            send(currentState)
+        val fakeConnectionSubscriber = launch {
+            testSettings.fakeMeteredConnection.flow.drop(1)
+                .collect {
+                    Timber.v("fakeMeteredConnection=%b", it)
+                    send(currentState)
+                }
         }
 
         awaitClose {
             Timber.tag(TAG).v("unregisterNetworkCallback()")
             manager.unregisterNetworkCallback(callback)
+            fakeConnectionSubscriber.cancel()
         }
     }
         .shareLatest(
@@ -79,7 +84,7 @@ class NetworkStateProvider @Inject constructor(
         val activeNetwork: Network?,
         val capabilities: NetworkCapabilities?,
         val linkProperties: LinkProperties?,
-        private val isFakeMeteredConnection: Boolean
+        private val isFakeMeteredConnection: Boolean = false
     ) {
         val isMeteredConnection: Boolean
             get() = isFakeMeteredConnection || !(capabilities?.hasCapability(NET_CAPABILITY_NOT_METERED) ?: false)

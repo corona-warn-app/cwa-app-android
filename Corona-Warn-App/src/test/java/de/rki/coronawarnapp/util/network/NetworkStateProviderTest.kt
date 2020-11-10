@@ -6,6 +6,7 @@ import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import de.rki.coronawarnapp.storage.TestSettings
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -27,11 +28,13 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 import testhelpers.coroutines.test
+import testhelpers.preferences.mockFlowPreference
 
 class NetworkStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var conMan: ConnectivityManager
+    @MockK lateinit var testSettings: TestSettings
 
     @MockK lateinit var network: Network
     @MockK lateinit var networkRequest: NetworkRequest
@@ -68,6 +71,8 @@ class NetworkStateProviderTest : BaseTest() {
         every { conMan.activeNetwork } returns network
         every { conMan.getNetworkCapabilities(network) } returns capabilities
         every { conMan.getLinkProperties(network) } returns linkProperties
+
+        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(false)
     }
 
     @AfterEach
@@ -78,7 +83,8 @@ class NetworkStateProviderTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = NetworkStateProvider(
         context = context,
         appScope = scope,
-        networkRequestBuilderProvider = networkRequestBuilderProvider
+        networkRequestBuilderProvider = networkRequestBuilderProvider,
+        testSettings = testSettings
     )
 
     @Test
@@ -139,7 +145,8 @@ class NetworkStateProviderTest : BaseTest() {
 
         advanceUntilIdle()
 
-        testCollector.latestValues.size == 4
+        // 3 not 4 as first onAvailable call doesn't change the value (stateIn behavior)
+        testCollector.latestValues.size shouldBe 3
 
         testCollector.awaitFinal(cancel = true)
 
@@ -188,6 +195,20 @@ class NetworkStateProviderTest : BaseTest() {
         NetworkStateProvider.State(
             activeNetwork = null,
             capabilities = capabilities,
+            linkProperties = null
+        ).isMeteredConnection shouldBe true
+    }
+
+    @Test
+    fun `metered connection state can be overriden via test settings`() = runBlockingTest2(ignoreActive = true) {
+        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
+        val instance = createInstance(this)
+
+        instance.networkState.first()
+
+        NetworkStateProvider.State(
+            activeNetwork = null,
+            capabilities = null,
             linkProperties = null
         ).isMeteredConnection shouldBe true
     }
