@@ -32,6 +32,7 @@ class ConfigParserTest : BaseTest() {
         every { keyDownloadConfigMapper.map(any()) } returns mockk()
         every { exposureDetectionConfigMapper.map(any()) } returns mockk()
         every { riskCalculationConfigMapper.map(any()) } returns mockk()
+        every { exposureWindowRiskCalculationConfigMapper.map(any()) } returns mockk()
     }
 
     @AfterEach
@@ -56,6 +57,7 @@ class ConfigParserTest : BaseTest() {
                 keyDownloadConfigMapper.map(any())
                 exposureDetectionConfigMapper.map(any())
                 riskCalculationConfigMapper.map(any())
+                exposureWindowRiskCalculationConfigMapper.map(any())
             }
         }
     }
