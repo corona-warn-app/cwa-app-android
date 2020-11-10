@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.nearby.windows.entities.cases.TestCase
 import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -24,6 +25,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.joda.time.DateTimeConstants
+import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,6 +38,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
+    @MockK lateinit var timeStamper: TimeStamper
     private lateinit var riskLevels: DefaultRiskLevels
 
     // Json file (located in /test/resources/exposure-windows-risk-calculation.json)
@@ -45,13 +48,15 @@ class ExposureWindowsCalculationTest: BaseTest() {
     private enum class LogLevel(val value: Int) {
         NONE(0),
         ONLY_COMPARISON(1),
-        ALL(2)
+        EXTENDED (2),
+        ALL(3)
     }
-    private val logLevel = LogLevel.ALL
+    private val logLevel = LogLevel.EXTENDED
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        every { timeStamper.nowUTC } returns Instant.now()
     }
 
     @AfterEach
@@ -98,7 +103,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
             val exposureWindowsAndResult = HashMap<ExposureWindow, RiskResult>()
             for (exposureWindow: ExposureWindow in exposureWindows) {
 
-                logExposureWindow(exposureWindow, "➡➡ EXPOSURE WINDOW PASSED ➡➡")
+                logExposureWindow(exposureWindow, "➡➡ EXPOSURE WINDOW PASSED ➡➡", LogLevel.EXTENDED)
 
                 val riskResult = riskLevels.calculateRisk(exposureWindow)
                 debugLog(">> Risk result: $riskResult")
@@ -124,12 +129,16 @@ class ExposureWindowsCalculationTest: BaseTest() {
         }
     }
 
+    private fun getTestCaseDate(expAge: Long): Instant {
+        return timeStamper.nowUTC - expAge * DateTimeConstants.MILLIS_PER_DAY
+    }
+
     private fun comparisonDebugTable(aggregated: AggregatedRiskResult, case: TestCase): String {
         val result = StringBuilder()
         result.append("\n").append("${case.description}")
-        result.append("\n").append("+----------------------+-----------+-----------+")
-        result.append("\n").append("| Property             | Actual    | Expected  |")
-        result.append("\n").append("+----------------------+-----------+-----------+")
+        result.append("\n").append("+----------------------+--------------------------+--------------------------+")
+        result.append("\n").append("| Property             | Actual                   | Expected                 |")
+        result.append("\n").append("+----------------------+--------------------------+--------------------------+")
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Total Risk",
@@ -141,14 +150,14 @@ class ExposureWindowsCalculationTest: BaseTest() {
             addPropertyCheckToComparisonDebugTable(
                 "Date With High Risk",
                 aggregated.mostRecentDateWithHighRisk,
-                case.expAgeOfMostRecentDateWithHighRisk
+                getTestCaseDate(case.expAgeOfMostRecentDateWithHighRisk)
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Date With Low Risk",
                 aggregated.mostRecentDateWithLowRisk,
-                case.expAgeOfMostRecentDateWithLowRisk
+                getTestCaseDate(case.expAgeOfMostRecentDateWithLowRisk)
             )
         )
         result.append(
@@ -170,10 +179,10 @@ class ExposureWindowsCalculationTest: BaseTest() {
     }
 
     private fun addPropertyCheckToComparisonDebugTable(propertyName: String, expected: Any?, actual: Any?): String {
-        val format = "| %-20s | %-9s | %-9s |"
+        val format = "| %-20s | %-24s | %-24s |"
         val result = StringBuilder()
         result.append("\n").append(String.format(format, propertyName, expected, actual))
-        result.append("\n").append("+----------------------+-----------+-----------+")
+        result.append("\n").append("+----------------------+--------------------------+--------------------------+")
         return result.toString()
     }
 
@@ -190,8 +199,6 @@ class ExposureWindowsCalculationTest: BaseTest() {
 
     private fun checkTestCase(case: TestCase) {
         debugLog("Checking ${case.description}", LogLevel.ALL)
-        debugLog(" -> Checking dates: High Risk: ${case.expAgeOfMostRecentDateWithHighRisk}")
-        debugLog(" -> Checking dates: Low Risk: ${case.expAgeOfMostRecentDateWithLowRisk}")
         case.expTotalRiskLevel shouldNotBe null
         case.expTotalMinimumDistinctEncountersWithLowRisk shouldNotBe null
         case.expTotalMinimumDistinctEncountersWithHighRisk shouldNotBe null
@@ -205,7 +212,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
         jsonWindow.calibrationConfidence shouldNotBe null
     }
 
-    private fun logExposureWindow(exposureWindow: ExposureWindow, title: String) {
+    private fun logExposureWindow(exposureWindow: ExposureWindow, title: String, logLevel:LogLevel = LogLevel.ALL) {
         val result = StringBuilder()
         result.append("\n\n").append("------------ $title -----------")
         result.append("\n").append("Mocked Exposure window: #${exposureWindow.hashCode()}")
@@ -221,7 +228,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
             result.append("\n\t\t").append("↳ Typical Attenuation: ${scan.typicalAttenuationDb}")
         }
         result.append("\n").append("-------------------------------------------- ✂ ----").append("\n")
-        debugLog(result.toString())
+        debugLog(result.toString(), logLevel)
     }
 
     private fun jsonToExposureWindow(json: JsonWindow): ExposureWindow {
