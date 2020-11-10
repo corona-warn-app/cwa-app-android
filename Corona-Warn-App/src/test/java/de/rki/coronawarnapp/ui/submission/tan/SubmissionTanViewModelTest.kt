@@ -28,15 +28,19 @@ class SubmissionTanViewModelTest : BaseTest() {
 
         viewModel.onTanChanged("ZWFPC7NG47")
         viewModel.state.value!!.isTanValid shouldBe true
+        viewModel.state.value!!.isCorrectLength shouldBe true
 
         viewModel.onTanChanged("ABC")
         viewModel.state.value!!.isTanValid shouldBe false
+        viewModel.state.value!!.isCorrectLength shouldBe false
 
         viewModel.onTanChanged("ZWFPC7NG48")
         viewModel.state.value!!.isTanValid shouldBe false
+        viewModel.state.value!!.isCorrectLength shouldBe true
 
         viewModel.onTanChanged("ZWFPC7NG4A")
         viewModel.state.value!!.isTanValid shouldBe false
+        viewModel.state.value!!.isCorrectLength shouldBe true
     }
 
     @Test

@@ -28,7 +28,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
         UIState(
             isTanValid = currentTan.isTanValid,
             isTanValidFormat = currentTan.isTanValidFormat,
-            areCharactersCorrect = currentTan.areCharactersValid
+            areCharactersCorrect = currentTan.areCharactersValid,
+            isCorrectLength = currentTan.isCorrectLength
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
@@ -73,7 +74,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
     data class UIState(
         val isTanValid: Boolean = false,
         val areCharactersCorrect: Boolean = false,
-        val isTanValidFormat: Boolean = false
+        val isTanValidFormat: Boolean = false,
+        val isCorrectLength: Boolean = false
     )
 
     @AssistedInject.Factory
