@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
+import de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternet
+import de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternetStateProvider
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -40,6 +42,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var settingsViewModel: SettingsViewModel
     @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
     @MockK lateinit var submissionCardsStateProvider: SubmissionCardsStateProvider
+    @MockK lateinit var riskCardNoInternetStateProvider: RiskCardNoInternetStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
 
     @BeforeEach
@@ -49,6 +52,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
         every { submissionCardsStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
         every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
+        every { riskCardNoInternetStateProvider.state } returns flow { emit(mockk<RiskCardNoInternet>())}
     }
 
     @AfterEach
@@ -63,6 +67,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingStatus = generalTracingStatus,
         tracingCardStateProvider = tracingCardStateProvider,
         submissionCardsStateProvider = submissionCardsStateProvider,
+        riskCardNoInternetStateProvider = riskCardNoInternetStateProvider,
         tracingRepository = tracingRepository
     )
 
