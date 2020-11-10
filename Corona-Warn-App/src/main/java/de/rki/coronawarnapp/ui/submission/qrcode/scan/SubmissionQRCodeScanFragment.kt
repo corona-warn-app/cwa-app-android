@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -32,7 +31,8 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
@@ -58,14 +58,22 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
-            if (ScanStatus.SUCCESS == it) {
-                viewModel.doDeviceRegistration()
-            }
-
+        viewModel.scanStatusValue.observe2(this) {
             if (ScanStatus.INVALID == it) {
                 showInvalidScanDialog()
             }
+        }
+
+        viewModel.showRedeemedTokenWarning.observe2(this) {
+            val dialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_tan_redeemed_title,
+                R.string.submission_error_dialog_web_tan_redeemed_body,
+                R.string.submission_error_dialog_web_tan_redeemed_button_positive
+            )
+
+            DialogHelper.showDialog(dialog)
+            goBack()
         }
 
         viewModel.registrationState.observe2(this) {
@@ -73,7 +81,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
-
             if (ApiRequestState.SUCCESS == it) {
                 doNavigate(
                     SubmissionQRCodeScanFragmentDirections
@@ -98,7 +105,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.validateAndStoreTestGUID(it.text)
+            viewModel.validateTestGUID(it.text)
         }
     }
 
@@ -165,13 +172,14 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     ) {
         // if permission was denied
         if (requestCode == REQUEST_CAMERA_PERMISSION_CODE &&
-            (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)) {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                    showCameraPermissionRationaleDialog()
-                } else {
-                    // user permanently denied access to the camera
-                    showCameraPermissionDeniedDialog()
-                }
+            (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)
+        ) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                showCameraPermissionRationaleDialog()
+            } else {
+                // user permanently denied access to the camera
+                showCameraPermissionDeniedDialog()
+            }
         }
     }
 

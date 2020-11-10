@@ -51,7 +51,7 @@ class SubmissionTanViewModel @AssistedInject constructor(
         launch {
             try {
                 registrationState.postValue(ApiRequestState.STARTED)
-                SubmissionService.asyncRegisterDevice()
+                SubmissionService.asyncRegisterDeviceViaTAN(teletan.value)
                 registrationState.postValue(ApiRequestState.SUCCESS)
             } catch (err: CwaWebException) {
                 registrationState.postValue(ApiRequestState.FAILED)

@@ -2,13 +2,15 @@ package de.rki.coronawarnapp.test
 
 import android.content.Context
 import android.text.format.Formatter
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.TransactionException
-import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask.Progress.ApiSubmissionFinished
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask.Progress.ApiSubmissionStarted
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask.Progress.KeyFilesDownloadFinished
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask.Progress.KeyFilesDownloadStarted
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.task.submitAndListen
 import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -39,7 +41,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
         var resultInfo = StringBuilder()
             .append(
                 "MEASUREMENT Running for Countries:\n " +
-                        "${countries.joinToString(", ")}\n\n"
+                    "${countries.joinToString(", ")}\n\n"
             )
             .append("Result: \n\n")
             .append("#\t Combined \t Download \t Sub \t Risk \t File # \t  F. size\n")
@@ -56,20 +58,16 @@ class RiskLevelAndKeyRetrievalBenchmark(
             var keyFilesSize: Long = -1
             var apiSubmissionDuration: Long = -1
 
-            try {
-                measureDiagnosticKeyRetrieval(
-                    label = "#$index",
-                    countries = countries,
-                    downloadFinished = { duration, keyCount, totalFileSize ->
-                        keyFileCount = keyCount
-                        keyFileDownloadDuration = duration
-                        keyFilesSize = totalFileSize
-                    }, apiSubmissionFinished = { duration ->
-                        apiSubmissionDuration = duration
-                    })
-            } catch (e: TransactionException) {
-                keyRetrievalError = e.message.toString()
-            }
+            measureDiagnosticKeyRetrieval(
+                label = "#$index",
+                countries = countries,
+                downloadFinished = { duration, keyCount, totalFileSize ->
+                    keyFileCount = keyCount
+                    keyFileDownloadDuration = duration
+                    keyFilesSize = totalFileSize
+                }, apiSubmissionFinished = { duration ->
+                    apiSubmissionDuration = duration
+                })
 
             var calculationDuration: Long = -1
             var calculationError = ""
@@ -137,32 +135,27 @@ class RiskLevelAndKeyRetrievalBenchmark(
         var keyFileDownloadStart: Long = -1
         var apiSubmissionStarted: Long = -1
 
-        try {
-            RetrieveDiagnosisKeysTransaction.onKeyFilesDownloadStarted = {
-                Timber.v("MEASURE [Diagnostic Key Files] $label started")
-                keyFileDownloadStart = System.currentTimeMillis()
+        AppInjector.component.taskController.submitAndListen(
+            DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments(countries))
+        ).collect { progress: Task.Progress ->
+            when (progress) {
+                is KeyFilesDownloadStarted -> {
+                    Timber.v("MEASURE [Diagnostic Key Files] $label started")
+                    keyFileDownloadStart = System.currentTimeMillis()
+                }
+                is KeyFilesDownloadFinished -> {
+                    Timber.v("MEASURE [Diagnostic Key Files] $label finished")
+                    val duration = System.currentTimeMillis() - keyFileDownloadStart
+                    downloadFinished(duration, progress.keyCount, progress.fileSize)
+                }
+                is ApiSubmissionStarted -> {
+                    apiSubmissionStarted = System.currentTimeMillis()
+                }
+                is ApiSubmissionFinished -> {
+                    val duration = System.currentTimeMillis() - apiSubmissionStarted
+                    apiSubmissionFinished(duration)
+                }
             }
-
-            RetrieveDiagnosisKeysTransaction.onKeyFilesDownloadFinished = { count, size ->
-                Timber.v("MEASURE [Diagnostic Key Files] $label finished")
-                val duration = System.currentTimeMillis() - keyFileDownloadStart
-                downloadFinished(duration, count, size)
-            }
-
-            RetrieveDiagnosisKeysTransaction.onApiSubmissionStarted = {
-                apiSubmissionStarted = System.currentTimeMillis()
-            }
-
-            RetrieveDiagnosisKeysTransaction.onApiSubmissionFinished = {
-                val duration = System.currentTimeMillis() - apiSubmissionStarted
-                apiSubmissionFinished(duration)
-            }
-
-            // start diagnostic key transaction
-            RetrieveDiagnosisKeysTransaction.start(countries)
-        } catch (e: TransactionException) {
-            e.report(ExceptionCategory.INTERNAL)
-            throw e
         }
     }
 }

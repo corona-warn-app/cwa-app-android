@@ -11,12 +11,13 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -308,10 +309,14 @@ class DefaultRiskLevels @Inject constructor(
             .map { it.riskLevel }
             .firstOrNull()
 
-    override suspend fun calculateRisk(
+    override fun calculateRisk(
         exposureWindow: ExposureWindow
     ): RiskResult? {
         if (dropDueToMinutesAtAttenuation(exposureWindow, appConfig.minutesAtAttenuationFilters)) {
+            Timber.d(
+                "%s dropped due to minutes at attenuation filter",
+                exposureWindow
+            )
             return null
         }
 
@@ -321,29 +326,62 @@ class DefaultRiskLevels @Inject constructor(
         )
 
         if (dropDueToTransmissionRiskLevel(transmissionRiskLevel, appConfig.transmissionRiskLevelFilters)) {
+            Timber.d(
+                "%s dropped due to transmission risk level filter, level is %s",
+                exposureWindow,
+                transmissionRiskLevel
+            )
             return null
         }
 
         val transmissionRiskValue =
             transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
 
+        Timber.d(
+            "%s's transmissionRiskValue is: %s",
+            exposureWindow,
+            transmissionRiskValue
+        )
+
         val weightedMinutes = determineWeightedSeconds(
             exposureWindow,
             appConfig.minutesAtAttenuationWeights
         ) / 60
 
+        Timber.d(
+            "%s's weightedMinutes are: %s",
+            exposureWindow,
+            weightedMinutes
+        )
+
         val normalizedTime = transmissionRiskValue * weightedMinutes
+
+        Timber.d(
+            "%s's normalizedTime is: %s",
+            exposureWindow,
+            normalizedTime
+        )
 
         val riskLevel = determineRiskLevel(
             normalizedTime,
             appConfig.normalizedTimePerExposureWindowToRiskLevelMapping
         )
-            ?: throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
+
+        if (riskLevel == null) {
+            Timber.e("Exposure Window: $exposureWindow could not be mapped to a risk level")
+            throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
+        }
+
+        Timber.d(
+            "%s's riskLevel is: %s",
+            exposureWindow,
+            riskLevel
+        )
 
         return RiskResult(transmissionRiskLevel, normalizedTime, riskLevel)
     }
 
-    override suspend fun aggregateResults(
+    override fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
         val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
@@ -359,14 +397,7 @@ class DefaultRiskLevels @Inject constructor(
             aggregateRiskPerDate(it, exposureWindowsAndResult)
         }
 
-        exposureHistory.forEach {
-            Timber.d(
-                "(date=${it.dateMillisSinceEpoch}, " +
-                    "riskLevel=${it.riskLevel}, " +
-                    "minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, " +
-                    "minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})"
-            )
-        }
+        Timber.d("exposureHistory size: ${exposureHistory.size}")
 
         // 6. Determine `Total Risk`
         val totalRiskLevel =
@@ -449,7 +480,10 @@ class DefaultRiskLevels @Inject constructor(
                 .map { it.riskLevel }
                 .first()
         } catch (e: Exception) {
-            throw IllegalArgumentException("Invalid config for normalizedTimePerDayToRiskLevelMapping")
+            throw ApplicationConfigurationInvalidException(
+                e,
+                "Invalid config for normalizedTimePerDayToRiskLevelMapping"
+            )
         }
 
         Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
