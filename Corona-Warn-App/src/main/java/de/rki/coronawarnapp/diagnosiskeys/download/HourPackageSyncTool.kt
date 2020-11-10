@@ -47,7 +47,7 @@ class HourPackageSyncTool @Inject constructor(
      */
     internal suspend fun syncMissingHourPackages(
         availableLocations: List<LocationCode>,
-        forceSync: Boolean
+        forceIndexLookup: Boolean
     ): SyncResult {
         Timber.tag(TAG).v("syncMissingHours(availableCountries=%s)", availableLocations)
 
@@ -55,7 +55,7 @@ class HourPackageSyncTool @Inject constructor(
         invalidateCachedKeys(downloadConfig.invalidHourEtags)
 
         val missingHours = availableLocations.mapNotNull {
-            determineMissingHours(it, forceSync)
+            determineMissingHours(it, forceIndexLookup)
         }
         if (missingHours.isEmpty()) {
             Timber.tag(TAG).i("There were no missing hours.")
@@ -128,12 +128,12 @@ class HourPackageSyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun determineMissingHours(location: LocationCode, forceSync: Boolean): LocationHours? {
+    internal suspend fun determineMissingHours(location: LocationCode, forceIndexLookup: Boolean): LocationHours? {
         val cachedHours = getDownloadedCachedKeys(location, Type.LOCATION_HOUR)
 
         val now = timeStamper.nowUTC
 
-        if (!forceSync && !expectNewHourPackages(cachedHours, now)) return null
+        if (!forceIndexLookup && !expectNewHourPackages(cachedHours, now)) return null
 
         val today = now.toLocalDate()
 

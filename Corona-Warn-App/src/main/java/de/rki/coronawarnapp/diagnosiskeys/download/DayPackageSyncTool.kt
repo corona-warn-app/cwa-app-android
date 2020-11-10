@@ -43,7 +43,7 @@ class DayPackageSyncTool @Inject constructor(
      */
     internal suspend fun syncMissingDayPackages(
         availableLocations: List<LocationCode>,
-        forceSync: Boolean
+        forceIndexLookup: Boolean
     ): SyncResult {
         Timber.tag(TAG).v("syncMissingDays(availableCountries=%s)", availableLocations)
 
@@ -51,7 +51,7 @@ class DayPackageSyncTool @Inject constructor(
         invalidateCachedKeys(downloadConfig.invalidDayETags)
 
         val missingDays = availableLocations.mapNotNull {
-            determineMissingDayPackages(it, forceSync)
+            determineMissingDayPackages(it, forceIndexLookup)
         }
         if (missingDays.isEmpty()) {
             Timber.tag(TAG).i("There were no missing day packages.")
@@ -84,10 +84,10 @@ class DayPackageSyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun determineMissingDayPackages(location: LocationCode, forceSync: Boolean): LocationDays? {
+    internal suspend fun determineMissingDayPackages(location: LocationCode, forceIndexLookup: Boolean): LocationDays? {
         val cachedDays = getDownloadedCachedKeys(location, Type.LOCATION_DAY)
 
-        if (!forceSync && !expectNewDayPackages(cachedDays)) return null
+        if (!forceIndexLookup && !expectNewDayPackages(cachedDays)) return null
 
         val availableDays = LocationDays(location, keyServer.getDayIndex(location))
 
