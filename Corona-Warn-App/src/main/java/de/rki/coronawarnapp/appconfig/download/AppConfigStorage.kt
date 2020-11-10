@@ -47,7 +47,8 @@ class AppConfigStorage @Inject constructor(
                 ConfigDownload(
                     rawData = legacyConfigFile.readBytes(),
                     serverTime = timeStamper.nowUTC,
-                    localOffset = Duration.ZERO
+                    localOffset = Duration.ZERO,
+                    etag = "legacy.migration"
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Legacy config exits but couldn't be read.")
