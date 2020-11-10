@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Range(
     @SerializedName("min")
-    val min: Int,
+    val min: Double,
     @SerializedName("minExclusive")
     val minExclusive: Boolean,
     @SerializedName("max")
-    val max: Int,
+    val max: Double,
     @SerializedName("maxExclusive")
     val maxExclusive: Boolean
 )
