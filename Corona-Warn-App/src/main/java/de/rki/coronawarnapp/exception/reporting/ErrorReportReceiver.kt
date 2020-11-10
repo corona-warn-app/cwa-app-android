@@ -41,7 +41,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         val confirm = context.resources.getString(R.string.errors_generic_button_positive)
         val details = context.resources.getString(R.string.errors_generic_button_negative)
 
-        var detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
+        val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
 
         if (intent.hasExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE)) {
             val apiStatusCode = intent.getIntExtra(

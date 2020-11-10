@@ -11,10 +11,12 @@ class InsufficientStorageException(
     "Not enough free space: ${result.requiredBytes}B are required and only ${result.freeBytes}B are available."
 ), FormattedError {
 
-    override fun getFormattedError(context: Context): String {
+    override fun getFormattedError(context: Context): FormattedError.Info {
         val formattedRequired = Formatter.formatShortFileSize(context, result.requiredBytes)
         val formattedFree = Formatter.formatShortFileSize(context, result.freeBytes)
         // TODO Replace with localized message when the exception is logged via new error tracking.
-        return "Not enough free space: $formattedRequired are required and only $formattedFree are available."
+        return FormattedError.Info(
+            message = "Not enough free space: $formattedRequired are required and only $formattedFree are available."
+        )
     }
 }

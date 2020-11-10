@@ -21,8 +21,9 @@ class DefaultBugProcessor @Inject constructor(
 ) : BugProcessor {
 
     override suspend fun processor(throwable: Throwable, tag: String?, info: String?): BugEvent {
+        val formattedError = throwable.tryFormattedError(context)
+
         val crashedAt = timeStamper.nowUTC
-        val exceptionMessage = throwable.tryFormattedError(context)
         val exceptionClass = throwable::class.java.simpleName
         val stacktrace = Log.getStackTraceString(throwable)
         val deviceInfo = "${Build.MANUFACTURER} ${Build.MODEL} (${Build.DEVICE})"
@@ -38,7 +39,7 @@ class DefaultBugProcessor @Inject constructor(
             tag = tag,
             info = info,
             exceptionClass = exceptionClass,
-            exceptionMessage = exceptionMessage,
+            exceptionMessage = formattedError.message,
             stackTrace = stacktrace,
             deviceInfo = deviceInfo,
             appVersionName = appVersionName,
