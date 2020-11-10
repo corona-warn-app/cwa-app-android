@@ -12,10 +12,8 @@ import timber.log.Timber
 import java.util.Locale
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
-    companion object {
-        private val TAG: String = ErrorReportReceiver::class.java.simpleName
-    }
 
+    @Suppress("LongMethod")
     override fun onReceive(context: Context, intent: Intent) {
         val category = ExceptionCategory
             .valueOf(intent.getStringExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA) ?: "")
