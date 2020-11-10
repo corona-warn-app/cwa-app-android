@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
@@ -253,8 +254,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     data class Config(
         override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
 
-        override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
-            TaskFactory.Config.CollisionBehavior.ENQUEUE
+        override val collisionBehavior: CollisionBehavior = CollisionBehavior.SKIP_IF_SIBLING_RUNNING
 
     ) : TaskFactory.Config
 
