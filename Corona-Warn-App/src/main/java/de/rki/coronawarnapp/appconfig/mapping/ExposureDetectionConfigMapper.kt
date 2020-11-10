@@ -51,7 +51,7 @@ fun ExposureDetectionParametersAndroid.maxExposureDetectionsPerDay(): Int = when
 fun ExposureDetectionParametersAndroid.minTimeBetweenExposureDetections(): Duration {
     val detectionsPerDay = maxExposureDetectionsPerDay()
     return if (detectionsPerDay == 0) {
-        Duration.millis(Long.MAX_VALUE)
+        Duration.standardDays(99)
     } else {
         (24 / detectionsPerDay).let { Duration.standardHours(it.toLong()) }
     }
