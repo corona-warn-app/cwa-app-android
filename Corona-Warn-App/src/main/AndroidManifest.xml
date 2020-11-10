@@ -48,6 +48,10 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".notification.NotificationReceiver"
+            android:enabled="true"/>
+
         <activity
             android:name=".ui.LauncherActivity"
             android:screenOrientation="portrait"
