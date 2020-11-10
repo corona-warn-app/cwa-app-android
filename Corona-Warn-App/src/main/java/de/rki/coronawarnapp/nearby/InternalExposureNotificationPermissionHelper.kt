@@ -81,7 +81,6 @@ class InternalExposureNotificationPermissionHelper(
      *
      */
     fun requestPermissionToShareKeys() {
-
         host.viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val keys = InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory()
