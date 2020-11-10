@@ -1211,8 +1211,10 @@
     <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlt dem Betriebssystem Ihres Smartphones der Dienst „COVID-19-Benachrichtigungen“ und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"Ihre Corona-Warn-App läuft fehlerfrei. Leider können Sie Ihren Risikostatus im Moment nicht aktualisieren. Ihre Risiko-Ermittlung ist weiterhin aktiv und funktioniert. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
-    <!-- XTXT: error dialog - Displayed in an error dialog when the provideDiagnosisKeys quota limit was reached. -->
-    <string name="errors_risk_detection_limit_reached">"Heute sind keine weiteren Risiko-Überprüfungen möglich, weil das von Ihrem Betriebssystem festgelegte Limit von Risiko-Überprüfungen pro Tag bereits erreicht ist. Bitte überprüfen Sie Ihren Risikostatus morgen wieder."</string>
+    <!-- XTXT: error dialog - Error title when the provideDiagnosisKeys quota limit was reached. -->
+    <string name="errors_risk_detection_limit_reached_title">"Limit bereits erreicht"</string>
+    <!-- XTXT: error dialog - Error description when the provideDiagnosisKeys quota limit was reached. -->
+    <string name="errors_risk_detection_limit_reached_description">"Heute sind keine weiteren Risiko-Überprüfungen möglich, weil das von Ihrem Betriebssystem festgelegte Limit von Risiko-Überprüfungen pro Tag bereits erreicht ist. Bitte überprüfen Sie Ihren Risikostatus morgen wieder."</string>
     <!-- ####################################
                Generic Error Messages
         ###################################### -->

@@ -19,10 +19,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
     override fun onReceive(context: Context, intent: Intent) {
         val category = ExceptionCategory
             .valueOf(intent.getStringExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA) ?: "")
-        val errorCode = intent.getIntExtra(
-            ReportingConstants.ERROR_REPORT_CODE_EXTRA,
-            ReportingConstants.ERROR_REPORT_UNKNOWN_ERROR
-        )
+
         val prefix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA)
         val suffix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA)
 
@@ -52,31 +49,44 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             message += "#$apiStatusCode"
         }
 
-        val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
-            .toUpperCase(Locale.ROOT)
-
-        if (CoronaWarnApplication.isAppInForeground) {
-            DialogHelper.showDialog(
-                DialogHelper.DialogInstance(
-                    activity,
-                    "$errorTitle: $errorCode\n$title",
-                    message,
-                    confirm,
-                    details,
-                    null,
-                    {},
-                    {
-                        DialogHelper.showDialog(
-                            DialogHelper.DialogInstance(
-                                activity,
-                                title,
-                                "$detailsTitle:\n$stack",
-                                confirm
-                            )
-                        ).run {}
-                    }
-                ))
+        val dialogTitle = if (intent.hasExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA)) {
+            intent.getStringExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA)
+        } else {
+            val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
+                .toUpperCase(Locale.ROOT)
+            val errorCode = intent.getIntExtra(
+                ReportingConstants.ERROR_REPORT_CODE_EXTRA,
+                ReportingConstants.ERROR_REPORT_UNKNOWN_ERROR
+            )
+            "$errorTitle: $errorCode\n$title"
         }
+
         Timber.e("[$category]${(prefix ?: "")} $message${(suffix ?: "")}")
+
+        if (!CoronaWarnApplication.isAppInForeground) {
+            Timber.v("Not displaying error dialog, not in foreground.")
+            return
+        }
+
+        val dialogInstance = DialogHelper.DialogInstance(
+            context = activity,
+            title = dialogTitle,
+            message = message,
+            positiveButton = confirm,
+            negativeButton = details,
+            cancelable = null,
+            positiveButtonFunction = {},
+            negativeButtonFunction = {
+                val stackTraceDialog = DialogHelper.DialogInstance(
+                    activity,
+                    title,
+                    "$detailsTitle:\n$stack",
+                    confirm
+                )
+                DialogHelper.showDialog(stackTraceDialog.copy(isTextSelectable = true))
+                Unit
+            }
+        )
+        DialogHelper.showDialog(dialogInstance)
     }
 }

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.bugreporting.event.DefaultBugEvent
 import de.rki.coronawarnapp.bugreporting.loghistory.RollingLogHistory
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.tryFormattedError
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,7 +21,7 @@ class DefaultBugProcessor @Inject constructor(
 ) : BugProcessor {
 
     override suspend fun processor(throwable: Throwable, tag: String?, info: String?): BugEvent {
-        val formattedError = throwable.tryFormattedError(context)
+        val formattedError = throwable.tryHumanReadableError(context)
 
         val crashedAt = timeStamper.nowUTC
         val exceptionClass = throwable::class.java.simpleName
@@ -39,7 +39,7 @@ class DefaultBugProcessor @Inject constructor(
             tag = tag,
             info = info,
             exceptionClass = exceptionClass,
-            exceptionMessage = formattedError.message,
+            exceptionMessage = formattedError.description,
             stackTrace = stacktrace,
             deviceInfo = deviceInfo,
             appVersionName = appVersionName,
