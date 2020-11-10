@@ -94,6 +94,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .asLiveData(context = dispatcherProvider.Default)
     }
 
+    // TODO: implement real logic for showing new risk card state
+    fun wasRiskLevelCalculationSuccessful(): Boolean = true
+
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }

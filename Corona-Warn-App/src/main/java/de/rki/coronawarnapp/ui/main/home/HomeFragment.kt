@@ -43,7 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             binding.tracingHeader = it
         }
         vm.tracingCardState.observe2(this) {
-            if (displayNewRiskCard()) {
+            if (vm.wasRiskLevelCalculationSuccessful()) {
                 binding.tracingCard = null
             } else {
                 binding.tracingCard = it
@@ -53,7 +53,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             binding.submissionCard = it
         }
         vm.riskCardNoInternet.observe2(this) {
-            if (displayNewRiskCard()) {
+            if (vm.wasRiskLevelCalculationSuccessful()) {
                 binding.riskCardNoInternet = it
             } else {
                 binding.riskCardNoInternet = null
@@ -131,9 +131,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 .setTextColor(context.getColor(R.color.colorTextSemanticRed))
         }
     }
-
-    // TODO: implement real logic for showing new risk card state
-    private fun displayNewRiskCard(): Boolean = true
 
     private fun setupRiskCard() {
         binding.riskCard.setOnClickListener {
