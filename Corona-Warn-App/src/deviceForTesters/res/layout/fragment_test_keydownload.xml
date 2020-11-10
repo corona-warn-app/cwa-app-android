@@ -57,13 +57,20 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/current_configuration"
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/spacing_tiny"
             android:gravity="center"
-            android:text="Click entries to delete them." />
+            android:text="Long press entries to delete them." />
+        <TextView
+            android:id="@+id/cache_list_infos"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:gravity="center"
+            tools:text="17 files, 14 days, 3 hours." />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cache_list"

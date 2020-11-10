@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.runBlocking
 
 class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -21,6 +23,20 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val keyCacheRepository: KeyCacheRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    val currentCache = runBlocking {
+        // TODO runBlocking is not nice, how can we solve this better?
+        keyCacheRepository
+            .allCachedKeys()
+            .sample(250)
+            .map { items ->
+                items
+                    .sortedWith(compareBy({ it.info.day }, { it.info.hour }))
+                    .reversed()
+                    .map { CachedKeyListItem(it.info, it.path.length()) }
+            }
+            .asLiveData()
+    }
 
     val isMeteredConnection = networkStateProvider.networkState
         .map { it.isMeteredConnection }
@@ -47,6 +63,12 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
         launch {
             keyCacheRepository.clear()
             isSyncRunning.postValue(false)
+        }
+    }
+
+    fun deleteKeyFile(it: CachedKeyListItem) {
+        launch {
+            keyCacheRepository.delete(listOf(it.info))
         }
     }
 

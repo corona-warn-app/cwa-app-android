@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestKeydownloadBinding
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,6 +47,20 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
                 downloadAction.isEnabled = !isRunning
                 clearAction.isEnabled = !isRunning
             }
+        }
+
+        val keyFileAdapter = KeyFileDownloadAdapter { vm.deleteKeyFile(it) }
+        binding.cacheList.apply {
+            adapter = keyFileAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        vm.currentCache.observe2(this) { items ->
+            val dayCount = items.count { it.info.type == CachedKeyInfo.Type.LOCATION_DAY }
+            val hourCount = items.count { it.info.type == CachedKeyInfo.Type.LOCATION_HOUR }
+            binding.cacheListInfos.text = "${items.size} files, $dayCount days, $hourCount hours."
+
+            keyFileAdapter.update(items)
         }
     }
 

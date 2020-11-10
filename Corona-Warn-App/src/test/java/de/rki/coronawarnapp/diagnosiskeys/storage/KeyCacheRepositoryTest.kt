@@ -10,6 +10,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -50,7 +51,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         every { databaseFactory.create() } returns database
         every { database.cachedKeyFiles() } returns keyfileDAO
 
-        coEvery { keyfileDAO.getAllEntries() } returns emptyList()
+        coEvery { keyfileDAO.allEntries() } returns flowOf(emptyList())
     }
 
     @AfterEach
@@ -91,7 +92,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             createNewFile()
         }
 
-        coEvery { keyfileDAO.getAllEntries() } returns listOf(lostKey, existingKey)
+        coEvery { keyfileDAO.allEntries() } returns flowOf(listOf(lostKey, existingKey))
         coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
         coEvery { keyfileDAO.deleteEntry(lostKey) } returns Unit
 
@@ -101,7 +102,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
         runBlocking {
             repo.getAllCachedKeys()
-            coVerify(exactly = 2) { keyfileDAO.getAllEntries() }
+            coVerify(exactly = 2) { keyfileDAO.allEntries() }
             coVerify { keyfileDAO.deleteEntry(lostKey) }
         }
     }
@@ -188,7 +189,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             createdAt = Instant.now()
         )
 
-        coEvery { keyfileDAO.getAllEntries() } returns listOf(keyFileToClear)
+        coEvery { keyfileDAO.allEntries() } returns flowOf(listOf(keyFileToClear))
         coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
 
         val keyFilePath = repo.getPathForKey(keyFileToClear)

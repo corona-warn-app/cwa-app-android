@@ -24,6 +24,9 @@ import android.database.sqlite.SQLiteConstraintException
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.LocalDate
@@ -74,11 +77,11 @@ class KeyCacheRepository @Inject constructor(
     }
 
     private suspend fun doHouseKeeping() {
-        val dirtyInfos = getDao().getAllEntries().filter {
-            it.isDownloadComplete && !getPathForKey(it).exists()
+        val dirtyInfos = getAllCachedKeys().filter {
+            it.info.isDownloadComplete && !it.path.exists()
         }
         Timber.v("HouseKeeping, deleting: %s", dirtyInfos)
-        delete(dirtyInfos)
+        delete(dirtyInfos.map { it.info })
     }
 
     private fun CachedKeyInfo.toCachedKey(): CachedKey = CachedKey(
@@ -91,7 +94,11 @@ class KeyCacheRepository @Inject constructor(
     }
 
     suspend fun getAllCachedKeys(): List<CachedKey> {
-        return getDao().getAllEntries().map { it.toCachedKey() }
+        return allCachedKeys().first()
+    }
+
+    suspend fun allCachedKeys(): Flow<List<CachedKey>> {
+        return getDao().allEntries().map { entries -> entries.map { it.toCachedKey() } }
     }
 
     suspend fun getEntriesForType(type: CachedKeyInfo.Type): List<CachedKey> {
@@ -154,6 +161,6 @@ class KeyCacheRepository @Inject constructor(
 
     suspend fun clear() {
         Timber.i("clear()")
-        delete(getDao().getAllEntries())
+        delete(getDao().allEntries().first())
     }
 }
