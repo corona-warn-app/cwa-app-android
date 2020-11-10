@@ -4,9 +4,11 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +25,9 @@ class ENFClient @Inject constructor(
     private val diagnosisKeyProvider: DiagnosisKeyProvider,
     private val tracingStatus: TracingStatus,
     private val scanningSupport: ScanningSupport,
-    private val calculationTracker: CalculationTracker
-) : DiagnosisKeyProvider, TracingStatus, ScanningSupport {
+    private val calculationTracker: CalculationTracker,
+    private val exposureWindowProvider: ExposureWindowProvider
+) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider {
 
     // TODO Remove this once we no longer need direct access to the ENF Client,
     // i.e. in **[InternalExposureNotificationClient]**
@@ -69,4 +72,6 @@ class ENFClient @Inject constructor(
                 .filter { !it.isCalculating && it.isSuccessful }
                 .maxByOrNull { it.finishedAt ?: Instant.EPOCH }
         }
+
+    override suspend fun exposureWindows(): List<ExposureWindow> = exposureWindowProvider.exposureWindows()
 }

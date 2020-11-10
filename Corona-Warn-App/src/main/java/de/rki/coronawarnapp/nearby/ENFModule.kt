@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.DefaultCalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.DefaultExposureWindowProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.DefaultScanningSupport
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.DefaultTracingStatus
@@ -43,4 +45,9 @@ class ENFModule {
     @Provides
     fun calculationTracker(calculationTracker: DefaultCalculationTracker): CalculationTracker =
         calculationTracker
+
+    @Singleton
+    @Provides
+    fun exposureWindowProvider(exposureWindowProvider: DefaultExposureWindowProvider): ExposureWindowProvider =
+        exposureWindowProvider
 }
