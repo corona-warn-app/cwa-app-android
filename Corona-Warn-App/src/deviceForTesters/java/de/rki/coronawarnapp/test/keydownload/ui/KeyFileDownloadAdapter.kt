@@ -14,7 +14,7 @@ import org.joda.time.format.DateTimeFormat
 
 class KeyFileDownloadAdapter(
     private val deleteAction: (CachedKeyListItem) -> Unit
-) : BaseAdapter<KeyFileDownloadAdapter.VH>(), AsyncDiffUtilAdapter<CachedKeyListItem> {
+) : BaseAdapter<KeyFileDownloadAdapter.CachedKeyViewHolder>(), AsyncDiffUtilAdapter<CachedKeyListItem> {
 
     init {
         setHasStableIds(true)
@@ -26,9 +26,9 @@ class KeyFileDownloadAdapter(
 
     override fun getItemId(position: Int): Long = data[position].stableId
 
-    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): VH = VH(parent)
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedKeyViewHolder = CachedKeyViewHolder(parent)
 
-    override fun onBindBaseVH(holder: VH, position: Int) {
+    override fun onBindBaseVH(holder: CachedKeyViewHolder, position: Int) {
         val item = data[position]
         holder.itemView.setOnLongClickListener {
             deleteAction(item)
@@ -37,7 +37,7 @@ class KeyFileDownloadAdapter(
         holder.bind(item)
     }
 
-    class VH(
+    class CachedKeyViewHolder(
         val parent: ViewGroup
     ) : BaseAdapter.VH(
         R.layout.fragment_test_keydownload_adapter_line, parent
