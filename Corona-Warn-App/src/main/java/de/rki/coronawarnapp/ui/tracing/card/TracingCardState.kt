@@ -201,7 +201,16 @@ data class TracingCardState(
     */
      */
     fun getTimeFetched(c: Context): String {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+            return if (lastTimeDiagnosisKeysFetched != null) {
+                c.getString(
+                    R.string.risk_card_body_time_fetched,
+                    formatRelativeDateTimeString(c, lastTimeDiagnosisKeysFetched)
+                )
+            } else {
+                c.getString(R.string.risk_card_body_not_yet_fetched)
+            }
+        }
             return when (riskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> {
@@ -234,23 +243,6 @@ data class TracingCardState(
                 }
             }
             else -> ""
-        }
-        } else {
-            when (lastRiskLevelScoreCalculated) {
-                RiskLevelConstants.LOW_LEVEL_RISK,
-                RiskLevelConstants.INCREASED_RISK,
-                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
-                    if (lastTimeDiagnosisKeysFetched != null) {
-                        c.getString(
-                            R.string.risk_card_body_time_fetched,
-                            formatRelativeDateTimeString(c, lastTimeDiagnosisKeysFetched)
-                        )
-                    } else {
-                        c.getString(R.string.risk_card_body_not_yet_fetched)
-                    }
-                }
-                else -> ""
-            }
         }
     }
 
@@ -303,7 +295,8 @@ data class TracingCardState(
             when (riskLevelScore) {
                 RiskLevelConstants.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.string.risk_card_outdated_risk_headline
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.string.risk_card_no_calculation_possible_headline
+                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
+                    R.string.risk_card_no_calculation_possible_headline
                 RiskLevelConstants.LOW_LEVEL_RISK -> R.string.risk_card_low_risk_headline
                 RiskLevelConstants.UNKNOWN_RISK_INITIAL -> R.string.risk_card_unknown_risk_headline
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.string.risk_card_unknown_risk_headline
