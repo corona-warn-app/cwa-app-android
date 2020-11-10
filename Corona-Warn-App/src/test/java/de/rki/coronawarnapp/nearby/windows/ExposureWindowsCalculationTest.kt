@@ -47,7 +47,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
         ONLY_COMPARISON(1),
         ALL(2)
     }
-    private val logLevel = LogLevel.ONLY_COMPARISON
+    private val logLevel = LogLevel.ALL
 
     @BeforeEach
     fun setup() {
@@ -59,8 +59,8 @@ class ExposureWindowsCalculationTest: BaseTest() {
         clearAllMocks()
     }
 
-    private fun debugLog(s: String, toShow: LogLevel) {
-        if (logLevel != toShow)
+    private fun debugLog(s: String, toShow: LogLevel = LogLevel.ALL) {
+        if (logLevel < toShow)
             return
         Timber.v(s)
     }
@@ -78,9 +78,9 @@ class ExposureWindowsCalculationTest: BaseTest() {
 
         // 2 - Check configuration and test cases
         checkConfiguration(json)
-        debugLog("Configuration: checked", LogLevel.ALL)
+        debugLog("Configuration: checked")
         json.testCases.map { case -> checkTestCase(case) }
-        debugLog("Test cases checked. Total count: ${json.testCases.size}", LogLevel.ALL)
+        debugLog("Test cases checked. Total count: ${json.testCases.size}")
 
         // 3 - Mock calculation configuration and create default risk level with it
         coEvery { appConfigProvider.getAppConfig() } returns json.defaultRiskCalculationConfiguration
@@ -97,13 +97,16 @@ class ExposureWindowsCalculationTest: BaseTest() {
             // 5 - Calculate risk level for test case and aggregate results
             val exposureWindowsAndResult = HashMap<ExposureWindow, RiskResult>()
             for (exposureWindow: ExposureWindow in exposureWindows) {
-                val riskResult = riskLevels.calculateRisk(exposureWindow) ?: continue
-                exposureWindowsAndResult.put(exposureWindow, riskResult)
+
+                logExposureWindow(exposureWindow, "➡➡ EXPOSURE WINDOW PASSED ➡➡")
+
+                val riskResult = riskLevels.calculateRisk(exposureWindow)
+                debugLog(">> Risk result: $riskResult")
+                if (riskResult == null) continue
+                debugLog(">> Risk level normalized time: ${riskResult.normalizedTime}")
+                exposureWindowsAndResult[exposureWindow] = riskResult
             }
-            debugLog(
-                "Exposure windows and result: ${exposureWindowsAndResult.size}",
-                LogLevel.ALL
-            )
+            debugLog("Exposure windows and result: ${exposureWindowsAndResult.size}")
 
             val aggregatedRiskResult = riskLevels.aggregateResults(exposureWindowsAndResult)
 
@@ -125,7 +128,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
         val result = StringBuilder()
         result.append("\n").append("${case.description}")
         result.append("\n").append("+----------------------+-----------+-----------+")
-        result.append("\n").append("| Property             | Expected  | Actual    |")
+        result.append("\n").append("| Property             | Actual    | Expected  |")
         result.append("\n").append("+----------------------+-----------+-----------+")
         result.append(
             addPropertyCheckToComparisonDebugTable(
@@ -162,6 +165,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
                 case.expNumberOfExposureWindowsWithLowRisk
             )
         )
+        result.append("\n")
         return result.toString()
     }
 
@@ -186,6 +190,8 @@ class ExposureWindowsCalculationTest: BaseTest() {
 
     private fun checkTestCase(case: TestCase) {
         debugLog("Checking ${case.description}", LogLevel.ALL)
+        debugLog(" -> Checking dates: High Risk: ${case.expAgeOfMostRecentDateWithHighRisk}")
+        debugLog(" -> Checking dates: Low Risk: ${case.expAgeOfMostRecentDateWithLowRisk}")
         case.expTotalRiskLevel shouldNotBe null
         case.expTotalMinimumDistinctEncountersWithLowRisk shouldNotBe null
         case.expTotalMinimumDistinctEncountersWithHighRisk shouldNotBe null
@@ -199,6 +205,25 @@ class ExposureWindowsCalculationTest: BaseTest() {
         jsonWindow.calibrationConfidence shouldNotBe null
     }
 
+    private fun logExposureWindow(exposureWindow: ExposureWindow, title: String) {
+        val result = StringBuilder()
+        result.append("\n\n").append("------------ $title -----------")
+        result.append("\n").append("Mocked Exposure window: #${exposureWindow.hashCode()}")
+        result.append("\n").append("◦ Calibration Confidence: ${exposureWindow.calibrationConfidence}")
+        result.append("\n").append("◦ Date Millis Since Epoch: ${exposureWindow.dateMillisSinceEpoch}")
+        result.append("\n").append("◦ Infectiousness: ${exposureWindow.infectiousness}")
+        result.append("\n").append("◦ Report type: ${exposureWindow.reportType}")
+        result.append("\n").append("‣ Scan Instances (${exposureWindow.scanInstances.size}):")
+        for(scan: ScanInstance in exposureWindow.scanInstances) {
+            result.append("\n\t").append("⇥ Mocked Scan Instance: #${scan.hashCode()}")
+            result.append("\n\t\t").append("↳ Min Attenuation: ${scan.minAttenuationDb}")
+            result.append("\n\t\t").append("↳ Seconds Since Last Scan: ${scan.secondsSinceLastScan}")
+            result.append("\n\t\t").append("↳ Typical Attenuation: ${scan.typicalAttenuationDb}")
+        }
+        result.append("\n").append("-------------------------------------------- ✂ ----").append("\n")
+        debugLog(result.toString())
+    }
+
     private fun jsonToExposureWindow(json: JsonWindow): ExposureWindow {
         val exposureWindow: ExposureWindow = mockk()
 
@@ -206,34 +231,13 @@ class ExposureWindowsCalculationTest: BaseTest() {
         every { exposureWindow.dateMillisSinceEpoch } returns (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
         every { exposureWindow.infectiousness } returns json.infectiousness
         every { exposureWindow.reportType } returns json.reportType
-
-        debugLog(
-            "Mocking Exposure window: #%s\n" +
-                "-Calibration Confidence: %s\n" +
-                "-Date Millis Since Epoch: %s\n" +
-                "-Infectiousness: %s\n" +
-                "-Report type: %s".format(
-                    exposureWindow.hashCode(),
-                    exposureWindow.calibrationConfidence,
-                    exposureWindow.dateMillisSinceEpoch,
-                    exposureWindow.infectiousness,
-                    exposureWindow.reportType
-                ), LogLevel.ALL
-        )
-
         every { exposureWindow.scanInstances } returns json.scanInstances.map { scanInstance ->
             jsonToScanInstance(
                 scanInstance
             )
         }
 
-        debugLog(
-            "Mocking Exposure window: #%s\n" +
-                "-Scan Instances count: %s\n".format(
-                    exposureWindow.hashCode(),
-                    exposureWindow.scanInstances.size
-                ), LogLevel.ALL
-        )
+        logExposureWindow(exposureWindow, "⊞ EXPOSURE WINDOW MOCK ⊞")
 
         return exposureWindow
     }
@@ -243,19 +247,6 @@ class ExposureWindowsCalculationTest: BaseTest() {
         every { scanInstance.minAttenuationDb } returns json.minAttenuation
         every { scanInstance.secondsSinceLastScan } returns json.secondsSinceLastScan
         every { scanInstance.typicalAttenuationDb } returns json.typicalAttenuation
-
-        debugLog(
-            "-- Mocking Scan Instance: #%s\n" +
-                "-Min Attenuation: %s\n" +
-                "-Seconds Since Last Scan: %s\n" +
-                "-Typical Attenuation:%s".format(
-                    scanInstance.hashCode(),
-                    scanInstance.minAttenuationDb,
-                    scanInstance.secondsSinceLastScan,
-                    scanInstance.typicalAttenuationDb
-                ), LogLevel.ALL
-        )
-
         return scanInstance
     }
 }
