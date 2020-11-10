@@ -63,7 +63,10 @@ class AppConfigServerTest : BaseIOTest() {
     fun `application config download`() = runBlockingTest {
         coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
-            Headers.headersOf("Date", "Tue, 03 Nov 2020 08:46:03 GMT")
+            Headers.headersOf(
+                "Date", "Tue, 03 Nov 2020 08:46:03 GMT",
+                "ETag", "I am an ETag :)!"
+            )
         )
 
         val downloadServer = createInstance()
@@ -75,7 +78,8 @@ class AppConfigServerTest : BaseIOTest() {
             localOffset = Duration(
                 Instant.parse("2020-11-03T08:46:03.000Z"),
                 Instant.ofEpochMilli(123456789)
-            )
+            ),
+            etag = "I am an ETag :)!"
         )
 
         verify(exactly = 1) { verificationKeys.hasInvalidSignature(any(), any()) }
@@ -111,7 +115,10 @@ class AppConfigServerTest : BaseIOTest() {
     @Test
     fun `missing server date leads to local time fallback`() = runBlockingTest {
         coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
-            APPCONFIG_BUNDLE.toResponseBody()
+            APPCONFIG_BUNDLE.toResponseBody(),
+            Headers.headersOf(
+                "ETag", "I am an ETag :)!"
+            )
         )
 
         val downloadServer = createInstance()
@@ -120,15 +127,32 @@ class AppConfigServerTest : BaseIOTest() {
         configDownload shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.ofEpochMilli(123456789),
-            localOffset = Duration.ZERO
+            localOffset = Duration.ZERO,
+            etag = "I am an ETag :)!"
         )
+    }
+
+    @Test
+    fun `missing server etag leads to exception`() = runBlockingTest {
+        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody()
+        )
+
+        val downloadServer = createInstance()
+
+        shouldThrow<ApplicationConfigurationInvalidException> {
+            downloadServer.downloadAppConfig()
+        }
     }
 
     @Test
     fun `local offset is the difference between server time and local time`() = runBlockingTest {
         coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
-            Headers.headersOf("Date", "Tue, 03 Nov 2020 06:35:16 GMT")
+            Headers.headersOf(
+                "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
+                "ETag", "I am an ETag :)!"
+            )
         )
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
@@ -137,7 +161,8 @@ class AppConfigServerTest : BaseIOTest() {
         downloadServer.downloadAppConfig() shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardHours(-1)
+            localOffset = Duration.standardHours(-1),
+            etag = "I am an ETag :)!"
         )
     }
 
@@ -146,7 +171,10 @@ class AppConfigServerTest : BaseIOTest() {
         val response = spyk(
             Response.success(
                 APPCONFIG_BUNDLE.toResponseBody(),
-                Headers.headersOf("Date", "Tue, 03 Nov 2020 06:35:16 GMT")
+                Headers.headersOf(
+                    "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
+                    "ETag", "I am an ETag :)!"
+                )
             )
         )
 
@@ -163,7 +191,8 @@ class AppConfigServerTest : BaseIOTest() {
         downloadServer.downloadAppConfig() shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardHours(-2)
+            localOffset = Duration.standardHours(-2),
+            etag = "I am an ETag :)!"
         )
     }
 
