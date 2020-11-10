@@ -6,6 +6,7 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -31,7 +32,8 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
     private val taskController: TaskController,
-    interoperabilityRepository: InteroperabilityRepository
+    interoperabilityRepository: InteroperabilityRepository,
+    private val testResultNotificationService: TestResultNotificationService
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var currentSubmissionRequestId: UUID? = null
@@ -96,6 +98,7 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
             submitWithNoDiagnosisKeys()
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
         }
+        testResultNotificationService.cancelPositiveTestResultNotification()
     }
 
     private fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {

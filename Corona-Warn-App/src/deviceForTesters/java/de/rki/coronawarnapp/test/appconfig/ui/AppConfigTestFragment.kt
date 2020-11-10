@@ -36,7 +36,7 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
                 data?.rawConfig?.toString() ?: "No config available."
             binding.lastUpdate.text = data?.updatedAt?.let { timeFormatter.print(it) } ?: "n/a"
             binding.timeOffset.text = data?.let {
-                "${it.localOffset.millis}ms (isFallbackConfig=${it.isFallback})"
+                "${it.localOffset.millis}ms (configType=${it.configType})"
             } ?: "n/a"
         }
 
