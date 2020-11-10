@@ -54,6 +54,19 @@ class ENFClient @Inject constructor(
         }
     }
 
+    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
+        Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")
+
+        return if (keyFiles.isEmpty()) {
+            Timber.d("No key files submitted, returning early.")
+            true
+        } else {
+            Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
+            TODO("Call calculationTracker.trackNewCalaculation with an UUID as replacement for token?")
+            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles)
+        }
+    }
+
     override val isLocationLessScanningSupported: Flow<Boolean>
         get() = scanningSupport.isLocationLessScanningSupported
 
