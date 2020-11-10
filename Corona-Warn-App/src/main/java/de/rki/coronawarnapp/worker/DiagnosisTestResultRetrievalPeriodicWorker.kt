@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.squareup.inject.assisted.Assisted
@@ -112,8 +111,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                     CoronaWarnApplication.getAppContext()
                         .getString(R.string.notification_name),
                     CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_body),
-                    NotificationCompat.PRIORITY_HIGH
+                        .getString(R.string.notification_body)
                 )
                 Timber.d("$id: Test Result available and notification is initiated")
             }
