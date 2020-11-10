@@ -87,6 +87,11 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
             val now = timeStamper.nowUTC
 
+            if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
+                Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")
+                return object : Task.Result {}
+            }
+
             if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
                 return object : Task.Result {}
@@ -142,10 +147,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ): Boolean {
         val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
         val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
-        if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
-            Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")
-            return true
-        }
+
         return (nextDetectionAt != null && now.isBefore(nextDetectionAt)).also {
             if (it) Timber.tag(TAG).w("Aborting. Last detection is recent: %s (now=%s)", lastDetection, now)
         }
