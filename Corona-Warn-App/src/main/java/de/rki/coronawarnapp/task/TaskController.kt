@@ -151,7 +151,7 @@ class TaskController @Inject constructor(
                 } else {
                     Timber.tag(TAG).e(error, "Task failed: %s", state)
                     error.report(ExceptionCategory.INTERNAL)
-                    error.reportProblem(tag = state.request.type.toString())
+                    error.reportProblem(tag = state.request.type.simpleName)
                     null
                 }
 
