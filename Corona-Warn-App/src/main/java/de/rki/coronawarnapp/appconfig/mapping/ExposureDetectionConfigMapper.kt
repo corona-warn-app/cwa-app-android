@@ -32,20 +32,27 @@ class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionCon
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun ExposureDetectionParametersAndroid.overAllDetectionTimeout(): Duration = when (overallTimeoutInSeconds) {
-    0 -> Duration.standardMinutes(15)
+fun ExposureDetectionParametersAndroid.overAllDetectionTimeout(): Duration = when {
+    overallTimeoutInSeconds > 3600 -> Duration.standardMinutes(15)
+    overallTimeoutInSeconds <= 0 -> Duration.standardMinutes(15)
     else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun ExposureDetectionParametersAndroid.maxExposureDetectionsPerDay(): Int = when (maxExposureDetectionsPerInterval) {
-    0 -> 6
+fun ExposureDetectionParametersAndroid.maxExposureDetectionsPerDay(): Int = when {
+    maxExposureDetectionsPerInterval > 6 -> 6
+    maxExposureDetectionsPerInterval <= 0 -> 6
     else -> maxExposureDetectionsPerInterval
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 fun ExposureDetectionParametersAndroid.minTimeBetweenExposureDetections(): Duration {
-    return (24 / maxExposureDetectionsPerDay()).let { Duration.standardHours(it.toLong()) }
+    val detectionsPerDay = maxExposureDetectionsPerDay()
+    return if (detectionsPerDay == 0) {
+        Duration.millis(Long.MAX_VALUE)
+    } else {
+        (24 / detectionsPerDay).let { Duration.standardHours(it.toLong()) }
+    }
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

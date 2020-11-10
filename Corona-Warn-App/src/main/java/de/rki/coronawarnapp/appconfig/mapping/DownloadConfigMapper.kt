@@ -25,14 +25,16 @@ class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
         )
     }
 
-    private fun KeyDownloadParametersAndroid.individualTimeout(): Duration {
-        return if (downloadTimeoutInSeconds == 0) Duration.standardSeconds(60)
-        else Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
+    private fun KeyDownloadParametersAndroid.individualTimeout(): Duration = when {
+        downloadTimeoutInSeconds > 1800 -> Duration.standardSeconds(60)
+        downloadTimeoutInSeconds <= 0 -> Duration.standardSeconds(60)
+        else -> Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
     }
 
-    private fun KeyDownloadParametersAndroid.overAllTimeout(): Duration {
-        return if (overallTimeoutInSeconds == 0) Duration.standardMinutes(8)
-        else Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+    private fun KeyDownloadParametersAndroid.overAllTimeout(): Duration = when {
+        overallTimeoutInSeconds > 1800 -> Duration.standardMinutes(8)
+        overallTimeoutInSeconds <= 0 -> Duration.standardMinutes(8)
+        else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
     }
 
     private fun KeyDownloadParametersAndroid.mapDayEtags(): List<InvalidatedKeyFile.Day> =
