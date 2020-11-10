@@ -31,11 +31,11 @@ interface RiskLevels {
         exposureSummary: ExposureSummary
     ): Double
 
-    suspend fun calculateRisk(
+    fun calculateRisk(
         exposureWindow: ExposureWindow
     ): RiskResult?
 
-    suspend fun aggregateResults(
+    fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult
 }
