@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.appconfig.download
 import android.content.Context
 import android.content.res.AssetManager
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -52,18 +51,5 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
         val instance = createInstance()
         instance.getRawDefaultConfig() shouldBe testData.toByteArray()
-    }
-
-    @Test
-    fun `exception is thrown when the config does the checksum file`() {
-        val testData = "The Cake Is A Lie"
-        configFile.writeText(testData)
-        checksumFile.writeText("abc")
-
-        val instance = createInstance()
-
-        shouldThrow<ApplicationConfigurationInvalidException> {
-            instance.getRawDefaultConfig()
-        }
     }
 }
