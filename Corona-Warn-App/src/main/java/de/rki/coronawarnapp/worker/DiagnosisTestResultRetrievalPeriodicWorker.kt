@@ -49,7 +49,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         )
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("$id Background job failed after $runAttemptCount attempts. Rescheduling")
+            Timber.d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
             BackgroundWorkHelper.sendDebugNotification(
                 "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts"
