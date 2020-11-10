@@ -37,10 +37,6 @@ class DayPackageSyncTool @Inject constructor(
     tag = TAG
 ) {
 
-    /**
-     * returns true if the sync was successful
-     * and false if not all files have been synced
-     */
     internal suspend fun syncMissingDayPackages(
         availableLocations: List<LocationCode>,
         forceIndexLookup: Boolean
