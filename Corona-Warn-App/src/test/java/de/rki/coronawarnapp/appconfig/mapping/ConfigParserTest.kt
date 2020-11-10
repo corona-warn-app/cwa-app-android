@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import io.mockk.MockKAnnotations
@@ -21,6 +22,7 @@ class ConfigParserTest : BaseTest() {
     @MockK lateinit var keyDownloadConfigMapper: KeyDownloadConfig.Mapper
     @MockK lateinit var exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper
     @MockK lateinit var riskCalculationConfigMapper: RiskCalculationConfig.Mapper
+    @MockK lateinit var exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper
 
     @BeforeEach
     fun setup() {
@@ -30,6 +32,7 @@ class ConfigParserTest : BaseTest() {
         every { keyDownloadConfigMapper.map(any()) } returns mockk()
         every { exposureDetectionConfigMapper.map(any()) } returns mockk()
         every { riskCalculationConfigMapper.map(any()) } returns mockk()
+        every { exposureWindowRiskCalculationConfigMapper.map(any()) } returns mockk()
     }
 
     @AfterEach
@@ -41,7 +44,8 @@ class ConfigParserTest : BaseTest() {
         cwaConfigMapper = cwaConfigMapper,
         keyDownloadConfigMapper = keyDownloadConfigMapper,
         exposureDetectionConfigMapper = exposureDetectionConfigMapper,
-        riskCalculationConfigMapper = riskCalculationConfigMapper
+        riskCalculationConfigMapper = riskCalculationConfigMapper,
+        exposureWindowRiskCalculationConfigMapper = exposureWindowRiskCalculationConfigMapper
     )
 
     @Test
@@ -53,6 +57,7 @@ class ConfigParserTest : BaseTest() {
                 keyDownloadConfigMapper.map(any())
                 exposureDetectionConfigMapper.map(any())
                 riskCalculationConfigMapper.map(any())
+                exposureWindowRiskCalculationConfigMapper.map(any())
             }
         }
     }

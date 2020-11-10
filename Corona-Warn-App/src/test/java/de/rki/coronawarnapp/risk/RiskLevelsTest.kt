@@ -5,7 +5,10 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -19,6 +22,10 @@ class RiskLevelsTest : BaseTest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
+        coEvery { appConfigProvider.getAppConfig() } returns mockk()
+        every { appConfigProvider.currentConfig } returns mockk()
+
         riskLevels = DefaultRiskLevels(appConfigProvider)
     }
 

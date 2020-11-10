@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 
 interface RiskLevels {
@@ -22,8 +25,17 @@ interface RiskLevels {
         time: Long
     )
 
+    @Deprecated("Switch to new calculation with Exposure Window")
     fun calculateRiskScore(
         attenuationParameters: AttenuationDurationOuterClass.AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double
+
+    fun calculateRisk(
+        exposureWindow: ExposureWindow
+    ): RiskResult?
+
+    fun aggregateResults(
+        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
+    ): AggregatedRiskResult
 }
