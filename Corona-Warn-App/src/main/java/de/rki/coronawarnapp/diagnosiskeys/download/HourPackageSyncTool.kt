@@ -42,15 +42,15 @@ class HourPackageSyncTool @Inject constructor(
 ) {
 
     internal suspend fun syncMissingHourPackages(
-        availableLocations: List<LocationCode>,
+        targetLocations: List<LocationCode>,
         forceIndexLookup: Boolean
     ): SyncResult {
-        Timber.tag(TAG).v("syncMissingHours(availableCountries=%s)", availableLocations)
+        Timber.tag(TAG).v("syncMissingHours(targetLocations=%s)", targetLocations)
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
         invalidateCachedKeys(downloadConfig.invalidHourEtags)
 
-        val missingHours = availableLocations.mapNotNull {
+        val missingHours = targetLocations.mapNotNull {
             determineMissingHours(it, forceIndexLookup)
         }
         if (missingHours.isEmpty()) {

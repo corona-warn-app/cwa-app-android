@@ -81,7 +81,7 @@ class KeyPackageSyncTool @Inject constructor(
         }
 
         val syncResult = dayPackageSyncTool.syncMissingDayPackages(
-            availableLocations = locations,
+            targetLocations = locations,
             forceIndexLookup = lastDownload == null || !lastDownload.successful
         )
 
@@ -110,7 +110,7 @@ class KeyPackageSyncTool @Inject constructor(
         }
 
         val syncResult = hourPackageSyncTool.syncMissingHourPackages(
-            availableLocations = locations,
+            targetLocations = locations,
             forceIndexLookup = lastDownload == null || !lastDownload.successful
         )
 

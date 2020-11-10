@@ -38,15 +38,15 @@ class DayPackageSyncTool @Inject constructor(
 ) {
 
     internal suspend fun syncMissingDayPackages(
-        availableLocations: List<LocationCode>,
+        targetLocations: List<LocationCode>,
         forceIndexLookup: Boolean
     ): SyncResult {
-        Timber.tag(TAG).v("syncMissingDays(availableCountries=%s)", availableLocations)
+        Timber.tag(TAG).v("syncMissingDays(targetLocations=%s)", targetLocations)
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
         invalidateCachedKeys(downloadConfig.invalidDayETags)
 
-        val missingDays = availableLocations.mapNotNull {
+        val missingDays = targetLocations.mapNotNull {
             determineMissingDayPackages(it, forceIndexLookup)
         }
         if (missingDays.isEmpty()) {
