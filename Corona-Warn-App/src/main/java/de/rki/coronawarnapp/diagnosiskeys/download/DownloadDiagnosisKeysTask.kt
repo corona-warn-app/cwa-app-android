@@ -42,6 +42,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
     private var isCanceled = false
 
+    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): Task.Result {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
@@ -107,7 +108,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                keyFiles = keySyncResult.availableKeys.map { it.path },
+                keyFiles = availableKeyFiles,
                 configuration = exposureConfig.exposureDetectionConfiguration,
                 token = token
             )
