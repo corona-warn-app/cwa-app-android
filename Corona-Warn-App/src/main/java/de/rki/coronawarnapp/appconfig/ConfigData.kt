@@ -7,18 +7,41 @@ import org.joda.time.Instant
 interface ConfigData : ConfigMapping {
 
     /**
+     * A unique value to identify this app config by.
+     * When this value changes, the app config has changed.
+     */
+    val identifier: String
+
+    /**
      * serverTime + localOffset = updatedAt
      */
     val updatedAt: Instant
 
     /**
-     * If **[isFallback]** returns true,
+     * If **[configType]** is not **[Type.FROM_SERVER]**,
      * you should probably ignore the time offset.
      */
     val localOffset: Duration
 
     /**
-     * Returns true if this is not a fresh config, e.g. server could not be reached.
+     * Returns the type config this is.
      */
-    val isFallback: Boolean
+    val configType: Type
+
+    enum class Type {
+        /**
+         * Fresh one from a server.
+         */
+        FROM_SERVER,
+
+        /**
+         * Server config locally stored.
+         */
+        LAST_RETRIEVED,
+
+        /**
+         * Last resort, default config shipped with the app.
+         */
+        LOCAL_DEFAULT
+    }
 }
