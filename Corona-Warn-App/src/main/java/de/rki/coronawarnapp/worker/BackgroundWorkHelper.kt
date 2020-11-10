@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.worker
 
-import androidx.core.app.NotificationCompat
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -93,6 +92,6 @@ object BackgroundWorkHelper {
     fun sendDebugNotification(title: String, content: String) {
         Timber.d("sendDebugNotification(title=%s, content=%s)", title, content)
         if (!LocalData.backgroundNotification()) return
-        NotificationHelper.sendNotification(title, content, NotificationCompat.PRIORITY_HIGH, true)
+        NotificationHelper.sendNotification(title, content, true)
     }
 }
