@@ -78,7 +78,7 @@ class KeyPackageSyncTool @Inject constructor(
             KeyPackageSyncSettings.LastDownload(startedAt = timeStamper.nowUTC)
         }
 
-        val successfulSync = dayPackageSyncTool.syncMissingDayPackages(
+        val syncResult = dayPackageSyncTool.syncMissingDayPackages(
             availableLocations = locations,
             forceSync = lastDownload == null || !lastDownload.successful
         )
@@ -88,12 +88,12 @@ class KeyPackageSyncTool @Inject constructor(
                 Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
                 null
             } else {
-                it.copy(finishedAt = timeStamper.nowUTC, successful = it.successful)
+                it.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
             }
         }
 
-        return successfulSync.also {
-            Timber.tag(TAG).d("runDaySync(locations=%s): success=%s", locations, it)
+        return syncResult.also {
+            Timber.tag(TAG).d("runDaySync(locations=%s): syncResult=%s", locations, it)
         }
     }
 
@@ -107,7 +107,7 @@ class KeyPackageSyncTool @Inject constructor(
             )
         }
 
-        val successfulSync = hourPackageSyncTool.syncMissingHourPackages(
+        val syncResult = hourPackageSyncTool.syncMissingHourPackages(
             availableLocations = locations,
             forceSync = lastDownload == null || !lastDownload.successful
         )
@@ -117,12 +117,12 @@ class KeyPackageSyncTool @Inject constructor(
                 Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
                 null
             } else {
-                it.copy(finishedAt = timeStamper.nowUTC, successful = it.successful)
+                it.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
             }
         }
 
-        return successfulSync.also {
-            Timber.tag(TAG).d("runHourSync(locations=%s): success=%s", locations, it)
+        return syncResult.also {
+            Timber.tag(TAG).d("runHourSync(locations=%s): syncResult=%s", locations, it)
         }
     }
 
