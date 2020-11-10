@@ -344,7 +344,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
 
     //ENA
-    implementation files('libs\\play-services-nearby-exposurenotification-1.6.1-eap.aar')
+    implementation files('libs\\play-services-nearby-exposurenotification-1.7.2-eap.aar')
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
