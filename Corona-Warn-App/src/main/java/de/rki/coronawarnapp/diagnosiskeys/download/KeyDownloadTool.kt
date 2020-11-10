@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
-import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,7 +30,7 @@ class KeyDownloadTool @Inject constructor(
                  * To try legacy migration, we attempt to the etag as checksum.
                  * Removing the quotes, the etag can represent the file's MD5 checksum.
                  */
-                val etagAsChecksum = downloadInfo.etagWithoutQuotes
+                val etagAsChecksum = downloadInfo.etag?.removePrefix("\"")?.removeSuffix("\"")
                 val continueDownload = !legacyKeyCache.tryMigration(etagAsChecksum, saveTo)
                 continueDownload // Continue download if no migration happened
             }
@@ -53,8 +52,8 @@ class KeyDownloadTool @Inject constructor(
          * Worst case, we delete it and download the same file again,
          * hopefully then with an etag in the header.
          */
-        val storedETag = dlInfo.etagWithoutQuotes ?: saveTo.hashToMD5()
-        keyCache.markKeyComplete(keyInfo, storedETag)
+        val etag = requireNotNull(dlInfo.etag) { "Server provided no ETAG!" }
+        keyCache.markKeyComplete(keyInfo, etag)
 
         cachedKey
     } catch (e: Exception) {

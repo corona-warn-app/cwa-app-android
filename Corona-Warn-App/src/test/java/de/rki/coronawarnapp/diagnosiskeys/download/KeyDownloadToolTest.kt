@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
-import de.rki.coronawarnapp.util.HashExtensions.toMD5
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -96,20 +95,18 @@ class KeyDownloadToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `if the etag is missing we take the file checksum`() = runBlockingTest {
+    fun `if the etag is missing we throw an exception`() = runBlockingTest {
         coEvery { keyServer.downloadKeyFile(any(), any(), any(), any(), any()) } returns DownloadInfo(
             headers = Headers.headersOf()
         )
 
-        val testData = "This will be a checksum soon."
-        testFile.writeText(testData)
-        val testChecksum = testData.toMD5()
+        testFile.writeText("Good Morning")
 
         val instance = createInstance()
 
-        instance.downloadKeyFile(cachedKey, downloadConfig)
-
-        coVerify { keyCache.markKeyComplete(cachedKeyInfo, testChecksum) }
+        shouldThrow<IllegalArgumentException> {
+            instance.downloadKeyFile(cachedKey, downloadConfig)
+        }
     }
 
     @Test
