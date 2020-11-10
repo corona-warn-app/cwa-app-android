@@ -35,7 +35,7 @@ class KeyDownloadTool @Inject constructor(
                 continueDownload // Continue download if no migration happened
             }
 
-        val dlInfo = withTimeout(downloadConfig.individualDownloadTimeout.millis) {
+        val downloadInfo = withTimeout(downloadConfig.individualDownloadTimeout.millis) {
             keyServer.downloadKeyFile(
                 locationCode = keyInfo.location,
                 day = keyInfo.day,
@@ -44,7 +44,7 @@ class KeyDownloadTool @Inject constructor(
                 precondition = preconditionHook
             )
         }
-        Timber.tag(TAG).v("Dowwnload finished: %s -> %s", cachedKey, saveTo)
+        Timber.tag(TAG).v("Download finished: %s -> %s", cachedKey, saveTo)
 
         /**
          * If for some reason the server doesn't supply the etag, let's make our own.
@@ -52,7 +52,7 @@ class KeyDownloadTool @Inject constructor(
          * Worst case, we delete it and download the same file again,
          * hopefully then with an etag in the header.
          */
-        val etag = requireNotNull(dlInfo.etag) { "Server provided no ETAG!" }
+        val etag = requireNotNull(downloadInfo.etag) { "Server provided no ETAG!" }
         keyCache.markKeyComplete(keyInfo, etag)
 
         cachedKey

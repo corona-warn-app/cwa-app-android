@@ -23,7 +23,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DaySyncTool @Inject constructor(
+class DayPackageSyncTool @Inject constructor(
     deviceStorage: DeviceStorage,
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
@@ -31,7 +31,7 @@ class DaySyncTool @Inject constructor(
     private val timeStamper: TimeStamper,
     private val configProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider
-) : BaseSyncTool(
+) : BaseKeyPackageSyncTool(
     keyCache = keyCache,
     deviceStorage = deviceStorage,
     tag = TAG
@@ -41,7 +41,7 @@ class DaySyncTool @Inject constructor(
      * returns true if the sync was successful
      * and false if not all files have been synced
      */
-    internal suspend fun syncMissingDays(
+    internal suspend fun syncMissingDayPackages(
         availableLocations: List<LocationCode>,
         forceSync: Boolean
     ): SyncResult {
@@ -51,7 +51,7 @@ class DaySyncTool @Inject constructor(
         invalidateCachedKeys(downloadConfig.invalidDayETags)
 
         val missingDays = availableLocations.mapNotNull {
-            determineMissingDays(it, forceSync)
+            determineMissingDayPackages(it, forceSync)
         }
         if (missingDays.isEmpty()) {
             Timber.tag(TAG).i("There were no missing days.")
@@ -84,8 +84,8 @@ class DaySyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun determineMissingDays(location: LocationCode, forceSync: Boolean): LocationDays? {
-        val cachedDays = getCompletedCachedKeys(location, Type.LOCATION_DAY)
+    internal suspend fun determineMissingDayPackages(location: LocationCode, forceSync: Boolean): LocationDays? {
+        val cachedDays = getDownloadedCachedKeys(location, Type.LOCATION_DAY)
 
         if (!forceSync && !expectNewDayPackages(cachedDays)) return null
 
@@ -137,6 +137,6 @@ class DaySyncTool @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "${KeyPackageSyncTool.TAG}:DaySync"
+        private const val TAG = "DayPackageSyncTool"
     }
 }

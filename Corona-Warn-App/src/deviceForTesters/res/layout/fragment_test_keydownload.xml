@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +14,7 @@
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,35 +27,41 @@
                 android:id="@+id/info_metered_network"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Is metered network: ??" />
+                android:text="Is metered network: ??"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Switch
                 android:id="@+id/allow_metered_toggle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hourly pkgs on metered networks" />
+                android:text="Hourly pkgs on metered networks"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/info_metered_network" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/clear_action"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="Clear"
+                app:layout_constraintEnd_toStartOf="@+id/download_action"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/allow_metered_toggle" />
 
-                <Button
-                    android:id="@+id/clear_action"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Clear" />
-                <Button
-                    android:id="@+id/download_action"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Download" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/download_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Download"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/clear_action"
+                app:layout_constraintTop_toBottomOf="@+id/allow_metered_toggle" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             style="@style/TextAppearance.AppCompat.Caption"

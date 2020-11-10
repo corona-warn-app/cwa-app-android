@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.keydownload.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncTool
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -18,8 +17,7 @@ import kotlinx.coroutines.runBlocking
 class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val syncSettings: KeyPackageSyncSettings,
-    private val appConfigProvider: AppConfigProvider,
-    private val networkStateProvider: NetworkStateProvider,
+    networkStateProvider: NetworkStateProvider,
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val keyCacheRepository: KeyCacheRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {

@@ -26,7 +26,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class HourSyncTool @Inject constructor(
+class HourPackageSyncTool @Inject constructor(
     deviceStorage: DeviceStorage,
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
@@ -34,7 +34,7 @@ class HourSyncTool @Inject constructor(
     private val timeStamper: TimeStamper,
     private val configProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider
-) : BaseSyncTool(
+) : BaseKeyPackageSyncTool(
     keyCache = keyCache,
     deviceStorage = deviceStorage,
     tag = TAG
@@ -44,7 +44,7 @@ class HourSyncTool @Inject constructor(
      * returns true if the sync was successful
      * and false if not all files have been synced
      */
-    internal suspend fun syncMissingHours(
+    internal suspend fun syncMissingHourPackages(
         availableLocations: List<LocationCode>,
         forceSync: Boolean
     ): SyncResult {
@@ -128,7 +128,7 @@ class HourSyncTool @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun determineMissingHours(location: LocationCode, forceSync: Boolean): LocationHours? {
-        val cachedHours = getCompletedCachedKeys(location, Type.LOCATION_HOUR)
+        val cachedHours = getDownloadedCachedKeys(location, Type.LOCATION_HOUR)
 
         val now = timeStamper.nowUTC
 
@@ -141,7 +141,7 @@ class HourSyncTool @Inject constructor(
         }
 
         // If we have hours in covered by a day, delete the hours
-        val cachedDays = getCompletedCachedKeys(location, Type.LOCATION_DAY).map {
+        val cachedDays = getDownloadedCachedKeys(location, Type.LOCATION_DAY).map {
             it.info.day
         }.let { LocationDays(location, it) }
 
@@ -158,6 +158,6 @@ class HourSyncTool @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "${KeyPackageSyncTool.TAG}:HourSync"
+        private const val TAG = "HourPackageSyncTool"
     }
 }

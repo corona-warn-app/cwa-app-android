@@ -7,9 +7,9 @@ import org.joda.time.Duration
 
 interface ExposureDetectionConfig {
 
-    val maxExposureDetectionsPerDay: Int
+    val maxExposureDetectionsPerUTCDay: Int
     val minTimeBetweenDetections: Duration
-    val overAllDetectionTimeout: Duration
+    val overallDetectionTimeout: Duration
 
     val exposureDetectionConfiguration: ExposureConfiguration
     val exposureDetectionParameters: ExposureDetectionParameters.ExposureDetectionParametersAndroid

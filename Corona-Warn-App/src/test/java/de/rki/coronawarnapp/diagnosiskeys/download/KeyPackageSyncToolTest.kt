@@ -33,8 +33,8 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
     @MockK lateinit var keyCache: KeyCacheRepository
-    @MockK lateinit var daySyncTool: DaySyncTool
-    @MockK lateinit var hourSyncTool: HourSyncTool
+    @MockK lateinit var dayPackageSyncTool: DayPackageSyncTool
+    @MockK lateinit var hourPackageSyncTool: HourPackageSyncTool
     @MockK lateinit var syncSettings: KeyPackageSyncSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var networkStateProvider: NetworkStateProvider
@@ -74,11 +74,11 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
         coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
 
-        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns BaseSyncTool.SyncResult(
+        coEvery { dayPackageSyncTool.syncMissingDayPackages(any(), any()) } returns BaseKeyPackageSyncTool.SyncResult(
             successful = true,
             newPackages = listOf(cachedDayKey)
         )
-        coEvery { hourSyncTool.syncMissingHours(any(), any()) } returns BaseSyncTool.SyncResult(
+        coEvery { hourPackageSyncTool.syncMissingHourPackages(any(), any()) } returns BaseKeyPackageSyncTool.SyncResult(
             successful = true,
             newPackages = listOf(cachedHourKey)
         )
@@ -99,8 +99,8 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     fun createInstance(): KeyPackageSyncTool = KeyPackageSyncTool(
         keyCache = keyCache,
-        daySyncTool = daySyncTool,
-        hourSyncTool = hourSyncTool,
+        dayPackageSyncTool = dayPackageSyncTool,
+        hourPackageSyncTool = hourPackageSyncTool,
         syncSettings = syncSettings,
         timeStamper = timeStamper,
         networkStateProvider = networkStateProvider
@@ -121,13 +121,13 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
             lastDownloadHours.value
             lastDownloadHours.update(any())
-            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
             lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()
@@ -136,7 +136,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     @Test
     fun `failed day sync is reflected in results property`() = runBlockingTest {
-        coEvery { daySyncTool.syncMissingDays(any(), any()) } returns BaseSyncTool.SyncResult(
+        coEvery { dayPackageSyncTool.syncMissingDayPackages(any(), any()) } returns BaseKeyPackageSyncTool.SyncResult(
             successful = false,
             newPackages = listOf(cachedDayKey)
         )
@@ -153,13 +153,13 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
             lastDownloadHours.value
             lastDownloadHours.update(any())
-            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
             lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()
@@ -188,13 +188,13 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), true)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), true)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
             lastDownloadHours.value
             lastDownloadHours.update(any())
-            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), true)
+            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), true)
             lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()
@@ -234,13 +234,13 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), true)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), true)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
             lastDownloadHours.value
             lastDownloadHours.update(any())
-            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), true)
+            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), true)
             lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()
@@ -263,7 +263,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
@@ -290,13 +290,13 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
             lastDownloadHours.value
             lastDownloadHours.update(any())
-            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
             lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()
@@ -334,13 +334,13 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
             lastDownloadDays.value
             lastDownloadDays.update(any())
-            daySyncTool.syncMissingDays(listOf(LocationCode("EUR")), false)
+            dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
             lastDownloadDays.update(any())
 
             networkStateProvider.networkState // Check metered
             lastDownloadHours.value
             lastDownloadHours.update(any())
-            hourSyncTool.syncMissingHours(listOf(LocationCode("EUR")), false)
+            hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
             lastDownloadHours.update(any())
 
             keyCache.getAllCachedKeys()

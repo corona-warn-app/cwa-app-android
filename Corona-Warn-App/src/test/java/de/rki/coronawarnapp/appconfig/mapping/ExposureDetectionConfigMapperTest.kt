@@ -31,7 +31,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             minTimeBetweenDetections shouldBe Duration.standardHours(24 / 6)
-            maxExposureDetectionsPerDay shouldBe 6
+            maxExposureDetectionsPerUTCDay shouldBe 6
         }
     }
 
@@ -46,7 +46,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             minTimeBetweenDetections shouldBe Duration.standardHours(24 / 3)
-            maxExposureDetectionsPerDay shouldBe 3
+            maxExposureDetectionsPerUTCDay shouldBe 3
         }
     }
 
@@ -60,7 +60,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setAndroidExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            overAllDetectionTimeout shouldBe Duration.standardMinutes(10)
+            overallDetectionTimeout shouldBe Duration.standardMinutes(10)
         }
     }
 
@@ -74,7 +74,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setAndroidExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            overAllDetectionTimeout shouldBe Duration.standardMinutes(15)
+            overallDetectionTimeout shouldBe Duration.standardMinutes(15)
         }
     }
 }

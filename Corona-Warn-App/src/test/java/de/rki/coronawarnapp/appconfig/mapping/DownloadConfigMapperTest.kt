@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class DownloadConfigMapperTest : BaseTest() {
-    private fun createInstance() = DownloadConfigMapper()
+    private fun createInstance() = KeyDownloadParametersMapper()
 
     @Test
     fun `parse etag missmatch for hours`() {

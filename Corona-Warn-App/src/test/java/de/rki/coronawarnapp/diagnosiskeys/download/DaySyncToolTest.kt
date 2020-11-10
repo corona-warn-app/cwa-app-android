@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import de.rki.coronawarnapp.appconfig.mapping.DownloadConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.InvalidatedKeyFile
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
@@ -31,7 +31,7 @@ class DaySyncToolTest : CommonSyncToolTest() {
         super.teardown()
     }
 
-    fun createInstance() = DaySyncTool(
+    fun createInstance() = DayPackageSyncTool(
         deviceStorage = deviceStorage,
         keyServer = keyServer,
         keyCache = keyCache,
@@ -47,7 +47,7 @@ class DaySyncToolTest : CommonSyncToolTest() {
         mockCachedDay("EUR".loc, "2020-01-01".day)
 
         val instance = createInstance()
-        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+        instance.syncMissingDayPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
             successful = true,
             newPackages = keyRepoData.values.filterNot { it.info.day == "2020-01-01".day }
         )
@@ -72,9 +72,9 @@ class DaySyncToolTest : CommonSyncToolTest() {
         val instance = createInstance()
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-03T12:12:12.000Z")
-        instance.determineMissingDays("EUR".loc, false) shouldBe null
+        instance.determineMissingDayPackages("EUR".loc, false) shouldBe null
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
-        instance.determineMissingDays("EUR".loc, false) shouldBe LocationDays(
+        instance.determineMissingDayPackages("EUR".loc, false) shouldBe LocationDays(
             location = "EUR".loc,
             dayData = listOf("2020-01-03".day)
         )
@@ -88,7 +88,7 @@ class DaySyncToolTest : CommonSyncToolTest() {
         val instance = createInstance()
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-02T12:12:12.000Z")
-        instance.determineMissingDays("EUR".loc, true) shouldBe LocationDays(
+        instance.determineMissingDayPackages("EUR".loc, true) shouldBe LocationDays(
             location = "EUR".loc,
             dayData = listOf("2020-01-03".day)
         )
@@ -126,7 +126,7 @@ class DaySyncToolTest : CommonSyncToolTest() {
         }
 
         val instance = createInstance()
-        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+        instance.syncMissingDayPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
             successful = false,
             newPackages = keyRepoData.values.filterNot { it.info.day == "2020-01-02".day }
         )
@@ -152,7 +152,7 @@ class DaySyncToolTest : CommonSyncToolTest() {
         val invalidDay = mockCachedDay("EUR".loc, "2020-01-03".day)
 
         every { downloadConfig.invalidDayETags } returns listOf(
-            DownloadConfigMapper.InvalidatedKeyFile.Day(
+            InvalidatedKeyFile.Day(
                 day = invalidDay.info.day,
                 region = invalidDay.info.location,
                 etag = invalidDay.info.etag!!
@@ -160,7 +160,7 @@ class DaySyncToolTest : CommonSyncToolTest() {
         )
 
         val instance = createInstance()
-        instance.syncMissingDays(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+        instance.syncMissingDayPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
             successful = true,
             newPackages = keyRepoData.values.filter { it.info.day == "2020-01-03".day }
         )

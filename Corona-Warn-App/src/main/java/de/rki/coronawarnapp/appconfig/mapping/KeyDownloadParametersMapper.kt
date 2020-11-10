@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
@@ -13,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
+class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapper {
     override fun map(rawConfig: AppConfig.ApplicationConfiguration): KeyDownloadConfig {
         val rawParameters = rawConfig.androidKeyDownloadParameters
 
@@ -25,12 +26,14 @@ class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
         )
     }
 
+    // If we are outside the valid data range, fallback to default value.
     private fun KeyDownloadParametersAndroid.individualTimeout(): Duration = when {
         downloadTimeoutInSeconds > 1800 -> Duration.standardSeconds(60)
         downloadTimeoutInSeconds <= 0 -> Duration.standardSeconds(60)
         else -> Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
     }
 
+    // If we are outside the valid data range, fallback to default value.
     private fun KeyDownloadParametersAndroid.overAllTimeout(): Duration = when {
         overallTimeoutInSeconds > 1800 -> Duration.standardMinutes(8)
         overallTimeoutInSeconds <= 0 -> Duration.standardMinutes(8)
@@ -66,22 +69,6 @@ class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
             }
         }
 
-    sealed class InvalidatedKeyFile : KeyDownloadConfig.InvalidatedKeyFile {
-
-        data class Day(
-            override val etag: String,
-            override val region: LocationCode,
-            override val day: LocalDate
-        ) : InvalidatedKeyFile(), KeyDownloadConfig.InvalidatedKeyFile.Day
-
-        data class Hour(
-            override val etag: String,
-            override val region: LocationCode,
-            override val day: LocalDate,
-            override val hour: LocalTime
-        ) : InvalidatedKeyFile(), KeyDownloadConfig.InvalidatedKeyFile.Hour
-    }
-
     data class KeyDownloadConfigContainer(
         override val individualDownloadTimeout: Duration,
         override val overallDownloadTimeout: Duration,
@@ -93,4 +80,21 @@ class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
         private val DAY_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd")
         private val HOUR_FORMATTER = DateTimeFormat.forPattern("H")
     }
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+internal sealed class InvalidatedKeyFile : KeyDownloadConfig.InvalidatedKeyFile {
+
+    data class Day(
+        override val etag: String,
+        override val region: LocationCode,
+        override val day: LocalDate
+    ) : InvalidatedKeyFile(), KeyDownloadConfig.InvalidatedKeyFile.Day
+
+    data class Hour(
+        override val etag: String,
+        override val region: LocationCode,
+        override val day: LocalDate,
+        override val hour: LocalTime
+    ) : InvalidatedKeyFile(), KeyDownloadConfig.InvalidatedKeyFile.Hour
 }

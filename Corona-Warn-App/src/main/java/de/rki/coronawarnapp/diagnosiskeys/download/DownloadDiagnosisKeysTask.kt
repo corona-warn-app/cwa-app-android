@@ -63,7 +63,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            checkCancel()
+            throwIfCancelled()
             val currentDate = Date(timeStamper.nowUTC.millis)
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
@@ -71,7 +71,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
              * RETRIEVE TOKEN
              ****************************************************/
             val token = retrieveToken(rollbackItems)
-            checkCancel()
+            throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
             val exposureConfig: ExposureDetectionConfig = appConfigProvider.getAppConfig()
@@ -81,17 +81,17 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             val requestedCountries = arguments.requestedCountries
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
-            checkCancel()
+            throwIfCancelled()
 
-            val trackedDetections = enfClient.latestCalculations().first()
+            val trackedExposureDetections = enfClient.latestCalculations().first()
             val now = timeStamper.nowUTC
 
-            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedDetections)) {
+            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
                 return object : Task.Result {}
             }
 
-            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedDetections)) {
+            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
                 //  Last check was within 24h, and there are no new files.
                 return object : Task.Result {}
             }
@@ -115,7 +115,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
 
             internalProgress.send(Progress.ApiSubmissionFinished)
-            checkCancel()
+            throwIfCancelled()
 
             if (isSubmissionSuccessful) {
                 saveTimestamp(currentDate, rollbackItems)
@@ -141,6 +141,10 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ): Boolean {
         val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
         val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
+        if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
+            Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")
+            return true
+        }
         return (nextDetectionAt != null && now.isBefore(nextDetectionAt)).also {
             if (it) Timber.tag(TAG).w("Aborting. Last detection is recent: %s (now=%s)", lastDetection, now)
         }
@@ -222,7 +226,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         return keyPackageSyncTool.syncKeyFiles(wantedLocations)
     }
 
-    private fun checkCancel() {
+    private fun throwIfCancelled() {
         if (isCanceled) throw TaskCancellationException()
     }
 

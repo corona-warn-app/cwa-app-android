@@ -13,8 +13,8 @@ import javax.inject.Inject
 @Reusable
 class KeyPackageSyncTool @Inject constructor(
     private val keyCache: KeyCacheRepository,
-    private val daySyncTool: DaySyncTool,
-    private val hourSyncTool: HourSyncTool,
+    private val dayPackageSyncTool: DayPackageSyncTool,
+    private val hourPackageSyncTool: HourPackageSyncTool,
     private val syncSettings: KeyPackageSyncSettings,
     private val timeStamper: TimeStamper,
     private val networkStateProvider: NetworkStateProvider
@@ -70,7 +70,7 @@ class KeyPackageSyncTool @Inject constructor(
         }
     }
 
-    private suspend fun runDaySync(locations: List<LocationCode>): BaseSyncTool.SyncResult {
+    private suspend fun runDaySync(locations: List<LocationCode>): BaseKeyPackageSyncTool.SyncResult {
         val lastDownload = syncSettings.lastDownloadDays.value
         Timber.tag(TAG).d("Synchronizing available days (lastDownload=%s).", lastDownload)
 
@@ -78,7 +78,7 @@ class KeyPackageSyncTool @Inject constructor(
             KeyPackageSyncSettings.LastDownload(startedAt = timeStamper.nowUTC)
         }
 
-        val successfulSync = daySyncTool.syncMissingDays(
+        val successfulSync = dayPackageSyncTool.syncMissingDayPackages(
             availableLocations = locations,
             forceSync = lastDownload == null || !lastDownload.successful
         )
@@ -97,7 +97,7 @@ class KeyPackageSyncTool @Inject constructor(
         }
     }
 
-    private suspend fun runHourSync(locations: List<LocationCode>): BaseSyncTool.SyncResult {
+    private suspend fun runHourSync(locations: List<LocationCode>): BaseKeyPackageSyncTool.SyncResult {
         val lastDownload = syncSettings.lastDownloadHours.value
         Timber.tag(TAG).d("Synchronizing available hours (lastDownload=%s).", lastDownload)
 
@@ -107,7 +107,7 @@ class KeyPackageSyncTool @Inject constructor(
             )
         }
 
-        val successfulSync = hourSyncTool.syncMissingHours(
+        val successfulSync = hourPackageSyncTool.syncMissingHourPackages(
             availableLocations = locations,
             forceSync = lastDownload == null || !lastDownload.successful
         )

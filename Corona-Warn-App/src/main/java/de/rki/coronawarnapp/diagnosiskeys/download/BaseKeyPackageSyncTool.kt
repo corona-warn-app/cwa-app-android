@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.DeviceStorage
 import timber.log.Timber
 
-open class BaseSyncTool(
+open class BaseKeyPackageSyncTool(
     private val keyCache: KeyCacheRepository,
     private val deviceStorage: DeviceStorage,
     private val tag: String
@@ -77,7 +77,7 @@ open class BaseSyncTool(
         return@filter true
     }
 
-    internal suspend fun getCompletedCachedKeys(
+    internal suspend fun getDownloadedCachedKeys(
         location: LocationCode,
         type: CachedKeyInfo.Type
     ): List<CachedKey> = keyCache.getEntriesForType(type)

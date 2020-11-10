@@ -48,7 +48,7 @@ class DefaultCalculationTracker @Inject constructor(
                     hd.updateSafely {
                         val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
-                        val timeoutLimit = appConfigProvider.getAppConfig().overAllDetectionTimeout
+                        val timeoutLimit = appConfigProvider.getAppConfig().overallDetectionTimeout
                         mutate {
                             values.filter { it.isCalculating }.toList().forEach {
                                 if (timeNow.isAfter(it.startedAt.plus(timeoutLimit))) {

@@ -45,7 +45,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
         coEvery { storage.save(any()) } just Runs
 
         coEvery { configProvider.getAppConfig() } returns appConfigData
-        every { appConfigData.overAllDetectionTimeout } returns Duration.standardMinutes(15)
+        every { appConfigData.overallDetectionTimeout } returns Duration.standardMinutes(15)
     }
 
     @AfterEach

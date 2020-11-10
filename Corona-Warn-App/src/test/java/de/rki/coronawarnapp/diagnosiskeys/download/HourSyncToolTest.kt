@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import de.rki.coronawarnapp.appconfig.mapping.DownloadConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.InvalidatedKeyFile
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -28,7 +28,7 @@ class HourSyncToolTest : CommonSyncToolTest() {
         super.teardown()
     }
 
-    fun createInstance() = HourSyncTool(
+    fun createInstance() = HourPackageSyncTool(
         deviceStorage = deviceStorage,
         keyServer = keyServer,
         keyCache = keyCache,
@@ -49,7 +49,7 @@ class HourSyncToolTest : CommonSyncToolTest() {
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
         val instance = createInstance()
-        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
             successful = true,
             newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
         )
@@ -82,7 +82,7 @@ class HourSyncToolTest : CommonSyncToolTest() {
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
         every { downloadConfig.invalidHourEtags } returns listOf(
-            DownloadConfigMapper.InvalidatedKeyFile.Hour(
+            InvalidatedKeyFile.Hour(
                 day = invalidHour.info.day,
                 hour = invalidHour.info.hour!!,
                 region = invalidHour.info.location,
@@ -91,7 +91,7 @@ class HourSyncToolTest : CommonSyncToolTest() {
         )
 
         val instance = createInstance()
-        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
             successful = true,
             newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
         )
@@ -154,7 +154,7 @@ class HourSyncToolTest : CommonSyncToolTest() {
         }
 
         val instance = createInstance()
-        instance.syncMissingHours(listOf("EUR".loc), false) shouldBe BaseSyncTool.SyncResult(
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
             successful = false,
             newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
         )
