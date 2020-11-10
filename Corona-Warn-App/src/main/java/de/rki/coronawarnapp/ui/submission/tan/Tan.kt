@@ -8,8 +8,9 @@ data class Tan(
     val value: String
 ) {
 
+    val isCorrectLength = value.length == MAX_LENGTH
     val areCharactersValid = allCharactersValid(value)
-    val isTanValidFormat = value.length == MAX_LENGTH && isChecksumValid(value)
+    val isTanValidFormat = isCorrectLength && isChecksumValid(value)
     val isTanValid = areCharactersValid && isTanValidFormat
 
     companion object {
