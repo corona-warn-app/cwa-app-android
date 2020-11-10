@@ -143,7 +143,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
 
     private fun comparisonDebugTable(aggregated: AggregatedRiskResult, case: TestCase): String {
         val result = StringBuilder()
-        result.append("\n").append("${case.description}")
+        result.append("\n").append(case.description)
         result.append("\n").append("+----------------------+--------------------------+--------------------------+")
         result.append("\n").append("| Property             | Actual                   | Expected                 |")
         result.append("\n").append("+----------------------+--------------------------+--------------------------+")
