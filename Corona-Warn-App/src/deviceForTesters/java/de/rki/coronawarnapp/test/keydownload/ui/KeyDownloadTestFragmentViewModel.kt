@@ -51,31 +51,28 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
         testSettings.fakeMeteredConnection.update { !it }
     }
 
-    fun download() {
+    fun download() = launchWithSyncProgress {
+        keyPackageSyncTool.syncKeyFiles()
+    }
+
+    fun clearDownloads() = launchWithSyncProgress { keyCacheRepository.clear() }
+
+    private fun launchWithSyncProgress(action: suspend () -> Unit) {
         isSyncRunning.postValue(true)
         launch {
             try {
-                keyPackageSyncTool.syncKeyFiles()
+                action()
             } catch (e: Exception) {
-                Timber.e(e, "Call to syncKeyFiles() failed.")
+                Timber.e(e, "Call failed.")
                 errorEvent.postValue(e)
+            } finally {
+                isSyncRunning.postValue(false)
             }
-            isSyncRunning.postValue(false)
         }
     }
 
-    fun clearDownloads() {
-        isSyncRunning.postValue(true)
-        launch {
-            keyCacheRepository.clear()
-            isSyncRunning.postValue(false)
-        }
-    }
-
-    fun deleteKeyFile(it: CachedKeyListItem) {
-        launch {
-            keyCacheRepository.delete(listOf(it.info))
-        }
+    fun deleteKeyFile(it: CachedKeyListItem) = launchWithSyncProgress {
+        keyCacheRepository.delete(listOf(it.info))
     }
 
     @AssistedInject.Factory
