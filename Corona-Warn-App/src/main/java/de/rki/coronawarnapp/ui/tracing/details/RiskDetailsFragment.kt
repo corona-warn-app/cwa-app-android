@@ -40,7 +40,18 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject
             binding.tracingDetails = it
         }
         vm.tracingCardState.observe2(this) {
-            binding.tracingCard = it
+            if (vm.wasRiskLevelCalculationSuccessful()) {
+                binding.tracingCard = null
+            } else {
+                binding.tracingCard = it
+            }
+        }
+        vm.riskCardNoInternet.observe2(this) {
+            if (vm.wasRiskLevelCalculationSuccessful()) {
+                binding.riskCardNoInternet = it
+            } else {
+                binding.riskCardNoInternet = null
+            }
         }
 
         binding.riskDetailsHeaderButtonBack.setOnClickListener {

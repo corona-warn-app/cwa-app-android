@@ -110,6 +110,7 @@
             <Button
                 android:id="@+id/risk_card_button_enable_tracing"
                 style="@style/buttonPrimary"
+                gone="@{!dataClass.showButton()}"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

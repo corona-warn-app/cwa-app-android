@@ -136,6 +136,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.riskCard.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
         }
+        binding.riskCardRiskCalculationFailed.setOnClickListener {
+            doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+        }
         binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
                 vm.refreshDiagnosisKeys()

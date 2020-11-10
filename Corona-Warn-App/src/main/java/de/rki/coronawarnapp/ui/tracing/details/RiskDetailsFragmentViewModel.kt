@@ -5,6 +5,8 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternet
+import de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternetStateProvider
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -19,6 +21,7 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     val settingsViewModel: SettingsViewModel,
     tracingDetailsStateProvider: TracingDetailsStateProvider,
     tracingCardStateProvider: TracingCardStateProvider,
+    riskCardNoInternetStateProvider: RiskCardNoInternetStateProvider,
     private val tracingRepository: TracingRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
@@ -35,6 +38,13 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
         .map { it.copy(showDetails = true) }
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
+
+    val riskCardNoInternet: LiveData<RiskCardNoInternet> = riskCardNoInternetStateProvider.state
+        .map { it.copy(showDetails = true) }
+        .asLiveData(dispatcherProvider.Default)
+
+    // TODO: implement real logic for showing new risk card state
+    fun wasRiskLevelCalculationSuccessful(): Boolean = true
 
     fun refreshData() {
         tracingRepository.refreshRiskLevel()

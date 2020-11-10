@@ -13,12 +13,15 @@
         <variable
             name="tracingCard"
             type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
+
+        <variable
+            name="riskCardNoInternet"
+            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternet" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/risk_details_container"
         android:layout_width="match_parent"
-        invisible="@{tracingDetails == null || tracingCard == null}"
         android:layout_height="match_parent"
         android:contentDescription="@string/risk_details_accessibility_title">
 
@@ -100,25 +103,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <FrameLayout
-                    android:id="@+id/risk_card"
-                    gone="@{tracingCard == null}"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/risk_card_holder"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle"
-                    android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                    android:backgroundTintMode="src_over"
-                    android:padding="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <include
-                        android:id="@+id/risk_card_content"
-                        layout="@layout/include_risk_card_content"
-                        app:tracingCard="@{tracingCard}" />
+                    <FrameLayout
+                        android:id="@+id/risk_card"
+                        gone="@{tracingCard == null}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle"
+                        android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
+                        android:backgroundTintMode="src_over"
+                        android:padding="@dimen/spacing_normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                </FrameLayout>
+                        <include
+                            android:id="@+id/risk_card_content"
+                            layout="@layout/include_risk_card_content"
+                            app:tracingCard="@{tracingCard}" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/risk_card_risk_calculation_failed"
+                        gone="@{riskCardNoInternet == null}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle"
+                        android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
+                        android:backgroundTintMode="src_over"
+                        android:padding="@dimen/spacing_normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <include
+                            android:id="@+id/risk_card_calculation_failed"
+                            layout="@layout/include_risk_card_no_internet"
+                            app:dataClass="@{riskCardNoInternet}" />
+
+                    </FrameLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
                     android:id="@+id/risk_details_additional_information"
@@ -126,9 +158,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:focusable="false"
+                    android:layout_marginTop="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/risk_card"
+                    app:layout_constraintTop_toBottomOf="@id/risk_card_holder"
                     gone="@{!tracingDetails.isAdditionalInformationVisible}" />
 
                 <TextView
