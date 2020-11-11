@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
@@ -82,7 +83,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `determine missing days forcesync ignores EXPECT NEW DAYS`() = runBlockingTest {
+    fun `determine missing days with forcesync ignores EXPECT NEW DAYS`() = runBlockingTest {
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
 
@@ -173,11 +174,52 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
             keyCache.delete(listOf(invalidDay.info))
 
             keyCache.getEntriesForType(Type.LOCATION_DAY)
-            timeStamper.nowUTC
             keyServer.getDayIndex("EUR".loc)
 
             keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-03".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
         }
+    }
+
+    @Test
+    fun `if keys were revoked skip the EXPECT packages check`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        mockCachedDay("EUR".loc, "2020-01-01".day)
+        mockCachedDay("EUR".loc, "2020-01-02".day)
+        mockCachedDay("EUR".loc, "2020-01-03".day).apply {
+            every { downloadConfig.revokedDayPackages } returns listOf(
+                RevokedKeyPackage.Day(
+                    day = info.day,
+                    region = info.location,
+                    etag = info.etag!!
+                )
+            )
+        }
+
+        createInstance().syncMissingDayPackages(listOf("EUR".loc), false)
+
+        coVerify(exactly = 1) { keyServer.getDayIndex("EUR".loc) }
+    }
+
+    @Test
+    fun `if force-sync is set we skip the EXPECT packages check`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        mockCachedDay("EUR".loc, "2020-01-01".day)
+        mockCachedDay("EUR".loc, "2020-01-02".day)
+        mockCachedDay("EUR".loc, "2020-01-03".day)
+        createInstance().syncMissingDayPackages(listOf("EUR".loc), true)
+
+        coVerify(exactly = 1) { keyServer.getDayIndex("EUR".loc) }
+    }
+
+    @Test
+    fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        mockCachedDay("EUR".loc, "2020-01-01".day)
+        mockCachedDay("EUR".loc, "2020-01-02".day)
+        mockCachedDay("EUR".loc, "2020-01-03".day)
+        createInstance().syncMissingDayPackages(listOf("EUR".loc), false)
+
+        coVerify(exactly = 0) { keyServer.getDayIndex("EUR".loc) }
     }
 }

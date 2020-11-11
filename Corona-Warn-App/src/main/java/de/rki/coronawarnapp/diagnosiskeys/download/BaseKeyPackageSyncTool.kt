@@ -14,18 +14,28 @@ open class BaseKeyPackageSyncTool(
     private val tag: String
 ) {
 
-    internal suspend fun revokeCachedKeys(revokedKeyPackages: Collection<KeyDownloadConfig.RevokedKeyPackage>) {
+    /**
+     * Returns true if any of our cached keys were revoked
+     */
+    internal suspend fun revokeCachedKeys(
+        revokedKeyPackages: Collection<KeyDownloadConfig.RevokedKeyPackage>
+    ): Boolean {
         if (revokedKeyPackages.isEmpty()) {
             Timber.tag(tag).d("No revoked key packages to delete.")
-            return
+            return false
         }
 
         val badEtags = revokedKeyPackages.map { it.etag }
-        val toDelete = keyCache.getAllCachedKeys()
-            .filter { badEtags.contains(it.info.etag) }
+        val toDelete = keyCache.getAllCachedKeys().filter { badEtags.contains(it.info.etag) }
 
-        Timber.tag(tag).w("Deleting revoked cached keys: %s", toDelete.joinToString("\n"))
-        keyCache.delete(toDelete.map { it.info })
+        return if (toDelete.isEmpty()) {
+            Timber.tag(tag).d("No local cached keys matched the revoked ones.")
+            false
+        } else {
+            Timber.tag(tag).w("Deleting revoked cached keys: %s", toDelete.joinToString("\n"))
+            keyCache.delete(toDelete.map { it.info })
+            true
+        }
     }
 
     internal suspend fun requireStorageSpace(data: List<LocationData>): DeviceStorage.CheckResult {
