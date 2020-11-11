@@ -8,8 +8,8 @@ import androidx.work.WorkRequest
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.util.di.AppInjector
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -35,7 +35,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
 
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
-    @MockK private lateinit var calculationTracker: CalculationTracker
+    @MockK private lateinit var exposureDetectionTracker: ExposureDetectionTracker
     private val scope = TestCoroutineScope()
 
     class TestApp : Application(), HasAndroidInjector {
@@ -57,7 +57,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         every { context.applicationContext } returns application
         val broadcastReceiverInjector = AndroidInjector<Any> {
             it as ExposureStateUpdateReceiver
-            it.calculationTracker = calculationTracker
+            it.exposureDetectionTracker = exposureDetectionTracker
             it.dispatcherProvider = TestDispatcherProvider
             it.scope = scope
         }
@@ -79,7 +79,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
 
         verifySequence {
             workManager.enqueue(any<WorkRequest>())
-            calculationTracker.finishCalculation("token", Calculation.Result.UPDATED_STATE)
+            exposureDetectionTracker.finishExposureDetection("token", TrackedExposureDetection.Result.UPDATED_STATE)
         }
     }
 
@@ -89,7 +89,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         ExposureStateUpdateReceiver().onReceive(context, intent)
 
         verifySequence {
-            calculationTracker.finishCalculation("token", Calculation.Result.NO_MATCHES)
+            exposureDetectionTracker.finishExposureDetection("token", TrackedExposureDetection.Result.NO_MATCHES)
         }
     }
 }

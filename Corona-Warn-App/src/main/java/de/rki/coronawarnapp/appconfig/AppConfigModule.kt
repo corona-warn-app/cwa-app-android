@@ -6,8 +6,8 @@ import dagger.Provides
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV1
 import de.rki.coronawarnapp.appconfig.download.AppConfigHttpCache
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
-import de.rki.coronawarnapp.appconfig.mapping.DownloadConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
 import de.rki.coronawarnapp.appconfig.mapping.RiskCalculationConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -64,7 +64,7 @@ class AppConfigModule {
     fun cwaMapper(mapper: CWAConfigMapper): CWAConfig.Mapper = mapper
 
     @Provides
-    fun downloadMapper(mapper: DownloadConfigMapper): KeyDownloadConfig.Mapper = mapper
+    fun downloadMapper(mapper: KeyDownloadParametersMapper): KeyDownloadConfig.Mapper = mapper
 
     @Provides
     fun exposurMapper(mapper: ExposureDetectionConfigMapper): ExposureDetectionConfig.Mapper =

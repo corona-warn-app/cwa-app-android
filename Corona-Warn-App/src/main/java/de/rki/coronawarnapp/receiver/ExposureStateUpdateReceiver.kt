@@ -15,8 +15,8 @@ import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.UnknownBroadcastException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +41,7 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
     @Inject @AppScope lateinit var scope: CoroutineScope
     @Inject lateinit var dispatcherProvider: DispatcherProvider
-    @Inject lateinit var calculationTracker: CalculationTracker
+    @Inject lateinit var exposureDetectionTracker: ExposureDetectionTracker
     lateinit var context: Context
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -87,9 +87,9 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
             .build()
             .let { workManager.enqueue(it) }
 
-        calculationTracker.finishCalculation(
+        exposureDetectionTracker.finishExposureDetection(
             token,
-            Calculation.Result.UPDATED_STATE
+            TrackedExposureDetection.Result.UPDATED_STATE
         )
     }
 
@@ -98,9 +98,9 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
         val token = intent.requireToken()
 
-        calculationTracker.finishCalculation(
+        exposureDetectionTracker.finishExposureDetection(
             token,
-            Calculation.Result.NO_MATCHES
+            TrackedExposureDetection.Result.NO_MATCHES
         )
     }
 
