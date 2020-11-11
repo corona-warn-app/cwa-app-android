@@ -147,6 +147,49 @@ class TracingCardStateTest : BaseTest() {
     }
 
     @Test
+    fun `risklevel affected by tracing status`() {
+        createInstance(
+            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = UNKNOWN_RISK_INITIAL,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = LOW_LEVEL_RISK,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = INCREASED_RISK,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+    }
+
+    @Test
     fun `saved risk body is affected by risklevel`() {
         createInstance(
             riskLevel = INCREASED_RISK,
@@ -633,82 +676,6 @@ class TracingCardStateTest : BaseTest() {
             lastTimeDiagnosisKeysFetched = null
         ).apply {
             getTimeFetched(context) shouldBe ""
-        }
-    }
-
-    @Test
-    fun `text for next update time`() {
-        createInstance(
-            riskLevel = INCREASED_RISK,
-            isBackgroundJobEnabled = false
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isBackgroundJobEnabled = false
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isBackgroundJobEnabled = false
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            isBackgroundJobEnabled = false
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = UNKNOWN_RISK_INITIAL,
-            isBackgroundJobEnabled = false
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = INCREASED_RISK,
-            isBackgroundJobEnabled = true
-        ).apply {
-            getNextUpdate(context)
-            verify { context.getString(R.string.risk_card_body_next_update) }
-        }
-
-        createInstance(
-            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isBackgroundJobEnabled = true
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isBackgroundJobEnabled = true
-        ).apply {
-            getNextUpdate(context) shouldBe ""
-        }
-
-        createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            isBackgroundJobEnabled = true
-        ).apply {
-            getNextUpdate(context)
-            verify { context.getString(R.string.risk_card_body_next_update) }
-        }
-
-        createInstance(
-            riskLevel = UNKNOWN_RISK_INITIAL,
-            isBackgroundJobEnabled = true
-        ).apply {
-            getNextUpdate(context)
-            verify { context.getString(R.string.risk_card_body_next_update) }
         }
     }
 

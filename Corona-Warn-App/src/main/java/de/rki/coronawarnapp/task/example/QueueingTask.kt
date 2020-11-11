@@ -15,7 +15,6 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("MagicNumber")
 open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -72,7 +71,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         private val taskByDagger: Provider<QueueingTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, Result> = { taskByDagger.get() }
     }
 }

@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
+import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
+import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
@@ -35,4 +37,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [DebugOptionsFragmentModule::class])
     abstract fun debugOptions(): DebugOptionsFragment
+
+    @ContributesAndroidInjector(modules = [KeyDownloadTestFragmentModule::class])
+    abstract fun keyDownload(): KeyDownloadTestFragment
 }

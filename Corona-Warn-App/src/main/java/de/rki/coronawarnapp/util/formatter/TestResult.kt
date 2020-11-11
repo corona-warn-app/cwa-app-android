@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util.formatter
 
-@Suppress("MagicNumber")
 enum class TestResult(val value: Int) {
     PENDING(0),
     NEGATIVE(1),

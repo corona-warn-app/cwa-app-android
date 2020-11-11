@@ -15,6 +15,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -63,11 +64,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private lateinit var settingsViewModel: SettingsViewModel
 
-    @Inject
-    lateinit var backgroundPrioritization: BackgroundPrioritization
+    @Inject lateinit var backgroundPrioritization: BackgroundPrioritization
 
-    @Inject
-    lateinit var powerManagement: PowerManagement
+    @Inject lateinit var powerManagement: PowerManagement
+
+    @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
 
     /**
      * Register connection callback.
@@ -105,6 +106,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
         doBackgroundNoiseCheck()
+        deadmanScheduler.schedulePeriodic()
     }
 
     private fun doBackgroundNoiseCheck() {

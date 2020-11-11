@@ -42,7 +42,7 @@ abstract class BaseTimeoutTask : Task<DefaultProgress, TimeoutTaskResult> {
         private val taskByDagger: Provider<BaseTimeoutTask>
     ) : TaskFactory<DefaultProgress, TimeoutTaskResult> {
 
-        override val config: TaskFactory.Config = TimeoutTaskConfig()
+        override suspend fun createConfig(): TaskFactory.Config = TimeoutTaskConfig()
         override val taskProvider: () -> Task<DefaultProgress, TimeoutTaskResult> =
             { taskByDagger.get() }
     }
