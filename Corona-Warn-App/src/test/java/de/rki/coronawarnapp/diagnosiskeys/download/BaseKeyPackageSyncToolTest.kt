@@ -106,7 +106,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
         coEvery { keyCache.getAllCachedKeys() } returns listOf(badDay, goodDay, badHour, goodHour)
 
         val instance = createInstance()
-        instance.invalidateCachedKeys(listOf(invalidatedDay, invalidatedHour))
+        instance.revokeCachedKeys(listOf(invalidatedDay, invalidatedHour))
 
         coVerify { keyCache.delete(listOf(badDayInfo, badHourInfo)) }
     }
