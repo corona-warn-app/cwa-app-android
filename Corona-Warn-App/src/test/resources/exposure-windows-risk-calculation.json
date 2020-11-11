@@ -77,11 +77,11 @@
     ],
     "trlEncoding": {
       "infectiousnessOffsetStandard": 0,
-      "infectiousnessOffsetHigh": 4,
-      "reportTypeOffsetRecursive": 1,
-      "reportTypeOffsetSelfReport": 2,
-      "reportTypeOffsetConfirmedClinicalDiagnosis": 3,
-      "reportTypeOffsetConfirmedTest": 4
+      "infectiousnessOffsetHigh":  4,
+      "reportTypeOffsetRecursive": 4,
+      "reportTypeOffsetSelfReport": 3,
+      "reportTypeOffsetConfirmedClinicalDiagnosis": 2,
+      "reportTypeOffsetConfirmedTest": 1
     },
     "transmissionRiskLevelMultiplier": 0.2
   },
