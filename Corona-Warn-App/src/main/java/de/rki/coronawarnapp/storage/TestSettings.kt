@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.storage
 
 import android.content.Context
-import androidx.core.content.edit
-import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,16 +14,8 @@ class TestSettings @Inject constructor(
         context.getSharedPreferences("test_settings", Context.MODE_PRIVATE)
     }
 
-    var isHourKeyPkgMode: Boolean
-        get() {
-            val value = prefs.getBoolean(PKEY_HOURLY_TESTING_MODE, false)
-            return value && CWADebug.isDeviceForTestersBuild
-        }
-        set(value) = prefs.edit {
-            putBoolean(PKEY_HOURLY_TESTING_MODE, value)
-        }
-
-    companion object {
-        private const val PKEY_HOURLY_TESTING_MODE = "diagnosiskeys.hourlytestmode"
-    }
+    val fakeMeteredConnection = prefs.createFlowPreference(
+        key = "connections.metered.fake",
+        defaultValue = false
+    )
 }

@@ -5,6 +5,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.UncompletedCoroutinesError
 import kotlinx.coroutines.test.runBlockingTest
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -32,6 +33,7 @@ fun runBlockingTest2(
                 )
             } catch (e: UncompletedCoroutinesError) {
                 if (!ignoreActive) throw e
+                else Timber.v("Ignoring active job.")
             }
         }
     } catch (e: Exception) {

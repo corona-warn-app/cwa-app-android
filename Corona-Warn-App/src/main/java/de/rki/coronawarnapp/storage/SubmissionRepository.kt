@@ -108,6 +108,11 @@ object SubmissionRepository {
         }
     }
 
+    fun reset() {
+        uiStateStateFlowInternal.value = ApiRequestState.IDLE
+        deviceUIStateFlowInternal.value = DeviceUIState.UNPAIRED
+    }
+
     // TODO this should be more UI agnostic
     private suspend fun refreshUIState(refreshTestResult: Boolean) {
         var uiState = DeviceUIState.UNPAIRED

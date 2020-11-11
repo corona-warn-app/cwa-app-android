@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import androidx.annotation.VisibleForTesting
-import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
@@ -196,19 +196,30 @@ class DefaultRiskLevels @Inject constructor(
     @VisibleForTesting
     internal fun updateRiskLevelScore(riskLevel: RiskLevel) {
         val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
+        Timber.d("last CalculatedS core is ${lastCalculatedScore.raw} and Current Risk Level is ${riskLevel.raw}")
+
         if (RiskLevel.riskLevelChangedBetweenLowAndHigh(
                 lastCalculatedScore,
                 riskLevel
             ) && !LocalData.submissionWasSuccessful()
         ) {
-            NotificationHelper.sendNotification(
-                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
-                NotificationCompat.PRIORITY_HIGH
+            Timber.d(
+                "Notification Permission = ${
+                    NotificationManagerCompat.from(CoronaWarnApplication.getAppContext()).areNotificationsEnabled()
+                }"
             )
+
+            NotificationHelper.sendNotification(
+                CoronaWarnApplication.getAppContext().getString(R.string.notification_body)
+            )
+
+            Timber.d("Risk level changed and notification sent. Current Risk level is ${riskLevel.raw}")
         }
         if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
             riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK) {
             LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
+
+            Timber.d("Risk level changed LocalData is updated. Current Risk level is ${riskLevel.raw}")
         }
         RiskLevelRepository.setRiskLevelScore(riskLevel)
     }

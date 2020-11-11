@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.test.api.ui.DebugOptionsState
 import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
 import de.rki.coronawarnapp.util.CWADebug
@@ -34,16 +33,8 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
 
     val debugOptionsState by smartLiveData {
         DebugOptionsState(
-            areNotificationsEnabled = LocalData.backgroundNotification(),
-            isHourlyTestingMode = testSettings.isHourKeyPkgMode
+            areNotificationsEnabled = LocalData.backgroundNotification()
         )
-    }
-
-    fun setHourlyKeyPkgMode(enabled: Boolean) {
-        debugOptionsState.update {
-            testSettings.isHourKeyPkgMode = enabled
-            it.copy(isHourlyTestingMode = enabled)
-        }
     }
 
     val environmentState by smartLiveData {

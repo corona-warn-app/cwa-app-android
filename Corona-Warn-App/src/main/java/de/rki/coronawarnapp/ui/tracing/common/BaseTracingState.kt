@@ -25,18 +25,30 @@ abstract class BaseTracingState {
     /**
      * Formats the risk card colors for default and pressed states depending on risk level
      */
-    fun getRiskColor(c: Context): Int = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.colorSemanticUnknownRisk
-        RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
-        else -> R.color.colorSemanticNeutralRisk
-    }.let { c.getColor(it) }
+    fun getRiskColor(c: Context): Int {
+        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
+            when (riskLevelScore) {
+                RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.colorSemanticUnknownRisk
+                RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
+                else -> R.color.colorSemanticNeutralRisk
+            }.let { c.getColor(it) }
+        } else {
+            return c.getColor(R.color.colorSemanticUnknownRisk)
+        }
+    }
 
-    fun isTracingOffRiskLevel(): Boolean = when (riskLevelScore) {
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> true
-        else -> false
+    fun isTracingOffRiskLevel(): Boolean {
+        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
+            when (riskLevelScore) {
+                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> true
+                else -> false
+            }
+        } else {
+            return true
+        }
     }
 
     fun getStableTextColor(c: Context): Int = c.getColor(

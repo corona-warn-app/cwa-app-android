@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util.flow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onCompletion
@@ -17,12 +18,23 @@ import timber.log.Timber
  * The flow collector will just wait for the first value
  */
 fun <T> Flow<T>.shareLatest(
-    tag: String,
+    tag: String? = null,
     scope: CoroutineScope,
-    started: SharingStarted = SharingStarted.WhileSubscribed()
-) = onStart { Timber.v("$tag FLOW start") }
-    .onEach { Timber.v("$tag FLOW emission: %s", it) }
-    .onCompletion { Timber.v("$tag FLOW completed.") }
+    started: SharingStarted = SharingStarted.WhileSubscribed(replayExpirationMillis = 0)
+) = this
+    .onStart {
+        if (tag != null) Timber.tag(tag).v("shareLatest(...) start")
+    }
+    .onEach {
+        if (tag != null) Timber.tag(tag).v("shareLatest(...) emission: %s", it)
+    }
+    .onCompletion {
+        if (tag != null) Timber.tag(tag).v("shareLatest(...) completed.")
+    }
+    .catch {
+        if (tag != null) Timber.tag(tag).w(it, "shareLatest(...) catch()!.")
+        throw it
+    }
     .stateIn(
         scope = scope,
         started = started,
@@ -30,7 +42,7 @@ fun <T> Flow<T>.shareLatest(
     )
     .mapNotNull { it }
 
-@Suppress("UNCHECKED_CAST", "MagicNumber", "LongParameterList")
+@Suppress("UNCHECKED_CAST", "LongParameterList")
 inline fun <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> combine(
     flow: Flow<T1>,
     flow2: Flow<T2>,
