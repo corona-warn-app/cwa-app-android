@@ -297,7 +297,7 @@ class DefaultRiskLevels @Inject constructor(
                     .filter { it.attenuationRange.inRange(scanInstance.typicalAttenuationDb) }
                     .map { it.weight }
                     .firstOrNull() ?: .0
-            return seconds + scanInstance.secondsSinceLastScan * weight
+            seconds + scanInstance.secondsSinceLastScan * weight
         }
 
     private fun determineRiskLevel(
