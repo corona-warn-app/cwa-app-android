@@ -34,7 +34,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
      * @see BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK
      */
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         var result = Result.success()
         try {
@@ -57,11 +57,13 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
                 Result.retry()
             }
         }
+        Timber.d("$id: doWork() finished with %s", result)
         return result
     }
 
     private fun stopWorker() {
         BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORK.stop()
+        Timber.d("$id: worker stopped")
     }
 
     @AssistedInject.Factory
