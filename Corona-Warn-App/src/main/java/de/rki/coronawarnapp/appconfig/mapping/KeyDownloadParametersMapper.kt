@@ -41,7 +41,7 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
     }
 
     private fun KeyDownloadParametersAndroid.mapDayEtags(): List<InvalidatedKeyFile.Day> =
-        this.cachedDayPackagesToUpdateOnETagMismatchList.mapNotNull {
+        this.revokedDayPackagesList.mapNotNull {
             try {
                 InvalidatedKeyFile.Day(
                     etag = it.etag,
@@ -55,7 +55,7 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
         }
 
     private fun KeyDownloadParametersAndroid.mapHourEtags(): List<InvalidatedKeyFile.Hour> =
-        this.cachedHourPackagesToUpdateOnETagMismatchList.mapNotNull {
+        this.revokedHourPackagesList.mapNotNull {
             try {
                 InvalidatedKeyFile.Hour(
                     etag = it.etag,

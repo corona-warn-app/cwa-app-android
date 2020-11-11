@@ -13,13 +13,13 @@ class DownloadConfigMapperTest : BaseTest() {
     private fun createInstance() = KeyDownloadParametersMapper()
 
     @Test
-    fun `parse etag missmatch for hours`() {
+    fun `parse etag missmatch for days`() {
         val builder = KeyDownloadParameters.KeyDownloadParametersAndroid.newBuilder().apply {
             KeyDownloadParameters.DayPackageMetadata.newBuilder().apply {
                 etag = "\"GoodMorningEtag\""
                 region = "EUR"
                 date = "2020-11-09"
-            }.let { addCachedDayPackagesToUpdateOnETagMismatch(it) }
+            }.let { addRevokedDayPackages(it) }
         }
 
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
@@ -36,14 +36,14 @@ class DownloadConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `parse etag missmatch for days`() {
+    fun `parse etag missmatch for hours`() {
         val builder = KeyDownloadParameters.KeyDownloadParametersAndroid.newBuilder().apply {
             KeyDownloadParameters.HourPackageMetadata.newBuilder().apply {
                 etag = "\"GoodMorningEtag\""
                 region = "EUR"
                 date = "2020-11-09"
                 hour = 8
-            }.let { addCachedHourPackagesToUpdateOnETagMismatch(it) }
+            }.let { addRevokedHourPackages(it) }
         }
 
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
