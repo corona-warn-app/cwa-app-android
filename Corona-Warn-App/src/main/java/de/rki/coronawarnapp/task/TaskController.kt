@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.task
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.task.internal.InternalTaskState
 import de.rki.coronawarnapp.util.TimeStamper
@@ -86,7 +89,7 @@ class TaskController @Inject constructor(
         requireNotNull(taskFactory) { "No factory available for $newRequest" }
 
         Timber.tag(TAG).v("Initiating task data for request: %s", newRequest)
-        val taskConfig = taskFactory.config
+        val taskConfig = taskFactory.createConfig()
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(start = CoroutineStart.LAZY) {
@@ -147,6 +150,8 @@ class TaskController @Inject constructor(
                     state.job.getCompleted()
                 } else {
                     Timber.tag(TAG).e(error, "Task failed: %s", state)
+                    error.report(ExceptionCategory.INTERNAL)
+                    error.reportProblem(tag = state.request.type.simpleName)
                     null
                 }
 

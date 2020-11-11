@@ -52,7 +52,7 @@ class TanTest : BaseTest() {
             "9A3B578UMG", "DEU7TKSV3H", "PTPHM35RP4", "V923D59AT8", "H9NC5CQ34E"
         )
         for (tan in validTans) {
-            Tan.allCharactersValid(tan)  shouldBe true
+            Tan.allCharactersValid(tan) shouldBe true
             Tan.isChecksumValid(tan) shouldBe true
             (tan.length == Tan.MAX_LENGTH) shouldBe true
         }
@@ -62,7 +62,7 @@ class TanTest : BaseTest() {
             "ABÖAA1", "-1234", "PTPHM15RP4", "aAASd A"
         )
         for (tan in invalidTans) {
-           Tan.allCharactersValid(tan) shouldBe false
+            Tan.allCharactersValid(tan) shouldBe false
         }
     }
 

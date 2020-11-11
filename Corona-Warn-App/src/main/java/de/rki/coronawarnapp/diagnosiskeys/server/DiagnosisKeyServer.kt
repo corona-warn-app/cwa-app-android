@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.diagnosiskeys.server
 
 import dagger.Lazy
 import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
-import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
-import de.rki.coronawarnapp.util.debug.measureTimeMillisWithResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.joda.time.LocalDate
@@ -24,9 +22,9 @@ class DiagnosisKeyServer @Inject constructor(
     private val keyApi: DiagnosisKeyApiV1
         get() = diagnosisKeyAPI.get()
 
-    suspend fun getCountryIndex(): List<LocationCode> = withContext(Dispatchers.IO) {
+    suspend fun getLocationIndex(): List<LocationCode> = withContext(Dispatchers.IO) {
         keyApi
-            .getCountryIndex()
+            .getLocationIndex()
             .map { LocationCode(it) }
     }
 
@@ -58,7 +56,7 @@ class DiagnosisKeyServer @Inject constructor(
         precondition: suspend (DownloadInfo) -> Boolean = { true }
     ): DownloadInfo = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v(
-            "Starting download: country=%s, day=%s, hour=%s -> %s.",
+            "Starting download: location=%s, day=%s, hour=%s -> %s.",
             locationCode, day, hour, saveTo
         )
 
@@ -82,7 +80,7 @@ class DiagnosisKeyServer @Inject constructor(
             )
         }
 
-        var downloadInfo = DownloadInfo(response.headers())
+        val downloadInfo = DownloadInfo(response.headers())
 
         if (!precondition(downloadInfo)) {
             Timber.tag(TAG).d("Precondition is not met, aborting.")
@@ -95,10 +93,6 @@ class DiagnosisKeyServer @Inject constructor(
                 }
             }
 
-            val (localMD5, duration) = measureTimeMillisWithResult { saveTo.hashToMD5() }
-            Timber.v("Hashed to MD5 in %dms: %s", duration, saveTo)
-
-            downloadInfo = downloadInfo.copy(localMD5 = localMD5)
             Timber.tag(TAG).v("Key file download successful: %s", downloadInfo)
 
             return@withContext downloadInfo

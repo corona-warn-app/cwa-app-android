@@ -1,26 +1,30 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
-import java.io.File
 import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
@@ -30,7 +34,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val enfClient: ENFClient,
     private val environmentSetup: EnvironmentSetup,
     private val appConfigProvider: AppConfigProvider,
-    private val keyFileDownloader: KeyFileDownloader,
+    private val keyPackageSyncTool: KeyPackageSyncTool,
     private val timeStamper: TimeStamper
 ) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
 
@@ -39,6 +43,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
     private var isCanceled = false
 
+    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): Task.Result {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
@@ -59,7 +64,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            checkCancel()
+            throwIfCancelled()
             val currentDate = Date(timeStamper.nowUTC.millis)
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
@@ -67,21 +72,38 @@ class DownloadDiagnosisKeysTask @Inject constructor(
              * RETRIEVE TOKEN
              ****************************************************/
             val token = retrieveToken(rollbackItems)
-            checkCancel()
+            throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
-            val exposureConfiguration = appConfigProvider.getAppConfig().exposureDetectionConfiguration
+            val exposureConfig: ExposureDetectionConfig = appConfigProvider.getAppConfig()
 
             internalProgress.send(Progress.ApiSubmissionStarted)
             internalProgress.send(Progress.KeyFilesDownloadStarted)
 
             val requestedCountries = arguments.requestedCountries
-            val availableKeyFiles = getAvailableKeyFiles(requestedCountries)
-            checkCancel()
+            val keySyncResult = getAvailableKeyFiles(requestedCountries)
+            throwIfCancelled()
 
-            val totalFileSize = availableKeyFiles.fold(0L, { acc, file ->
-                file.length() + acc
-            })
+            val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
+            val now = timeStamper.nowUTC
+
+            if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
+                Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")
+                return object : Task.Result {}
+            }
+
+            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
+                // At most one detection every 6h
+                return object : Task.Result {}
+            }
+
+            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+                //  Last check was within 24h, and there are no new files.
+                return object : Task.Result {}
+            }
+
+            val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
+            val totalFileSize = availableKeyFiles.fold(0L, { acc, file -> file.length() + acc })
 
             internalProgress.send(
                 Progress.KeyFilesDownloadFinished(
@@ -93,13 +115,13 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
                 keyFiles = availableKeyFiles,
-                configuration = exposureConfiguration,
+                configuration = exposureConfig.exposureDetectionConfiguration,
                 token = token
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
 
             internalProgress.send(Progress.ApiSubmissionFinished)
-            checkCancel()
+            throwIfCancelled()
 
             if (isSubmissionSuccessful) {
                 saveTimestamp(currentDate, rollbackItems)
@@ -115,6 +137,35 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         } finally {
             Timber.i("Finished (isCanceled=$isCanceled).")
             internalProgress.close()
+        }
+    }
+
+    private fun wasLastDetectionPerformedRecently(
+        now: Instant,
+        exposureConfig: ExposureDetectionConfig,
+        trackedDetections: Collection<TrackedExposureDetection>
+    ): Boolean {
+        val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
+        val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
+
+        return (nextDetectionAt != null && now.isBefore(nextDetectionAt)).also {
+            if (it) Timber.tag(TAG).w("Aborting. Last detection is recent: %s (now=%s)", lastDetection, now)
+        }
+    }
+
+    private fun hasRecentDetectionAndNoNewFiles(
+        now: Instant,
+        keySyncResult: KeyPackageSyncTool.Result,
+        trackedDetections: Collection<TrackedExposureDetection>
+    ): Boolean {
+        // One forced detection every 24h, ignoring the sync results
+        val lastSuccessfulDetection = trackedDetections.filter { it.isSuccessful }.maxByOrNull { it.startedAt }
+        val nextForcedDetectionAt = lastSuccessfulDetection?.startedAt?.plus(Duration.standardDays(1))
+
+        val hasRecentDetection = nextForcedDetectionAt != null && now.isBefore(nextForcedDetectionAt)
+
+        return (hasRecentDetection && keySyncResult.newKeys.isEmpty()).also {
+            if (it) Timber.tag(TAG).w("Aborting. Last detection is recent (<24h) and no new keyfiles.")
         }
     }
 
@@ -168,22 +219,17 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
     }
 
-    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): List<File> {
-        val availableKeyFiles =
-            keyFileDownloader.asyncFetchKeyFiles(if (environmentSetup.useEuropeKeyPackageFiles) {
-                listOf("EUR")
-            } else {
-                requestedCountries
-                    ?: appConfigProvider.getAppConfig().supportedCountries
-            }.map { LocationCode(it) })
+    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): KeyPackageSyncTool.Result {
+        val wantedLocations = if (environmentSetup.useEuropeKeyPackageFiles) {
+            listOf("EUR")
+        } else {
+            requestedCountries ?: appConfigProvider.getAppConfig().supportedCountries
+        }.map { LocationCode(it) }
 
-        if (availableKeyFiles.isEmpty()) {
-            Timber.tag(TAG).w("No keyfiles were available!")
-        }
-        return availableKeyFiles
+        return keyPackageSyncTool.syncKeyFiles(wantedLocations)
     }
 
-    private fun checkCancel() {
+    private fun throwIfCancelled() {
         if (isCanceled) throw TaskCancellationException()
     }
 
@@ -210,16 +256,19 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     data class Config(
         override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
 
-        override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
-            TaskFactory.Config.CollisionBehavior.ENQUEUE
+        override val collisionBehavior: CollisionBehavior = CollisionBehavior.SKIP_IF_SIBLING_RUNNING
 
     ) : TaskFactory.Config
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<DownloadDiagnosisKeysTask>
+        private val taskByDagger: Provider<DownloadDiagnosisKeysTask>,
+        private val appConfigProvider: AppConfigProvider
     ) : TaskFactory<Progress, Task.Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config(
+            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
+        )
+
         override val taskProvider: () -> Task<Progress, Task.Result> = {
             taskByDagger.get()
         }
