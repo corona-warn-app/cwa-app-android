@@ -47,7 +47,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             message += "#$apiStatusCode"
         }
 
-        val dialogTitle = if (intent.hasExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA)) {
+        val dialogTitle = if (intent.getStringExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA) != null) {
             intent.getStringExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA)
         } else {
             val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
