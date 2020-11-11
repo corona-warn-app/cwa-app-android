@@ -48,7 +48,7 @@ class HourPackageSyncTool @Inject constructor(
         Timber.tag(TAG).v("syncMissingHours(targetLocations=%s)", targetLocations)
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
-        val keysWereRevoked = revokeCachedKeys(downloadConfig.invalidHourEtags)
+        val keysWereRevoked = revokeCachedKeys(downloadConfig.revokedHourPackages)
 
         val missingHours = targetLocations.mapNotNull {
             determineMissingHours(it, forceIndexLookup || keysWereRevoked)

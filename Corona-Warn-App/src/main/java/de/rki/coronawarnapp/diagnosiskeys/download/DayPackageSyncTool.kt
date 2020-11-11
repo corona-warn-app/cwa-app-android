@@ -44,7 +44,7 @@ class DayPackageSyncTool @Inject constructor(
         Timber.tag(TAG).v("syncMissingDays(targetLocations=%s)", targetLocations)
 
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
-        val keysWereRevoked = revokeCachedKeys(downloadConfig.invalidDayETags)
+        val keysWereRevoked = revokeCachedKeys(downloadConfig.revokedDayPackages)
 
         val missingDays = targetLocations.mapNotNull {
             determineMissingDayPackages(it, forceIndexLookup || keysWereRevoked)

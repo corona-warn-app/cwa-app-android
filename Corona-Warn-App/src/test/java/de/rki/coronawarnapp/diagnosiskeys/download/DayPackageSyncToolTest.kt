@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import de.rki.coronawarnapp.appconfig.mapping.InvalidatedKeyFile
+import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
@@ -25,7 +25,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     override fun setup() {
         super.setup()
 
-        every { downloadConfig.invalidDayETags } returns emptyList()
+        every { downloadConfig.revokedDayPackages } returns emptyList()
     }
 
     @AfterEach
@@ -153,8 +153,8 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         mockCachedDay("EUR".loc, "2020-01-02".day)
         val invalidDay = mockCachedDay("EUR".loc, "2020-01-03".day)
 
-        every { downloadConfig.invalidDayETags } returns listOf(
-            InvalidatedKeyFile.Day(
+        every { downloadConfig.revokedDayPackages } returns listOf(
+            RevokedKeyPackage.Day(
                 day = invalidDay.info.day,
                 region = invalidDay.info.location,
                 etag = invalidDay.info.etag!!

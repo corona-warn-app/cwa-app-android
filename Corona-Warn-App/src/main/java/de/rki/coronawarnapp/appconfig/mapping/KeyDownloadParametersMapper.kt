@@ -21,8 +21,8 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
         return KeyDownloadConfigContainer(
             individualDownloadTimeout = rawParameters.individualTimeout(),
             overallDownloadTimeout = rawParameters.overAllTimeout(),
-            invalidDayETags = rawParameters.mapDayEtags(),
-            invalidHourEtags = rawParameters.mapHourEtags()
+            revokedDayPackages = rawParameters.mapDayEtags(),
+            revokedHourPackages = rawParameters.mapHourEtags()
         )
     }
 
@@ -40,31 +40,31 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
         else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
     }
 
-    private fun KeyDownloadParametersAndroid.mapDayEtags(): List<InvalidatedKeyFile.Day> =
-        this.cachedDayPackagesToUpdateOnETagMismatchList.mapNotNull {
+    private fun KeyDownloadParametersAndroid.mapDayEtags(): List<RevokedKeyPackage.Day> =
+        this.revokedDayPackagesList.mapNotNull {
             try {
-                InvalidatedKeyFile.Day(
+                RevokedKeyPackage.Day(
                     etag = it.etag,
                     region = LocationCode(it.region),
                     day = LocalDate.parse(it.date, DAY_FORMATTER)
                 )
             } catch (e: Exception) {
-                Timber.e(e, "Failed to parse invalidated day metadata: %s", it)
+                Timber.e(e, "Failed to parse revoked day metadata: %s", it)
                 null
             }
         }
 
-    private fun KeyDownloadParametersAndroid.mapHourEtags(): List<InvalidatedKeyFile.Hour> =
-        this.cachedHourPackagesToUpdateOnETagMismatchList.mapNotNull {
+    private fun KeyDownloadParametersAndroid.mapHourEtags(): List<RevokedKeyPackage.Hour> =
+        this.revokedHourPackagesList.mapNotNull {
             try {
-                InvalidatedKeyFile.Hour(
+                RevokedKeyPackage.Hour(
                     etag = it.etag,
                     region = LocationCode(it.region),
                     day = LocalDate.parse(it.date, DAY_FORMATTER),
                     hour = LocalTime.parse("${it.hour}", HOUR_FORMATTER)
                 )
             } catch (e: Exception) {
-                Timber.e(e, "Failed to parse invalidated hour metadata: %s", it)
+                Timber.e(e, "Failed to parse revoked hour metadata: %s", it)
                 null
             }
         }
@@ -72,8 +72,8 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
     data class KeyDownloadConfigContainer(
         override val individualDownloadTimeout: Duration,
         override val overallDownloadTimeout: Duration,
-        override val invalidDayETags: Collection<KeyDownloadConfig.InvalidatedKeyFile.Day>,
-        override val invalidHourEtags: Collection<KeyDownloadConfig.InvalidatedKeyFile.Hour>
+        override val revokedDayPackages: Collection<KeyDownloadConfig.RevokedKeyPackage.Day>,
+        override val revokedHourPackages: Collection<KeyDownloadConfig.RevokedKeyPackage.Hour>
     ) : KeyDownloadConfig
 
     companion object {
@@ -83,18 +83,18 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-internal sealed class InvalidatedKeyFile : KeyDownloadConfig.InvalidatedKeyFile {
+internal sealed class RevokedKeyPackage : KeyDownloadConfig.RevokedKeyPackage {
 
     data class Day(
         override val etag: String,
         override val region: LocationCode,
         override val day: LocalDate
-    ) : InvalidatedKeyFile(), KeyDownloadConfig.InvalidatedKeyFile.Day
+    ) : RevokedKeyPackage(), KeyDownloadConfig.RevokedKeyPackage.Day
 
     data class Hour(
         override val etag: String,
         override val region: LocationCode,
         override val day: LocalDate,
         override val hour: LocalTime
-    ) : InvalidatedKeyFile(), KeyDownloadConfig.InvalidatedKeyFile.Hour
+    ) : RevokedKeyPackage(), KeyDownloadConfig.RevokedKeyPackage.Hour
 }

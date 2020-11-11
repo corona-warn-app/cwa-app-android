@@ -18,14 +18,14 @@ open class BaseKeyPackageSyncTool(
      * Returns true if any of our cached keys were revoked
      */
     internal suspend fun revokeCachedKeys(
-        invalidatedKeyFiles: Collection<KeyDownloadConfig.InvalidatedKeyFile>
+        revokedKeyPackages: Collection<KeyDownloadConfig.RevokedKeyPackage>
     ): Boolean {
-        if (invalidatedKeyFiles.isEmpty()) {
-            Timber.tag(tag).d("No revoked files to delete.")
+        if (revokedKeyPackages.isEmpty()) {
+            Timber.tag(tag).d("No revoked key packages to delete.")
             return false
         }
 
-        val badEtags = invalidatedKeyFiles.map { it.etag }
+        val badEtags = revokedKeyPackages.map { it.etag }
         val toDelete = keyCache.getAllCachedKeys().filter { badEtags.contains(it.info.etag) }
 
         return if (toDelete.isEmpty()) {
