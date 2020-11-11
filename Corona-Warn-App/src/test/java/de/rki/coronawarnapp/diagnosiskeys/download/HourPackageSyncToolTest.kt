@@ -210,11 +210,12 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "02:00".hour).apply {
-            every { downloadConfig.invalidDayETags } returns listOf(
-                InvalidatedKeyFile.Day(
-                    day = info.day,
+            every { downloadConfig.revokedHourPackages } returns listOf(
+                RevokedKeyPackage.Hour(
                     region = info.location,
-                    etag = info.etag!!
+                    etag = info.etag!!,
+                    day = info.day,
+                    hour = info.hour!!
                 )
             )
         }

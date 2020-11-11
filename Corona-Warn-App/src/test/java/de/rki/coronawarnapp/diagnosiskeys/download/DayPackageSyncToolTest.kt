@@ -187,8 +187,8 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
         mockCachedDay("EUR".loc, "2020-01-03".day).apply {
-            every { downloadConfig.invalidDayETags } returns listOf(
-                InvalidatedKeyFile.Day(
+            every { downloadConfig.revokedDayPackages } returns listOf(
+                RevokedKeyPackage.Day(
                     day = info.day,
                     region = info.location,
                     etag = info.etag!!
