@@ -10,8 +10,9 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_API_FAIL
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT
-import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.HasHumanReadableError
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -28,14 +29,20 @@ fun Throwable.report(
     reportProblem(tag = prefix, info = suffix)
     val context = CoronaWarnApplication.getAppContext()
 
-    val formattedError = this.tryHumanReadableError(context)
-
     val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)
     intent.putExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA, exceptionCategory.name)
     intent.putExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA, prefix)
     intent.putExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA, suffix)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA, formattedError.title)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, formattedError.description)
+
+    if (this is HasHumanReadableError) {
+        val humanReadable = this.tryHumanReadableError(context)
+        humanReadable.title?.let {
+            intent.putExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA, it)
+        }
+        intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, humanReadable.description)
+    } else {
+        intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, this.message)
+    }
 
     if (this is ReportedExceptionInterface) {
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, this.code)
