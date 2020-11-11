@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby.windows.entities
 
-
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.nearby.windows.entities.cases.TestCase
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.DefaultRiskCalculationConfiguration

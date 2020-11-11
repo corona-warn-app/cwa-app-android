@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -42,7 +43,7 @@ import timber.log.Timber
 import java.io.FileReader
 import java.nio.file.Paths
 
-class ExposureWindowsCalculationTest: BaseTest() {
+class ExposureWindowsCalculationTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
@@ -58,10 +59,10 @@ class ExposureWindowsCalculationTest: BaseTest() {
     private enum class LogLevel(val value: Int) {
         NONE(0),
         ONLY_COMPARISON(1),
-        EXTENDED (2),
+        EXTENDED(2),
         ALL(3)
     }
-    private val logLevel = LogLevel.ALL
+    private val logLevel = LogLevel.ONLY_COMPARISON
 
     @BeforeEach
     fun setup() {
@@ -113,11 +114,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
             for (exposureWindow: ExposureWindow in exposureWindows) {
 
                 logExposureWindow(exposureWindow, "➡➡ EXPOSURE WINDOW PASSED ➡➡", LogLevel.EXTENDED)
-
-                val riskResult = riskLevels.calculateRisk(exposureWindow)
-                debugLog("➡➡ Risk result: $riskResult")
-                if (riskResult == null) continue
-                debugLog("➡➡ Risk level normalized time: ${riskResult.normalizedTime}")
+                val riskResult = riskLevels.calculateRisk(exposureWindow) ?: continue
                 exposureWindowsAndResult[exposureWindow] = riskResult
             }
             debugLog("Exposure windows and result: ${exposureWindowsAndResult.size}")
@@ -130,11 +127,11 @@ class ExposureWindowsCalculationTest: BaseTest() {
             )
 
             // 6 - Check with expected result from test case
-//            aggregatedRiskResult.totalRiskLevel.number shouldBe case.expTotalRiskLevel
-//            aggregatedRiskResult.mostRecentDateWithHighRisk shouldBe case.expAgeOfMostRecentDateWithHighRisk
-//            aggregatedRiskResult.mostRecentDateWithLowRisk shouldBe case.expAgeOfMostRecentDateWithLowRisk
-//            aggregatedRiskResult.totalMinimumDistinctEncountersWithHighRisk shouldBe case.expNumberOfExposureWindowsWithHighRisk
-//            aggregatedRiskResult.totalMinimumDistinctEncountersWithLowRisk shouldBe case.expNumberOfExposureWindowsWithLowRisk
+            aggregatedRiskResult.totalRiskLevel.number shouldBe case.expTotalRiskLevel
+            aggregatedRiskResult.mostRecentDateWithHighRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithHighRisk)
+            aggregatedRiskResult.mostRecentDateWithLowRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithLowRisk)
+            aggregatedRiskResult.totalMinimumDistinctEncountersWithHighRisk shouldBe case.expTotalMinimumDistinctEncountersWithHighRisk
+            aggregatedRiskResult.totalMinimumDistinctEncountersWithLowRisk shouldBe case.expTotalMinimumDistinctEncountersWithLowRisk
         }
     }
 
@@ -212,22 +209,16 @@ class ExposureWindowsCalculationTest: BaseTest() {
     }
 
     private fun logConfiguration(config: ConfigData) {
-//        val config = appConfigProvider.getAppConfig()
         val result = StringBuilder()
         result.append("\n\n").append("----------------- \uD83D\uDEE0 CONFIGURATION \uD83D\uDEE0 -----------")
-//        result.append("\n").append("◦ App Version: ${config.appVersion}")
-//        result.append("\n").append("◦ App Featureus: ${config.appFeatureus}")
-//        result.append("\n").append("◦ Attenuation Duration: ${config.attenuationDuration}")
-//        result.append("\n").append("◦ Exposure Detection Configuration: ${config.exposureDetectionConfiguration}")
-//        result.append("\n").append("◦ Exposure Detection Parameters: ${config.exposureDetectionParameters}")
-//        result.append("\n").append("◦ Key Download Parameters: ${config.keyDownloadParameters}")
-//        result.append("\n").append("◦ Min Risk Score: ${config.minRiskScore}")
+
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
-        for(filter: RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters ){
+        for (filter: RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))
             result.append(logRange(filter.dropIfMinutesInRange, "Drop If Minutes In Range"))
         }
+
         result.append("\n").append("◦ Minutes At Attenuation Weights (${config.minutesAtAttenuationWeights.size})")
         for (weight: RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight in config.minutesAtAttenuationWeights) {
             result.append("\n\t").append("⇥ Weight")
@@ -236,22 +227,19 @@ class ExposureWindowsCalculationTest: BaseTest() {
         }
 
         result.append("\n").append("◦ Normalized Time Per Day To Risk Level Mapping List (${config.normalizedTimePerDayToRiskLevelMappingList.size})")
-        for(mapping:RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping in config.normalizedTimePerDayToRiskLevelMappingList){
+        for (mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping in config.normalizedTimePerDayToRiskLevelMappingList) {
             result.append("\n\t").append("⇥ Mapping")
             result.append(logRange(mapping.normalizedTimeRange, "Normalized Time Range"))
             result.append("\n\t\t").append("↳ Risk Level: ${mapping.riskLevel}")
-//            result.append("\n\t\t").append("↳ Risk Level Value: ${mapping.riskLevelValue}")
         }
 
         result.append("\n").append("◦ Normalized Time Per Exposure Window To Risk Level Mapping (${config.normalizedTimePerExposureWindowToRiskLevelMapping.size})")
-        for(mapping:RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping in config.normalizedTimePerExposureWindowToRiskLevelMapping){
+        for (mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping in config.normalizedTimePerExposureWindowToRiskLevelMapping) {
             result.append("\n\t").append("⇥ Mapping")
             result.append(logRange(mapping.normalizedTimeRange, "Normalized Time Range"))
             result.append("\n\t\t").append("↳ Risk Level: ${mapping.riskLevel}")
-//            result.append("\n\t\t").append("↳ Risk Level Value: ${mapping.riskLevelValue}")
         }
-//        result.append("\n").append("◦ Risk Score Classes: ${config.riskScoreClasses}")
-//        result.append("\n").append("◦ Supported Countries: ${config.supportedCountries}")
+
         result.append("\n").append("◦ Transmission Risk Level Encoding:")
         result.append("\n\t").append("↳ Infectiousness Offset High: ${config.transmissionRiskLevelEncoding.infectiousnessOffsetHigh}")
         result.append("\n\t").append("↳ Infectiousness Offset Standard: ${config.transmissionRiskLevelEncoding.infectiousnessOffsetStandard}")
@@ -259,23 +247,19 @@ class ExposureWindowsCalculationTest: BaseTest() {
         result.append("\n\t").append("↳ Report Type Offset Confirmed Test: ${config.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedTest}")
         result.append("\n\t").append("↳ Report Type Offset Recursive: ${config.transmissionRiskLevelEncoding.reportTypeOffsetRecursive}")
         result.append("\n\t").append("↳ Report Type Offset Self Report: ${config.transmissionRiskLevelEncoding.reportTypeOffsetSelfReport}")
-//        result.append("\n\t").append("↳ Serialized Size: ${config.transmissionRiskLevelEncoding.serializedSize}")
 
         result.append("\n").append("◦ Transmission Risk Level Filters (${config.transmissionRiskLevelFilters.size})")
-        for(filter: RiskCalculationParametersOuterClass.TrlFilter in config.transmissionRiskLevelFilters) {
+        for (filter: RiskCalculationParametersOuterClass.TrlFilter in config.transmissionRiskLevelFilters) {
             result.append("\n\t").append("⇥ Trl Filter")
             result.append(logRange(filter.dropIfTrlInRange, "Drop If Trl In Range"))
         }
 
         result.append("\n").append("◦ Transmission Risk Level Multiplier: ${config.transmissionRiskLevelMultiplier}")
-//        result.append("\n").append("◦ Is Fallback: ${config.isFallback}")
-//        result.append("\n").append("◦ Local Offset: ${config.localOffset}")
-//        result.append("\n").append("◦ Updated At: ${config.updatedAt}")
         result.append("\n").append("-------------------------------------------- ⚙ -").append("\n")
         debugLog(result.toString(), LogLevel.NONE)
     }
 
-    private fun logRange(range:RiskCalculationParametersOuterClass.Range, rangeName:String):String {
+    private fun logRange(range: RiskCalculationParametersOuterClass.Range, rangeName: String): String {
         val builder = StringBuilder()
         builder.append("\n\t\t").append("⇥ $rangeName")
         builder.append("\n\t\t\t").append("↳ Min: ${range.min}")
@@ -285,7 +269,7 @@ class ExposureWindowsCalculationTest: BaseTest() {
         return builder.toString()
     }
 
-    private fun logExposureWindow(exposureWindow: ExposureWindow, title: String, logLevel:LogLevel = LogLevel.ALL) {
+    private fun logExposureWindow(exposureWindow: ExposureWindow, title: String, logLevel: LogLevel = LogLevel.ALL) {
         val result = StringBuilder()
         result.append("\n\n").append("------------ $title -----------")
         result.append("\n").append("Mocked Exposure window: #${exposureWindow.hashCode()}")
@@ -293,8 +277,9 @@ class ExposureWindowsCalculationTest: BaseTest() {
         result.append("\n").append("◦ Date Millis Since Epoch: ${exposureWindow.dateMillisSinceEpoch}")
         result.append("\n").append("◦ Infectiousness: ${exposureWindow.infectiousness}")
         result.append("\n").append("◦ Report type: ${exposureWindow.reportType}")
+
         result.append("\n").append("‣ Scan Instances (${exposureWindow.scanInstances.size}):")
-        for(scan: ScanInstance in exposureWindow.scanInstances) {
+        for (scan: ScanInstance in exposureWindow.scanInstances) {
             result.append("\n\t").append("⇥ Mocked Scan Instance: #${scan.hashCode()}")
             result.append("\n\t\t").append("↳ Min Attenuation: ${scan.minAttenuationDb}")
             result.append("\n\t\t").append("↳ Seconds Since Last Scan: ${scan.secondsSinceLastScan}")
@@ -320,7 +305,6 @@ class ExposureWindowsCalculationTest: BaseTest() {
             every { filter.attenuationRange.max } returns jsonFilter.attenuationRange.max
             every { filter.attenuationRange.minExclusive } returns jsonFilter.attenuationRange.minExclusive
             every { filter.attenuationRange.maxExclusive } returns jsonFilter.attenuationRange.maxExclusive
-
             every { filter.dropIfMinutesInRange.min } returns jsonFilter.dropIfMinutesInRange.min
             every { filter.dropIfMinutesInRange.max } returns jsonFilter.dropIfMinutesInRange.max
             every { filter.dropIfMinutesInRange.minExclusive } returns jsonFilter.dropIfMinutesInRange.minExclusive
@@ -336,17 +320,15 @@ class ExposureWindowsCalculationTest: BaseTest() {
             every { weight.attenuationRange.max } returns jsonWeight.attenuationRange.max
             every { weight.attenuationRange.minExclusive } returns jsonWeight.attenuationRange.minExclusive
             every { weight.attenuationRange.maxExclusive } returns jsonWeight.attenuationRange.maxExclusive
-
             every { weight.weight } returns jsonWeight.weight
             attenuationWeights.add(weight)
         }
         every { testConfig.minutesAtAttenuationWeights } returns attenuationWeights
 
         val normalizedTimePerDayToRiskLevelMapping = mutableListOf< RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>()
-        for(jsonMapping: JsonNormalizedTimeToRiskLevelMapping in json.normalizedTimePerDayToRiskLevelMapping) {
+        for (jsonMapping: JsonNormalizedTimeToRiskLevelMapping in json.normalizedTimePerDayToRiskLevelMapping) {
             val mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping = mockk()
             every { mapping.riskLevel } returns RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(jsonMapping.riskLevel)
-
             every { mapping.normalizedTimeRange.min } returns jsonMapping.normalizedTimeRange.min
             every { mapping.normalizedTimeRange.max } returns jsonMapping.normalizedTimeRange.max
             every { mapping.normalizedTimeRange.minExclusive } returns jsonMapping.normalizedTimeRange.minExclusive
@@ -356,10 +338,9 @@ class ExposureWindowsCalculationTest: BaseTest() {
         every { testConfig.normalizedTimePerDayToRiskLevelMappingList } returns normalizedTimePerDayToRiskLevelMapping
 
         val normalizedTimePerExposureWindowToRiskLevelMapping = mutableListOf< RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>()
-        for(jsonMapping: JsonNormalizedTimeToRiskLevelMapping in json.normalizedTimePerEWToRiskLevelMapping) {
+        for (jsonMapping: JsonNormalizedTimeToRiskLevelMapping in json.normalizedTimePerEWToRiskLevelMapping) {
             val mapping: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping = mockk()
             every { mapping.riskLevel } returns RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(jsonMapping.riskLevel)
-
             every { mapping.normalizedTimeRange.min } returns jsonMapping.normalizedTimeRange.min
             every { mapping.normalizedTimeRange.max } returns jsonMapping.normalizedTimeRange.max
             every { mapping.normalizedTimeRange.minExclusive } returns jsonMapping.normalizedTimeRange.minExclusive
@@ -380,15 +361,15 @@ class ExposureWindowsCalculationTest: BaseTest() {
         every { testConfig.transmissionRiskLevelEncoding } returns trlEncoding
 
         val trlFilters = mutableListOf<RiskCalculationParametersOuterClass.TrlFilter>()
-        for(jsonFilter:JsonTrlFilter in json.trlFilters) {
-            val filter : RiskCalculationParametersOuterClass.TrlFilter = mockk()
+        for (jsonFilter: JsonTrlFilter in json.trlFilters) {
+            val filter: RiskCalculationParametersOuterClass.TrlFilter = mockk()
             every { filter.dropIfTrlInRange.min } returns jsonFilter.dropIfTrlInRange.min
             every { filter.dropIfTrlInRange.max } returns jsonFilter.dropIfTrlInRange.max
             every { filter.dropIfTrlInRange.minExclusive } returns jsonFilter.dropIfTrlInRange.minExclusive
             every { filter.dropIfTrlInRange.maxExclusive } returns jsonFilter.dropIfTrlInRange.maxExclusive
             trlFilters.add(filter)
         }
-        every { testConfig.transmissionRiskLevelFilters} returns trlFilters
+        every { testConfig.transmissionRiskLevelFilters } returns trlFilters
     }
 
     private fun jsonToExposureWindow(json: JsonWindow): ExposureWindow {

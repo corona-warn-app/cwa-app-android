@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby.windows.entities.cases
 
-
 import com.google.gson.annotations.SerializedName
 
 data class JsonScanInstance(
