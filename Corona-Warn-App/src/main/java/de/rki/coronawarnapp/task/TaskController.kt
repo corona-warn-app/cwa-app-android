@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.task
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.task.internal.InternalTaskState
 import de.rki.coronawarnapp.util.TimeStamper
@@ -147,6 +150,8 @@ class TaskController @Inject constructor(
                     state.job.getCompleted()
                 } else {
                     Timber.tag(TAG).e(error, "Task failed: %s", state)
+                    error.report(ExceptionCategory.INTERNAL)
+                    error.reportProblem(tag = state.request.type.simpleName)
                     null
                 }
 
