@@ -229,33 +229,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_days" />
 
-            <include
-                android:id="@+id/risk_card_next_update_divider"
-                gone="@{tracingCard.getNextUpdate(context).empty}"
-                layout="@layout/include_divider"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:dividerColor="@{tracingCard.getStableDividerColor(context)}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/risk_card_row_time_fetched" />
-
-            <TextView
-                android:id="@+id/risk_card_next_update_test"
-                style="@style/body2"
-                gone="@{tracingCard.getNextUpdate(context).empty}"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@{tracingCard.getNextUpdate(context)}"
-                android:textColor="@{tracingCard.getStableTextColor(context)}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update_divider"
-                tools:text="@string/risk_card_body_next_update"
-                tools:textColor="@color/colorStableLight" />
-
             <Button
                 android:id="@+id/risk_card_button_enable_tracing"
                 style="@style/buttonPrimary"
@@ -266,7 +239,7 @@
                 android:text="@string/risk_details_button_enable_tracing"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update_test" />
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_row_time_fetched" />
 
             <Button
                 android:id="@+id/risk_card_button_update"
