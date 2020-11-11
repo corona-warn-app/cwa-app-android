@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import io.kotest.matchers.shouldBe
@@ -38,6 +40,7 @@ class ENFClientTest : BaseTest() {
     @MockK lateinit var tracingStatus: TracingStatus
     @MockK lateinit var scanningSupport: ScanningSupport
     @MockK lateinit var calculationTracker: CalculationTracker
+    @MockK lateinit var exposureWindowProvider: ExposureWindowProvider
 
     @BeforeEach
     fun setup() {
@@ -56,7 +59,8 @@ class ENFClientTest : BaseTest() {
         diagnosisKeyProvider = diagnosisKeyProvider,
         tracingStatus = tracingStatus,
         scanningSupport = scanningSupport,
-        calculationTracker = calculationTracker
+        calculationTracker = calculationTracker,
+        exposureWindowProvider = exposureWindowProvider
     )
 
     @Test
@@ -263,6 +267,19 @@ class ENFClientTest : BaseTest() {
             )
 
             createClient().latestFinishedCalculation().first()!!.identifier shouldBe "1"
+        }
+    }
+
+    @Test
+    fun `exposure windows check is forwarded to the right module`() = runBlocking {
+        val exposureWindowList = emptyList<ExposureWindow>()
+        coEvery { exposureWindowProvider.exposureWindows() } returns exposureWindowList
+
+        val client = createClient()
+        client.exposureWindows() shouldBe exposureWindowList
+
+        coVerify(exactly = 1) {
+            exposureWindowProvider.exposureWindows()
         }
     }
 }
