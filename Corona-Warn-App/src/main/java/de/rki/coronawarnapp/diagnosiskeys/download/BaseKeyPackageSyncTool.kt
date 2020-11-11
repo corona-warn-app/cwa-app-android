@@ -14,17 +14,17 @@ open class BaseKeyPackageSyncTool(
     private val tag: String
 ) {
 
-    internal suspend fun invalidateCachedKeys(invalidatedKeyFiles: Collection<KeyDownloadConfig.InvalidatedKeyFile>) {
-        if (invalidatedKeyFiles.isEmpty()) {
-            Timber.tag(tag).d("No invalid files to delete.")
+    internal suspend fun revokeCachedKeys(revokedKeyPackages: Collection<KeyDownloadConfig.RevokedKeyPackage>) {
+        if (revokedKeyPackages.isEmpty()) {
+            Timber.tag(tag).d("No revoked key packages to delete.")
             return
         }
 
-        val badEtags = invalidatedKeyFiles.map { it.etag }
+        val badEtags = revokedKeyPackages.map { it.etag }
         val toDelete = keyCache.getAllCachedKeys()
             .filter { badEtags.contains(it.info.etag) }
 
-        Timber.tag(tag).w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
+        Timber.tag(tag).w("Deleting revoked cached keys: %s", toDelete.joinToString("\n"))
         keyCache.delete(toDelete.map { it.info })
     }
 

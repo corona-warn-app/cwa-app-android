@@ -12,19 +12,19 @@ interface KeyDownloadConfig {
 
     val overallDownloadTimeout: Duration
 
-    val invalidDayETags: Collection<InvalidatedKeyFile.Day>
+    val revokedDayPackages: Collection<RevokedKeyPackage.Day>
 
-    val invalidHourEtags: Collection<InvalidatedKeyFile.Hour>
+    val revokedHourPackages: Collection<RevokedKeyPackage.Hour>
 
-    interface InvalidatedKeyFile {
+    interface RevokedKeyPackage {
         val etag: String
         val region: LocationCode
 
-        interface Day : InvalidatedKeyFile {
+        interface Day : RevokedKeyPackage {
             val day: LocalDate
         }
 
-        interface Hour : Day, InvalidatedKeyFile {
+        interface Hour : Day, RevokedKeyPackage {
             val hour: LocalTime
         }
     }
