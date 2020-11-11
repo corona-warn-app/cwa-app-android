@@ -147,6 +147,49 @@ class TracingCardStateTest : BaseTest() {
     }
 
     @Test
+    fun `risklevel affected by tracing status`() {
+        createInstance(
+            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = UNKNOWN_RISK_INITIAL,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = LOW_LEVEL_RISK,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+
+        createInstance(
+            riskLevel = INCREASED_RISK,
+            tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+        ).apply {
+            getRiskBody(context)
+            verify { context.getString(R.string.risk_card_body_tracing_off) }
+        }
+    }
+
+    @Test
     fun `saved risk body is affected by risklevel`() {
         createInstance(
             riskLevel = INCREASED_RISK,
