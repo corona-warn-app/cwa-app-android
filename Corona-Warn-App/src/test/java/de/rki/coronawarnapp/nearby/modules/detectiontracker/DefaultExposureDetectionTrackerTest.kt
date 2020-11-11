@@ -18,6 +18,7 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -44,7 +45,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         coEvery { storage.load() } returns emptyMap()
         coEvery { storage.save(any()) } just Runs
 
-        coEvery { configProvider.getAppConfig() } returns appConfigData
+        coEvery { configProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.overallDetectionTimeout } returns Duration.standardMinutes(15)
     }
 
@@ -107,7 +108,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             advanceUntilIdle()
         }
 
-        coVerify { configProvider.getAppConfig() }
+        coVerify { configProvider.currentConfig }
     }
 
     @Test
