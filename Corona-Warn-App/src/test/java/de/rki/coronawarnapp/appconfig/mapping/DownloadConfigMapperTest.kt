@@ -27,7 +27,7 @@ class DownloadConfigMapperTest : BaseTest() {
             .build()
 
         createInstance().map(rawConfig).apply {
-            invalidDayETags.first().apply {
+            revokedDayPackages.first().apply {
                 etag shouldBe "\"GoodMorningEtag\""
                 region shouldBe LocationCode("EUR")
                 day shouldBe LocalDate.parse("2020-11-09")
@@ -51,7 +51,7 @@ class DownloadConfigMapperTest : BaseTest() {
             .build()
 
         createInstance().map(rawConfig).apply {
-            invalidHourEtags.first().apply {
+            revokedHourPackages.first().apply {
                 etag shouldBe "\"GoodMorningEtag\""
                 region shouldBe LocationCode("EUR")
                 day shouldBe LocalDate.parse("2020-11-09")

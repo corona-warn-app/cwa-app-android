@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import de.rki.coronawarnapp.appconfig.mapping.InvalidatedKeyFile
+import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
@@ -24,7 +24,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     override fun setup() {
         super.setup()
 
-        every { downloadConfig.invalidHourEtags } returns emptyList()
+        every { downloadConfig.revokedHourPackages } returns emptyList()
     }
 
     @AfterEach
@@ -85,8 +85,8 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         val invalidHour = mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
-        every { downloadConfig.invalidHourEtags } returns listOf(
-            InvalidatedKeyFile.Hour(
+        every { downloadConfig.revokedHourPackages } returns listOf(
+            RevokedKeyPackage.Hour(
                 day = invalidHour.info.day,
                 hour = invalidHour.info.hour!!,
                 region = invalidHour.info.location,
