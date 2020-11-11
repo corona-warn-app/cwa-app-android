@@ -5,12 +5,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_API_FAIL
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.tryFormattedError
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -23,7 +23,7 @@ fun Throwable.report(
     prefix: String?,
     suffix: String?
 ) {
-    if (BugReporter.isAUnitTest) return
+    if (CWADebug.isAUnitTest) return
 
     reportProblem(tag = prefix, info = suffix)
     val context = CoronaWarnApplication.getAppContext()

@@ -31,4 +31,13 @@ object CWADebug {
         DEVICE("device"),
         DEVICE_FOR_TESTERS("deviceForTesters")
     }
+
+    val isAUnitTest: Boolean by lazy {
+        try {
+            Class.forName("testhelpers.IsAUnitTest")
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
