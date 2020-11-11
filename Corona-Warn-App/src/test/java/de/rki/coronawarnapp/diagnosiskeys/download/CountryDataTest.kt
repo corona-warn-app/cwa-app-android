@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -13,11 +14,13 @@ import testhelpers.BaseTest
 class CountryDataTest : BaseTest() {
     private val locationCode = LocationCode("DE")
 
-    private fun createCachedKey(dayString: String, hourString: String? = null): CachedKeyInfo {
-        return mockk<CachedKeyInfo>().apply {
-            every { location } returns locationCode
-            every { day } returns LocalDate.parse(dayString)
-            every { hour } returns hourString?.let { LocalTime.parse(it) }
+    private fun createCachedKey(dayString: String, hourString: String? = null): CachedKey {
+        return mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { location } returns locationCode
+                every { day } returns LocalDate.parse(dayString)
+                every { hour } returns hourString?.let { LocalTime.parse(it) }
+            }
         }
     }
 
@@ -26,7 +29,7 @@ class CountryDataTest : BaseTest() {
         val availableDates = listOf(
             "2222-12-30", "2222-12-31"
         ).map { LocalDate.parse(it) }
-        val cd = CountryDays(locationCode, availableDates)
+        val cd = LocationDays(locationCode, availableDates)
 
         cd.dayData shouldBe availableDates
 
@@ -43,7 +46,7 @@ class CountryDataTest : BaseTest() {
     @Test
     fun `missing days empty day data`() {
         val availableDates = emptyList<LocalDate>()
-        val cd = CountryDays(locationCode, availableDates)
+        val cd = LocationDays(locationCode, availableDates)
 
         cd.dayData shouldBe availableDates
 
@@ -61,11 +64,11 @@ class CountryDataTest : BaseTest() {
         val availableDates = listOf(
             "2222-11-28", "2222-11-29"
         ).map { LocalDate.parse(it) }
-        val cd = CountryDays(locationCode, availableDates)
+        val cd = LocationDays(locationCode, availableDates)
 
         cd.dayData shouldBe availableDates
 
-        val cachedDays = emptyList<CachedKeyInfo>()
+        val cachedDays = emptyList<CachedKey>()
 
         cd.getMissingDays(cachedDays) shouldBe availableDates
         cd.toMissingDays(cachedDays) shouldBe cd
@@ -76,7 +79,7 @@ class CountryDataTest : BaseTest() {
         val availableDates = listOf(
             "2222-11-28", "2222-11-29"
         ).map { LocalDate.parse(it) }
-        val cd = CountryDays(locationCode, availableDates)
+        val cd = LocationDays(locationCode, availableDates)
 
         cd.dayData shouldBe availableDates
 
@@ -94,7 +97,7 @@ class CountryDataTest : BaseTest() {
         val availableDates = listOf(
             "2222-12-30", "2222-12-31"
         ).map { LocalDate.parse(it) }
-        val cd = CountryDays(locationCode, availableDates)
+        val cd = LocationDays(locationCode, availableDates)
 
         cd.dayData shouldBe availableDates
 
@@ -117,7 +120,7 @@ class CountryDataTest : BaseTest() {
                 LocalTime.parse("22:00"), LocalTime.parse("23:00")
             )
         )
-        val cd = CountryHours(locationCode, availableHours)
+        val cd = LocationHours(locationCode, availableHours)
 
         cd.hourData shouldBe availableHours
 
@@ -138,7 +141,7 @@ class CountryDataTest : BaseTest() {
     @Test
     fun `missing hours empty available hour data`() {
         val availableHours: Map<LocalDate, List<LocalTime>> = emptyMap()
-        val cd = CountryHours(locationCode, availableHours)
+        val cd = LocationHours(locationCode, availableHours)
 
         cd.hourData shouldBe availableHours
 
@@ -156,7 +159,7 @@ class CountryDataTest : BaseTest() {
         val availableHours = mapOf(
             LocalDate.parse("2222-12-30") to emptyList<LocalTime>()
         )
-        val cd = CountryHours(locationCode, availableHours)
+        val cd = LocationHours(locationCode, availableHours)
 
         cd.hourData shouldBe availableHours
 
@@ -179,11 +182,11 @@ class CountryDataTest : BaseTest() {
                 LocalTime.parse("22:00"), LocalTime.parse("23:00")
             )
         )
-        val cd = CountryHours(locationCode, availableHours)
+        val cd = LocationHours(locationCode, availableHours)
 
         cd.hourData shouldBe availableHours
 
-        val cachedHours = emptyList<CachedKeyInfo>()
+        val cachedHours = emptyList<CachedKey>()
 
         cd.getMissingHours(cachedHours) shouldBe availableHours
         cd.toMissingHours(cachedHours) shouldBe cd.copy(hourData = availableHours)
@@ -199,7 +202,7 @@ class CountryDataTest : BaseTest() {
                 LocalTime.parse("22:00"), LocalTime.parse("23:00")
             )
         )
-        val cd = CountryHours(locationCode, availableHours)
+        val cd = LocationHours(locationCode, availableHours)
 
         cd.hourData shouldBe availableHours
 
@@ -222,7 +225,7 @@ class CountryDataTest : BaseTest() {
                 LocalTime.parse("22:00"), LocalTime.parse("23:00")
             )
         )
-        val cd = CountryHours(locationCode, availableHours)
+        val cd = LocationHours(locationCode, availableHours)
 
         cd.hourData shouldBe availableHours
 
@@ -239,12 +242,12 @@ class CountryDataTest : BaseTest() {
 
     @Test
     fun `calculate approximate required space for day data`() {
-        CountryDays(LocationCode("DE"), emptyList()).approximateSizeInBytes shouldBe 0
-        CountryDays(
+        LocationDays(LocationCode("DE"), emptyList()).approximateSizeInBytes shouldBe 0
+        LocationDays(
             LocationCode("DE"),
             listOf(LocalDate.parse("2222-12-30"))
         ).approximateSizeInBytes shouldBe 512 * 1024L
-        CountryDays(
+        LocationDays(
             LocationCode("DE"),
             listOf(LocalDate.parse("2222-12-30"), LocalDate.parse("2222-12-31"))
         ).approximateSizeInBytes shouldBe 2 * 512 * 1024L
@@ -252,12 +255,12 @@ class CountryDataTest : BaseTest() {
 
     @Test
     fun `calculate approximate required space for day hour`() {
-        CountryHours(LocationCode("DE"), emptyMap()).approximateSizeInBytes shouldBe 0
-        CountryHours(
+        LocationHours(LocationCode("DE"), emptyMap()).approximateSizeInBytes shouldBe 0
+        LocationHours(
             LocationCode("DE"),
             mapOf(LocalDate.parse("2222-12-30") to listOf(LocalTime.parse("23:00")))
         ).approximateSizeInBytes shouldBe 22 * 1024L
-        CountryHours(
+        LocationHours(
             LocationCode("DE"),
             mapOf(
                 LocalDate.parse("2222-12-30") to listOf(LocalTime.parse("23:00")),

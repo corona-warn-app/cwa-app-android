@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_G
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT
 import de.rki.coronawarnapp.util.tryHumanReadableError
+import de.rki.coronawarnapp.util.CWADebug
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -22,6 +23,8 @@ fun Throwable.report(
     prefix: String?,
     suffix: String?
 ) {
+    if (CWADebug.isAUnitTest) return
+
     reportProblem(tag = prefix, info = suffix)
     val context = CoronaWarnApplication.getAppContext()
 

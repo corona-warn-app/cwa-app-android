@@ -16,11 +16,11 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
@@ -173,8 +173,8 @@ class TaskControllerTest : BaseIOTest() {
             }
         }
 
-        verifySequence {
-            queueingFactory.config
+        coVerifySequence {
+            queueingFactory.createConfig()
             queueingFactory.taskProvider
         }
 
@@ -379,10 +379,10 @@ class TaskControllerTest : BaseIOTest() {
 
         arguments.path.length() shouldBe 720L
 
-        verifySequence {
-            queueingFactory.config
+        coVerifySequence {
+            queueingFactory.createConfig()
             queueingFactory.taskProvider
-            skippingFactory.config
+            skippingFactory.createConfig()
             skippingFactory.taskProvider
         }
 

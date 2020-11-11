@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.transaction
+package de.rki.coronawarnapp.task.internal
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +8,6 @@ import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 @Singleton
-class TransactionCoroutineScope @Inject constructor() : CoroutineScope {
+class DefaultTaskCoroutineScope @Inject constructor() : CoroutineScope {
     override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Default
 }

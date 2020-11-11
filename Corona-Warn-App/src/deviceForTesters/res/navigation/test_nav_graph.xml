@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_debugOptionsFragment"
             app:destination="@id/test_debugoptions_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_keyDownloadTestFragment"
+            app:destination="@id/test_keydownload_fragment" />
     </fragment>
 
     <fragment
@@ -78,5 +81,10 @@
         android:name="de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment"
         android:label="DebugOptionsFragment"
         tools:layout="@layout/fragment_test_debugoptions" />
+    <fragment
+        android:id="@+id/test_keydownload_fragment"
+        android:name="de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment"
+        android:label="KeyDownloadTestFragment"
+        tools:layout="@layout/fragment_test_keydownload" />
 
 </navigation>

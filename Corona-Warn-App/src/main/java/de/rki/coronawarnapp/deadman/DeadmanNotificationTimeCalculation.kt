@@ -28,7 +28,7 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
      * If last success date time is null (eg: on application first start) - return [DEADMAN_NOTIFICATION_DELAY]
      */
     suspend fun getDelay(): Long {
-        val lastSuccess = enfClient.latestFinishedCalculation().first()?.finishedAt
+        val lastSuccess = enfClient.lastSuccessfulTrackedExposureDetection().first()?.finishedAt
         return if (lastSuccess != null) {
             getHoursDiff(lastSuccess).toLong()
         } else {

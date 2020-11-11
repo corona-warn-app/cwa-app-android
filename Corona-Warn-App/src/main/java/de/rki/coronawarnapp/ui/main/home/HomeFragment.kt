@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -37,6 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
+    @Inject lateinit var networkStateProvider: NetworkStateProvider
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,7 +95,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
-            if (it) { showRiskLevelLoweredDialog() }
+            if (it) {
+                showRiskLevelLoweredDialog()
+            }
         }
 
         lifecycleScope.launch { vm.observeTestResultToSchedulePositiveTestResultReminder() }
@@ -102,7 +106,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
-
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
