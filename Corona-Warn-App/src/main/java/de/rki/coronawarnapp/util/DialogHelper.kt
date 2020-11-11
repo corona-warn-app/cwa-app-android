@@ -18,6 +18,7 @@ object DialogHelper {
         val positiveButton: String,
         val negativeButton: String? = null,
         val cancelable: Boolean? = true,
+        val isTextSelectable: Boolean = false,
         val positiveButtonFunction: () -> Unit? = {},
         val negativeButtonFunction: () -> Unit? = {}
     ) {
@@ -31,14 +32,14 @@ object DialogHelper {
             positiveButtonFunction: () -> Unit? = {},
             negativeButtonFunction: () -> Unit? = {}
         ) : this(
-            context,
-            context.resources.getString(title),
-            context.resources.getString(message),
-            context.resources.getString(positiveButton),
-            negativeButton?.let { context.resources.getString(it) },
-            cancelable,
-            positiveButtonFunction,
-            negativeButtonFunction
+            context = context,
+            title = context.resources.getString(title),
+            message = context.resources.getString(message),
+            positiveButton = context.resources.getString(positiveButton),
+            negativeButton = negativeButton?.let { context.resources.getString(it) },
+            cancelable = cancelable,
+            positiveButtonFunction = positiveButtonFunction,
+            negativeButtonFunction = negativeButtonFunction
         )
 
         constructor(
@@ -51,21 +52,25 @@ object DialogHelper {
             positiveButtonFunction: () -> Unit? = {},
             negativeButtonFunction: () -> Unit? = {}
         ) : this(
-            context,
-            context.resources.getString(title),
-            message,
-            context.resources.getString(positiveButton),
-            negativeButton?.let { context.resources.getString(it) },
-            cancelable,
-            positiveButtonFunction,
-            negativeButtonFunction
+            context = context,
+            title = context.resources.getString(title),
+            message = message,
+            positiveButton = context.resources.getString(positiveButton),
+            negativeButton = negativeButton?.let { context.resources.getString(it) },
+            cancelable = cancelable,
+            positiveButtonFunction = positiveButtonFunction,
+            negativeButtonFunction = negativeButtonFunction
         )
     }
 
     fun showDialog(
         dialogInstance: DialogInstance
     ): AlertDialog {
-        val message = getMessage(dialogInstance.context, dialogInstance.message)
+        val message = getMessage(
+            dialogInstance.context,
+            dialogInstance.message,
+            dialogInstance.isTextSelectable
+        )
         val alertDialog: AlertDialog = dialogInstance.context.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
@@ -91,7 +96,7 @@ object DialogHelper {
         return alertDialog
     }
 
-    private fun getMessage(context: Context, message: String?): TextView {
+    private fun getMessage(context: Context, message: String?, isTextSelectable: Boolean): TextView {
         // create spannable and add links, removed stack trace links into nowhere
         val spannable = SpannableString(message)
         val httpPattern: Pattern = Pattern.compile("[a-z]+://[^ \\n]*")
@@ -107,6 +112,7 @@ object DialogHelper {
         textView.setPadding(paddingStartEnd, paddingLeftRight, paddingStartEnd, paddingLeftRight)
         textView.setTextAppearance(R.style.body1)
         textView.setLinkTextColor(context.getColorStateList(R.color.button_primary))
+        if (isTextSelectable) textView.setTextIsSelectable(true)
         return textView
     }
 }

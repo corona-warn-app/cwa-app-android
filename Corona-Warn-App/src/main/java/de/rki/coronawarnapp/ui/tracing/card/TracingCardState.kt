@@ -225,23 +225,6 @@ data class TracingCardState(
     }
 
     /**
-     * Formats the risk card text display of time when diagnosis keys will be updated
-     * from server again when applicable
-     */
-    fun getNextUpdate(c: Context): String = if (!isBackgroundJobEnabled) {
-        ""
-    } else {
-        when (riskLevelScore) {
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-            RiskLevelConstants.LOW_LEVEL_RISK,
-            RiskLevelConstants.INCREASED_RISK -> c.getString(
-                R.string.risk_card_body_next_update
-            )
-            else -> ""
-        }
-    }
-
-    /**
      * Formats the risk card divider color depending on risk level
      * This special handling is required due to light / dark mode differences and switches
      * between colored / light / dark background
