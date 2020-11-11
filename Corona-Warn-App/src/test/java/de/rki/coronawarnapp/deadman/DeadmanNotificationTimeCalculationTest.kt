@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.deadman
 
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -21,13 +21,13 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var enfClient: ENFClient
-    @MockK lateinit var mockCalculation: Calculation
+    @MockK lateinit var mockExposureDetection: TrackedExposureDetection
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
-        every { enfClient.latestFinishedCalculation() } returns flowOf(mockCalculation)
+        every { enfClient.lastSuccessfulTrackedExposureDetection() } returns flowOf(mockExposureDetection)
     }
 
     @AfterEach
@@ -64,40 +64,40 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     @Test
     fun `12 hours delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
-        every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
+        every { mockExposureDetection.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
 
         createTimeCalculator().getDelay() shouldBe 720
 
-        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 
     @Test
     fun `negative delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
-        every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
+        every { mockExposureDetection.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
 
         createTimeCalculator().getDelay() shouldBe -2160
 
-        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 
     @Test
     fun `success in future delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
-        every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T15:00:00.000Z")
+        every { mockExposureDetection.finishedAt } returns Instant.parse("2020-08-27T15:00:00.000Z")
 
         createTimeCalculator().getDelay() shouldBe 2220
 
-        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 
     @Test
     fun `initial delay - no successful calculations yet`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
-        every { enfClient.latestFinishedCalculation() } returns flowOf(null)
+        every { enfClient.lastSuccessfulTrackedExposureDetection() } returns flowOf(null)
 
         createTimeCalculator().getDelay() shouldBe 2160
 
-        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+        verify(exactly = 1) { enfClient.lastSuccessfulTrackedExposureDetection() }
     }
 }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.nearby.modules.calculationtracker
+package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class CalculationTest : BaseTest() {
+class TrackedExposureDetectionTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
@@ -23,7 +23,7 @@ class CalculationTest : BaseTest() {
 
     @Test
     fun `isCalculating flag depends on finishedAt`() {
-        val initial = Calculation(
+        val initial = TrackedExposureDetection(
             identifier = "123",
             startedAt = Instant.EPOCH
         )
