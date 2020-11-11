@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -48,7 +49,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                     hd.updateSafely {
                         val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
-                        val timeoutLimit = appConfigProvider.getAppConfig().overallDetectionTimeout
+                        val timeoutLimit = appConfigProvider.currentConfig.first().overallDetectionTimeout
                         mutate {
                             values.filter { it.isCalculating }.toList().forEach {
                                 if (timeNow.isAfter(it.startedAt.plus(timeoutLimit))) {
