@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
+import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import okhttp3.Cache
 import org.joda.time.Duration
@@ -33,9 +34,6 @@ class AppConfigServer @Inject constructor(
         val response = api.get().getApplicationConfiguration(homeCountry.identifier)
         if (!response.isSuccessful) throw HttpException(response)
 
-        // If this is a cached response, we need the original timestamp to calculate the time offset
-        val localTime = response.getCacheTimestamp() ?: timeStamper.nowUTC
-
         val rawConfig = with(
             requireNotNull(response.body()) { "Response was successful but body was null" }
         ) {
@@ -55,12 +53,20 @@ class AppConfigServer @Inject constructor(
             exportBinary
         }
 
+        // If this is a cached response, we need the original timestamp to calculate the time offset
+        val localTime = response.getCacheTimestamp() ?: timeStamper.nowUTC
+
+        // Shouldn't happen, but hey ¯\_(ツ)_/¯
+        val etag =
+            response.headers().etag() ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
+
         val serverTime = response.getServerDate() ?: localTime
         val offset = Duration(serverTime, localTime)
         Timber.tag(TAG).v("Time offset was %dms", offset.millis)
 
         return ConfigDownload(
             rawData = rawConfig,
+            etag = etag,
             serverTime = serverTime,
             localOffset = offset
         )

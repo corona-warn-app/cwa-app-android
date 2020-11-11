@@ -6,6 +6,7 @@ import org.joda.time.Instant
 
 data class ConfigDownload(
     @SerializedName("rawData") val rawData: ByteArray,
+    @SerializedName("etag") val etag: String,
     @SerializedName("serverTime") val serverTime: Instant,
     @SerializedName("localOffset") val localOffset: Duration
 ) {

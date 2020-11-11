@@ -85,7 +85,6 @@ class SubmissionTask @Inject constructor(
     ) : Task.Arguments
 
     data class Config(
-        @Suppress("MagicNumber")
         override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
@@ -97,7 +96,7 @@ class SubmissionTask @Inject constructor(
         private val taskByDagger: Provider<SubmissionTask>
     ) : TaskFactory<DefaultProgress, Task.Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, Task.Result> = {
             taskByDagger.get()
         }

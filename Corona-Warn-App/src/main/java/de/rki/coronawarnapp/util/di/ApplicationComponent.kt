@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
-import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
 import de.rki.coronawarnapp.http.HttpModule
@@ -80,7 +79,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val settingsRepository: SettingsRepository
 
     val keyCacheRepository: KeyCacheRepository
-    val keyFileDownloader: KeyFileDownloader
 
     val appConfigProvider: AppConfigProvider
 

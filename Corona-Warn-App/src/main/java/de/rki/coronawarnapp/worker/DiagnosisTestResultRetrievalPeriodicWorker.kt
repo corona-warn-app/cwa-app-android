@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.squareup.inject.assisted.Assisted
@@ -44,19 +43,20 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      */
     override suspend fun doWork(): Result {
 
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
         BackgroundWorkHelper.sendDebugNotification(
             "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount "
         )
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
+            Timber.d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
             BackgroundWorkHelper.sendDebugNotification(
                 "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts"
             )
-
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            Timber.d("$id Rescheduled background worker")
+
             return Result.failure()
         }
         var result = Result.success()
@@ -66,10 +66,13 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                     System.currentTimeMillis()
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
+                Timber.d(" $id maximum days not exceeded")
                 val testResult = SubmissionService.asyncRequestTestResult()
                 initiateNotification(testResult)
+                Timber.d(" $id Test Result Notification Initiated")
             } else {
                 stopWorker()
+                Timber.d(" $id worker stopped")
             }
         } catch (e: Exception) {
             result = Result.retry()
@@ -78,6 +81,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         BackgroundWorkHelper.sendDebugNotification(
             "TestResult Executing: End", "TestResult result: $result "
         )
+        Timber.d("$id: doWork() finished with %s", result)
 
         return result
     }
@@ -95,9 +99,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      */
     private fun initiateNotification(testResult: TestResult) {
         if (LocalData.isTestResultNotificationSent() || LocalData.submissionWasSuccessful()) {
+            Timber.d("$id: Notification already sent or there was a successful submission")
             return
         }
-
+        Timber.d("$id: Test Result retried is $testResult")
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
         ) {
@@ -106,9 +111,9 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                     CoronaWarnApplication.getAppContext()
                         .getString(R.string.notification_name),
                     CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_body),
-                    NotificationCompat.PRIORITY_HIGH
+                        .getString(R.string.notification_body)
                 )
+                Timber.d("$id: Test Result available and notification is initiated")
             }
             LocalData.isTestResultNotificationSent(true)
             stopWorker()
@@ -124,7 +129,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private fun stopWorker() {
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
-
+        Timber.d("$id: Background worker stopped")
         BackgroundWorkHelper.sendDebugNotification(
             "TestResult Stopped", "TestResult Stopped"
         )
