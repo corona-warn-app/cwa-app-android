@@ -14,7 +14,6 @@ class TransmissionRiskVectorDeterminator @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    @Suppress("MagicNumber")
     fun determine(symptoms: Symptoms, now: LocalDate = timeStamper.nowUTC.toLocalDate()) = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
             Indication.POSITIVE -> when (symptoms.startOfSymptoms) {

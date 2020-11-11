@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result),
@@ -132,6 +134,8 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                     )
             }
         }
+
+        lifecycleScope.launch { viewModel.observeTestResultToSchedulePositiveTestResultReminder() }
     }
 
     override fun onResume() {

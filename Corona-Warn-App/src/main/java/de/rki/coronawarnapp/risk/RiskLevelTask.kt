@@ -114,8 +114,7 @@ class RiskLevelTask @Inject constructor(
             InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
         return exposureSummary.also {
-            Timber.tag(TAG)
-                .v("Generated new exposure summary with $googleToken")
+            Timber.tag(TAG).v("Generated new exposure summary with $googleToken")
         }
     }
 
@@ -150,7 +149,6 @@ class RiskLevelTask @Inject constructor(
 
     data class Config(
         // TODO unit-test that not > 9 min
-        @Suppress("MagicNumber")
         override val executionTimeout: Duration = Duration.standardMinutes(8),
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
@@ -162,7 +160,7 @@ class RiskLevelTask @Inject constructor(
         private val taskByDagger: Provider<RiskLevelTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, Result> = {
             taskByDagger.get()
         }

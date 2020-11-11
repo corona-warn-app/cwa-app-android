@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-@Suppress("MagicNumber", "LongMethod")
+@Suppress("LongMethod")
 class TestTaskControllerFragment : Fragment(R.layout.fragment_test_task_controller), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
