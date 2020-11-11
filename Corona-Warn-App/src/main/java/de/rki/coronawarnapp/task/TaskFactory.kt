@@ -21,7 +21,7 @@ interface TaskFactory<
         }
     }
 
-    val config: Config
+    suspend fun createConfig(): Config
 
     val taskProvider: () -> Task<ProgressType, ResultType>
 }

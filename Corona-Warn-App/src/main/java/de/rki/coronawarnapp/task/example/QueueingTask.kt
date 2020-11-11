@@ -71,7 +71,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         private val taskByDagger: Provider<QueueingTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, Result> = { taskByDagger.get() }
     }
 }

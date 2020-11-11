@@ -32,10 +32,6 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
         super.onViewCreated(view, savedInstanceState)
 
         // Debug card
-        binding.hourlyKeyPkgMode.apply {
-            setOnClickListener { vm.setHourlyKeyPkgMode(isChecked) }
-        }
-
         binding.backgroundNotificationsToggle.apply {
             setOnClickListener { vm.setBackgroundNotifications(isChecked) }
         }
@@ -45,7 +41,6 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
         vm.debugOptionsState.observe2(this) { state ->
             binding.apply {
                 backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-                hourlyKeyPkgMode.isChecked = state.isHourlyTestingMode
             }
         }
         binding.testLogfileToggle.apply {

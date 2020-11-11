@@ -96,7 +96,7 @@ class SubmissionTask @Inject constructor(
         private val taskByDagger: Provider<SubmissionTask>
     ) : TaskFactory<DefaultProgress, Task.Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, Task.Result> = {
             taskByDagger.get()
         }

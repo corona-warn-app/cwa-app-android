@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class CachedKeyFileTest : BaseTest() {
-    private val type = CachedKeyInfo.Type.COUNTRY_DAY
+    private val type = CachedKeyInfo.Type.LOCATION_DAY
     private val location = LocationCode("DE")
     private val day = LocalDate.parse("2222-12-31")
     private val hour = LocalTime.parse("23:59")
@@ -20,7 +20,7 @@ class CachedKeyFileTest : BaseTest() {
         val key = CachedKeyInfo(type, location, day, hour, now)
 
         key.id shouldBe CachedKeyInfo.calcluateId(location, day, hour, type)
-        key.checksumMD5 shouldBe null
+        key.etag shouldBe null
         key.isDownloadComplete shouldBe false
     }
 
@@ -42,21 +42,13 @@ class CachedKeyFileTest : BaseTest() {
         downloadCompleteUpdate shouldBe CachedKeyInfo.DownloadUpdate(
             id = downloadCompleteUpdate.id,
             isDownloadComplete = true,
-            checksumMD5 = testChecksum
-        )
-
-        val resetDownloadUpdate = key.toDownloadUpdate(null)
-
-        resetDownloadUpdate shouldBe CachedKeyInfo.DownloadUpdate(
-            id = downloadCompleteUpdate.id,
-            isDownloadComplete = false,
-            checksumMD5 = null
+            etag = testChecksum
         )
     }
 
     @Test
     fun `trip changed typing`() {
-        CachedKeyInfo.Type.COUNTRY_DAY.typeValue shouldBe "country_day"
-        CachedKeyInfo.Type.COUNTRY_HOUR.typeValue shouldBe "country_hour"
+        CachedKeyInfo.Type.LOCATION_DAY.typeValue shouldBe "country_day"
+        CachedKeyInfo.Type.LOCATION_HOUR.typeValue shouldBe "country_hour"
     }
 }

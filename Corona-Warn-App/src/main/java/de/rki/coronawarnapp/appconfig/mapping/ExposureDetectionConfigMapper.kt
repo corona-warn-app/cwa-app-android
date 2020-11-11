@@ -6,20 +6,55 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.server.protocols.internal.ExposureDetectionParameters.ExposureDetectionParametersAndroid
+import org.joda.time.Duration
 import javax.inject.Inject
 
 @Reusable
 class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionConfig.Mapper {
-    override fun map(rawConfig: AppConfig.ApplicationConfiguration): ExposureDetectionConfig =
-        ExposureDetectionConfigContainer(
+    override fun map(rawConfig: AppConfig.ApplicationConfiguration): ExposureDetectionConfig {
+        val exposureParams = rawConfig.androidExposureDetectionParameters
+        return ExposureDetectionConfigContainer(
             exposureDetectionConfiguration = rawConfig.mapRiskScoreToExposureConfiguration(),
-            exposureDetectionParameters = rawConfig.androidExposureDetectionParameters
+            exposureDetectionParameters = exposureParams,
+            maxExposureDetectionsPerUTCDay = exposureParams.maxExposureDetectionsPerDay(),
+            minTimeBetweenDetections = exposureParams.minTimeBetweenExposureDetections(),
+            overallDetectionTimeout = exposureParams.overAllDetectionTimeout()
         )
+    }
 
     data class ExposureDetectionConfigContainer(
         override val exposureDetectionConfiguration: ExposureConfiguration,
-        override val exposureDetectionParameters: ExposureDetectionParametersAndroid
+        override val exposureDetectionParameters: ExposureDetectionParametersAndroid,
+        override val maxExposureDetectionsPerUTCDay: Int,
+        override val minTimeBetweenDetections: Duration,
+        override val overallDetectionTimeout: Duration
     ) : ExposureDetectionConfig
+}
+
+// If we are outside the valid data range, fallback to default value.
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun ExposureDetectionParametersAndroid.overAllDetectionTimeout(): Duration = when {
+    overallTimeoutInSeconds > 3600 -> Duration.standardMinutes(15)
+    overallTimeoutInSeconds <= 0 -> Duration.standardMinutes(15)
+    else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+}
+
+// If we are outside the valid data range, fallback to default value.
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun ExposureDetectionParametersAndroid.maxExposureDetectionsPerDay(): Int = when {
+    maxExposureDetectionsPerInterval > 6 -> 6
+    maxExposureDetectionsPerInterval < 0 -> 6
+    else -> maxExposureDetectionsPerInterval
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun ExposureDetectionParametersAndroid.minTimeBetweenExposureDetections(): Duration {
+    val detectionsPerDay = maxExposureDetectionsPerDay()
+    return if (detectionsPerDay == 0) {
+        Duration.standardDays(99)
+    } else {
+        (24 / detectionsPerDay).let { Duration.standardHours(it.toLong()) }
+    }
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

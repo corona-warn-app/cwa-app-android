@@ -33,18 +33,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Switch
-                    android:id="@+id/hourly_key_pkg_mode"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:text="Hourly keyfile mode (last 24)"
-                    android:theme="@style/switchBase"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
-
-                <Switch
                     android:id="@+id/background_notifications_toggle"
                     style="@style/body1"
                     android:layout_width="match_parent"
@@ -54,7 +42,7 @@
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/hourly_key_pkg_mode" />
+                    app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
 
                 <Switch
                     android:id="@+id/test_logfile_toggle"

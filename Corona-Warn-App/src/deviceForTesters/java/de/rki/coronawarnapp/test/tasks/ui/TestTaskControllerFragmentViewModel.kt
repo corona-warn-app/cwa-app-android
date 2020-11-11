@@ -32,7 +32,7 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
     val factoryState: LiveData<FactoryState> = liveData(context = dispatcherProvider.Default) {
         val infoStrings = taskFactories.map {
             val taskLabel = it.key.simpleName
-            val collisionBehavior = it.value.config.collisionBehavior.toString()
+            val collisionBehavior = it.value.createConfig().collisionBehavior.toString()
             """
                 $taskLabel - Behavior: $collisionBehavior
             """.trimIndent()
