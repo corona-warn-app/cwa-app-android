@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Date
 
 /**
@@ -21,6 +23,8 @@ object LocalData {
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
+    private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
+        "preference_has_risk_status_lowered"
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -355,6 +359,24 @@ object LocalData {
             )
         }
 
+    /**
+     * Sets a boolean depending whether the risk level decreased or not.
+     */
+    private val isUserToBeNotifiedOfLoweredRiskLevelFlowInternal by lazy {
+        MutableStateFlow(isUserToBeNotifiedOfLoweredRiskLevel)
+    }
+    val isUserToBeNotifiedOfLoweredRiskLevelFlow: Flow<Boolean> by lazy {
+        isUserToBeNotifiedOfLoweredRiskLevelFlowInternal
+    }
+    var isUserToBeNotifiedOfLoweredRiskLevel: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(
+            PREFERENCE_HAS_RISK_STATUS_LOWERED,
+            false
+        )
+        set(value) = getSharedPreferenceInstance()
+            .edit(commit = true) { putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value) }
+            .also { isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value }
+
     /****************************************************
      * SERVER FETCH DATA
      ****************************************************/
@@ -456,42 +478,34 @@ object LocalData {
      * SETTINGS DATA
      ****************************************************/
 
-    /**
-     * Gets the user decision if notification should be enabled for a risk change
-     *
-     * @return
-     */
-    fun isNotificationsRiskEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_notifications_risk_enabled),
-        true
-    )
+    private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
 
-    /**
-     * Toggles the user decision if notification should be enabled for a risk change
-     *
-     */
-    fun toggleNotificationsRiskEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_notifications_risk_enabled),
-            !isNotificationsRiskEnabled()
-        )
+    private val isNotificationsRiskEnabledFlowInternal by lazy {
+        MutableStateFlow(isNotificationsRiskEnabled)
     }
-
-    fun isNotificationsTestEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_notifications_test_enabled),
-        true
-    )
-
-    fun toggleNotificationsTestEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_notifications_test_enabled),
-            !isNotificationsTestEnabled()
-        )
+    val isNotificationsRiskEnabledFlow: Flow<Boolean> by lazy {
+        isNotificationsRiskEnabledFlowInternal
     }
+    var isNotificationsRiskEnabled: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
+        set(value) = getSharedPreferenceInstance().edit(true) {
+            putBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, value)
+            isNotificationsRiskEnabledFlowInternal.value = value
+        }
+
+    private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
+    private val isNotificationsTestEnabledFlowInternal by lazy {
+        MutableStateFlow(isNotificationsTestEnabled)
+    }
+    val isNotificationsTestEnabledFlow: Flow<Boolean> by lazy {
+        isNotificationsTestEnabledFlowInternal
+    }
+    var isNotificationsTestEnabled: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)
+        set(value) = getSharedPreferenceInstance().edit(true) {
+            putBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, value)
+            isNotificationsTestEnabledFlowInternal.value = value
+        }
 
     /**
      * Gets the decision if background jobs are enabled
@@ -621,6 +635,8 @@ object LocalData {
         )
     }
 
+    fun submissionWasSuccessful(): Boolean = numberOfSuccessfulSubmissions() >= 1
+
     fun testGUID(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
             .getString(R.string.preference_test_guid),
@@ -682,19 +698,6 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
-    fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_last_three_hours_from_server),
-            value
-        )
-    }
-
-    fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_last_three_hours_from_server), false
-    )
-
     fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
         putBoolean(
             CoronaWarnApplication.getAppContext()
@@ -726,7 +729,7 @@ object LocalData {
             )
         }
         set(value) {
-            getSharedPreferenceInstance().edit {
+            getSharedPreferenceInstance().edit(true) {
                 putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
             }
         }

@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat.startActivity
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.ApplicationConfigurationCorruptException
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AppVersionConfig.SemanticVersion
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
 import timber.log.Timber
@@ -89,7 +89,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
     }
 
     private fun constructSemanticVersionString(
-        semanticVersion: ApplicationConfigurationOuterClass.SemanticVersion
+        semanticVersion: SemanticVersion
     ): String {
         return semanticVersion.major.toString() + "." +
                 semanticVersion.minor.toString() + "." +

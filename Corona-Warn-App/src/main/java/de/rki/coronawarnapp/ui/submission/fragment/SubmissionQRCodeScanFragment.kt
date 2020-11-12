@@ -7,7 +7,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -17,31 +16,36 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan) {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
 
-    companion object {
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
-    }
-
-    private val viewModel: SubmissionViewModel by activityViewModels()
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
 
     private fun decodeCallback(result: BarcodeResult) {
-        viewModel.validateAndStoreTestGUID(result.text)
+        submissionViewModel.validateAndStoreTestGUID(result.text)
     }
 
     private fun startDecode() {
@@ -94,16 +98,17 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         binding.submissionQrCodeScanClose.setOnClickListener {
-            navigateToDispatchScreen()
+            viewModel.onClosePressed()
         }
 
         binding.submissionQrCodeScanPreview.decoderFactory =
             DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
+        submissionViewModel.scanStatus.observeEvent(viewLifecycleOwner) {
             if (ScanStatus.SUCCESS == it) {
-                viewModel.doDeviceRegistration()
+                submissionViewModel.doDeviceRegistration()
             }
 
             if (ScanStatus.INVALID == it) {
@@ -111,27 +116,36 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
         }
 
-        viewModel.registrationState.observeEvent(viewLifecycleOwner) {
+        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner) {
             binding.submissionQrCodeScanSpinner.visibility = when (it) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
 
             if (ApiRequestState.SUCCESS == it) {
-                findNavController().doNavigate(
+                doNavigate(
                     SubmissionQRCodeScanFragmentDirections
                         .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
                 )
             }
         }
 
-        viewModel.registrationError.observeEvent(viewLifecycleOwner) {
+        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                    goBack()
+            }
         }
     }
 
     private fun navigateToDispatchScreen() =
-        findNavController().doNavigate(
+        doNavigate(
             SubmissionQRCodeScanFragmentDirections
                 .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )
@@ -196,7 +210,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             cancelable = false,
             positiveButtonFunction = {
                 showsPermissionDialog = false
-                goBack()
+                viewModel.onBackPressed()
             }
         )
         showsPermissionDialog = true
@@ -217,7 +231,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             },
             {
                 showsPermissionDialog = false
-                goBack()
+                viewModel.onBackPressed()
             }
         )
 
@@ -235,5 +249,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     override fun onPause() {
         super.onPause()
         binding.submissionQrCodeScanPreview.pause()
+    }
+
+    companion object {
+        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
     }
 }

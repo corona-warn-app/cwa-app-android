@@ -4,21 +4,18 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.gms.MockGMSTask
 import java.io.File
 
 class DefaultDiagnosisKeyProviderTest : BaseTest() {
@@ -42,14 +39,13 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { submissionQuota.consumeQuota(any()) } returns true
 
-        val taskResult = mockk<Task<Void>>()
-        every { taskResult.addOnSuccessListener(any()) } answers {
-            val listener = arg<OnSuccessListener<Nothing>>(0)
-            listener.onSuccess(null)
-            taskResult
-        }
-        every { taskResult.addOnFailureListener(any()) } returns taskResult
-        coEvery { googleENFClient.provideDiagnosisKeys(any(), any(), any()) } returns taskResult
+        coEvery {
+            googleENFClient.provideDiagnosisKeys(
+                any(),
+                any(),
+                any()
+            )
+        } returns MockGMSTask.forValue(null)
 
         coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
     }

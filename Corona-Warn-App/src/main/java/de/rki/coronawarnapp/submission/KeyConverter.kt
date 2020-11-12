@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 
 interface KeyConverter {
 
@@ -9,5 +9,5 @@ interface KeyConverter {
         key: TemporaryExposureKey,
         riskValue: Int,
         daysSinceOnsetOfSymptoms: Int
-    ): KeyExportFormat.TemporaryExposureKey
+    ): TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
 }

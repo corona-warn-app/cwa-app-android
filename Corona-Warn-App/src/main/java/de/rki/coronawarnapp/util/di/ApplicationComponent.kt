@@ -22,15 +22,21 @@ import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
+import de.rki.coronawarnapp.task.internal.TaskModule
+import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
 import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
+import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.verification.VerificationModule
 import javax.inject.Singleton
 
@@ -39,6 +45,7 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         AssistedInjectModule::class,
+        CoroutineModule::class,
         AndroidModule::class,
         ReceiverBinder::class,
         ServiceBinder::class,
@@ -53,7 +60,10 @@ import javax.inject.Singleton
         AppConfigModule::class,
         SubmissionModule::class,
         VerificationModule::class,
-        PlaybookModule::class
+        PlaybookModule::class,
+        TaskModule::class,
+        DeviceForTestersModule::class,
+        SerializationModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
@@ -80,6 +90,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val playbook: Playbook
 
     val interoperabilityRepository: InteroperabilityRepository
+
+    @AppScope val appScope: AppCoroutineScope
 
     @Component.Factory
     interface Factory {

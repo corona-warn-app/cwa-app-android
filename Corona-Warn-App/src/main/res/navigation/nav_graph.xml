@@ -10,9 +10,9 @@
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainFragment"
+        android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
@@ -50,20 +50,20 @@
 
     <fragment
         android:id="@+id/mainSharingFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainShareFragment"
+        android:name="de.rki.coronawarnapp.ui.main.share.MainShareFragment"
         android:label="@layout/fragment_main_share"
         tools:layout="@layout/fragment_main_share" />
 
     <fragment
         android:id="@+id/mainOverviewFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainOverviewFragment"
+        android:name="de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment"
         android:label="@layout/fragment_main_overview"
         tools:layout="@layout/fragment_main_overview" />
 
     <!-- Settings -->
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.start.SettingsFragment"
         android:label="@layout/fragment_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -85,7 +85,7 @@
 
     <fragment
         android:id="@+id/settingsTracingFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment"
+        android:name="de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing">
         <action
@@ -115,7 +115,7 @@
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsNotificationFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragment"
         android:label="SettingsNotificationFragment"
         tools:layout="@layout/fragment_settings_notifications" />
 
@@ -199,7 +199,7 @@
 
     <fragment
         android:id="@+id/riskDetailsFragment"
-        android:name="de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragment"
+        android:name="de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragment"
         android:label="@layout/fragment_risk_details"
         tools:layout="@layout/fragment_risk_details">
         <action
@@ -216,11 +216,11 @@
             android:id="@+id/action_submissionDispatcherFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
         <action
-            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeScanFragment"
-            app:destination="@id/submissionQRCodeScanFragment" />
-        <action
             android:id="@+id/action_submissionDispatcherFragment_to_submissionContactFragment"
             app:destination="@id/submissionContactFragment" />
+        <action
+            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeInfoFragment"
+            app:destination="@id/submissionQRCodeInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
@@ -310,6 +310,15 @@
             app:uri="coronawarnapp://launch" />
     </activity>
     <fragment
+        android:id="@+id/submissionQRCodeInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment"
+        android:label="SubmissionQRCodeInfoFragment">
+        <action
+            android:id="@+id/action_submissionQRCodeInfoFragment_to_submissionQRCodeScanFragment"
+            app:destination="@id/submissionQRCodeScanFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/submissionQRCodeScanFragment"
         android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment"
         android:label="SubmissionQRCodeScanFragment">
@@ -348,7 +357,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment"
         android:label="SubmissionSymptomIntroductionFragment" >
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
@@ -362,7 +371,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomCalendarFragment"
         android:label="SubmissionSymptomCalendarFragment" >
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"

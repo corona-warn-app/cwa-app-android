@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -15,27 +14,22 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
-import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
-import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import timber.log.Timber
 import java.util.Date
 
-class SubmissionViewModel : ViewModel() {
+class SubmissionViewModel : CWAViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
     private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))
     private val _registrationError = MutableLiveData<Event<CwaWebException>>(null)
-
-    private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
-    private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
 
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
@@ -44,24 +38,17 @@ class SubmissionViewModel : ViewModel() {
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
-    val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
-    val symptomCalendarEvent: SingleLiveEvent<SymptomCalendarEvent> = SingleLiveEvent()
-
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
 
-    val uiStateState: LiveData<ApiRequestState> = _uiStateState
-    val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
+    val uiStateState: LiveData<ApiRequestState> = SubmissionRepository.uiStateState
+    val uiStateError: LiveData<Event<CwaWebException>> = SubmissionRepository.uiStateError
 
     val submissionState: LiveData<ApiRequestState> = _submissionState
     val submissionError: LiveData<Event<CwaWebException>> = _submissionError
 
-    val deviceRegistered get() = LocalData.registrationToken() != null
-
-    val testResultReceivedDate: LiveData<Date> =
-        SubmissionRepository.testResultReceivedDate
-    val deviceUiState: LiveData<DeviceUIState> =
-        SubmissionRepository.deviceUIState
+    val testResultReceivedDate: LiveData<Date> = SubmissionRepository.testResultReceivedDate
+    val deviceUiState: LiveData<DeviceUIState> = SubmissionRepository.deviceUIState
 
     val symptomIndication = MutableLiveData<Symptoms.Indication?>()
     val symptomStart = MutableLiveData<Symptoms.StartOf?>()
@@ -129,22 +116,6 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
-        var refresh = refreshTestResult
-
-        deviceUiState.value?.let {
-            if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
-                refresh = false
-                Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
-            }
-        }
-        executeRequestWithState(
-            { SubmissionRepository.refreshUIState(refresh) },
-            _uiStateState,
-            _uiStateError
-        )
-    }
-
     fun validateAndStoreTestGUID(rawResult: String) {
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
@@ -168,41 +139,6 @@ class SubmissionViewModel : ViewModel() {
         SubmissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
-    }
-
-    private fun executeRequestWithState(
-        apiRequest: suspend () -> Unit,
-        state: MutableLiveData<ApiRequestState>,
-        exceptionLiveData: MutableLiveData<Event<CwaWebException>>? = null
-    ) {
-        state.value = ApiRequestState.STARTED
-        viewModelScope.launch {
-            try {
-                apiRequest()
-                state.value = ApiRequestState.SUCCESS
-            } catch (err: CwaWebException) {
-                exceptionLiveData?.value = Event(err)
-                state.value = ApiRequestState.FAILED
-            } catch (err: Exception) {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-        }
-    }
-
-    fun onNextClicked() {
-        symptomIntroductionEvent.postValue(SymptomIntroductionEvent.NavigateToSymptomCalendar)
-    }
-
-    fun onPreviousClicked() {
-        symptomIntroductionEvent.postValue(SymptomIntroductionEvent.NavigateToPreviousScreen)
-    }
-
-    fun onCalendarNextClicked() {
-        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToNext)
-    }
-
-    fun onCalendarPreviousClicked() {
-        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToPrevious)
     }
 
     fun onPositiveSymptomIndication() {

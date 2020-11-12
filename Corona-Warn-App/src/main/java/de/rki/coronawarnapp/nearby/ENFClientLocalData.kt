@@ -2,13 +2,14 @@ package de.rki.coronawarnapp.nearby
 
 import android.content.Context
 import androidx.core.content.edit
+import de.rki.coronawarnapp.util.di.AppContext
 import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ENFClientLocalData @Inject constructor(
-    private val context: Context
+    @AppContext private val context: Context
 ) {
 
     private val prefs by lazy {

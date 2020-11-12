@@ -9,24 +9,19 @@ data class QRScanResult(val rawResult: String) {
     val guid: String? by lazy { extractGUID(rawResult) }
 
     private fun extractGUID(rawResult: String): String? {
-        if (rawResult.length > MAX_QR_CODE_LENGTH) return null
-        if (rawResult.count { it == GUID_SEPARATOR } != 1) return null
         if (!QR_CODE_REGEX.toRegex().matches(rawResult)) return null
 
-        val potentialGUID = rawResult.substringAfterLast(GUID_SEPARATOR, "")
-        if (potentialGUID.isBlank() || potentialGUID.length > MAX_GUID_LENGTH) return null
-
-        return potentialGUID
+        val matcher = QR_CODE_REGEX.matcher(rawResult)
+        return if (matcher.matches()) matcher.group(1) else null
     }
 
     companion object {
         // regex pattern for scanned QR code URL
-        val QR_CODE_REGEX: Pattern = Pattern.compile(
-            "^((^https:\\/{2}localhost)(\\/\\?)[A-Fa-f0-9]{6}" +
-                    "[-][A-Fa-f0-9]{8}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{12})\$"
-        )
-        const val GUID_SEPARATOR = '?'
-        const val MAX_QR_CODE_LENGTH = 150
-        const val MAX_GUID_LENGTH = 80
+        val QR_CODE_REGEX: Pattern = ("^" + // Match start of string
+            "(?:https:\\/{2}localhost)" + // Match `https://localhost`
+            "(?:\\/{1}\\?)" + // Match the query param `/?`
+            "([a-f\\d]{6}[-][a-f\\d]{8}[-](?:[a-f\\d]{4}[-]){3}[a-f\\d]{12})" + // Match the UUID
+            "\$"
+            ).toPattern(Pattern.CASE_INSENSITIVE)
     }
 }
