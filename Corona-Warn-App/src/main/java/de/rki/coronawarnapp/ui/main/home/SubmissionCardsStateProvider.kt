@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SubmissionCardsStateProvider @Inject constructor() {
 
     val state: Flow<SubmissionCardState> = combine(
-        SubmissionRepository.deviceUIStateFlow,
+        SubmissionRepository.deviceUIStateFlow
     ) { args ->
         SubmissionCardState(
             deviceUiState = args[0],

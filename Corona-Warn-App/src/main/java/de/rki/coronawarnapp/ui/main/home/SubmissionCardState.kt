@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main.home
 import android.content.Context
 import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_ERROR
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_NEGATIVE
@@ -16,7 +17,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 
 data class SubmissionCardState(
     val deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>,
-    val isDeviceRegistered: Boolean,
+    val isDeviceRegistered: Boolean
 ) {
 
     fun isRiskCardVisible(): Boolean =
@@ -30,11 +31,15 @@ data class SubmissionCardState(
     fun isUnregisteredCardVisible(): Boolean = !isDeviceRegistered
 
     fun isFetchingCardVisible(): Boolean =
-        isDeviceRegistered && deviceUiState is NetworkRequestWrapper.RequestStarted
+        isDeviceRegistered && when (deviceUiState) {
+            is NetworkRequestWrapper.RequestFailed -> deviceUiState.error is CwaServerError
+            is NetworkRequestWrapper.RequestStarted -> true
+            else -> false
+        }
 
     fun isFailedCardVisible(): Boolean =
         isDeviceRegistered && when (deviceUiState) {
-            is NetworkRequestWrapper.RequestFailed -> true
+            is NetworkRequestWrapper.RequestFailed -> deviceUiState.error !is CwaServerError
             is NetworkRequestWrapper.RequestSuccessful -> deviceUiState.data == PAIRED_REDEEMED
             else -> false
         }
