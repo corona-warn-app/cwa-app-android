@@ -36,5 +36,6 @@ class GoogleAPIVersion @Inject constructor() {
     companion object {
         private const val GOOGLE_API_VERSION_FIELD_LENGTH = 8
         const val V16 = 16000000L
+        const val V15 = 15000000L
     }
 }

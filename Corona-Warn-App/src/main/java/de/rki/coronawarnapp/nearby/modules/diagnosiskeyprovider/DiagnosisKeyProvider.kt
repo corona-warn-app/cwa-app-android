@@ -17,9 +17,12 @@ interface DiagnosisKeyProvider {
      * @param token
      * @return
      */
+    @Deprecated("Use provideDiagnosisKeys with only keyFiles as param to activate WindowExposure mode")
     suspend fun provideDiagnosisKeys(
         keyFiles: Collection<File>,
         configuration: ExposureConfiguration?,
         token: String
     ): Boolean
+
+    suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean
 }

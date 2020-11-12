@@ -86,6 +86,10 @@ class SubmissionQuota @Inject constructor(
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        /**
+         * This quota changes when using ExposureWindow mode from 20 to 6 per day
+         * See: https://developers.google.com/android/exposure-notifications/release-notes
+         */
         internal const val DEFAULT_QUOTA = 20
     }
 }
