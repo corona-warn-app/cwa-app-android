@@ -71,7 +71,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
     )
 
     @Test
-    fun `key invalidation based on ETags`() = runBlockingTest {
+    fun `revoke keys based on ETags and return true if something happened`() = runBlockingTest {
         val invalidatedDay = mockk<KeyDownloadConfig.RevokedKeyPackage>().apply {
             every { etag } returns "etag-badday"
         }
@@ -106,7 +106,12 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
         coEvery { keyCache.getAllCachedKeys() } returns listOf(badDay, goodDay, badHour, goodHour)
 
         val instance = createInstance()
-        instance.revokeCachedKeys(listOf(invalidatedDay, invalidatedHour))
+        instance.revokeCachedKeys(listOf(invalidatedDay, invalidatedHour)) shouldBe true
+
+        coEvery { keyCache.getAllCachedKeys() } returns emptyList()
+        instance.revokeCachedKeys(listOf(invalidatedDay, invalidatedHour)) shouldBe false
+
+        instance.revokeCachedKeys(emptyList()) shouldBe false
 
         coVerify { keyCache.delete(listOf(badDayInfo, badHourInfo)) }
     }

@@ -91,7 +91,7 @@ android {
         signingProps.load(new FileInputStream(signingPropFile))
         signingConfigs {
             deviceRelease {
-                if(signingProps['deviceRelease.storePath'] != null) {
+                if (signingProps['deviceRelease.storePath'] != null) {
                     storeFile file(signingProps['deviceRelease.storePath'])
                     keyAlias signingProps['deviceRelease.keyAlias']
                     storePassword signingProps['deviceRelease.storePassword']
@@ -99,7 +99,7 @@ android {
                 }
             }
             deviceForTestersRelease {
-                if(signingProps['deviceForTestersRelease.storePath'] != null) {
+                if (signingProps['deviceForTestersRelease.storePath'] != null) {
                     storeFile file(signingProps['deviceForTestersRelease.storePath'])
                     keyAlias signingProps['deviceForTestersRelease.keyAlias']
                     storePassword signingProps['deviceForTestersRelease.storePassword']
@@ -162,6 +162,12 @@ android {
                 output.versionNameOverride = adjustedVersionName
             }
             println("deviceForTesters adjusted versionName: $adjustedVersionName")
+        }
+
+        variant.outputs.each { output ->
+            def apkName = "Corona-Warn-App-${output.versionNameOverride}-${flavor.name}-${variant.buildType.name}.apk"
+            println("APK Name: $apkName")
+            output.outputFileName = apkName
         }
     }
 
