@@ -82,7 +82,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             deadmanNotificationScheduler.schedulePeriodic()
         }
 
-        configChangeDetector.start()
+        configChangeDetector.launch()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
