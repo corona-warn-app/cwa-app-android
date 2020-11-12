@@ -69,7 +69,7 @@ class TracingRepository @Inject constructor(
         }
     val tracingProgress: Flow<TracingProgress> = combine(
         internalIsRefreshing,
-        enfClient.isCurrentlyCalculating()
+        enfClient.isPerformingExposureDetection()
     ) { isDownloading, isCalculating ->
         when {
             isDownloading -> TracingProgress.Downloading

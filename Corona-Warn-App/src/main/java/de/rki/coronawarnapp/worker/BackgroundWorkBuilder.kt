@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
  * Set "kind delay" for accessibility reason.
  * Backoff criteria set to Linear type.
  *
- * @return PeriodicWorkRequest
+ * The launchInterval is 60 minutes as we want to check every hour, for new hour packages on the CDN.
  *
  * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER
  * @see BackgroundConstants.KIND_DELAY
@@ -19,9 +19,7 @@ import java.util.concurrent.TimeUnit
  * @see BackoffPolicy.LINEAR
  */
 fun buildDiagnosisKeyRetrievalPeriodicWork() =
-    PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(
-        BackgroundWorkHelper.getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
-    )
+    PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(60, TimeUnit.MINUTES)
         .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         .setInitialDelay(
             BackgroundConstants.KIND_DELAY,

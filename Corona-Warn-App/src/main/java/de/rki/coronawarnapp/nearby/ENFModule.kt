@@ -5,8 +5,8 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.DefaultCalculationTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.DefaultExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.exposurewindow.DefaultExposureWindowProvider
@@ -41,13 +41,12 @@ class ENFModule {
     fun scanningSupport(scanningSupport: DefaultScanningSupport): ScanningSupport =
         scanningSupport
 
-    @Singleton
-    @Provides
-    fun calculationTracker(calculationTracker: DefaultCalculationTracker): CalculationTracker =
-        calculationTracker
 
     @Singleton
     @Provides
     fun exposureWindowProvider(exposureWindowProvider: DefaultExposureWindowProvider): ExposureWindowProvider =
         exposureWindowProvider
+
+    fun calculationTracker(exposureDetectionTracker: DefaultExposureDetectionTracker): ExposureDetectionTracker =
+        exposureDetectionTracker
 }
