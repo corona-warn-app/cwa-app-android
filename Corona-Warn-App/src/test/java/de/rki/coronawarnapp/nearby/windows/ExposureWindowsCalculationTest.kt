@@ -56,11 +56,11 @@ class ExposureWindowsCalculationTest : BaseTest() {
     private val fileName = "exposure-windows-risk-calculation.json"
 
     // Debug logs
-    private enum class LogLevel(val value: Int) {
-        NONE(0),
-        ONLY_COMPARISON(1),
-        EXTENDED(2),
-        ALL(3)
+    private enum class LogLevel {
+        NONE,
+        ONLY_COMPARISON,
+        EXTENDED,
+        ALL
     }
     private val logLevel = LogLevel.ONLY_COMPARISON
 
@@ -92,7 +92,9 @@ class ExposureWindowsCalculationTest : BaseTest() {
         json shouldNotBe null
 
         // 2 - Check test cases
-        json.testCases.map { case -> checkTestCase(case) }
+        for (case: TestCase in json.testCases) {
+            checkTestCase(case)
+        }
         debugLog("Test cases checked. Total count: ${json.testCases.size}")
 
         // 3 - Mock calculation configuration and create default risk level with it
