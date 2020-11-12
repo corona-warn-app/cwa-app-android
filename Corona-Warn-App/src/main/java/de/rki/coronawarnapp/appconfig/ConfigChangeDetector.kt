@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.storage.LocalData
@@ -14,11 +15,22 @@ class ConfigChangeDetector @Inject constructor(
     private val taskController: TaskController
 ) {
 
-    fun start() = appConfigProvider.currentConfig.onEach {
-        if (it.identifier != LocalData.lastConfigId()) {
-            RiskLevelRepository.setRiskLevelScore(RiskLevel.UNDETERMINED)
+    fun start() = appConfigProvider.currentConfig.onEach { check(it.identifier) }
+
+    @VisibleForTesting
+    internal fun check(identifier: String) {
+        if (identifier != LocalData.lastConfigId()) {
+            RiskLevelRepositoryDeferrer.resetRiskLevel()
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            LocalData.lastConfigId(it.identifier)
+            LocalData.lastConfigId(identifier)
+        }
+    }
+
+    @VisibleForTesting
+    internal object RiskLevelRepositoryDeferrer {
+
+        fun resetRiskLevel() {
+            RiskLevelRepository.setRiskLevelScore(RiskLevel.UNDETERMINED)
         }
     }
 }
