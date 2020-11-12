@@ -163,11 +163,12 @@ android {
             }
             println("deviceForTesters adjusted versionName: $adjustedVersionName")
         }
-
-        variant.outputs.each { output ->
-            def apkName = "Corona-Warn-App-${output.versionNameOverride}-${flavor.name}-${variant.buildType.name}.apk"
-            println("APK Name: $apkName")
-            output.outputFileName = apkName
+        if (flavor.name != "device") {
+            variant.outputs.each { output ->
+                def apkName = "Corona-Warn-App-${output.versionNameOverride}-${flavor.name}-${variant.buildType.name}.apk"
+                println("APK Name: $apkName")
+                output.outputFileName = apkName
+            }
         }
     }
 
