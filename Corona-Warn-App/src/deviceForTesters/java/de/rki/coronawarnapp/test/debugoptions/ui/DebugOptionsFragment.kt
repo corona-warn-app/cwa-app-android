@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.test.debugoptions.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.Formatter
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -49,6 +50,8 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
         vm.loggerState.observe2(this) { state ->
             binding.apply {
                 testLogfileToggle.isChecked = state.isLogging
+                val logSize = Formatter.formatShortFileSize(requireContext(), state.logsize)
+                testLogfileToggle.text = "Logfile enabled ($logSize)"
                 testLogfileShare.setGone(!state.isLogging)
             }
         }

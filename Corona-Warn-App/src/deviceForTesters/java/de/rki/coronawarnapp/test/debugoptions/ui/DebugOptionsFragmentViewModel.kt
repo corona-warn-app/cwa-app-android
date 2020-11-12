@@ -5,11 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
-import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.TestSettings
-import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
 import de.rki.coronawarnapp.util.CWADebug
@@ -26,8 +22,6 @@ import java.io.File
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
     @AppContext private val context: Context,
     private val envSetup: EnvironmentSetup,
-    private val testSettings: TestSettings,
-    private val taskController: TaskController,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -69,10 +63,6 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
             if (enable) it.start() else it.stop()
         }
         loggerState.update { CWADebug.toLoggerState() }
-    }
-
-    fun calculateRiskLevelClicked() {
-        taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
     }
 
     val logShareEvent = SingleLiveEvent<File?>()
