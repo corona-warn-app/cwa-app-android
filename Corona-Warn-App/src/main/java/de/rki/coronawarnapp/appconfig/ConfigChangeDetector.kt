@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -25,6 +26,7 @@ class ConfigChangeDetector @Inject constructor(
     fun launch() {
         Timber.v("Monitoring config changes.")
         appConfigProvider.currentConfig
+            .distinctUntilChangedBy { it.identifier }
             .onEach {
                 Timber.v("Running app config change checks.")
                 check(it.identifier)
@@ -41,12 +43,13 @@ class ConfigChangeDetector @Inject constructor(
             return
         }
 
-        if (newIdentifier != riskLevelData.lastUsedConfigIdentifier) {
-            Timber.i("New config id differs from the last one, starting new risk level calculation.")
+        val oldConfigId = riskLevelData.lastUsedConfigIdentifier
+        if (newIdentifier != oldConfigId) {
+            Timber.i("New config id ($newIdentifier) differs from last one ($oldConfigId), resetting.")
             RiskLevelRepositoryDeferrer.resetRiskLevel()
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
         } else {
-            Timber.v("Config identifier didn't change, NOOP.")
+            Timber.v("Config identifier ($oldConfigId) didn't change, NOOP.")
         }
     }
 
