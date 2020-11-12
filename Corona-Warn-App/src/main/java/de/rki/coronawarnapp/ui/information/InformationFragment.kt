@@ -11,17 +11,37 @@ import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * Basic Fragment which links to static and web content.
  */
-class InformationFragment : Fragment(R.layout.fragment_information) {
+class InformationFragment : Fragment(R.layout.fragment_information), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: InformationFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentInformationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        vm.currentENFVersion.observe2(this) {
+            binding.informationEnfVersion.apply {
+                setGone(it == null)
+                text = it
+            }
+        }
+        vm.appVersion.observe2(this) {
+            binding.informationVersion.text = it
+        }
+
         setButtonOnClickListener()
         setAccessibilityDelegate()
     }

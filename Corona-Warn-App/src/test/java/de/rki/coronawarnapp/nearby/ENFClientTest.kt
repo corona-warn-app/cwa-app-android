@@ -7,12 +7,14 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetec
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -38,6 +40,7 @@ class ENFClientTest : BaseTest() {
     @MockK lateinit var tracingStatus: TracingStatus
     @MockK lateinit var scanningSupport: ScanningSupport
     @MockK lateinit var exposureDetectionTracker: ExposureDetectionTracker
+    @MockK lateinit var enfVersion: ENFVersion
 
     @BeforeEach
     fun setup() {
@@ -56,7 +59,8 @@ class ENFClientTest : BaseTest() {
         diagnosisKeyProvider = diagnosisKeyProvider,
         tracingStatus = tracingStatus,
         scanningSupport = scanningSupport,
-        exposureDetectionTracker = exposureDetectionTracker
+        exposureDetectionTracker = exposureDetectionTracker,
+        enfVersion = enfVersion
     )
 
     @Test
@@ -264,5 +268,14 @@ class ENFClientTest : BaseTest() {
 
             createClient().lastSuccessfulTrackedExposureDetection().first()!!.identifier shouldBe "1"
         }
+    }
+
+    @Test
+    fun `enf version check is forwaded to the right module`() = runBlocking {
+        coEvery { enfVersion.getENFClientVersion() } returns Long.MAX_VALUE
+
+        createClient().getENFClientVersion() shouldBe Long.MAX_VALUE
+
+        coVerifySequence { enfVersion.getENFClientVersion() }
     }
 }

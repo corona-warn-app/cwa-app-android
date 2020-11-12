@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterInformationHelper" />
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_container"
@@ -117,10 +112,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:focusable="true"
-                    android:text="@{FormatterInformationHelper.formatVersion()}"
+                    tools:text="v1.8.0-RC1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline_body"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal" />
+
+                <TextView
+                    android:id="@+id/information_enf_version"
+                    style="@style/body2Medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    tools:text="16000000"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_body"
+                    app:layout_constraintTop_toBottomOf="@+id/information_version" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_body"
