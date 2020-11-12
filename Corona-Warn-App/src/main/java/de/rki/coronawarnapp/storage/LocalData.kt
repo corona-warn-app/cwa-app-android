@@ -25,6 +25,9 @@ object LocalData {
 
     private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
         "preference_has_risk_status_lowered"
+
+    private const val KEY_LAST_CONFIG_ID = "lastconfigid"
+
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -380,6 +383,12 @@ object LocalData {
     /****************************************************
      * SERVER FETCH DATA
      ****************************************************/
+
+    fun lastConfigId(): String? = getSharedPreferenceInstance().getString(KEY_LAST_CONFIG_ID, null)
+
+    fun lastConfigId(value: String?) = getSharedPreferenceInstance().edit(true) {
+        putString(KEY_LAST_CONFIG_ID, value)
+    }
 
     /**
      * Gets the last time the server fetched the diagnosis keys from the server as Date object
