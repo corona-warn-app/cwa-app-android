@@ -41,12 +41,13 @@ class ENFModule {
     fun scanningSupport(scanningSupport: DefaultScanningSupport): ScanningSupport =
         scanningSupport
 
-
     @Singleton
     @Provides
     fun exposureWindowProvider(exposureWindowProvider: DefaultExposureWindowProvider): ExposureWindowProvider =
         exposureWindowProvider
 
+    @Singleton
+    @Provides
     fun calculationTracker(exposureDetectionTracker: DefaultExposureDetectionTracker): ExposureDetectionTracker =
         exposureDetectionTracker
 }
