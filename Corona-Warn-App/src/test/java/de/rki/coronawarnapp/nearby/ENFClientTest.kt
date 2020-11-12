@@ -60,7 +60,7 @@ class ENFClientTest : BaseTest() {
         tracingStatus = tracingStatus,
         scanningSupport = scanningSupport,
 
-        exposureWindowProvider = exposureWindowProvider
+        exposureWindowProvider = exposureWindowProvider,
         exposureDetectionTracker = exposureDetectionTracker
     )
 
