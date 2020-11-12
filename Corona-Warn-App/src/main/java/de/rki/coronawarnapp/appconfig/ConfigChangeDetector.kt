@@ -43,10 +43,10 @@ class ConfigChangeDetector @Inject constructor(
 
         if (newIdentifier != riskLevelData.lastUsedConfigIdentifier) {
             Timber.i("New config id differs from the last one, starting new risk level calculation.")
-
             RiskLevelRepositoryDeferrer.resetRiskLevel()
-
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+        } else {
+            Timber.v("Config identifier didn't change, NOOP.")
         }
     }
 
