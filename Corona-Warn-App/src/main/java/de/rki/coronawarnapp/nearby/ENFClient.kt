@@ -39,30 +39,17 @@ class ENFClient @Inject constructor(
         keyFiles: Collection<File>,
         configuration: ExposureConfiguration?,
         token: String
-    ): Boolean = submitDiagnosisKeys(keyFiles, configuration, token)
-
-    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean = submitDiagnosisKeys(keyFiles)
-
-    private suspend fun submitDiagnosisKeys(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration? = null,
-        token: String? = null
     ): Boolean {
-        Timber.d(
-            "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
-            keyFiles, configuration, token
-        )
+        //NO-OP
+        return false
+    }
 
-        if (keyFiles.isEmpty()) {
+    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
+        Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")
+
+        return if (keyFiles.isEmpty()) {
             Timber.d("No key files submitted, returning early.")
-            return true
-        }
-
-        Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
-
-        return if (token != null) {
-            exposureDetectionTracker.trackNewExposureDetection(token)
-            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
+            true
         } else {
             Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
             exposureDetectionTracker.trackNewExposureDetection(UUID.randomUUID().toString())
