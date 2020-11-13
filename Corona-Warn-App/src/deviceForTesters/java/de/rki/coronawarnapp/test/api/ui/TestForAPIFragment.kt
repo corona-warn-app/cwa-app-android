@@ -40,7 +40,6 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
@@ -96,8 +95,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
-    private var token: String? = null
-
     private lateinit var qrPager: ViewPager2
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
 
@@ -107,8 +104,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        token = UUID.randomUUID().toString()
 
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
@@ -274,9 +269,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         if (null == otherExposureKey) {
             showToast("No other keys provided. Please fill the EditText with the JSON containing keys")
         } else {
-            token = UUID.randomUUID().toString()
-            LocalData.googleApiToken(token)
-
             val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
             for (key in otherExposureKeyList) {
@@ -298,7 +290,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             val dir = File(
                 File(requireContext().getExternalFilesDir(null), "key-export"),
-                token ?: ""
+                UUID.randomUUID().toString()
             )
             dir.mkdirs()
 
@@ -306,15 +298,13 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             lifecycleScope.launch {
                 googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
+                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     enfClient.provideDiagnosisKeys(
                         googleFileList,
-                        AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
-                        token!!
                     )
-                    showToast("Provided ${appleKeyList.size} keys to Google API with token $token")
+                    showToast("Provided ${appleKeyList.size} keys to Google API")
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.EXPOSURENOTIFICATION)
                 }
@@ -323,15 +313,15 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     }
 
     private fun checkExposure() {
-        Timber.d("Check Exposure with token $token")
+        Timber.d("Check Exposure")
 
         lifecycleScope.launch {
             try {
                 val exposureSummary =
-                    InternalExposureNotificationClient.asyncGetExposureSummary(token!!)
+                    InternalExposureNotificationClient.asyncGetExposureSummary("no more token")
                 updateExposureSummaryDisplay(exposureSummary)
-                showToast("Updated Exposure Summary with token $token")
-                Timber.d("Received exposure with token $token from QR Code")
+                showToast("Updated Exposure Summary")
+                Timber.d("Received exposure from QR Code")
                 Timber.i(exposureSummary.toString())
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)

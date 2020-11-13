@@ -183,11 +183,8 @@ class TracingRepository @Inject constructor(
     fun refreshExposureSummary() {
         scope.launch {
             try {
-                val token = LocalData.googleApiToken()
-                if (token != null) {
-                    ExposureSummaryRepository.getExposureSummaryRepository()
-                        .getLatestExposureSummary(token)
-                }
+                ExposureSummaryRepository.getExposureSummaryRepository()
+                    .getLatestExposureSummary("no token")
                 Timber.tag(TAG).v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(

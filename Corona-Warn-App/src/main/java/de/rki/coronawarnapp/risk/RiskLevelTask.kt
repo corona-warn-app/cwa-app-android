@@ -107,15 +107,8 @@ class RiskLevelTask @Inject constructor(
      * @return a exposure summary from the Google Exposure Notification API
      */
     private suspend fun getNewExposureSummary(): ExposureSummary {
-        val googleToken = LocalData.googleApiToken()
-            ?: throw RiskLevelCalculationException(IllegalStateException("Exposure summary is not persisted"))
-
-        val exposureSummary =
-            InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
-
-        return exposureSummary.also {
-            Timber.tag(TAG).v("Generated new exposure summary with $googleToken")
-        }
+        return InternalExposureNotificationClient
+            .asyncGetExposureSummary("no token for you") // TODO get enf windows
     }
 
     private fun checkCancel() {

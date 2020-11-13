@@ -103,7 +103,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
-                    LocalData.googleApiToken(null)
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.INTERNAL)
                 }
@@ -126,9 +125,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             try {
                 var workState = riskScoreState.value!!
 
-                val googleToken = LocalData.googleApiToken() ?: UUID.randomUUID().toString()
                 val exposureSummary =
-                    InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
+                    InternalExposureNotificationClient.asyncGetExposureSummary("no token for you")
 
                 val expDetectConfig: RiskCalculationConfig =
                     AppInjector.component.appConfigProvider.getAppConfig()
@@ -197,25 +195,22 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
                 workState = workState.copy(formula = formulaString)
 
-                val token = LocalData.googleApiToken()
-                if (token != null) {
-                    val exposureInformation = asyncGetExposureInformation(token)
+                val exposureInformation = asyncGetExposureInformation("you sir, won't get token!")
 
-                    var infoString = ""
-                    exposureInformation.forEach {
-                        infoString += "Attenuation duration in min.: " +
-                            "[${it.attenuationDurationsInMinutes?.get(0)}, " +
-                            "${it.attenuationDurationsInMinutes?.get(1)}," +
-                            "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
-                            "Attenuation value: ${it.attenuationValue}\n" +
-                            "Duration in min.: ${it.durationMinutes}\n" +
-                            "Risk Score: ${it.totalRiskScore}\n" +
-                            "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
-                            "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
-                    }
-
-                    workState = workState.copy(exposureInfo = infoString)
+                var infoString = ""
+                exposureInformation.forEach {
+                    infoString += "Attenuation duration in min.: " +
+                        "[${it.attenuationDurationsInMinutes?.get(0)}, " +
+                        "${it.attenuationDurationsInMinutes?.get(1)}," +
+                        "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
+                        "Attenuation value: ${it.attenuationValue}\n" +
+                        "Duration in min.: ${it.durationMinutes}\n" +
+                        "Risk Score: ${it.totalRiskScore}\n" +
+                        "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
+                        "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
                 }
+
+                workState = workState.copy(exposureInfo = infoString)
 
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
@@ -224,6 +219,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
     }
 
+    @Deprecated (message = "uses enf v1")
     private suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
         suspendCoroutine { cont ->
             enfClient.internalClient.getExposureInformation(token)
@@ -235,14 +231,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
 
     data class DiagnosisKeyProvidedEvent(
-        val keyCount: Int,
-        val token: String
+        val keyCount: Int
     )
 
     fun provideDiagnosisKey(transmissionNumber: Int, key: AppleLegacyKeyExchange.Key) {
-        val token = UUID.randomUUID().toString()
-        LocalData.googleApiToken(token)
-
         val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
         AppleLegacyKeyExchange.Key.newBuilder()
@@ -259,25 +251,20 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 .build()
         )
 
-        val dir = File(File(context.getExternalFilesDir(null), "key-export"), token)
+        val dir = File(File(context.getExternalFilesDir(null), "key-export"), UUID.randomUUID().toString())
         dir.mkdirs()
 
         var googleFileList: List<File>
         viewModelScope.launch {
             googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
+            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
             try {
                 // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                enfClient.provideDiagnosisKeys(
-                    googleFileList,
-                    AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
-                    token
-                )
+                enfClient.provideDiagnosisKeys(googleFileList)
                 apiKeysProvidedEvent.postValue(
                     DiagnosisKeyProvidedEvent(
-                        keyCount = appleFiles.size,
-                        token = token
+                        keyCount = appleFiles.size
                     )
                 )
             } catch (e: Exception) {
