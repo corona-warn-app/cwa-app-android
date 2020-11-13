@@ -11,7 +11,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TOKEN
 import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
-import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.UnknownBroadcastException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
@@ -75,7 +74,7 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
         val workManager = WorkManager.getInstance(context)
 
-        //TODO("Remove token from ExposureStateUpdateWorker")
+        // TODO("Remove token from ExposureStateUpdateWorker")
         val data = Data
             .Builder()
             .putString(EXTRA_TOKEN, token)

@@ -40,7 +40,7 @@ class ENFClient @Inject constructor(
         configuration: ExposureConfiguration?,
         token: String
     ): Boolean {
-        //NO-OP
+        // NO-OP
         return false
     }
 
