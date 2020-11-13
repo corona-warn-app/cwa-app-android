@@ -28,10 +28,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     @MockK
     lateinit var submissionQuota: SubmissionQuota
 
-    @MockK
-    lateinit var exampleConfiguration: ExposureConfiguration
     private val exampleKeyFiles = listOf(File("file1"), File("file2"))
-    private val exampleToken = "123e4567-e89b-12d3-a456-426655440000"
 
     @BeforeEach
     fun setup() {
@@ -68,21 +65,21 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         val provider = createProvider()
 
         runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+            provider.provideDiagnosisKeys(exampleKeyFiles)
         }
 
         coVerify(exactly = 0) {
             googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
+                exampleKeyFiles
             )
         }
 
         coVerify(exactly = 1) {
             googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0]), exampleConfiguration, exampleToken
+                listOf(exampleKeyFiles[0])
             )
             googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1]), exampleConfiguration, exampleToken
+                listOf(exampleKeyFiles[1])
             )
             submissionQuota.consumeQuota(2)
         }
@@ -95,13 +92,12 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         val provider = createProvider()
 
         runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+            provider.provideDiagnosisKeys(exampleKeyFiles)
         }
 
         coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any(), any(), any())
             googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
+                exampleKeyFiles
             )
             submissionQuota.consumeQuota(1)
         }
@@ -112,15 +108,13 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
 
         val provider = createProvider()
-        val fallback = ExposureConfiguration.ExposureConfigurationBuilder().build()
 
         runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, null, exampleToken)
+            provider.provideDiagnosisKeys(exampleKeyFiles)
         }
 
         coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any(), any(), any())
-            googleENFClient.provideDiagnosisKeys(exampleKeyFiles, fallback, exampleToken)
+            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
         }
     }
 
@@ -129,18 +123,17 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
 
         val provider = createProvider()
-        val fallback = ExposureConfiguration.ExposureConfigurationBuilder().build()
 
         runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, null, exampleToken)
+            provider.provideDiagnosisKeys(exampleKeyFiles)
         }
 
         coVerify(exactly = 1) {
             googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0]), fallback, exampleToken
+                listOf(exampleKeyFiles[0])
             )
             googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1]), fallback, exampleToken
+                listOf(exampleKeyFiles[1])
             )
             submissionQuota.consumeQuota(2)
         }
@@ -154,13 +147,13 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         val provider = createProvider()
 
         runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+            provider.provideDiagnosisKeys(exampleKeyFiles)
         }
 
         coVerify(exactly = 1) {
             googleENFClient.provideDiagnosisKeys(any(), any(), any())
             googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
+                exampleKeyFiles
             )
             submissionQuota.consumeQuota(1)
         }
@@ -174,21 +167,21 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         val provider = createProvider()
 
         runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+            provider.provideDiagnosisKeys(exampleKeyFiles)
         }
 
         coVerify(exactly = 0) {
             googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
+                exampleKeyFiles
             )
         }
 
         coVerify(exactly = 1) {
             googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0]), exampleConfiguration, exampleToken
+                listOf(exampleKeyFiles[0])
             )
             googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1]), exampleConfiguration, exampleToken
+                listOf(exampleKeyFiles[1])
             )
             submissionQuota.consumeQuota(2)
         }
