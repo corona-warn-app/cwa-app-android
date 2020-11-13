@@ -127,7 +127,7 @@ object InternalExposureNotificationClient {
      * @param token
      * @return
      */
-    @Deprecated (message = "uses v1")
+    @Deprecated(message = "uses v1")
     suspend fun asyncGetExposureSummary(token: String): ExposureSummary =
         suspendCoroutine { cont ->
             exposureNotificationClient.getExposureSummary(token)

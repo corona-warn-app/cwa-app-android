@@ -219,7 +219,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
     }
 
-    @Deprecated (message = "uses enf v1")
+    @Deprecated(message = "uses enf v1")
     private suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
         suspendCoroutine { cont ->
             enfClient.internalClient.getExposureInformation(token)

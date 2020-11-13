@@ -51,7 +51,7 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
             internalDaysSinceLastExposure.value = daysSinceLastExposure
         }
 
-    @Deprecated (message = "enf v1")
+    @Deprecated(message = "enf v1")
     suspend fun getLatestExposureSummary(token: String) {
         if (InternalExposureNotificationClient.asyncIsEnabled())
             InternalExposureNotificationClient.asyncGetExposureSummary(token).also {
