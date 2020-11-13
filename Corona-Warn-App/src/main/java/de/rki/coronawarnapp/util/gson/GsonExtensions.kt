@@ -15,4 +15,5 @@ inline fun <reified T> Gson.fromJson(file: File): T = file.reader().use {
 
 inline fun <reified T> Gson.toJson(data: T, file: File) = file.writer().use { writer ->
     toJson(data, writer)
+    writer.flush()
 }

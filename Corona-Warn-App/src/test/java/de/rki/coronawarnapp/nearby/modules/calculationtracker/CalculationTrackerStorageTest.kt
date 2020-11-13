@@ -130,4 +130,20 @@ class CalculationTrackerStorageTest : BaseIOTest() {
         storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").isCalculating shouldBe true
         storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").isCalculating shouldBe false
     }
+
+    @Test
+    fun `we catch empty json data and prevent unsafely initialized maps`() = runBlockingTest {
+        storageDir.mkdirs()
+        storageFile.writeText("")
+
+        storageFile.exists() shouldBe true
+
+        createStorage().apply {
+            val value = load()
+            value.size shouldBe 0
+            value shouldBe emptyMap()
+
+            storageFile.exists() shouldBe false
+        }
+    }
 }

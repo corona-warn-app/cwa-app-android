@@ -36,11 +36,13 @@ class CalculationTrackerStorage @Inject constructor(
             if (!storageFile.exists()) return@withLock emptyMap()
 
             gson.fromJson<Map<String, Calculation>>(storageFile).also {
+                require(it.size >= 0)
                 Timber.v("Loaded calculation data: %s", it)
                 lastCalcuationData = it
             }
         } catch (e: Exception) {
             Timber.e(e, "Failed to load tracked calculations.")
+            if (storageFile.delete()) Timber.w("Storage file was deleted.")
             emptyMap()
         }
     }
