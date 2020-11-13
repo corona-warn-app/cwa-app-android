@@ -5,7 +5,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -20,9 +20,7 @@ import javax.inject.Singleton
 import kotlin.math.round
 
 @Singleton
-class DefaultRiskLevels @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
-) : RiskLevels {
+class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
@@ -78,8 +76,10 @@ class DefaultRiskLevels @Inject constructor(
             }
         }
 
-    override suspend fun isIncreasedRisk(lastExposureSummary: ExposureSummary): Boolean {
-        val appConfiguration = appConfigProvider.getAppConfig()
+    override suspend fun isIncreasedRisk(
+        lastExposureSummary: ExposureSummary,
+        appConfiguration: RiskCalculationConfig
+    ): Boolean {
         Timber.tag(TAG).v("Retrieved configuration from backend")
         // custom attenuation parameters to weigh the attenuation
         // values provided by the Google API
