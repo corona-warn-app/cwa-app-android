@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gson.fromJson
 import de.rki.coronawarnapp.util.gson.toJson
@@ -57,6 +59,7 @@ class CalculationTrackerStorage @Inject constructor(
             gson.toJson(data, storageFile)
         } catch (e: Exception) {
             Timber.e(e, "Failed to save tracked calculations.")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 }
