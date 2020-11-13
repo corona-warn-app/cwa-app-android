@@ -12,7 +12,7 @@ class RiskLevelData @Inject constructor(
 ) {
 
     private val prefs by lazy {
-        context.getSharedPreferences("risklevel_localdata", Context.MODE_PRIVATE)
+        context.getSharedPreferences(NAME_SHARED_PREFS, Context.MODE_PRIVATE)
     }
 
     /**
@@ -25,6 +25,7 @@ class RiskLevelData @Inject constructor(
         }
 
     companion object {
+        private const val NAME_SHARED_PREFS = "risklevel_localdata"
         private const val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = "risklevel.config.identifier.last"
     }
 }
