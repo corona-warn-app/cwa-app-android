@@ -114,9 +114,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                keyFiles = availableKeyFiles,
-                configuration = exposureConfig.exposureDetectionConfiguration,
-                token = token
+                keyFiles = availableKeyFiles
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
 

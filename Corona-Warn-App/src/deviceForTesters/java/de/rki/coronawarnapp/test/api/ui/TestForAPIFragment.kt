@@ -310,9 +310,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     enfClient.provideDiagnosisKeys(
-                        googleFileList,
-                        AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
-                        token!!
+                        googleFileList
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")
                 } catch (e: Exception) {
