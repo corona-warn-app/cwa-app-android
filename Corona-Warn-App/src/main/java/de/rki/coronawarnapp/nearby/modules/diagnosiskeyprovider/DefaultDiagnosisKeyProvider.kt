@@ -22,38 +22,6 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
     private val enfClient: ExposureNotificationClient
 ) : DiagnosisKeyProvider {
 
-    override suspend fun provideDiagnosisKeys(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
-        token: String
-    ): Boolean {
-        return try {
-            if (keyFiles.isEmpty()) {
-                Timber.d("No key files submitted, returning early.")
-                return true
-            }
-
-            val usedConfiguration = if (configuration == null) {
-                Timber.w("Passed configuration was NULL, creating fallback.")
-                ExposureConfiguration.ExposureConfigurationBuilder().build()
-            } else {
-                configuration
-            }
-
-            if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
-                provideKeys(keyFiles, usedConfiguration, token)
-            } else {
-                provideKeysLegacy(keyFiles, usedConfiguration, token)
-            }
-        } catch (e: Exception) {
-            Timber.e(
-                e, "Error during provideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
-                keyFiles, configuration, token
-            )
-            throw e
-        }
-    }
-
     override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
         if (keyFiles.isEmpty()) {
             Timber.d("No key files submitted, returning early.")

@@ -35,26 +35,6 @@ class ENFClient @Inject constructor(
     internal val internalClient: ExposureNotificationClient
         get() = googleENFClient
 
-    override suspend fun provideDiagnosisKeys(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
-        token: String
-    ): Boolean {
-        Timber.d(
-            "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
-            keyFiles, configuration, token
-        )
-
-        return if (keyFiles.isEmpty()) {
-            Timber.d("No key files submitted, returning early.")
-            true
-        } else {
-            Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
-            exposureDetectionTracker.trackNewExposureDetection(token)
-            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
-        }
-    }
-
     override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
         Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")
 
