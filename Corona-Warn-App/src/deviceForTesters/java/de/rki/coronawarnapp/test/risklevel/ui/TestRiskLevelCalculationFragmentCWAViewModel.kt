@@ -154,8 +154,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Transmission RiskLevel Filters: ${appConfig.transmissionRiskLevelFilters}" +
                         "Normalized Time Per Exposure Window To RiskLevel Mapping: ${appConfig.normalizedTimePerExposureWindowToRiskLevelMapping}" +
                         "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
-
-
+                
                 workState = workState.copy(backendParameters = configAsString)
 
                 val summaryAsString =
