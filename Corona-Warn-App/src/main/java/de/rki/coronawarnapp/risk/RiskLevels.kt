@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 
 interface RiskLevels {
@@ -15,7 +16,10 @@ interface RiskLevels {
      */
     fun isActiveTracingTimeAboveThreshold(): Boolean
 
-    suspend fun isIncreasedRisk(lastExposureSummary: ExposureSummary): Boolean
+    suspend fun isIncreasedRisk(
+        lastExposureSummary: ExposureSummary,
+        appConfiguration: RiskCalculationConfig
+    ): Boolean
 
     fun updateRepository(
         riskLevel: RiskLevel,
