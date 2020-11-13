@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,7 +27,6 @@ class ENFClient @Inject constructor(
     private val tracingStatus: TracingStatus,
     private val scanningSupport: ScanningSupport,
     private val exposureWindowProvider: ExposureWindowProvider,
-
     private val exposureDetectionTracker: ExposureDetectionTracker
 ) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider {
 
@@ -39,31 +39,33 @@ class ENFClient @Inject constructor(
         keyFiles: Collection<File>,
         configuration: ExposureConfiguration?,
         token: String
+    ): Boolean = submitDiagnosisKeys(keyFiles, configuration, token)
+
+    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean = submitDiagnosisKeys(keyFiles)
+
+    private suspend fun submitDiagnosisKeys(
+        keyFiles: Collection<File>,
+        configuration: ExposureConfiguration? = null,
+        token: String? = null
     ): Boolean {
         Timber.d(
             "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
             keyFiles, configuration, token
         )
 
-        return if (keyFiles.isEmpty()) {
+        if (keyFiles.isEmpty()) {
             Timber.d("No key files submitted, returning early.")
-            true
-        } else {
-            Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
+            return true
+        }
+
+        Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
+
+        return if (token != null) {
             exposureDetectionTracker.trackNewExposureDetection(token)
             diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
-        }
-    }
-
-    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
-        Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")
-
-        return if (keyFiles.isEmpty()) {
-            Timber.d("No key files submitted, returning early.")
-            true
         } else {
             Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
-            TODO("Call calculationTracker.trackNewCalaculation with an UUID as replacement for token?")
+            exposureDetectionTracker.trackNewExposureDetection(UUID.randomUUID().toString())
             diagnosisKeyProvider.provideDiagnosisKeys(keyFiles)
         }
     }
