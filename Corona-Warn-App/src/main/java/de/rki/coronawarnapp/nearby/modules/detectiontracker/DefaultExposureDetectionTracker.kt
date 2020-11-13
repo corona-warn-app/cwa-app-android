@@ -121,7 +121,10 @@ class DefaultExposureDetectionTracker @Inject constructor(
         map: MutableMap<String, TrackedExposureDetection>,
         result: Result
     ) {
-        Timber.d("finishExposureDetectionWithoutIdentifier(): Get identifier of newest unfinished detection or create new identifier")
+        Timber.d(
+            "finishExposureDetectionWithoutIdentifier(): " +
+                "Get identifier of newest unfinished detection or create new identifier"
+        )
         val identifier = map
             .map { it.value }
             .filter { it.finishedAt == null }
