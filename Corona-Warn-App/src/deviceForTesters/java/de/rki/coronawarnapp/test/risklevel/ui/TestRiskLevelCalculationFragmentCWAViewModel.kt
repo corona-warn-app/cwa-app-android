@@ -124,9 +124,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 val exposureWindows = enfClient.exposureWindows()
 
                 val riskResultsPerWindow =
-                    exposureWindows.mapNotNull {
-                        val risk = riskLevels.calculateRisk(it) ?: return@mapNotNull null
-                        it to risk
+                    exposureWindows.mapNotNull { window ->
+                        riskLevels.calculateRisk(window)?.let { window to it }
                     }.toMap()
 
                 val aggregatedResult = riskLevels.aggregateResults(riskResultsPerWindow)

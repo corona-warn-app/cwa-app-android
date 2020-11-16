@@ -101,9 +101,8 @@ class DefaultRiskLevels @Inject constructor(
 
     override fun isIncreasedRisk(exposureWindows: List<ExposureWindow>): Boolean {
         val riskResultsPerWindow =
-            exposureWindows.mapNotNull {
-                val risk = calculateRisk(it) ?: return@mapNotNull null
-                it to risk
+            exposureWindows.mapNotNull { window ->
+                calculateRisk(window)?.let { window to it }
             }.toMap()
 
         val aggregatedResult = aggregateResults(riskResultsPerWindow)
