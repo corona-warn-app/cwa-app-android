@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import java.util.Date
 
-data class RiskCardNoInternet(
+data class RiskCardFailedRisk(
     val lastRiskLevelScoreCalculated: Int,
     val lastRiskActualisation: Date?
 ) {
