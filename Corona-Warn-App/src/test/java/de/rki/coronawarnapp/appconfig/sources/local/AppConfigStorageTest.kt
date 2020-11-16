@@ -9,6 +9,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
@@ -83,6 +84,24 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
+    fun `restoring from storage`() = runBlockingTest {
+        configPath.parentFile!!.mkdirs()
+        configPath.writeText(
+            """
+            {
+                "rawData": "$APPCONFIG_BASE64",
+                "etag": "I am an ETag :)!",
+                "serverTime": 1604381716000,
+                "localOffset": 3600000,
+                "cacheValidity": 123000
+            }
+        """.trimIndent()
+        )
+        val storage = createStorage()
+        storage.getStoredConfig() shouldBe testConfigDownload
+    }
+
+    @Test
     fun `nulling and overwriting`() = runBlockingTest {
         val storage = createStorage()
         configPath.exists() shouldBe false
@@ -140,6 +159,58 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.setStoredConfig(testConfigDownload)
 
         legacyConfigPath.exists() shouldBe false
+        configPath.exists() shouldBe true
+    }
+
+    @Test
+    fun `return null on errors`() = runBlockingTest {
+        every { timeStamper.nowUTC } throws Exception()
+
+        val storage = createStorage()
+        storage.getStoredConfig() shouldBe null
+    }
+
+    @Test
+    fun `return null on invalid json and delete config file`() = runBlockingTest {
+        configPath.parentFile!!.mkdirs()
+        configPath.writeText(
+            """
+            {
+               
+            }
+        """.trimIndent()
+        )
+        val storage = createStorage()
+        storage.getStoredConfig() shouldBe null
+
+        configPath.exists() shouldBe false
+    }
+
+    @Test
+    fun `return null on empty file and delete config file`() {
+        configPath.parentFile!!.mkdirs()
+        configPath.createNewFile()
+
+        val storage = createStorage()
+
+        runBlockingTest {
+            storage.getStoredConfig() shouldBe null
+        }
+
+        configPath.exists() shouldBe false
+    }
+
+    @Test
+    fun `catch errors when trying to save the config`() {
+        configPath.parentFile!!.mkdirs()
+        configPath.createNewFile()
+
+        val storage = createStorage()
+
+        runBlockingTest {
+            storage.setStoredConfig(mockk())
+        }
+
         configPath.exists() shouldBe true
     }
 

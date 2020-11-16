@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.appconfig.sources.local
 import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -59,9 +61,12 @@ class AppConfigStorage @Inject constructor(
         }
 
         return@withLock try {
-            gson.fromJson<InternalConfigData>(configFile)
+            gson.fromJson<InternalConfigData>(configFile).also {
+                requireNotNull(it.rawData)
+            }
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load config.")
+            if (configFile.delete()) Timber.w("Config file was deleted.")
             null
         }
     }
@@ -75,7 +80,12 @@ class AppConfigStorage @Inject constructor(
             Timber.v("Overwriting %d from %s", configFile.length(), configFile.lastModified())
         }
 
-        if (value != null) {
+        if (value == null) {
+            if (configFile.delete()) Timber.d("Config file was deleted (value=null).")
+            return
+        }
+
+        try {
             gson.toJson(value, configFile)
 
             if (legacyConfigFile.exists()) {
@@ -83,8 +93,11 @@ class AppConfigStorage @Inject constructor(
                     Timber.i("Legacy config file deleted, superseeded.")
                 }
             }
-        } else {
-            configFile.delete()
+        } catch (e: Exception) {
+            // We'll not rethrow as we could still keep working just with the remote config,
+            // but we will notify the user.
+            Timber.e(e, "Failed to config data to local storage.")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 }
