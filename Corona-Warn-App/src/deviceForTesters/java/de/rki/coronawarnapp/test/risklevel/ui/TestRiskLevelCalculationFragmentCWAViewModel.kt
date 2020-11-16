@@ -22,11 +22,13 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -35,6 +37,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -63,6 +66,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
     val apiKeysProvidedEvent = SingleLiveEvent<DiagnosisKeyProvidedEvent>()
     val riskScoreState = MutableLiveData<RiskScoreState>(RiskScoreState())
+    val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
+        it.withSuccess(false) { true }
+    }.asLiveData(dispatcherProvider.Default)
 
     val tracingCardState = tracingCardStateProvider.state
         .sample(150L)
