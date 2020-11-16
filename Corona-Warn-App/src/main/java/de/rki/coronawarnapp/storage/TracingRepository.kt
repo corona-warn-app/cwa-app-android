@@ -135,15 +135,15 @@ class TracingRepository @Inject constructor(
         // model the keys are only fetched on button press of the user
         val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
 
-        val lastFetched = LocalData.lastTimeDiagnosisKeysFromServerFetch()
+        val wasNotYetFetched = LocalData.lastTimeDiagnosisKeysFromServerFetch() == null
 
         Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
         Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
-        Timber.tag(TAG).v("Last fetched from server $lastFetched")
+        Timber.tag(TAG).v("Was not yet fetched from server $wasNotYetFetched")
 
         if (isNetworkEnabled && isBackgroundJobEnabled) {
             scope.launch {
-                if (lastFetched == null || downloadDiagnosisKeysTaskDidNotRunRecently()) {
+                if (wasNotYetFetched || downloadDiagnosisKeysTaskDidNotRunRecently()) {
                     Timber.tag(TAG).v("Start the fetching and submitting of the diagnosis keys")
                     // TODO shouldn't access this directly
                     retrievingDiagnosisKeys.value = true
