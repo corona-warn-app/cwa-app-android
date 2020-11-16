@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.RiskLevels
@@ -39,6 +40,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
     @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var riskLevels: RiskLevels
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     @BeforeEach
     fun setup() {
@@ -65,7 +67,8 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             tracingCardStateProvider = tracingCardStateProvider,
             dispatcherProvider = TestDispatcherProvider,
             riskLevels = riskLevels,
-            taskController = taskController
+            taskController = taskController,
+            appConfigProvider = appConfigProvider
         )
 
     @Test

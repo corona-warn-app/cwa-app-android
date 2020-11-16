@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.risk
 
 import android.content.Context
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
@@ -14,7 +12,6 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -75,7 +72,7 @@ class RiskLevelTask @Inject constructor(
                             UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
                         }
 
-                        isIncreasedRisk(getNewExposureSummary()).also {
+                        isIncreasedRisk(getExposureWindows()).also {
                             checkCancel()
                         } -> INCREASED_RISK
 
@@ -100,23 +97,7 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    /**
-     * If there is no persisted exposure summary we try to get a new one with the last persisted
-     * Google API token that was used in the [de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction]
-     *
-     * @return a exposure summary from the Google Exposure Notification API
-     */
-    private suspend fun getNewExposureSummary(): ExposureSummary {
-        val googleToken = LocalData.googleApiToken()
-            ?: throw RiskLevelCalculationException(IllegalStateException("Exposure summary is not persisted"))
-
-        val exposureSummary =
-            InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
-
-        return exposureSummary.also {
-            Timber.tag(TAG).v("Generated new exposure summary with $googleToken")
-        }
-    }
+    private suspend fun getExposureWindows(): List<ExposureWindow> = enfClient.exposureWindows()
 
     private fun checkCancel() {
         if (isCanceled) throw TaskCancellationException()
