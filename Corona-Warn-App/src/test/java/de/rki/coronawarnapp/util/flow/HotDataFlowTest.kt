@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.flow
 
+import de.rki.coronawarnapp.util.mutate
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.coEvery
@@ -122,6 +123,48 @@ class HotDataFlowTest : BaseTest() {
         coVerify(exactly = 1) { valueProvider.invoke(any()) }
     }
 
+    data class TestData(
+        val number: Long = 1
+    )
+
+    @Test
+    fun `value updates 2`() {
+        val testScope = TestCoroutineScope()
+        val valueProvider = mockk<suspend CoroutineScope.() -> Map<String, TestData>>()
+        coEvery { valueProvider.invoke(any()) } returns mapOf("data" to TestData())
+
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            startValueProvider = valueProvider,
+            sharingBehavior = SharingStarted.Lazily
+        )
+
+        val testCollector = hotData.data.test(startOnScope = testScope)
+        testCollector.silent = true
+
+        (1..10).forEach { _ ->
+            thread {
+                (1..400).forEach { _ ->
+                    hotData.updateSafely {
+                        mutate {
+                            this["data"] = getValue("data").copy(
+                                number = getValue("data").number + 1
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        runBlocking {
+            testCollector.await { list, l -> list.size == 4001 }
+            testCollector.latestValues.map { it.values.single().number } shouldBe (1L..4001L).toList()
+        }
+
+        coVerify(exactly = 1) { valueProvider.invoke(any()) }
+    }
+
     @Test
     fun `only emit new values if they actually changed updates`() {
         val testScope = TestCoroutineScope()
@@ -180,5 +223,49 @@ class HotDataFlowTest : BaseTest() {
             hotData.data.first() shouldBe "C"
         }
         coVerify(exactly = 1) { valueProvider.invoke(any()) }
+    }
+
+    @Test
+    fun `update queue is wiped on completion`() {
+        val testScope = TestCoroutineScope()
+        val valueProvider = mockk<suspend CoroutineScope.() -> Long>()
+        coEvery { valueProvider.invoke(any()) } returns 1
+
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            startValueProvider = valueProvider,
+            sharingBehavior = SharingStarted.WhileSubscribed(replayExpirationMillis = 0)
+        )
+
+        val testCollector1 = hotData.data.test(startOnScope = testScope)
+        testCollector1.silent = false
+
+        (1..10).forEach { _ ->
+            hotData.updateSafely {
+                this + 1L
+            }
+        }
+
+        testScope.advanceUntilIdle()
+
+        runBlocking {
+            testCollector1.await { list, l -> list.size == 11 }
+            testCollector1.latestValues shouldBe (1L..11L).toList()
+        }
+
+        testCollector1.cancel()
+
+        val testCollector2 = hotData.data.test(startOnScope = testScope)
+        testCollector2.silent = false
+
+        testScope.advanceUntilIdle()
+
+        runBlocking {
+            testCollector2.await { list, l -> list.size == 1 }
+            testCollector2.latestValues shouldBe listOf(1L)
+        }
+
+        coVerify(exactly = 2) { valueProvider.invoke(any()) }
     }
 }

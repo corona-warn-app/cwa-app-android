@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeout
+import org.joda.time.Duration
 import timber.log.Timber
 
 fun <T> Flow<T>.test(
@@ -74,13 +76,21 @@ class TestCollector<T>(
     val latestValues: List<T>
         get() = collectedValues
 
-    fun await(condition: (List<T>, T) -> Boolean): T = runBlocking {
-        emissions().first {
-            condition(collectedValues, it)
+    fun await(
+        timeout: Duration = Duration.standardSeconds(10),
+        condition: (List<T>, T) -> Boolean
+    ): T = runBlocking {
+        requireStillAlive()
+
+        withTimeout(timeMillis = timeout.millis) {
+            emissions().first {
+                condition(collectedValues, it)
+            }
         }
     }
 
     suspend fun awaitFinal() = apply {
+        requireStillAlive()
         try {
             job.join()
         } catch (e: Exception) {
@@ -94,8 +104,14 @@ class TestCollector<T>(
     }
 
     fun cancel() {
+        requireStillAlive()
+
         runBlocking {
             job.cancelAndJoin()
         }
+    }
+
+    private fun requireStillAlive() {
+        if (job.isCompleted) throw IllegalStateException("Flow is already canceled.")
     }
 }

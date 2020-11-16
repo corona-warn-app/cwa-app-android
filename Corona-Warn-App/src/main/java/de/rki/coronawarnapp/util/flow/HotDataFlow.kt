@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -36,19 +38,24 @@ class HotDataFlow<T : Any>(
         extraBufferCapacity = Int.MAX_VALUE,
         onBufferOverflow = BufferOverflow.SUSPEND
     )
+    private val valueGuard = Mutex()
 
     private val internalFlow = channelFlow {
-        var currentValue = startValueProvider().also {
-            Timber.tag(tag).v("startValue=%s", it)
-            send(it)
+        var currentValue = valueGuard.withLock {
+            startValueProvider().also { send(it) }
         }
+        Timber.tag(tag).v("startValue=%s", currentValue)
 
-        updateActions.collect { updateAction ->
-            currentValue = updateAction(currentValue).also {
-                currentValue = it
-                send(it)
+        updateActions
+            .onCompletion {
+                Timber.tag(tag).v("updateActions resetReplayCache().")
+                updateActions.resetReplayCache()
             }
-        }
+            .collect { updateAction ->
+                currentValue = valueGuard.withLock {
+                    updateAction(currentValue).also { send(it) }
+                }
+            }
     }
 
     val data: Flow<T> = internalFlow
