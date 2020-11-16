@@ -128,7 +128,7 @@ class HotDataFlowTest : BaseTest() {
     )
 
     @Test
-    fun `value updates 2`() {
+    fun `check multi threading value updates with more complex data`() {
         val testScope = TestCoroutineScope()
         val valueProvider = mockk<suspend CoroutineScope.() -> Map<String, TestData>>()
         coEvery { valueProvider.invoke(any()) } returns mapOf("data" to TestData())
@@ -206,9 +206,9 @@ class HotDataFlowTest : BaseTest() {
 
 
         testScope.runBlockingTest2(permanentJobs = true) {
-            val sub1 = hotData.data.test().start(scope = this)
-            val sub2 = hotData.data.test().start(scope = this)
-            val sub3 = hotData.data.test().start(scope = this)
+            val sub1 = hotData.data.test(tag = "sub1", startOnScope = this)
+            val sub2 = hotData.data.test(tag = "sub2", startOnScope = this)
+            val sub3 = hotData.data.test(tag = "sub3", startOnScope = this)
 
             hotData.updateSafely { "A" }
             hotData.updateSafely { "B" }
@@ -226,19 +226,19 @@ class HotDataFlowTest : BaseTest() {
     }
 
     @Test
-    fun `update queue is wiped on completion`() {
-        val testScope = TestCoroutineScope()
+    fun `update queue is wiped on completion`() = runBlockingTest2(permanentJobs = true) {
         val valueProvider = mockk<suspend CoroutineScope.() -> Long>()
         coEvery { valueProvider.invoke(any()) } returns 1
 
         val hotData = HotDataFlow(
             loggingTag = "tag",
-            scope = testScope,
+            scope = this,
+            coroutineContext = this.coroutineContext,
             startValueProvider = valueProvider,
             sharingBehavior = SharingStarted.WhileSubscribed(replayExpirationMillis = 0)
         )
 
-        val testCollector1 = hotData.data.test(startOnScope = testScope)
+        val testCollector1 = hotData.data.test(tag = "collector1", startOnScope = this)
         testCollector1.silent = false
 
         (1..10).forEach { _ ->
@@ -247,24 +247,23 @@ class HotDataFlowTest : BaseTest() {
             }
         }
 
-        testScope.advanceUntilIdle()
+        advanceUntilIdle()
 
-        runBlocking {
-            testCollector1.await { list, l -> list.size == 11 }
-            testCollector1.latestValues shouldBe (1L..11L).toList()
-        }
+        testCollector1.await { list, _ -> list.size == 11 }
+        testCollector1.latestValues shouldBe (1L..11L).toList()
 
         testCollector1.cancel()
+        testCollector1.awaitFinal()
 
-        val testCollector2 = hotData.data.test(startOnScope = testScope)
+        val testCollector2 = hotData.data.test(tag = "collector2", startOnScope = this)
         testCollector2.silent = false
 
-        testScope.advanceUntilIdle()
+        advanceUntilIdle()
 
-        runBlocking {
-            testCollector2.await { list, l -> list.size == 1 }
-            testCollector2.latestValues shouldBe listOf(1L)
-        }
+        testCollector2.cancel()
+        testCollector2.awaitFinal()
+
+        testCollector2.latestValues shouldBe listOf(1L)
 
         coVerify(exactly = 2) { valueProvider.invoke(any()) }
     }

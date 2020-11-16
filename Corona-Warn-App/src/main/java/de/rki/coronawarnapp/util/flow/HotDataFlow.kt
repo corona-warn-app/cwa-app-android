@@ -6,7 +6,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -48,7 +47,7 @@ class HotDataFlow<T : Any>(
 
         updateActions
             .onCompletion {
-                Timber.tag(tag).v("updateActions resetReplayCache().")
+                Timber.tag(tag).v("updateActions onCompletion -> resetReplayCache()")
                 updateActions.resetReplayCache()
             }
             .collect { updateAction ->
@@ -56,16 +55,17 @@ class HotDataFlow<T : Any>(
                     updateAction(currentValue).also { send(it) }
                 }
             }
+
+        Timber.tag(tag).v("internal channelFlow finished.")
     }
 
     val data: Flow<T> = internalFlow
         .distinctUntilChanged()
         .onStart { Timber.tag(tag).v("internal onStart") }
-        .catch {
-            Timber.tag(tag).e(it, "internal Error")
-            throw it
+        .onCompletion { err ->
+            if (err != null) Timber.tag(tag).w(err, "internal onCompletion due to error")
+            else Timber.tag(tag).v("internal onCompletion")
         }
-        .onCompletion { Timber.tag(tag).v("internal onCompletion") }
         .shareIn(
             scope = scope + coroutineContext,
             replay = 1,
