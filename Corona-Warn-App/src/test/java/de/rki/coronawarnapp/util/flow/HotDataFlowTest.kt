@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.util.flow
 
-import io.kotest.assertions.throwables.shouldThrow
 import de.rki.coronawarnapp.util.mutate
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.coEvery
@@ -85,7 +85,7 @@ class HotDataFlowTest : BaseTest() {
         )
 
         testScope.apply {
-            runBlockingTest2(permanentJobs = true) {
+            runBlockingTest2(ignoreActive = true) {
                 hotData.data.first() shouldBe "Test"
                 hotData.data.first() shouldBe "Test"
             }
@@ -108,7 +108,7 @@ class HotDataFlowTest : BaseTest() {
         )
 
         testScope.apply {
-            runBlockingTest2(permanentJobs = true) {
+            runBlockingTest2(ignoreActive = true) {
                 hotData.data.first() shouldBe "Test"
                 hotData.data.first() shouldBe "Test"
             }
@@ -231,7 +231,7 @@ class HotDataFlowTest : BaseTest() {
             sharingBehavior = SharingStarted.Lazily
         )
 
-        testScope.runBlockingTest2(permanentJobs = true) {
+        testScope.runBlockingTest2(ignoreActive = true) {
             val sub1 = hotData.data.test(tag = "sub1", startOnScope = this)
             val sub2 = hotData.data.test(tag = "sub2", startOnScope = this)
             val sub3 = hotData.data.test(tag = "sub3", startOnScope = this)
@@ -252,7 +252,7 @@ class HotDataFlowTest : BaseTest() {
     }
 
     @Test
-    fun `update queue is wiped on completion`() = runBlockingTest2(permanentJobs = true) {
+    fun `update queue is wiped on completion`() = runBlockingTest2(ignoreActive = true) {
         val valueProvider = mockk<suspend CoroutineScope.() -> Long>()
         coEvery { valueProvider.invoke(any()) } returns 1
 
