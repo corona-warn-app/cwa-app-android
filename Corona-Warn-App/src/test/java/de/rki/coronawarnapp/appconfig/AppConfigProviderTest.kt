@@ -98,7 +98,7 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     @Test
-    fun `appConfig uses WHILE_SUBSCRIBED mode`() = runBlockingTest2(ignoreActive = true) {
+    fun `appConfig uses LAZILY mode`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         val testCollector1 = instance.currentConfig.test(startOnScope = this)
@@ -123,7 +123,7 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
         testCollector4.cancel()
 
-        coVerify(exactly = 2) { source.retrieveConfig() }
+        coVerify(exactly = 1) { source.retrieveConfig() }
     }
 
     @Test
