@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.ui.information
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.doNavigate
@@ -17,6 +19,7 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -41,6 +44,15 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         vm.appVersion.observe2(this) {
             binding.informationVersion.text = it
         }
+
+        binding.informationEnfVersion.setOnClickListener {
+            try {
+                startActivity(Intent(ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS))
+            } catch (e: Exception) {
+                Timber.e(e, "Can't open ENF settings.")
+            }
+        }
+
 
         setButtonOnClickListener()
         setAccessibilityDelegate()
