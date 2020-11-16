@@ -25,9 +25,7 @@ data class RiskCardFailedRisk(
             RiskLevelConstants.LOW_LEVEL_RISK ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                     .format(c.getString(R.string.risk_card_low_risk_headline))
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
-                c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(c.getString(R.string.risk_card_unknown_risk_headline))
+            RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
                 c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                     .format(c.getString(R.string.risk_card_unknown_risk_headline))
