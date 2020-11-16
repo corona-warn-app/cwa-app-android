@@ -953,11 +953,15 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Auswahl"</string>
+    <string name="submission_dispatcher_headline">"Testergebnis abrufen und andere warnen"</string>
     <!-- XHED: Page subheadline for dispatcher menu  -->
-    <string name="submission_dispatcher_subheadline">"Welche Informationen liegen Ihnen vor?"</string>
+    <string name="submission_dispatcher_subheadline">"Rufen Sie über die App Ihr Testergebnis ab und warnen Sie anschließend Ihre Mitmenschen. So schützen Sie sich und andere und helfen mit, die Ausbreitung von Corona zu verhindern."</string>
+    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
+    <string name="submission_dispatcher_needs_testing_subheadline">"Sie haben sich bereits testen lassen?"</string>
+    <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
+    <string name="submission_dispatcher_already_positive_subheadline">"Ihr Test ist positiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Dokument mit QR-Code"</string>
+    <string name="submission_dispatcher_card_qr">"Test mit QR-Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokuments scannen."</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
@@ -969,13 +973,13 @@
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_negative">"Nicht erlauben"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"TAN"</string>
+    <string name="submission_dispatcher_card_tan_code">"TAN-Eingabe"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Registrieren Sie Ihren Test per manueller TAN-Eingabe."</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Ihnen liegt eine TAN vor? Weiter zur TAN-Eingabe, um andere zu warnen. "</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"TAN anfragen"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Noch keine TAN?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
-    <string name="submission_dispatcher_tan_tele_card_text">"Bitte rufen Sie uns an, falls Sie Corona-positiv getestet wurden."</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"Rufen Sie uns an und erhalten Sie eine TAN."</string>
     <!-- XACT: Dispatcher Tan page title -->
     <string name="submission_dispatcher_accessibility_title">"Welche Informationen liegen Ihnen vor?"</string>
 
