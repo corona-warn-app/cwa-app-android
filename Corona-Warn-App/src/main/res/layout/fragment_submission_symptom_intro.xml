@@ -7,10 +7,6 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
-        <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
-
     </data>
 
     <ScrollView
