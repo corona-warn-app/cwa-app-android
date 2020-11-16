@@ -77,21 +77,19 @@ class ENFClientTest : BaseTest() {
         val configuration = mockk<ExposureConfiguration>()
         val token = "123"
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe true
+            client.provideDiagnosisKeys(keyFiles) shouldBe true
         }
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns false
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns false
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe false
+            client.provideDiagnosisKeys(keyFiles) shouldBe false
         }
 
         coVerify(exactly = 2) {
             diagnosisKeyProvider.provideDiagnosisKeys(
-                keyFiles,
-                configuration,
-                token
+                keyFiles
             )
         }
     }
@@ -103,13 +101,13 @@ class ENFClientTest : BaseTest() {
         val configuration = mockk<ExposureConfiguration>()
         val token = "123"
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe true
+            client.provideDiagnosisKeys(keyFiles) shouldBe true
         }
 
         coVerify(exactly = 0) {
-            diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any())
+            diagnosisKeyProvider.provideDiagnosisKeys(any())
         }
     }
 

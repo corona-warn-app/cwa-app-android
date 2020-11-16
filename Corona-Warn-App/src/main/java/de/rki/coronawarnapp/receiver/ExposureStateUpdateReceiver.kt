@@ -11,7 +11,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TOKEN
 import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
-import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.UnknownBroadcastException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
@@ -55,9 +54,10 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
         val async = goAsync()
         scope.launch(context = dispatcherProvider.Default) {
             try {
+                val token = intent.getStringExtra(EXTRA_TOKEN)
                 when (action) {
-                    ACTION_EXPOSURE_STATE_UPDATED -> processStateUpdates(intent)
-                    ACTION_EXPOSURE_NOT_FOUND -> processNotFound(intent)
+                    ACTION_EXPOSURE_STATE_UPDATED -> processStateUpdates(token)
+                    ACTION_EXPOSURE_NOT_FOUND -> processNotFound(token)
                     else -> throw UnknownBroadcastException(action)
                 }
             } catch (e: Exception) {
@@ -69,13 +69,12 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun processStateUpdates(intent: Intent) {
+    private fun processStateUpdates(token: String?) {
         Timber.tag(TAG).i("Processing ACTION_EXPOSURE_STATE_UPDATED")
 
         val workManager = WorkManager.getInstance(context)
 
-        val token = intent.requireToken()
-
+        // TODO("Remove token from ExposureStateUpdateWorker")
         val data = Data
             .Builder()
             .putString(EXTRA_TOKEN, token)
@@ -93,20 +92,14 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
         )
     }
 
-    private fun processNotFound(intent: Intent) {
+    private fun processNotFound(token: String?) {
         Timber.tag(TAG).i("Processing ACTION_EXPOSURE_NOT_FOUND")
-
-        val token = intent.requireToken()
 
         exposureDetectionTracker.finishExposureDetection(
             token,
             TrackedExposureDetection.Result.NO_MATCHES
         )
     }
-
-    private fun Intent.requireToken(): String = getStringExtra(EXTRA_TOKEN).also {
-        Timber.tag(TAG).v("Extracted token: %s", it)
-    } ?: throw NoTokenException(IllegalArgumentException("no token was found in the intent"))
 
     companion object {
         private val TAG: String? = ExposureStateUpdateReceiver::class.simpleName
