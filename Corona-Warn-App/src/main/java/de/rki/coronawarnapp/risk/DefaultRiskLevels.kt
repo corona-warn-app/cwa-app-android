@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.UNSPECIFIED
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
@@ -322,13 +323,13 @@ class DefaultRiskLevels @Inject constructor(
 
     override fun calculateRisk(
         exposureWindow: ExposureWindow
-    ): RiskResult? {
+    ): RiskResult {
         if (dropDueToMinutesAtAttenuation(exposureWindow, appConfig.minutesAtAttenuationFilters)) {
             Timber.d(
                 "%s dropped due to minutes at attenuation filter",
                 exposureWindow
             )
-            return null
+            return RiskResult(0, 0.0, UNSPECIFIED)
         }
 
         val transmissionRiskLevel = determineTransmissionRiskLevel(
@@ -342,7 +343,7 @@ class DefaultRiskLevels @Inject constructor(
                 exposureWindow,
                 transmissionRiskLevel
             )
-            return null
+            return RiskResult(0, 0.0, UNSPECIFIED)
         }
 
         val transmissionRiskValue =

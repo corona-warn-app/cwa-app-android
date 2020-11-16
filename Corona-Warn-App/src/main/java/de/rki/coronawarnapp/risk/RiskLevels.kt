@@ -33,7 +33,7 @@ interface RiskLevels {
 
     fun calculateRisk(
         exposureWindow: ExposureWindow
-    ): RiskResult?
+    ): RiskResult
 
     fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
