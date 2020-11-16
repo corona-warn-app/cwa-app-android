@@ -50,9 +50,10 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.d("Running with arguments=%s", arguments)
             arguments as Arguments
 
-            if (arguments.withConstraints) {
-                if (!noKeysFetchedToday()) return object : Task.Result {}
-            }
+            BackgroundWorkHelper.sendDebugNotification(
+                "Start Task",
+                "Fetching keys \n${DateTime.now()}\nUTC: ${timeStamper.nowUTC}"
+            )
 
             /**
              * Handles the case when the ENClient got disabled but the Task is still scheduled
@@ -188,25 +189,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
         return UUID.randomUUID().toString().also {
             LocalData.googleApiToken(it)
-        }
-    }
-
-    private fun noKeysFetchedToday(): Boolean {
-        val currentDate = DateTime(timeStamper.nowUTC, DateTimeZone.UTC)
-        val lastFetch = DateTime(
-            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
-        )
-        return (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-            currentDate.isAfter(lastFetch)).also {
-            if (it) {
-                Timber.tag(TAG)
-                    .d("No keys fetched already (last=%s, now=%s)", lastFetch, currentDate)
-                BackgroundWorkHelper.sendDebugNotification(
-                    "Start Task",
-                    "No keys fetched already \n${DateTime.now()}\nUTC: $currentDate"
-                )
-            }
         }
     }
 
