@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -40,7 +39,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -96,7 +94,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun resetRiskLevel() {
-        viewModelScope.launch {
+        launch {
             withContext(Dispatchers.IO) {
                 try {
                     // Preference reset
@@ -128,7 +126,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     )
 
     fun startENFObserver() {
-        viewModelScope.launch {
+        launch {
             try {
                 var workState = riskScoreState.value!!
 
@@ -269,7 +267,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         dir.mkdirs()
 
         var googleFileList: List<File>
-        viewModelScope.launch {
+        launch {
             googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
             Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
@@ -297,7 +295,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun clearKeyCache() {
-        viewModelScope.launch { keyCacheRepository.clear() }
+        launch { keyCacheRepository.clear() }
     }
 
     @AssistedInject.Factory
