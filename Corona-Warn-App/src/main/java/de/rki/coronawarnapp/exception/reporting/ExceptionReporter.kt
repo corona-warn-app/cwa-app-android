@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.util.concurrent.CancellationException
 
 fun Throwable.report(exceptionCategory: ExceptionCategory) =
     this.report(exceptionCategory, null, null)
@@ -25,6 +26,10 @@ fun Throwable.report(
     suffix: String?
 ) {
     if (CWADebug.isAUnitTest) return
+
+    // CancellationException is a part of normal operation. It is used to cancel a running
+    // asynchronous operation. It is not a failure and should not be reported as such.
+    if (this is CancellationException) return
 
     reportProblem(tag = prefix, info = suffix)
     val context = CoronaWarnApplication.getAppContext()
