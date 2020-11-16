@@ -135,9 +135,9 @@ class TracingRepository @Inject constructor(
         )
 
         // check if the keys were not already retrieved today
-        val keysWereNotRetrievedToday =
+        val keysWereNotAlreadyRetrieved =
             LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+                currentDate.isAfter(lastFetch)
 
         // check if the network is enabled to make the server fetch
         val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(context)
@@ -146,11 +146,11 @@ class TracingRepository @Inject constructor(
         // model the keys are only fetched on button press of the user
         val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
 
-        Timber.tag(TAG).v("Keys were not retrieved today $keysWereNotRetrievedToday")
+        Timber.tag(TAG).v("Keys were not already retrieved $keysWereNotAlreadyRetrieved")
         Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
         Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
 
-        if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
+        if (keysWereNotAlreadyRetrieved && isNetworkEnabled && isBackgroundJobEnabled) {
             // TODO shouldn't access this directly
             retrievingDiagnosisKeys.value = true
 

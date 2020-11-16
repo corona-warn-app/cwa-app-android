@@ -198,13 +198,13 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             DateTimeZone.UTC
         )
         return (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()).also {
+            currentDate.isAfter(lastFetch)).also {
             if (it) {
                 Timber.tag(TAG)
-                    .d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
+                    .d("No keys fetched already (last=%s, now=%s)", lastFetch, currentDate)
                 BackgroundWorkHelper.sendDebugNotification(
                     "Start Task",
-                    "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
+                    "No keys fetched already \n${DateTime.now()}\nUTC: $currentDate"
                 )
             }
         }
