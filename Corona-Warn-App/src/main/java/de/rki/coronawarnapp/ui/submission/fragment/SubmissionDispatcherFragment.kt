@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
@@ -23,6 +24,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionDispatcherViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionDispatcherBinding by viewBindingLazy()
+
+    @Inject lateinit var submissionSettings: SubmissionSettings
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,15 +82,27 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
             R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
             true,
-            {
-                privacyPermissionIsGranted()
+            positiveButtonFunction = {
+                onPrivacyPermissionGranted()
+            },
+            negativeButtonFunction = {
+                onPrivacyPermissionDenied()
             }
         )
 
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun privacyPermissionIsGranted() {
+    private fun onPrivacyPermissionGranted() {
+        submissionSettings.hasGivenConsent.update {
+            true
+        }
         viewModel.onQRScanPressed()
+    }
+
+    private fun onPrivacyPermissionDenied() {
+        submissionSettings.hasGivenConsent.update {
+            false
+        }
     }
 }
