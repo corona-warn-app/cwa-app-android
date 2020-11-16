@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
+import java.lang.UnsupportedOperationException
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -40,8 +41,8 @@ class ENFClient @Inject constructor(
         configuration: ExposureConfiguration?,
         token: String
     ): Boolean {
-        // NO-OP
-        return false
+        //NO-OP
+        throw UnsupportedOperationException("Use provideDiagnosisKeys without token and configuration!")
     }
 
     override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
