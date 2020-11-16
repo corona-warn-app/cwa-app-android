@@ -40,9 +40,8 @@ class ENFClient @Inject constructor(
         configuration: ExposureConfiguration?,
         token: String
     ): Boolean {
-        return false
-        // TODO uncomment Exception later, after every subtask has joined
-        // throw UnsupportedOperationException("Use provideDiagnosisKeys without token and configuration!")
+        // TODO uncomment Exception later, after every subtask has joined (fun will probably be removed)
+        throw UnsupportedOperationException("Use provideDiagnosisKeys without token and configuration!")
     }
 
     override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
