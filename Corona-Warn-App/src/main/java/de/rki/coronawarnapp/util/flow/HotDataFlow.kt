@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -37,20 +39,32 @@ class HotDataFlow<T : Any>(
         extraBufferCapacity = Int.MAX_VALUE,
         onBufferOverflow = BufferOverflow.SUSPEND
     )
+    private val valueGuard = Mutex()
 
     private val internalProducer: Flow<Holder<T>> = channelFlow {
-        var currentValue = startValueProvider().also {
-            Timber.tag(tag).v("startValue=%s", it)
-            val updatedBy: suspend T.() -> T = { it }
-            send(Holder.Data(value = it, updatedBy = updatedBy))
-        }
-
-        updateActions.collect { updateAction ->
-            currentValue = updateAction(currentValue).also {
-                currentValue = it
-                send(Holder.Data(value = it, updatedBy = updateAction))
+        var currentValue = valueGuard.withLock {
+            startValueProvider().also {
+                Timber.tag(tag).v("startValue=%s", it)
+                val updatedBy: suspend T.() -> T = { it }
+                send(Holder.Data(value = it, updatedBy = updatedBy))
             }
         }
+        Timber.tag(tag).v("startValue=%s", currentValue)
+
+        updateActions
+            .onCompletion {
+                Timber.tag(tag).v("updateActions onCompletion -> resetReplayCache()")
+                updateActions.resetReplayCache()
+            }
+            .collect { updateAction ->
+                currentValue = valueGuard.withLock {
+                    updateAction(currentValue).also {
+                        send(Holder.Data(value = it, updatedBy = updateAction))
+                    }
+                }
+            }
+
+        Timber.tag(tag).v("internal channelFlow finished.")
     }
 
     private val internalFlow = internalProducer
@@ -65,7 +79,10 @@ class HotDataFlow<T : Any>(
                 throw it
             }
         }
-        .onCompletion { Timber.tag(tag).v("Internal onCompletion") }
+        .onCompletion { err ->
+            if (err != null) Timber.tag(tag).w(err, "internal onCompletion due to error")
+            else Timber.tag(tag).v("internal onCompletion")
+        }
         .shareIn(
             scope = scope + coroutineContext,
             replay = 1,
