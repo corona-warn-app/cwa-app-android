@@ -64,7 +64,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                         }
                     }
 
-                    delay(TIMEOUT_CHECK_INTERVALL.millis)
+                    delay(TIMEOUT_CHECK_INTERVAL.millis)
                 }
             }.launchIn(scope + dispatcherProvider.Default)
         }
@@ -164,6 +164,6 @@ class DefaultExposureDetectionTracker @Inject constructor(
     companion object {
         private const val TAG = "DefaultExposureDetectionTracker"
         private const val MAX_ENTRY_SIZE = 5
-        private val TIMEOUT_CHECK_INTERVALL = Duration.standardMinutes(3)
+        private val TIMEOUT_CHECK_INTERVAL = Duration.standardMinutes(3)
     }
 }
