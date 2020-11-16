@@ -95,13 +95,14 @@ class DefaultExposureDetectionTracker @Inject constructor(
     }
 
     override fun finishExposureDetection(identifier: String?, result: Result) {
+        Timber.i("finishExposureDetection(token=%s, result=%s)", identifier, result)
         detectionStates.updateSafely {
             mutate {
-
                 if (identifier == null) {
-                    finishExposureDetectionWithoutIdentifier(this, result)
+                    val id = this.findUnfinishedOrCreateIdentifier()
+                    finishDetection(id, result)
                 } else {
-                    finishDetection(this, identifier, result)
+                    finishDetection(identifier, result)
                 }
 
                 val toKeep = entries
@@ -117,36 +118,31 @@ class DefaultExposureDetectionTracker @Inject constructor(
         }
     }
 
-    private fun finishExposureDetectionWithoutIdentifier(
-        map: MutableMap<String, TrackedExposureDetection>,
-        result: Result
-    ) {
-        Timber.d(
-            "finishExposureDetectionWithoutIdentifier(): " +
-                "Get identifier of newest unfinished detection or create new identifier"
-        )
-        val identifier = map
+    private fun Map<String, TrackedExposureDetection>.findUnfinishedOrCreateIdentifier(): String {
+        val newestUnfinishedDetection = this
             .map { it.value }
             .filter { it.finishedAt == null }
             .maxByOrNull { it.startedAt.millis }
-            ?.identifier ?: kotlin.run {
-            Timber.d("finishExposureDetectionWithoutIdentifier(): No unfinished detection found, create identifier")
+
+        return if (newestUnfinishedDetection != null) {
+            Timber.d("findUnfinishedOrCreateIdentifier(): Found unfinished detection, return identifier")
+            newestUnfinishedDetection.identifier
+        } else {
+            Timber.d("findUnfinishedOrCreateIdentifier(): No unfinished detection found, create identifier")
             UUID.randomUUID().toString()
         }
-
-        finishDetection(map, identifier, result)
     }
 
-    private fun finishDetection(map: MutableMap<String, TrackedExposureDetection>, identifier: String, result: Result) {
+    private fun MutableMap<String, TrackedExposureDetection>.finishDetection(identifier: String, result: Result) {
         Timber.i("finishDetection(token=%s, result=%s)", identifier, result)
-        val existing = map[identifier]
+        val existing = this[identifier]
         if (existing != null) {
             if (existing.result == Result.TIMEOUT) {
                 Timber.w("Detection is late, already hit timeout, still updating.")
             } else if (existing.result != null) {
                 Timber.e("Duplicate callback. Result is already set for detection!")
             }
-            map[identifier] = existing.copy(
+            this[identifier] = existing.copy(
                 result = result,
                 finishedAt = timeStamper.nowUTC
             )
@@ -156,7 +152,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                 identifier,
                 result
             )
-            map[identifier] = TrackedExposureDetection(
+            this[identifier] = TrackedExposureDetection(
                 identifier = identifier,
                 result = result,
                 startedAt = timeStamper.nowUTC,
