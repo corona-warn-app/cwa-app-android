@@ -41,7 +41,7 @@ class ENFClient @Inject constructor(
         configuration: ExposureConfiguration?,
         token: String
     ): Boolean {
-        //NO-OP
+        // NO-OP
         throw UnsupportedOperationException("Use provideDiagnosisKeys without token and configuration!")
     }
 
