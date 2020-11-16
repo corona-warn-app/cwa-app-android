@@ -1,7 +1,8 @@
-package de.rki.coronawarnapp.appconfig.download
+package de.rki.coronawarnapp.appconfig.sources.local
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -38,17 +39,18 @@ class AppConfigStorage @Inject constructor(
     private val configFile = File(configDir, "appconfig.json")
     private val mutex = Mutex()
 
-    suspend fun getStoredConfig(): ConfigDownload? = mutex.withLock {
+    suspend fun getStoredConfig(): InternalConfigData? = mutex.withLock {
         Timber.v("get() AppConfig")
 
         if (!configFile.exists() && legacyConfigFile.exists()) {
             Timber.i("Returning legacy config.")
             return@withLock try {
-                ConfigDownload(
+                InternalConfigData(
                     rawData = legacyConfigFile.readBytes(),
                     serverTime = timeStamper.nowUTC,
                     localOffset = Duration.ZERO,
-                    etag = "legacy.migration"
+                    etag = "legacy.migration",
+                    cacheValidity = Duration.standardMinutes(5)
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Legacy config exits but couldn't be read.")
@@ -57,14 +59,14 @@ class AppConfigStorage @Inject constructor(
         }
 
         return@withLock try {
-            gson.fromJson<ConfigDownload>(configFile)
+            gson.fromJson<InternalConfigData>(configFile)
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load config.")
             null
         }
     }
 
-    suspend fun setStoredConfig(value: ConfigDownload?): Unit = mutex.withLock {
+    suspend fun setStoredConfig(value: InternalConfigData?): Unit = mutex.withLock {
         Timber.v("set(...) AppConfig: %s", value)
 
         if (configDir.mkdirs()) Timber.v("Parent folder created.")
