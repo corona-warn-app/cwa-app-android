@@ -15,7 +15,7 @@ class SubmissionSettings @Inject constructor(
         context.getSharedPreferences("submission_localdata", Context.MODE_PRIVATE)
     }
 
-    val hasGivenConsent = FlowPreference(
+    var hasGivenConsent = FlowPreference(
         preferences = prefs,
         key = "key_submission_consent",
         reader = FlowPreference.basicReader(false),
