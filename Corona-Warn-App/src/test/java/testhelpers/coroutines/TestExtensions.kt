@@ -11,10 +11,10 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 @ExperimentalCoroutinesApi // Since 1.2.1, tentatively till 1.3.0
 fun TestCoroutineScope.runBlockingTest2(
-    permanentJobs: Boolean = false,
+    ignoreActive: Boolean = false,
     block: suspend TestCoroutineScope.() -> Unit
 ): Unit = runBlockingTest2(
-    ignoreActive = permanentJobs,
+    ignoreActive = ignoreActive,
     context = coroutineContext,
     testBody = block
 )
