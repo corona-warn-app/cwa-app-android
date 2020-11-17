@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import android.content.Context
-import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
@@ -15,8 +14,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.smartLiveData
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
 
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
@@ -69,7 +66,7 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
 
     fun shareLogFile() {
         CWADebug.fileLogger?.let {
-            viewModelScope.launch(context = Dispatchers.Default) {
+            launch {
                 if (!it.logFile.exists()) return@launch
 
                 val externalPath = File(

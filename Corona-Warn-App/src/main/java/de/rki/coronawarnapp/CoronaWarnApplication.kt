@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
@@ -44,6 +45,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var taskController: TaskController
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManager: WorkManager
+    @Inject lateinit var configChangeDetector: ConfigChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -79,6 +81,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         if (LocalData.onboardingCompletedTimestamp() != null) {
             deadmanNotificationScheduler.schedulePeriodic()
         }
+
+        configChangeDetector.launch()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

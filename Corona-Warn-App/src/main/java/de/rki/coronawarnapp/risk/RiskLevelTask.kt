@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.risk
 
 import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -35,7 +37,9 @@ class RiskLevelTask @Inject constructor(
     @AppContext private val context: Context,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
-    private val backgroundModeStatus: BackgroundModeStatus
+    private val backgroundModeStatus: BackgroundModeStatus,
+    private val riskLevelData: RiskLevelData,
+    private val appConfigProvider: AppConfigProvider
 ) : Task<DefaultProgress, RiskLevelTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -56,6 +60,8 @@ class RiskLevelTask @Inject constructor(
             if (!enfClient.isTracingEnabled.first()) {
                 return Result(NO_CALCULATION_POSSIBLE_TRACING_OFF)
             }
+
+            val configData: ConfigData = appConfigProvider.getAppConfig()
 
             with(riskLevels) {
                 return Result(
@@ -84,6 +90,7 @@ class RiskLevelTask @Inject constructor(
                     }.also {
                         checkCancel()
                         updateRepository(it, timeStamper.nowUTC.millis)
+                        riskLevelData.lastUsedConfigIdentifier = configData.identifier
                     }
                 )
             }
