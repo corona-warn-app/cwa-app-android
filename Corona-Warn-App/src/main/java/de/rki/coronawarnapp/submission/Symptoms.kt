@@ -36,7 +36,7 @@ data class Symptoms(
 
     companion object {
         val NO_INFO_GIVEN = Symptoms(
-            startOfSymptoms = null, // FIXME  should this be null?
+            startOfSymptoms = null,
             symptomIndication = Indication.NO_INFORMATION
         )
     }
