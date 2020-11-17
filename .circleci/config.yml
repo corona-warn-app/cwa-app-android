@@ -302,7 +302,7 @@ workflows:
 #            - device_release_unit_tests
   signed_build:
     jobs:
-      - quick_build_device_for_testers_signed:
+      - quick_build_device_for_testers_signed
 #          filters:
 #            tags:
 #              only:
