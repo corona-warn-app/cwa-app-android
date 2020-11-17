@@ -183,8 +183,7 @@ class TracingRepository @Inject constructor(
     fun refreshExposureSummary() {
         scope.launch {
             try {
-                ExposureSummaryRepository.getExposureSummaryRepository()
-                    .getLatestExposureSummary("no token")
+                ExposureSummaryRepository.getExposureSummaryRepository().getLatestExposureSummary()
                 Timber.tag(TAG).v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(

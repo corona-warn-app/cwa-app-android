@@ -16,7 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -32,7 +32,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -317,8 +316,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
         lifecycleScope.launch {
             try {
-                val exposureSummary =
-                    InternalExposureNotificationClient.asyncGetExposureSummary("no more token")
+                val exposureSummary = enfClient.exposureWindows()
                 updateExposureSummaryDisplay(exposureSummary)
                 showToast("Updated Exposure Summary")
                 Timber.d("Received exposure from QR Code")
@@ -329,32 +327,33 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         }
     }
 
-    private fun updateExposureSummaryDisplay(exposureSummary: ExposureSummary?) {
+    private fun updateExposureSummaryDisplay(windows: List<ExposureWindow>?) {
 
-        binding.labelExposureSummaryMatchedKeyCount.text = getString(
-            R.string.test_api_body_matchedKeyCount,
-            (exposureSummary?.matchedKeyCount ?: "-").toString()
-        )
-
-        binding.labelExposureSummaryDaysSinceLastExposure.text = getString(
-            R.string.test_api_body_daysSinceLastExposure,
-            (exposureSummary?.daysSinceLastExposure ?: "-").toString()
-        )
-
-        binding.labelExposureSummaryMaximumRiskScore.text = getString(
-            R.string.test_api_body_maximumRiskScore,
-            (exposureSummary?.maximumRiskScore ?: "-").toString()
-        )
-
-        binding.labelExposureSummarySummationRiskScore.text = getString(
-            R.string.test_api_body_summation_risk,
-            (exposureSummary?.summationRiskScore ?: "-").toString()
-        )
-
-        binding.labelExposureSummaryAttenuation.text = getString(
-            R.string.test_api_body_attenuation,
-            (exposureSummary?.attenuationDurationsInMinutes?.joinToString() ?: "-").toString()
-        )
+        // FIXME
+//        binding.labelExposureSummaryMatchedKeyCount.text = getString(
+//            R.string.test_api_body_matchedKeyCount,
+//            (exposureSummary?.matchedKeyCount ?: "-").toString()
+//        )
+//
+//        binding.labelExposureSummaryDaysSinceLastExposure.text = getString(
+//            R.string.test_api_body_daysSinceLastExposure,
+//            (exposureSummary?.daysSinceLastExposure ?: "-").toString()
+//        )
+//
+//        binding.labelExposureSummaryMaximumRiskScore.text = getString(
+//            R.string.test_api_body_maximumRiskScore,
+//            (exposureSummary?.maximumRiskScore ?: "-").toString()
+//        )
+//
+//        binding.labelExposureSummarySummationRiskScore.text = getString(
+//            R.string.test_api_body_summation_risk,
+//            (exposureSummary?.summationRiskScore ?: "-").toString()
+//        )
+//
+//        binding.labelExposureSummaryAttenuation.text = getString(
+//            R.string.test_api_body_attenuation,
+//            (exposureSummary?.attenuationDurationsInMinutes?.joinToString() ?: "-").toString()
+//        )
     }
 
     private fun updateKeysDisplay() {

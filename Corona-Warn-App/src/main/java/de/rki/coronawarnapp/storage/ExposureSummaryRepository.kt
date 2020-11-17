@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import kotlinx.coroutines.flow.Flow
@@ -37,27 +38,29 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
     suspend fun getExposureSummaryEntities() = exposureSummaryDao.getExposureSummaryEntities()
         .map { it.convertToExposureSummary() }
 
-    suspend fun insertExposureSummaryEntity(exposureSummary: ExposureSummary) =
-        ExposureSummaryEntity().apply {
-            this.daysSinceLastExposure = exposureSummary.daysSinceLastExposure
-            this.matchedKeyCount = exposureSummary.matchedKeyCount
-            this.maximumRiskScore = exposureSummary.maximumRiskScore
-            this.summationRiskScore = exposureSummary.summationRiskScore
-            this.attenuationDurationsInMinutes =
-                exposureSummary.attenuationDurationsInMinutes.toTypedArray().toList()
-        }.run {
-            exposureSummaryDao.insertExposureSummaryEntity(this)
-            internalMatchedKeyCount.value = matchedKeyCount
-            internalDaysSinceLastExposure.value = daysSinceLastExposure
-        }
+    suspend fun insertExposureSummaryEntity(windows: List<ExposureWindow>) {
+        // FIXME
+//        ExposureSummaryEntity().apply {
+//            this.daysSinceLastExposure = exposureSummary.daysSinceLastExposure
+//            this.matchedKeyCount = exposureSummary.matchedKeyCount
+//            this.maximumRiskScore = exposureSummary.maximumRiskScore
+//            this.summationRiskScore = exposureSummary.summationRiskScore
+//            this.attenuationDurationsInMinutes =
+//                exposureSummary.attenuationDurationsInMinutes.toTypedArray().toList()
+//        }.run {
+//            exposureSummaryDao.insertExposureSummaryEntity(this)
+//            internalMatchedKeyCount.value = matchedKeyCount
+//            internalDaysSinceLastExposure.value = daysSinceLastExposure
+//        }
+    }
 
-    @Deprecated(message = "enf v1")
-    suspend fun getLatestExposureSummary(token: String) {
-        if (InternalExposureNotificationClient.asyncIsEnabled())
-            InternalExposureNotificationClient.asyncGetExposureSummary(token).also {
-                internalMatchedKeyCount.value = it.matchedKeyCount
-                internalDaysSinceLastExposure.value = it.daysSinceLastExposure
-            }
+    suspend fun getLatestExposureSummary() {
+        // FIXME
+//        if (InternalExposureNotificationClient.asyncIsEnabled())
+//            InternalExposureNotificationClient.asyncGetExposureSummary(token).also {
+//                internalMatchedKeyCount.value = it.matchedKeyCount
+//                internalDaysSinceLastExposure.value = it.daysSinceLastExposure
+//            }
     }
 
     private fun ExposureSummaryEntity.convertToExposureSummary() =
