@@ -275,11 +275,11 @@ jobs:
       - run:
           name: Send to T-System
           command: |
-            pattern=Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App*
-            files=( $pattern )
+            fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
+            echo $fileName
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
-            --form 'file=@$( $pattern )[0]' \
+            --form 'file=@$fileName' \
 workflows:
   version: 2
 #  quick_build:
