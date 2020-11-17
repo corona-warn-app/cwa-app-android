@@ -76,10 +76,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private var isLoweredRiskLevelDialogBeingShown = false
 
-    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionCardsStateProvider.state
             .first { it.isPositiveSubmissionCardVisible() }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+    }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {

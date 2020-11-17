@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
 import de.rki.coronawarnapp.util.DialogHelper
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -100,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             }
         }
 
-        lifecycleScope.launch { vm.observeTestResultToSchedulePositiveTestResultReminder() }
+       vm.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
