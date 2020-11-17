@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
 
-@Suppress("DEPRECATION")
 class ENFClientTest : BaseTest() {
 
     @MockK lateinit var googleENFClient: ExposureNotificationClient

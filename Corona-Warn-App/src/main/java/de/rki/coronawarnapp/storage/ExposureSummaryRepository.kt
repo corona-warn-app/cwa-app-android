@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.storage
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

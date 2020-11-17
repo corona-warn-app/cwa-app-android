@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -10,7 +9,6 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.launch
 
 class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     private val interoperabilityRepository: InteroperabilityRepository
@@ -25,7 +23,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
 
     // Reset tracing state in onboarding
     fun resetTracing() {
-        viewModelScope.launch {
+        launch {
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     InternalExposureNotificationClient.asyncStop()

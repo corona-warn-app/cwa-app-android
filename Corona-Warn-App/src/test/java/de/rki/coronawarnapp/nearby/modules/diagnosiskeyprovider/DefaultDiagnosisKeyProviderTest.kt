@@ -1,10 +1,8 @@
-@file:Suppress("DEPRECATION")
-
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.util.GoogleAPIVersion
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -36,15 +34,9 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { submissionQuota.consumeQuota(any()) } returns true
 
-        coEvery {
-            googleENFClient.provideDiagnosisKeys(
-                any(),
-                any(),
-                any()
-            )
-        } returns MockGMSTask.forValue(null)
+        coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
     }
 
     @AfterEach
@@ -59,131 +51,64 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     )
 
     @Test
-    fun `legacy key provision is used on older ENF versions`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
+    fun `key provision is used on older ENF versions`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns false
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles)
-        }
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
 
         coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles
-            )
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0])
-            )
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1])
-            )
+            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
+            googleENFClient.provideDiagnosisKeys(listOf(exampleKeyFiles[0]))
+            googleENFClient.provideDiagnosisKeys(listOf(exampleKeyFiles[1]))
             submissionQuota.consumeQuota(2)
         }
     }
 
     @Test
-    fun `normal key provision is used on newer ENF versions`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+    fun `key provision is used on newer ENF versions`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles)
-        }
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
 
         coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles
-            )
+            googleENFClient.provideDiagnosisKeys(any<List<File>>())
+            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
             submissionQuota.consumeQuota(1)
         }
     }
 
     @Test
-    fun `passing an a null configuration leads to constructing a fallback from defaults`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+    fun `quota is consumed silently`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
+        coEvery { submissionQuota.consumeQuota(any()) } returns false
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles)
-        }
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
 
-        coVerify(exactly = 1) {
+        coVerify(exactly = 0) {
+            googleENFClient.provideDiagnosisKeys(any<List<File>>())
             googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
         }
+
+        coVerify(exactly = 1) { submissionQuota.consumeQuota(1) }
     }
 
     @Test
-    fun `passing an a null configuration leads to constructing a fallback from defaults, legacy`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
+    fun `provide empty key list`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles)
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0])
-            )
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1])
-            )
-            submissionQuota.consumeQuota(2)
-        }
-    }
-
-    @Test
-    fun `quota is consumed silenently`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
-        coEvery { submissionQuota.consumeQuota(any()) } returns false
-
-        val provider = createProvider()
-
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles)
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any(), any(), any())
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles
-            )
-            submissionQuota.consumeQuota(1)
-        }
-    }
-
-    @Test
-    fun `quota is consumed silently, legacy`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
-        coEvery { submissionQuota.consumeQuota(any()) } returns false
-
-        val provider = createProvider()
-
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles)
-        }
+        runBlocking { provider.provideDiagnosisKeys(emptyList()) } shouldBe true
 
         coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles
-            )
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0])
-            )
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1])
-            )
-            submissionQuota.consumeQuota(2)
+            googleENFClient.provideDiagnosisKeys(any<List<File>>())
+            googleENFClient.provideDiagnosisKeys(emptyList())
         }
     }
 }

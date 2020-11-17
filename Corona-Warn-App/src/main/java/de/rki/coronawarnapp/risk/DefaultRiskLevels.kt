@@ -33,7 +33,6 @@ import javax.inject.Singleton
 class DefaultRiskLevels @Inject constructor(
     private val appConfigProvider: AppConfigProvider
 ) : RiskLevels {
-
     private var appConfig: ConfigData
 
     init {

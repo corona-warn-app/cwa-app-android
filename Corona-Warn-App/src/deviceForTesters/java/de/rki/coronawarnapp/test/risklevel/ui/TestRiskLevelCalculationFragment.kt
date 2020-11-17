@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -39,7 +38,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
     )
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private val submissionViewModel: SubmissionViewModel by activityViewModels()
 
     private val binding: FragmentTestRiskLevelCalculationBinding by viewBindingLazy()
 
@@ -51,7 +49,10 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         }
 
         binding.settingsViewModel = settingsViewModel
-        binding.submissionViewModel = submissionViewModel
+
+        vm.showRiskStatusCard.observe2(this) {
+            binding.showRiskStatusCard = it
+        }
 
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
         binding.buttonProvideKeyViaQr.setOnClickListener { vm.scanLocalQRCodeAndProvide() }

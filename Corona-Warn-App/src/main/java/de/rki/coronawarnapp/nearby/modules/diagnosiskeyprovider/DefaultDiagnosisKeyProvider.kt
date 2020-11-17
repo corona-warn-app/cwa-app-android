@@ -1,8 +1,8 @@
-@file:Suppress("DEPRECATION")
-
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import timber.log.Timber
 import java.io.File
@@ -33,6 +33,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 
         if (!submissionQuota.consumeQuota(1)) {
             Timber.w("No key files submitted because not enough quota available.")
+            return false
         }
 
         return suspendCoroutine { cont ->
@@ -40,8 +41,15 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
             enfClient
                 .provideDiagnosisKeys(keyFiles.toList())
                 .addOnSuccessListener { cont.resume(true) }
-                .addOnFailureListener { cont.resumeWithException(it) }
+                .addOnFailureListener {
+                    val wrappedException =
+                        when (it is ApiException &&
+                            it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT) {
+                            true -> QuotaExceededException(cause = it)
+                            false -> it
+                        }
+                    cont.resumeWithException(wrappedException)
+                }
         }
     }
-
 }
