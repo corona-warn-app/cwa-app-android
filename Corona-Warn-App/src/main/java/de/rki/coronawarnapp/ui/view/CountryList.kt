@@ -3,22 +3,23 @@ package de.rki.coronawarnapp.ui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.core.content.withStyledAttributes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.ViewCountryListEntryFlagItemBinding
 import de.rki.coronawarnapp.ui.Country
+import de.rki.coronawarnapp.util.lists.BindableVH
 import kotlinx.android.synthetic.main.view_country_list_entry_flag_container.view.*
 import java.text.Collator
 
 class CountryList(context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs) {
     private var attributeSet = attrs
-    private var view: View? = null
     private var _list: List<Country>? = null
     var list: List<Country>?
         get() = _list
@@ -29,6 +30,7 @@ class CountryList(context: Context, attrs: AttributeSet) :
 
     init {
         orientation = HORIZONTAL
+        inflate(context, R.layout.view_country_list_entry_flag_container, this)
     }
 
     /**
@@ -42,25 +44,26 @@ class CountryList(context: Context, attrs: AttributeSet) :
             ?.sortedWith { a, b ->
                 Collator.getInstance().compare(a.first, b.first)
             }
+        list?.let { prepareFlags(it) }
+    }
 
-        view = inflate(context, R.layout.view_country_list_entry_flag_container, this)
-        val flagNumberOfColumns = 8
-        var adapterCountryFlags = CountryAdapterFlags(context, _list)
+    private fun prepareFlags(list: List<Country>) {
+        val adapterCountryFlags = _list?.let { CountryAdapterFlags(it) }
+        var countryNames = ""
         context.withStyledAttributes(attributeSet, R.styleable.SimpleStepEntry) {
-
-            flagGrid.layoutManager = GridLayoutManager(context, flagNumberOfColumns)
+            flagGrid.layoutManager = GridLayoutManager(context, FLAG_COLUMNS)
             flagGrid.adapter = adapterCountryFlags
-
-            var countryNames = ""
-            val iterator: Iterator<Country> = list!!.iterator()
+            val iterator: Iterator<Country> = list.iterator()
             while (iterator.hasNext()) {
                 countryNames += resources.getString(iterator.next().labelRes)
-                if (iterator.hasNext()) {
-                    countryNames += ", "
-                }
+                if (iterator.hasNext()) countryNames += ", "
             }
             country_list_entry_label.text = countryNames
         }
+    }
+
+    companion object {
+        const val FLAG_COLUMNS = 8
     }
 }
 
@@ -68,32 +71,61 @@ class CountryList(context: Context, attrs: AttributeSet) :
  * Adapter for the country flags grid
  */
 class CountryAdapterFlags internal constructor(
-    context: Context?,
-    countryList: List<Country>?
+    countryList: List<Country>
 ) :
-    RecyclerView.Adapter<CountryAdapterFlags.ViewHolder>() {
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private val countryList: List<Country>? = countryList
-
-    // inflates the cell layout from xml when needed
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = mInflater.inflate(R.layout.view_country_list_entry_flag_item, parent, false)
-        return ViewHolder(view)
-    }
-
-    // binds the data to the TextView in each cell
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val country = this.countryList!![position]
-        holder.flagImage.setImageResource(country.iconRes)
-    }
-
+    BaseCountryFlagAdapter<CountryAdapterFlags.CountryFlagViewHolder>() {
     // total number of cells
-    override fun getItemCount(): Int {
-        return countryList!!.size
+
+    private val countryList: List<Country>? = countryList
+    override fun getItemCount(): Int = countryList!!.size
+
+    override fun getItemId(position: Int): Long = countryList?.get(position)!!.iconRes.hashCode().toLong()
+
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CountryFlagViewHolder =
+        CountryFlagViewHolder(parent)
+
+    override fun onBindBaseVH(holder: CountryFlagViewHolder, position: Int) {
+        val item = countryList!![position]
+        holder.bind(item)
     }
 
-    // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var flagImage: ImageView = itemView.findViewById(R.id.country_list_entry_image)
+    /**
+     * CustomViewHolder for the country flags grid
+     */
+    class CountryFlagViewHolder(
+        val parent: ViewGroup
+    ) : BaseCountryFlagAdapter.VH(
+        R.layout.view_country_list_entry_flag_item, parent
+    ), BindableVH<Country, ViewCountryListEntryFlagItemBinding> {
+
+        override val viewBinding: Lazy<ViewCountryListEntryFlagItemBinding> = lazy {
+            ViewCountryListEntryFlagItemBinding.bind(itemView)
+        }
+
+        override val onBindData: ViewCountryListEntryFlagItemBinding.(key: Country) -> Unit = { item ->
+            countryListEntryImage.setImageResource(item.iconRes)
+        }
+    }
+}
+
+abstract class BaseCountryFlagAdapter<T : BaseCountryFlagAdapter.VH> : RecyclerView.Adapter<T>() {
+    @CallSuper
+    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): T {
+        return onCreateBaseVH(parent, viewType)
+    }
+
+    abstract fun onCreateBaseVH(parent: ViewGroup, viewType: Int): T
+
+    @CallSuper
+    final override fun onBindViewHolder(holder: T, position: Int) {
+        onBindBaseVH(holder, position)
+    }
+
+    abstract fun onBindBaseVH(holder: T, position: Int)
+
+    abstract class VH(@LayoutRes layoutRes: Int, parent: ViewGroup) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
+    ) {
+        val context: Context = parent.context
     }
 }
