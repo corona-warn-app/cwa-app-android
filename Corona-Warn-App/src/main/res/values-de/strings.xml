@@ -1128,7 +1128,7 @@
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Das Ergebnis wird aktualisiert"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
-    <string name="submission_status_card_body_unregistered">"Helfen Sie mit, die Infektionskette zu durchbrechen, und informieren Sie andere."</string>
+    <string name="submission_status_card_body_unregistered">"Schützen Sie sich und Ihre Mitmenschen!"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Die Auswertung Ihres Tests ist noch nicht abgeschlossen."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1140,7 +1140,7 @@
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Informieren &amp; helfen"</string>
+    <string name="submission_status_card_button_unregistered">"Nächste Schritte"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XBUT: submission status card fetch failed button -->
