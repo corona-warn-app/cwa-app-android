@@ -275,9 +275,9 @@ jobs:
       - run:
           name: Test command
           command: |
-            pattern="*.apk"
-            files=( $pattern )
-            echo "${files[0]}"
+            echo *.apk([1])
+            tmp=(*.apk)
+            echo "${tmp[0]}"
 #      - run:
 #          name: Send to T-System
 #          command: |
