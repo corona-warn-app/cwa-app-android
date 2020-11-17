@@ -279,7 +279,7 @@ jobs:
             files=( $pattern )
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
-            --form 'file=@${files[0]}' \
+            --form 'file=@$( $pattern )[0]' \
 workflows:
   version: 2
 #  quick_build:
