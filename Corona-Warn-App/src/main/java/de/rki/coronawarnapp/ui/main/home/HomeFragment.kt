@@ -98,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             }
         }
 
-       vm.observeTestResultToSchedulePositiveTestResultReminder()
+        vm.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
