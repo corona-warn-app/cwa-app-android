@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig.download
+package de.rki.coronawarnapp.appconfig.sources.fallback
 
 import android.content.Context
 import android.os.Build
