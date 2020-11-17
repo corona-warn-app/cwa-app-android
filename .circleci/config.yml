@@ -279,9 +279,7 @@ jobs:
             echo $fileName
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
-            --form 'file=@'"$fileName"' \
-#                          Corona-Warn-App/build/outputs/apk/deviceForTesters/*******/Corona-Warn-App-1.7.0-RC3-deviceForTesters-*******.apk
-#            --form 'file=@Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
+            --form 'file=@${filename}' \
 workflows:
   version: 2
 #  quick_build:
