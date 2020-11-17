@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevelTask
@@ -42,6 +40,7 @@ import javax.inject.Singleton
 class TracingRepository @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val scope: CoroutineScope,
+    private val exposureSummaryRepository: ExposureSummaryRepository,
     private val taskController: TaskController,
     enfClient: ENFClient
 ) {
@@ -168,29 +167,6 @@ class TracingRepository @Inject constructor(
                 taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
                 // TODO shouldn't access this directly
                 retrievingDiagnosisKeys.value = false
-            }
-        }
-    }
-
-    /**
-     * Exposure summary
-     * Refresh the following variables in TracingRepository
-     * - daysSinceLastExposure
-     * - matchedKeysCount
-     *
-     * @see TracingRepository
-     */
-    fun refreshExposureSummary() {
-        scope.launch {
-            try {
-                ExposureSummaryRepository.getExposureSummaryRepository().getLatestExposureSummary()
-                Timber.tag(TAG).v("retrieved latest exposure summary from db")
-            } catch (e: Exception) {
-                e.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
             }
         }
     }

@@ -1,32 +1,16 @@
 package de.rki.coronawarnapp.storage
 
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.risk.RiskLevels
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import javax.inject.Inject
 
-class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryDao) {
+class ExposureSummaryRepository @Inject constructor(
+    private val riskLevels: RiskLevels
+) {
+
     companion object {
-        @Volatile
-        private var instance: ExposureSummaryRepository? = null
-
-        private fun getInstance(exposureSummaryDao: ExposureSummaryDao) =
-            instance ?: synchronized(this) {
-                instance ?: ExposureSummaryRepository(exposureSummaryDao).also { instance = it }
-            }
-
-        fun resetInstance() = synchronized(this) {
-            instance = null
-        }
-
-        fun getExposureSummaryRepository(): ExposureSummaryRepository {
-            return getInstance(
-                AppDatabase.getInstance(CoronaWarnApplication.getAppContext())
-                    .exposureSummaryDao()
-            )
-        }
-
         private val internalMatchedKeyCount = MutableStateFlow(0)
         val matchedKeyCount: Flow<Int> = internalMatchedKeyCount
 
@@ -34,40 +18,13 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
         val daysSinceLastExposure: Flow<Int> = internalDaysSinceLastExposure
     }
 
-    suspend fun getExposureSummaryEntities() = exposureSummaryDao.getExposureSummaryEntities()
-        .map { it.convertToExposureSummary() }
+    private var entities = emptyList<ExposureWindow>()
 
-    suspend fun insertExposureSummaryEntity(windows: List<ExposureWindow>) {
-        // FIXME
-//        ExposureSummaryEntity().apply {
-//            this.daysSinceLastExposure = exposureSummary.daysSinceLastExposure
-//            this.matchedKeyCount = exposureSummary.matchedKeyCount
-//            this.maximumRiskScore = exposureSummary.maximumRiskScore
-//            this.summationRiskScore = exposureSummary.summationRiskScore
-//            this.attenuationDurationsInMinutes =
-//                exposureSummary.attenuationDurationsInMinutes.toTypedArray().toList()
-//        }.run {
-//            exposureSummaryDao.insertExposureSummaryEntity(this)
-//            internalMatchedKeyCount.value = matchedKeyCount
-//            internalDaysSinceLastExposure.value = daysSinceLastExposure
-//        }
-    }
-
-    suspend fun getLatestExposureSummary() {
-        // FIXME
-//        if (InternalExposureNotificationClient.asyncIsEnabled())
-//            InternalExposureNotificationClient.asyncGetExposureSummary(token).also {
-//                internalMatchedKeyCount.value = it.matchedKeyCount
-//                internalDaysSinceLastExposure.value = it.daysSinceLastExposure
-//            }
-    }
-
-    private fun ExposureSummaryEntity.convertToExposureSummary() =
-        ExposureSummary.ExposureSummaryBuilder()
-            .setAttenuationDurations(this.attenuationDurationsInMinutes.toIntArray())
-            .setDaysSinceLastExposure(this.daysSinceLastExposure)
-            .setMatchedKeyCount(this.matchedKeyCount)
-            .setMaximumRiskScore(this.maximumRiskScore)
-            .setSummationRiskScore(this.summationRiskScore)
-            .build()
+    var exposureWindowEntities: List<ExposureWindow>
+        get() = entities
+        set(value) {
+            entities = value
+            internalMatchedKeyCount.value = riskLevels.matchedKeyCount(value)
+            internalDaysSinceLastExposure.value = riskLevels.daysSinceLastExposure(value)
+        }
 }

@@ -38,7 +38,6 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
@@ -85,6 +84,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private val enfClient by lazy {
         AppInjector.component.enfClient
+    }
+
+    private val exposureSummaryRepository by lazy {
+        AppInjector.component.exposureSummaryRepository
     }
 
     private var myExposureKeysJSON: String? = null
@@ -162,8 +165,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = ExposureSummaryRepository.getExposureSummaryRepository()
-                        .getExposureSummaryEntities().toString()
+                    val summary = exposureSummaryRepository.exposureWindowEntities.toString()
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)

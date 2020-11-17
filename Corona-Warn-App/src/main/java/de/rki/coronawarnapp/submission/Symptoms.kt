@@ -6,6 +6,9 @@ import org.joda.time.LocalDate
 
 @Parcelize
 data class Symptoms(
+    /**
+     * this is null if there are no symptoms or there is no information
+     */
     val startOfSymptoms: StartOf?,
     val symptomIndication: Indication
 ) : Parcelable {

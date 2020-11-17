@@ -18,6 +18,7 @@ import timber.log.Timber
 class ExposureStateUpdateWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
+    private val exposureSummaryRepository: ExposureSummaryRepository,
     private val enfClient: ENFClient,
     private val taskController: TaskController
 ) : CoroutineWorker(context, workerParams) {
@@ -26,8 +27,7 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
         try {
             Timber.v("worker to persist exposure summary started")
             enfClient.exposureWindows().also {
-                    ExposureSummaryRepository.getExposureSummaryRepository()
-                        .insertExposureSummaryEntity(it)
+                    exposureSummaryRepository.exposureWindowEntities = it
                     Timber.v("exposure summary state updated: $it")
                 }
 
