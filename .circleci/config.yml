@@ -275,7 +275,7 @@ jobs:
       - run:
           name: Test command
           command: |
-            pattern=Corona-Warn-App-\*
+            pattern="*.apk"
             files=( $pattern )
             echo "${files[0]}"
 #      - run:
