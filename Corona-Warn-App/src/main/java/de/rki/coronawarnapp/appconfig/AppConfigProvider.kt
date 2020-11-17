@@ -22,7 +22,7 @@ class AppConfigProvider @Inject constructor(
         loggingTag = "AppConfigProvider",
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
-        sharingBehavior = SharingStarted.WhileSubscribed(replayExpirationMillis = 0)
+        sharingBehavior = SharingStarted.Lazily
     ) {
         source.retrieveConfig()
     }

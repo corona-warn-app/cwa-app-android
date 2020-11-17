@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -13,13 +11,12 @@ import testhelpers.BaseTest
 
 class RiskLevelsTest : BaseTest() {
 
-    @MockK lateinit var appConfigProvider: AppConfigProvider
     private lateinit var riskLevels: DefaultRiskLevels
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        riskLevels = DefaultRiskLevels(appConfigProvider)
+        riskLevels = DefaultRiskLevels()
     }
 
     @Test
