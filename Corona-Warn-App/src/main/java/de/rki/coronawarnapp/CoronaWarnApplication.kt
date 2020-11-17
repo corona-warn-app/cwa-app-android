@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -66,10 +65,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
-        // notification to test the WakeUpService from Google when the app was force stopped
-        BackgroundWorkHelper.sendDebugNotification(
-            "Application onCreate", "App was woken up"
-        )
         watchdogService.launch()
 
         foregroundState.isInForeground

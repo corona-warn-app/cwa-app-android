@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -200,12 +199,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         return (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()).also {
             if (it) {
-                Timber.tag(TAG)
-                    .d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
-                BackgroundWorkHelper.sendDebugNotification(
-                    "Start Task",
-                    "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
-                )
+                Timber.tag(TAG).d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
             }
         }
     }

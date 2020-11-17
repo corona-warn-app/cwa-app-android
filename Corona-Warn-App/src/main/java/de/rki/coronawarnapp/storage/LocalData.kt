@@ -705,19 +705,6 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
-    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_notification),
-            value
-        )
-    }
-
-    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_background_notification), false
-    )
-
     /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/

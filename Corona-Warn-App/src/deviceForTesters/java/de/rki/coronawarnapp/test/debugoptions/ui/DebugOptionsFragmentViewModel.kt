@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
 import de.rki.coronawarnapp.util.CWADebug
@@ -25,12 +24,6 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val debugOptionsState by smartLiveData {
-        DebugOptionsState(
-            areNotificationsEnabled = LocalData.backgroundNotification()
-        )
-    }
-
     val environmentState by smartLiveData {
         envSetup.toEnvironmentState()
     }
@@ -42,16 +35,6 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
             environmentChangeEvent.postValue(envSetup.currentEnvironment)
             envSetup.toEnvironmentState()
         }
-    }
-
-    val backgroundNotificationsToggleEvent = SingleLiveEvent<Boolean>()
-
-    fun setBackgroundNotifications(enabled: Boolean) {
-        debugOptionsState.update {
-            LocalData.backgroundNotification(enabled)
-            it.copy(areNotificationsEnabled = enabled)
-        }
-        backgroundNotificationsToggleEvent.postValue(enabled)
     }
 
     val loggerState by smartLiveData {
