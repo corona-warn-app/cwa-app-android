@@ -43,7 +43,8 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
                 .addOnSuccessListener { cont.resume(true) }
                 .addOnFailureListener {
                     val wrappedException =
-                        when (it is ApiException && it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT) {
+                        when (it is ApiException &&
+                            it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT) {
                             true -> QuotaExceededException(cause = it)
                             false -> it
                         }
