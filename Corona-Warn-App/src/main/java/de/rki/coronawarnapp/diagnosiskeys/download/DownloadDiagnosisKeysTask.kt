@@ -68,7 +68,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
             /****************************************************
-             * RETRIEVE TOKEN
+             * DOWNLOAD KEYS
              ****************************************************/
             throwIfCancelled()
 
