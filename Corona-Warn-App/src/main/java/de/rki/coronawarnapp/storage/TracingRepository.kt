@@ -15,18 +15,20 @@ import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import org.joda.time.Duration
 import timber.log.Timber
 import java.util.Date
+import java.util.NoSuchElementException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,7 +45,8 @@ class TracingRepository @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val scope: CoroutineScope,
     private val taskController: TaskController,
-    enfClient: ENFClient
+    enfClient: ENFClient,
+    private val timeStamper: TimeStamper
 ) {
 
     private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
@@ -62,11 +65,9 @@ class TracingRepository @Inject constructor(
             LocalData.lastTimeDiagnosisKeysFromServerFetch()
     }
 
-    private val retrievingDiagnosisKeys = MutableStateFlow(false)
     private val internalIsRefreshing =
-        retrievingDiagnosisKeys.combine(taskController.tasks) { retrievingDiagnosisKeys, tasks ->
-            retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
-        }
+        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
+
     val tracingProgress: Flow<TracingProgress> = combine(
         internalIsRefreshing,
         enfClient.isPerformingExposureDetection()
@@ -81,6 +82,9 @@ class TracingRepository @Inject constructor(
     private fun List<TaskInfo>.isRiskLevelTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
     }
+    private fun List<TaskInfo>.isDownloadDiagnosisKeysTaskRunning() = any {
+        it.taskState.isActive && it.taskState.request.type == DownloadDiagnosisKeysTask::class
+    }
 
     /**
      * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
@@ -93,7 +97,6 @@ class TracingRepository @Inject constructor(
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
-            retrievingDiagnosisKeys.value = true
             taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
@@ -102,7 +105,6 @@ class TracingRepository @Inject constructor(
             )
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             refreshLastTimeDiagnosisKeysFetchedDate()
-            retrievingDiagnosisKeys.value = false
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -126,19 +128,6 @@ class TracingRepository @Inject constructor(
      */
     // TODO temp place, this needs to go somewhere better
     fun refreshRiskLevel() {
-
-        // get the current date and the date the diagnosis keys were fetched the last time
-        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
-        val lastFetch = DateTime(
-            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
-        )
-
-        // check if the keys were not already retrieved today
-        val keysWereNotRetrievedToday =
-            LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
-
         // check if the network is enabled to make the server fetch
         val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(context)
 
@@ -146,29 +135,48 @@ class TracingRepository @Inject constructor(
         // model the keys are only fetched on button press of the user
         val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
 
-        Timber.tag(TAG).v("Keys were not retrieved today $keysWereNotRetrievedToday")
+        val wasNotYetFetched = LocalData.lastTimeDiagnosisKeysFromServerFetch() == null
+
         Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
         Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
+        Timber.tag(TAG).v("Was not yet fetched from server $wasNotYetFetched")
 
-        if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
-            // TODO shouldn't access this directly
-            retrievingDiagnosisKeys.value = true
-
-            // start the fetching and submitting of the diagnosis keys
+        if (isNetworkEnabled && isBackgroundJobEnabled) {
             scope.launch {
-                taskController.submitBlocking(
-                    DefaultTaskRequest(
-                        DownloadDiagnosisKeysTask::class,
-                        DownloadDiagnosisKeysTask.Arguments()
-                    )
-                )
-                refreshLastTimeDiagnosisKeysFetchedDate()
-                TimerHelper.checkManualKeyRetrievalTimer()
+                if (wasNotYetFetched || downloadDiagnosisKeysTaskDidNotRunRecently()) {
+                    Timber.tag(TAG).v("Start the fetching and submitting of the diagnosis keys")
 
-                taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-                // TODO shouldn't access this directly
-                retrievingDiagnosisKeys.value = false
+                    taskController.submitBlocking(
+                        DefaultTaskRequest(
+                            DownloadDiagnosisKeysTask::class,
+                            DownloadDiagnosisKeysTask.Arguments()
+                        )
+                    )
+                    refreshLastTimeDiagnosisKeysFetchedDate()
+                    TimerHelper.checkManualKeyRetrievalTimer()
+
+                    taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+                }
             }
+        }
+    }
+
+    private suspend fun downloadDiagnosisKeysTaskDidNotRunRecently(): Boolean {
+        val currentDate = timeStamper.nowUTC
+        val taskLastFinishedAt = try {
+            taskController.tasks.first()
+                .filter { it.taskState.type == DownloadDiagnosisKeysTask::class }
+                .mapNotNull { it.taskState.finishedAt }
+                .sortedDescending()
+                .first()
+        } catch (e: NoSuchElementException) {
+            Timber.tag(TAG).v("download did not run recently - no task with a finishedAt date found")
+            return true
+        }
+
+        return currentDate.isAfter(taskLastFinishedAt.plus(Duration.standardHours(1))).also {
+            Timber.tag(TAG)
+                .v("download did not run recently: %s (last=%s, now=%s)", it, taskLastFinishedAt, currentDate)
         }
     }
 
