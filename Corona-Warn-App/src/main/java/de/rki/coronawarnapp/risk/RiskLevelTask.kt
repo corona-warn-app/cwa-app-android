@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.risk
 
 import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -38,7 +40,9 @@ class RiskLevelTask @Inject constructor(
     @AppContext private val context: Context,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
-    private val backgroundModeStatus: BackgroundModeStatus
+    private val backgroundModeStatus: BackgroundModeStatus,
+    private val riskLevelData: RiskLevelData,
+    private val appConfigProvider: AppConfigProvider
 ) : Task<DefaultProgress, RiskLevelTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -60,6 +64,8 @@ class RiskLevelTask @Inject constructor(
                 return Result(NO_CALCULATION_POSSIBLE_TRACING_OFF)
             }
 
+            val configData: ConfigData = appConfigProvider.getAppConfig()
+
             with(riskLevels) {
                 return Result(
                     when {
@@ -75,7 +81,7 @@ class RiskLevelTask @Inject constructor(
                             UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
                         }
 
-                        isIncreasedRisk(getNewExposureSummary()).also {
+                        isIncreasedRisk(getNewExposureSummary(), configData).also {
                             checkCancel()
                         } -> INCREASED_RISK
 
@@ -87,6 +93,7 @@ class RiskLevelTask @Inject constructor(
                     }.also {
                         checkCancel()
                         updateRepository(it, timeStamper.nowUTC.millis)
+                        riskLevelData.lastUsedConfigIdentifier = configData.identifier
                     }
                 )
             }
