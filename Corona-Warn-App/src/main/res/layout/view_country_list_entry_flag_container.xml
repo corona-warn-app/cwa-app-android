@@ -5,14 +5,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/spacing_tiny"
     android:layout_marginTop="@dimen/spacing_tiny"
+    android:orientation="vertical"
     android:layout_marginBottom="@dimen/spacing_tiny"
     android:gravity="center">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_tiny"
-        android:gravity="center"
-        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/flagGrid"
@@ -32,6 +27,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
-    </LinearLayout>
-
 </LinearLayout>

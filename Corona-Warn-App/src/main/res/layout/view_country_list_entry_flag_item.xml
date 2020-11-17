@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_margin="@dimen/spacing_mega_tiny"
@@ -12,4 +12,4 @@
         android:layout_height="@dimen/spacing_small"
         app:srcCompat="@drawable/ic_country_eu" />
 
-</LinearLayout>
+</FrameLayout>
