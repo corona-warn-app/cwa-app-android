@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.appconfig.download
+package de.rki.coronawarnapp.appconfig.sources.local
 
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -8,6 +9,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
@@ -31,11 +33,12 @@ class AppConfigStorageTest : BaseIOTest() {
     private val legacyConfigPath = File(storageDir, "appconfig")
     private val configPath = File(storageDir, "appconfig.json")
 
-    private val testConfigDownload = ConfigDownload(
+    private val testConfigDownload = InternalConfigData(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
         localOffset = Duration.standardHours(1),
-        etag = "I am an ETag :)!"
+        etag = "I am an ETag :)!",
+        cacheValidity = Duration.standardSeconds(123)
     )
 
     @BeforeEach
@@ -72,10 +75,29 @@ class AppConfigStorageTest : BaseIOTest() {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
                 "serverTime": 1604381716000,
-                "localOffset": 3600000
+                "localOffset": 3600000,
+                "cacheValidity": 123000
             }
         """.toComparableJson()
 
+        storage.getStoredConfig() shouldBe testConfigDownload
+    }
+
+    @Test
+    fun `restoring from storage`() = runBlockingTest {
+        configPath.parentFile!!.mkdirs()
+        configPath.writeText(
+            """
+            {
+                "rawData": "$APPCONFIG_BASE64",
+                "etag": "I am an ETag :)!",
+                "serverTime": 1604381716000,
+                "localOffset": 3600000,
+                "cacheValidity": 123000
+            }
+        """.trimIndent()
+        )
+        val storage = createStorage()
         storage.getStoredConfig() shouldBe testConfigDownload
     }
 
@@ -98,7 +120,8 @@ class AppConfigStorageTest : BaseIOTest() {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
                 "serverTime": 1604381716000,
-                "localOffset": 3600000
+                "localOffset": 3600000,
+                "cacheValidity": 123000
             }
         """.toComparableJson()
 
@@ -117,11 +140,12 @@ class AppConfigStorageTest : BaseIOTest() {
 
         val storage = createStorage()
 
-        storage.getStoredConfig() shouldBe ConfigDownload(
+        storage.getStoredConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.ofEpochMilli(1234),
             localOffset = Duration.ZERO,
-            etag = "I am an ETag :)!"
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardMinutes(5)
         )
     }
 
@@ -135,6 +159,58 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.setStoredConfig(testConfigDownload)
 
         legacyConfigPath.exists() shouldBe false
+        configPath.exists() shouldBe true
+    }
+
+    @Test
+    fun `return null on errors`() = runBlockingTest {
+        every { timeStamper.nowUTC } throws Exception()
+
+        val storage = createStorage()
+        storage.getStoredConfig() shouldBe null
+    }
+
+    @Test
+    fun `return null on invalid json and delete config file`() = runBlockingTest {
+        configPath.parentFile!!.mkdirs()
+        configPath.writeText(
+            """
+            {
+               
+            }
+        """.trimIndent()
+        )
+        val storage = createStorage()
+        storage.getStoredConfig() shouldBe null
+
+        configPath.exists() shouldBe false
+    }
+
+    @Test
+    fun `return null on empty file and delete config file`() {
+        configPath.parentFile!!.mkdirs()
+        configPath.createNewFile()
+
+        val storage = createStorage()
+
+        runBlockingTest {
+            storage.getStoredConfig() shouldBe null
+        }
+
+        configPath.exists() shouldBe false
+    }
+
+    @Test
+    fun `catch errors when trying to save the config`() {
+        configPath.parentFile!!.mkdirs()
+        configPath.createNewFile()
+
+        val storage = createStorage()
+
+        runBlockingTest {
+            storage.setStoredConfig(mockk())
+        }
+
         configPath.exists() shouldBe true
     }
 
