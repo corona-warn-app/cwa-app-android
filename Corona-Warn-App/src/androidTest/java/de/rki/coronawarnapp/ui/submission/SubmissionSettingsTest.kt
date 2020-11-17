@@ -19,6 +19,6 @@ class SubmissionSettingsTest {
         val settings = SubmissionSettings(appContext)
         settings.hasGivenConsent.value shouldBe false
         settings.hasGivenConsent.update { true }
-        settings.hasGivenConsent.value shouldBe false
+        settings.hasGivenConsent.value shouldBe true
     }
 }
