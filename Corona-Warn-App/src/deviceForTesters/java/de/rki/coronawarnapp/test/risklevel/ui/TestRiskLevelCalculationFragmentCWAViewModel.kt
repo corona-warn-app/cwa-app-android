@@ -5,16 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevels
@@ -30,7 +28,6 @@ import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -43,9 +40,6 @@ import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
@@ -56,6 +50,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val riskLevels: RiskLevels,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
+    private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -125,21 +120,19 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             try {
                 var workState = riskScoreState.value!!
 
-                val exposureSummary =
-                    InternalExposureNotificationClient.asyncGetExposureSummary("no token for you")
+                val exposureWindows = enfClient.exposureWindows()
 
-                val expDetectConfig: RiskCalculationConfig =
-                    AppInjector.component.appConfigProvider.getAppConfig()
+                val riskResultsPerWindow =
+                    exposureWindows.mapNotNull { window ->
+                        riskLevels.calculateRisk(window)?.let { window to it }
+                    }.toMap()
 
-                val riskLevelScore = riskLevels.calculateRiskScore(
-                    expDetectConfig.attenuationDuration,
-                    exposureSummary
-                )
+                val aggregatedResult = riskLevels.aggregateResults(riskResultsPerWindow)
 
                 val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
                     "Last successful Level: " +
                     "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
-                    "Calculated Score: ${riskLevelScore}\n" +
+                    "Calculated Score: ${aggregatedResult}\n" +
                     "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
                     "Tracing Duration: " +
                     "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
@@ -149,68 +142,26 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
                 workState = workState.copy(riskScoreMsg = riskAsString)
 
-                val lowClass =
-                    expDetectConfig.riskScoreClasses.riskClassesList?.find { low -> low.label == "LOW" }
-                val highClass =
-                    expDetectConfig.riskScoreClasses.riskClassesList?.find { high -> high.label == "HIGH" }
+                val appConfig = appConfigProvider.getAppConfig()
 
                 val configAsString =
-                    "Attenuation Weight Low: ${expDetectConfig.attenuationDuration.weights?.low}\n" +
-                        "Attenuation Weight Mid: ${expDetectConfig.attenuationDuration.weights?.mid}\n" +
-                        "Attenuation Weight High: ${expDetectConfig.attenuationDuration.weights?.high}\n\n" +
-                        "Attenuation Offset: ${expDetectConfig.attenuationDuration.defaultBucketOffset}\n" +
-                        "Attenuation Normalization: " +
-                        "${expDetectConfig.attenuationDuration.riskScoreNormalizationDivisor}\n\n" +
-                        "Risk Score Low Class: ${lowClass?.min ?: 0} - ${lowClass?.max ?: 0}\n" +
-                        "Risk Score High Class: ${highClass?.min ?: 0} - ${highClass?.max ?: 0}"
-
+                    "Transmission RiskLevel Multiplier: ${appConfig.transmissionRiskLevelMultiplier}\n" +
+                        "Minutes At Attenuation Filters: ${appConfig.minutesAtAttenuationFilters}\n" +
+                        "Minutes At Attenuation Weights: ${appConfig.minutesAtAttenuationWeights}" +
+                        "Transmission RiskLevel Encoding: ${appConfig.transmissionRiskLevelEncoding}" +
+                        "Transmission RiskLevel Filters: ${appConfig.transmissionRiskLevelFilters}" +
+                        "Normalized Time Per Exposure Window To RiskLevel Mapping: ${appConfig.normalizedTimePerExposureWindowToRiskLevelMapping}" +
+                        "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
                 workState = workState.copy(backendParameters = configAsString)
 
                 val summaryAsString =
-                    "Days Since Last Exposure: ${exposureSummary.daysSinceLastExposure}\n" +
-                        "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
-                        "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
-                        "Attenuation Durations: [${
-                            exposureSummary.attenuationDurationsInMinutes?.get(
-                                0
-                            )
-                        }," +
-                        "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
-                        "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
-                        "Summation Risk Score: ${exposureSummary.summationRiskScore}"
+                    "Total RiskLevel: ${aggregatedResult.totalRiskLevel}" +
+                        "Total Minimum Distinct Encounters With High Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithHighRisk}" +
+                        "Total Minimum Distinct Encounters With Low Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithLowRisk}" +
+                        "Most Recent Date With High Risk: ${aggregatedResult.mostRecentDateWithHighRisk}" +
+                        "Most Recent Date With Low Risk: ${aggregatedResult.mostRecentDateWithLowRisk}"
 
                 workState = workState.copy(exposureSummary = summaryAsString)
-
-                val maxRisk = exposureSummary.maximumRiskScore
-                val atWeights = expDetectConfig.attenuationDuration.weights
-                val attenuationDurationInMin =
-                    exposureSummary.attenuationDurationsInMinutes
-                val attenuationConfig = expDetectConfig.attenuationDuration
-                val formulaString =
-                    "($maxRisk / ${attenuationConfig.riskScoreNormalizationDivisor}) * " +
-                        "(${attenuationDurationInMin?.get(0)} * ${atWeights?.low} " +
-                        "+ ${attenuationDurationInMin?.get(1)} * ${atWeights?.mid} " +
-                        "+ ${attenuationDurationInMin?.get(2)} * ${atWeights?.high} " +
-                        "+ ${attenuationConfig.defaultBucketOffset})"
-
-                workState = workState.copy(formula = formulaString)
-
-                val exposureInformation = asyncGetExposureInformation("you sir, won't get token!")
-
-                var infoString = ""
-                exposureInformation.forEach {
-                    infoString += "Attenuation duration in min.: " +
-                        "[${it.attenuationDurationsInMinutes?.get(0)}, " +
-                        "${it.attenuationDurationsInMinutes?.get(1)}," +
-                        "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
-                        "Attenuation value: ${it.attenuationValue}\n" +
-                        "Duration in min.: ${it.durationMinutes}\n" +
-                        "Risk Score: ${it.totalRiskScore}\n" +
-                        "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
-                        "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
-                }
-
-                workState = workState.copy(exposureInfo = infoString)
 
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
@@ -218,17 +169,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             }
         }
     }
-
-    @Deprecated(message = "uses enf v1")
-    private suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
-        suspendCoroutine { cont ->
-            enfClient.internalClient.getExposureInformation(token)
-                .addOnSuccessListener {
-                    cont.resume(it)
-                }.addOnFailureListener {
-                    cont.resumeWithException(it)
-                }
-        }
 
     data class DiagnosisKeyProvidedEvent(
         val keyCount: Int

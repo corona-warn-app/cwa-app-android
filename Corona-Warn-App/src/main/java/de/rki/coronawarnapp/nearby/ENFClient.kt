@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,7 +26,6 @@ class ENFClient @Inject constructor(
     private val tracingStatus: TracingStatus,
     private val scanningSupport: ScanningSupport,
     private val exposureWindowProvider: ExposureWindowProvider,
-
     private val exposureDetectionTracker: ExposureDetectionTracker
 ) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider {
 
@@ -42,7 +42,7 @@ class ENFClient @Inject constructor(
             true
         } else {
             Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
-            TODO("Call calculationTracker.trackNewCalaculation with an UUID as replacement for token?")
+            exposureDetectionTracker.trackNewExposureDetection(UUID.randomUUID().toString())
             diagnosisKeyProvider.provideDiagnosisKeys(keyFiles)
         }
     }

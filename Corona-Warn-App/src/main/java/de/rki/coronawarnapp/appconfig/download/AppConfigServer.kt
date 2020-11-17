@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.appconfig.download
 
 import dagger.Lazy
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
@@ -21,17 +19,16 @@ import javax.inject.Inject
 
 @Reusable
 class AppConfigServer @Inject constructor(
-    private val api: Lazy<AppConfigApiV1>,
+    private val api: Lazy<AppConfigApiV2>,
     private val verificationKeys: VerificationKeys,
     private val timeStamper: TimeStamper,
-    @DownloadCDNHomeCountry private val homeCountry: LocationCode,
     @AppConfigHttpCache private val cache: Cache
 ) {
 
     internal suspend fun downloadAppConfig(): ConfigDownload {
         Timber.tag(TAG).d("Fetching app config.")
 
-        val response = api.get().getApplicationConfiguration(homeCountry.identifier)
+        val response = api.get().getApplicationConfiguration()
         if (!response.isSuccessful) throw HttpException(response)
 
         val rawConfig = with(

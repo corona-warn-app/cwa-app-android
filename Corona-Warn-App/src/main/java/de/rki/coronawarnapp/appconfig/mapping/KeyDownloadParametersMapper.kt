@@ -4,8 +4,8 @@ import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig
-import de.rki.coronawarnapp.server.protocols.internal.KeyDownloadParameters.KeyDownloadParametersAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.KeyDownloadParameters.KeyDownloadParametersAndroid
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @Reusable
 class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapper {
-    override fun map(rawConfig: AppConfig.ApplicationConfiguration): KeyDownloadConfig {
-        val rawParameters = rawConfig.androidKeyDownloadParameters
+    override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): KeyDownloadConfig {
+        val rawParameters = rawConfig.keyDownloadParameters
 
         return KeyDownloadConfigContainer(
             individualDownloadTimeout = rawParameters.individualTimeout(),

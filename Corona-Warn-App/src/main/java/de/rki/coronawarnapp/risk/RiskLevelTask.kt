@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.risk
 
 import android.content.Context
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
@@ -73,7 +72,7 @@ class RiskLevelTask @Inject constructor(
                             UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
                         }
 
-                        isIncreasedRisk(getNewExposureSummary()).also {
+                        isIncreasedRisk(getExposureWindows()).also {
                             checkCancel()
                         } -> INCREASED_RISK
 
@@ -98,16 +97,7 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    /**
-     * If there is no persisted exposure summary we try to get a new one with the last persisted
-     * Google API token that was used in the [de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction]
-     *
-     * @return a exposure summary from the Google Exposure Notification API
-     */
-    private suspend fun getNewExposureSummary(): ExposureSummary {
-        return InternalExposureNotificationClient
-            .asyncGetExposureSummary("no token for you") // TODO get enf windows
-    }
+    private suspend fun getExposureWindows(): List<ExposureWindow> = enfClient.exposureWindows()
 
     private fun checkCancel() {
         if (isCanceled) throw TaskCancellationException()

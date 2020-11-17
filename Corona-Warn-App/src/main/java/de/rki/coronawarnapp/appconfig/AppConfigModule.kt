@@ -3,13 +3,12 @@ package de.rki.coronawarnapp.appconfig
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.appconfig.download.AppConfigApiV1
+import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.download.AppConfigHttpCache
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
-import de.rki.coronawarnapp.appconfig.mapping.RiskCalculationConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.util.di.AppContext
@@ -43,7 +42,7 @@ class AppConfigModule {
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory,
         @AppConfigHttpCache cache: Cache
-    ): AppConfigApiV1 {
+    ): AppConfigApiV2 {
 
         val cachingClient = client.newBuilder().apply {
             cache(cache)
@@ -58,7 +57,7 @@ class AppConfigModule {
             .baseUrl(url)
             .addConverterFactory(gsonConverterFactory)
             .build()
-            .create(AppConfigApiV1::class.java)
+            .create(AppConfigApiV2::class.java)
     }
 
     @Provides
@@ -69,12 +68,8 @@ class AppConfigModule {
     fun downloadMapper(mapper: KeyDownloadParametersMapper): KeyDownloadConfig.Mapper = mapper
 
     @Provides
-    fun exposurMapper(mapper: ExposureDetectionConfigMapper):
+    fun exposureMapper(mapper: ExposureDetectionConfigMapper):
         ExposureDetectionConfig.Mapper = mapper
-
-    @Provides
-    fun riskMapper(mapper: RiskCalculationConfigMapper):
-        RiskCalculationConfig.Mapper = mapper
 
     @Provides
     fun windowRiskMapper(mapper: ExposureWindowRiskCalculationConfigMapper):

@@ -297,7 +297,8 @@ class ExposureWindowsCalculationTest : BaseTest() {
             serverTime = Instant.now(),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
-            isFallback = false
+            identifier = "soup",
+            configType = ConfigData.Type.FROM_SERVER
         )
 
         val attenuationFilters = mutableListOf<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>()

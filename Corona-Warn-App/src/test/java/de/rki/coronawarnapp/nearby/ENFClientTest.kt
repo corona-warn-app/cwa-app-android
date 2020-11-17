@@ -85,7 +85,7 @@ class ENFClientTest : BaseTest() {
 
         coVerify(exactly = 2) {
             diagnosisKeyProvider.provideDiagnosisKeys(
-                keyFiles,
+                keyFiles
             )
         }
     }
