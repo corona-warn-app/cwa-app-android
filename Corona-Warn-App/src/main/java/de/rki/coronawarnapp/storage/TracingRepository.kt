@@ -65,7 +65,6 @@ class TracingRepository @Inject constructor(
             LocalData.lastTimeDiagnosisKeysFromServerFetch()
     }
 
-
     private val internalIsRefreshing =
         taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
 
