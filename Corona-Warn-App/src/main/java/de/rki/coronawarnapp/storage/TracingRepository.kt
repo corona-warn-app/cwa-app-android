@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import timber.log.Timber
@@ -64,11 +65,10 @@ class TracingRepository @Inject constructor(
             LocalData.lastTimeDiagnosisKeysFromServerFetch()
     }
 
-    private val retrievingDiagnosisKeys = MutableStateFlow(false)
+
     private val internalIsRefreshing =
-        retrievingDiagnosisKeys.combine(taskController.tasks) { retrievingDiagnosisKeys, tasks ->
-            retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
-        }
+        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
+
     val tracingProgress: Flow<TracingProgress> = combine(
         internalIsRefreshing,
         enfClient.isPerformingExposureDetection()
@@ -83,6 +83,9 @@ class TracingRepository @Inject constructor(
     private fun List<TaskInfo>.isRiskLevelTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
     }
+    private fun List<TaskInfo>.isDownloadDiagnosisKeysTaskRunning() = any {
+        it.taskState.isActive && it.taskState.request.type == DownloadDiagnosisKeysTask::class
+    }
 
     /**
      * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
@@ -95,7 +98,6 @@ class TracingRepository @Inject constructor(
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
-            retrievingDiagnosisKeys.value = true
             taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
@@ -104,7 +106,6 @@ class TracingRepository @Inject constructor(
             )
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             refreshLastTimeDiagnosisKeysFetchedDate()
-            retrievingDiagnosisKeys.value = false
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -145,8 +146,6 @@ class TracingRepository @Inject constructor(
             scope.launch {
                 if (wasNotYetFetched || downloadDiagnosisKeysTaskDidNotRunRecently()) {
                     Timber.tag(TAG).v("Start the fetching and submitting of the diagnosis keys")
-                    // TODO shouldn't access this directly
-                    retrievingDiagnosisKeys.value = true
 
                     taskController.submitBlocking(
                         DefaultTaskRequest(
@@ -158,8 +157,6 @@ class TracingRepository @Inject constructor(
                     TimerHelper.checkManualKeyRetrievalTimer()
 
                     taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-                    // TODO shouldn't access this directly
-                    retrievingDiagnosisKeys.value = false
                 }
             }
         }
