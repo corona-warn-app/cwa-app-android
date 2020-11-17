@@ -3,9 +3,10 @@ package de.rki.coronawarnapp.nearby.modules.tracing
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.flow.shareLatest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -23,28 +24,32 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultTracingStatus @Inject constructor(
-    private val client: ExposureNotificationClient
+    private val client: ExposureNotificationClient,
+    @AppScope val scope: CoroutineScope
 ) : TracingStatus {
 
     override val isTracingEnabled: Flow<Boolean> = callbackFlow<Boolean> {
-        var isRunning = true
-        while (isRunning && isActive) {
+        while (true) {
             try {
-                sendBlocking(pollIsEnabled())
+                send(pollIsEnabled())
             } catch (e: Exception) {
                 Timber.w(e, "ENF isEnabled failed.")
-                sendBlocking(false)
+                send(false)
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
                 cancel("ENF isEnabled failed", e)
             }
+            if (!isActive) break
             delay(POLLING_DELAY_MS)
         }
-        awaitClose { isRunning = false }
     }
         .distinctUntilChanged()
         .onStart { Timber.v("isTracingEnabled FLOW start") }
         .onEach { Timber.v("isTracingEnabled FLOW emission: %b", it) }
         .onCompletion { Timber.v("isTracingEnabled FLOW completed.") }
+        .shareLatest(
+            tag = TAG,
+            scope = scope
+        )
 
     private suspend fun pollIsEnabled(): Boolean = suspendCoroutine { cont ->
         client.isEnabled
