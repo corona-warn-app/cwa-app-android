@@ -14,7 +14,7 @@ object CWADebug {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        if ((buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS || BuildConfig.DEBUG)) {
+        if (isDeviceForTestersBuild) {
             fileLogger = FileLogger(application)
         }
     }
