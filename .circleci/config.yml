@@ -273,20 +273,13 @@ jobs:
           path: Corona-Warn-App/build/reports
           destination: reports
       - run:
-          name: Test command
+          name: Send to T-System
           command: |
             pattern=Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App*
             files=( $pattern )
-            echo "${files[0]}"
-            echo $( $pattern )[0]
-#      - run:
-#          name: Send to T-System
-#          command: |
-#            pattern=Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App*
-#            files=( $pattern )
-#            curl --location --request POST $tsystems_upload_url \
-#            --header "Authorization: Bearer $tsystems_upload_bearer" \
-#            --form 'file=@Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
+            curl --location --request POST $tsystems_upload_url \
+            --header "Authorization: Bearer $tsystems_upload_bearer" \
+            --form 'file=@${files[0]}' \
 workflows:
   version: 2
 #  quick_build:
