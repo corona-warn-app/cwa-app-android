@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
@@ -79,15 +80,23 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
             R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
             true,
-            {
-                privacyPermissionIsGranted()
+            positiveButtonFunction = {
+                onPrivacyPermissionGranted()
+            },
+            negativeButtonFunction = {
+                onPrivacyPermissionDenied()
             }
         )
 
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun privacyPermissionIsGranted() {
+    private fun onPrivacyPermissionGranted() {
+        SubmissionRepository.updateConsentToSubmission(true)
         viewModel.onQRScanPressed()
+    }
+
+    private fun onPrivacyPermissionDenied() {
+        SubmissionRepository.updateConsentToSubmission(false)
     }
 }

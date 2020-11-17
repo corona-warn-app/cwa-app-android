@@ -3,11 +3,13 @@ package de.rki.coronawarnapp.storage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
@@ -37,6 +39,16 @@ object SubmissionRepository {
     val deviceUIStateFlow: Flow<DeviceUIState> = deviceUIStateFlowInternal
 
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
+
+    private val submissionSettings: SubmissionSettings by lazy { SubmissionSettings(CoronaWarnApplication.getAppContext()) }
+
+    val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow.asLiveData()
+
+    fun updateConsentToSubmission(hasGivenConsent: Boolean) {
+        submissionSettings.hasGivenConsent.update {
+            hasGivenConsent
+        }
+    }
 
     private suspend fun fetchTestResult(): DeviceUIState = try {
         val testResult = SubmissionService.asyncRequestTestResult()
