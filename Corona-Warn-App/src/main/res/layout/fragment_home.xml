@@ -170,18 +170,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_unregistered" />
-
-            <include
-                android:id="@+id/main_test_fetching"
-                layout="@layout/include_submission_status_card_content"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                gone="@{submissionCard == null || !submissionCard.isFetchingCardVisible()}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@id/main_test_result" />
-
+            
             <include
                 android:id="@+id/main_test_pending"
                 layout="@layout/include_submission_status_card_pending"
@@ -202,7 +191,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@id/main_test_fetching" />
+                app:layout_constraintTop_toBottomOf="@id/main_test_pending" />
 
             <include
                 android:id="@+id/main_test_positive"
