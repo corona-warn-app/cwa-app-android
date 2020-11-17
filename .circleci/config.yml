@@ -276,32 +276,31 @@ jobs:
           name: Send to T-System
           command: |
             fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
-            echo $fileName
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
 workflows:
   version: 2
-#  quick_build:
-#    jobs:
-#      - quick_build_device_release_no_tests
-#      - quick_build_device_for_testers_release_no_tests
-#      - device_release_unit_tests
-#      - device_for_testers_release_unit_tests
-#      - lint_device_release_check
-#      - lint_device_for_testers_release_check
-#      - ktlint_device_release_check
-#      - ktlint_device_for_testers_release_check
-#      - detekt
-#      - run_sonar:
-#          requires:
-#            - device_release_unit_tests
+  quick_build:
+    jobs:
+      - quick_build_device_release_no_tests
+      - quick_build_device_for_testers_release_no_tests
+      - device_release_unit_tests
+      - device_for_testers_release_unit_tests
+      - lint_device_release_check
+      - lint_device_for_testers_release_check
+      - ktlint_device_release_check
+      - ktlint_device_for_testers_release_check
+      - detekt
+      - run_sonar:
+          requires:
+            - device_release_unit_tests
   signed_build:
     jobs:
-      - quick_build_device_for_testers_signed
-#          filters:
-#            tags:
-#              only:
-#                - /^v.*/
-#            branches:
-#              ignore: /.*/
+      - quick_build_device_for_testers_signed:
+          filters:
+            tags:
+              only:
+                - /^v.*/
+            branches:
+              ignore: /.*/
