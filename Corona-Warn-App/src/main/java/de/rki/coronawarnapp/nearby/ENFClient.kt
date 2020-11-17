@@ -2,7 +2,6 @@
 
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -34,15 +33,6 @@ class ENFClient @Inject constructor(
     // i.e. in **[InternalExposureNotificationClient]**
     internal val internalClient: ExposureNotificationClient
         get() = googleENFClient
-
-    override suspend fun provideDiagnosisKeys(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
-        token: String
-    ): Boolean {
-        // TODO uncomment Exception later, after every subtask has joined (fun will probably be removed)
-        throw UnsupportedOperationException("Use provideDiagnosisKeys without token and configuration!")
-    }
 
     override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
         Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")

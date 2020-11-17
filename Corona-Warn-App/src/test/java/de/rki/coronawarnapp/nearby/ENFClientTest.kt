@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -18,7 +17,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -31,7 +29,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
 
-@Suppress("DEPRECATION")
 class ENFClientTest : BaseTest() {
 
     @MockK lateinit var googleENFClient: ExposureNotificationClient
@@ -45,7 +42,7 @@ class ENFClientTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         every { exposureDetectionTracker.trackNewExposureDetection(any()) } just Runs
     }
 
@@ -74,8 +71,6 @@ class ENFClientTest : BaseTest() {
     fun `provide diagnosis key call is forwarded to the right module`() {
         val client = createClient()
         val keyFiles = listOf(File("test"))
-        val configuration = mockk<ExposureConfiguration>()
-        val token = "123"
 
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         runBlocking {
@@ -98,8 +93,6 @@ class ENFClientTest : BaseTest() {
     fun `provide diagnosis key call is only forwarded if there are actually key files`() {
         val client = createClient()
         val keyFiles = emptyList<File>()
-        val configuration = mockk<ExposureConfiguration>()
-        val token = "123"
 
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         runBlocking {
