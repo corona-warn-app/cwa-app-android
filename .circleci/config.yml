@@ -278,8 +278,7 @@ jobs:
             pattern=Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App*
             files=( $pattern )
             echo "${files[0]}"
-            echo "( $pattern )[0]"
-            echo "$( $pattern )[0]"
+            echo $( $pattern )[0]
 #      - run:
 #          name: Send to T-System
 #          command: |
