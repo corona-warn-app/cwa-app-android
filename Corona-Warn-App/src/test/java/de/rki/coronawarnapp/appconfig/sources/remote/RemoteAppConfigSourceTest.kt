@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.sources.remote
 
-import de.rki.coronawarnapp.appconfig.download.AppConfigServer
-import de.rki.coronawarnapp.appconfig.download.AppConfigStorage
-import de.rki.coronawarnapp.appconfig.download.ConfigDownload
-import de.rki.coronawarnapp.appconfig.download.DefaultAppConfigSource
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
+import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
+import de.rki.coronawarnapp.appconfig.sources.local.AppConfigStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -16,8 +16,6 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -30,25 +28,25 @@ import testhelpers.coroutines.runBlockingTest2
 import java.io.File
 import java.io.IOException
 
-class AppConfigSourceTest : BaseIOTest() {
+class RemoteAppConfigSourceTest : BaseIOTest() {
 
     @MockK lateinit var configServer: AppConfigServer
     @MockK lateinit var configStorage: AppConfigStorage
     @MockK lateinit var configParser: ConfigParser
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var appConfigDefaultFallback: DefaultAppConfigSource
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
-    private var testConfigDownload = ConfigDownload(
+    private var dataFromServer = InternalConfigData(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
         localOffset = Duration.standardHours(1),
-        etag = "etag"
+        etag = "etag",
+        cacheValidity = Duration.standardSeconds(420)
     )
 
-    private var mockConfigStorage: ConfigDownload? = null
+    private var mockConfigStorage: InternalConfigData? = null
 
     @BeforeEach
     fun setup() {
@@ -61,7 +59,7 @@ class AppConfigSourceTest : BaseIOTest() {
             mockConfigStorage = arg(0)
         }
 
-        coEvery { configServer.downloadAppConfig() } returns testConfigDownload
+        coEvery { configServer.downloadAppConfig() } returns dataFromServer
         every { configServer.clearCache() } just Runs
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
@@ -75,55 +73,38 @@ class AppConfigSourceTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createInstance() = AppConfigSource(
+    private fun createInstance() = RemoteAppConfigSource(
         server = configServer,
         storage = configStorage,
         parser = configParser,
-        defaultAppConfig = appConfigDefaultFallback,
         dispatcherProvider = TestDispatcherProvider
     )
 
     @Test
     fun `successful download stores new config`() = runBlockingTest2(ignoreActive = true) {
         val source = createInstance()
-        source.retrieveConfig() shouldBe DefaultConfigData(
+        source.getConfigData() shouldBe ConfigDataContainer(
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
             configType = ConfigData.Type.FROM_SERVER,
-            identifier = "etag"
+            identifier = "etag",
+            cacheValidity = Duration.standardSeconds(420)
         )
 
-        mockConfigStorage shouldBe testConfigDownload
+        mockConfigStorage shouldBe dataFromServer
 
-        coVerify { configStorage.setStoredConfig(testConfigDownload) }
-        verify(exactly = 0) { appConfigDefaultFallback.getRawDefaultConfig() }
-    }
-
-    @Test
-    fun `fallback to last config if download fails`() = runBlockingTest2(ignoreActive = true) {
-        mockConfigStorage = testConfigDownload
-        coEvery { configServer.downloadAppConfig() } throws Exception()
-
-        createInstance().retrieveConfig() shouldBe DefaultConfigData(
-            serverTime = mockConfigStorage!!.serverTime,
-            localOffset = mockConfigStorage!!.localOffset,
-            mappedConfig = configData,
-            configType = ConfigData.Type.LAST_RETRIEVED,
-            identifier = "etag"
-        )
-
-        verify(exactly = 0) { appConfigDefaultFallback.getRawDefaultConfig() }
+        coVerify { configStorage.setStoredConfig(dataFromServer) }
     }
 
     @Test
     fun `failed download doesn't overwrite valid config`() = runBlockingTest2(ignoreActive = true) {
-        mockConfigStorage = testConfigDownload
+        mockConfigStorage = dataFromServer
         coEvery { configServer.downloadAppConfig() } throws IOException()
 
-        createInstance().retrieveConfig()
+        createInstance().getConfigData()
 
-        mockConfigStorage shouldBe testConfigDownload
+        mockConfigStorage shouldBe dataFromServer
 
         coVerify(exactly = 0) { configStorage.setStoredConfig(any()) }
     }
@@ -137,28 +118,8 @@ class AppConfigSourceTest : BaseIOTest() {
         advanceUntilIdle()
 
         coVerifyOrder {
-            configStorage.setStoredConfig(null)
             configServer.clearCache()
         }
-    }
-
-    @Test
-    fun `local default config is used as last resort`() = runBlockingTest {
-        coEvery { configServer.downloadAppConfig() } throws IOException()
-        coEvery { configStorage.getStoredConfig() } returns null
-        every { appConfigDefaultFallback.getRawDefaultConfig() } returns APPCONFIG_RAW
-
-        val instance = createInstance()
-
-        instance.retrieveConfig() shouldBe DefaultConfigData(
-            serverTime = Instant.EPOCH,
-            localOffset = Duration.standardHours(12),
-            mappedConfig = configData,
-            configType = ConfigData.Type.LOCAL_DEFAULT,
-            identifier = "fallback.local"
-        )
-
-        verify { appConfigDefaultFallback.getRawDefaultConfig() }
     }
 
     companion object {

@@ -1,5 +1,8 @@
-package de.rki.coronawarnapp.appconfig.download
+package de.rki.coronawarnapp.appconfig.sources.remote
 
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.VerificationKeys
@@ -65,21 +68,23 @@ class AppConfigServerTest : BaseIOTest() {
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
                 "Date", "Tue, 03 Nov 2020 08:46:03 GMT",
-                "ETag", "I am an ETag :)!"
+                "ETag", "I am an ETag :)!",
+                "Cache-Control", "public,max-age=123"
             )
         )
 
         val downloadServer = createInstance()
 
         val configDownload = downloadServer.downloadAppConfig()
-        configDownload shouldBe ConfigDownload(
+        configDownload shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T08:46:03.000Z"),
             localOffset = Duration(
                 Instant.parse("2020-11-03T08:46:03.000Z"),
                 Instant.ofEpochMilli(123456789)
             ),
-            etag = "I am an ETag :)!"
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(123)
         )
 
         verify(exactly = 1) { verificationKeys.hasInvalidSignature(any(), any()) }
@@ -124,11 +129,12 @@ class AppConfigServerTest : BaseIOTest() {
         val downloadServer = createInstance()
 
         val configDownload = downloadServer.downloadAppConfig()
-        configDownload shouldBe ConfigDownload(
+        configDownload shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.ofEpochMilli(123456789),
             localOffset = Duration.ZERO,
-            etag = "I am an ETag :)!"
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(300)
         )
     }
 
@@ -158,11 +164,12 @@ class AppConfigServerTest : BaseIOTest() {
 
         val downloadServer = createInstance()
 
-        downloadServer.downloadAppConfig() shouldBe ConfigDownload(
+        downloadServer.downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.standardHours(-1),
-            etag = "I am an ETag :)!"
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(300)
         )
     }
 
@@ -188,11 +195,12 @@ class AppConfigServerTest : BaseIOTest() {
 
         val downloadServer = createInstance()
 
-        downloadServer.downloadAppConfig() shouldBe ConfigDownload(
+        downloadServer.downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.standardHours(-2),
-            etag = "I am an ETag :)!"
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(300)
         )
     }
 
