@@ -23,7 +23,7 @@ class DefaultAppConfigSource @Inject constructor(
     fun getConfigData(): ConfigData = ConfigDataContainer(
         mappedConfig = configParser.parse(getRawDefaultConfig()),
         serverTime = Instant.EPOCH,
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ZERO,
         identifier = "fallback.local",
         configType = ConfigData.Type.LOCAL_DEFAULT,
         cacheValidity = Duration.ZERO

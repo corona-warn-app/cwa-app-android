@@ -73,7 +73,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
         instance.getConfigData() shouldBe ConfigDataContainer(
             serverTime = Instant.EPOCH,
-            localOffset = Duration.standardHours(1),
+            localOffset = Duration.ZERO,
             mappedConfig = configData,
             configType = ConfigData.Type.LOCAL_DEFAULT,
             identifier = "fallback.local",
