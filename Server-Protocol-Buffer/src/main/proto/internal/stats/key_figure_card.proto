@@ -14,21 +14,21 @@ message KeyFigureCard {
 message KeyFigure {
 
   enum Rank {
-    UNSPECIFIED = 0;
+    UNSPECIFIED_RANK = 0;
     PRIMARY = 1;
     SECONDARY = 2;
     TERTIARY = 3;
   }
 
   enum Trend {
-    NONE = 0;
+    UNSPECIFIED_TREND = 0;
     STABLE = 1;
     INCREASING = 2;
     DECREASING = 3;
   }
 
   enum TrendSemantic {
-    NONE = 0;
+    UNSPECIFIED_TREND_SEMANTIC = 0;
     NEUTRAL = 1;
     POSITIVE = 2;
     NEGATIVE = 3;
