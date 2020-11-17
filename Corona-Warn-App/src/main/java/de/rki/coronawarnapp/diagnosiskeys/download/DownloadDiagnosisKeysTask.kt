@@ -15,12 +15,10 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -48,11 +46,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         try {
             Timber.d("Running with arguments=%s", arguments)
             arguments as Arguments
-
-            BackgroundWorkHelper.sendDebugNotification(
-                "Start Task",
-                "Fetching keys \n${DateTime.now()}\nUTC: ${timeStamper.nowUTC}"
-            )
 
             /**
              * Handles the case when the ENClient got disabled but the Task is still scheduled
