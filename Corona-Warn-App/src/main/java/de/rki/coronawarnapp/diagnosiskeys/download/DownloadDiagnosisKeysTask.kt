@@ -15,13 +15,10 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -49,10 +46,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         try {
             Timber.d("Running with arguments=%s", arguments)
             arguments as Arguments
-
-            if (arguments.withConstraints) {
-                if (!noKeysFetchedToday()) return object : Task.Result {}
-            }
 
             /**
              * Handles the case when the ENClient got disabled but the Task is still scheduled
@@ -188,25 +181,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
         return UUID.randomUUID().toString().also {
             LocalData.googleApiToken(it)
-        }
-    }
-
-    private fun noKeysFetchedToday(): Boolean {
-        val currentDate = DateTime(timeStamper.nowUTC, DateTimeZone.UTC)
-        val lastFetch = DateTime(
-            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
-        )
-        return (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()).also {
-            if (it) {
-                Timber.tag(TAG)
-                    .d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
-                BackgroundWorkHelper.sendDebugNotification(
-                    "Start Task",
-                    "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
-                )
-            }
         }
     }
 
