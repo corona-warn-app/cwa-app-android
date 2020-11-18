@@ -16,7 +16,7 @@ import javax.inject.Inject
 @Reusable
 class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapper {
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): KeyDownloadConfig {
-        val rawParameters = if (rawConfig.hasAndroidKeyDownloadParameters()) {
+        val rawParameters = if (rawConfig.hasKeyDownloadParameters()) {
             rawConfig.keyDownloadParameters
         } else {
             null

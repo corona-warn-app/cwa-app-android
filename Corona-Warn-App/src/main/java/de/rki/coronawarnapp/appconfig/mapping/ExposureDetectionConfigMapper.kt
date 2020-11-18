@@ -11,7 +11,7 @@ import javax.inject.Inject
 @Reusable
 class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionConfig.Mapper {
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureDetectionConfig {
-        val exposureParams = if (rawConfig.hasAndroidExposureDetectionParameters()) {
+        val exposureParams = if (rawConfig.hasExposureDetectionParameters()) {
             rawConfig.exposureDetectionParameters
         } else {
             null
