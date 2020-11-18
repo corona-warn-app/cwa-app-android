@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="stoppedRisk"
-            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardStoppedRisk" />
+            name="failedRisk"
+            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardFailedRisk" />
     </data>
 
     <FrameLayout
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@{stoppedRisk.getLastCalculatedRiskScore(context)}"
+                android:text="@{failedRisk.getLastCalculatedRiskScore(context)}"
                 android:textColor="@color/colorTextPrimary1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/risk_card_stopped_risk_save_risk_row_icon"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@{stoppedRisk.getLastTimeFetched(context)}"
+                android:text="@{failedRisk.getLastTimeFetched(context)}"
                 android:textColor="@color/colorTextPrimary1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/risk_card_stopped_risk_last_sync_row_icon"
