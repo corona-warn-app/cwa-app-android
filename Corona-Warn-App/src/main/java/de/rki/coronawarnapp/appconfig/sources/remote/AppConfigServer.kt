@@ -1,7 +1,10 @@
-package de.rki.coronawarnapp.appconfig.download
+package de.rki.coronawarnapp.appconfig.sources.remote
 
 import dagger.Lazy
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import de.rki.coronawarnapp.util.TimeStamper
@@ -10,6 +13,7 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import okhttp3.Cache
+import okhttp3.CacheControl
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -28,7 +32,7 @@ class AppConfigServer @Inject constructor(
     @AppConfigHttpCache private val cache: Cache
 ) {
 
-    internal suspend fun downloadAppConfig(): ConfigDownload {
+    internal suspend fun downloadAppConfig(): InternalConfigData {
         Timber.tag(TAG).d("Fetching app config.")
 
         val response = api.get().getApplicationConfiguration(homeCountry.identifier)
@@ -56,19 +60,26 @@ class AppConfigServer @Inject constructor(
         // If this is a cached response, we need the original timestamp to calculate the time offset
         val localTime = response.getCacheTimestamp() ?: timeStamper.nowUTC
 
+        val headers = response.headers()
+
         // Shouldn't happen, but hey ¯\_(ツ)_/¯
-        val etag =
-            response.headers().etag() ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
+        val etag = headers.etag()
+            ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
 
         val serverTime = response.getServerDate() ?: localTime
         val offset = Duration(serverTime, localTime)
         Timber.tag(TAG).v("Time offset was %dms", offset.millis)
 
-        return ConfigDownload(
+        val cacheControl = CacheControl.parse(headers)
+
+        val maxCacheAge = Duration.standardSeconds(cacheControl.maxAgeSeconds.toLong())
+
+        return InternalConfigData(
             rawData = rawConfig,
             etag = etag,
             serverTime = serverTime,
-            localOffset = offset
+            localOffset = offset,
+            cacheValidity = maxCacheAge
         )
     }
 
