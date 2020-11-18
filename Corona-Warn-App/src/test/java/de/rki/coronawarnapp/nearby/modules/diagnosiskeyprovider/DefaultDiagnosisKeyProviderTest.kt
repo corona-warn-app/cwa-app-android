@@ -51,7 +51,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     )
 
     @Test
-    fun `key provision is used on older ENF versions`() {
+    fun `provide diagnosis keys with outdated ENF versions`() {
         coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns false
 
         val provider = createProvider()
@@ -82,7 +82,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     @Test
-    fun `quota is consumed silently`() {
+    fun `provide diagnosis key when quota is empty`() {
         coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
         coEvery { submissionQuota.consumeQuota(any()) } returns false
 
