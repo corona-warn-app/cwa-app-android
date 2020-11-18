@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
@@ -159,16 +160,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
                 workState = workState.copy(backendParameters = configAsString)
 
-                val aggregatedRiskResultStringBuilder = StringBuilder()
-                    .appendLine("Total RiskLevel: ${aggregatedResult.totalRiskLevel}")
-                    .appendLine("Total Minimum Distinct Encounters With High Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithHighRisk}")
-                    .appendLine("Total Minimum Distinct Encounters With Low Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithLowRisk}")
-                    .appendLine("Most Recent Date With High Risk: ${aggregatedResult.mostRecentDateWithHighRisk}")
-                    .appendLine("Most Recent Date With Low Risk: ${aggregatedResult.mostRecentDateWithLowRisk}")
-                    .appendLine("Number of Days With High Risk: 0") //TODO("Use real values after once the newest changes were merged")
-                    .appendLine("Number of Days With Low Risk: 0")
-
-                workState = workState.copy(aggregatedRiskResult = aggregatedRiskResultStringBuilder.toString())
+                workState = workState.copy(aggregatedRiskResult = aggregatedResult.toReadableString())
 
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
@@ -176,6 +168,16 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             }
         }
     }
+
+    private fun AggregatedRiskResult.toReadableString(): String = StringBuilder()
+        .appendLine("Total RiskLevel: $totalRiskLevel")
+        .appendLine("Total Minimum Distinct Encounters With High Risk: $totalMinimumDistinctEncountersWithHighRisk")
+        .appendLine("Total Minimum Distinct Encounters With Low Risk: $totalMinimumDistinctEncountersWithLowRisk")
+        .appendLine("Most Recent Date With High Risk: $mostRecentDateWithHighRisk")
+        .appendLine("Most Recent Date With Low Risk: $mostRecentDateWithLowRisk")
+        .appendLine("Number of Days With High Risk: 0") //TODO("Use real values after once the newest changes were merged")
+        .appendLine("Number of Days With Low Risk: 0")
+        .toString()
 
     data class DiagnosisKeyProvidedEvent(
         val keyCount: Int,
