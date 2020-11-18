@@ -49,21 +49,10 @@ class TracingRepository @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
-    val lastTimeDiagnosisKeysFetched: Flow<Date?> = internalLastTimeDiagnosisKeysFetched
+    val lastTimeDiagnosisKeysFetched: Flow<Date?> = LocalData.lastTimeDiagnosisKeysFromServerFetchFlow()
 
     private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
     val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
-
-    /**
-     * Refresh the last time diagnosis keys fetched date with the current shared preferences state.
-     *
-     * @see LocalData
-     */
-    fun refreshLastTimeDiagnosisKeysFetchedDate() {
-        internalLastTimeDiagnosisKeysFetched.value =
-            LocalData.lastTimeDiagnosisKeysFromServerFetch()
-    }
 
     private val internalIsRefreshing =
         taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
@@ -100,7 +89,9 @@ class TracingRepository @Inject constructor(
         scope.launch {
             taskController.submitBlocking(
                 DefaultTaskRequest(
-                    DownloadDiagnosisKeysTask::class, originTag = "TracingRepository.refreshDiagnosisKeys()"
+                    DownloadDiagnosisKeysTask::class,
+                    DownloadDiagnosisKeysTask.Arguments(),
+                    originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
             taskController.submit(
@@ -108,7 +99,6 @@ class TracingRepository @Inject constructor(
                     RiskLevelTask::class, originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
-            refreshLastTimeDiagnosisKeysFetchedDate()
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -153,10 +143,10 @@ class TracingRepository @Inject constructor(
                     taskController.submitBlocking(
                         DefaultTaskRequest(
                             DownloadDiagnosisKeysTask::class,
+                            DownloadDiagnosisKeysTask.Arguments(),
                             originTag = "TracingRepository.refreshRisklevel()"
                         )
                     )
-                    refreshLastTimeDiagnosisKeysFetchedDate()
                     TimerHelper.checkManualKeyRetrievalTimer()
 
                     taskController.submit(
