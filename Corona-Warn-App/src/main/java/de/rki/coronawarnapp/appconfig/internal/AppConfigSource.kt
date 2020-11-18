@@ -24,6 +24,8 @@ class AppConfigSource @Inject constructor(
         if (localConfig != null && localConfig.isValid(timeStamper.nowUTC)) {
             Timber.tag(TAG).d("Returning local config, still valid.")
             return localConfig
+        } else {
+            Timber.tag(TAG).d("Local app config was unavailable(${localConfig == null} or invalid.")
         }
 
         val remoteConfig = remoteAppConfigSource.getConfigData()
