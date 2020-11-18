@@ -17,8 +17,9 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setMinRiskScore(1)
             .build()
         createInstance().map(rawConfig).apply {
+            // This is basically the old legacy config without the new hourly related data structures
             exposureDetectionConfiguration shouldBe rawConfig.mapRiskScoreToExposureConfiguration()
-            exposureDetectionParameters shouldBe rawConfig.androidExposureDetectionParameters
+            exposureDetectionParameters shouldBe null
         }
     }
 
@@ -75,6 +76,18 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             overallDetectionTimeout shouldBe Duration.standardMinutes(15)
+        }
+    }
+
+    @Test
+    fun `if protobuf is missing the datastructure we return defaults`() {
+        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+            .setMinRiskScore(1)
+            .build()
+        createInstance().map(rawConfig).apply {
+            overallDetectionTimeout shouldBe Duration.standardMinutes(15)
+            minTimeBetweenDetections shouldBe Duration.standardHours(24 / 6)
+            maxExposureDetectionsPerUTCDay shouldBe 6
         }
     }
 }
