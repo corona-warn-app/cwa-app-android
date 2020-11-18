@@ -35,21 +35,9 @@ sealed class RiskCardsHandler {
     // Sealed class to set the common attributes found in both 'Low Risk' and 'High Risk' cards
     sealed class LowHighRiskHandler : RiskCardsHandler() {
 
-        abstract val activeTracingDaysInRetentionPeriod: Long
         abstract val tracingStatus: GeneralTracingStatus.Status
         abstract val riskLevelScore: Int
-
-        fun getTracingDaysInRetentionPeriod(c: Context): String =
-            if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
-                c.getString(
-                    R.string.risk_card_body_saved_days
-                )
-                    .format(activeTracingDaysInRetentionPeriod)
-            } else {
-                c.getString(
-                    R.string.risk_card_body_saved_days_full
-                )
-            }
+        abstract val matchedKeyCount: Int
 
         // Replacement for showUpdateButton and isTracingOff form TracingCardState.kt
         fun displaySyncButtonWhenManualModeIsTurnedOn(): Boolean {
@@ -66,10 +54,65 @@ sealed class RiskCardsHandler {
 
         data class RiskCardLowRisk(
             override val lastRiskActualisation: Date?,
-            override val activeTracingDaysInRetentionPeriod: Long,
             override val tracingStatus: GeneralTracingStatus.Status,
-            override val riskLevelScore: Int
-        ) : LowHighRiskHandler()
+            override val riskLevelScore: Int,
+            override val matchedKeyCount: Int,
+            val activeTracingDaysInRetentionPeriod: Long
+        ) : LowHighRiskHandler() {
+
+            fun getTracingDaysInRetentionPeriod(c: Context): String =
+                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
+                    c.getString(
+                        R.string.risk_card_body_saved_days
+                    )
+                        .format(activeTracingDaysInRetentionPeriod)
+                } else {
+                    c.getString(
+                        R.string.risk_card_body_saved_days_full
+                    )
+                }
+
+            fun getNumberOfLowRiskContacts(c: Context): String {
+                return if (matchedKeyCount == 0) {
+                    c.getString(R.string.risk_card_body_contact)
+                } else {
+                    c.resources.getQuantityString(
+                        R.plurals.risk_card_body_contact_value,
+                        matchedKeyCount,
+                        matchedKeyCount
+                    )
+                }
+            }
+        }
+
+        data class RiskCardHighRisk(
+            override val lastRiskActualisation: Date?,
+            override val tracingStatus: GeneralTracingStatus.Status,
+            override val riskLevelScore: Int,
+            override val matchedKeyCount: Int,
+            val daysSinceLastExposure: Int,
+        ) : LowHighRiskHandler() {
+
+            fun getNumberOfHighRiskContacts(c: Context): String {
+                return c.resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value_high_risk,
+                    matchedKeyCount,
+                    matchedKeyCount
+                )
+            }
+
+            fun daysSinceLastContact(c: Context): String {
+                return if (riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
+                    c.resources.getQuantityString(
+                        R.plurals.risk_card_increased_risk_body_contact_last,
+                        daysSinceLastExposure,
+                        daysSinceLastExposure
+                    )
+                } else {
+                    ""
+                }
+            }
+        }
     }
 
     // Sealed class to set the attributes from 'Stopped Risk' and 'Failed Risk' cards

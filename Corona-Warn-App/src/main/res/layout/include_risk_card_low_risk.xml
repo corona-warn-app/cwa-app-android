@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="lowRisk"
+            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardsHandler.LowHighRiskHandler.RiskCardLowRisk"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/rectangle"
+        tools:backgroundTint="@color/card_low"
+        tools:padding="@dimen/spacing_normal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/risk_card_failed_risk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/risk_card_low_risk_header_headline"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:accessibilityHeading="true"
+                android:text="@string/risk_card_low_risk_headline"
+                android:textColor="@color/colorStableLight"
+                app:layout_constraintEnd_toStartOf="@+id/risk_card_low_risk_header_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/risk_card_low_risk_header_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_forward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:tint="@color/colorStableLight" />
+
+            <ImageView
+                android:id="@+id/risk_card_low_risk_save_risk_row_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_risk_card_contact"
+                android:tint="@color/colorStableLight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_header_headline" />
+
+            <TextView
+                android:id="@+id/risk_card_low_risk_saved_risk_row_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@{lowRisk.getNumberOfLowRiskContacts(context)}"
+                tools:text="@string/risk_card_body_contact"
+                android:textColor="@color/colorStableLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/risk_card_low_risk_save_risk_row_icon"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_header_headline" />
+
+            <de.rki.coronawarnapp.ui.view.CircleProgress
+                android:id="@+id/risk_card_low_risk_circle_progress"
+                android:layout_width="@dimen/circle_small"
+                android:layout_height="@dimen/circle_small"
+                android:layout_marginStart="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:circleColor="@color/colorStableHairlineLight"
+                app:circleWidth="@dimen/circle_small_width"
+                app:disableText="true"
+                app:progress="@{lowRisk.activeTracingDaysInRetentionPeriod}"
+                app:progressColor="@color/colorStableLight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_save_risk_row_icon"/>
+
+            <TextView
+                android:id="@+id/risk_card_low_risk_saved_days_body"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@{lowRisk.getTracingDaysInRetentionPeriod(context)"
+                tools:text="@string/risk_card_body_saved_days"
+                tools:textColor="@color/colorStableLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/risk_card_low_risk_circle_progress"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_saved_risk_row_body"/>
+
+            <ImageView
+                android:id="@+id/risk_card_low_risk_last_sync_row_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_risk_card_time_fetched"
+                android:tint="@color/colorStableLight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_saved_days_body" />
+
+            <TextView
+                android:id="@+id/risk_card_low_risk_last_sync_row_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@{lowRisk.getLastTimeFetched(context)}"
+                android:textColor="@color/colorStableLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/risk_card_low_risk_last_sync_row_icon"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_saved_days_body"
+                tools:text="@string/risk_card_body_time_fetched"/>
+
+            <View
+                android:id="@+id/risk_card_low_risk_divider"
+                gone="@{!lowRisk.displaySyncButtonWhenManualModeIsTurnedOn()}"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@color/colorStableLight"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_last_sync_row_body"/>
+
+            <TextView
+                android:id="@+id/risk_card_low_risk_daily_update"
+                style="@style/subtitle"
+                gone="@{!lowRisk.displaySyncButtonWhenManualModeIsTurnedOn()}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/risk_card_body_next_update"
+                android:textColor="@color/colorStableLight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_divider"/>
+
+
+            <Button
+                android:id="@+id/risk_card_low_risk_button_enable_tracing"
+                style="@style/buttonLight"
+                gone="@{lowRisk.displaySyncButtonWhenManualModeIsTurnedOn()}"
+                tools:visibility="invisible"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/risk_card_button_update"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_low_risk_last_sync_row_body" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
