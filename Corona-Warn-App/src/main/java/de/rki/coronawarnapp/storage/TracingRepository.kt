@@ -49,21 +49,10 @@ class TracingRepository @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
-    val lastTimeDiagnosisKeysFetched: Flow<Date?> = internalLastTimeDiagnosisKeysFetched
+    val lastTimeDiagnosisKeysFetched: Flow<Date?> = LocalData.lastTimeDiagnosisKeysFromServerFetchFlow()
 
     private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
     val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
-
-    /**
-     * Refresh the last time diagnosis keys fetched date with the current shared preferences state.
-     *
-     * @see LocalData
-     */
-    fun refreshLastTimeDiagnosisKeysFetchedDate() {
-        internalLastTimeDiagnosisKeysFetched.value =
-            LocalData.lastTimeDiagnosisKeysFromServerFetch()
-    }
 
     private val internalIsRefreshing =
         taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
@@ -104,7 +93,6 @@ class TracingRepository @Inject constructor(
                 )
             )
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            refreshLastTimeDiagnosisKeysFetchedDate()
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -152,7 +140,6 @@ class TracingRepository @Inject constructor(
                             DownloadDiagnosisKeysTask.Arguments()
                         )
                     )
-                    refreshLastTimeDiagnosisKeysFetchedDate()
                     TimerHelper.checkManualKeyRetrievalTimer()
 
                     taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
