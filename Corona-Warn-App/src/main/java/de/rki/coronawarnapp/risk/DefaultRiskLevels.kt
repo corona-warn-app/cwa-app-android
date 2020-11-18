@@ -22,6 +22,8 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -32,7 +34,8 @@ typealias ProtoRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToR
 
 @Singleton
 class DefaultRiskLevels @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val exposureResultStore: ExposureResultStore
 ) : RiskLevels {
     private var appConfig: ConfigData
 
@@ -107,7 +110,19 @@ class DefaultRiskLevels @Inject constructor(
 
         val aggregatedResult = aggregateResults(riskResultsPerWindow)
 
-        return aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
+        exposureResultStore.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
+
+        val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
+
+        if (highRisk) {
+            internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithHighRisk
+            internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithHighRisk
+        } else {
+            internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithLowRisk
+            internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithLowRisk
+        }
+
+        return highRisk
     }
 
     override fun isActiveTracingTimeAboveThreshold(): Boolean {
@@ -470,5 +485,11 @@ class DefaultRiskLevels @Inject constructor(
                 !maxExclusive && value.toDouble() > max -> false
                 else -> true
             }
+
+        private val internalMatchedKeyCount = MutableStateFlow(0)
+        val matchedKeyCount: Flow<Int> = internalMatchedKeyCount
+
+        private val internalDaysSinceLastExposure = MutableStateFlow(0)
+        val daysSinceLastExposure: Flow<Int> = internalDaysSinceLastExposure
     }
 }

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -37,10 +37,10 @@ class TracingCardStateProvider @Inject constructor(
         tracingRepository.tracingProgress.onEach {
             Timber.v("tracingProgress: $it")
         },
-        ExposureSummaryRepository.matchedKeyCount.onEach {
+        DefaultRiskLevels.matchedKeyCount.onEach {
             Timber.v("matchedKeyCount: $it")
         },
-        ExposureSummaryRepository.daysSinceLastExposure.onEach {
+        DefaultRiskLevels.daysSinceLastExposure.onEach {
             Timber.v("daysSinceLastExposure: $it")
         },
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
