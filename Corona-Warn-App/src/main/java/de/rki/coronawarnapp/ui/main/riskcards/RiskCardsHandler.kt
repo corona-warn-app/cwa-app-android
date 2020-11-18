@@ -90,7 +90,7 @@ sealed class RiskCardsHandler {
             override val tracingStatus: GeneralTracingStatus.Status,
             override val riskLevelScore: Int,
             override val matchedKeyCount: Int,
-            val daysSinceLastExposure: Int,
+            val daysSinceLastExposure: Int
         ) : LowHighRiskHandler() {
 
             fun getNumberOfHighRiskContacts(c: Context): String {
