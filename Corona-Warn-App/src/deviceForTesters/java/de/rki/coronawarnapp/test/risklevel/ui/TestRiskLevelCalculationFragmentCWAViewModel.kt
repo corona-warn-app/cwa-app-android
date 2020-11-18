@@ -183,7 +183,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine("Total Minimum Distinct Encounters With Low Risk: $totalMinimumDistinctEncountersWithLowRisk")
         .appendLine("Most Recent Date With High Risk: $mostRecentDateWithHighRisk")
         .appendLine("Most Recent Date With Low Risk: $mostRecentDateWithLowRisk")
-        .appendLine("Number of Days With High Risk: 0") //TODO("Use real values after once the newest changes were merged")
+        .appendLine("Number of Days With High Risk: 0") // TODO("Use real values after once the newest changes were merged")
         .appendLine("Number of Days With Low Risk: 0")
         .toString()
 
