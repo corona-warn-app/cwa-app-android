@@ -53,7 +53,7 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
         val async = goAsync()
 
-        scope.launch(context = dispatcherProvider.Default) {
+        scope.launch(context = scope.coroutineContext) {
             try {
                 val token = intent.requireToken()
 
@@ -70,6 +70,7 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
                     .build()
                     .let { workManager.enqueue(it) }
             } catch (e: Exception) {
+                Timber.e(e, "Failed to process intent.")
                 e.report(INTERNAL)
             } finally {
                 Timber.tag(TAG).i("Finished processing broadcast.")

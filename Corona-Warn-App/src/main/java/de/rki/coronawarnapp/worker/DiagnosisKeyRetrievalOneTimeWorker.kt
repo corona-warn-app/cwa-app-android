@@ -39,8 +39,7 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
         var result = Result.success()
         taskController.submitBlocking(
             DefaultTaskRequest(
-                DownloadDiagnosisKeysTask::class,
-                DownloadDiagnosisKeysTask.Arguments(null, true)
+                DownloadDiagnosisKeysTask::class, originTag = "DiagnosisKeyRetrievalOneTimeWorker"
             )
         ).error?.also { error: Throwable ->
             Timber.w(
