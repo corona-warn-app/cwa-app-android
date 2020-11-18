@@ -64,7 +64,7 @@ class DownloadConfigMapperTest : BaseTest() {
 
     @Test
     fun `if the protobuf data structures are null we return defaults`() {
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .build()
 
         createInstance().map(rawConfig).apply {

@@ -75,7 +75,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
 
     @Test
     fun `if protobuf is missing the datastructure we return defaults`() {
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .setMinRiskScore(1)
             .build()
         createInstance().map(rawConfig).apply {
