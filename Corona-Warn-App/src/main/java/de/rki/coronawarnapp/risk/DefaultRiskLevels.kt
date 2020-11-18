@@ -112,12 +112,19 @@ class DefaultRiskLevels @Inject constructor(
 
         exposureSummaryRepository.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
 
-        // FIXME update UI flows with Bernds new Fields
-        internalMatchedKeyCount.value = 0
-        internalDaysSinceLastExposure.value = 0
-
-        return aggregatedResult.totalRiskLevel ==
+        val increasedRisk = aggregatedResult.totalRiskLevel ==
             RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
+
+        if (increasedRisk){
+            internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithHighRisk
+            internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithHighRisk
+        }
+        else{
+            internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithLowRisk
+            internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithLowRisk
+        }
+
+        return increasedRisk
     }
 
     override fun isActiveTracingTimeAboveThreshold(): Boolean {
