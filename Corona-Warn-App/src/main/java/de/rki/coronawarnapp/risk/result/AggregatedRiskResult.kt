@@ -8,5 +8,7 @@ data class AggregatedRiskResult(
     val totalMinimumDistinctEncountersWithLowRisk: Int,
     val totalMinimumDistinctEncountersWithHighRisk: Int,
     val mostRecentDateWithLowRisk: Instant?,
-    val mostRecentDateWithHighRisk: Instant?
+    val mostRecentDateWithHighRisk: Instant?,
+    val numberOfDaysWithLowRisk: Int,
+    val numberOfDaysWithHighRisk: Int
 )
