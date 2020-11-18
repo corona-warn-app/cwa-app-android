@@ -19,9 +19,12 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -31,7 +34,8 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultRiskLevels @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val exposureSummaryRepository: ExposureSummaryRepository
 ) : RiskLevels {
     private var appConfig: ConfigData
 
@@ -105,6 +109,12 @@ class DefaultRiskLevels @Inject constructor(
             }.toMap()
 
         val aggregatedResult = aggregateResults(riskResultsPerWindow)
+
+        exposureSummaryRepository.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
+
+        // FIXME update UI flows with Bernds new Fields
+        internalMatchedKeyCount.value = 0
+        internalDaysSinceLastExposure.value = 0
 
         return aggregatedResult.totalRiskLevel ==
             RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
@@ -467,5 +477,11 @@ class DefaultRiskLevels @Inject constructor(
                 !maxExclusive && value.toDouble() > max -> false
                 else -> true
             }
+
+        private val internalMatchedKeyCount = MutableStateFlow(0)
+        val matchedKeyCount: Flow<Int> = internalMatchedKeyCount
+
+        private val internalDaysSinceLastExposure = MutableStateFlow(0)
+        val daysSinceLastExposure: Flow<Int> = internalDaysSinceLastExposure
     }
 }

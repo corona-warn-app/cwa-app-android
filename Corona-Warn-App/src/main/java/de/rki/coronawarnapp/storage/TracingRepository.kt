@@ -40,7 +40,6 @@ import javax.inject.Singleton
 class TracingRepository @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val scope: CoroutineScope,
-    private val exposureSummaryRepository: ExposureSummaryRepository,
     private val taskController: TaskController,
     enfClient: ENFClient
 ) {
@@ -87,8 +86,6 @@ class TracingRepository @Inject constructor(
      * Regardless of whether the transactions where successful or not the
      * lastTimeDiagnosisKeysFetchedDate is updated. But the the value will only be updated after a
      * successful go through from the RetrievelDiagnosisKeysTransaction.
-     *
-     * @see RiskLevelRepository
      */
     fun refreshDiagnosisKeys() {
         scope.launch {

@@ -30,10 +30,4 @@ interface RiskLevels {
     fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult
-
-    // FIXME
-    fun matchedKeyCount(windows: List<ExposureWindow>) = 0
-
-    // FIXME
-    fun daysSinceLastExposure(windows: List<ExposureWindow>) = 0
 }
