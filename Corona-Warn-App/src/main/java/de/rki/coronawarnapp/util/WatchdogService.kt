@@ -49,7 +49,11 @@ class WatchdogService @Inject constructor(
                 "Automatic mode is on", "Check if we have downloaded keys already today"
             )
             val state = taskController.submitBlocking(
-                DefaultTaskRequest(DownloadDiagnosisKeysTask::class, originTag = "WatchdogService")
+                DefaultTaskRequest(
+                    DownloadDiagnosisKeysTask::class,
+                    DownloadDiagnosisKeysTask.Arguments(),
+                    originTag = "WatchdogService"
+                )
             )
             if (state.isFailed) {
                 BackgroundWorkHelper.sendDebugNotification(
