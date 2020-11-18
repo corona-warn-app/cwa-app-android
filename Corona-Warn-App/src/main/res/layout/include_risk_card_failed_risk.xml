@@ -7,7 +7,7 @@
 
         <variable
             name="failedRisk"
-            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardFailedRisk" />
+            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardsHandler.StoppedOrFailedRisk.RiskCardStoppedOrFailedRisk" />
     </data>
 
     <FrameLayout

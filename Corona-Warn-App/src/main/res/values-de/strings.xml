@@ -158,6 +158,8 @@
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Aktualisiert: %1$s"</string>
+    <!-- XTXT: risk card - last successful update -->
+    <string name="risk_card_body_next_update">"Tägliche Aktualisierung"</string>
     <!-- XTXT: risk card - hint to open the app daily -->
     <string name="risk_card_body_open_daily">"Hinweis: Bitte öffnen Sie die App täglich, um den Risikostatus zu aktualisieren."</string>
     <!-- XBUT: risk card - update risk -->
