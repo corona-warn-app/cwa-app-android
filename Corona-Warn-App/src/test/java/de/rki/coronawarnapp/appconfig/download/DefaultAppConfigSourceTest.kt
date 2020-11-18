@@ -19,8 +19,8 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
     @MockK private lateinit var assetManager: AssetManager
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
-    private val configFile = File(testDir, "default_app_config.bin")
-    private val checksumFile = File(testDir, "default_app_config.sha256")
+    private val configFile = File(testDir, "default_app_config_android.bin")
+    private val checksumFile = File(testDir, "default_app_config_android.sha256")
 
     @BeforeEach
     fun setup() {
@@ -28,8 +28,8 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
         every { context.assets } returns assetManager
 
-        every { assetManager.open("default_app_config.bin") } answers { configFile.inputStream() }
-        every { assetManager.open("default_app_config.sha256") } answers { checksumFile.inputStream() }
+        every { assetManager.open("default_app_config_android.bin") } answers { configFile.inputStream() }
+        every { assetManager.open("default_app_config_android.sha256") } answers { checksumFile.inputStream() }
 
         testDir.mkdirs()
         testDir.exists() shouldBe true
