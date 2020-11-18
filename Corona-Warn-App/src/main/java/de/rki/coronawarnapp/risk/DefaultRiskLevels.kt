@@ -113,18 +113,17 @@ class DefaultRiskLevels @Inject constructor(
 
         exposureSummaryRepository.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
 
-        val increasedRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
+        val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
 
-        if (increasedRisk){
+        if (highRisk) {
             internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithHighRisk
             internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithHighRisk
-        }
-        else{
+        } else {
             internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithLowRisk
             internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithLowRisk
         }
 
-        return increasedRisk
+        return highRisk
     }
 
     override fun isActiveTracingTimeAboveThreshold(): Boolean {
