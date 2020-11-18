@@ -11,6 +11,6 @@ class DefaultAppConfigSource @Inject constructor(
 ) {
 
     fun getRawDefaultConfig(): ByteArray {
-        return context.assets.open("default_app_config.bin").readBytes()
+        return context.assets.open("default_app_config_android.bin").readBytes()
     }
 }

@@ -6,11 +6,12 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import io.github.classgraph.ClassGraph
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -87,4 +88,11 @@ class MockProvider {
 
     @Provides
     fun taskController(): TaskController = mockk()
+
+    // For ExposureStateUpdateWorker
+    @Provides
+    fun enfClient(): ENFClient = mockk()
+
+    @Provides
+    fun exposureSummaryRepository(): ExposureResultStore = mockk()
 }

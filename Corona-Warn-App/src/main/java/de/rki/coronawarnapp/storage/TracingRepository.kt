@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevelTask
@@ -88,8 +86,6 @@ class TracingRepository @Inject constructor(
      * Regardless of whether the transactions where successful or not the
      * lastTimeDiagnosisKeysFetchedDate is updated. But the the value will only be updated after a
      * successful go through from the RetrievelDiagnosisKeysTransaction.
-     *
-     * @see RiskLevelRepository
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
@@ -168,33 +164,6 @@ class TracingRepository @Inject constructor(
                 taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
                 // TODO shouldn't access this directly
                 retrievingDiagnosisKeys.value = false
-            }
-        }
-    }
-
-    /**
-     * Exposure summary
-     * Refresh the following variables in TracingRepository
-     * - daysSinceLastExposure
-     * - matchedKeysCount
-     *
-     * @see TracingRepository
-     */
-    fun refreshExposureSummary() {
-        scope.launch {
-            try {
-                val token = LocalData.googleApiToken()
-                if (token != null) {
-                    ExposureSummaryRepository.getExposureSummaryRepository()
-                        .getLatestExposureSummary(token)
-                }
-                Timber.tag(TAG).v("retrieved latest exposure summary from db")
-            } catch (e: Exception) {
-                e.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
             }
         }
     }

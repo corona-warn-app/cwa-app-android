@@ -36,7 +36,6 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
 
     fun refreshData() {
         tracingRepository.refreshRiskLevel()
-        tracingRepository.refreshExposureSummary()
         tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
         TimerHelper.checkManualKeyRetrievalTimer()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()

@@ -102,7 +102,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
-                    LocalData.googleApiToken(null)
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.INTERNAL)
                 }
@@ -176,14 +175,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     data class DiagnosisKeyProvidedEvent(
-        val keyCount: Int,
-        val token: String
+        val keyCount: Int
     )
 
     fun provideDiagnosisKey(transmissionNumber: Int, key: AppleLegacyKeyExchange.Key) {
-        val token = UUID.randomUUID().toString()
-        LocalData.googleApiToken(token)
-
         val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
         AppleLegacyKeyExchange.Key.newBuilder()
@@ -200,23 +195,20 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 .build()
         )
 
-        val dir = File(File(context.getExternalFilesDir(null), "key-export"), token)
+        val dir = File(File(context.getExternalFilesDir(null), "key-export"), UUID.randomUUID().toString())
         dir.mkdirs()
 
         var googleFileList: List<File>
         launch {
             googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
+            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
             try {
                 // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                enfClient.provideDiagnosisKeys(
-                    googleFileList
-                )
+                enfClient.provideDiagnosisKeys(googleFileList)
                 apiKeysProvidedEvent.postValue(
                     DiagnosisKeyProvidedEvent(
-                        keyCount = appleFiles.size,
-                        token = token
+                        keyCount = appleFiles.size
                     )
                 )
             } catch (e: Exception) {

@@ -79,7 +79,7 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         vm.apiKeysProvidedEvent.observe2(this) { event ->
             Toast.makeText(
                 requireContext(),
-                "Provided ${event.keyCount} keys to Google API with token ${event.token}",
+                "Provided ${event.keyCount} keys to Google API",
                 Toast.LENGTH_SHORT
             ).show()
         }
