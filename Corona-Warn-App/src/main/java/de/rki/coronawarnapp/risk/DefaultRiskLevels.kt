@@ -132,9 +132,6 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
                 "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
                     "($durationTracingIsActiveThreshold h): $it"
             )
-            if (it) {
-                Timber.tag(TAG).v("Active tracing time is not enough")
-            }
         }
     }
 
