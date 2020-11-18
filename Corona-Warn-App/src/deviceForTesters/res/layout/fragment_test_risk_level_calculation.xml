@@ -121,16 +121,16 @@
                 android:text="Clear Diagnosis-Key cache" />
 
             <TextView
-                android:id="@+id/label_exposure_summary_title"
+                android:id="@+id/label_aggregated_risk_result_title"
                 style="@style/headline6"
                 android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Exposure Summary" />
+                android:text="Aggregated Risk Result" />
 
             <TextView
-                android:id="@+id/label_exposure_summary"
+                android:id="@+id/label_aggregated_risk_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />

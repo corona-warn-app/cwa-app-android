@@ -70,7 +70,7 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         vm.riskScoreState.observe2(this) { state ->
             binding.labelRiskScore.text = state.riskScoreMsg
             binding.labelBackendParameters.text = state.backendParameters
-            binding.labelExposureSummary.text = state.exposureSummary
+            binding.labelAggregatedRiskResult.text = state.aggregatedRiskResult
             binding.labelFormula.text = state.formula
             binding.labelExposureInfo.text = state.exposureInfo
         }

@@ -115,7 +115,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     data class RiskScoreState(
         val riskScoreMsg: String = "",
         val backendParameters: String = "",
-        val exposureSummary: String = "",
+        val aggregatedRiskResult: String = "",
         val formula: String = "",
         val exposureInfo: String = ""
     )
@@ -159,14 +159,16 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
                 workState = workState.copy(backendParameters = configAsString)
 
-                val summaryAsString =
-                    "Total RiskLevel: ${aggregatedResult.totalRiskLevel}" +
-                        "Total Minimum Distinct Encounters With High Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithHighRisk}" +
-                        "Total Minimum Distinct Encounters With Low Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithLowRisk}" +
-                        "Most Recent Date With High Risk: ${aggregatedResult.mostRecentDateWithHighRisk}" +
-                        "Most Recent Date With Low Risk: ${aggregatedResult.mostRecentDateWithLowRisk}"
+                val aggregatedRiskResultStringBuilder = StringBuilder()
+                    .appendLine("Total RiskLevel: ${aggregatedResult.totalRiskLevel}")
+                    .appendLine("Total Minimum Distinct Encounters With High Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithHighRisk}")
+                    .appendLine("Total Minimum Distinct Encounters With Low Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithLowRisk}")
+                    .appendLine("Most Recent Date With High Risk: ${aggregatedResult.mostRecentDateWithHighRisk}")
+                    .appendLine("Most Recent Date With Low Risk: ${aggregatedResult.mostRecentDateWithLowRisk}")
+                    .appendLine("Number of Days With High Risk: 0") //TODO("Use real values after once the newest changes were merged")
+                    .appendLine("Number of Days With Low Risk: 0")
 
-                workState = workState.copy(exposureSummary = summaryAsString)
+                workState = workState.copy(aggregatedRiskResult = aggregatedRiskResultStringBuilder.toString())
 
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
