@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import com.google.gson.Gson
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.appconfig.DefaultConfigData
 import de.rki.coronawarnapp.nearby.windows.entities.ExposureWindowsJsonInput
 import de.rki.coronawarnapp.nearby.windows.entities.cases.JsonScanInstance
 import de.rki.coronawarnapp.nearby.windows.entities.cases.JsonWindow

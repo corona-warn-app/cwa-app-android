@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.KeyDownloadParameters
 import io.kotest.matchers.shouldBe

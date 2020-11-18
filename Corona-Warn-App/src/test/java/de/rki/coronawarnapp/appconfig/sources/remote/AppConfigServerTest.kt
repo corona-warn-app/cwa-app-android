@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig.sources.remote
 
+import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
