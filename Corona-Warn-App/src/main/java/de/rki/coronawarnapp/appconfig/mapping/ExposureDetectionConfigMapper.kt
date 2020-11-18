@@ -11,7 +11,11 @@ import javax.inject.Inject
 @Reusable
 class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionConfig.Mapper {
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureDetectionConfig {
-        val exposureParams = rawConfig.exposureDetectionParameters
+        val exposureParams = if (rawConfig.hasAndroidExposureDetectionParameters()) {
+            rawConfig.exposureDetectionParameters
+        } else {
+            null
+        }
         return ExposureDetectionConfigContainer(
             exposureDetectionParameters = exposureParams,
             maxExposureDetectionsPerUTCDay = exposureParams.maxExposureDetectionsPerDay(),
@@ -21,7 +25,7 @@ class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionCon
     }
 
     data class ExposureDetectionConfigContainer(
-        override val exposureDetectionParameters: ExposureDetectionParametersAndroid,
+        override val exposureDetectionParameters: ExposureDetectionParametersAndroid?,
         override val maxExposureDetectionsPerUTCDay: Int,
         override val minTimeBetweenDetections: Duration,
         override val overallDetectionTimeout: Duration
@@ -30,23 +34,25 @@ class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionCon
 
 // If we are outside the valid data range, fallback to default value.
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun ExposureDetectionParametersAndroid.overAllDetectionTimeout(): Duration = when {
-    overallTimeoutInSeconds > 3600 -> Duration.standardMinutes(15)
-    overallTimeoutInSeconds <= 0 -> Duration.standardMinutes(15)
-    else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
-}
+fun ExposureDetectionParametersAndroid?.overAllDetectionTimeout(): Duration =
+    if (this == null || overallTimeoutInSeconds > 3600 || overallTimeoutInSeconds <= 0) {
+        Duration.standardMinutes(15)
+    } else {
+        Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+    }
 
 // If we are outside the valid data range, fallback to default value.
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun ExposureDetectionParametersAndroid.maxExposureDetectionsPerDay(): Int = when {
-    maxExposureDetectionsPerInterval > 6 -> 6
-    maxExposureDetectionsPerInterval < 0 -> 6
-    else -> maxExposureDetectionsPerInterval
-}
+fun ExposureDetectionParametersAndroid?.maxExposureDetectionsPerDay(): Int =
+    if (this == null || maxExposureDetectionsPerInterval > 6 || maxExposureDetectionsPerInterval < 0) {
+        6
+    } else {
+        maxExposureDetectionsPerInterval
+    }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun ExposureDetectionParametersAndroid.minTimeBetweenExposureDetections(): Duration {
-    val detectionsPerDay = maxExposureDetectionsPerDay()
+fun ExposureDetectionParametersAndroid?.minTimeBetweenExposureDetections(): Duration {
+    val detectionsPerDay = this.maxExposureDetectionsPerDay()
     return if (detectionsPerDay == 0) {
         Duration.standardDays(99)
     } else {

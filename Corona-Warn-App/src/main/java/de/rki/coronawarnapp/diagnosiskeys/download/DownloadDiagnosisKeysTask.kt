@@ -49,10 +49,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.d("Running with arguments=%s", arguments)
             arguments as Arguments
 
-            if (arguments.withConstraints) {
-                if (!noKeysFetchedToday()) return object : Task.Result {}
-            }
-
             /**
              * Handles the case when the ENClient got disabled but the Task is still scheduled
              * in a background job. Also it acts as a failure catch in case the orchestration code did

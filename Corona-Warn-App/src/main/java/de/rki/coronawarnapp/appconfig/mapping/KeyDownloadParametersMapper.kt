@@ -16,7 +16,11 @@ import javax.inject.Inject
 @Reusable
 class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapper {
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): KeyDownloadConfig {
-        val rawParameters = rawConfig.keyDownloadParameters
+        val rawParameters = if (rawConfig.hasAndroidKeyDownloadParameters()) {
+            rawConfig.keyDownloadParameters
+        } else {
+            null
+        }
 
         return KeyDownloadConfigContainer(
             individualDownloadTimeout = rawParameters.individualTimeout(),
@@ -27,21 +31,25 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
     }
 
     // If we are outside the valid data range, fallback to default value.
-    private fun KeyDownloadParametersAndroid.individualTimeout(): Duration = when {
-        downloadTimeoutInSeconds > 1800 -> Duration.standardSeconds(60)
-        downloadTimeoutInSeconds <= 0 -> Duration.standardSeconds(60)
-        else -> Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
-    }
+    private fun KeyDownloadParametersAndroid?.individualTimeout(): Duration =
+        if (this == null || downloadTimeoutInSeconds > 1800 || downloadTimeoutInSeconds <= 0) {
+            Duration.standardSeconds(60)
+        } else {
+            Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
+        }
 
     // If we are outside the valid data range, fallback to default value.
-    private fun KeyDownloadParametersAndroid.overAllTimeout(): Duration = when {
-        overallTimeoutInSeconds > 1800 -> Duration.standardMinutes(8)
-        overallTimeoutInSeconds <= 0 -> Duration.standardMinutes(8)
-        else -> Duration.standardSeconds(overallTimeoutInSeconds.toLong())
-    }
+    private fun KeyDownloadParametersAndroid?.overAllTimeout(): Duration =
+        if (this == null || overallTimeoutInSeconds > 1800 || overallTimeoutInSeconds <= 0) {
+            Duration.standardMinutes(8)
+        } else {
+            Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+        }
 
-    private fun KeyDownloadParametersAndroid.mapDayEtags(): List<RevokedKeyPackage.Day> =
-        this.revokedDayPackagesList.mapNotNull {
+    private fun KeyDownloadParametersAndroid?.mapDayEtags(): List<RevokedKeyPackage.Day> {
+        if (this == null) return emptyList()
+
+        return this.revokedDayPackagesList.mapNotNull {
             try {
                 RevokedKeyPackage.Day(
                     etag = it.etag,
@@ -53,9 +61,12 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
                 null
             }
         }
+    }
 
-    private fun KeyDownloadParametersAndroid.mapHourEtags(): List<RevokedKeyPackage.Hour> =
-        this.revokedHourPackagesList.mapNotNull {
+    private fun KeyDownloadParametersAndroid?.mapHourEtags(): List<RevokedKeyPackage.Hour> {
+        if (this == null) return emptyList()
+
+        return this.revokedHourPackagesList.mapNotNull {
             try {
                 RevokedKeyPackage.Hour(
                     etag = it.etag,
@@ -68,6 +79,7 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
                 null
             }
         }
+    }
 
     data class KeyDownloadConfigContainer(
         override val individualDownloadTimeout: Duration,

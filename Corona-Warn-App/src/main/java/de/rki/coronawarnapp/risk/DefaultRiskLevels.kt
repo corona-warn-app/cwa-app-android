@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -136,9 +136,6 @@ class DefaultRiskLevels @Inject constructor(
                 "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
                     "($durationTracingIsActiveThreshold h): $it"
             )
-            if (it) {
-                Timber.tag(TAG).v("Active tracing time is not enough")
-            }
         }
     }
 
