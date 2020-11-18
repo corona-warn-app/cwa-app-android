@@ -355,18 +355,14 @@ class DefaultRiskLevels @Inject constructor(
         Timber.d("totalRiskLevel: ${totalRiskLevel.name} (${totalRiskLevel.ordinal})")
 
         // 7. Determine `Date of Most Recent Date with Low Risk`
-        val mostRecentDateWithLowRisk = mostRecentDateForRisk(
-            exposureHistory,
-            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
-        )
+        val mostRecentDateWithLowRisk =
+            exposureHistory.mostRecentDateForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW)
 
         Timber.d("mostRecentDateWithLowRisk: $mostRecentDateWithLowRisk")
 
         // 8. Determine `Date of Most Recent Date with High Risk`
-        val mostRecentDateWithHighRisk = mostRecentDateForRisk(
-            exposureHistory,
-            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
-        )
+        val mostRecentDateWithHighRisk =
+            exposureHistory.mostRecentDateForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH)
 
         Timber.d("mostRecentDateWithHighRisk: $mostRecentDateWithHighRisk")
 
@@ -382,22 +378,37 @@ class DefaultRiskLevels @Inject constructor(
 
         Timber.d("totalMinimumDistinctEncountersWithHighRisk: $totalMinimumDistinctEncountersWithHighRisk")
 
+        // 11. Determine `Number of Days With Low Risk`
+        val numberOfDaysWithLowRisk =
+            exposureHistory.numberOfDaysForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW)
+
+        Timber.d("numberOfDaysWithLowRisk: $numberOfDaysWithLowRisk")
+
+        // 12. Determine `Number of Days With High Risk`
+        val numberOfDaysWithHighRisk =
+            exposureHistory.numberOfDaysForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH)
+
+        Timber.d("numberOfDaysWithHighRisk: $numberOfDaysWithHighRisk")
+
         return AggregatedRiskResult(
             totalRiskLevel,
             totalMinimumDistinctEncountersWithLowRisk,
             totalMinimumDistinctEncountersWithHighRisk,
             mostRecentDateWithLowRisk,
-            mostRecentDateWithHighRisk
+            mostRecentDateWithHighRisk,
+            numberOfDaysWithLowRisk,
+            numberOfDaysWithHighRisk
         )
     }
 
-    private fun mostRecentDateForRisk(
-        exposureHistory: List<AggregatedRiskPerDateResult>,
-        riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
-    ): Instant? = exposureHistory
-        .filter { it.riskLevel == riskLevel }
-        .maxOfOrNull { it.dateMillisSinceEpoch }
-        ?.let { Instant.ofEpochMilli(it) }
+    private fun List<AggregatedRiskPerDateResult>.mostRecentDateForRisk(riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel): Instant? =
+        filter { it.riskLevel == riskLevel }
+            .maxOfOrNull { it.dateMillisSinceEpoch }
+            ?.let { Instant.ofEpochMilli(it) }
+
+    private fun List<AggregatedRiskPerDateResult>.numberOfDaysForRisk(riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel): Int =
+        filter { it.riskLevel == riskLevel }
+            .size
 
     private fun aggregateRiskPerDate(
         dateMillisSinceEpoch: Long,
@@ -429,18 +440,14 @@ class DefaultRiskLevels @Inject constructor(
         Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
 
         // 4. Determine `Minimum Distinct Encounters With Low Risk per Date`
-        val minimumDistinctEncountersWithLowRisk = minimumDistinctEncountersForRisk(
-            exposureWindowsAndResultForDate,
-            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
-        )
+        val minimumDistinctEncountersWithLowRisk =
+            exposureWindowsAndResultForDate.minimumDistinctEncountersForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW)
 
         Timber.d("minimumDistinctEncountersWithLowRisk: $minimumDistinctEncountersWithLowRisk")
 
         // 5. Determine `Minimum Distinct Encounters With High Risk per Date`
-        val minimumDistinctEncountersWithHighRisk = minimumDistinctEncountersForRisk(
-            exposureWindowsAndResultForDate,
-            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
-        )
+        val minimumDistinctEncountersWithHighRisk =
+            exposureWindowsAndResultForDate.minimumDistinctEncountersForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH)
 
         Timber.d("minimumDistinctEncountersWithHighRisk: $minimumDistinctEncountersWithHighRisk")
 
@@ -452,12 +459,8 @@ class DefaultRiskLevels @Inject constructor(
         )
     }
 
-    private fun minimumDistinctEncountersForRisk(
-        exposureWindowsAndResultForDate: Map<ExposureWindow, RiskResult>,
-        riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
-    ): Int =
-        exposureWindowsAndResultForDate
-            .filter { it.value.riskLevel == riskLevel }
+    private fun Map<ExposureWindow, RiskResult>.minimumDistinctEncountersForRisk(riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel): Int =
+        filter { it.value.riskLevel == riskLevel }
             .map { "${it.value.transmissionRiskLevel}_${it.key.calibrationConfidence}" }
             .distinct()
             .size
