@@ -87,7 +87,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     }
 
     private val exposureSummaryRepository by lazy {
-        AppInjector.component.exposureSummaryRepository
+        AppInjector.component.exposureResultStore
     }
 
     private var myExposureKeysJSON: String? = null

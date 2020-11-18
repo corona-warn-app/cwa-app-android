@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.storage
+package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import javax.inject.Inject
 
-class ExposureSummaryRepository @Inject constructor() {
+class ExposureResultStore @Inject constructor() {
 
     private var entities: Pair<List<ExposureWindow>, AggregatedRiskResult?> = Pair(emptyList(), null)
 

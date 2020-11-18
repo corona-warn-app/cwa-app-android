@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.SubmissionTaskModule
@@ -85,7 +85,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     val enfClient: ENFClient
 
-    val exposureSummaryRepository: ExposureSummaryRepository
+    val exposureResultStore: ExposureResultStore
 
     val encryptedPreferencesFactory: EncryptedPreferencesFactory
     val errorResetTool: EncryptionErrorResetTool

@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
@@ -36,7 +35,7 @@ typealias ProtoRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToR
 @Singleton
 class DefaultRiskLevels @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
-    private val exposureSummaryRepository: ExposureSummaryRepository
+    private val exposureResultStore: ExposureResultStore
 ) : RiskLevels {
     private var appConfig: ConfigData
 
@@ -111,7 +110,7 @@ class DefaultRiskLevels @Inject constructor(
 
         val aggregatedResult = aggregateResults(riskResultsPerWindow)
 
-        exposureSummaryRepository.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
+        exposureResultStore.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
 
         val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
 
