@@ -16,17 +16,19 @@ import de.rki.coronawarnapp.util.tryHumanReadableError
 import java.io.PrintWriter
 import java.io.StringWriter
 
-fun Throwable.report(exceptionCategory: ExceptionCategory) =
+fun Throwable.report(exceptionCategory: ExceptionCategory) {
     this.report(exceptionCategory, null, null)
+}
 
 fun Throwable.report(
     exceptionCategory: ExceptionCategory,
     prefix: String?,
     suffix: String?
 ) {
+    reportProblem(tag = prefix, info = suffix)
+
     if (CWADebug.isAUnitTest) return
 
-    reportProblem(tag = prefix, info = suffix)
     val context = CoronaWarnApplication.getAppContext()
 
     val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)

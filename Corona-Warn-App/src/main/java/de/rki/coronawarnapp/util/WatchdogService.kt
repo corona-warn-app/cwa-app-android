@@ -51,7 +51,8 @@ class WatchdogService @Inject constructor(
             val state = taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
-                    DownloadDiagnosisKeysTask.Arguments(null, true)
+                    DownloadDiagnosisKeysTask.Arguments(),
+                    originTag = "WatchdogService"
                 )
             )
             if (state.isFailed) {
