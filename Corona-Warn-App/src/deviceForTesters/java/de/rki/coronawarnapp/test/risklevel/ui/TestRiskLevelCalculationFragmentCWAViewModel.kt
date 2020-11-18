@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevels
@@ -52,7 +53,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
-    tracingCardStateProvider: TracingCardStateProvider
+    tracingCardStateProvider: TracingCardStateProvider,
+    private val exposureResultStore: ExposureResultStore
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -98,6 +100,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     AppDatabase.reset(context)
                     // Export File Reset
                     keyCacheRepository.clear()
+
+                    exposureResultStore.entities.value = Pair(emptyList(), null)
 
                     LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)

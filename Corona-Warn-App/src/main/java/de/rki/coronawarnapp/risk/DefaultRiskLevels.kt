@@ -110,7 +110,7 @@ class DefaultRiskLevels @Inject constructor(
 
         val aggregatedResult = aggregateResults(riskResultsPerWindow)
 
-        exposureResultStore.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
+        exposureResultStore.entities.value = Pair(exposureWindows, aggregatedResult)
 
         val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
 

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.ExposureDetectionParameters.ExposureDetectionParametersAndroid
 import io.kotest.matchers.shouldBe

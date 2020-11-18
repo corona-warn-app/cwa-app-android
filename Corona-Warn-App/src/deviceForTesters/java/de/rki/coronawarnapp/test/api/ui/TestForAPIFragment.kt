@@ -48,6 +48,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -165,7 +166,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = exposureSummaryRepository.exposureWindowEntities.toString()
+                    val summary = exposureSummaryRepository.entities.first().first.toString()
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)
