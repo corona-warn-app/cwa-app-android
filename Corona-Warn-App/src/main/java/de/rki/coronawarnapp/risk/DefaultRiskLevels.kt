@@ -8,7 +8,6 @@ import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
@@ -22,8 +21,6 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,20 +28,7 @@ import javax.inject.Singleton
 typealias ProtoRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 
 @Singleton
-class DefaultRiskLevels @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
-) : RiskLevels {
-    private var appConfig: ConfigData
-
-    init {
-        runBlocking {
-            appConfig = appConfigProvider.getAppConfig()
-        }
-
-        appConfigProvider.currentConfig
-            .onEach { if (it != null) appConfig = it }
-    }
-
+class DefaultRiskLevels @Inject constructor() : RiskLevels {
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
@@ -99,13 +83,13 @@ class DefaultRiskLevels @Inject constructor(
             }
         }
 
-    override fun isIncreasedRisk(exposureWindows: List<ExposureWindow>): Boolean {
+    override fun isIncreasedRisk(appConfig: ConfigData, exposureWindows: List<ExposureWindow>): Boolean {
         val riskResultsPerWindow =
             exposureWindows.mapNotNull { window ->
-                calculateRisk(window)?.let { window to it }
+                calculateRisk(appConfig, window)?.let { window to it }
             }.toMap()
 
-        val aggregatedResult = aggregateResults(riskResultsPerWindow)
+        val aggregatedResult = aggregateResults(appConfig, riskResultsPerWindow)
 
         return aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
     }
@@ -168,26 +152,24 @@ class DefaultRiskLevels @Inject constructor(
         RiskLevelRepository.setRiskLevelScore(riskLevel)
     }
 
-    private fun dropDueToMinutesAtAttenuation(
-        exposureWindow: ExposureWindow,
+    private fun ExposureWindow.dropDueToMinutesAtAttenuation(
         attenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>
     ) =
         attenuationFilters.any { attenuationFilter ->
             // Get total seconds at attenuation in exposure window
-            val secondsAtAttenuation = exposureWindow.scanInstances
+            val secondsAtAttenuation: Double = scanInstances
                 .filter { attenuationFilter.attenuationRange.inRange(it.typicalAttenuationDb) }
-                .fold(0) { acc, scanInstance -> acc + scanInstance.secondsSinceLastScan }
+                .fold(.0) { acc, scanInstance -> acc + scanInstance.secondsSinceLastScan }
 
             val minutesAtAttenuation = secondsAtAttenuation / 60
             return attenuationFilter.dropIfMinutesInRange.inRange(minutesAtAttenuation)
         }
 
-    private fun determineTransmissionRiskLevel(
-        exposureWindow: ExposureWindow,
+    private fun ExposureWindow.determineTransmissionRiskLevel(
         transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
     ): Int {
 
-        val reportTypeOffset = when (exposureWindow.reportType) {
+        val reportTypeOffset = when (reportType) {
             ReportType.RECURSIVE -> transmissionRiskLevelEncoding
                 .reportTypeOffsetRecursive
             ReportType.SELF_REPORT -> transmissionRiskLevelEncoding
@@ -199,7 +181,7 @@ class DefaultRiskLevels @Inject constructor(
             else -> throw UnknownReportTypeException()
         }
 
-        val infectiousnessOffset = when (exposureWindow.infectiousness) {
+        val infectiousnessOffset = when (infectiousness) {
             Infectiousness.HIGH -> transmissionRiskLevelEncoding
                 .infectiousnessOffsetHigh
             else -> transmissionRiskLevelEncoding
@@ -217,12 +199,11 @@ class DefaultRiskLevels @Inject constructor(
             it.dropIfTrlInRange.inRange(transmissionRiskLevel)
         }
 
-    private fun determineWeightedSeconds(
-        exposureWindow: ExposureWindow,
+    private fun ExposureWindow.determineWeightedSeconds(
         minutesAtAttenuationWeight: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>
     ): Double =
-        exposureWindow.scanInstances.fold(.0) { seconds, scanInstance ->
-            val weight =
+        scanInstances.fold(.0) { seconds, scanInstance ->
+            val weight: Double =
                 minutesAtAttenuationWeight
                     .filter { it.attenuationRange.inRange(scanInstance.typicalAttenuationDb) }
                     .map { it.weight }
@@ -240,9 +221,10 @@ class DefaultRiskLevels @Inject constructor(
             .firstOrNull()
 
     override fun calculateRisk(
+        appConfig: ConfigData,
         exposureWindow: ExposureWindow
     ): RiskResult? {
-        if (dropDueToMinutesAtAttenuation(exposureWindow, appConfig.minutesAtAttenuationFilters)) {
+        if (exposureWindow.dropDueToMinutesAtAttenuation(appConfig.minutesAtAttenuationFilters)) {
             Timber.d(
                 "%s dropped due to minutes at attenuation filter",
                 exposureWindow
@@ -250,8 +232,7 @@ class DefaultRiskLevels @Inject constructor(
             return null
         }
 
-        val transmissionRiskLevel = determineTransmissionRiskLevel(
-            exposureWindow,
+        val transmissionRiskLevel: Int = exposureWindow.determineTransmissionRiskLevel(
             appConfig.transmissionRiskLevelEncoding
         )
 
@@ -264,7 +245,7 @@ class DefaultRiskLevels @Inject constructor(
             return null
         }
 
-        val transmissionRiskValue =
+        val transmissionRiskValue: Double =
             transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
 
         Timber.d(
@@ -273,10 +254,9 @@ class DefaultRiskLevels @Inject constructor(
             transmissionRiskValue
         )
 
-        val weightedMinutes = determineWeightedSeconds(
-            exposureWindow,
+        val weightedMinutes: Double = exposureWindow.determineWeightedSeconds(
             appConfig.minutesAtAttenuationWeights
-        ) / 60
+        ) / 60f
 
         Timber.d(
             "%s's weightedMinutes are: %s",
@@ -284,7 +264,7 @@ class DefaultRiskLevels @Inject constructor(
             weightedMinutes
         )
 
-        val normalizedTime = transmissionRiskValue * weightedMinutes
+        val normalizedTime: Double = transmissionRiskValue * weightedMinutes
 
         Timber.d(
             "%s's normalizedTime is: %s",
@@ -312,6 +292,7 @@ class DefaultRiskLevels @Inject constructor(
     }
 
     override fun aggregateResults(
+        appConfig: ConfigData,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
         val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
@@ -324,7 +305,7 @@ class DefaultRiskLevels @Inject constructor(
             }"
         )
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
-            aggregateRiskPerDate(it, exposureWindowsAndResult)
+            aggregateRiskPerDate(appConfig, it, exposureWindowsAndResult)
         }
 
         Timber.d("exposureHistory size: ${exposureHistory.size}")
@@ -401,6 +382,7 @@ class DefaultRiskLevels @Inject constructor(
             .size
 
     private fun aggregateRiskPerDate(
+        appConfig: ConfigData,
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskPerDateResult {

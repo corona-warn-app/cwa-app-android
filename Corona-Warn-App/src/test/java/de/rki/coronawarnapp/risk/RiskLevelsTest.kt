@@ -23,7 +23,7 @@ class RiskLevelsTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns mockk()
         every { appConfigProvider.currentConfig } returns mockk()
 
-        riskLevels = DefaultRiskLevels(appConfigProvider)
+        riskLevels = DefaultRiskLevels()
     }
 
     @Test
