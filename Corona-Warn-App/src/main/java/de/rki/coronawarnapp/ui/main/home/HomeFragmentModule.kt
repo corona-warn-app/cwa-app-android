@@ -4,8 +4,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
@@ -15,7 +13,7 @@ abstract class HomeFragmentModule {
     @CWAViewModelKey(HomeFragmentViewModel::class)
     abstract fun homeFragment(
         factory: HomeFragmentViewModel.Factory
-    ): CWAViewModelFactory<out CWAViewModel>
+    ): HomeFragmentViewModel.HomeViewModelFactory
 
     @ContributesAndroidInjector
     abstract fun homeScreen(): HomeFragment

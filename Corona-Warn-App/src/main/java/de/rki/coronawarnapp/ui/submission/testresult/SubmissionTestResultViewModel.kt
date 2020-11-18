@@ -95,8 +95,8 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
-            submissionRepository.deleteTestGUID()
-            submissionRepository.deleteRegistrationToken()
+            SubmissionRepository.deleteTestGUID()
+            SubmissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
 

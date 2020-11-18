@@ -195,37 +195,39 @@ class SubmissionRepository @AssistedInject constructor(
         return playbook.testResult(registrationToken)
     }
 
-    fun containsValidGUID(scanResult: String): Boolean {
-        val scanResult = QRScanResult(scanResult)
-        return scanResult.isValid
-    }
-
-    fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
-
-    fun deleteTestGUID() {
-        LocalData.testGUID(null)
-    }
-
-    fun deleteRegistrationToken() {
-        LocalData.registrationToken(null)
-        LocalData.devicePairingSuccessfulTimestamp(0L)
-    }
-
-    private fun deleteTeleTAN() {
-        LocalData.teletan(null)
-    }
-
     companion object {
         fun submissionSuccessful() {
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
         }
+
+        fun containsValidGUID(scanResult: String): Boolean {
+            val scanResult = QRScanResult(scanResult)
+            return scanResult.isValid
+        }
+
+        fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
+
+        fun deleteTestGUID() {
+            LocalData.testGUID(null)
+        }
+
+        fun deleteRegistrationToken() {
+            LocalData.registrationToken(null)
+            LocalData.devicePairingSuccessfulTimestamp(0L)
+        }
+
+        private fun deleteTeleTAN() {
+            LocalData.teletan(null)
+        }
     }
 
     @AssistedInject.Factory
     interface Factory : InjectedSubmissionRepositoryFactory
+
+    interface InjectedSubmissionRepositoryFactory {
+        fun create(submissionSettings: SubmissionSettings) : SubmissionRepository
+    }
 }
 
-interface InjectedSubmissionRepositoryFactory {
-    fun create(submissionSettings: SubmissionSettings) : SubmissionRepository
-}
+

@@ -136,9 +136,9 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : InjectedWorkerFactory
+    interface Factory : LocalWorkerFactory
 
-    interface InjectedWorkerFactory {
+    interface LocalWorkerFactory {
         fun create(context: Context, workerParams: WorkerParameters, submissionRepository: SubmissionRepository): DiagnosisTestResultRetrievalPeriodicWorker
     }
 }

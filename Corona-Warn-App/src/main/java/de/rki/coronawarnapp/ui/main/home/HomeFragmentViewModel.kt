@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
@@ -124,8 +123,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun deregisterWarningAccepted() {
-        submissionRepository.deleteTestGUID()
-        submissionRepository.deleteRegistrationToken()
+        SubmissionRepository.deleteTestGUID()
+        SubmissionRepository.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
         submissionRepository.refreshDeviceUIState()
@@ -137,9 +136,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : SubmissionCWAViewModelFactory<HomeFragmentViewModel>
+    interface Factory : HomeViewModelFactory
+
+    interface HomeViewModelFactory {
+        fun create(submissionCardsStateProvider: SubmissionCardsStateProvider, submissionRepository: SubmissionRepository): HomeFragmentViewModel
+    }
 }
 
-interface SubmissionCWAViewModelFactory<T : CWAViewModel> : CWAViewModelFactory<T> {
-    fun create(submissionCardsStateProvider: SubmissionCardsStateProvider, submissionRepository: SubmissionRepository): T
-}
