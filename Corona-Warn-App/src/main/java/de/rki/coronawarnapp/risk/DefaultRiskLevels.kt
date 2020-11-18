@@ -372,12 +372,28 @@ class DefaultRiskLevels @Inject constructor(
 
         Timber.d("totalMinimumDistinctEncountersWithHighRisk: $totalMinimumDistinctEncountersWithHighRisk")
 
+        // 11. Determine `Number of Days With Low Risk`
+        val numberOfDaysWithLowRisk =
+            exposureHistory.numberOfDaysForRisk(
+                RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
+            )
+
+        Timber.d("numberOfDaysWithLowRisk: $numberOfDaysWithLowRisk")
+
+        // 12. Determine `Number of Days With High Risk`
+        val numberOfDaysWithHighRisk =
+            exposureHistory.numberOfDaysForRisk(RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH)
+
+        Timber.d("numberOfDaysWithHighRisk: $numberOfDaysWithHighRisk")
+
         return AggregatedRiskResult(
             totalRiskLevel,
             totalMinimumDistinctEncountersWithLowRisk,
             totalMinimumDistinctEncountersWithHighRisk,
             mostRecentDateWithLowRisk,
-            mostRecentDateWithHighRisk
+            mostRecentDateWithHighRisk,
+            numberOfDaysWithLowRisk,
+            numberOfDaysWithHighRisk
         )
     }
 
@@ -388,6 +404,12 @@ class DefaultRiskLevels @Inject constructor(
         .filter { it.riskLevel == riskLevel }
         .maxOfOrNull { it.dateMillisSinceEpoch }
         ?.let { Instant.ofEpochMilli(it) }
+
+    private fun List<AggregatedRiskPerDateResult>.numberOfDaysForRisk(
+        riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
+    ): Int =
+        filter { it.riskLevel == riskLevel }
+            .size
 
     private fun aggregateRiskPerDate(
         dateMillisSinceEpoch: Long,
