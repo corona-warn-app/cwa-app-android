@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import dagger.Reusable
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
@@ -11,14 +13,15 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
-import javax.inject.Inject
 
 @Reusable
-class SubmissionCardsStateProvider @Inject constructor() {
+class SubmissionCardsStateProvider @AssistedInject constructor(
+    @Assisted submissionRepository: SubmissionRepository
+) {
 
     val state: Flow<SubmissionCardState> = combine(
-        SubmissionRepository.deviceUIStateFlow,
-        SubmissionRepository.uiStateStateFlow
+        submissionRepository.deviceUIStateFlow,
+        submissionRepository.uiStateStateFlow
     ) { args ->
         SubmissionCardState(
             deviceUiState = args[0] as DeviceUIState,
@@ -29,4 +32,12 @@ class SubmissionCardsStateProvider @Inject constructor() {
         .onStart { Timber.v("SubmissionCardState FLOW start") }
         .onEach { Timber.d("SubmissionCardState FLOW emission: %s", it) }
         .onCompletion { Timber.v("SubmissionCardState FLOW completed.") }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedSubmissionCardsStateProviderFactory
+
+    interface InjectedSubmissionCardsStateProviderFactory {
+        fun create(submissionRepository: SubmissionRepository) : SubmissionCardsStateProvider
+    }
 }
+

@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
@@ -31,10 +31,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
     tracingCardStateProvider: TracingCardStateProvider,
-    private val submissionCardsStateProvider: SubmissionCardsStateProvider,
+    @Assisted private val submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository,
-    private val testResultNotificationService: TestResultNotificationService
+    private val testResultNotificationService: TestResultNotificationService,
+    @Assisted private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(settingsViewModel)
@@ -100,7 +101,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshRequiredData() {
-        SubmissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshDeviceUIState()
         // TODO the ordering here is weird, do we expect these to run in sequence?
         tracingRepository.refreshRiskLevel()
         tracingRepository.refreshExposureSummary()
@@ -123,11 +124,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun deregisterWarningAccepted() {
-        SubmissionService.deleteTestGUID()
-        SubmissionService.deleteRegistrationToken()
+        submissionRepository.deleteTestGUID()
+        submissionRepository.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
-        SubmissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshDeviceUIState()
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
@@ -136,5 +137,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
+    interface Factory : SubmissionCWAViewModelFactory<HomeFragmentViewModel>
+}
+
+interface SubmissionCWAViewModelFactory<T : CWAViewModel> : CWAViewModelFactory<T> {
+    fun create(submissionCardsStateProvider: SubmissionCardsStateProvider, submissionRepository: SubmissionRepository): T
 }

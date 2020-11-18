@@ -3,26 +3,36 @@ package de.rki.coronawarnapp.storage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import de.rki.coronawarnapp.CoronaWarnApplication
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.playbook.BackgroundNoise
+import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.verification.server.VerificationKeyType
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
+import javax.inject.Singleton
 
-object SubmissionRepository {
+@Singleton
+class SubmissionRepository @AssistedInject constructor(
+    @Assisted private val submissionSettings: SubmissionSettings,
+    private val playbook: Playbook
+) {
 
     private val appScope by lazy {
         AppInjector.component.appScope
@@ -40,8 +50,7 @@ object SubmissionRepository {
 
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
 
-    private val submissionSettings: SubmissionSettings by lazy { SubmissionSettings(CoronaWarnApplication.getAppContext()) }
-
+    // to be used by new submission flow screens
     val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow.asLiveData()
 
     fun updateConsentToSubmission(hasGivenConsent: Boolean) {
@@ -51,7 +60,7 @@ object SubmissionRepository {
     }
 
     private suspend fun fetchTestResult(): DeviceUIState = try {
-        val testResult = SubmissionService.asyncRequestTestResult()
+        val testResult = asyncRequestTestResult()
         updateTestResult(testResult)
         deriveUiState(testResult)
     } catch (err: NoRegistrationTokenSetException) {
@@ -146,4 +155,77 @@ object SubmissionRepository {
         }
         deviceUIStateFlowInternal.value = uiState
     }
+
+    // former SubmissionService
+
+    private val timeStamper: TimeStamper
+        get() = TimeStamper()
+
+    suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
+        val (registrationToken, testResult) =
+            playbook.initialRegistration(
+                guid,
+                VerificationKeyType.GUID
+            )
+        LocalData.registrationToken(registrationToken)
+        deleteTestGUID()
+        updateTestResult(testResult)
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
+        BackgroundNoise.getInstance().scheduleDummyPattern()
+        return testResult
+    }
+
+    suspend fun asyncRegisterDeviceViaTAN(tan: String) {
+        val (registrationToken, testResult) =
+            playbook.initialRegistration(
+                tan,
+                VerificationKeyType.TELETAN
+            )
+        LocalData.registrationToken(registrationToken)
+        deleteTeleTAN()
+        updateTestResult(testResult)
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
+        BackgroundNoise.getInstance().scheduleDummyPattern()
+    }
+
+    suspend fun asyncRequestTestResult(): TestResult {
+        val registrationToken =
+            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+
+        return playbook.testResult(registrationToken)
+    }
+
+    fun containsValidGUID(scanResult: String): Boolean {
+        val scanResult = QRScanResult(scanResult)
+        return scanResult.isValid
+    }
+
+    fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
+
+    fun deleteTestGUID() {
+        LocalData.testGUID(null)
+    }
+
+    fun deleteRegistrationToken() {
+        LocalData.registrationToken(null)
+        LocalData.devicePairingSuccessfulTimestamp(0L)
+    }
+
+    private fun deleteTeleTAN() {
+        LocalData.teletan(null)
+    }
+
+    companion object {
+        fun submissionSuccessful() {
+            BackgroundWorkScheduler.stopWorkScheduler()
+            LocalData.numberOfSuccessfulSubmissions(1)
+        }
+    }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedSubmissionRepositoryFactory
+}
+
+interface InjectedSubmissionRepositoryFactory {
+    fun create(submissionSettings: SubmissionSettings) : SubmissionRepository
 }

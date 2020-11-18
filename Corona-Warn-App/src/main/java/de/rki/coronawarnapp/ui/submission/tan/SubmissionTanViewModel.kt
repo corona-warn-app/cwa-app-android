@@ -2,24 +2,25 @@ package de.rki.coronawarnapp.ui.submission.tan
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.InjectedSubmissionViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTanViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    @Assisted private val submissionRepository: SubmissionRepository
 ) : CWAViewModel() {
 
     private val currentTan = MutableStateFlow(Tan(""))
@@ -47,12 +48,12 @@ class SubmissionTanViewModel @AssistedInject constructor(
             return
         }
         Timber.d("Storing teletan $teletan")
-        SubmissionRepository.setTeletan(teletan.value)
+        submissionRepository.setTeletan(teletan.value)
 
         launch {
             try {
                 registrationState.postValue(ApiRequestState.STARTED)
-                SubmissionService.asyncRegisterDeviceViaTAN(teletan.value)
+                submissionRepository.asyncRegisterDeviceViaTAN(teletan.value)
                 registrationState.postValue(ApiRequestState.SUCCESS)
             } catch (err: CwaWebException) {
                 registrationState.postValue(ApiRequestState.FAILED)
@@ -79,5 +80,5 @@ class SubmissionTanViewModel @AssistedInject constructor(
     )
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTanViewModel>
+    interface Factory : InjectedSubmissionViewModelFactory<SubmissionTanViewModel>
 }

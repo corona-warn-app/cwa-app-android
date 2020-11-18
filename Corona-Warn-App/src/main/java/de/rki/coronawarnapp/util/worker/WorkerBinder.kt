@@ -56,7 +56,7 @@ abstract class WorkerBinder {
     @WorkerKey(DiagnosisTestResultRetrievalPeriodicWorker::class)
     abstract fun testResultRetrievalPeriodic(
         factory: DiagnosisTestResultRetrievalPeriodicWorker.Factory
-    ): InjectedWorkerFactory<out ListenableWorker>
+    ): DiagnosisTestResultRetrievalPeriodicWorker.InjectedWorkerFactory
 
     @Binds
     @IntoMap

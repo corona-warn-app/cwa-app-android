@@ -1,24 +1,27 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.lifecycle.MutableLiveData
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.QRScanResult
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.InjectedSubmissionViewModelFactory
 import timber.log.Timber
 
-class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
+class SubmissionQRCodeScanViewModel @AssistedInject constructor(
+    @Assisted private val submissionRepository: SubmissionRepository
+) :
     CWAViewModel() {
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
@@ -42,7 +45,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
     private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(ApiRequestState.STARTED)
-            checkTestResult(SubmissionService.asyncRegisterDeviceViaGUID(scanResult.guid!!))
+            checkTestResult(submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!))
             registrationState.postValue(ApiRequestState.SUCCESS)
         } catch (err: CwaWebException) {
             registrationState.postValue(ApiRequestState.FAILED)
@@ -73,8 +76,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
     private fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
-            SubmissionService.deleteTestGUID()
-            SubmissionService.deleteRegistrationToken()
+            submissionRepository.deleteTestGUID()
+            submissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
 
@@ -91,5 +94,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
     }
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionQRCodeScanViewModel>
+    interface Factory : InjectedSubmissionViewModelFactory<SubmissionQRCodeScanViewModel>
 }
+

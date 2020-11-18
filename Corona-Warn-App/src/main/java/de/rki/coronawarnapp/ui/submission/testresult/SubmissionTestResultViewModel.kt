@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.ui.submission.testresult
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.InjectedSubmissionViewModelFactory
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
@@ -26,7 +26,8 @@ import timber.log.Timber
 class SubmissionTestResultViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
-    private val testResultNotificationService: TestResultNotificationService
+    private val testResultNotificationService: TestResultNotificationService,
+    @Assisted private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -37,9 +38,9 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     private val tokenErrorMutex = Mutex()
 
     val uiState: LiveData<TestResultUIState> = combineTransform(
-        SubmissionRepository.uiStateStateFlow,
-        SubmissionRepository.deviceUIStateFlow,
-        SubmissionRepository.testResultReceivedDateFlow
+        submissionRepository.uiStateStateFlow,
+        submissionRepository.deviceUIStateFlow,
+        submissionRepository.testResultReceivedDateFlow
     ) { apiRequestState, deviceUiState, resultDate ->
 
         tokenErrorMutex.withLock {
@@ -57,11 +58,11 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
-        SubmissionRepository.deviceUIStateFlow
+        submissionRepository.deviceUIStateFlow
             .first { it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
 
-    val uiStateError: LiveData<Event<CwaWebException>> = SubmissionRepository.uiStateError
+    val uiStateError: LiveData<Event<CwaWebException>> = submissionRepository.uiStateError
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
@@ -94,8 +95,8 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
-            SubmissionService.deleteTestGUID()
-            SubmissionService.deleteRegistrationToken()
+            submissionRepository.deleteTestGUID()
+            submissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
 
@@ -103,6 +104,10 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
         }
     }
 
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
+        submissionRepository.refreshDeviceUIState(refreshTestResult)
+    }
+
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultViewModel>
+    interface Factory : InjectedSubmissionViewModelFactory<SubmissionTestResultViewModel>
 }
