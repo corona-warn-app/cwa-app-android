@@ -32,7 +32,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
             android:orientation="vertical">
 
             <TextView
@@ -178,17 +177,24 @@
                 android:text="-" />
 
             <TextView
-                android:id="@+id/label_exposure_info_title"
+                android:id="@+id/label_exposure_window_title"
                 style="@style/headline6"
                 android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exposure Information" />
+                android:text="Exposure Windows" />
 
             <TextView
-                android:id="@+id/label_exposure_info"
+                android:id="@+id/label_exposure_window_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/label_exposure_windows"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
                 android:text="-" />
 
         </LinearLayout>

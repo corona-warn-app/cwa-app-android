@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import com.google.gson.Gson
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -31,6 +32,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -53,7 +55,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
-    tracingCardStateProvider: TracingCardStateProvider
+    tracingCardStateProvider: TracingCardStateProvider,
+    @BaseGson private val gson: Gson
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -118,7 +121,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         val backendParameters: String = "",
         val aggregatedRiskResult: String = "",
         val formula: String = "",
-        val exposureInfo: String = ""
+        val exposureWindowCountString: String = "",
+        val exposureWindows: String = ""
     )
 
     fun startENFObserver() {
@@ -161,6 +165,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 workState = workState.copy(backendParameters = configAsString)
 
                 workState = workState.copy(aggregatedRiskResult = aggregatedResult.toReadableString())
+
+                workState = workState.copy(exposureWindowCountString = "Retrieved ${exposureWindows.size} Exposure Windows")
+
+                workState = workState.copy(exposureWindows = gson.toJson(exposureWindows))
 
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
