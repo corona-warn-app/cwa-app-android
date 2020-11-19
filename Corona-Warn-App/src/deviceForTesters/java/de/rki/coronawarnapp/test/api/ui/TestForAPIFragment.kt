@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.api.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -10,14 +9,8 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.view.ViewCompat.generateViewId
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +27,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
@@ -46,7 +37,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -57,7 +47,6 @@ import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -72,7 +61,7 @@ import java.lang.reflect.Type
 import java.util.UUID
 import javax.inject.Inject
 
-@SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
+@SuppressWarnings("TooManyFunctions", "LongMethod")
 class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
@@ -85,7 +74,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             description = "A mix of API related test options.",
             targetId = R.id.test_for_api_fragment
         )
-        const val CONFIG_SCORE = 8
 
         fun keysToJson(keys: List<TemporaryExposureKey>): String {
             return Gson().toJson(keys).toString()
@@ -116,8 +104,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     // Data and View binding
     private val binding: FragmentTestForAPIBinding by viewBindingLazy()
 
-    private var lastSetCountries: List<String>? = null
-
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -130,75 +116,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
-
-        // Debug card
-        binding.hourlyKeyPkgMode.apply {
-            setOnClickListener { vm.setHourlyKeyPkgMode(isChecked) }
-        }
-
-        binding.backgroundNotificationsToggle.apply {
-            setOnClickListener { vm.setBackgroundNotifications(isChecked) }
-        }
-        vm.backgroundNotificationsToggleEvent.observe2(this@TestForAPIFragment) {
-            showToast("Background Notifications are activated: $it")
-        }
-        vm.debugOptionsState.observe2(this) { state ->
-            binding.apply {
-                backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-                hourlyKeyPkgMode.isChecked = state.isHourlyTestingMode
-            }
-        }
-        binding.testLogfileToggle.apply {
-            setOnClickListener { vm.setLoggerEnabled(isChecked) }
-        }
-        vm.loggerState.observe2(this) { state ->
-            binding.apply {
-                testLogfileToggle.isChecked = state.isLogging
-                testLogfileShare.setGone(!state.isLogging)
-            }
-        }
-        binding.testLogfileShare.setOnClickListener { vm.shareLogFile() }
-        vm.logShareEvent.observe2(this) { showToast("Logfile copied to $it") }
-
-        // Server environment card
-        binding.environmentToggleGroup.apply {
-            setOnCheckedChangeListener { group, checkedId ->
-                val chip = group.findViewById<RadioButton>(checkedId)
-                if (!chip.isPressed) return@setOnCheckedChangeListener
-                vm.selectEnvironmentTytpe(chip.text.toString())
-            }
-        }
-
-        vm.environmentState.observe2(this) { state ->
-            binding.apply {
-                if (environmentToggleGroup.childCount != state.available.size) {
-                    environmentToggleGroup.removeAllViews()
-                    state.available.forEach { type ->
-                        RadioButton(requireContext()).apply {
-                            id = generateViewId()
-                            text = type.rawKey
-                            layoutParams = RadioGroup.LayoutParams(
-                                RadioGroup.LayoutParams.MATCH_PARENT,
-                                RadioGroup.LayoutParams.WRAP_CONTENT
-                            )
-                            environmentToggleGroup.addView(this)
-                        }
-                    }
-                }
-
-                environmentToggleGroup.children.forEach {
-                    it as RadioButton
-                    it.isChecked = it.text == state.current.rawKey
-                }
-
-                environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
-                environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
-                environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
-            }
-        }
-        vm.environmentChangeEvent.observe2(this) {
-            showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
-        }
 
         // GMS Info card
         vm.gmsState.observe2(this) { state ->
@@ -287,87 +204,12 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 }
             }
         }
-
-        // Country benchmark card
-        // Load countries from App config and update Country UI element states
-        lifecycleScope.launch {
-            lastSetCountries =
-                ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                    .supportedCountriesList
-
-            binding.inputCountryCodesEditText.setText(
-                lastSetCountries?.joinToString(",")
-            )
-
-            updateCountryStatusLabel()
-        }
-        binding.buttonFilterCountryCodes.setOnClickListener { filterCountryCodes() }
-        binding.buttonRetrieveDiagnosisKeysAndCalcRiskLevel.setOnClickListener {
-            startKeyRetrievalAndRiskCalcBenchmark()
-        }
-
-        binding.inputMeasureRiskKeyRepeatCount.setOnEditorActionListener { v, actionCode, event ->
-            if (actionCode == EditorInfo.IME_ACTION_DONE) {
-                startKeyRetrievalAndRiskCalcBenchmark()
-            }
-            false
-        }
     }
 
     override fun onResume() {
         super.onResume()
 
         updateExposureSummaryDisplay(null)
-    }
-
-    private fun startKeyRetrievalAndRiskCalcBenchmark() {
-        hideKeyboard()
-        lifecycleScope.launch {
-            val repeatCount =
-                binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
-            context?.let {
-                RiskLevelAndKeyRetrievalBenchmark(
-                    it,
-                    lastSetCountries ?: listOf("DE")
-                ).start(repeatCount) { status ->
-                    binding.labelTestApiMeasureCalcKeyStatus.text = status
-                }
-            }
-        }
-    }
-
-    private fun filterCountryCodes() {
-        hideKeyboard()
-        // Get user input country codes
-        val rawCountryCodes = binding.inputCountryCodesEditText.text.toString()
-
-        // Country codes can be separated by space or ,
-        val countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
-
-        lastSetCountries = countryCodes
-
-        // Trigger asyncFetchFiles which will use all Countries passed as parameter
-        lifecycleScope.launch {
-            val locationCodes = countryCodes.map { LocationCode(it) }
-            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(locationCodes)
-            updateCountryStatusLabel()
-        }
-    }
-
-    private fun hideKeyboard() {
-        activity?.currentFocus.let {
-            val inputManager =
-                context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(it?.windowToken, 0)
-        }
-    }
-
-    /**
-     * Updates the Label for country filter
-     */
-    private fun updateCountryStatusLabel() {
-        binding.labelCountryCodeFilterStatus.text = "Country filter applied for: \n " +
-            "${lastSetCountries?.joinToString(",")}"
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -469,7 +311,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     enfClient.provideDiagnosisKeys(
                         googleFileList,
-                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
+                        AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")

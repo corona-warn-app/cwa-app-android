@@ -88,7 +88,8 @@ class TestCollector<T>(
         }
     }
 
-    suspend fun awaitFinal() = apply {
+    suspend fun awaitFinal(cancel: Boolean = false) = apply {
+        if (cancel) cancel()
         try {
             job.join()
         } catch (e: Exception) {

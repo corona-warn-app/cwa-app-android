@@ -78,7 +78,7 @@ class DefaultPlaybook @Inject constructor(
         return testResult?.let { TestResult.fromInt(it) } ?: propagateException(exception)
     }
 
-    override suspend fun submission(
+    override suspend fun submit(
         data: Playbook.SubmissionData
     ) {
         Timber.i("[$uid] New Submission Playbook")

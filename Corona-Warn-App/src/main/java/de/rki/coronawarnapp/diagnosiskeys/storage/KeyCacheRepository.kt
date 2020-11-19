@@ -24,6 +24,9 @@ import android.database.sqlite.SQLiteConstraintException
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.LocalDate
@@ -74,23 +77,32 @@ class KeyCacheRepository @Inject constructor(
     }
 
     private suspend fun doHouseKeeping() {
-        val dirtyInfos = getDao().getAllEntries().filter {
-            it.isDownloadComplete && !getPathForKey(it).exists()
+        val dirtyInfos = getAllCachedKeys().filter {
+            it.info.isDownloadComplete && !it.path.exists()
         }
         Timber.v("HouseKeeping, deleting: %s", dirtyInfos)
-        delete(dirtyInfos)
+        delete(dirtyInfos.map { it.info })
     }
+
+    private fun CachedKeyInfo.toCachedKey(): CachedKey = CachedKey(
+        info = this,
+        path = getPathForKey(this)
+    )
 
     fun getPathForKey(cachedKeyInfo: CachedKeyInfo): File {
         return File(storageDir, cachedKeyInfo.fileName)
     }
 
-    suspend fun getAllCachedKeys(): List<Pair<CachedKeyInfo, File>> {
-        return getDao().getAllEntries().map { it to getPathForKey(it) }
+    suspend fun getAllCachedKeys(): List<CachedKey> {
+        return allCachedKeys().first()
     }
 
-    suspend fun getEntriesForType(type: CachedKeyInfo.Type): List<Pair<CachedKeyInfo, File>> {
-        return getDao().getEntriesForType(type.typeValue).map { it to getPathForKey(it) }
+    suspend fun allCachedKeys(): Flow<List<CachedKey>> {
+        return getDao().allEntries().map { entries -> entries.map { it.toCachedKey() } }
+    }
+
+    suspend fun getEntriesForType(type: CachedKeyInfo.Type): List<CachedKey> {
+        return getDao().getEntriesForType(type.typeValue).map { it.toCachedKey() }
     }
 
     suspend fun createCacheEntry(
@@ -98,8 +110,8 @@ class KeyCacheRepository @Inject constructor(
         location: LocationCode,
         dayIdentifier: LocalDate,
         hourIdentifier: LocalTime?
-    ): Pair<CachedKeyInfo, File> {
-        val newKeyFile = CachedKeyInfo(
+    ): CachedKey {
+        val keyInfo = CachedKeyInfo(
             type = type,
             location = location,
             day = dayIdentifier,
@@ -107,19 +119,19 @@ class KeyCacheRepository @Inject constructor(
             createdAt = timeStamper.nowUTC
         )
 
-        val targetFile = getPathForKey(newKeyFile)
+        val targetFile = getPathForKey(keyInfo)
 
         try {
-            getDao().insertEntry(newKeyFile)
+            getDao().insertEntry(keyInfo)
             if (targetFile.exists()) {
                 Timber.w("Target path despite no collision exists, deleting: %s", targetFile)
             }
         } catch (e: SQLiteConstraintException) {
-            Timber.e(e, "Insertion collision? Overwriting for %s", newKeyFile)
-            delete(listOf(newKeyFile))
+            Timber.e(e, "Insertion collision? Overwriting for %s", keyInfo)
+            delete(listOf(keyInfo))
 
-            Timber.d(e, "Retrying insertion for %s", newKeyFile)
-            getDao().insertEntry(newKeyFile)
+            Timber.d(e, "Retrying insertion for %s", keyInfo)
+            getDao().insertEntry(keyInfo)
         }
 
         // This can't be null unless our cache dir is root `/`
@@ -129,11 +141,11 @@ class KeyCacheRepository @Inject constructor(
             targetParent.mkdirs()
         }
 
-        return newKeyFile to targetFile
+        return CachedKey(info = keyInfo, path = targetFile)
     }
 
-    suspend fun markKeyComplete(cachedKeyInfo: CachedKeyInfo, checksumMD5: String) {
-        val update = cachedKeyInfo.toDownloadUpdate(checksumMD5)
+    suspend fun markKeyComplete(cachedKeyInfo: CachedKeyInfo, etag: String) {
+        val update = cachedKeyInfo.toDownloadUpdate(etag)
         getDao().updateDownloadState(update)
     }
 
@@ -149,6 +161,6 @@ class KeyCacheRepository @Inject constructor(
 
     suspend fun clear() {
         Timber.i("clear()")
-        delete(getDao().getAllEntries())
+        delete(getDao().allEntries().first())
     }
 }

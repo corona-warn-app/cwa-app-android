@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -33,12 +34,18 @@ class SubmissionCardStateTest : BaseTest() {
     private fun instance(
         deviceUiState: DeviceUIState = mockk(),
         isDeviceRegistered: Boolean = true,
-        uiStateState: ApiRequestState = mockk()
-    ) = SubmissionCardState(
-        deviceUiState = deviceUiState,
-        isDeviceRegistered = isDeviceRegistered,
-        uiStateState = uiStateState
-    )
+        uiStateState: ApiRequestState = ApiRequestState.SUCCESS
+    ) =
+        when (uiStateState) {
+            ApiRequestState.SUCCESS ->
+                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered)
+            ApiRequestState.FAILED ->
+                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered)
+            ApiRequestState.STARTED ->
+                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered)
+            ApiRequestState.IDLE ->
+                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered)
+        }
 
     @Test
     fun `risk card visibility`() {
@@ -163,7 +170,7 @@ class SubmissionCardStateTest : BaseTest() {
             isFetchingCardVisible() shouldBe false
         }
         instance(isDeviceRegistered = true, uiStateState = ApiRequestState.FAILED).apply {
-            isFetchingCardVisible() shouldBe true
+            isFetchingCardVisible() shouldBe false
         }
     }
 

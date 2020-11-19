@@ -31,7 +31,6 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
         internalProgress.close()
     }
 
-    @Suppress("MagicNumber")
     private suspend fun runSafely(arguments: Arguments): Result {
         for (it in 1..10) {
             internalProgress.send(DefaultProgress("${arguments.prefix}: ${Instant.now()}"))
@@ -65,7 +64,8 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
         private val taskByDagger: Provider<TestTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config()
+
         override val taskProvider: () -> Task<DefaultProgress, Result> = {
             taskByDagger.get()
         }

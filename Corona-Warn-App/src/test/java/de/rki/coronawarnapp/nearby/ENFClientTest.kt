@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
@@ -37,13 +37,13 @@ class ENFClientTest : BaseTest() {
     @MockK lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
     @MockK lateinit var tracingStatus: TracingStatus
     @MockK lateinit var scanningSupport: ScanningSupport
-    @MockK lateinit var calculationTracker: CalculationTracker
+    @MockK lateinit var exposureDetectionTracker: ExposureDetectionTracker
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
-        every { calculationTracker.trackNewCalaculation(any()) } just Runs
+        every { exposureDetectionTracker.trackNewExposureDetection(any()) } just Runs
     }
 
     @AfterEach
@@ -56,7 +56,7 @@ class ENFClientTest : BaseTest() {
         diagnosisKeyProvider = diagnosisKeyProvider,
         tracingStatus = tracingStatus,
         scanningSupport = scanningSupport,
-        calculationTracker = calculationTracker
+        exposureDetectionTracker = exposureDetectionTracker
     )
 
     @Test
@@ -135,14 +135,14 @@ class ENFClientTest : BaseTest() {
     @Test
     fun `calculation state depends on the last started calculation`() {
         runBlocking {
-            every { calculationTracker.calculations } returns flowOf(
+            every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
-                    "1" to Calculation(
+                    "1" to TrackedExposureDetection(
                         identifier = "1",
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH
                     ),
-                    "2" to Calculation(
+                    "2" to TrackedExposureDetection(
                         identifier = "2",
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH.plus(1)
@@ -150,17 +150,17 @@ class ENFClientTest : BaseTest() {
                 )
             )
 
-            createClient().isCurrentlyCalculating().first() shouldBe false
+            createClient().isPerformingExposureDetection().first() shouldBe false
         }
 
         runBlocking {
-            every { calculationTracker.calculations } returns flowOf(
+            every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
-                    "1" to Calculation(
+                    "1" to TrackedExposureDetection(
                         identifier = "1",
-                        startedAt = Instant.EPOCH.plus(5),
+                        startedAt = Instant.EPOCH.plus(5)
                     ),
-                    "2" to Calculation(
+                    "2" to TrackedExposureDetection(
                         identifier = "2",
                         startedAt = Instant.EPOCH.plus(4),
                         finishedAt = Instant.EPOCH.plus(1)
@@ -168,102 +168,101 @@ class ENFClientTest : BaseTest() {
                 )
             )
 
-            createClient().isCurrentlyCalculating().first() shouldBe true
+            createClient().isPerformingExposureDetection().first() shouldBe true
         }
 
         runBlocking {
-            every { calculationTracker.calculations } returns flowOf(
+            every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
-                    "1" to Calculation(
+                    "1" to TrackedExposureDetection(
                         identifier = "1",
-                        startedAt = Instant.EPOCH,
+                        startedAt = Instant.EPOCH
                     ),
-                    "2" to Calculation(
+                    "2" to TrackedExposureDetection(
                         identifier = "2",
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH.plus(2)
                     ),
-                    "3" to Calculation(
+                    "3" to TrackedExposureDetection(
                         identifier = "3",
                         startedAt = Instant.EPOCH.plus(1)
                     )
                 )
             )
 
-            createClient().isCurrentlyCalculating().first() shouldBe true
+            createClient().isPerformingExposureDetection().first() shouldBe true
         }
     }
 
     @Test
     fun `validate that we only get the last finished calcluation`() {
         runBlocking {
-            every { calculationTracker.calculations } returns flowOf(
+            every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
-                    "1" to Calculation(
+                    "1" to TrackedExposureDetection(
                         identifier = "1",
                         startedAt = Instant.EPOCH,
-                        result = Calculation.Result.UPDATED_STATE,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH
                     ),
-                    "2" to Calculation(
+                    "2" to TrackedExposureDetection(
                         identifier = "2",
                         startedAt = Instant.EPOCH,
-                        result = Calculation.Result.UPDATED_STATE,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH.plus(1)
                     ),
-                    "2-timeout" to Calculation(
+                    "2-timeout" to TrackedExposureDetection(
                         identifier = "2-timeout",
                         startedAt = Instant.EPOCH,
-                        result = Calculation.Result.TIMEOUT,
+                        result = TrackedExposureDetection.Result.TIMEOUT,
                         finishedAt = Instant.EPOCH.plus(2)
                     ),
-                    "3" to Calculation(
+                    "3" to TrackedExposureDetection(
                         identifier = "3",
-                        result = Calculation.Result.UPDATED_STATE,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
                         startedAt = Instant.EPOCH.plus(2)
                     )
                 )
             )
 
-            createClient().latestFinishedCalculation().first()!!.identifier shouldBe "2"
+            createClient().lastSuccessfulTrackedExposureDetection().first()!!.identifier shouldBe "2"
         }
 
         runBlocking {
-            every { calculationTracker.calculations } returns flowOf(
+            every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
-                    "0" to Calculation(
+                    "0" to TrackedExposureDetection(
                         identifier = "1",
-                        result = Calculation.Result.UPDATED_STATE,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
                         startedAt = Instant.EPOCH.plus(3)
                     ),
-                    "1-timeout" to Calculation(
+                    "1-timeout" to TrackedExposureDetection(
                         identifier = "1-timeout",
                         startedAt = Instant.EPOCH,
-                        result = Calculation.Result.TIMEOUT,
+                        result = TrackedExposureDetection.Result.TIMEOUT,
                         finishedAt = Instant.EPOCH.plus(3)
                     ),
-                    "1" to Calculation(
+                    "1" to TrackedExposureDetection(
                         identifier = "1",
                         startedAt = Instant.EPOCH,
-                        result = Calculation.Result.UPDATED_STATE,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH.plus(2)
                     ),
-                    "2" to Calculation(
+                    "2" to TrackedExposureDetection(
                         identifier = "2",
-                        result = Calculation.Result.UPDATED_STATE,
-                        startedAt = Instant.EPOCH,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
+                        startedAt = Instant.EPOCH
                     ),
-                    "3" to Calculation(
+                    "3" to TrackedExposureDetection(
                         identifier = "3",
                         startedAt = Instant.EPOCH,
-                        result = Calculation.Result.UPDATED_STATE,
+                        result = TrackedExposureDetection.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH
                     )
                 )
             )
 
-            createClient().latestFinishedCalculation().first()!!.identifier shouldBe "1"
+            createClient().lastSuccessfulTrackedExposureDetection().first()!!.identifier shouldBe "1"
         }
     }
 }
-

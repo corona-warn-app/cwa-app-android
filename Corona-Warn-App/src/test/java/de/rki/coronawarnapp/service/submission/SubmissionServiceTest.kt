@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.service.submission
 
-import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -52,7 +50,6 @@ class SubmissionServiceTest {
         mockkObject(BackgroundNoise.Companion)
         every { BackgroundNoise.getInstance() } returns backgroundNoise
 
-        mockkObject(SubmitDiagnosisKeysTransaction)
         mockkObject(LocalData)
 
         mockkObject(SubmissionRepository)
@@ -66,13 +63,6 @@ class SubmissionServiceTest {
     @AfterEach
     fun cleanUp() {
         clearAllMocks()
-    }
-
-    @Test
-    fun registerDeviceWithoutTANOrGUIDFails(): Unit = runBlocking {
-        shouldThrow<NoGUIDOrTANSetException> {
-            SubmissionService.asyncRegisterDevice()
-        }
     }
 
     @Test
@@ -91,7 +81,7 @@ class SubmissionServiceTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDeviceViaGUID(guid)
         }
 
         verify(exactly = 1) {
@@ -119,7 +109,7 @@ class SubmissionServiceTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDeviceViaTAN(guid)
         }
 
         verify(exactly = 1) {
@@ -145,29 +135,6 @@ class SubmissionServiceTest {
 
         runBlocking {
             SubmissionService.asyncRequestTestResult() shouldBe TestResult.NEGATIVE
-        }
-    }
-
-    @Test
-    fun submitExposureKeysWithoutRegistrationTokenFails(): Unit = runBlocking {
-        shouldThrow<NoRegistrationTokenSetException> {
-            SubmissionService.asyncSubmitExposureKeys(listOf(), symptoms)
-        }
-    }
-
-    @Test
-    fun submitExposureKeysSucceeds() {
-        every { LocalData.registrationToken() } returns registrationToken
-        coEvery {
-            SubmitDiagnosisKeysTransaction.start(
-                registrationToken,
-                any(),
-                symptoms
-            )
-        } just Runs
-
-        runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf(), symptoms)
         }
     }
 

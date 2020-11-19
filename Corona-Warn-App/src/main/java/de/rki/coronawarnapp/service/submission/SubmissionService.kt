@@ -1,14 +1,11 @@
 package de.rki.coronawarnapp.service.submission
 
-import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
@@ -19,47 +16,34 @@ object SubmissionService {
     private val playbook: Playbook
         get() = AppInjector.component.playbook
 
-    suspend fun asyncRegisterDevice() {
-        val testGUID = LocalData.testGUID()
-        val testTAN = LocalData.teletan()
+    private val timeStamper: TimeStamper
+        get() = TimeStamper()
 
-        when {
-            testGUID != null -> asyncRegisterDeviceViaGUID(testGUID)
-            testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
-            else -> throw NoGUIDOrTANSetException()
-        }
-        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
-        BackgroundNoise.getInstance().scheduleDummyPattern()
-    }
-
-    private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
+    suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val (registrationToken, testResult) =
             playbook.initialRegistration(
                 guid,
                 VerificationKeyType.GUID
             )
-
         LocalData.registrationToken(registrationToken)
         deleteTestGUID()
         SubmissionRepository.updateTestResult(testResult)
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
+        BackgroundNoise.getInstance().scheduleDummyPattern()
+        return testResult
     }
 
-    private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
+    suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val (registrationToken, testResult) =
             playbook.initialRegistration(
                 tan,
                 VerificationKeyType.TELETAN
             )
-
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
         SubmissionRepository.updateTestResult(testResult)
-    }
-
-    suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>, symptoms: Symptoms) {
-        val registrationToken =
-            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        SubmitDiagnosisKeysTransaction.start(registrationToken, keys, symptoms)
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
+        BackgroundNoise.getInstance().scheduleDummyPattern()
     }
 
     suspend fun asyncRequestTestResult(): TestResult {

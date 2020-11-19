@@ -247,6 +247,13 @@ jobs:
           name: Decrypt Keystore
           command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
       - run:
+          name: Prepare commit hash
+          command: |
+            commit_hash=$(echo $CIRCLE_SHA1 | cut -c1-5)
+            echo $commit_hash
+            echo "" >> "./gradle.properties"
+            echo "commit_hash=$commit_hash" >> "./gradle.properties"
+      - run:
           name: Prepare keystore properties for Signing
           command: |
             echo "" >> "./keystore.properties"
@@ -265,6 +272,13 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+      - run:
+          name: Send to T-System
+          command: |
+            fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
+            curl --location --request POST $tsystems_upload_url \
+            --header "Authorization: Bearer $tsystems_upload_bearer" \
+            --form "file=@${fileName}" \
 workflows:
   version: 2
   quick_build:

@@ -11,10 +11,10 @@ object CWADebug {
     fun init(application: Application) {
         if (isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
-        if (BuildConfig.DEBUG) {
+        if (isDeviceForTestersBuild) {
             Timber.plant(Timber.DebugTree())
         }
-        if ((buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS || BuildConfig.DEBUG)) {
+        if (isDeviceForTestersBuild) {
             fileLogger = FileLogger(application)
         }
     }
@@ -30,5 +30,14 @@ object CWADebug {
     enum class BuildFlavor(val rawValue: String) {
         DEVICE("device"),
         DEVICE_FOR_TESTERS("deviceForTesters")
+    }
+
+    val isAUnitTest: Boolean by lazy {
+        try {
+            Class.forName("testhelpers.IsAUnitTest")
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 }

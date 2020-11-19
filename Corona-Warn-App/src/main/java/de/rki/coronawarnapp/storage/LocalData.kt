@@ -5,9 +5,11 @@ import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import java.util.Date
 
 /**
@@ -399,6 +401,12 @@ object LocalData {
         return Date(time)
     }
 
+    fun lastTimeDiagnosisKeysFromServerFetchFlow() =
+        getSharedPreferenceInstance()
+            .createFlowPreference<Long?>(CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_timestamp_diagnosis_keys_fetch), 0L).flow
+            .map { if (it != null && it != 0L) Date(it) else null }
+
     /**
      * Sets the last time the server fetched the diagnosis keys from the server as Date object
      * from the EncryptedSharedPrefs
@@ -505,6 +513,13 @@ object LocalData {
         set(value) = getSharedPreferenceInstance().edit(true) {
             putBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, value)
             isNotificationsTestEnabledFlowInternal.value = value
+        }
+
+    private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
+    var numberOfRemainingPositiveTestResultReminders: Int
+        get() = getSharedPreferenceInstance().getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
+        set(value) = getSharedPreferenceInstance().edit(true) {
+            putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)
         }
 
     /**

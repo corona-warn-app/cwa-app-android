@@ -11,8 +11,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+            name="showRiskStatusCard"
+            type="Boolean" />
 
         <variable
             name="settingsViewModel"
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
+                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
                 android:focusable="true"
                 android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
                 android:backgroundTintMode="src_over">
@@ -189,21 +189,6 @@
                 android:id="@+id/label_exposure_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/label_full_config_title"
-                style="@style/headline6"
-                android:accessibilityHeading="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Full Backend Configuration" />
-
-            <TextView
-                android:id="@+id/label_full_config"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_normal"
                 android:text="-" />
 
         </LinearLayout>

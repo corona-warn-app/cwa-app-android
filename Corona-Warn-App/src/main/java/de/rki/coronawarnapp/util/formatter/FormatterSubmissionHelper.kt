@@ -8,11 +8,13 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 import java.util.Locale
@@ -49,39 +51,37 @@ fun isEnableSymptomCalendarButtonByState(currentState: Symptoms.StartOf?): Boole
     return currentState != null
 }
 
-fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
-    formatVisibility(uiStateState != ApiRequestState.SUCCESS)
-
-fun formatTestResultVisible(uiStateState: ApiRequestState?): Int =
-    formatVisibility(uiStateState == ApiRequestState.SUCCESS)
-
-fun formatSubmitButtonEnabled(apiRequestState: ApiRequestState) =
-    apiRequestState == ApiRequestState.IDLE || apiRequestState == ApiRequestState.FAILED
-
-fun formatSubmitSpinnerVisible(apiRequestState: ApiRequestState) =
-    formatVisibility(apiRequestState == ApiRequestState.STARTED)
-
-fun formatTestResultStatusText(uiState: DeviceUIState?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.test_result_card_status_negative)
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getString(R.string.test_result_card_status_positive)
-        else -> appContext.getString(R.string.test_result_card_status_invalid)
+fun formatTestResultSpinnerVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.VISIBLE) {
+        View.GONE
     }
-}
 
-fun formatTestResultStatusColor(uiState: DeviceUIState?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorTextSemanticGreen)
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorTextSemanticRed)
-        else -> appContext.getColor(R.color.colorTextSemanticRed)
+fun formatTestResultVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.GONE) {
+        View.VISIBLE
     }
-}
 
-fun formatTestResult(uiState: DeviceUIState?): Spannable {
+fun formatTestResultStatusText(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): String =
+    uiState.withSuccess(R.string.test_result_card_status_invalid) {
+        when (it) {
+            DeviceUIState.PAIRED_NEGATIVE -> R.string.test_result_card_status_negative
+            DeviceUIState.PAIRED_POSITIVE,
+            DeviceUIState.PAIRED_POSITIVE_TELETAN -> R.string.test_result_card_status_positive
+            else -> R.string.test_result_card_status_invalid
+        }
+    }.let { CoronaWarnApplication.getAppContext().getString(it) }
+
+fun formatTestResultStatusColor(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(R.color.colorTextSemanticRed) {
+        when (it) {
+            DeviceUIState.PAIRED_NEGATIVE -> R.color.colorTextSemanticGreen
+            DeviceUIState.PAIRED_POSITIVE,
+            DeviceUIState.PAIRED_POSITIVE_TELETAN -> R.color.colorTextSemanticRed
+            else -> R.color.colorTextSemanticRed
+        }
+    }.let { CoronaWarnApplication.getAppContext().getColor(it) }
+
+fun formatTestResult(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
     val appContext = CoronaWarnApplication.getAppContext()
     return SpannableStringBuilder()
         .append(appContext.getString(R.string.test_result_card_virus_name_text))
@@ -93,33 +93,36 @@ fun formatTestResult(uiState: DeviceUIState?): Spannable {
         )
 }
 
-fun formatTestResultCardContent(uiState: DeviceUIState?): Spannable {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NO_RESULT ->
-            SpannableString(appContext.getString(R.string.test_result_card_status_pending))
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED ->
-            SpannableString(appContext.getString(R.string.test_result_card_status_invalid))
+fun formatTestResultCardContent(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
+    return uiState.withSuccess(SpannableString("")) {
+        val appContext = CoronaWarnApplication.getAppContext()
+        when (it) {
+            DeviceUIState.PAIRED_NO_RESULT ->
+                SpannableString(appContext.getString(R.string.test_result_card_status_pending))
+            DeviceUIState.PAIRED_ERROR,
+            DeviceUIState.PAIRED_REDEEMED ->
+                SpannableString(appContext.getString(R.string.test_result_card_status_invalid))
 
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
-        else -> SpannableString("")
+            DeviceUIState.PAIRED_POSITIVE,
+            DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+            else -> SpannableString("")
+        }
     }
 }
 
-fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_POSITIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_positive)
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_negative)
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
-        else -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
-    }
+fun formatTestStatusIcon(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Drawable? {
+    return uiState.withSuccess(R.drawable.ic_test_result_illustration_invalid) {
+        when (it) {
+            DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
+            DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
+            DeviceUIState.PAIRED_NEGATIVE -> R.drawable.ic_test_result_illustration_negative
+            DeviceUIState.PAIRED_ERROR,
+            DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
+            else -> R.drawable.ic_test_result_illustration_invalid
+        }
+    }.let { CoronaWarnApplication.getAppContext().getDrawable(it) }
 }
 
 fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
@@ -128,24 +131,30 @@ fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
         .format(registeredAt?.toUIFormat(appContext))
 }
 
-fun formatTestResultPendingStepsVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_NO_RESULT)
+fun formatTestResultPendingStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.GONE) { formatVisibility(it == DeviceUIState.PAIRED_NO_RESULT) }
 
-fun formatTestResultNegativeStepsVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_NEGATIVE)
+fun formatTestResultNegativeStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.GONE) { formatVisibility(it == DeviceUIState.PAIRED_NEGATIVE) }
 
-fun formatTestResultPositiveStepsVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_POSITIVE || uiState == DeviceUIState.PAIRED_POSITIVE_TELETAN)
+fun formatTestResultPositiveStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.GONE) {
+        formatVisibility(it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN)
+    }
 
-fun formatTestResultInvalidStepsVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_ERROR || uiState == DeviceUIState.PAIRED_REDEEMED)
+fun formatTestResultInvalidStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.GONE) {
+        formatVisibility(it == DeviceUIState.PAIRED_ERROR || it == DeviceUIState.PAIRED_REDEEMED)
+    }
 
-fun formatShowRiskStatusCard(deviceUiState: DeviceUIState?): Int =
-    formatVisibility(
-        deviceUiState != DeviceUIState.PAIRED_POSITIVE &&
-                deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
-                deviceUiState != DeviceUIState.SUBMITTED_FINAL
-    )
+fun formatShowRiskStatusCard(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
+    uiState.withSuccess(View.GONE) {
+        formatVisibility(
+            it != DeviceUIState.PAIRED_POSITIVE &&
+                it != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
+                it != DeviceUIState.SUBMITTED_FINAL
+        )
+    }
 
 fun formatCountryIsoTagToLocalizedName(isoTag: String?): String {
     val country = if (isoTag != null) Locale("", isoTag).displayCountry else ""

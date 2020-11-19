@@ -6,9 +6,10 @@ import java.util.UUID
 import kotlin.reflect.KClass
 
 data class DefaultTaskRequest(
-    override val id: UUID = UUID.randomUUID(),
     override val type: KClass<out Task<Task.Progress, Task.Result>>,
-    override val arguments: Task.Arguments
+    override val arguments: Task.Arguments = object : Task.Arguments {},
+    override val id: UUID = UUID.randomUUID(),
+    val originTag: String? = null
 ) : TaskRequest {
 
     fun toNewTask(): DefaultTaskRequest = copy(id = UUID.randomUUID())

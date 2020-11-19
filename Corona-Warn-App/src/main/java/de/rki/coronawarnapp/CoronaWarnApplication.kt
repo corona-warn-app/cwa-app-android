@@ -7,14 +7,17 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.work.Configuration
 import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
+import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ForegroundState
@@ -35,11 +38,16 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var component: ApplicationComponent
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     @Inject lateinit var watchdogService: WatchdogService
     @Inject lateinit var taskController: TaskController
     @Inject lateinit var foregroundState: ForegroundState
+    @Inject lateinit var workManager: WorkManager
+    @Inject lateinit var configChangeDetector: ConfigChangeDetector
+    @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
         instance = this
@@ -49,10 +57,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("onCreate(): Initializing Dagger")
         AppInjector.init(this)
 
-        Timber.v("onCreate(): Initializing WorkManager")
-        Configuration.Builder()
-            .apply { setMinimumLoggingLevel(android.util.Log.DEBUG) }.build()
-            .let { WorkManager.initialize(this, it) }
+        Timber.plant(rollingLogHistory)
+
+        Timber.v("onCreate(): WorkManager setup done: $workManager")
 
         NotificationHelper.createNotificationChannel()
 
@@ -70,6 +77,12 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
+
+        if (LocalData.onboardingCompletedTimestamp() != null) {
+            deadmanNotificationScheduler.schedulePeriodic()
+        }
+
+        configChangeDetector.launch()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

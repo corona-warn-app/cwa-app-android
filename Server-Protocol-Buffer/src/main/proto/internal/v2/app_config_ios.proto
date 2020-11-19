@@ -1,0 +1,58 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/app_features.proto";
+import "internal/v2/exposure_detection_parameters.proto";
+import "internal/v2/key_download_parameters.proto";
+import "internal/v2/risk_calculation_parameters.proto";
+import "internal/v2/semantic_version.proto";
+
+message ApplicationConfigurationIOS {
+
+  SemanticVersion minVersion = 1;
+  SemanticVersion latestVersion = 2;
+
+  AppFeatures appFeatures = 3;
+
+  repeated string supportedCountries = 4;
+
+  KeyDownloadParametersIOS keyDownloadParameters = 5;
+
+  ExposureDetectionParametersIOS exposureDetectionParameters = 6;
+
+  RiskCalculationParameters riskCalculationParameters = 7;
+
+  ExposureConfiguration exposureConfiguration = 8;
+}
+
+message ExposureConfiguration {
+  
+  map<int32, int32> infectiousnessForDaysSinceOnsetOfSymptoms = 1;
+
+  int32 reportTypeNoneMap = 2;
+
+  repeated int32 attenuationDurationThresholds = 3;
+
+  double immediateDurationWeight = 4;
+
+  double mediumDurationWeight = 5;
+
+  double nearDurationWeight = 6;
+
+  double otherDurationWeight = 7;
+
+  int32 daysSinceLastExposureThreshold = 8;
+
+  double infectiousnessStandardWeight = 9;
+
+  double infectiousnessHighWeight = 10;
+
+  double reportTypeConfirmedTestWeight = 11;
+
+  double reportTypeConfirmedClinicalDiagnosisWeight = 12;
+
+  double reportTypeSelfReportedWeight = 13;
+
+  double reportTypeRecursiveWeight = 14;
+}

@@ -50,15 +50,15 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     @Test
     fun `download country index`() {
         val downloadServer = createDownloadServer()
-        coEvery { api.getCountryIndex() } returns listOf("DE", "NL")
+        coEvery { api.getLocationIndex() } returns listOf("DE", "NL")
 
         runBlocking {
-            downloadServer.getCountryIndex() shouldBe listOf(
+            downloadServer.getLocationIndex() shouldBe listOf(
                 LocationCode("DE"), LocationCode("NL")
             )
         }
 
-        coVerify { api.getCountryIndex() }
+        coVerify { api.getLocationIndex() }
     }
 
     @Test

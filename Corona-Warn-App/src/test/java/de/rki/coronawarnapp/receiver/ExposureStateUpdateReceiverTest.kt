@@ -8,16 +8,17 @@ import androidx.work.WorkRequest
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.util.di.AppInjector
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import io.mockk.verifySequence
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.AfterEach
@@ -35,7 +36,8 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
 
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
-    @MockK private lateinit var calculationTracker: CalculationTracker
+    @MockK private lateinit var exposureDetectionTracker: ExposureDetectionTracker
+
     private val scope = TestCoroutineScope()
 
     class TestApp : Application(), HasAndroidInjector {
@@ -48,23 +50,25 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkStatic(WorkManager::class)
         every { intent.getStringExtra(ExposureNotificationClient.EXTRA_TOKEN) } returns "token"
 
         mockkObject(AppInjector)
 
+        every { workManager.enqueue(any<WorkRequest>()) } answers { mockk() }
+
         val application = mockk<TestApp>()
         every { context.applicationContext } returns application
+
         val broadcastReceiverInjector = AndroidInjector<Any> {
             it as ExposureStateUpdateReceiver
-            it.calculationTracker = calculationTracker
+            it.exposureDetectionTracker = exposureDetectionTracker
             it.dispatcherProvider = TestDispatcherProvider
             it.scope = scope
+            it.workManager = workManager
         }
         every { application.androidInjector() } returns broadcastReceiverInjector
 
-        every { WorkManager.getInstance(context) } returns workManager
-        every { workManager.enqueue(any<WorkRequest>()) } answers { mockk() }
+        every { exposureDetectionTracker.finishExposureDetection(any(), any()) } just Runs
     }
 
     @AfterEach
@@ -77,9 +81,11 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         every { intent.action } returns ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
         ExposureStateUpdateReceiver().onReceive(context, intent)
 
+        scope.advanceUntilIdle()
+
         verifySequence {
+            exposureDetectionTracker.finishExposureDetection("token", TrackedExposureDetection.Result.UPDATED_STATE)
             workManager.enqueue(any<WorkRequest>())
-            calculationTracker.finishCalculation("token", Calculation.Result.UPDATED_STATE)
         }
     }
 
@@ -88,8 +94,11 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         every { intent.action } returns ExposureNotificationClient.ACTION_EXPOSURE_NOT_FOUND
         ExposureStateUpdateReceiver().onReceive(context, intent)
 
+        scope.advanceUntilIdle()
+
         verifySequence {
-            calculationTracker.finishCalculation("token", Calculation.Result.NO_MATCHES)
+            exposureDetectionTracker.finishExposureDetection("token", TrackedExposureDetection.Result.NO_MATCHES)
+            workManager.enqueue(any<WorkRequest>())
         }
     }
 }

@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
@@ -19,11 +21,10 @@ import timber.log.Timber
  *
  * @see BackgroundWorkScheduler
  */
-class DiagnosisTestResultRetrievalPeriodicWorker(
-    val context: Context,
-    workerParams: WorkerParameters
-) :
-    CoroutineWorker(context, workerParams) {
+class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     companion object {
         private val TAG: String? = DiagnosisTestResultRetrievalPeriodicWorker::class.simpleName
@@ -42,17 +43,20 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      */
     override suspend fun doWork(): Result {
 
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
         BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount ")
+            "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount "
+        )
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
+            Timber.d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
             BackgroundWorkHelper.sendDebugNotification(
-                "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts")
-
+                "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts"
+            )
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            Timber.d("$id Rescheduled background worker")
+
             return Result.failure()
         }
         var result = Result.success()
@@ -62,17 +66,22 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                     System.currentTimeMillis()
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
+                Timber.d(" $id maximum days not exceeded")
                 val testResult = SubmissionService.asyncRequestTestResult()
                 initiateNotification(testResult)
+                Timber.d(" $id Test Result Notification Initiated")
             } else {
                 stopWorker()
+                Timber.d(" $id worker stopped")
             }
         } catch (e: Exception) {
             result = Result.retry()
         }
 
         BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: End", "TestResult result: $result ")
+            "TestResult Executing: End", "TestResult result: $result "
+        )
+        Timber.d("$id: doWork() finished with %s", result)
 
         return result
     }
@@ -90,9 +99,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      */
     private fun initiateNotification(testResult: TestResult) {
         if (LocalData.isTestResultNotificationSent() || LocalData.submissionWasSuccessful()) {
+            Timber.d("$id: Notification already sent or there was a successful submission")
             return
         }
-
+        Timber.d("$id: Test Result retried is $testResult")
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
         ) {
@@ -101,9 +111,9 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                     CoronaWarnApplication.getAppContext()
                         .getString(R.string.notification_name),
                     CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_body),
-                    NotificationCompat.PRIORITY_HIGH
+                        .getString(R.string.notification_body)
                 )
+                Timber.d("$id: Test Result available and notification is initiated")
             }
             LocalData.isTestResultNotificationSent(true)
             stopWorker()
@@ -119,8 +129,12 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
     private fun stopWorker() {
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
-
+        Timber.d("$id: Background worker stopped")
         BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Stopped", "TestResult Stopped")
+            "TestResult Stopped", "TestResult Stopped"
+        )
     }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedWorkerFactory<DiagnosisTestResultRetrievalPeriodicWorker>
 }

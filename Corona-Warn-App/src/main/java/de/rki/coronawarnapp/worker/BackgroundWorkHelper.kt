@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.worker
 
-import androidx.core.app.NotificationCompat
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -23,33 +22,10 @@ object BackgroundWorkHelper {
      * @return Long
      *
      * @see BackgroundConstants.MINUTES_IN_DAY
-     * @see getDiagnosisKeyRetrievalMaximumCalls
-     */
-    fun getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(): Long =
-        (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisKeyRetrievalMaximumCalls()).toLong()
-
-    /**
-     * Calculate the time for diagnosis key retrieval periodic work
-     *
-     * @return Long
-     *
-     * @see BackgroundConstants.MINUTES_IN_DAY
      */
     fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(): Long =
         (BackgroundConstants.MINUTES_IN_DAY /
                 BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY).toLong()
-
-    /**
-     * Get maximum calls count to Google API
-     *
-     * @return Long
-     *
-     * @see BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
-     * @see BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY
-     */
-    fun getDiagnosisKeyRetrievalMaximumCalls() =
-        BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
-            .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
     /**
      * Get background noise one time work delay
@@ -93,6 +69,6 @@ object BackgroundWorkHelper {
     fun sendDebugNotification(title: String, content: String) {
         Timber.d("sendDebugNotification(title=%s, content=%s)", title, content)
         if (!LocalData.backgroundNotification()) return
-        NotificationHelper.sendNotification(title, content, NotificationCompat.PRIORITY_HIGH, true)
+        NotificationHelper.sendNotification(title, content, true)
     }
 }
