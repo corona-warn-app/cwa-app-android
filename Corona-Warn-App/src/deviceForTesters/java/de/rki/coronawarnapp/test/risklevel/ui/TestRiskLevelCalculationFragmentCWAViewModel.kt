@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.risklevel.ui
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import com.google.gson.Gson
@@ -13,12 +12,10 @@ import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.ExposureResult
 import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
-import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.AppDatabase
@@ -41,6 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
+import org.joda.time.Instant
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -49,8 +47,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
     dispatcherProvider: DispatcherProvider,
-    private val enfClient: ENFClient,
-    private val riskLevels: RiskLevels,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
@@ -64,7 +60,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
     val apiKeysProvidedEvent = SingleLiveEvent<DiagnosisKeyProvidedEvent>()
-    val riskScoreState = MutableLiveData<RiskScoreState>(RiskScoreState())
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
         it.withSuccess(false) { true }
     }.asLiveData(dispatcherProvider.Default)
@@ -128,35 +123,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
     }
 
-    data class RiskScoreState(
-        val riskScoreMsg: String = ""
-    )
-
-    fun startENFObserver() {
-        launch {
-            try {
-                var workState = riskScoreState.value!!
-
-                val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
-                    "Last successful Level: " +
-                    "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
-                    "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
-                    "Tracing Duration: " +
-                    "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
-                    "Tracing Duration in last 14 days: " +
-                    "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days \n" +
-                    "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
-
-                workState = workState.copy(riskScoreMsg = riskAsString)
-
-                riskScoreState.postValue(workState)
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-
     val exposureWindowCountString = exposureResultStore
         .entities
         .map { "Retrieved ${it.exposureWindows.size} Exposure Windows" }
@@ -169,7 +135,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val aggregatedRiskResult = exposureResultStore
         .entities
-        .map { if (it.aggregatedRiskResult != null)  it.aggregatedRiskResult.toReadableString() else "Aggregated risk result is not available" }
+        .map { if (it.aggregatedRiskResult != null) it.aggregatedRiskResult.toReadableString() else "Aggregated risk result is not available" }
         .asLiveData()
 
     private fun AggregatedRiskResult.toReadableString(): String = StringBuilder()
@@ -207,6 +173,25 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine()
         .appendLine("Normalized Time Per Day To RiskLevel Mapping List:")
         .appendLine(normalizedTimePerDayToRiskLevelMappingList)
+        .toString()
+
+    //Only update when risk level gets updated
+    val additionalRiskCalcInfo = RiskLevelRepository
+        .riskLevelScore
+        .map { createAdditionalRiskCalcInfo(it) }
+        .asLiveData()
+
+    private suspend fun createAdditionalRiskCalcInfo(riskLevelScore: Int): String = StringBuilder()
+        .appendLine("Risk Level: ${RiskLevel.forValue(riskLevelScore)}")
+        .appendLine("Last successful Risk Level: ${RiskLevelRepository.getLastSuccessfullyCalculatedScore()}")
+        .appendLine("Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}")
+        .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
+        .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
+        .appendLine(
+            "Last time risk level calculation ${
+                LocalData.lastTimeRiskLevelCalculation()?.let { Instant.ofEpochMilli(it) }
+            }"
+        )
         .toString()
 
     data class DiagnosisKeyProvidedEvent(

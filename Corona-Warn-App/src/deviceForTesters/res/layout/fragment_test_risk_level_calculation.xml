@@ -112,7 +112,7 @@
                 android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Additional Information Risk Calculation" />
+                android:text="Risk Calculation Additional Information" />
 
             <TextView
                 android:id="@+id/label_risk_additional_info"

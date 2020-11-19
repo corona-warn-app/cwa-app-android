@@ -66,10 +66,9 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             ).show()
         }
 
-        vm.riskScoreState.observe2(this) { state ->
-            binding.labelRiskAdditionalInfo.text = state.riskScoreMsg
+        vm.additionalRiskCalcInfo.observe2(this) {
+            binding.labelRiskAdditionalInfo.text = it
         }
-        vm.startENFObserver()
 
         vm.apiKeysProvidedEvent.observe2(this) { event ->
             Toast.makeText(
