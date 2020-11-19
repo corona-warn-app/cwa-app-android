@@ -238,10 +238,7 @@ class DefaultRiskLevels @Inject constructor(
         exposureWindow: ExposureWindow
     ): RiskResult? {
         if (exposureWindow.dropDueToMinutesAtAttenuation(appConfig.minutesAtAttenuationFilters)) {
-            Timber.d(
-                "%s dropped due to minutes at attenuation filter",
-                exposureWindow
-            )
+            Timber.d("%s dropped due to minutes at attenuation filter", exposureWindow)
             return null
         }
 
@@ -261,29 +258,17 @@ class DefaultRiskLevels @Inject constructor(
         val transmissionRiskValue: Double =
             transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
 
-        Timber.d(
-            "%s's transmissionRiskValue is: %s",
-            exposureWindow,
-            transmissionRiskValue
-        )
+        Timber.d("%s's transmissionRiskValue is: %s", exposureWindow, transmissionRiskValue)
 
         val weightedMinutes: Double = exposureWindow.determineWeightedSeconds(
             appConfig.minutesAtAttenuationWeights
         ) / 60f
 
-        Timber.d(
-            "%s's weightedMinutes are: %s",
-            exposureWindow,
-            weightedMinutes
-        )
+        Timber.d("%s's weightedMinutes are: %s", exposureWindow, weightedMinutes)
 
         val normalizedTime: Double = transmissionRiskValue * weightedMinutes
 
-        Timber.d(
-            "%s's normalizedTime is: %s",
-            exposureWindow,
-            normalizedTime
-        )
+        Timber.d("%s's normalizedTime is: %s", exposureWindow, normalizedTime)
 
         val riskLevel: ProtoRiskLevel? = determineRiskLevel(
             normalizedTime,
@@ -295,11 +280,7 @@ class DefaultRiskLevels @Inject constructor(
             throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
         }
 
-        Timber.d(
-            "%s's riskLevel is: %s",
-            exposureWindow,
-            riskLevel
-        )
+        Timber.d("%s's riskLevel is: %s", exposureWindow, riskLevel)
 
         return RiskResult(
             transmissionRiskLevel = transmissionRiskLevel,
