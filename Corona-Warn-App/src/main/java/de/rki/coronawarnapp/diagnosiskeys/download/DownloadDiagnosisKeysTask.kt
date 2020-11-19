@@ -61,10 +61,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val currentDate = Date(timeStamper.nowUTC.millis)
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
-            /****************************************************
-             * RETRIEVE TOKEN
-             ****************************************************/
-            val token = retrieveToken(rollbackItems)
             throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
@@ -105,7 +101,9 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 )
             )
 
-            Timber.tag(TAG).d("Attempting submission to ENF")
+            val token = retrieveToken(rollbackItems)
+            Timber.tag(TAG).d("Attempting submission to ENF with token $token")
+
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
                 keyFiles = availableKeyFiles,
                 configuration = exposureConfig.exposureDetectionConfiguration,
@@ -180,6 +178,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             LocalData.googleApiToken(googleAPITokenForRollback)
         }
         return UUID.randomUUID().toString().also {
+            Timber.tag(TAG).d("Generating and storing new token: $it")
             LocalData.googleApiToken(it)
         }
     }
@@ -223,8 +222,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     }
 
     class Arguments(
-        val requestedCountries: List<String>? = null,
-        val withConstraints: Boolean = false
+        val requestedCountries: List<String>? = null
     ) : Task.Arguments
 
     data class Config(
