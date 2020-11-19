@@ -129,8 +129,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     data class RiskScoreState(
-        val riskScoreMsg: String = "",
-        val formula: String = ""
+        val riskScoreMsg: String = ""
     )
 
     fun startENFObserver() {

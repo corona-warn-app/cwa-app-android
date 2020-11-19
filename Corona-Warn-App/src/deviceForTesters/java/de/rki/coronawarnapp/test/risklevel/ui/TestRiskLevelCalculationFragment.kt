@@ -68,7 +68,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
         vm.riskScoreState.observe2(this) { state ->
             binding.labelRiskAdditionalInfo.text = state.riskScoreMsg
-            binding.labelFormula.text = state.formula
         }
         vm.startENFObserver()
 
