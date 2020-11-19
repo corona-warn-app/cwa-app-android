@@ -95,7 +95,7 @@ class DefaultRiskLevels @Inject constructor(
 
         val aggregatedResult = aggregateResults(appConfig, riskResultsPerWindow)
 
-        exposureResultStore.entities.value = Pair(exposureWindows, aggregatedResult)
+        exposureResultStore.entities.value = ExposureResult(exposureWindows, aggregatedResult)
 
         val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
 
@@ -227,7 +227,7 @@ class DefaultRiskLevels @Inject constructor(
     private fun determineRiskLevel(
         normalizedTime: Double,
         timeToRiskLevelMapping: List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
-    ) =
+    ): ProtoRiskLevel? =
         timeToRiskLevelMapping
             .filter { it.normalizedTimeRange.inRange(normalizedTime) }
             .map { it.riskLevel }
@@ -238,10 +238,7 @@ class DefaultRiskLevels @Inject constructor(
         exposureWindow: ExposureWindow
     ): RiskResult? {
         if (exposureWindow.dropDueToMinutesAtAttenuation(appConfig.minutesAtAttenuationFilters)) {
-            Timber.d(
-                "%s dropped due to minutes at attenuation filter",
-                exposureWindow
-            )
+            Timber.d("%s dropped due to minutes at attenuation filter", exposureWindow)
             return null
         }
 
@@ -261,31 +258,19 @@ class DefaultRiskLevels @Inject constructor(
         val transmissionRiskValue: Double =
             transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
 
-        Timber.d(
-            "%s's transmissionRiskValue is: %s",
-            exposureWindow,
-            transmissionRiskValue
-        )
+        Timber.d("%s's transmissionRiskValue is: %s", exposureWindow, transmissionRiskValue)
 
         val weightedMinutes: Double = exposureWindow.determineWeightedSeconds(
             appConfig.minutesAtAttenuationWeights
         ) / 60f
 
-        Timber.d(
-            "%s's weightedMinutes are: %s",
-            exposureWindow,
-            weightedMinutes
-        )
+        Timber.d("%s's weightedMinutes are: %s", exposureWindow, weightedMinutes)
 
         val normalizedTime: Double = transmissionRiskValue * weightedMinutes
 
-        Timber.d(
-            "%s's normalizedTime is: %s",
-            exposureWindow,
-            normalizedTime
-        )
+        Timber.d("%s's normalizedTime is: %s", exposureWindow, normalizedTime)
 
-        val riskLevel = determineRiskLevel(
+        val riskLevel: ProtoRiskLevel? = determineRiskLevel(
             normalizedTime,
             appConfig.normalizedTimePerExposureWindowToRiskLevelMapping
         )
@@ -295,13 +280,13 @@ class DefaultRiskLevels @Inject constructor(
             throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
         }
 
-        Timber.d(
-            "%s's riskLevel is: %s",
-            exposureWindow,
-            riskLevel
-        )
+        Timber.d("%s's riskLevel is: %s", exposureWindow, riskLevel)
 
-        return RiskResult(transmissionRiskLevel, normalizedTime, riskLevel)
+        return RiskResult(
+            transmissionRiskLevel = transmissionRiskLevel,
+            normalizedTime = normalizedTime,
+            riskLevel = riskLevel
+        )
     }
 
     override fun aggregateResults(
@@ -313,9 +298,7 @@ class DefaultRiskLevels @Inject constructor(
             .toSet()
 
         Timber.d(
-            "uniqueDates: ${
-                TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch)
-            }"
+            "uniqueDates: %s", { TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch) }
         )
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
             aggregateRiskPerDate(appConfig, it, exposureWindowsAndResult)
@@ -375,13 +358,13 @@ class DefaultRiskLevels @Inject constructor(
         Timber.d("numberOfDaysWithHighRisk: $numberOfDaysWithHighRisk")
 
         return AggregatedRiskResult(
-            totalRiskLevel,
-            totalMinimumDistinctEncountersWithLowRisk,
-            totalMinimumDistinctEncountersWithHighRisk,
-            mostRecentDateWithLowRisk,
-            mostRecentDateWithHighRisk,
-            numberOfDaysWithLowRisk,
-            numberOfDaysWithHighRisk
+            totalRiskLevel = totalRiskLevel,
+            totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
+            totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,
+            mostRecentDateWithLowRisk = mostRecentDateWithLowRisk,
+            mostRecentDateWithHighRisk = mostRecentDateWithHighRisk,
+            numberOfDaysWithLowRisk = numberOfDaysWithLowRisk,
+            numberOfDaysWithHighRisk = numberOfDaysWithHighRisk
         )
     }
 
@@ -437,10 +420,10 @@ class DefaultRiskLevels @Inject constructor(
         Timber.d("minimumDistinctEncountersWithHighRisk: $minimumDistinctEncountersWithHighRisk")
 
         return AggregatedRiskPerDateResult(
-            dateMillisSinceEpoch,
-            riskLevel,
-            minimumDistinctEncountersWithLowRisk,
-            minimumDistinctEncountersWithHighRisk
+            dateMillisSinceEpoch = dateMillisSinceEpoch,
+            riskLevel = riskLevel,
+            minimumDistinctEncountersWithLowRisk = minimumDistinctEncountersWithLowRisk,
+            minimumDistinctEncountersWithHighRisk = minimumDistinctEncountersWithHighRisk
         )
     }
 
@@ -454,8 +437,12 @@ class DefaultRiskLevels @Inject constructor(
         private val TAG = DefaultRiskLevels::class.java.simpleName
         private const val DECIMAL_MULTIPLIER = 100
 
-        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception()
-        class UnknownReportTypeException : Exception()
+        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception(
+            "Failed to map the normalized Time to a Risk Level"
+        )
+        class UnknownReportTypeException : Exception(
+            "The Report Type returned by the ENF is not known"
+        )
 
         private fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
             when {

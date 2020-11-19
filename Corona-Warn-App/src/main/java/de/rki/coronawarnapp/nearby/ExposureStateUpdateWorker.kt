@@ -8,6 +8,7 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.risk.ExposureResult
 import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.task.TaskController
@@ -26,8 +27,8 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         try {
             Timber.v("worker to persist exposure summary started")
-            enfClient.exposureWindows().also {
-                exposureResultStore.entities.value = Pair(it, null)
+            enfClient.exposureWindows().let {
+                exposureResultStore.entities.value = ExposureResult(it, null)
                 Timber.v("exposure summary state updated: $it")
             }
 
