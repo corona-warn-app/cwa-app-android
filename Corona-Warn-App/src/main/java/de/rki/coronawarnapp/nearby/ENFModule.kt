@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.nearby.modules.locationless.DefaultScanningSupport
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.DefaultTracingStatus
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
+import de.rki.coronawarnapp.nearby.modules.version.DefaultENFVersion
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Singleton
 
@@ -43,4 +45,8 @@ class ENFModule {
     @Provides
     fun calculationTracker(exposureDetectionTracker: DefaultExposureDetectionTracker): ExposureDetectionTracker =
         exposureDetectionTracker
+
+    @Singleton
+    @Provides
+    fun enfClientVersion(enfVersion: DefaultENFVersion): ENFVersion = enfVersion
 }
