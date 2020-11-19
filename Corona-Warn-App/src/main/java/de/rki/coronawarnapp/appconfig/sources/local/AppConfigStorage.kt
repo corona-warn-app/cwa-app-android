@@ -1,7 +1,10 @@
-package de.rki.coronawarnapp.appconfig.download
+package de.rki.coronawarnapp.appconfig.sources.local
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -38,17 +41,18 @@ class AppConfigStorage @Inject constructor(
     private val configFile = File(configDir, "appconfig.json")
     private val mutex = Mutex()
 
-    suspend fun getStoredConfig(): ConfigDownload? = mutex.withLock {
+    suspend fun getStoredConfig(): InternalConfigData? = mutex.withLock {
         Timber.v("get() AppConfig")
 
         if (!configFile.exists() && legacyConfigFile.exists()) {
             Timber.i("Returning legacy config.")
             return@withLock try {
-                ConfigDownload(
+                InternalConfigData(
                     rawData = legacyConfigFile.readBytes(),
                     serverTime = timeStamper.nowUTC,
                     localOffset = Duration.ZERO,
-                    etag = "legacy.migration"
+                    etag = "legacy.migration",
+                    cacheValidity = Duration.standardMinutes(5)
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Legacy config exits but couldn't be read.")
@@ -57,14 +61,17 @@ class AppConfigStorage @Inject constructor(
         }
 
         return@withLock try {
-            gson.fromJson<ConfigDownload>(configFile)
+            gson.fromJson<InternalConfigData>(configFile).also {
+                requireNotNull(it.rawData)
+            }
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load config.")
+            if (configFile.delete()) Timber.w("Config file was deleted.")
             null
         }
     }
 
-    suspend fun setStoredConfig(value: ConfigDownload?): Unit = mutex.withLock {
+    suspend fun setStoredConfig(value: InternalConfigData?): Unit = mutex.withLock {
         Timber.v("set(...) AppConfig: %s", value)
 
         if (configDir.mkdirs()) Timber.v("Parent folder created.")
@@ -73,7 +80,12 @@ class AppConfigStorage @Inject constructor(
             Timber.v("Overwriting %d from %s", configFile.length(), configFile.lastModified())
         }
 
-        if (value != null) {
+        if (value == null) {
+            if (configFile.delete()) Timber.d("Config file was deleted (value=null).")
+            return
+        }
+
+        try {
             gson.toJson(value, configFile)
 
             if (legacyConfigFile.exists()) {
@@ -81,8 +93,11 @@ class AppConfigStorage @Inject constructor(
                     Timber.i("Legacy config file deleted, superseeded.")
                 }
             }
-        } else {
-            configFile.delete()
+        } catch (e: Exception) {
+            // We'll not rethrow as we could still keep working just with the remote config,
+            // but we will notify the user.
+            Timber.e(e, "Failed to config data to local storage.")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 }

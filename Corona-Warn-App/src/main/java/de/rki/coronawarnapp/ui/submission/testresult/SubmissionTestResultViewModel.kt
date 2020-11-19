@@ -57,7 +57,7 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
         ).let { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
-    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         SubmissionRepository.deviceUIStateFlow
             .first { request ->
                 request.withSuccess(false) {
@@ -65,6 +65,7 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
                 }
             }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+    }
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)

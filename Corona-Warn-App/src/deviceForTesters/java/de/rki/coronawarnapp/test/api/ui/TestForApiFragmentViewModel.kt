@@ -18,7 +18,7 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     fun calculateRiskLevelClicked() {
-        taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+        taskController.submit(DefaultTaskRequest(RiskLevelTask::class, originTag = "TestForApiFragmentViewModel"))
     }
 
     val gmsState by smartLiveData {
