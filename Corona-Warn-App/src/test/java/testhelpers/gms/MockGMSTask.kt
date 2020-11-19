@@ -8,12 +8,12 @@ import io.mockk.mockk
 
 object MockGMSTask {
     fun <T> forError(error: Exception): Task<T> = mockk<Task<T>>().apply {
-        every { addOnSuccessListener(any()) } answers {
+        every { addOnFailureListener(any()) } answers {
             val listener = arg<OnFailureListener>(0)
             listener.onFailure(error)
             this@apply
         }
-        every { addOnFailureListener(any()) } returns this
+        every { addOnSuccessListener(any()) } returns this
     }
 
     fun <T> forValue(value: T): Task<T> = mockk<Task<T>>().apply {

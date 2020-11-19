@@ -17,8 +17,9 @@ import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.concurrent.CancellationException
 
-fun Throwable.report(exceptionCategory: ExceptionCategory) =
+fun Throwable.report(exceptionCategory: ExceptionCategory) {
     this.report(exceptionCategory, null, null)
+}
 
 fun Throwable.report(
     exceptionCategory: ExceptionCategory,
@@ -32,6 +33,9 @@ fun Throwable.report(
     if (this is CancellationException) return
 
     reportProblem(tag = prefix, info = suffix)
+
+    if (CWADebug.isAUnitTest) return
+
     val context = CoronaWarnApplication.getAppContext()
 
     val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)

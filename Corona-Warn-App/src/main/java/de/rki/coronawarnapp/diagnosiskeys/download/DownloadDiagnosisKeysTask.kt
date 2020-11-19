@@ -63,9 +63,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val currentDate = Date(timeStamper.nowUTC.millis)
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
-            /****************************************************
-             * DOWNLOAD KEYS
-             ****************************************************/
             throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
@@ -229,8 +226,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     }
 
     class Arguments(
-        val requestedCountries: List<String>? = null,
-        val withConstraints: Boolean = false
+        val requestedCountries: List<String>? = null
     ) : Task.Arguments
 
     data class Config(
