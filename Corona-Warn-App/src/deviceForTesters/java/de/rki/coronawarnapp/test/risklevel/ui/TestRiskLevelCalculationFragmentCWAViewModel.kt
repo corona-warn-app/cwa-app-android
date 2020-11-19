@@ -85,6 +85,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun retrieveDiagnosisKeys() {
+        Timber.d("Starting download diagnosis keys task")
         launch {
             taskController.submitBlocking(
                 DefaultTaskRequest(
@@ -93,11 +94,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     originTag = "TestRiskLevelCalculationFragmentCWAViewModel.retrieveDiagnosisKeys()"
                 )
             )
-            calculateRiskLevel()
         }
     }
 
     fun calculateRiskLevel() {
+        Timber.d("Starting calculate risk task")
         taskController.submit(
             DefaultTaskRequest(
                 RiskLevelTask::class,
