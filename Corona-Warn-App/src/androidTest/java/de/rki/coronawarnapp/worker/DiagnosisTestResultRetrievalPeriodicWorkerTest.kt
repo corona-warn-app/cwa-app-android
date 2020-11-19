@@ -9,9 +9,8 @@ import androidx.work.WorkRequest
 import androidx.work.testing.TestDriver
 import androidx.work.testing.WorkManagerTestInitHelper
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.mockk.coEvery
@@ -38,9 +37,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
     private lateinit var context: Context
     private lateinit var workManager: WorkManager
     private lateinit var request: WorkRequest
-    @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var playbook: Playbook
-    private val submissionRepository = SubmissionRepository(submissionSettings, playbook)
+    private val submissionService = SubmissionService(playbook)
     // small delay because WorkManager does not run work instantly when delay is off
     private val delay = 500L
 
@@ -122,7 +120,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
     @Test
     fun testDiagnosisTestResultRetrievalPeriodicWorkerRetryAndFail() {
         val past = Date().time - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() - 1).daysToMilliseconds()
-        coEvery { submissionRepository.asyncRequestTestResult() } throws Exception("test exception")
         every { LocalData.initialPollingForTestResultTimeStamp() } returns past
 
         BackgroundWorkScheduler.startWorkScheduler()
@@ -163,7 +160,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
         past: Long,
         isCancelTest: Boolean = false
     ) {
-        coEvery { submissionRepository.asyncRequestTestResult() } returns result
+        coEvery { submissionService.asyncRequestTestResult(any()) } returns result
         every { LocalData.initialPollingForTestResultTimeStamp() } returns past
 
         BackgroundWorkScheduler.startWorkScheduler()

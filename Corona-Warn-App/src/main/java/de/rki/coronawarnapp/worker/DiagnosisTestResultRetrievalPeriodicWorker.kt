@@ -7,11 +7,13 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
@@ -23,7 +25,7 @@ import timber.log.Timber
 class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    @Assisted private val submissionRepository: SubmissionRepository
+    private val submissionService: SubmissionService
 ) : CoroutineWorker(context, workerParams) {
 
     companion object {
@@ -67,7 +69,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
                 Timber.d(" $id maximum days not exceeded")
-                val testResult = submissionRepository.asyncRequestTestResult()
+                val registrationToken: String = LocalData.registrationToken()?: throw NoRegistrationTokenSetException()
+                val testResult = submissionService.asyncRequestTestResult(registrationToken)
                 initiateNotification(testResult)
                 Timber.d(" $id Test Result Notification Initiated")
             } else {
@@ -136,9 +139,5 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : LocalWorkerFactory
-
-    interface LocalWorkerFactory {
-        fun create(context: Context, workerParams: WorkerParameters, submissionRepository: SubmissionRepository): DiagnosisTestResultRetrievalPeriodicWorker
-    }
+    interface Factory : InjectedWorkerFactory<DiagnosisTestResultRetrievalPeriodicWorker>
 }

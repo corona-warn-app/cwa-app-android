@@ -82,7 +82,7 @@ class SettingsResetViewModel @AssistedInject constructor(
         // Reset the current risk level stored in LiveData
         RiskLevelRepository.reset()
         // Reset the current states stored in LiveData
-        submissionRepository.reset()
+        submissionRepository.resetUiState()
         keyCacheRepository.clear()
         appConfigProvider.clear()
         interoperabilityRepository.clear()

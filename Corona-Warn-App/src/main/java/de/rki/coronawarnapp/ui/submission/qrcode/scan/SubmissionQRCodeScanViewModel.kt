@@ -76,7 +76,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
-            SubmissionRepository.deleteTestGUID()
+            submissionRepository.deleteTestGUID()
             SubmissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
