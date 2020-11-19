@@ -32,8 +32,10 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
@@ -64,6 +66,8 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    @Inject lateinit var enfClient: ENFClient
+    @Inject lateinit var exposureResultStore: ExposureResultStore
     private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
@@ -81,14 +85,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             val listType: Type = object : TypeToken<Array<TemporaryExposureKey?>?>() {}.type
             return Gson().fromJson(json, listType)
         }
-    }
-
-    private val enfClient by lazy {
-        AppInjector.component.enfClient
-    }
-
-    private val exposureSummaryRepository by lazy {
-        AppInjector.component.exposureResultStore
     }
 
     private var myExposureKeysJSON: String? = null
@@ -166,7 +162,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = exposureSummaryRepository.entities.first().exposureWindows.toString()
+                    val summary = exposureResultStore.entities.first().exposureWindows.toString()
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)
