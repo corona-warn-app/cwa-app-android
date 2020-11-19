@@ -233,11 +233,11 @@
     ###################################### -->
 
     <!-- XHED: Share app link page title -->
-    <string name="main_share_title">"Corona-Warn-App teilen"</string>
+    <string name="main_share_title">"Corona-Warn-App empfehlen"</string>
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Gemeinsam Corona bekämpfen"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Laden Sie Familie, Freunde und Bekannte ein!"</string>
+    <string name="main_share_body">"Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Verschicken Sie einen Link auf die Corona-Warn-App an Familie, Freunde und Bekannte!"</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Download-Link versenden"</string>
     <!-- YMSG: Message when sharing is executed -->
