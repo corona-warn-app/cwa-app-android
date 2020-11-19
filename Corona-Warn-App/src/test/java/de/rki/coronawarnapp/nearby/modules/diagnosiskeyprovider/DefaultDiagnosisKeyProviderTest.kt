@@ -21,9 +21,6 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     @MockK lateinit var enfVersion: ENFVersion
     @MockK lateinit var submissionQuota: SubmissionQuota
 
-    @MockK
-    lateinit var submissionQuota: SubmissionQuota
-
     private val exampleKeyFiles = listOf(File("file1"), File("file2"))
 
     @BeforeEach

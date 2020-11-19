@@ -12,5 +12,6 @@ interface ENFVersion {
 
     companion object {
         const val V16 = 16000000L
+        const val V15 = 15000000L
     }
 }
