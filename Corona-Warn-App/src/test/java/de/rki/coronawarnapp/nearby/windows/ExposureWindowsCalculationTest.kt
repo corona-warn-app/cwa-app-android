@@ -300,6 +300,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         testConfig = ConfigDataContainer(
             serverTime = Instant.now(),
+            cacheValidity = Duration.standardMinutes(5),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
             identifier = "soup",

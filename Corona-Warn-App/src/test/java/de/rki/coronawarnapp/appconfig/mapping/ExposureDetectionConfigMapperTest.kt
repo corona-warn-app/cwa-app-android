@@ -75,7 +75,6 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
     @Test
     fun `if protobuf is missing the datastructure we return defaults`() {
         val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
-            .setMinRiskScore(1)
             .build()
         createInstance().map(rawConfig).apply {
             overallDetectionTimeout shouldBe Duration.standardMinutes(15)
