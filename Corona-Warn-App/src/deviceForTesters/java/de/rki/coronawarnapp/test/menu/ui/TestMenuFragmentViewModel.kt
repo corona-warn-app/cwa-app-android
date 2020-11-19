@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
+import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -23,6 +24,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
             TestRiskLevelCalculationFragment.MENU_ITEM,
             KeyDownloadTestFragment.MENU_ITEM,
             TestTaskControllerFragment.MENU_ITEM,
+            SubmissionTestFragment.MENU_ITEM,
             SettingsCrashReportFragment.MENU_ITEM
         ).let { MutableLiveData(it) }
     }

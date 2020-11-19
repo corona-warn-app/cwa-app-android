@@ -6,7 +6,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
-import de.rki.coronawarnapp.util.GoogleAPIVersion
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultDiagnosisKeyProvider @Inject constructor(
-    private val googleAPIVersion: GoogleAPIVersion,
+    private val enfVersion: ENFVersion,
     private val submissionQuota: SubmissionQuota,
     private val enfClient: ExposureNotificationClient
 ) : DiagnosisKeyProvider {
@@ -40,7 +40,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
                 configuration
             }
 
-            if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
+            if (enfVersion.isAtLeast(ENFVersion.V16)) {
                 provideKeys(keyFiles, usedConfiguration, token)
             } else {
                 provideKeysLegacy(keyFiles, usedConfiguration, token)

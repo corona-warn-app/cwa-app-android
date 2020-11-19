@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetec
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
@@ -23,8 +24,9 @@ class ENFClient @Inject constructor(
     private val diagnosisKeyProvider: DiagnosisKeyProvider,
     private val tracingStatus: TracingStatus,
     private val scanningSupport: ScanningSupport,
-    private val exposureDetectionTracker: ExposureDetectionTracker
-) : DiagnosisKeyProvider, TracingStatus, ScanningSupport {
+    private val exposureDetectionTracker: ExposureDetectionTracker,
+    private val enfVersion: ENFVersion
+) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ENFVersion by enfVersion {
 
     // TODO Remove this once we no longer need direct access to the ENF Client,
     // i.e. in **[InternalExposureNotificationClient]**
