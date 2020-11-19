@@ -22,6 +22,7 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.storage.AppDatabase
@@ -45,7 +46,8 @@ class DataReset @Inject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     private val interoperabilityRepository: InteroperabilityRepository,
-    private val exposureDetectionTracker: ExposureDetectionTracker
+    private val exposureDetectionTracker: ExposureDetectionTracker,
+    private val keyPackageSyncSettings: KeyPackageSyncSettings
 ) {
 
     private val mutex = Mutex()
@@ -68,6 +70,7 @@ class DataReset @Inject constructor(
         appConfigProvider.clear()
         interoperabilityRepository.clear()
         exposureDetectionTracker.clear()
+        keyPackageSyncSettings.clear()
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }

@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import timber.log.Timber
 
 class FlowPreference<T> constructor(
     private val preferences: SharedPreferences,
@@ -16,6 +17,19 @@ class FlowPreference<T> constructor(
 
     private val flowInternal = MutableStateFlow(internalValue)
     val flow: Flow<T> = flowInternal
+
+    private val resetListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { changedPrefs, changedKey ->
+            if (changedKey != key) return@OnSharedPreferenceChangeListener
+
+            flowInternal.value = reader(changedPrefs, changedKey).also {
+                Timber.v("%s:%s changed to %s", changedPrefs, changedKey, it)
+            }
+        }
+
+    init {
+        preferences.registerOnSharedPreferenceChangeListener(resetListener)
+    }
 
     private var internalValue: T
         get() = reader(preferences, key)
