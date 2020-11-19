@@ -1,19 +1,13 @@
 package de.rki.coronawarnapp.risk
 
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
 
 class RiskLevelsTest : BaseTest() {
-
-    @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var exposureResultStore: ExposureResultStore
     private lateinit var riskLevels: DefaultRiskLevels
 
@@ -21,10 +15,7 @@ class RiskLevelsTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        coEvery { appConfigProvider.getAppConfig() } returns mockk()
-        every { appConfigProvider.currentConfig } returns mockk()
-
-        riskLevels = DefaultRiskLevels(appConfigProvider, exposureResultStore)
+        riskLevels = DefaultRiskLevels(exposureResultStore)
     }
 
     @Test

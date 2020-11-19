@@ -104,7 +104,10 @@ class ExposureWindowsCalculationTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns testConfig
         every { appConfigProvider.currentConfig } returns flow { testConfig }
         logConfiguration(testConfig)
-        riskLevels = DefaultRiskLevels(appConfigProvider, exposureResultStore)
+
+        riskLevels = DefaultRiskLevels(exposureResultStore)
+
+        val appConfig = appConfigProvider.getAppConfig()
 
         // 4 - Mock and log exposure windows
         val allExposureWindows = mutableListOf<ExposureWindow>()
@@ -118,12 +121,12 @@ class ExposureWindowsCalculationTest : BaseTest() {
             for (exposureWindow: ExposureWindow in exposureWindows) {
 
                 logExposureWindow(exposureWindow, "➡➡ EXPOSURE WINDOW PASSED ➡➡", LogLevel.EXTENDED)
-                val riskResult = riskLevels.calculateRisk(exposureWindow) ?: continue
+                val riskResult = riskLevels.calculateRisk(appConfig, exposureWindow) ?: continue
                 exposureWindowsAndResult[exposureWindow] = riskResult
             }
             debugLog("Exposure windows and result: ${exposureWindowsAndResult.size}")
 
-            val aggregatedRiskResult = riskLevels.aggregateResults(exposureWindowsAndResult)
+            val aggregatedRiskResult = riskLevels.aggregateResults(appConfig, exposureWindowsAndResult)
 
             debugLog(
                 "\n" + comparisonDebugTable(aggregatedRiskResult, case),
@@ -297,7 +300,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         testConfig = ConfigDataContainer(
             serverTime = Instant.now(),
-            cacheValidity = Duration.ZERO,
+            cacheValidity = Duration.standardMinutes(5),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
             identifier = "soup",

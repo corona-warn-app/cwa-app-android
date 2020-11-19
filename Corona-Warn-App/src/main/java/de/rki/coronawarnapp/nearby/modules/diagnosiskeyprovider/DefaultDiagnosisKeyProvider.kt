@@ -27,7 +27,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 
         if (!enfVersion.isAtLeast(ENFVersion.V15)) {
             // Actually this shouldn't happen
-            Timber.d("No key files submitted because client uses an old unsupported version")
+            Timber.e("No key files submitted because client uses an old unsupported version")
             return false
         }
 

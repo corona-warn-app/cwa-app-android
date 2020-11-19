@@ -29,7 +29,7 @@ class ENFClient @Inject constructor(
     private val exposureWindowProvider: ExposureWindowProvider,
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val enfVersion: ENFVersion
-) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider, ENFVersion by enfVersion  {
+) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider, ENFVersion by enfVersion {
 
     // TODO Remove this once we no longer need direct access to the ENF Client,
     // i.e. in **[InternalExposureNotificationClient]**

@@ -19,10 +19,10 @@ import de.rki.coronawarnapp.nearby.ENFModule
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.SubmissionTaskModule
