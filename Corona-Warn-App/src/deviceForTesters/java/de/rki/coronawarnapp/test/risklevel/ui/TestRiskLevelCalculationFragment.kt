@@ -70,10 +70,7 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         vm.riskScoreState.observe2(this) { state ->
             binding.labelRiskScore.text = state.riskScoreMsg
             binding.labelBackendParameters.text = state.backendParameters
-            binding.labelAggregatedRiskResult.text = state.aggregatedRiskResult
             binding.labelFormula.text = state.formula
-            binding.labelExposureWindowCount.text = state.exposureWindowCountString
-            binding.labelExposureWindows.text = state.exposureWindows
         }
         vm.startENFObserver()
 
@@ -90,6 +87,18 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
                 .setOrientationLocked(false)
                 .setBeepEnabled(false)
                 .initiateScan()
+        }
+
+        vm.aggregatedRiskResult.observe2(this) {
+            binding.labelAggregatedRiskResult.text = it
+        }
+
+        vm.exposureWindowCountString.observe2(this) {
+            binding.labelExposureWindowCount.text = it
+        }
+
+        vm.exposureWindows.observe2(this) {
+            binding.labelExposureWindows.text = it
         }
     }
 

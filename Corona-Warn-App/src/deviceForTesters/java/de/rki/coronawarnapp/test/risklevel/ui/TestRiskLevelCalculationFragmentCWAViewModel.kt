@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -38,6 +39,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
@@ -57,9 +59,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
-
-    @BaseGson private val gson: Gson
-
+    @BaseGson private val gson: Gson,
     private val exposureResultStore: ExposureResultStore
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -124,10 +124,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     data class RiskScoreState(
         val riskScoreMsg: String = "",
         val backendParameters: String = "",
-        val aggregatedRiskResult: String = "",
         val formula: String = "",
-        val exposureWindowCountString: String = "",
-        val exposureWindows: String = ""
     )
 
     fun startENFObserver() {
@@ -169,18 +166,28 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
                 workState = workState.copy(backendParameters = configAsString)
 
-                workState = workState.copy(aggregatedRiskResult = aggregatedResult.toReadableString())
-
-                workState = workState.copy(exposureWindowCountString = "Retrieved ${exposureWindows.size} Exposure Windows")
-
-                workState = workState.copy(exposureWindows = gson.toJson(exposureWindows))
-
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
         }
     }
+
+
+    val exposureWindowCountString = exposureResultStore
+        .entities
+        .map { "Retrieved ${it.first.size} Exposure Windows" }
+        .asLiveData()
+
+    val exposureWindows = exposureResultStore
+        .entities
+        .map { if (it.first.isEmpty()) "Exposure windows list is empty" else gson.toJson(it.first) }
+        .asLiveData()
+
+    val aggregatedRiskResult = exposureResultStore
+        .entities
+        .map { if (it.second != null)  it.second!!.toReadableString() else "Aggregated risk result is not available" }
+        .asLiveData()
 
     private fun AggregatedRiskResult.toReadableString(): String = StringBuilder()
         .appendLine("Total RiskLevel: $totalRiskLevel")
