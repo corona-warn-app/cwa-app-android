@@ -29,11 +29,8 @@ import javax.inject.Inject
  * new keys are processed. Then the [ExposureStateUpdateReceiver] will receive the corresponding action in its
  * [onReceive] function.
  *
- * Inside this receiver no further action or calculation will be done but it is rather used to inform the
- * [de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction] that the processing of the diagnosis keys is
- * finished and the Exposure Summary can be retrieved in order to calculate a risk level to show to the user.
- *
- * @see de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+ * Inside this receiver no further action or calculation will be done but it is rather used to start
+ * a worker that launches the RiskLevelTask which then makes use of the new data this notifies us of.
  *
  */
 class ExposureStateUpdateReceiver : BroadcastReceiver() {
@@ -54,15 +51,13 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
 
         scope.launch(context = scope.coroutineContext) {
             try {
-                val token = intent.requireToken()
+                intent.getStringExtra(EXTRA_TOKEN)?.let {
+                    Timber.tag(TAG).w("Received unknown token from ENF: %s", it)
+                }
 
-                trackDetection(token, action)
+                trackDetection(action)
 
-                val data = Data
-                    .Builder()
-                    .putString(EXTRA_TOKEN, token)
-                    .build()
-
+                val data = Data.Builder().build()
                 OneTimeWorkRequest
                     .Builder(ExposureStateUpdateWorker::class.java)
                     .setInputData(data)
@@ -78,13 +73,13 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun trackDetection(token: String, action: String?) {
+    private fun trackDetection(action: String?) {
         when (action) {
             ACTION_EXPOSURE_STATE_UPDATED -> {
-                exposureDetectionTracker.finishExposureDetection(token, Result.UPDATED_STATE)
+                exposureDetectionTracker.finishExposureDetection(identifier = null, result = Result.UPDATED_STATE)
             }
             ACTION_EXPOSURE_NOT_FOUND -> {
-                exposureDetectionTracker.finishExposureDetection(token, Result.NO_MATCHES)
+                exposureDetectionTracker.finishExposureDetection(identifier = null, result = Result.NO_MATCHES)
             }
             else -> throw UnknownBroadcastException(action)
         }
