@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -82,18 +81,15 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            // EXPOSUREAPP-3878 just to be sure that risk level calculation can take place
-            if (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() != null) {
-                if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
-                    // At most one detection every 6h
-                    Timber.tag(TAG).i("task aborted, because detection was performed recently")
-                    return object : Task.Result {}
-                }
+            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
+                // At most one detection every 6h
+                Timber.tag(TAG).i("task aborted, because detection was performed recently")
+                return object : Task.Result {}
+            }
 
-                if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
-                    Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
-                    return object : Task.Result {}
-                }
+            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+                Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
+                return object : Task.Result {}
             }
 
             val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
