@@ -14,6 +14,7 @@ import testhelpers.BaseTest
 class RiskLevelsTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var exposureResultStore: ExposureResultStore
     private lateinit var riskLevels: DefaultRiskLevels
 
     @Before
@@ -23,7 +24,7 @@ class RiskLevelsTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns mockk()
         every { appConfigProvider.currentConfig } returns mockk()
 
-        riskLevels = DefaultRiskLevels(appConfigProvider)
+        riskLevels = DefaultRiskLevels(appConfigProvider, exposureResultStore)
     }
 
     @Test

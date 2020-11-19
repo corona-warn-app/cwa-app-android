@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Reusable
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -30,8 +30,8 @@ class TracingDetailsStateProvider @Inject constructor(
         RiskLevelRepository.riskLevelScore,
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
         tracingRepository.tracingProgress,
-        ExposureSummaryRepository.matchedKeyCount,
-        ExposureSummaryRepository.daysSinceLastExposure,
+        DefaultRiskLevels.matchedKeyCount,
+        DefaultRiskLevels.daysSinceLastExposure,
         tracingRepository.activeTracingDaysInRetentionPeriod,
         tracingRepository.lastTimeDiagnosisKeysFetched,
         backgroundModeStatus.isAutoModeEnabled,

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -112,24 +111,6 @@ object InternalExposureNotificationClient {
     suspend fun asyncGetTemporaryExposureKeyHistory(): List<TemporaryExposureKey> =
         suspendCoroutine { cont ->
             exposureNotificationClient.temporaryExposureKeyHistory
-                .addOnSuccessListener {
-                    cont.resume(it)
-                }.addOnFailureListener {
-                    cont.resumeWithException(it)
-                }
-        }
-
-    /**
-     * Retrieves the ExposureSummary object that matches the token from
-     * provideDiagnosisKeys() that you provide to the method. The ExposureSummary
-     * object provides a high-level overview of the exposure that a user has experienced.
-     *
-     * @param token
-     * @return
-     */
-    suspend fun asyncGetExposureSummary(token: String): ExposureSummary =
-        suspendCoroutine { cont ->
-            exposureNotificationClient.getExposureSummary(token)
                 .addOnSuccessListener {
                     cont.resume(it)
                 }.addOnFailureListener {

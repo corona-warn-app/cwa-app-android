@@ -5,7 +5,7 @@ import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import com.google.gson.Gson
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.appconfig.DefaultConfigData
+import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.nearby.windows.entities.ExposureWindowsJsonInput
 import de.rki.coronawarnapp.nearby.windows.entities.cases.JsonScanInstance
 import de.rki.coronawarnapp.nearby.windows.entities.cases.JsonWindow
@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonMinutesAtA
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonNormalizedTimeToRiskLevelMapping
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTrlFilter
 import de.rki.coronawarnapp.risk.DefaultRiskLevels
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -48,6 +49,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var exposureResultStore: ExposureResultStore
 
     private lateinit var riskLevels: DefaultRiskLevels
     private lateinit var testConfig: ConfigData
@@ -102,7 +104,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns testConfig
         every { appConfigProvider.currentConfig } returns flow { testConfig }
         logConfiguration(testConfig)
-        riskLevels = DefaultRiskLevels(appConfigProvider)
+        riskLevels = DefaultRiskLevels(appConfigProvider, exposureResultStore)
 
         // 4 - Mock and log exposure windows
         val allExposureWindows = mutableListOf<ExposureWindow>()
@@ -293,8 +295,9 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
     private fun jsonToConfiguration(json: DefaultRiskCalculationConfiguration) {
 
-        testConfig = DefaultConfigData(
+        testConfig = ConfigDataContainer(
             serverTime = Instant.now(),
+            cacheValidity = Duration.ZERO,
             localOffset = Duration.ZERO,
             mappedConfig = configData,
             identifier = "soup",

@@ -5,9 +5,11 @@ import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import java.util.Date
 
 /**
@@ -399,6 +401,12 @@ object LocalData {
         return Date(time)
     }
 
+    fun lastTimeDiagnosisKeysFromServerFetchFlow() =
+        getSharedPreferenceInstance()
+            .createFlowPreference<Long?>(CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_timestamp_diagnosis_keys_fetch), 0L).flow
+            .map { if (it != null && it != 0L) Date(it) else null }
+
     /**
      * Sets the last time the server fetched the diagnosis keys from the server as Date object
      * from the EncryptedSharedPrefs
@@ -444,34 +452,6 @@ object LocalData {
                 value ?: 0L
             )
         }
-    }
-
-    /****************************************************
-     * EXPOSURE NOTIFICATION DATA
-     ****************************************************/
-
-    /**
-     * Gets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @return UUID as string
-     */
-    fun googleApiToken(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_string_google_api_token),
-        null
-    )
-
-    /**
-     * Sets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @param value UUID as string
-     */
-    fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
-        putString(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_string_google_api_token),
-            value
-        )
     }
 
     /****************************************************

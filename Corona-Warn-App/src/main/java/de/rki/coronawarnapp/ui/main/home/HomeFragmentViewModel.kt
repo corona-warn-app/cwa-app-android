@@ -103,8 +103,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         SubmissionRepository.refreshDeviceUIState()
         // TODO the ordering here is weird, do we expect these to run in sequence?
         tracingRepository.refreshRiskLevel()
-        tracingRepository.refreshExposureSummary()
-        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         tracingRepository.refreshLastSuccessfullyCalculatedScore()

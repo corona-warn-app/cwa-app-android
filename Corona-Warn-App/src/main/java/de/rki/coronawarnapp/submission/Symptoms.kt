@@ -6,6 +6,9 @@ import org.joda.time.LocalDate
 
 @Parcelize
 data class Symptoms(
+    /**
+     * this is null if there are no symptoms or there is no information
+     */
     val startOfSymptoms: StartOf?,
     val symptomIndication: Indication
 ) : Parcelable {
@@ -36,7 +39,7 @@ data class Symptoms(
 
     companion object {
         val NO_INFO_GIVEN = Symptoms(
-            startOfSymptoms = null, // FIXME  should this be null?
+            startOfSymptoms = null,
             symptomIndication = Indication.NO_INFORMATION
         )
     }

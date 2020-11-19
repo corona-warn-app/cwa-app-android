@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevels
@@ -56,7 +57,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
+
     @BaseGson private val gson: Gson
+
+    private val exposureResultStore: ExposureResultStore
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -103,10 +107,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     // Export File Reset
                     keyCacheRepository.clear()
 
+                    exposureResultStore.entities.value = Pair(emptyList(), null)
+
                     LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
-                    LocalData.googleApiToken(null)
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.INTERNAL)
                 }
@@ -188,14 +193,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .toString()
 
     data class DiagnosisKeyProvidedEvent(
-        val keyCount: Int,
-        val token: String
+        val keyCount: Int
     )
 
     fun provideDiagnosisKey(transmissionNumber: Int, key: AppleLegacyKeyExchange.Key) {
-        val token = UUID.randomUUID().toString()
-        LocalData.googleApiToken(token)
-
         val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
         AppleLegacyKeyExchange.Key.newBuilder()
@@ -212,23 +213,20 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 .build()
         )
 
-        val dir = File(File(context.getExternalFilesDir(null), "key-export"), token)
+        val dir = File(File(context.getExternalFilesDir(null), "key-export"), UUID.randomUUID().toString())
         dir.mkdirs()
 
         var googleFileList: List<File>
         launch {
             googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
+            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
             try {
                 // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                enfClient.provideDiagnosisKeys(
-                    googleFileList
-                )
+                enfClient.provideDiagnosisKeys(googleFileList)
                 apiKeysProvidedEvent.postValue(
                     DiagnosisKeyProvidedEvent(
-                        keyCount = appleFiles.size,
-                        token = token
+                        keyCount = appleFiles.size
                     )
                 )
             } catch (e: Exception) {
