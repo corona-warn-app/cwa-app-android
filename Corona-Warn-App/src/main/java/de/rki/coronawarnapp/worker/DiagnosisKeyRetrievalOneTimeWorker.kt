@@ -40,12 +40,11 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
         taskController.submitBlocking(
             DefaultTaskRequest(
                 DownloadDiagnosisKeysTask::class,
-                DownloadDiagnosisKeysTask.Arguments(null, true)
+                DownloadDiagnosisKeysTask.Arguments(),
+                originTag = "DiagnosisKeyRetrievalOneTimeWorker"
             )
         ).error?.also { error: Throwable ->
-            Timber.w(
-                error, "$id: Error during startWithConstraints()."
-            )
+            Timber.w(error, "$id: Error when submitting DownloadDiagnosisKeysTask.")
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Timber.w(error, "$id: Retry attempts exceeded.")

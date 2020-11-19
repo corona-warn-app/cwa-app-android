@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.exception.UnknownBroadcastException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
-import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection.Result
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -41,26 +41,35 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
     @Inject @AppScope lateinit var scope: CoroutineScope
     @Inject lateinit var dispatcherProvider: DispatcherProvider
     @Inject lateinit var exposureDetectionTracker: ExposureDetectionTracker
-    lateinit var context: Context
+    @Inject lateinit var workManager: WorkManager
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.tag(TAG).d("onReceive(context=%s, intent=%s)", context, intent)
         AndroidInjection.inject(this, context)
-        this.context = context
 
         val action = intent.action
         Timber.tag(TAG).v("Looking up action: %s", action)
 
         val async = goAsync()
-        scope.launch(context = dispatcherProvider.Default) {
+
+        scope.launch(context = scope.coroutineContext) {
             try {
-                val token = intent.getStringExtra(EXTRA_TOKEN)
-                when (action) {
-                    ACTION_EXPOSURE_STATE_UPDATED -> processStateUpdates(token)
-                    ACTION_EXPOSURE_NOT_FOUND -> processNotFound(token)
-                    else -> throw UnknownBroadcastException(action)
-                }
+                val token = intent.requireToken()
+
+                trackDetection(token, action)
+
+                val data = Data
+                    .Builder()
+                    .putString(EXTRA_TOKEN, token)
+                    .build()
+
+                OneTimeWorkRequest
+                    .Builder(ExposureStateUpdateWorker::class.java)
+                    .setInputData(data)
+                    .build()
+                    .let { workManager.enqueue(it) }
             } catch (e: Exception) {
+                Timber.e(e, "Failed to process intent.")
                 e.report(INTERNAL)
             } finally {
                 Timber.tag(TAG).i("Finished processing broadcast.")
@@ -69,36 +78,16 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun processStateUpdates(token: String?) {
-        Timber.tag(TAG).i("Processing ACTION_EXPOSURE_STATE_UPDATED")
-
-        val workManager = WorkManager.getInstance(context)
-
-        // TODO("Remove token from ExposureStateUpdateWorker")
-        val data = Data
-            .Builder()
-            .putString(EXTRA_TOKEN, token)
-            .build()
-
-        OneTimeWorkRequest
-            .Builder(ExposureStateUpdateWorker::class.java)
-            .setInputData(data)
-            .build()
-            .let { workManager.enqueue(it) }
-
-        exposureDetectionTracker.finishExposureDetection(
-            token,
-            TrackedExposureDetection.Result.UPDATED_STATE
-        )
-    }
-
-    private fun processNotFound(token: String?) {
-        Timber.tag(TAG).i("Processing ACTION_EXPOSURE_NOT_FOUND")
-
-        exposureDetectionTracker.finishExposureDetection(
-            token,
-            TrackedExposureDetection.Result.NO_MATCHES
-        )
+    private fun trackDetection(token: String, action: String?) {
+        when (action) {
+            ACTION_EXPOSURE_STATE_UPDATED -> {
+                exposureDetectionTracker.finishExposureDetection(token, Result.UPDATED_STATE)
+            }
+            ACTION_EXPOSURE_NOT_FOUND -> {
+                exposureDetectionTracker.finishExposureDetection(token, Result.NO_MATCHES)
+            }
+            else -> throw UnknownBroadcastException(action)
+        }
     }
 
     companion object {
