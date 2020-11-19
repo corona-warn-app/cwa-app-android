@@ -77,7 +77,7 @@
     ],
     "trlEncoding": {
       "infectiousnessOffsetStandard": 0,
-      "infectiousnessOffsetHigh":  4,
+      "infectiousnessOffsetHigh": 4,
       "reportTypeOffsetRecursive": 4,
       "reportTypeOffsetSelfReport": 3,
       "reportTypeOffsetConfirmedClinicalDiagnosis": 2,
@@ -112,7 +112,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "keep Exposure Windows that match minutesAtAttenuationFilters (>= 10 minutes)",
@@ -140,7 +142,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "drop Exposure Windows that do not match minutesAtAttenuationFilters (>= 73 dB)",
@@ -168,7 +172,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "keep Exposure Windows that match minutesAtAttenuationFilters (< 73 dB)",
@@ -196,7 +202,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "drop Exposure Windows that do not match trlFilters (<= 2)",
@@ -224,7 +232,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "keep Exposure Windows that match trlFilters (> 2)",
@@ -252,7 +262,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "identify Exposure Window as Low Risk based on normalizedTime (< 15)",
@@ -286,8 +298,8 @@
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0,
-      "expNumberOfExposureWindowsWithLowRisk": 1,
-      "expNumberOfExposureWindowsWithHighRisk": 0
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "identify Exposure Window as High Risk based on normalizedTime (>= 15)",
@@ -321,8 +333,8 @@
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithHighRisk": 1,
-      "expNumberOfExposureWindowsWithLowRisk": 1,
-      "expNumberOfExposureWindowsWithHighRisk": 0
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
     },
     {
       "description": "identify the most recent date with Low Risk",
@@ -386,7 +398,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 3,
       "expAgeOfMostRecentDateWithLowRisk": 2,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 3,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "count Exposure Windows with same Date/TRL/CallibrationConfidence only once towards distinct encounters with Low Risk",
@@ -432,7 +446,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "count Exposure Windows with same Date/TRL but different CallibrationConfidence separately towards distinct encounters with Low Risk",
@@ -478,7 +494,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 2,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "count Exposure Windows with same Date/CallibrationConfidence but different TRL separately towards distinct encounters with Low Risk",
@@ -524,7 +542,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 2,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "count Exposure Windows with same TRL/CallibrationConfidence but different Date separately towards distinct encounters with Low Risk",
@@ -570,7 +590,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 2,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 2,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "determine High Risk in total if there are sufficient Exposure Windows with a Low Risk",
@@ -634,7 +656,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
     },
     {
       "description": "identify the most recent date with High Risk",
@@ -698,7 +722,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 2,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 3
+      "expTotalMinimumDistinctEncountersWithHighRisk": 3,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 3
     },
     {
       "description": "count Exposure Windows with same Date/TRL/CallibrationConfidence only once towards distinct encounters with High Risk",
@@ -744,7 +770,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 1
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
     },
     {
       "description": "count Exposure Windows with same Date/TRL but different CallibrationConfidence separately towards distinct encounters with High Risk",
@@ -790,7 +818,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 2
+      "expTotalMinimumDistinctEncountersWithHighRisk": 2,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
     },
     {
       "description": "count Exposure Windows with same Date/CallibrationConfidence but different TRL separately towards distinct encounters with High Risk",
@@ -836,7 +866,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 2
+      "expTotalMinimumDistinctEncountersWithHighRisk": 2,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
     },
     {
       "description": "count Exposure Windows with same TRL/CallibrationConfidence but different Date separately towards distinct encounters with High Risk",
@@ -882,7 +914,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
       "expAgeOfMostRecentDateWithHighRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 2
+      "expTotalMinimumDistinctEncountersWithHighRisk": 2,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 2
     },
     {
       "description": "determine High Risk in total if there is at least one Exposure Window with High Risk",
@@ -928,7 +962,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expAgeOfMostRecentDateWithLowRisk": 2,
       "expAgeOfMostRecentDateWithHighRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 1
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 1
     },
     {
       "description": "handle empty set of Exposure Windows",
@@ -937,7 +973,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
-      "expAgeOfMostRecentDateWithHighRisk": null
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "handle empty set of Scan Instances (should never happen)",
@@ -954,7 +992,9 @@
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": null,
-      "expAgeOfMostRecentDateWithHighRisk": null
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "handle a typicalAttenuation of zero (should never happen)",
@@ -983,8 +1023,8 @@
       "expTotalMinimumDistinctEncountersWithHighRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfExposureWindowsWithLowRisk": 1,
-      "expNumberOfExposureWindowsWithHighRisk": 0
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     },
     {
       "description": "handle secondsSinceLastScan of zero (should never happen)",
@@ -1018,8 +1058,8 @@
       "expTotalMinimumDistinctEncountersWithHighRisk": 0,
       "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfExposureWindowsWithLowRisk": 1,
-      "expNumberOfExposureWindowsWithHighRisk": 0
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
     }
   ]
 }

@@ -15,6 +15,10 @@ data class TestCase(
     val expTotalMinimumDistinctEncountersWithLowRisk: Int,
     @SerializedName("expTotalRiskLevel")
     val expTotalRiskLevel: Int,
+    @SerializedName("expNumberOfDaysWithLowRisk")
+    val expNumberOfDaysWithLowRisk: Int,
+    @SerializedName("expNumberOfDaysWithHighRisk")
+    val expNumberOfDaysWithHighRisk: Int,
     @SerializedName("exposureWindows")
     val exposureWindows: List<JsonWindow>
 )
