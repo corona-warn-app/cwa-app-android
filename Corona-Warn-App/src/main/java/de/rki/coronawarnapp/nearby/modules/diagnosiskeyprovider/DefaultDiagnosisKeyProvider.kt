@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
-import de.rki.coronawarnapp.util.GoogleAPIVersion
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultDiagnosisKeyProvider @Inject constructor(
-    private val googleAPIVersion: GoogleAPIVersion,
+    private val enfVersion: ENFVersion,
     private val submissionQuota: SubmissionQuota,
     private val enfClient: ExposureNotificationClient
 ) : DiagnosisKeyProvider {
@@ -25,7 +25,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
             return true
         }
 
-        if (!googleAPIVersion.isAtLeast(GoogleAPIVersion.V15)) {
+        if (!enfVersion.isAtLeast(ENFVersion.V15)) {
             // Actually this shouldn't happen
             Timber.e("No key files submitted because client uses an old unsupported version")
             return false

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import de.rki.coronawarnapp.util.GoogleAPIVersion
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -17,14 +17,9 @@ import testhelpers.gms.MockGMSTask
 import java.io.File
 
 class DefaultDiagnosisKeyProviderTest : BaseTest() {
-    @MockK
-    lateinit var googleENFClient: ExposureNotificationClient
-
-    @MockK
-    lateinit var googleAPIVersion: GoogleAPIVersion
-
-    @MockK
-    lateinit var submissionQuota: SubmissionQuota
+    @MockK lateinit var googleENFClient: ExposureNotificationClient
+    @MockK lateinit var enfVersion: ENFVersion
+    @MockK lateinit var submissionQuota: SubmissionQuota
 
     private val exampleKeyFiles = listOf(File("file1"), File("file2"))
 
@@ -36,7 +31,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
+        coEvery { enfVersion.isAtLeast(ENFVersion.V16) } returns true
     }
 
     @AfterEach
@@ -45,14 +40,14 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     private fun createProvider() = DefaultDiagnosisKeyProvider(
-        googleAPIVersion = googleAPIVersion,
+        enfVersion = enfVersion,
         submissionQuota = submissionQuota,
         enfClient = googleENFClient
     )
 
     @Test
     fun `provide diagnosis keys with outdated ENF versions`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns false
+        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns false
 
         val provider = createProvider()
 
@@ -68,7 +63,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `key provision is used on newer ENF versions`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
+        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns true
 
         val provider = createProvider()
 
@@ -83,7 +78,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `provide diagnosis key when quota is empty`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
+        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns true
         coEvery { submissionQuota.consumeQuota(any()) } returns false
 
         val provider = createProvider()
@@ -100,7 +95,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `provide empty key list`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V15) } returns true
+        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns true
 
         val provider = createProvider()
 

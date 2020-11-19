@@ -69,6 +69,7 @@ class TracingRepository @Inject constructor(
     private fun List<TaskInfo>.isRiskLevelTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
     }
+
     private fun List<TaskInfo>.isDownloadDiagnosisKeysTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == DownloadDiagnosisKeysTask::class
     }
@@ -85,10 +86,15 @@ class TracingRepository @Inject constructor(
             taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
-                    DownloadDiagnosisKeysTask.Arguments()
+                    DownloadDiagnosisKeysTask.Arguments(),
+                    originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
-            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+            taskController.submit(
+                DefaultTaskRequest(
+                    RiskLevelTask::class, originTag = "TracingRepository.refreshDiagnosisKeys()"
+                )
+            )
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -133,12 +139,15 @@ class TracingRepository @Inject constructor(
                     taskController.submitBlocking(
                         DefaultTaskRequest(
                             DownloadDiagnosisKeysTask::class,
-                            DownloadDiagnosisKeysTask.Arguments()
+                            DownloadDiagnosisKeysTask.Arguments(),
+                            originTag = "TracingRepository.refreshRisklevel()"
                         )
                     )
                     TimerHelper.checkManualKeyRetrievalTimer()
 
-                    taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+                    taskController.submit(
+                        DefaultTaskRequest(RiskLevelTask::class, originTag = "TracingRepository.refreshRiskLevel()")
+                    )
                 }
             }
         }

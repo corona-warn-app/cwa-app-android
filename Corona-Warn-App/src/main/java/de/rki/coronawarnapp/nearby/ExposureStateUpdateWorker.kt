@@ -31,7 +31,9 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
                 Timber.v("exposure summary state updated: $it")
             }
 
-            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+            taskController.submit(
+                DefaultTaskRequest(RiskLevelTask::class, originTag = "ExposureStateUpdateWorker")
+            )
             Timber.v("risk level calculation triggered")
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)

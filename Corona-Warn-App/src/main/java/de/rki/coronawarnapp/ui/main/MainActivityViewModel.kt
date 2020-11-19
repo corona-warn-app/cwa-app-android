@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.main
 
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -25,6 +26,12 @@ class MainActivityViewModel @AssistedInject constructor(
                     showEnvironmentHint.postValue(current.rawKey)
                 }
             }
+        }
+    }
+
+    fun doBackgroundNoiseCheck() {
+        launch {
+            BackgroundNoise.getInstance().foregroundScheduleCheck()
         }
     }
 
