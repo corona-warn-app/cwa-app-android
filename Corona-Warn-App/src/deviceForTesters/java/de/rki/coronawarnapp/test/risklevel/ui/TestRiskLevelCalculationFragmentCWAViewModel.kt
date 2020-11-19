@@ -57,9 +57,15 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     dispatcherProvider = dispatcherProvider
 ) {
 
+    init {
+        Timber.d("CWAViewModel: %s", this)
+        Timber.d("SavedStateHandle: %s", handle)
+        Timber.d("Example arg: %s", exampleArg)
+    }
+
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
-    val apiKeysProvidedEvent = SingleLiveEvent<DiagnosisKeyProvidedEvent>()
+
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
         it.withSuccess(false) { true }
     }.asLiveData(dispatcherProvider.Default)
@@ -67,61 +73,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     val tracingCardState = tracingCardStateProvider.state
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
-
-    init {
-        Timber.d("CWAViewModel: %s", this)
-        Timber.d("SavedStateHandle: %s", handle)
-        Timber.d("Example arg: %s", exampleArg)
-    }
-
-    fun retrieveDiagnosisKeys() {
-        Timber.d("Starting download diagnosis keys task")
-        launch {
-            taskController.submitBlocking(
-                DefaultTaskRequest(
-                    DownloadDiagnosisKeysTask::class,
-                    DownloadDiagnosisKeysTask.Arguments(),
-                    originTag = "TestRiskLevelCalculationFragmentCWAViewModel.retrieveDiagnosisKeys()"
-                )
-            )
-        }
-    }
-
-    fun calculateRiskLevel() {
-        Timber.d("Starting calculate risk task")
-        taskController.submit(
-            DefaultTaskRequest(
-                RiskLevelTask::class,
-                originTag = "TestRiskLevelCalculationFragmentCWAViewModel.calculateRiskLevel()"
-            )
-        )
-    }
-
-    fun resetRiskLevel() {
-        Timber.d("Resetting risk level")
-        launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    // Preference reset
-                    SecurityHelper.resetSharedPrefs()
-                    // Database Reset
-                    AppDatabase.reset(context)
-                    // Export File Reset
-                    keyCacheRepository.clear()
-
-                    exposureResultStore.entities.value = ExposureResult(emptyList(), null)
-
-                    LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
-                    LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
-                } catch (e: Exception) {
-                    e.report(ExceptionCategory.INTERNAL)
-                }
-            }
-            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            riskLevelResetEvent.postValue(Unit)
-        }
-    }
 
     val exposureWindowCountString = exposureResultStore
         .entities
@@ -194,9 +145,54 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         )
         .toString()
 
-    data class DiagnosisKeyProvidedEvent(
-        val keyCount: Int
-    )
+    fun retrieveDiagnosisKeys() {
+        Timber.d("Starting download diagnosis keys task")
+        launch {
+            taskController.submitBlocking(
+                DefaultTaskRequest(
+                    DownloadDiagnosisKeysTask::class,
+                    DownloadDiagnosisKeysTask.Arguments(),
+                    originTag = "TestRiskLevelCalculationFragmentCWAViewModel.retrieveDiagnosisKeys()"
+                )
+            )
+        }
+    }
+
+    fun calculateRiskLevel() {
+        Timber.d("Starting calculate risk task")
+        taskController.submit(
+            DefaultTaskRequest(
+                RiskLevelTask::class,
+                originTag = "TestRiskLevelCalculationFragmentCWAViewModel.calculateRiskLevel()"
+            )
+        )
+    }
+
+    fun resetRiskLevel() {
+        Timber.d("Resetting risk level")
+        launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    // Preference reset
+                    SecurityHelper.resetSharedPrefs()
+                    // Database Reset
+                    AppDatabase.reset(context)
+                    // Export File Reset
+                    keyCacheRepository.clear()
+
+                    exposureResultStore.entities.value = ExposureResult(emptyList(), null)
+
+                    LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
+                    LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
+                    LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
+                } catch (e: Exception) {
+                    e.report(ExceptionCategory.INTERNAL)
+                }
+            }
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+            riskLevelResetEvent.postValue(Unit)
+        }
+    }
 
     fun clearKeyCache() {
         Timber.d("Clearing key cache")
