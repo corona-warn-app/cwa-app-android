@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.storage.AppDatabase
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -60,6 +61,8 @@ class DataReset @Inject constructor(
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Database Reset
         AppDatabase.reset(context)
+        // Because LocalData does not behave like a normal shared preference
+        LocalData.clear()
         // Shared Preferences Reset
         SecurityHelper.resetSharedPrefs()
         // Reset the current risk level stored in LiveData

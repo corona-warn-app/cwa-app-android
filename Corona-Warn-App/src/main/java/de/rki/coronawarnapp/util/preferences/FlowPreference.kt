@@ -18,17 +18,19 @@ class FlowPreference<T> constructor(
     private val flowInternal = MutableStateFlow(internalValue)
     val flow: Flow<T> = flowInternal
 
-    private val resetListener =
+    private val preferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { changedPrefs, changedKey ->
             if (changedKey != key) return@OnSharedPreferenceChangeListener
 
-            flowInternal.value = reader(changedPrefs, changedKey).also {
-                Timber.v("%s:%s changed to %s", changedPrefs, changedKey, it)
+            val newValue = reader(changedPrefs, changedKey)
+            val currentvalue = flowInternal.value
+            if (currentvalue != newValue && flowInternal.compareAndSet(currentvalue, newValue)) {
+                Timber.v("%s:%s changed to %s", changedPrefs, changedKey, newValue)
             }
         }
 
     init {
-        preferences.registerOnSharedPreferenceChangeListener(resetListener)
+        preferences.registerOnSharedPreferenceChangeListener(preferenceChangeListener)
     }
 
     private var internalValue: T

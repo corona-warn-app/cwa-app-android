@@ -726,4 +726,8 @@ object LocalData {
                 putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
             }
         }
+
+    fun clear() {
+        lastTimeDiagnosisKeysFetchedFlowPref.update { 0L }
+    }
 }
