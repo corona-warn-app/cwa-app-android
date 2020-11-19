@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -81,14 +82,16 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
-                // At most one detection every 6h
-                return object : Task.Result {}
-            }
+            if (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() != null) {
+                if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
+                    // At most one detection every 6h
+                    return object : Task.Result {}
+                }
 
-            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
-                //  Last check was within 24h, and there are no new files.
-                return object : Task.Result {}
+                if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+                    //  Last check was within 24h, and there are no new files.
+                    return object : Task.Result {}
+                }
             }
 
             val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
@@ -111,12 +114,11 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
 
-            internalProgress.send(Progress.ApiSubmissionFinished)
-            throwIfCancelled()
-
             if (isSubmissionSuccessful) {
                 saveTimestamp(currentDate, rollbackItems)
             }
+
+            internalProgress.send(Progress.ApiSubmissionFinished)
 
             return object : Task.Result {}
         } catch (error: Exception) {
