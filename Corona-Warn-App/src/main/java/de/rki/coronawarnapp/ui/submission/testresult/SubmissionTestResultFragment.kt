@@ -14,8 +14,8 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -77,6 +77,11 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         viewModel.uiState.observe2(this) {
             binding.uiState = it
+            it.deviceUiState.withFailure {
+                if (it is CwaWebException) {
+                    DialogHelper.showDialog(buildErrorDialog(it))
+                }
+            }
         }
 
         // registers callback when the os level back is pressed
@@ -95,10 +100,6 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                 R.string.submission_test_result_dialog_tracing_required_button
             )
             DialogHelper.showDialog(tracingRequiredDialog)
-        }
-
-        viewModel.uiStateError.observeEvent(viewLifecycleOwner) {
-            DialogHelper.showDialog(buildErrorDialog(it))
         }
 
         viewModel.showRedeemedTokenWarning.observe2(this) {

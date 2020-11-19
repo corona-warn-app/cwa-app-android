@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -44,11 +46,13 @@ class ExposureDetectionTrackerStorage @Inject constructor(
             if (!storageFile.exists()) return@withLock emptyMap()
 
             gson.fromJson<Map<String, TrackedExposureDetection>>(storageFile).also {
+                require(it.size >= 0)
                 Timber.v("Loaded detection data: %s", it)
                 lastCalcuationData = it
             }
         } catch (e: Exception) {
             Timber.e(e, "Failed to load tracked detections.")
+            if (storageFile.delete()) Timber.w("Storage file was deleted.")
             emptyMap()
         }
     }
@@ -63,6 +67,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
             gson.toJson(data, storageFile)
         } catch (e: Exception) {
             Timber.e(e, "Failed to save tracked detections.")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 }

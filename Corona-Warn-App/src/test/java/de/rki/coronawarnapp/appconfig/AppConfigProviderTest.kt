@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.appconfig
 
+import de.rki.coronawarnapp.appconfig.internal.AppConfigSource
+import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -25,7 +27,7 @@ import java.io.File
 
 class AppConfigProviderTest : BaseIOTest() {
 
-    @MockK lateinit var source: AppConfigSource
+    @MockK lateinit var appConfigSource: AppConfigSource
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -39,15 +41,16 @@ class AppConfigProviderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        testConfigDownload = DefaultConfigData(
+        testConfigDownload = ConfigDataContainer(
             serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
             identifier = "identifier",
-            configType = ConfigData.Type.FROM_SERVER
+            configType = ConfigData.Type.FROM_SERVER,
+            cacheValidity = Duration.standardMinutes(5)
         )
-        coEvery { source.clear() } just Runs
-        coEvery { source.retrieveConfig() } returns testConfigDownload
+        coEvery { appConfigSource.clear() } just Runs
+        coEvery { appConfigSource.getConfigData() } returns testConfigDownload
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
@@ -59,7 +62,7 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     private fun createInstance(scope: CoroutineScope) = AppConfigProvider(
-        source = source,
+        appConfigSource = appConfigSource,
         dispatcherProvider = TestDispatcherProvider,
         scope = scope
     )
@@ -67,13 +70,14 @@ class AppConfigProviderTest : BaseIOTest() {
     @Test
     fun `appConfig is observable`() = runBlockingTest2(ignoreActive = true) {
         var counter = 0
-        coEvery { source.retrieveConfig() } answers {
-            DefaultConfigData(
+        coEvery { appConfigSource.getConfigData() } answers {
+            ConfigDataContainer(
                 serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
                 localOffset = Duration.ZERO,
                 mappedConfig = configData,
                 identifier = "${++counter}",
-                configType = ConfigData.Type.FROM_SERVER
+                configType = ConfigData.Type.FROM_SERVER,
+                cacheValidity = Duration.standardMinutes(5)
             )
         }
 
@@ -90,19 +94,19 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
 
         coVerifySequence {
-            source.retrieveConfig()
-            source.retrieveConfig()
-            source.retrieveConfig()
-            source.retrieveConfig()
+            appConfigSource.getConfigData()
+            appConfigSource.getConfigData()
+            appConfigSource.getConfigData()
+            appConfigSource.getConfigData()
         }
     }
 
     @Test
-    fun `appConfig uses WHILE_SUBSCRIBED mode`() = runBlockingTest2(ignoreActive = true) {
+    fun `appConfig uses LAZILY mode`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         val testCollector1 = instance.currentConfig.test(startOnScope = this)
-        coVerify(exactly = 1) { source.retrieveConfig() }
+        coVerify(exactly = 1) { appConfigSource.getConfigData() }
 
         // Was still active
         val testCollector2 = instance.currentConfig.test(startOnScope = this)
@@ -114,7 +118,7 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
         testCollector3.cancel()
 
-        coVerify(exactly = 1) { source.retrieveConfig() }
+        coVerify(exactly = 1) { appConfigSource.getConfigData() }
         testCollector1.cancel() // Last subscriber
         advanceUntilIdle()
 
@@ -123,7 +127,7 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
         testCollector4.cancel()
 
-        coVerify(exactly = 2) { source.retrieveConfig() }
+        coVerify(exactly = 1) { appConfigSource.getConfigData() }
     }
 
     @Test
@@ -133,7 +137,7 @@ class AppConfigProviderTest : BaseIOTest() {
         instance.clear()
 
         coVerifySequence {
-            source.clear()
+            appConfigSource.clear()
         }
     }
 }
