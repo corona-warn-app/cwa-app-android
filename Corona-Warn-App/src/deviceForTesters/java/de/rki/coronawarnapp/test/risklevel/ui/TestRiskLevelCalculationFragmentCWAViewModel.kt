@@ -126,7 +126,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine(normalizedTimePerDayToRiskLevelMappingList)
         .toString()
 
-    //Only update when risk level gets updated
+    // Only update when risk level gets updated
     val additionalRiskCalcInfo = RiskLevelRepository
         .riskLevelScore
         .map { createAdditionalRiskCalcInfo(it) }
