@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import javax.inject.Inject
@@ -11,7 +12,14 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
     ExposureWindowRiskCalculationConfig.Mapper {
 
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskCalculationConfig {
+        if (!rawConfig.hasRiskCalculationParameters()) {
+            throw ApplicationConfigurationInvalidException(
+                message = "Risk Calculation Parameters are missing"
+            )
+        }
+
         val riskCalculationParameters = rawConfig.riskCalculationParameters
+
         return ExposureWindowRiskCalculationContainer(
             minutesAtAttenuationFilters = riskCalculationParameters
                 .minutesAtAttenuationFiltersList,
