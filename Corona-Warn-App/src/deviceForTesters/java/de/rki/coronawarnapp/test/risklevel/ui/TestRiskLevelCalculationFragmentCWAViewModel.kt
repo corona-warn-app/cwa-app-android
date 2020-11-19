@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.ExposureResult
 import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
@@ -110,7 +111,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     // Export File Reset
                     keyCacheRepository.clear()
 
-                    exposureResultStore.entities.value = Pair(emptyList(), null)
+                    exposureResultStore.entities.value = ExposureResult(emptyList(), null)
 
                     LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)

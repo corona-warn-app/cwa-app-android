@@ -9,7 +9,15 @@ import javax.inject.Singleton
 @Singleton
 class ExposureResultStore @Inject constructor() {
 
-    val entities = MutableStateFlow<ExposureResult>(Pair(emptyList(), null))
+    val entities = MutableStateFlow(
+        ExposureResult(
+            exposureWindows = emptyList(),
+            aggregatedRiskResult = null
+        )
+    )
 }
 
-typealias ExposureResult = Pair<List<ExposureWindow>, AggregatedRiskResult?>
+data class ExposureResult(
+    val exposureWindows: List<ExposureWindow>,
+    val aggregatedRiskResult: AggregatedRiskResult?
+)

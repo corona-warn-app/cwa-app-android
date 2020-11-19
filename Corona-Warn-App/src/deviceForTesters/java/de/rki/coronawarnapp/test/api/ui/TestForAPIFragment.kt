@@ -166,7 +166,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = exposureSummaryRepository.entities.first().first.toString()
+                    val summary = exposureSummaryRepository.entities.first().exposureWindows.toString()
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)

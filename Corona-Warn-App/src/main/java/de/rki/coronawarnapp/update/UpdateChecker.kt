@@ -70,11 +70,11 @@ class UpdateChecker(private val activity: LauncherActivity) {
 
         val minVersionFromServer = cwaAppConfig.minVersionCode
 
-        Timber.e(
+        Timber.d(
             "minVersionFromServer:%s",
             minVersionFromServer
         )
-        Timber.e("Current app version:%s", BuildConfig.VERSION_CODE)
+        Timber.d("Current app version:%s", BuildConfig.VERSION_CODE)
 
         val needsImmediateUpdate = VersionComparator.isVersionOlder(
             BuildConfig.VERSION_CODE.toLong(),
