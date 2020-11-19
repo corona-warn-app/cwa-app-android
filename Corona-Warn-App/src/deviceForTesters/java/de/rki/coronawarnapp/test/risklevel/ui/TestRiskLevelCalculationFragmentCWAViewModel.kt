@@ -186,17 +186,17 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val exposureWindowCountString = exposureResultStore
         .entities
-        .map { "Retrieved ${it.first.size} Exposure Windows" }
+        .map { "Retrieved ${it.exposureWindows.size} Exposure Windows" }
         .asLiveData()
 
     val exposureWindows = exposureResultStore
         .entities
-        .map { if (it.first.isEmpty()) "Exposure windows list is empty" else gson.toJson(it.first) }
+        .map { if (it.exposureWindows.isEmpty()) "Exposure windows list is empty" else gson.toJson(it.exposureWindows) }
         .asLiveData()
 
     val aggregatedRiskResult = exposureResultStore
         .entities
-        .map { if (it.second != null)  it.second!!.toReadableString() else "Aggregated risk result is not available" }
+        .map { if (it.aggregatedRiskResult != null)  it.aggregatedRiskResult.toReadableString() else "Aggregated risk result is not available" }
         .asLiveData()
 
     private fun AggregatedRiskResult.toReadableString(): String = StringBuilder()
