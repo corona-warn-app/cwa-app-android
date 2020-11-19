@@ -205,6 +205,20 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
+    fun `EXPECT_NEW_HOUR_PACKAGES does not get confused by same hour on next day`() = runBlockingTest {
+        val cachedKey1 = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns Instant.parse("2020-01-01T00:00:03.000Z").toDateTime(DateTimeZone.UTC)
+            }
+        }
+
+        val instance = createInstance()
+
+        val now = Instant.parse("2020-01-02T01:00:03.000Z")
+        instance.expectNewHourPackages(listOf(cachedKey1), now) shouldBe true
+    }
+
+    @Test
     fun `if keys were revoked skip the EXPECT packages check`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
