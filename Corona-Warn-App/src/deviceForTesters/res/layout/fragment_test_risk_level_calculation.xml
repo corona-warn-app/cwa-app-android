@@ -11,8 +11,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
-            name="showRiskStatusCard"
-            type="Boolean" />
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
 
         <variable
             name="settingsViewModel"
@@ -32,6 +32,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
             android:orientation="vertical">
 
             <TextView
@@ -41,23 +42,14 @@
                 android:layout_height="wrap_content"
                 android:text="Preview (no interaction possible)" />
 
-            <FrameLayout
+            <include
                 android:id="@+id/test_risk_card"
-                style="@style/card"
+                layout="@layout/include_risk_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
-                android:focusable="true"
-                android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                android:backgroundTintMode="src_over">
-
-                <include
-                    android:id="@+id/risk_card_content"
-                    layout="@layout/include_risk_card_content"
-                    app:tracingCard="@{tracingCard}" />
-
-            </FrameLayout>
+                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
+                app:tracingCard="@{tracingCard}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,16 +112,16 @@
                 android:text="Clear Diagnosis-Key cache" />
 
             <TextView
-                android:id="@+id/label_aggregated_risk_result_title"
+                android:id="@+id/label_exposure_summary_title"
                 style="@style/headline6"
                 android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Aggregated Risk Result" />
+                android:text="Exposure Summary" />
 
             <TextView
-                android:id="@+id/label_aggregated_risk_result"
+                android:id="@+id/label_exposure_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
@@ -177,24 +169,32 @@
                 android:text="-" />
 
             <TextView
-                android:id="@+id/label_exposure_window_title"
+                android:id="@+id/label_exposure_info_title"
                 style="@style/headline6"
                 android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exposure Windows" />
+                android:text="Exposure Information" />
 
             <TextView
-                android:id="@+id/label_exposure_window_count"
+                android:id="@+id/label_exposure_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
 
             <TextView
-                android:id="@+id/label_exposure_windows"
-                android:layout_width="wrap_content"
+                android:id="@+id/label_full_config_title"
+                style="@style/headline6"
+                android:accessibilityHeading="true"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
+                android:text="Full Backend Configuration" />
+
+            <TextView
+                android:id="@+id/label_full_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
                 android:text="-" />
 
         </LinearLayout>

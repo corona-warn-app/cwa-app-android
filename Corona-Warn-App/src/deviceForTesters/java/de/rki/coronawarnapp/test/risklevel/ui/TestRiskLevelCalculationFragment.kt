@@ -55,7 +55,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         }
 
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
-        binding.buttonProvideKeyViaQr.setOnClickListener { vm.scanLocalQRCodeAndProvide() }
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
 
@@ -68,7 +67,7 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         }
 
         vm.riskScoreState.observe2(this) { state ->
-            binding.labelRiskScore.text = state.riskScoreMsg
+            binding.labelRiskAdditionalInfo.text = state.riskScoreMsg
             binding.labelBackendParameters.text = state.backendParameters
             binding.labelFormula.text = state.formula
         }
@@ -99,36 +98,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
         vm.exposureWindows.observe2(this) {
             binding.labelExposureWindows.text = it
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        vm.calculateRiskLevel()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result: IntentResult =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                ?: return super.onActivityResult(requestCode, resultCode, data)
-
-        if (result.contents == null) {
-            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
-            return
-        }
-
-        ExposureSharingService.getOthersKeys(result.contents) { key: AppleLegacyKeyExchange.Key? ->
-            Timber.i("Keys scanned: %s", key)
-            if (key == null) {
-                Toast.makeText(
-                    requireContext(), "No Key data found in QR code", Toast.LENGTH_SHORT
-                ).show()
-                return@getOthersKeys Unit
-            }
-
-            val text = binding.transmissionNumber.text.toString()
-            val number = if (!text.isBlank()) Integer.valueOf(text) else 5
-            vm.provideDiagnosisKey(number, key)
         }
     }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -21,7 +20,6 @@ import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
-import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -30,7 +28,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
-import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -40,13 +37,10 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.io.File
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
@@ -108,6 +102,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun resetRiskLevel() {
+        Timber.d("Resetting risk level")
         launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -145,19 +140,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
                 var workState = riskScoreState.value!!
 
-                val exposureWindows = enfClient.exposureWindows()
-
-                val riskResultsPerWindow =
-                    exposureWindows.mapNotNull { window ->
-                        riskLevels.calculateRisk(appConfig, window)?.let { window to it }
-                    }.toMap()
-
-                val aggregatedResult = riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
-
                 val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
                     "Last successful Level: " +
                     "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
-                    "Calculated Score: ${aggregatedResult}\n" +
                     "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
                     "Tracing Duration: " +
                     "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
@@ -214,50 +199,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         val keyCount: Int
     )
 
-    fun provideDiagnosisKey(transmissionNumber: Int, key: AppleLegacyKeyExchange.Key) {
-        val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
-
-        AppleLegacyKeyExchange.Key.newBuilder()
-            .setKeyData(key.keyData)
-            .setRollingPeriod(144)
-            .setRollingStartNumber(key.rollingStartNumber)
-            .setTransmissionRiskLevel(transmissionNumber)
-            .build()
-            .also { appleKeyList.add(it) }
-
-        val appleFiles = listOf(
-            AppleLegacyKeyExchange.File.newBuilder()
-                .addAllKeys(appleKeyList)
-                .build()
-        )
-
-        val dir = File(File(context.getExternalFilesDir(null), "key-export"), UUID.randomUUID().toString())
-        dir.mkdirs()
-
-        var googleFileList: List<File>
-        launch {
-            googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
-
-            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
-            try {
-                // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                enfClient.provideDiagnosisKeys(googleFileList)
-                apiKeysProvidedEvent.postValue(
-                    DiagnosisKeyProvidedEvent(
-                        keyCount = appleFiles.size
-                    )
-                )
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-    fun scanLocalQRCodeAndProvide() {
-        startLocalQRCodeScanEvent.postValue(Unit)
-    }
-
     fun clearKeyCache() {
+        Timber.d("Clearing key cache")
         launch { keyCacheRepository.clear() }
     }
 
