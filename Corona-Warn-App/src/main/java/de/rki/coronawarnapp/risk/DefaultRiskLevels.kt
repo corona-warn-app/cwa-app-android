@@ -9,7 +9,7 @@ import com.google.android.gms.nearby.exposurenotification.ReportType
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -95,7 +95,7 @@ class DefaultRiskLevels @Inject constructor(
 
         val aggregatedResult = aggregateResults(appConfig, riskResultsPerWindow)
 
-        exposureResultStore.exposureWindowEntities = Pair(exposureWindows, aggregatedResult)
+        exposureResultStore.entities.value = Pair(exposureWindows, aggregatedResult)
 
         val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
 
@@ -121,9 +121,6 @@ class DefaultRiskLevels @Inject constructor(
                 "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
                     "($durationTracingIsActiveThreshold h): $it"
             )
-            if (it) {
-                Timber.tag(TAG).v("Active tracing time is not enough")
-            }
         }
     }
 

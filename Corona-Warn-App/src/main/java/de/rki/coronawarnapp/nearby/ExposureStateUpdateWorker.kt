@@ -27,7 +27,7 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
         try {
             Timber.v("worker to persist exposure summary started")
             enfClient.exposureWindows().also {
-                exposureResultStore.exposureWindowEntities = Pair(it, null)
+                exposureResultStore.entities.value = Pair(it, null)
                 Timber.v("exposure summary state updated: $it")
             }
 

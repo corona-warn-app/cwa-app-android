@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.KeyDownloadParameters
 import io.kotest.matchers.shouldBe
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.junit.jupiter.api.Test
@@ -57,6 +58,19 @@ class DownloadConfigMapperTest : BaseTest() {
                 day shouldBe LocalDate.parse("2020-11-09")
                 hour shouldBe LocalTime.parse("08:00")
             }
+        }
+    }
+
+    @Test
+    fun `if the protobuf data structures are null we return defaults`() {
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .build()
+
+        createInstance().map(rawConfig).apply {
+            revokedDayPackages shouldBe emptyList()
+            revokedHourPackages shouldBe emptyList()
+            overallDownloadTimeout shouldBe Duration.standardMinutes(8)
+            individualDownloadTimeout shouldBe Duration.standardSeconds(60)
         }
     }
 }

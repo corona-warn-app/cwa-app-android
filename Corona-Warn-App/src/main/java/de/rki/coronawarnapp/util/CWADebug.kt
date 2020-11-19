@@ -11,7 +11,7 @@ object CWADebug {
     fun init(application: Application) {
         if (isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
-        if (BuildConfig.DEBUG) {
+        if (isDeviceForTestersBuild) {
             Timber.plant(Timber.DebugTree())
         }
         if (isDeviceForTestersBuild) {

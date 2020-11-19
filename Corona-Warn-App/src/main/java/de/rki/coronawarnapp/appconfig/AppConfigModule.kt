@@ -4,11 +4,11 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
-import de.rki.coronawarnapp.appconfig.download.AppConfigHttpCache
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
+import de.rki.coronawarnapp.appconfig.sources.remote.AppConfigHttpCache
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.util.di.AppContext

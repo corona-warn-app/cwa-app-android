@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat.startActivity
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.CWAConfig
-import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.ui.LauncherActivity
 import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
