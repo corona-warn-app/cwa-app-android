@@ -107,5 +107,3 @@ class SubmissionTask @Inject constructor(
         private val TAG: String? = SubmissionTask::class.simpleName
     }
 }
-
-

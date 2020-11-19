@@ -69,7 +69,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
                 Timber.d(" $id maximum days not exceeded")
-                val registrationToken: String = LocalData.registrationToken()?: throw NoRegistrationTokenSetException()
+                val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
                 val testResult = submissionService.asyncRequestTestResult(registrationToken)
                 initiateNotification(testResult)
                 Timber.d(" $id Test Result Notification Initiated")

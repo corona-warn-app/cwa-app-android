@@ -139,7 +139,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     interface Factory : HomeViewModelFactory
 
     interface HomeViewModelFactory {
-        fun create(submissionCardsStateProvider: SubmissionCardsStateProvider, submissionRepository: SubmissionRepository): HomeFragmentViewModel
+        fun create(
+            submissionCardsStateProvider: SubmissionCardsStateProvider,
+            submissionRepository: SubmissionRepository
+        ): HomeFragmentViewModel
     }
 }
-

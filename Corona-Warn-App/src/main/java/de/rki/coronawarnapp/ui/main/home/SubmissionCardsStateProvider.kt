@@ -37,7 +37,6 @@ class SubmissionCardsStateProvider @AssistedInject constructor(
     interface Factory : InjectedSubmissionCardsStateProviderFactory
 
     interface InjectedSubmissionCardsStateProviderFactory {
-        fun create(submissionRepository: SubmissionRepository) : SubmissionCardsStateProvider
+        fun create(submissionRepository: SubmissionRepository): SubmissionCardsStateProvider
     }
 }
-

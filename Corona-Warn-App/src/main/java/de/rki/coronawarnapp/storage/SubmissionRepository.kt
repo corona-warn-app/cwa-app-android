@@ -199,5 +199,3 @@ private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testRe
     TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
     null -> DeviceUIState.UNPAIRED
 }
-
-

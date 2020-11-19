@@ -96,4 +96,3 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     @AssistedInject.Factory
     interface Factory : InjectedSubmissionViewModelFactory<SubmissionQRCodeScanViewModel>
 }
-

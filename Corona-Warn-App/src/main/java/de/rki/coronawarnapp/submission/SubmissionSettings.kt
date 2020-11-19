@@ -24,8 +24,6 @@ class SubmissionSettings @AssistedInject constructor(
     interface Factory : InjectedSubmissionSettingsFactory
 }
 
-
 interface InjectedSubmissionSettingsFactory {
     fun create(context: Context): SubmissionSettings
 }
-
