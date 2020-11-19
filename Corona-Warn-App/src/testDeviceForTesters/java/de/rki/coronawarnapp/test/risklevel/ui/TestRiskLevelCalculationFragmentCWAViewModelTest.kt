@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.google.gson.Gson
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -40,7 +41,6 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
     @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
     @MockK lateinit var taskController: TaskController
-    @MockK lateinit var riskLevels: RiskLevels
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var exposureResultStore: ExposureResultStore
 
@@ -64,14 +64,13 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             handle = savedStateHandle,
             exampleArg = exampleArgs,
             context = context,
-            enfClient = enfClient,
             keyCacheRepository = keyCacheRepository,
             tracingCardStateProvider = tracingCardStateProvider,
             dispatcherProvider = TestDispatcherProvider,
-            riskLevels = riskLevels,
             taskController = taskController,
             appConfigProvider = appConfigProvider,
-            exposureResultStore = exposureResultStore
+            exposureResultStore = exposureResultStore,
+            gson = Gson()
         )
 
     @Test
@@ -81,16 +80,5 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
         vm.clearKeyCache()
 
         coVerify(exactly = 1) { keyCacheRepository.clear() }
-    }
-
-    @Test
-    fun `action scanLocalQRCodeAndProvide, triggers event`() {
-        val vm = createViewModel()
-
-        vm.startLocalQRCodeScanEvent.value shouldBe null
-
-        vm.scanLocalQRCodeAndProvide()
-
-        vm.startLocalQRCodeScanEvent.value shouldBe Unit
     }
 }
