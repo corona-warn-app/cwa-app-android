@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -129,15 +130,12 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     data class RiskScoreState(
         val riskScoreMsg: String = "",
-        val backendParameters: String = "",
-        val formula: String = "",
+        val formula: String = ""
     )
 
     fun startENFObserver() {
         launch {
             try {
-                val appConfig = appConfigProvider.getAppConfig()
-
                 var workState = riskScoreState.value!!
 
                 val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
@@ -151,16 +149,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
 
                 workState = workState.copy(riskScoreMsg = riskAsString)
-
-                val configAsString =
-                    "Transmission RiskLevel Multiplier: ${appConfig.transmissionRiskLevelMultiplier}\n" +
-                        "Minutes At Attenuation Filters: ${appConfig.minutesAtAttenuationFilters}\n" +
-                        "Minutes At Attenuation Weights: ${appConfig.minutesAtAttenuationWeights}" +
-                        "Transmission RiskLevel Encoding: ${appConfig.transmissionRiskLevelEncoding}" +
-                        "Transmission RiskLevel Filters: ${appConfig.transmissionRiskLevelFilters}" +
-                        "Normalized Time Per Exposure Window To RiskLevel Mapping: ${appConfig.normalizedTimePerExposureWindowToRiskLevelMapping}" +
-                        "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
-                workState = workState.copy(backendParameters = configAsString)
 
                 riskScoreState.postValue(workState)
             } catch (e: Exception) {
@@ -193,6 +181,33 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine("Most Recent Date With Low Risk: $mostRecentDateWithLowRisk")
         .appendLine("Number of Days With High Risk: $numberOfDaysWithHighRisk")
         .appendLine("Number of Days With Low Risk: $numberOfDaysWithLowRisk")
+        .toString()
+
+    val backendParameters = appConfigProvider
+        .currentConfig
+        .map { it.toReadableString() }
+        .asLiveData()
+
+    private fun ConfigData.toReadableString(): String = StringBuilder()
+        .appendLine("Transmission RiskLevel Multiplier: $transmissionRiskLevelMultiplier")
+        .appendLine()
+        .appendLine("Minutes At Attenuation Filters:")
+        .appendLine(minutesAtAttenuationFilters)
+        .appendLine()
+        .appendLine("Minutes At Attenuation Weights:")
+        .appendLine(minutesAtAttenuationWeights)
+        .appendLine()
+        .appendLine("Transmission RiskLevel Encoding:")
+        .appendLine(transmissionRiskLevelEncoding)
+        .appendLine()
+        .appendLine("Transmission RiskLevel Filters:")
+        .appendLine(transmissionRiskLevelFilters)
+        .appendLine()
+        .appendLine("Normalized Time Per Exposure Window To RiskLevel Mapping:")
+        .appendLine(normalizedTimePerExposureWindowToRiskLevelMapping)
+        .appendLine()
+        .appendLine("Normalized Time Per Day To RiskLevel Mapping List:")
+        .appendLine(normalizedTimePerDayToRiskLevelMappingList)
         .toString()
 
     data class DiagnosisKeyProvidedEvent(

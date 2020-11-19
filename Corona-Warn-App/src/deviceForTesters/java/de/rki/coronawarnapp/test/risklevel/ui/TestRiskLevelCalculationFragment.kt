@@ -68,7 +68,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
         vm.riskScoreState.observe2(this) { state ->
             binding.labelRiskAdditionalInfo.text = state.riskScoreMsg
-            binding.labelBackendParameters.text = state.backendParameters
             binding.labelFormula.text = state.formula
         }
         vm.startENFObserver()
@@ -98,6 +97,10 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
         vm.exposureWindows.observe2(this) {
             binding.labelExposureWindows.text = it
+        }
+
+        vm.backendParameters.observe2(this) {
+            binding.labelBackendParameters.text = it
         }
     }
 
