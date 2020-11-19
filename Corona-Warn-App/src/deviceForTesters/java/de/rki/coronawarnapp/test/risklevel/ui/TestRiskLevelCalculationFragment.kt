@@ -135,8 +135,8 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
     companion object {
         val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!
         val MENU_ITEM = TestMenuItem(
-            title = "Risklevel Calculation",
-            description = "Risklevel calculation related test options.",
+            title = "ENF v2 Calculation",
+            description = "Window Mode related overview.",
             targetId = R.id.test_risklevel_calculation_fragment
         )
     }
