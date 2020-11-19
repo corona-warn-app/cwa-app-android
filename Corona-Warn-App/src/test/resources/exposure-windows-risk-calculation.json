@@ -96,13 +96,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 299
             }
           ]
@@ -126,13 +126,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -156,13 +156,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 73,
-              "minAttenuation": 25,
+              "minAttenuation": 73,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 73,
-              "minAttenuation": 25,
+              "minAttenuation": 73,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -186,13 +186,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 72,
-              "minAttenuation": 25,
+              "minAttenuation": 72,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 72,
-              "minAttenuation": 25,
+              "minAttenuation": 72,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -216,13 +216,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -246,13 +246,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -276,18 +276,18 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 299
             }
           ]
@@ -311,18 +311,18 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -346,13 +346,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -364,13 +364,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -382,13 +382,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -412,13 +412,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -430,13 +430,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -460,13 +460,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -478,13 +478,13 @@
           "calibrationConfidence": 1,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -508,13 +508,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -526,13 +526,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -556,13 +556,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -574,13 +574,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -604,13 +604,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -622,13 +622,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -640,13 +640,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -670,13 +670,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -688,13 +688,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -706,13 +706,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -736,13 +736,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -754,13 +754,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -784,13 +784,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -802,13 +802,13 @@
           "calibrationConfidence": 1,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -832,13 +832,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -850,13 +850,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -880,13 +880,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -898,13 +898,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -928,13 +928,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -946,13 +946,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             },
             {
-              "typicalAttenuation": 30,
-              "minAttenuation": 25,
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 420
             }
           ]
@@ -997,7 +997,7 @@
       "expNumberOfDaysWithHighRisk": 0
     },
     {
-      "description": "handle a typicalAttenuation of zero (should never happen)",
+      "description": "handle a typicalAttenuation: of zero (should never happen)",
       "exposureWindows": [
         {
           "ageInDays": 1,
@@ -1006,13 +1006,13 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 0,
-              "minAttenuation": 25,
+              "minAttenuation": 0,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 70,
-              "minAttenuation": 25,
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
@@ -1036,18 +1036,18 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "typicalAttenuation": 70,
-              "minAttenuation": 25,
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 0
             },
             {
-              "typicalAttenuation": 70,
-              "minAttenuation": 25,
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             },
             {
-              "typicalAttenuation": 70,
-              "minAttenuation": 25,
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]

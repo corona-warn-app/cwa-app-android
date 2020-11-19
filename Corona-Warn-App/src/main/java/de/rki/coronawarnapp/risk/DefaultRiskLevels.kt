@@ -171,7 +171,7 @@ class DefaultRiskLevels @Inject constructor(
         attenuationFilters.any { attenuationFilter ->
             // Get total seconds at attenuation in exposure window
             val secondsAtAttenuation: Double = scanInstances
-                .filter { attenuationFilter.attenuationRange.inRange(it.typicalAttenuationDb) }
+                .filter { attenuationFilter.attenuationRange.inRange(it.minAttenuationDb) }
                 .fold(.0) { acc, scanInstance -> acc + scanInstance.secondsSinceLastScan }
 
             val minutesAtAttenuation = secondsAtAttenuation / 60
@@ -218,7 +218,7 @@ class DefaultRiskLevels @Inject constructor(
         scanInstances.fold(.0) { seconds, scanInstance ->
             val weight: Double =
                 minutesAtAttenuationWeight
-                    .filter { it.attenuationRange.inRange(scanInstance.typicalAttenuationDb) }
+                    .filter { it.attenuationRange.inRange(scanInstance.minAttenuationDb) }
                     .map { it.weight }
                     .firstOrNull() ?: .0
             seconds + scanInstance.secondsSinceLastScan * weight
