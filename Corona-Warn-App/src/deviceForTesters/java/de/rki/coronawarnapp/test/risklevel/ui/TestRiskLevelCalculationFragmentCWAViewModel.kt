@@ -139,16 +139,18 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun startENFObserver() {
         launch {
             try {
+                val appConfig = appConfigProvider.getAppConfig()
+
                 var workState = riskScoreState.value!!
 
                 val exposureWindows = enfClient.exposureWindows()
 
                 val riskResultsPerWindow =
                     exposureWindows.mapNotNull { window ->
-                        riskLevels.calculateRisk(window)?.let { window to it }
+                        riskLevels.calculateRisk(appConfig, window)?.let { window to it }
                     }.toMap()
 
-                val aggregatedResult = riskLevels.aggregateResults(riskResultsPerWindow)
+                val aggregatedResult = riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
 
                 val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
                     "Last successful Level: " +
@@ -162,8 +164,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
 
                 workState = workState.copy(riskScoreMsg = riskAsString)
-
-                val appConfig = appConfigProvider.getAppConfig()
 
                 val configAsString =
                     "Transmission RiskLevel Multiplier: ${appConfig.transmissionRiskLevelMultiplier}\n" +

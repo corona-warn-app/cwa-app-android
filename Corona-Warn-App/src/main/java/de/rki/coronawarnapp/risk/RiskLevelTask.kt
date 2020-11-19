@@ -78,7 +78,7 @@ class RiskLevelTask @Inject constructor(
                             UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
                         }
 
-                        isIncreasedRisk(getExposureWindows()).also {
+                        isIncreasedRisk(configData, getExposureWindows()).also {
                             checkCancel()
                         } -> INCREASED_RISK
 
