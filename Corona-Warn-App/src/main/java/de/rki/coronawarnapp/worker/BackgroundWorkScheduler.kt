@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.worker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.Operation
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.work.WorkInfo
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
 import timber.log.Timber
@@ -90,7 +91,8 @@ object BackgroundWorkScheduler {
             LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
             notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
         }
-        Timber.d("Background Job Starting: %s", notificationBody)
+        BackgroundWorkHelper.sendDebugNotification(
+            "Background Job Starting", notificationBody.toString())
     }
 
     /**
@@ -142,7 +144,8 @@ object BackgroundWorkScheduler {
             workManager.cancelAllWorkByTag(workTag.tag)
                 .also { it.logOperationCancelByTag(workTag) }
         }
-        Timber.d("All Background Jobs Stopped")
+        BackgroundWorkHelper.sendDebugNotification(
+            "All Background Jobs Stopped", "All Background Jobs Stopped")
     }
 
     /**
@@ -274,24 +277,28 @@ object BackgroundWorkScheduler {
      * Log operation schedule
      */
     private fun Operation.logOperationSchedule(workType: WorkType) =
-        this.result.addListener(
-            { Timber.d("${workType.uniqueName} completed.") },
-            { it.run() }
-        ).also { Timber.d("${workType.uniqueName} scheduled.") }
+        this.result.addListener({
+            Timber.d("${workType.uniqueName} completed.")
+            BackgroundWorkHelper.sendDebugNotification(
+                "Background Job Started", "${workType.uniqueName} scheduled")
+        }, { it.run() })
+            .also { if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} scheduled.") }
 
     /**
      * Log operation cancellation
      */
     private fun Operation.logOperationCancelByTag(workTag: WorkTag) =
-        this.result.addListener(
-            { Timber.d("All work with tag ${workTag.tag} canceled.") },
-            { it.run() }
-        ).also { Timber.d("Canceling all work with tag ${workTag.tag}") }
+        this.result.addListener({
+            Timber.d("All work with tag ${workTag.tag} canceled.")
+            BackgroundWorkHelper.sendDebugNotification(
+                "Background Job canceled", "${workTag.tag} canceled")
+        }, { it.run() })
+            .also { if (BuildConfig.DEBUG) Timber.d("Canceling all work with tag ${workTag.tag}") }
 
     /**
      * Log work active status
      */
     private fun logWorkActiveStatus(tag: String, active: Boolean) {
-        Timber.d("Work type $tag is active: $active")
+        if (BuildConfig.DEBUG) Timber.d("Work type $tag is active: $active")
     }
 }

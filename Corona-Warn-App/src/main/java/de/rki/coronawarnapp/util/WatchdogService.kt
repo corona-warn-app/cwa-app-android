@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -44,9 +45,9 @@ class WatchdogService @Inject constructor(
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing
             val wifiLock = createWifiLock()
-
-            Timber.d("Automatic mode is on, check if we have downloaded keys already today")
-
+            BackgroundWorkHelper.sendDebugNotification(
+                "Automatic mode is on", "Check if we have downloaded keys already today"
+            )
             val state = taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
@@ -55,7 +56,12 @@ class WatchdogService @Inject constructor(
                 )
             )
             if (state.isFailed) {
-                Timber.e(state.error, "RetrieveDiagnosisKeysTransaction failed")
+                BackgroundWorkHelper.sendDebugNotification(
+                    "RetrieveDiagnosisKeysTransaction failed",
+                    (state.error?.localizedMessage
+                        ?: "Unknown exception occurred in onCreate") + "\n\n" + (state.error?.cause
+                        ?: "Cause is unknown").toString()
+                )
                 // retry the key retrieval in case of an error with a scheduled work
                 BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
             }
