@@ -80,7 +80,7 @@ object RiskLevelRepository {
      *
      * @return
      */
-    private fun getLastSuccessfullyCalculatedScore(): RiskLevel =
+    fun getLastSuccessfullyCalculatedScore(): RiskLevel =
         LocalData.lastSuccessfullyCalculatedRiskLevel()
 
     /**

@@ -1,24 +1,23 @@
 package de.rki.coronawarnapp.test.risklevel.ui
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import com.google.gson.Gson
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.ExposureResult
 import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
-import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -27,11 +26,11 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
-import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -39,9 +38,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
+import org.joda.time.Instant
 import timber.log.Timber
-import java.io.File
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
@@ -49,21 +47,25 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
     dispatcherProvider: DispatcherProvider,
-    private val enfClient: ENFClient,
-    private val riskLevels: RiskLevels,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
+    @BaseGson private val gson: Gson,
     private val exposureResultStore: ExposureResultStore
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
+    init {
+        Timber.d("CWAViewModel: %s", this)
+        Timber.d("SavedStateHandle: %s", handle)
+        Timber.d("Example arg: %s", exampleArg)
+    }
+
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
-    val apiKeysProvidedEvent = SingleLiveEvent<DiagnosisKeyProvidedEvent>()
-    val riskScoreState = MutableLiveData<RiskScoreState>(RiskScoreState())
+
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
         it.withSuccess(false) { true }
     }.asLiveData(dispatcherProvider.Default)
@@ -72,13 +74,79 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
-    init {
-        Timber.d("CWAViewModel: %s", this)
-        Timber.d("SavedStateHandle: %s", handle)
-        Timber.d("Example arg: %s", exampleArg)
-    }
+    val exposureWindowCountString = exposureResultStore
+        .entities
+        .map { "Retrieved ${it.exposureWindows.size} Exposure Windows" }
+        .asLiveData()
+
+    val exposureWindows = exposureResultStore
+        .entities
+        .map { if (it.exposureWindows.isEmpty()) "Exposure windows list is empty" else gson.toJson(it.exposureWindows) }
+        .asLiveData()
+
+    val aggregatedRiskResult = exposureResultStore
+        .entities
+        .map { if (it.aggregatedRiskResult != null) it.aggregatedRiskResult.toReadableString() else "Aggregated risk result is not available" }
+        .asLiveData()
+
+    private fun AggregatedRiskResult.toReadableString(): String = StringBuilder()
+        .appendLine("Total RiskLevel: $totalRiskLevel")
+        .appendLine("Total Minimum Distinct Encounters With High Risk: $totalMinimumDistinctEncountersWithHighRisk")
+        .appendLine("Total Minimum Distinct Encounters With Low Risk: $totalMinimumDistinctEncountersWithLowRisk")
+        .appendLine("Most Recent Date With High Risk: $mostRecentDateWithHighRisk")
+        .appendLine("Most Recent Date With Low Risk: $mostRecentDateWithLowRisk")
+        .appendLine("Number of Days With High Risk: $numberOfDaysWithHighRisk")
+        .appendLine("Number of Days With Low Risk: $numberOfDaysWithLowRisk")
+        .toString()
+
+    val backendParameters = appConfigProvider
+        .currentConfig
+        .map { it.toReadableString() }
+        .asLiveData()
+
+    private fun ConfigData.toReadableString(): String = StringBuilder()
+        .appendLine("Transmission RiskLevel Multiplier: $transmissionRiskLevelMultiplier")
+        .appendLine()
+        .appendLine("Minutes At Attenuation Filters:")
+        .appendLine(minutesAtAttenuationFilters)
+        .appendLine()
+        .appendLine("Minutes At Attenuation Weights:")
+        .appendLine(minutesAtAttenuationWeights)
+        .appendLine()
+        .appendLine("Transmission RiskLevel Encoding:")
+        .appendLine(transmissionRiskLevelEncoding)
+        .appendLine()
+        .appendLine("Transmission RiskLevel Filters:")
+        .appendLine(transmissionRiskLevelFilters)
+        .appendLine()
+        .appendLine("Normalized Time Per Exposure Window To RiskLevel Mapping:")
+        .appendLine(normalizedTimePerExposureWindowToRiskLevelMapping)
+        .appendLine()
+        .appendLine("Normalized Time Per Day To RiskLevel Mapping List:")
+        .appendLine(normalizedTimePerDayToRiskLevelMappingList)
+        .toString()
+
+    // Only update when risk level gets updated
+    val additionalRiskCalcInfo = RiskLevelRepository
+        .riskLevelScore
+        .map { createAdditionalRiskCalcInfo(it) }
+        .asLiveData()
+
+    private suspend fun createAdditionalRiskCalcInfo(riskLevelScore: Int): String = StringBuilder()
+        .appendLine("Risk Level: ${RiskLevel.forValue(riskLevelScore)}")
+        .appendLine("Last successful Risk Level: ${RiskLevelRepository.getLastSuccessfullyCalculatedScore()}")
+        .appendLine("Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}")
+        .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
+        .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
+        .appendLine(
+            "Last time risk level calculation ${
+                LocalData.lastTimeRiskLevelCalculation()?.let { Instant.ofEpochMilli(it) }
+            }"
+        )
+        .toString()
 
     fun retrieveDiagnosisKeys() {
+        Timber.d("Starting download diagnosis keys task")
         launch {
             taskController.submitBlocking(
                 DefaultTaskRequest(
@@ -87,11 +155,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     originTag = "TestRiskLevelCalculationFragmentCWAViewModel.retrieveDiagnosisKeys()"
                 )
             )
-            calculateRiskLevel()
         }
     }
 
     fun calculateRiskLevel() {
+        Timber.d("Starting calculate risk task")
         taskController.submit(
             DefaultTaskRequest(
                 RiskLevelTask::class,
@@ -101,6 +169,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun resetRiskLevel() {
+        Timber.d("Resetting risk level")
         launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -125,117 +194,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
     }
 
-    data class RiskScoreState(
-        val riskScoreMsg: String = "",
-        val backendParameters: String = "",
-        val exposureSummary: String = "",
-        val formula: String = "",
-        val exposureInfo: String = ""
-    )
-
-    fun startENFObserver() {
-        launch {
-            try {
-                val appConfig = appConfigProvider.getAppConfig()
-
-                var workState = riskScoreState.value!!
-
-                val exposureWindows = enfClient.exposureWindows()
-
-                val riskResultsPerWindow =
-                    exposureWindows.mapNotNull { window ->
-                        riskLevels.calculateRisk(appConfig, window)?.let { window to it }
-                    }.toMap()
-
-                val aggregatedResult = riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
-
-                val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
-                    "Last successful Level: " +
-                    "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
-                    "Calculated Score: ${aggregatedResult}\n" +
-                    "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
-                    "Tracing Duration: " +
-                    "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
-                    "Tracing Duration in last 14 days: " +
-                    "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days \n" +
-                    "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
-
-                workState = workState.copy(riskScoreMsg = riskAsString)
-
-                val configAsString =
-                    "Transmission RiskLevel Multiplier: ${appConfig.transmissionRiskLevelMultiplier}\n" +
-                        "Minutes At Attenuation Filters: ${appConfig.minutesAtAttenuationFilters}\n" +
-                        "Minutes At Attenuation Weights: ${appConfig.minutesAtAttenuationWeights}" +
-                        "Transmission RiskLevel Encoding: ${appConfig.transmissionRiskLevelEncoding}" +
-                        "Transmission RiskLevel Filters: ${appConfig.transmissionRiskLevelFilters}" +
-                        "Normalized Time Per Exposure Window To RiskLevel Mapping: ${appConfig.normalizedTimePerExposureWindowToRiskLevelMapping}" +
-                        "Normalized Time Per Day To RiskLevel Mapping List: ${appConfig.normalizedTimePerDayToRiskLevelMappingList}"
-                workState = workState.copy(backendParameters = configAsString)
-
-                val summaryAsString =
-                    "Total RiskLevel: ${aggregatedResult.totalRiskLevel}" +
-                        "Total Minimum Distinct Encounters With High Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithHighRisk}" +
-                        "Total Minimum Distinct Encounters With Low Risk: ${aggregatedResult.totalMinimumDistinctEncountersWithLowRisk}" +
-                        "Most Recent Date With High Risk: ${aggregatedResult.mostRecentDateWithHighRisk}" +
-                        "Most Recent Date With Low Risk: ${aggregatedResult.mostRecentDateWithLowRisk}"
-
-                workState = workState.copy(exposureSummary = summaryAsString)
-
-                riskScoreState.postValue(workState)
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-    data class DiagnosisKeyProvidedEvent(
-        val keyCount: Int
-    )
-
-    fun provideDiagnosisKey(transmissionNumber: Int, key: AppleLegacyKeyExchange.Key) {
-        val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
-
-        AppleLegacyKeyExchange.Key.newBuilder()
-            .setKeyData(key.keyData)
-            .setRollingPeriod(144)
-            .setRollingStartNumber(key.rollingStartNumber)
-            .setTransmissionRiskLevel(transmissionNumber)
-            .build()
-            .also { appleKeyList.add(it) }
-
-        val appleFiles = listOf(
-            AppleLegacyKeyExchange.File.newBuilder()
-                .addAllKeys(appleKeyList)
-                .build()
-        )
-
-        val dir = File(File(context.getExternalFilesDir(null), "key-export"), UUID.randomUUID().toString())
-        dir.mkdirs()
-
-        var googleFileList: List<File>
-        launch {
-            googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
-
-            Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
-            try {
-                // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                enfClient.provideDiagnosisKeys(googleFileList)
-                apiKeysProvidedEvent.postValue(
-                    DiagnosisKeyProvidedEvent(
-                        keyCount = appleFiles.size
-                    )
-                )
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-    fun scanLocalQRCodeAndProvide() {
-        startLocalQRCodeScanEvent.postValue(Unit)
-    }
-
     fun clearKeyCache() {
+        Timber.d("Clearing key cache")
         launch { keyCacheRepository.clear() }
     }
 
