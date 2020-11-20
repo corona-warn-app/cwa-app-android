@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_margin="@dimen/spacing_mega_tiny"
-    android:layout_width="@dimen/spacing_small"
-    android:layout_height="@dimen/spacing_small">
-
-    <ImageView
-        android:id="@+id/country_list_entry_image"
-        android:layout_width="@dimen/spacing_small"
-        android:layout_height="@dimen/spacing_small"
-        app:srcCompat="@drawable/ic_country_eu" />
-
-</FrameLayout>
+    android:id="@+id/country_list_entry_image"
+    android:layout_width="28dp"
+    android:layout_height="28dp"
+    android:layout_margin="4dp"
+    app:srcCompat="@drawable/ic_country_eu" />
