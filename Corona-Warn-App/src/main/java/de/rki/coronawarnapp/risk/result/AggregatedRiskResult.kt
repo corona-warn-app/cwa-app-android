@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.result
 
+import de.rki.coronawarnapp.risk.ProtoRiskLevel
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import org.joda.time.Instant
 
@@ -11,4 +12,7 @@ data class AggregatedRiskResult(
     val mostRecentDateWithHighRisk: Instant?,
     val numberOfDaysWithLowRisk: Int,
     val numberOfDaysWithHighRisk: Int
-)
+) {
+
+    fun isIncreasedRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.HIGH
+}
