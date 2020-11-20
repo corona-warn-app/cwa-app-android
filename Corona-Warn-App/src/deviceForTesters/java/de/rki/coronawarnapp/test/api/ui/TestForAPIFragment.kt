@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -43,6 +42,7 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -201,7 +201,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     override fun onResume() {
         super.onResume()
 
-        updateExposureSummaryDisplay(null)
+        updateExposureSummaryDisplay()
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -311,47 +311,28 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private fun checkExposure() {
         Timber.d("Check Exposure")
-
-        lifecycleScope.launch {
-            try {
-                val exposureSummary = enfClient.exposureWindows()
-                updateExposureSummaryDisplay(exposureSummary)
-                showToast("Updated Exposure Summary")
-                Timber.d("Received exposure from QR Code")
-                Timber.i(exposureSummary.toString())
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
+        updateExposureSummaryDisplay()
     }
 
-    private fun updateExposureSummaryDisplay(windows: List<ExposureWindow>?) {
-
-        // FIXME
-//        binding.labelExposureSummaryMatchedKeyCount.text = getString(
-//            R.string.test_api_body_matchedKeyCount,
-//            (exposureSummary?.matchedKeyCount ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummaryDaysSinceLastExposure.text = getString(
-//            R.string.test_api_body_daysSinceLastExposure,
-//            (exposureSummary?.daysSinceLastExposure ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummaryMaximumRiskScore.text = getString(
-//            R.string.test_api_body_maximumRiskScore,
-//            (exposureSummary?.maximumRiskScore ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummarySummationRiskScore.text = getString(
-//            R.string.test_api_body_summation_risk,
-//            (exposureSummary?.summationRiskScore ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummaryAttenuation.text = getString(
-//            R.string.test_api_body_attenuation,
-//            (exposureSummary?.attenuationDurationsInMinutes?.joinToString() ?: "-").toString()
-//        )
+    @SuppressLint("SetTextI18n")
+    private fun updateExposureSummaryDisplay() {
+        lifecycleScope.launch {
+            exposureResultStore.entities.first().aggregatedRiskResult?.apply {
+                binding.labelAggregatedResultLowDate.text = "most recent date with low risk: ${
+                    mostRecentDateWithLowRisk?.toDate()?.toUIFormat(requireContext()) ?: "n/a"
+                }"
+                binding.labelAggregatedResultHighDate.text = "most recent date with high risk: ${
+                    mostRecentDateWithHighRisk?.toDate()?.toUIFormat(requireContext()) ?: "n/a"
+                }"
+                binding.labelAggregatedResultLowDays.text = "number of days with low risk: $numberOfDaysWithLowRisk"
+                binding.labelAggregatedResultHighDays.text = "number of days with high risk: $numberOfDaysWithHighRisk"
+                binding.labelAggregatedResultRiskLevel.text = "risk level: ${totalRiskLevel.name}"
+                binding.labelAggregatedResultLowEncounters.text =
+                    "total minimum distinct encounters with low risk: $totalMinimumDistinctEncountersWithLowRisk"
+                binding.labelAggregatedResultHighEncounters.text =
+                    "total minimum distinct encounters with high risk: $totalMinimumDistinctEncountersWithHighRisk"
+            }
+        }
     }
 
     private fun updateKeysDisplay() {

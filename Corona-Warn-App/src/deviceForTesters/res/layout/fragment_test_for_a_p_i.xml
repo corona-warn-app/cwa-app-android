@@ -62,34 +62,46 @@
                     android:text="@string/test_api_exposure_summary_headline" />
 
                 <TextView
-                    android:id="@+id/label_exposure_summary_matchedKeyCount"
+                    android:id="@+id/label_aggregated_result_risk_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_matchedKeyCount" />
+                    android:text="@string/lorem_ipsum" />
 
                 <TextView
-                    android:id="@+id/label_exposure_summary_daysSinceLastExposure"
+                    android:id="@+id/label_aggregated_result_low_encounters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_daysSinceLastExposure" />
+                    android:text="@string/lorem_ipsum" />
 
                 <TextView
-                    android:id="@+id/label_exposure_summary_maximumRiskScore"
+                    android:id="@+id/label_aggregated_result_high_encounters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_maximumRiskScore" />
+                    android:text="@string/lorem_ipsum" />
 
                 <TextView
-                    android:id="@+id/label_exposure_summary_summationRiskScore"
+                    android:id="@+id/label_aggregated_result_low_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_summation_risk" />
+                    android:text="@string/lorem_ipsum" />
 
                 <TextView
-                    android:id="@+id/label_exposure_summary_attenuation"
+                    android:id="@+id/label_aggregated_result_high_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_attenuation" />
+                    android:text="@string/lorem_ipsum" />
+
+                <TextView
+                    android:id="@+id/label_aggregated_result_low_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_ipsum" />
+
+                <TextView
+                    android:id="@+id/label_aggregated_result_high_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_ipsum" />
 
                 <Button
                     android:id="@+id/button_api_scan_qr_code"
