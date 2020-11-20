@@ -42,7 +42,6 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -120,7 +119,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         binding.apply {
             buttonApiTestStart.setOnClickListener { start() }
             buttonApiGetExposureKeys.setOnClickListener { getExposureKeys() }
-            buttonApiGetCheckExposure.setOnClickListener { checkExposure() }
 
             buttonApiScanQrCode.setOnClickListener {
                 IntentIntegrator.forSupportFragment(this@TestForAPIFragment)
@@ -196,12 +194,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        updateExposureSummaryDisplay()
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -305,32 +297,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.EXPOSURENOTIFICATION)
                 }
-            }
-        }
-    }
-
-    private fun checkExposure() {
-        Timber.d("Check Exposure")
-        updateExposureSummaryDisplay()
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun updateExposureSummaryDisplay() {
-        lifecycleScope.launch {
-            exposureResultStore.entities.first().aggregatedRiskResult?.apply {
-                binding.labelAggregatedResultLowDate.text = "most recent date with low risk: ${
-                    mostRecentDateWithLowRisk?.toDate()?.toUIFormat(requireContext()) ?: "n/a"
-                }"
-                binding.labelAggregatedResultHighDate.text = "most recent date with high risk: ${
-                    mostRecentDateWithHighRisk?.toDate()?.toUIFormat(requireContext()) ?: "n/a"
-                }"
-                binding.labelAggregatedResultLowDays.text = "number of days with low risk: $numberOfDaysWithLowRisk"
-                binding.labelAggregatedResultHighDays.text = "number of days with high risk: $numberOfDaysWithHighRisk"
-                binding.labelAggregatedResultRiskLevel.text = "risk level: ${totalRiskLevel.name}"
-                binding.labelAggregatedResultLowEncounters.text =
-                    "total minimum distinct encounters with low risk: $totalMinimumDistinctEncountersWithLowRisk"
-                binding.labelAggregatedResultHighEncounters.text =
-                    "total minimum distinct encounters with high risk: $totalMinimumDistinctEncountersWithHighRisk"
             }
         }
     }
