@@ -11,7 +11,8 @@ object RiskLevelRepository {
     val riskLevelScore: Flow<Int> = internalRisklevelScore
 
     private val internalRiskLevelScoreLastSuccessfulCalculated =
-        MutableStateFlow(if (LocalData.lastSuccessfullyCalculatedRiskLevel() != RiskLevel.UNDETERMINED) LocalData.lastSuccessfullyCalculatedRiskLevel().raw else RiskLevel.UNKNOWN_RISK_INITIAL.raw)
+        MutableStateFlow(if (LocalData.lastSuccessfullyCalculatedRiskLevel() != RiskLevel.UNDETERMINED)
+            LocalData.lastSuccessfullyCalculatedRiskLevel().raw else RiskLevel.UNKNOWN_RISK_INITIAL.raw)
     val riskLevelScoreLastSuccessfulCalculated: Flow<Int> =
         internalRiskLevelScoreLastSuccessfulCalculated
 
