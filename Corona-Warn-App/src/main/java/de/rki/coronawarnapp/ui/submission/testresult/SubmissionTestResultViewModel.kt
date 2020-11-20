@@ -6,7 +6,6 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -26,7 +25,8 @@ import timber.log.Timber
 class SubmissionTestResultViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
-    private val testResultNotificationService: TestResultNotificationService
+    private val testResultNotificationService: TestResultNotificationService,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -37,9 +37,9 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     private val tokenErrorMutex = Mutex()
 
     val uiState: LiveData<TestResultUIState> = combineTransform(
-        SubmissionRepository.uiStateStateFlow,
-        SubmissionRepository.deviceUIStateFlow,
-        SubmissionRepository.testResultReceivedDateFlow
+        submissionRepository.uiStateStateFlow,
+        submissionRepository.deviceUIStateFlow,
+        submissionRepository.testResultReceivedDateFlow
     ) { apiRequestState, deviceUiState, resultDate ->
 
         tokenErrorMutex.withLock {
@@ -57,11 +57,11 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
-        SubmissionRepository.deviceUIStateFlow
+        submissionRepository.deviceUIStateFlow
             .first { it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
 
-    val uiStateError: LiveData<Event<CwaWebException>> = SubmissionRepository.uiStateError
+    val uiStateError: LiveData<Event<CwaWebException>> = submissionRepository.uiStateError
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
@@ -94,13 +94,17 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
-            SubmissionService.deleteTestGUID()
-            SubmissionService.deleteRegistrationToken()
+            submissionRepository.deleteTestGUID()
+            SubmissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
 
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
+    }
+
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
+        submissionRepository.refreshDeviceUIState(refreshTestResult)
     }
 
     @AssistedInject.Factory

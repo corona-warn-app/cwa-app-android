@@ -7,8 +7,8 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionTask
 import de.rki.coronawarnapp.submission.Symptoms
@@ -115,7 +115,7 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
 
     private fun submitWithNoDiagnosisKeys() {
         Timber.d("submitWithNoDiagnosisKeys()")
-        SubmissionService.submissionSuccessful()
+        SubmissionRepository.submissionSuccessful()
     }
 
     @AssistedInject.Factory

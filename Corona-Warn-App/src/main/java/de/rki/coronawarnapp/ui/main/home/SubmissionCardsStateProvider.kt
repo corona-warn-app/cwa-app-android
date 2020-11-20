@@ -14,11 +14,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class SubmissionCardsStateProvider @Inject constructor() {
+class SubmissionCardsStateProvider @Inject constructor(
+    submissionRepository: SubmissionRepository
+) {
 
     val state: Flow<SubmissionCardState> = combine(
-        SubmissionRepository.deviceUIStateFlow,
-        SubmissionRepository.uiStateStateFlow
+        submissionRepository.deviceUIStateFlow,
+        submissionRepository.uiStateStateFlow
     ) { args ->
         SubmissionCardState(
             deviceUiState = args[0] as DeviceUIState,

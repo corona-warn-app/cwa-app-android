@@ -29,11 +29,11 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionCardsStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        mockkObject(SubmissionRepository)
         mockkObject(LocalData)
     }
 
@@ -42,12 +42,12 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance() = SubmissionCardsStateProvider()
+    private fun createInstance() = SubmissionCardsStateProvider(submissionRepository)
 
     @Test
     fun `state is combined correctly`() = runBlockingTest {
-        every { SubmissionRepository.deviceUIStateFlow } returns flow { emit(DeviceUIState.PAIRED_POSITIVE) }
-        every { SubmissionRepository.uiStateStateFlow } returns flow { emit(ApiRequestState.SUCCESS) }
+        every { submissionRepository.deviceUIStateFlow } returns flow { emit(DeviceUIState.PAIRED_POSITIVE) }
+        every { submissionRepository.uiStateStateFlow } returns flow { emit(ApiRequestState.SUCCESS) }
         every { LocalData.registrationToken() } returns "token"
 
         createInstance().apply {
@@ -58,8 +58,8 @@ class SubmissionCardsStateProviderTest : BaseTest() {
             )
 
             verify {
-                SubmissionRepository.deviceUIStateFlow
-                SubmissionRepository.uiStateStateFlow
+                submissionRepository.deviceUIStateFlow
+                submissionRepository.uiStateStateFlow
                 LocalData.registrationToken()
             }
         }

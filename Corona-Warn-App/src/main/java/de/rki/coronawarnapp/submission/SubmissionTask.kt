@@ -4,7 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
-import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -41,7 +41,7 @@ class SubmissionTask @Inject constructor(
             .also { checkCancel() }
             .let { playbook.submit(it) }
 
-        SubmissionService.submissionSuccessful()
+        SubmissionRepository.submissionSuccessful()
 
         object : Task.Result {}
     } catch (error: Exception) {
