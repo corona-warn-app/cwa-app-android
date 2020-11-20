@@ -33,18 +33,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Switch
-                    android:id="@+id/background_notifications_toggle"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="@string/test_api_switch_background_notifications"
-                    android:theme="@style/switchBase"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
-
-                <Switch
                     android:id="@+id/test_logfile_toggle"
                     style="@style/body1"
                     android:layout_width="0dp"
@@ -55,7 +43,7 @@
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/background_notifications_toggle" />
+                    app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
 
                 <Button
                     android:id="@+id/test_logfile_share"

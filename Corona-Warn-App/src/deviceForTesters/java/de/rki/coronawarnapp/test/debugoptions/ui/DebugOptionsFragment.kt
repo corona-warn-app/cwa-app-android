@@ -32,18 +32,6 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Debug card
-        binding.backgroundNotificationsToggle.apply {
-            setOnClickListener { vm.setBackgroundNotifications(isChecked) }
-        }
-        vm.backgroundNotificationsToggleEvent.observe2(this@DebugOptionsFragment) {
-            showSnackBar("Background Notifications are activated: $it")
-        }
-        vm.debugOptionsState.observe2(this) { state ->
-            binding.apply {
-                backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-            }
-        }
         binding.testLogfileToggle.apply {
             setOnClickListener { vm.setLoggerEnabled(isChecked) }
         }
