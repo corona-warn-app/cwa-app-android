@@ -8,4 +8,6 @@ interface ExposureDetectionTracker {
     fun trackNewExposureDetection(identifier: String)
 
     fun finishExposureDetection(identifier: String? = null, result: TrackedExposureDetection.Result)
+
+    fun clear()
 }
