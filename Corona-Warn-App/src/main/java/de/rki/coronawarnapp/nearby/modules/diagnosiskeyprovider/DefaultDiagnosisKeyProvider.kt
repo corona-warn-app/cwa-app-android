@@ -27,7 +27,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 
         // Check version of ENF
         try {
-            enfVersion.requireAtLeast(ENFVersion.V15)
+            enfVersion.requireAtLeast(ENFVersion.V16)
         } catch (e: Exception) {
             Timber.e(e)
             throw e
