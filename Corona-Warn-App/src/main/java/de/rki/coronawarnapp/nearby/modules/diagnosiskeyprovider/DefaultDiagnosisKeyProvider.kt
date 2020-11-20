@@ -25,17 +25,14 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
             return true
         }
 
-        // Check version of ENF
-        try {
-            enfVersion.requireAtLeast(ENFVersion.V16)
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw e
-        }
+        // Check version of ENF, WindowMode since v1.5, but version check since v1.6
+        // Will throw if requirement is not satisfied
+        enfVersion.requireMinimumVersion(ENFVersion.V1_6)
 
         if (!submissionQuota.consumeQuota(1)) {
-            Timber.w("No key files submitted because not enough quota available.")
-            return false
+            Timber.e("No key files submitted because not enough quota available.")
+            // Needs discussion until armed, concerns: Hiding other underlying issues.
+//            return false
         }
 
         return suspendCoroutine { cont ->

@@ -6,9 +6,9 @@ data class TestCase(
     @SerializedName("description")
     val description: String,
     @SerializedName("expAgeOfMostRecentDateWithHighRisk")
-    val expAgeOfMostRecentDateWithHighRisk: Long?,
+    val expAgeOfMostRecentDateWithHighRiskInDays: Long?,
     @SerializedName("expAgeOfMostRecentDateWithLowRisk")
-    val expAgeOfMostRecentDateWithLowRisk: Long?,
+    val expAgeOfMostRecentDateWithLowRiskInDays: Long?,
     @SerializedName("expTotalMinimumDistinctEncountersWithHighRisk")
     val expTotalMinimumDistinctEncountersWithHighRisk: Int,
     @SerializedName("expTotalMinimumDistinctEncountersWithLowRisk")

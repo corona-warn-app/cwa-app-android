@@ -6,7 +6,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
-import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
@@ -267,10 +266,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
                 .map { it.riskLevel }
                 .first()
         } catch (e: Exception) {
-            throw ApplicationConfigurationInvalidException(
-                e,
-                "Invalid config for normalizedTimePerDayToRiskLevelMapping"
-            )
+            throw NormalizedTimePerDayToRiskLevelMappingMissingException()
         }
 
         Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
@@ -303,8 +299,14 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
     companion object {
 
-        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception(
-            "Failed to map the normalized Time to a Risk Level"
+        open class RiskLevelMappingMissingException(msg: String) : Exception(msg)
+
+        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
+            "Failed to map the normalized Time per Exposure Window to a Risk Level"
+        )
+
+        class NormalizedTimePerDayToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
+            "Failed to map the normalized Time per Day to a Risk Level"
         )
 
         class UnknownReportTypeException : Exception(
