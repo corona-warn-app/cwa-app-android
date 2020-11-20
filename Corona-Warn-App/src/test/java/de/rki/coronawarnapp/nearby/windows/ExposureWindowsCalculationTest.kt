@@ -135,8 +135,8 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
             // 6 - Check with expected result from test case
             aggregatedRiskResult.totalRiskLevel.number shouldBe case.expTotalRiskLevel
-            aggregatedRiskResult.mostRecentDateWithHighRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithHighRisk)
-            aggregatedRiskResult.mostRecentDateWithLowRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithLowRisk)
+            aggregatedRiskResult.mostRecentDateWithHighRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithHighRiskInDays)
+            aggregatedRiskResult.mostRecentDateWithLowRisk shouldBe getTestCaseDate(case.expAgeOfMostRecentDateWithLowRiskInDays)
             aggregatedRiskResult.totalMinimumDistinctEncountersWithHighRisk shouldBe case.expTotalMinimumDistinctEncountersWithHighRisk
             aggregatedRiskResult.totalMinimumDistinctEncountersWithLowRisk shouldBe case.expTotalMinimumDistinctEncountersWithLowRisk
         }
@@ -164,14 +164,14 @@ class ExposureWindowsCalculationTest : BaseTest() {
             addPropertyCheckToComparisonDebugTable(
                 "Date With High Risk",
                 aggregated.mostRecentDateWithHighRisk,
-                getTestCaseDate(case.expAgeOfMostRecentDateWithHighRisk)
+                getTestCaseDate(case.expAgeOfMostRecentDateWithHighRiskInDays)
             )
         )
         result.append(
             addPropertyCheckToComparisonDebugTable(
                 "Date With Low Risk",
                 aggregated.mostRecentDateWithLowRisk,
-                getTestCaseDate(case.expAgeOfMostRecentDateWithLowRisk)
+                getTestCaseDate(case.expAgeOfMostRecentDateWithLowRiskInDays)
             )
         )
         result.append(
