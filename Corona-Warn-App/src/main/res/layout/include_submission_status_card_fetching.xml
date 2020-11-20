@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <TextView
             android:id="@+id/submission_status_card_fetching_title"
             style="@style/headline5"
@@ -19,7 +18,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <ProgressBar
             android:id="@+id/submission_status_card_fetching_spinner"
