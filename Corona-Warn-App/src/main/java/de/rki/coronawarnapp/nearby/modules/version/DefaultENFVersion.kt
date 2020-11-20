@@ -9,7 +9,6 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import kotlin.math.abs
 
 @Singleton
 class DefaultENFVersion @Inject constructor(
@@ -23,22 +22,19 @@ class DefaultENFVersion @Inject constructor(
         null
     }
 
-    override suspend fun requireAtLeast(compareVersion: Long) {
-        if (!isAtLeast(compareVersion)) {
-            throw ENFVersion.Companion.UnsupportedENFVersionException()
-        }
-    }
-
-    override suspend fun isAtLeast(compareVersion: Long): Boolean {
-        if (!compareVersion.isCorrectVersionLength) throw IllegalArgumentException("given version has incorrect length")
-
-        return try {
-            internalGetENFClientVersion() >= compareVersion
+    override suspend fun requireMinimumVersion(required: Long) {
+        try {
+            val currentVersion = internalGetENFClientVersion()
+            if (currentVersion < required) {
+                val error = OutdatedENFVersionException(current = currentVersion, required = required)
+                Timber.e(error, "Version requirement not satisfied.")
+                throw error
+            } else {
+                Timber.d("Version requirement satisfied: current=$currentVersion, required=$required")
+            }
         } catch (apiException: ApiException) {
             if (apiException.statusCode != CommonStatusCodes.API_NOT_CONNECTED) {
                 throw apiException
-            } else {
-                return false
             }
         }
     }
@@ -47,13 +43,5 @@ class DefaultENFVersion @Inject constructor(
         client.version
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
-    }
-
-    // check if a raw long has the correct length to be considered an API version
-    private val Long.isCorrectVersionLength
-        get(): Boolean = abs(this).toString().length == GOOGLE_API_VERSION_FIELD_LENGTH
-
-    companion object {
-        private const val GOOGLE_API_VERSION_FIELD_LENGTH = 8
     }
 }

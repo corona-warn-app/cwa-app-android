@@ -1,24 +1,18 @@
 package de.rki.coronawarnapp.nearby.modules.version
 
 interface ENFVersion {
+    /**
+     * May return null if the API is currently not connected.
+     */
     suspend fun getENFClientVersion(): Long?
 
     /**
-     * Indicates if the client runs above a certain version
-     *
-     * @return isAboveVersion, if connected to an old unsupported version, return false
+     * Throws an [OutdatedENFVersionException] if the client runs an old unsupported version of the ENF
+     * If the API is currently not connected, no exception will be thrown, we expect this to only be a temporary state
      */
-    suspend fun isAtLeast(compareVersion: Long): Boolean
-
-    /**
-     * Throws an [UnsupportedENFVersionException] if the client runs an old unsupported version of the ENF
-     */
-    suspend fun requireAtLeast(compareVersion: Long)
+    suspend fun requireMinimumVersion(required: Long)
 
     companion object {
-        const val V16 = 16000000L
-        const val V15 = 15000000L
-
-        class UnsupportedENFVersionException : Exception("The client runs an old unsupported version of the ENF")
+        const val V1_6 = 16000000L
     }
 }

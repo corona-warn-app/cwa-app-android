@@ -2,21 +2,21 @@ package de.rki.coronawarnapp.nearby.modules.version
 
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes.API_NOT_CONNECTED
+import com.google.android.gms.common.api.CommonStatusCodes.INTERNAL_ERROR
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import testhelpers.gms.MockGMSTask
 
 @ExperimentalCoroutinesApi
@@ -39,61 +39,74 @@ internal class DefaultENFVersionTest {
     )
 
     @Test
-    fun `isAbove API v16 is true for v17`() {
+    fun `current version is newer than the required version`() {
         every { client.version } returns MockGMSTask.forValue(17000000L)
 
         runBlockingTest {
-            createInstance().isAtLeast(ENFVersion.V16) shouldBe true
+            createInstance().apply {
+                getENFClientVersion() shouldBe 17000000L
+                shouldNotThrowAny {
+                    requireMinimumVersion(ENFVersion.V1_6)
+                }
+            }
         }
     }
 
     @Test
-    fun `isAbove API v16 is false for v15`() {
+    fun `current version is older than the required version`() {
         every { client.version } returns MockGMSTask.forValue(15000000L)
 
         runBlockingTest {
-            createInstance().isAtLeast(ENFVersion.V16) shouldBe false
-        }
-    }
+            createInstance().apply {
+                getENFClientVersion() shouldBe 15000000L
 
-    @Test
-    fun `isAbove API v16 throws IllegalArgument for invalid version`() {
-        assertThrows<IllegalArgumentException> {
-            runBlockingTest {
-                createInstance().isAtLeast(1L)
+                shouldThrow<OutdatedENFVersionException> {
+                    requireMinimumVersion(ENFVersion.V1_6)
+                }
             }
-            verify { client.version wasNot Called }
         }
     }
 
     @Test
-    fun `isAbove API v16 false when APIException for too low version`() {
+    fun `current version is equal to the required version`() {
+        every { client.version } returns MockGMSTask.forValue(16000000L)
+
+        runBlockingTest {
+            createInstance().apply {
+                getENFClientVersion() shouldBe ENFVersion.V1_6
+                shouldNotThrowAny {
+                    requireMinimumVersion(ENFVersion.V1_6)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `API_NOT_CONNECTED exceptions are not treated as failures`() {
         every { client.version } returns MockGMSTask.forError(ApiException(Status(API_NOT_CONNECTED)))
 
         runBlockingTest {
-            createInstance().isAtLeast(ENFVersion.V16) shouldBe false
-        }
-    }
-
-    @Test
-    fun `require API v16 throws UnsupportedENFVersionException for v15`() {
-        every { client.version } returns MockGMSTask.forValue(ENFVersion.V15)
-
-        assertThrows<ENFVersion.Companion.UnsupportedENFVersionException> {
-            runBlockingTest {
-                createInstance().requireAtLeast(ENFVersion.V16)
+            createInstance().apply {
+                getENFClientVersion() shouldBe null
+                shouldNotThrowAny {
+                    requireMinimumVersion(ENFVersion.V1_6)
+                }
             }
         }
     }
 
     @Test
-    fun `require API v15 does not throw for v16`() {
-        every { client.version } returns MockGMSTask.forValue(ENFVersion.V16)
+    fun `rethrows unexpected exceptions`() {
+        every { client.version } returns MockGMSTask.forError(ApiException(Status(INTERNAL_ERROR)))
 
         runBlockingTest {
-            createInstance().requireAtLeast(ENFVersion.V15)
-        }
+            createInstance().apply {
+                getENFClientVersion() shouldBe null
 
-        verify { client.version }
+                shouldThrow<ApiException> {
+                    requireMinimumVersion(ENFVersion.V1_6)
+                }
+            }
+        }
     }
 }
