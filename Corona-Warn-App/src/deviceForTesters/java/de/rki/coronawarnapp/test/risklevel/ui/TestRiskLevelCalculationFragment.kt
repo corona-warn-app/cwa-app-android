@@ -1,18 +1,13 @@
 package de.rki.coronawarnapp.test.risklevel.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentResult
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
-import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -20,7 +15,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("LongMethod")
@@ -55,7 +49,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         }
 
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
-        binding.buttonProvideKeyViaQr.setOnClickListener { vm.scanLocalQRCodeAndProvide() }
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
 
@@ -67,66 +60,32 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             ).show()
         }
 
-        vm.riskScoreState.observe2(this) { state ->
-            binding.labelRiskScore.text = state.riskScoreMsg
-            binding.labelBackendParameters.text = state.backendParameters
-            binding.labelExposureSummary.text = state.exposureSummary
-            binding.labelFormula.text = state.formula
-            binding.labelExposureInfo.text = state.exposureInfo
-        }
-        vm.startENFObserver()
-
-        vm.apiKeysProvidedEvent.observe2(this) { event ->
-            Toast.makeText(
-                requireContext(),
-                "Provided ${event.keyCount} keys to Google API with token ${event.token}",
-                Toast.LENGTH_SHORT
-            ).show()
+        vm.additionalRiskCalcInfo.observe2(this) {
+            binding.labelRiskAdditionalInfo.text = it
         }
 
-        vm.startLocalQRCodeScanEvent.observe2(this) {
-            IntentIntegrator.forSupportFragment(this)
-                .setOrientationLocked(false)
-                .setBeepEnabled(false)
-                .initiateScan()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        vm.calculateRiskLevel()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result: IntentResult =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                ?: return super.onActivityResult(requestCode, resultCode, data)
-
-        if (result.contents == null) {
-            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
-            return
+        vm.aggregatedRiskResult.observe2(this) {
+            binding.labelAggregatedRiskResult.text = it
         }
 
-        ExposureSharingService.getOthersKeys(result.contents) { key: AppleLegacyKeyExchange.Key? ->
-            Timber.i("Keys scanned: %s", key)
-            if (key == null) {
-                Toast.makeText(
-                    requireContext(), "No Key data found in QR code", Toast.LENGTH_SHORT
-                ).show()
-                return@getOthersKeys Unit
-            }
+        vm.exposureWindowCountString.observe2(this) {
+            binding.labelExposureWindowCount.text = it
+        }
 
-            val text = binding.transmissionNumber.text.toString()
-            val number = if (!text.isBlank()) Integer.valueOf(text) else 5
-            vm.provideDiagnosisKey(number, key)
+        vm.exposureWindows.observe2(this) {
+            binding.labelExposureWindows.text = it
+        }
+
+        vm.backendParameters.observe2(this) {
+            binding.labelBackendParameters.text = it
         }
     }
 
     companion object {
         val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!
         val MENU_ITEM = TestMenuItem(
-            title = "Risklevel Calculation",
-            description = "Risklevel calculation related test options.",
+            title = "ENF v2 Calculation",
+            description = "Window Mode related overview.",
             targetId = R.id.test_risklevel_calculation_fragment
         )
     }

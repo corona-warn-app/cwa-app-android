@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.DefaultExposureDetec
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.DefaultExposureWindowProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.DefaultScanningSupport
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.DefaultTracingStatus
@@ -40,6 +42,11 @@ class ENFModule {
     @Provides
     fun scanningSupport(scanningSupport: DefaultScanningSupport): ScanningSupport =
         scanningSupport
+
+    @Singleton
+    @Provides
+    fun exposureWindowProvider(exposureWindowProvider: DefaultExposureWindowProvider): ExposureWindowProvider =
+        exposureWindowProvider
 
     @Singleton
     @Provides

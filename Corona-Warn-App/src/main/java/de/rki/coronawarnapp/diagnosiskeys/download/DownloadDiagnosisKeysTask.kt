@@ -23,7 +23,6 @@ import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -101,15 +100,9 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 )
             )
 
-            val token = retrieveToken(rollbackItems)
-            Timber.tag(TAG).d("Attempting submission to ENF with token $token")
-
-            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                keyFiles = availableKeyFiles,
-                configuration = exposureConfig.exposureDetectionConfiguration,
-                token = token
-            )
-            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
+            Timber.tag(TAG).d("Attempting submission to ENF")
+            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(availableKeyFiles)
+            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
             internalProgress.send(Progress.ApiSubmissionFinished)
             throwIfCancelled()
@@ -170,17 +163,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
         Timber.tag(TAG).d("dateUpdate(currentDate=%s)", currentDate)
         LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
-    }
-
-    private fun retrieveToken(rollbackItems: MutableList<RollbackItem>): String {
-        val googleAPITokenForRollback = LocalData.googleApiToken()
-        rollbackItems.add {
-            LocalData.googleApiToken(googleAPITokenForRollback)
-        }
-        return UUID.randomUUID().toString().also {
-            Timber.tag(TAG).d("Generating and storing new token: $it")
-            LocalData.googleApiToken(it)
-        }
     }
 
     private fun rollback(rollbackItems: MutableList<RollbackItem>) {

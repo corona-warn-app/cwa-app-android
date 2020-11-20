@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.sources.remote
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigModule
+import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
@@ -49,7 +50,7 @@ class AppConfigApiTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createAPI(): AppConfigApiV1 {
+    private fun createAPI(): AppConfigApiV2 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
         val gsonConverterFactory = httpModule.provideGSONConverter()
@@ -76,14 +77,14 @@ class AppConfigApiTest : BaseIOTest() {
         webServer.enqueue(MockResponse().setBody("~appconfig"))
 
         runBlocking {
-            api.getApplicationConfiguration("DE").apply {
+            api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }
         }
 
         val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!
         request.method shouldBe "GET"
-        request.path shouldBe "/version/v1/configuration/country/DE/app_config"
+        request.path shouldBe "/version/v1/app_config_android"
     }
 
     @Test
@@ -97,7 +98,7 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").apply {
+            api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }
         }
@@ -106,12 +107,12 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
-            path shouldBe "/version/v1/configuration/country/DE/app_config"
+            path shouldBe "/version/v1/app_config_android"
         }
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").apply {
+            api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }
         }
@@ -124,7 +125,7 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").apply {
+            api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }
         }
@@ -133,7 +134,7 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
-            path shouldBe "/version/v1/configuration/country/DE/app_config"
+            path shouldBe "/version/v1/app_config_android"
         }
     }
 
@@ -148,7 +149,7 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").apply {
+            api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }
         }
@@ -157,13 +158,13 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
-            path shouldBe "/version/v1/configuration/country/DE/app_config"
+            path shouldBe "/version/v1/app_config_android"
         }
 
         webServer.enqueue(MockResponse().setSocketPolicy(SocketPolicy.DISCONNECT_DURING_REQUEST_BODY))
 
         runBlocking {
-            api.getApplicationConfiguration("DE").apply {
+            api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }
         }

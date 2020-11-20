@@ -84,7 +84,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         scope.advanceUntilIdle()
 
         verifySequence {
-            exposureDetectionTracker.finishExposureDetection("token", TrackedExposureDetection.Result.UPDATED_STATE)
+            exposureDetectionTracker.finishExposureDetection(null, TrackedExposureDetection.Result.UPDATED_STATE)
             workManager.enqueue(any<WorkRequest>())
         }
     }
@@ -97,7 +97,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         scope.advanceUntilIdle()
 
         verifySequence {
-            exposureDetectionTracker.finishExposureDetection("token", TrackedExposureDetection.Result.NO_MATCHES)
+            exposureDetectionTracker.finishExposureDetection(null, TrackedExposureDetection.Result.NO_MATCHES)
             workManager.enqueue(any<WorkRequest>())
         }
     }

@@ -455,34 +455,6 @@ object LocalData {
     }
 
     /****************************************************
-     * EXPOSURE NOTIFICATION DATA
-     ****************************************************/
-
-    /**
-     * Gets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @return UUID as string
-     */
-    fun googleApiToken(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_string_google_api_token),
-        null
-    )
-
-    /**
-     * Sets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @param value UUID as string
-     */
-    fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
-        putString(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_string_google_api_token),
-            value
-        )
-    }
-
-    /****************************************************
      * SETTINGS DATA
      ****************************************************/
 

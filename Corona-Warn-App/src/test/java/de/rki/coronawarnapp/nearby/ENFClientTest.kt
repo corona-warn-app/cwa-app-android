@@ -1,10 +1,11 @@
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
@@ -18,7 +19,6 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
 
-@Suppress("DEPRECATION")
 class ENFClientTest : BaseTest() {
 
     @MockK lateinit var googleENFClient: ExposureNotificationClient
@@ -39,13 +38,14 @@ class ENFClientTest : BaseTest() {
     @MockK lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
     @MockK lateinit var tracingStatus: TracingStatus
     @MockK lateinit var scanningSupport: ScanningSupport
+    @MockK lateinit var exposureWindowProvider: ExposureWindowProvider
     @MockK lateinit var exposureDetectionTracker: ExposureDetectionTracker
     @MockK lateinit var enfVersion: ENFVersion
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         every { exposureDetectionTracker.trackNewExposureDetection(any()) } just Runs
     }
 
@@ -59,8 +59,9 @@ class ENFClientTest : BaseTest() {
         diagnosisKeyProvider = diagnosisKeyProvider,
         tracingStatus = tracingStatus,
         scanningSupport = scanningSupport,
-        exposureDetectionTracker = exposureDetectionTracker,
-        enfVersion = enfVersion
+        enfVersion = enfVersion,
+        exposureWindowProvider = exposureWindowProvider,
+        exposureDetectionTracker = exposureDetectionTracker
     )
 
     @Test
@@ -73,24 +74,20 @@ class ENFClientTest : BaseTest() {
     fun `provide diagnosis key call is forwarded to the right module`() {
         val client = createClient()
         val keyFiles = listOf(File("test"))
-        val configuration = mockk<ExposureConfiguration>()
-        val token = "123"
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe true
+            client.provideDiagnosisKeys(keyFiles) shouldBe true
         }
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns false
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns false
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe false
+            client.provideDiagnosisKeys(keyFiles) shouldBe false
         }
 
         coVerify(exactly = 2) {
             diagnosisKeyProvider.provideDiagnosisKeys(
-                keyFiles,
-                configuration,
-                token
+                keyFiles
             )
         }
     }
@@ -99,16 +96,14 @@ class ENFClientTest : BaseTest() {
     fun `provide diagnosis key call is only forwarded if there are actually key files`() {
         val client = createClient()
         val keyFiles = emptyList<File>()
-        val configuration = mockk<ExposureConfiguration>()
-        val token = "123"
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe true
+            client.provideDiagnosisKeys(keyFiles) shouldBe true
         }
 
         coVerify(exactly = 0) {
-            diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any())
+            diagnosisKeyProvider.provideDiagnosisKeys(any())
         }
     }
 
@@ -267,6 +262,19 @@ class ENFClientTest : BaseTest() {
             )
 
             createClient().lastSuccessfulTrackedExposureDetection().first()!!.identifier shouldBe "1"
+        }
+    }
+
+    @Test
+    fun `exposure windows check is forwarded to the right module`() = runBlocking {
+        val exposureWindowList = emptyList<ExposureWindow>()
+        coEvery { exposureWindowProvider.exposureWindows() } returns exposureWindowList
+
+        val client = createClient()
+        client.exposureWindows() shouldBe exposureWindowList
+
+        coVerify(exactly = 1) {
+            exposureWindowProvider.exposureWindows()
         }
     }
 

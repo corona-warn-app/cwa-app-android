@@ -2,11 +2,12 @@
 
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,32 +26,26 @@ class ENFClient @Inject constructor(
     private val diagnosisKeyProvider: DiagnosisKeyProvider,
     private val tracingStatus: TracingStatus,
     private val scanningSupport: ScanningSupport,
+    private val exposureWindowProvider: ExposureWindowProvider,
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val enfVersion: ENFVersion
-) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ENFVersion by enfVersion {
+) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider, ENFVersion by enfVersion {
 
     // TODO Remove this once we no longer need direct access to the ENF Client,
     // i.e. in **[InternalExposureNotificationClient]**
     internal val internalClient: ExposureNotificationClient
         get() = googleENFClient
 
-    override suspend fun provideDiagnosisKeys(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
-        token: String
-    ): Boolean {
-        Timber.d(
-            "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
-            keyFiles, configuration, token
-        )
+    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
+        Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")
 
         return if (keyFiles.isEmpty()) {
             Timber.d("No key files submitted, returning early.")
             true
         } else {
             Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
-            exposureDetectionTracker.trackNewExposureDetection(token)
-            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
+            exposureDetectionTracker.trackNewExposureDetection(UUID.randomUUID().toString())
+            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles)
         }
     }
 
@@ -74,4 +70,6 @@ class ENFClient @Inject constructor(
                 .filter { !it.isCalculating && it.isSuccessful }
                 .maxByOrNull { it.finishedAt ?: Instant.EPOCH }
         }
+
+    override suspend fun exposureWindows(): List<ExposureWindow> = exposureWindowProvider.exposureWindows()
 }

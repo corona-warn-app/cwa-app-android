@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig
-import de.rki.coronawarnapp.server.protocols.internal.ExposureDetectionParameters.ExposureDetectionParametersAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.ExposureDetectionParameters.ExposureDetectionParametersAndroid
 import io.kotest.matchers.shouldBe
 import org.joda.time.Duration
 import org.junit.jupiter.api.Test
@@ -13,12 +13,9 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
 
     @Test
     fun `simple creation`() {
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setMinRiskScore(1)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .build()
         createInstance().map(rawConfig).apply {
-            // This is basically the old legacy config without the new hourly related data structures
-            exposureDetectionConfiguration shouldBe rawConfig.mapRiskScoreToExposureConfiguration()
             exposureDetectionParameters shouldBe null
         }
     }
@@ -26,9 +23,8 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
     @Test
     fun `detection interval 0 defaults to almost infinite delay`() {
         val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder()
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setMinRiskScore(1)
-            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
             minTimeBetweenDetections shouldBe Duration.standardDays(99)
@@ -41,9 +37,8 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
         val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder().apply {
             maxExposureDetectionsPerInterval = 3
         }
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setMinRiskScore(1)
-            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
             minTimeBetweenDetections shouldBe Duration.standardHours(24 / 3)
@@ -56,9 +51,8 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
         val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder().apply {
             overallTimeoutInSeconds = 10 * 60
         }
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setMinRiskScore(1)
-            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
             overallDetectionTimeout shouldBe Duration.standardMinutes(10)
@@ -70,9 +64,8 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
         val exposureDetectionParameters = ExposureDetectionParametersAndroid.newBuilder().apply {
             overallTimeoutInSeconds = 0
         }
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setMinRiskScore(1)
-            .setAndroidExposureDetectionParameters(exposureDetectionParameters)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
             overallDetectionTimeout shouldBe Duration.standardMinutes(15)
@@ -81,8 +74,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
 
     @Test
     fun `if protobuf is missing the datastructure we return defaults`() {
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setMinRiskScore(1)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .build()
         createInstance().map(rawConfig).apply {
             overallDetectionTimeout shouldBe Duration.standardMinutes(15)

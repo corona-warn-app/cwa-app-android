@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig
-import de.rki.coronawarnapp.server.protocols.internal.KeyDownloadParameters
+import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.KeyDownloadParameters
 import io.kotest.matchers.shouldBe
 import org.joda.time.Duration
 import org.joda.time.LocalDate
@@ -23,8 +23,8 @@ class DownloadConfigMapperTest : BaseTest() {
             }.let { addRevokedDayPackages(it) }
         }
 
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setAndroidKeyDownloadParameters(builder)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setKeyDownloadParameters(builder)
             .build()
 
         createInstance().map(rawConfig).apply {
@@ -47,8 +47,8 @@ class DownloadConfigMapperTest : BaseTest() {
             }.let { addRevokedHourPackages(it) }
         }
 
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
-            .setAndroidKeyDownloadParameters(builder)
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setKeyDownloadParameters(builder)
             .build()
 
         createInstance().map(rawConfig).apply {
@@ -63,7 +63,7 @@ class DownloadConfigMapperTest : BaseTest() {
 
     @Test
     fun `if the protobuf data structures are null we return defaults`() {
-        val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .build()
 
         createInstance().map(rawConfig).apply {
