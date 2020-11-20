@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -120,7 +119,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         binding.apply {
             buttonApiTestStart.setOnClickListener { start() }
             buttonApiGetExposureKeys.setOnClickListener { getExposureKeys() }
-            buttonApiGetCheckExposure.setOnClickListener { checkExposure() }
 
             buttonApiScanQrCode.setOnClickListener {
                 IntentIntegrator.forSupportFragment(this@TestForAPIFragment)
@@ -196,12 +194,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        updateExposureSummaryDisplay(null)
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -307,51 +299,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 }
             }
         }
-    }
-
-    private fun checkExposure() {
-        Timber.d("Check Exposure")
-
-        lifecycleScope.launch {
-            try {
-                val exposureSummary = enfClient.exposureWindows()
-                updateExposureSummaryDisplay(exposureSummary)
-                showToast("Updated Exposure Summary")
-                Timber.d("Received exposure from QR Code")
-                Timber.i(exposureSummary.toString())
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-    private fun updateExposureSummaryDisplay(windows: List<ExposureWindow>?) {
-
-        // FIXME
-//        binding.labelExposureSummaryMatchedKeyCount.text = getString(
-//            R.string.test_api_body_matchedKeyCount,
-//            (exposureSummary?.matchedKeyCount ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummaryDaysSinceLastExposure.text = getString(
-//            R.string.test_api_body_daysSinceLastExposure,
-//            (exposureSummary?.daysSinceLastExposure ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummaryMaximumRiskScore.text = getString(
-//            R.string.test_api_body_maximumRiskScore,
-//            (exposureSummary?.maximumRiskScore ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummarySummationRiskScore.text = getString(
-//            R.string.test_api_body_summation_risk,
-//            (exposureSummary?.summationRiskScore ?: "-").toString()
-//        )
-//
-//        binding.labelExposureSummaryAttenuation.text = getString(
-//            R.string.test_api_body_attenuation,
-//            (exposureSummary?.attenuationDurationsInMinutes?.joinToString() ?: "-").toString()
-//        )
     }
 
     private fun updateKeysDisplay() {
