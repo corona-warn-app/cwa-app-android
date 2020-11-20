@@ -804,13 +804,13 @@
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- XHED: Dialog title for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie wirklich abbrechen?"</string>
+    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Angaben zu Symptomen abbrechen?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Mit der Angabe des Symptom-Beggins können Sie Ihre Mitmenschen noch genauer warnen."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Ja"</string>
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Fortsetzen"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Nein"</string>
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Abbrechen"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
