@@ -383,45 +383,23 @@ object LocalData {
      * SERVER FETCH DATA
      ****************************************************/
 
-    /**
-     * Gets the last time the server fetched the diagnosis keys from the server as Date object
-     * from the EncryptedSharedPrefs
-     *
-     * @return timestamp as Date
-     */
-    // TODO should be changed to Long as well to align with other timestamps
-    fun lastTimeDiagnosisKeysFromServerFetch(): Date? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-            0L
-        )
-        if (time == 0L) return null
-
-        return Date(time)
+    private val dateMapperForFetchTime: (Long) -> Date? = {
+        if (it != 0L) Date(it) else null
     }
 
-    fun lastTimeDiagnosisKeysFromServerFetchFlow() =
+    private val lastTimeDiagnosisKeysFetchedFlowPref by lazy {
         getSharedPreferenceInstance()
-            .createFlowPreference<Long?>(CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_diagnosis_keys_fetch), 0L).flow
-            .map { if (it != null && it != 0L) Date(it) else null }
-
-    /**
-     * Sets the last time the server fetched the diagnosis keys from the server as Date object
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Date
-     */
-    fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-                value?.time ?: 0L
-            )
-        }
+            .createFlowPreference<Long>(key = "preference_timestamp_diagnosis_keys_fetch", 0L)
     }
+
+    fun lastTimeDiagnosisKeysFromServerFetchFlow() = lastTimeDiagnosisKeysFetchedFlowPref.flow
+        .map { dateMapperForFetchTime(it) }
+
+    fun lastTimeDiagnosisKeysFromServerFetch() =
+        dateMapperForFetchTime(lastTimeDiagnosisKeysFetchedFlowPref.value)
+
+    fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) =
+        lastTimeDiagnosisKeysFetchedFlowPref.update { value?.time ?: 0L }
 
     /**
      * Gets the last time of successful risk level calculation as long
@@ -707,4 +685,8 @@ object LocalData {
                 putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
             }
         }
+
+    fun clear() {
+        lastTimeDiagnosisKeysFetchedFlowPref.update { 0L }
+    }
 }

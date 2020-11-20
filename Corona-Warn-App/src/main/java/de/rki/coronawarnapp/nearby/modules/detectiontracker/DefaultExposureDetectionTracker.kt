@@ -161,6 +161,13 @@ class DefaultExposureDetectionTracker @Inject constructor(
         }
     }
 
+    override fun clear() {
+        Timber.i("clear()")
+        detectionStates.updateSafely {
+            emptyMap()
+        }
+    }
+
     companion object {
         private const val TAG = "DefaultExposureDetectionTracker"
         private const val MAX_ENTRY_SIZE = 5
