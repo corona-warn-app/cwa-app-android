@@ -100,7 +100,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
         debugLog("Test cases checked. Total count: ${json.testCases.size}")
 
         // 3 - Mock calculation configuration and create default risk level with it
-        jsonToConfiguration(json.defaultRiskCalculationConfiguration)
+        setupTestConfiguration(json.defaultRiskCalculationConfiguration)
         coEvery { appConfigProvider.getAppConfig() } returns testConfig
         every { appConfigProvider.currentConfig } returns flow { testConfig }
         logConfiguration(testConfig)
@@ -296,7 +296,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
         debugLog(result.toString(), logLevel)
     }
 
-    private fun jsonToConfiguration(json: DefaultRiskCalculationConfiguration) {
+    private fun setupTestConfiguration(json: DefaultRiskCalculationConfiguration) {
 
         testConfig = ConfigDataContainer(
             serverTime = Instant.now(),
