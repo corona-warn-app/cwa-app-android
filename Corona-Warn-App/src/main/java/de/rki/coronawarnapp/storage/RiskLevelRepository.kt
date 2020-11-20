@@ -35,8 +35,6 @@ object RiskLevelRepository {
     /**
      * Resets the data in the [RiskLevelRepository]
      *
-     * @see de.rki.coronawarnapp.util.DataReset
-     *
      */
     fun reset() {
         internalRisklevelScore.value = RiskLevelConstants.UNKNOWN_RISK_INITIAL
