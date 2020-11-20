@@ -71,9 +71,16 @@ class SubmissionRepository @Inject constructor(
     }
 
     // to be used by new submission flow screens
-    fun updateConsentToSubmission(hasGivenConsent: Boolean) {
+    fun giveConsentToSubmission() {
         submissionSettings.hasGivenConsent.update {
-            hasGivenConsent
+            true
+        }
+    }
+
+    // to be used by new submission flow screens
+    fun revokeConsentToSubmission() {
+        submissionSettings.hasGivenConsent.update {
+            false
         }
     }
 
@@ -147,6 +154,7 @@ class SubmissionRepository @Inject constructor(
     fun reset() {
         uiStateStateFlowInternal.value = ApiRequestState.IDLE
         deviceUIStateFlowInternal.value = DeviceUIState.UNPAIRED
+        revokeConsentToSubmission()
     }
 
     @VisibleForTesting
