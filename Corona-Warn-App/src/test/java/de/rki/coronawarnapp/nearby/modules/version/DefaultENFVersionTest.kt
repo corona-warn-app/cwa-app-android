@@ -74,4 +74,26 @@ internal class DefaultENFVersionTest {
             createInstance().isAtLeast(ENFVersion.V16) shouldBe false
         }
     }
+
+    @Test
+    fun `require API v16 throws UnsupportedENFVersionException for v15`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V15)
+
+        assertThrows<ENFVersion.Companion.UnsupportedENFVersionException> {
+            runBlockingTest {
+                createInstance().requireAtLeast(ENFVersion.V16)
+            }
+        }
+    }
+
+    @Test
+    fun `require API v15 does not throw for v16`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V16)
+
+        runBlockingTest {
+            createInstance().requireAtLeast(ENFVersion.V15)
+        }
+
+        verify { client.version }
+    }
 }

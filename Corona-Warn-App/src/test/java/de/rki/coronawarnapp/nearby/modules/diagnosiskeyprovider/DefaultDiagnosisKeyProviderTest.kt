@@ -9,9 +9,11 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 import testhelpers.gms.MockGMSTask
 import java.io.File
@@ -31,7 +33,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
-        coEvery { enfVersion.isAtLeast(ENFVersion.V16) } returns true
+        coEvery { enfVersion.requireAtLeast(any()) } returns Unit
     }
 
     @AfterEach
@@ -47,11 +49,13 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `provide diagnosis keys with outdated ENF versions`() {
-        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns false
+        coEvery { enfVersion.requireAtLeast(any()) } throws ENFVersion.Companion.UnsupportedENFVersionException()
 
         val provider = createProvider()
 
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
+        assertThrows<ENFVersion.Companion.UnsupportedENFVersionException> {
+            runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
+        }
 
         coVerify(exactly = 0) {
             googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
@@ -63,8 +67,6 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `key provision is used on newer ENF versions`() {
-        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns true
-
         val provider = createProvider()
 
         runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
@@ -78,7 +80,6 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `provide diagnosis key when quota is empty`() {
-        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns true
         coEvery { submissionQuota.consumeQuota(any()) } returns false
 
         val provider = createProvider()
@@ -95,8 +96,6 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `provide empty key list`() {
-        coEvery { enfVersion.isAtLeast(ENFVersion.V15) } returns true
-
         val provider = createProvider()
 
         runBlocking { provider.provideDiagnosisKeys(emptyList()) } shouldBe true

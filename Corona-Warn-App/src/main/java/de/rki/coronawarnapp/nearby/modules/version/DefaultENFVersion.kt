@@ -23,6 +23,12 @@ class DefaultENFVersion @Inject constructor(
         null
     }
 
+    override suspend fun requireAtLeast(compareVersion: Long) {
+        if (!isAtLeast(compareVersion)) {
+            throw ENFVersion.Companion.UnsupportedENFVersionException()
+        }
+    }
+
     override suspend fun isAtLeast(compareVersion: Long): Boolean {
         if (!compareVersion.isCorrectVersionLength) throw IllegalArgumentException("given version has incorrect length")
 
