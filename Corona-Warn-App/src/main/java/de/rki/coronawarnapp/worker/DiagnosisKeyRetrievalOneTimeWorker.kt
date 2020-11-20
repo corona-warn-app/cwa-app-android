@@ -32,10 +32,6 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount "
-        )
-
         var result = Result.success()
         taskController.submitBlocking(
             DefaultTaskRequest(
@@ -49,21 +45,12 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Timber.w(error, "$id: Retry attempts exceeded.")
 
-                BackgroundWorkHelper.sendDebugNotification(
-                    "KeyOneTime Executing: Failure",
-                    "KeyOneTime failed with $runAttemptCount attempts"
-                )
-
                 return Result.failure()
             } else {
                 Timber.d(error, "$id: Retrying.")
                 result = Result.retry()
             }
         }
-
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyOneTime Executing: End", "KeyOneTime result: $result "
-        )
 
         Timber.d("$id: doWork() finished with %s", result)
         return result
