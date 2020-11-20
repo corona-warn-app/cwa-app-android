@@ -35,11 +35,13 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
@@ -63,7 +65,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Example arg: %s", exampleArg)
     }
 
-    val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
 
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
@@ -126,16 +127,38 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine(normalizedTimePerDayToRiskLevelMappingList)
         .toString()
 
-    // Only update when risk level gets updated
-    val additionalRiskCalcInfo = RiskLevelRepository
-        .riskLevelScore
-        .map { createAdditionalRiskCalcInfo(it) }
-        .asLiveData()
+    val additionalRiskCalcInfo = combine(
+        RiskLevelRepository.riskLevelScore,
+        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
+        exposureResultStore.matchedKeyCount,
+        exposureResultStore.daysSinceLastExposure,
+        LocalData.lastTimeDiagnosisKeysFromServerFetchFlow()
+    ) { riskLevelScore,
+        riskLevelScoreLastSuccessfulCalculated,
+        matchedKeyCount,
+        daysSinceLastExposure,
+        lastTimeDiagnosisKeysFromServerFetch ->
+        createAdditionalRiskCalcInfo(
+            riskLevelScore = riskLevelScore,
+            riskLevelScoreLastSuccessfulCalculated = riskLevelScoreLastSuccessfulCalculated,
+            matchedKeyCount = matchedKeyCount,
+            daysSinceLastExposure = daysSinceLastExposure,
+            lastTimeDiagnosisKeysFromServerFetch = lastTimeDiagnosisKeysFromServerFetch
+        )
+    }.asLiveData()
 
-    private suspend fun createAdditionalRiskCalcInfo(riskLevelScore: Int): String = StringBuilder()
+    private suspend fun createAdditionalRiskCalcInfo(
+        riskLevelScore: Int,
+        riskLevelScoreLastSuccessfulCalculated: Int,
+        matchedKeyCount: Int,
+        daysSinceLastExposure: Int,
+        lastTimeDiagnosisKeysFromServerFetch: Date?
+    ): String = StringBuilder()
         .appendLine("Risk Level: ${RiskLevel.forValue(riskLevelScore)}")
-        .appendLine("Last successful Risk Level: ${RiskLevelRepository.getLastSuccessfullyCalculatedScore()}")
-        .appendLine("Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}")
+        .appendLine("Last successful Risk Level: ${RiskLevel.forValue(riskLevelScoreLastSuccessfulCalculated)}")
+        .appendLine("Matched key count: $matchedKeyCount")
+        .appendLine("Days since last Exposure: $daysSinceLastExposure days")
+        .appendLine("Last Time Server Fetch: ${lastTimeDiagnosisKeysFromServerFetch?.time?.let { Instant.ofEpochMilli(it) }}")
         .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
         .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
         .appendLine(
