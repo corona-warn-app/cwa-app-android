@@ -3,6 +3,7 @@ package testhelpers.preferences
 import android.content.SharedPreferences
 
 class MockSharedPreferences : SharedPreferences {
+    private val listeners = mutableListOf<SharedPreferences.OnSharedPreferenceChangeListener>()
     private val dataMap = mutableMapOf<String, Any>()
     val dataMapPeek: Map<String, Any>
         get() = dataMap.toMap()
@@ -36,12 +37,12 @@ class MockSharedPreferences : SharedPreferences {
         dataMap.putAll(newData)
     }
 
-    override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
-        throw NotImplementedError()
+    override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        listeners.add(listener)
     }
 
-    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
-        throw NotImplementedError()
+    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        listeners.remove(listener)
     }
 
     private fun createEditor(

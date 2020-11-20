@@ -82,11 +82,12 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
+                Timber.tag(TAG).i("task aborted, because detection was performed recently")
                 return object : Task.Result {}
             }
 
             if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
-                //  Last check was within 24h, and there are no new files.
+                Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
                 return object : Task.Result {}
             }
 
@@ -104,12 +105,13 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(availableKeyFiles)
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
-            internalProgress.send(Progress.ApiSubmissionFinished)
-            throwIfCancelled()
-
+            // EXPOSUREAPP-3878 write timestamp immediately after submission,
+            // so that progress observers can rely on a clean app state
             if (isSubmissionSuccessful) {
                 saveTimestamp(currentDate, rollbackItems)
             }
+
+            internalProgress.send(Progress.ApiSubmissionFinished)
 
             return object : Task.Result {}
         } catch (error: Exception) {
