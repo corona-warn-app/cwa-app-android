@@ -9,7 +9,6 @@ import com.google.android.gms.nearby.exposurenotification.ReportType
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -27,6 +26,7 @@ import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+
 typealias ProtoRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 
 @Singleton
@@ -371,7 +371,7 @@ class DefaultRiskLevels @Inject constructor(
     private fun List<AggregatedRiskPerDateResult>.mostRecentDateForRisk(riskLevel: ProtoRiskLevel): Instant? =
         filter { it.riskLevel == riskLevel }
             .maxOfOrNull { it.dateMillisSinceEpoch }
-            ?.let { Instant.ofEpochMilli(it) }
+            .let { Instant.ofEpochMilli(it) }
 
     private fun List<AggregatedRiskPerDateResult>.numberOfDaysForRisk(riskLevel: ProtoRiskLevel): Int =
         filter { it.riskLevel == riskLevel }
@@ -399,10 +399,7 @@ class DefaultRiskLevels @Inject constructor(
                 .map { it.riskLevel }
                 .first()
         } catch (e: Exception) {
-            throw ApplicationConfigurationInvalidException(
-                e,
-                "Invalid config for normalizedTimePerDayToRiskLevelMapping"
-            )
+            throw NormalizedTimePerDayToRiskLevelMappingMissingException()
         }
 
         Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
@@ -437,9 +434,16 @@ class DefaultRiskLevels @Inject constructor(
         private val TAG = DefaultRiskLevels::class.java.simpleName
         private const val DECIMAL_MULTIPLIER = 100
 
-        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception(
-            "Failed to map the normalized Time to a Risk Level"
+        open class RiskLevelMappingMissingException(msg: String) : Exception(msg)
+
+        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
+            "Failed to map the normalized Time per Exposure Window to a Risk Level"
         )
+
+        class NormalizedTimePerDayToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
+            "Failed to map the normalized Time per Day to a Risk Level"
+        )
+
         class UnknownReportTypeException : Exception(
             "The Report Type returned by the ENF is not known"
         )
