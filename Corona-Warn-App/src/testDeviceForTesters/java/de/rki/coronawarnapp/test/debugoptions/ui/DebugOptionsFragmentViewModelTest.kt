@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.test.debugoptions.ui
 import android.content.Context
 import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.storage.TestSettings
-import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.test.api.ui.EnvironmentState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -30,8 +28,6 @@ class DebugOptionsFragmentViewModelTest : BaseTest() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var context: Context
-    @MockK private lateinit var testSettings: TestSettings
-    @MockK lateinit var taskController: TaskController
 
     private var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -61,9 +57,7 @@ class DebugOptionsFragmentViewModelTest : BaseTest() {
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
         context = context,
-        taskController = taskController,
         envSetup = environmentSetup,
-        testSettings = testSettings,
         dispatcherProvider = TestDispatcherProvider
     )
 

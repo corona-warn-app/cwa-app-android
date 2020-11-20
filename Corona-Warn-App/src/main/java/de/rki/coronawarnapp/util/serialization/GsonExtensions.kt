@@ -11,12 +11,13 @@ inline fun <reified T> Gson.fromJson(json: String): T = fromJson(
     object : TypeToken<T>() {}.type
 )
 
-inline fun <reified T> Gson.fromJson(file: File): T = file.reader().use {
+inline fun <reified T> Gson.fromJson(file: File): T = file.bufferedReader().use {
     fromJson(it, object : TypeToken<T>() {}.type)
 }
 
-inline fun <reified T> Gson.toJson(data: T, file: File) = file.writer().use { writer ->
+inline fun <reified T> Gson.toJson(data: T, file: File) = file.bufferedWriter().use { writer ->
     toJson(data, writer)
+    writer.flush()
 }
 
 fun <T : Any> KClass<T>.getDefaultGsonTypeAdapter(): TypeAdapter<T> = Gson().getAdapter(this.java)

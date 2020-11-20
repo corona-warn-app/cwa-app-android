@@ -12,7 +12,7 @@ interface ExposureDetectionConfig {
     val overallDetectionTimeout: Duration
 
     val exposureDetectionConfiguration: ExposureConfiguration
-    val exposureDetectionParameters: ExposureDetectionParameters.ExposureDetectionParametersAndroid
+    val exposureDetectionParameters: ExposureDetectionParameters.ExposureDetectionParametersAndroid?
 
     interface Mapper : ConfigMapper<ExposureDetectionConfig>
 }

@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.testresult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -12,7 +11,7 @@ import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.Event
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -37,31 +36,36 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     private val tokenErrorMutex = Mutex()
 
     val uiState: LiveData<TestResultUIState> = combineTransform(
-        SubmissionRepository.uiStateStateFlow,
         SubmissionRepository.deviceUIStateFlow,
         SubmissionRepository.testResultReceivedDateFlow
-    ) { apiRequestState, deviceUiState, resultDate ->
+    ) { deviceUiState, resultDate ->
 
         tokenErrorMutex.withLock {
-            if (!wasRedeemedTokenErrorShown && deviceUiState == DeviceUIState.PAIRED_REDEEMED) {
-                wasRedeemedTokenErrorShown = true
-                showRedeemedTokenWarning.postValue(Unit)
+            if (!wasRedeemedTokenErrorShown) {
+                deviceUiState.withSuccess {
+                    if (it == DeviceUIState.PAIRED_REDEEMED) {
+                        wasRedeemedTokenErrorShown = true
+                        showRedeemedTokenWarning.postValue(Unit)
+                    }
+                }
             }
         }
 
         TestResultUIState(
-            apiRequestState = apiRequestState,
             deviceUiState = deviceUiState,
             testResultReceivedDate = resultDate
         ).let { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
-    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         SubmissionRepository.deviceUIStateFlow
-            .first { it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN }
+            .first { request ->
+                request.withSuccess(false) {
+                    it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN
+                }
+            }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
-
-    val uiStateError: LiveData<Event<CwaWebException>> = SubmissionRepository.uiStateError
+    }
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)

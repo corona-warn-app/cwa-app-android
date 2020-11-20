@@ -89,15 +89,6 @@ object InternalExposureNotificationClient {
             }
     }
 
-    suspend fun getVersion(): Long = suspendCoroutine { cont ->
-        exposureNotificationClient.version
-            .addOnSuccessListener {
-                cont.resume(it)
-            }.addOnFailureListener {
-                cont.resumeWithException(it)
-            }
-    }
-
     /**
      * Retrieves key history from the data store on the device for uploading to your
      * internet-accessible server. Calling this method prompts Google Play services to display
