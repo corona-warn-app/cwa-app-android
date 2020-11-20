@@ -3,10 +3,12 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
@@ -57,11 +59,9 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
             runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
         }
 
-        coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
-            googleENFClient.provideDiagnosisKeys(listOf(exampleKeyFiles[0]))
-            googleENFClient.provideDiagnosisKeys(listOf(exampleKeyFiles[1]))
-            submissionQuota.consumeQuota(2)
+        coVerify {
+            googleENFClient wasNot Called
+            submissionQuota wasNot Called
         }
     }
 
@@ -71,27 +71,24 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
 
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any<List<File>>())
-            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
+        coVerifySequence {
             submissionQuota.consumeQuota(1)
+            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
         }
     }
 
     @Test
-    fun `provide diagnosis key when quota is empty`() {
+    fun `quota is just monitored`() {
         coEvery { submissionQuota.consumeQuota(any()) } returns false
 
         val provider = createProvider()
 
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
 
-        coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(any<List<File>>())
+        coVerifySequence {
+            submissionQuota.consumeQuota(1)
             googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
         }
-
-        coVerify(exactly = 1) { submissionQuota.consumeQuota(1) }
     }
 
     @Test
@@ -100,9 +97,9 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         runBlocking { provider.provideDiagnosisKeys(emptyList()) } shouldBe true
 
-        coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(any<List<File>>())
-            googleENFClient.provideDiagnosisKeys(emptyList())
+        coVerify {
+            googleENFClient wasNot Called
+            submissionQuota wasNot Called
         }
     }
 }
