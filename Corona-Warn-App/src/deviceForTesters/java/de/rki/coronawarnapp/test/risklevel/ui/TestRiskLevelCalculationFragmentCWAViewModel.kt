@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
-import com.google.gson.Gson
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -30,7 +29,6 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -53,7 +51,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
-    @BaseGson private val gson: Gson,
     private val exposureResultStore: ExposureResultStore
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -82,7 +79,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val exposureWindows = exposureResultStore
         .entities
-        .map { if (it.exposureWindows.isEmpty()) "Exposure windows list is empty" else gson.toJson(it.exposureWindows) }
+        .map { if (it.exposureWindows.isEmpty()) "Exposure windows list is empty" else it.exposureWindows.toString() }
         .asLiveData()
 
     val aggregatedRiskResult = exposureResultStore
