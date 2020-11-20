@@ -2,167 +2,33 @@ package de.rki.coronawarnapp.risk
 
 import android.text.TextUtils
 import androidx.annotation.VisibleForTesting
-import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
-import de.rki.coronawarnapp.exception.RiskLevelCalculationException
-import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.RiskLevelRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-typealias ProtoRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 
 @Singleton
-class DefaultRiskLevels @Inject constructor(
-    private val exposureResultStore: ExposureResultStore
-) : RiskLevels {
-    override fun updateRepository(riskLevel: RiskLevel, time: Long) {
-        val rollbackItems = mutableListOf<RollbackItem>()
-        try {
-            Timber.tag(TAG).v("Update the risk level with $riskLevel")
-            val lastCalculatedRiskLevelScoreForRollback =
-                RiskLevelRepository.getLastCalculatedScore()
-            updateRiskLevelScore(riskLevel)
-            rollbackItems.add {
-                updateRiskLevelScore(lastCalculatedRiskLevelScoreForRollback)
-            }
+class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
-            // risk level calculation date update
-            val lastCalculatedRiskLevelDate = LocalData.lastTimeRiskLevelCalculation()
-            LocalData.lastTimeRiskLevelCalculation(time)
-            rollbackItems.add {
-                LocalData.lastTimeRiskLevelCalculation(lastCalculatedRiskLevelDate)
-            }
-        } catch (error: Exception) {
-            Timber.tag(TAG).e(error, "Updating the RiskLevelRepository failed.")
-
-            try {
-                Timber.tag(TAG).d("Initiate Rollback")
-                for (rollbackItem: RollbackItem in rollbackItems) rollbackItem.invoke()
-            } catch (rollbackException: Exception) {
-                Timber.tag(TAG).e(rollbackException, "RiskLevelRepository rollback failed.")
-            }
-
-            throw error
-        }
-    }
-
-    override fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean {
-        // if the last calculation is longer in the past as the defined threshold we return the stale state
-        val timeSinceLastDiagnosisKeyFetchFromServer =
-            TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
-                ?: throw RiskLevelCalculationException(
-                    IllegalArgumentException(
-                        "Time since last exposure calculation is null"
-                    )
-                )
-        /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
-        defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
-        return timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
-            TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
-    }
-
-    override fun calculationNotPossibleBecauseOfNoKeys() =
-        (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
-            if (it) {
-                Timber.tag(TAG)
-                    .v("No last time diagnosis keys from server fetch timestamp was found")
-            }
-        }
-
-    override fun isIncreasedRisk(appConfig: ConfigData, exposureWindows: List<ExposureWindow>): Boolean {
+    override fun determineRisk(
+        appConfig: ExposureWindowRiskCalculationConfig,
+        exposureWindows: List<ExposureWindow>
+    ): AggregatedRiskResult {
         val riskResultsPerWindow =
             exposureWindows.mapNotNull { window ->
                 calculateRisk(appConfig, window)?.let { window to it }
             }.toMap()
 
-        val aggregatedResult = aggregateResults(appConfig, riskResultsPerWindow)
-
-        exposureResultStore.entities.value = ExposureResult(exposureWindows, aggregatedResult)
-
-        val highRisk = aggregatedResult.totalRiskLevel == ProtoRiskLevel.HIGH
-
-        if (highRisk) {
-            internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithHighRisk
-            internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithHighRisk
-        } else {
-            internalMatchedKeyCount.value = aggregatedResult.totalMinimumDistinctEncountersWithLowRisk
-            internalDaysSinceLastExposure.value = aggregatedResult.numberOfDaysWithLowRisk
-        }
-
-        return highRisk
-    }
-
-    override fun isActiveTracingTimeAboveThreshold(): Boolean {
-        val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
-        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
-        val durationTracingIsActiveThreshold =
-            TimeVariables.getMinActivatedTracingTime().toLong()
-
-        return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-            Timber.tag(TAG).v(
-                "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                    "($durationTracingIsActiveThreshold h): $it"
-            )
-        }
-    }
-
-    @VisibleForTesting
-    internal fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
-        riskScore >= min && riskScore <= max
-
-    /**
-     * Updates the Risk Level Score in the repository with the calculated Risk Level
-     *
-     * @param riskLevel
-     */
-    @VisibleForTesting
-    internal fun updateRiskLevelScore(riskLevel: RiskLevel) {
-        val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
-        Timber.d("last CalculatedS core is ${lastCalculatedScore.raw} and Current Risk Level is ${riskLevel.raw}")
-
-        if (RiskLevel.riskLevelChangedBetweenLowAndHigh(
-                lastCalculatedScore,
-                riskLevel
-            ) && !LocalData.submissionWasSuccessful()
-        ) {
-            Timber.d(
-                "Notification Permission = ${
-                    NotificationManagerCompat.from(CoronaWarnApplication.getAppContext()).areNotificationsEnabled()
-                }"
-            )
-
-            NotificationHelper.sendNotification(
-                CoronaWarnApplication.getAppContext().getString(R.string.notification_body)
-            )
-
-            Timber.d("Risk level changed and notification sent. Current Risk level is ${riskLevel.raw}")
-        }
-        if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
-            riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK
-        ) {
-            LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
-
-            Timber.d("Risk level changed LocalData is updated. Current Risk level is ${riskLevel.raw}")
-        }
-        RiskLevelRepository.setRiskLevelScore(riskLevel)
+        return aggregateResults(appConfig, riskResultsPerWindow)
     }
 
     private fun ExposureWindow.dropDueToMinutesAtAttenuation(
@@ -233,8 +99,9 @@ class DefaultRiskLevels @Inject constructor(
             .map { it.riskLevel }
             .firstOrNull()
 
-    override fun calculateRisk(
-        appConfig: ConfigData,
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun calculateRisk(
+        appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindow: ExposureWindow
     ): RiskResult? {
         if (exposureWindow.dropDueToMinutesAtAttenuation(appConfig.minutesAtAttenuationFilters)) {
@@ -289,8 +156,9 @@ class DefaultRiskLevels @Inject constructor(
         )
     }
 
-    override fun aggregateResults(
-        appConfig: ConfigData,
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun aggregateResults(
+        appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
         val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
@@ -378,7 +246,7 @@ class DefaultRiskLevels @Inject constructor(
             .size
 
     private fun aggregateRiskPerDate(
-        appConfig: ConfigData,
+        appConfig: ExposureWindowRiskCalculationConfig,
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskPerDateResult {
@@ -434,12 +302,11 @@ class DefaultRiskLevels @Inject constructor(
             .size
 
     companion object {
-        private val TAG = DefaultRiskLevels::class.java.simpleName
-        private const val DECIMAL_MULTIPLIER = 100
 
         class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception(
             "Failed to map the normalized Time to a Risk Level"
         )
+
         class UnknownReportTypeException : Exception(
             "The Report Type returned by the ENF is not known"
         )
@@ -452,11 +319,5 @@ class DefaultRiskLevels @Inject constructor(
                 !maxExclusive && value.toDouble() > max -> false
                 else -> true
             }
-
-        private val internalMatchedKeyCount = MutableStateFlow(0)
-        val matchedKeyCount: Flow<Int> = internalMatchedKeyCount
-
-        private val internalDaysSinceLastExposure = MutableStateFlow(0)
-        val daysSinceLastExposure: Flow<Int> = internalDaysSinceLastExposure
     }
 }

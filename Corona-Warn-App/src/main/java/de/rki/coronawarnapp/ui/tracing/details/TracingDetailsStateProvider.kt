@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Reusable
-import de.rki.coronawarnapp.risk.DefaultRiskLevels
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -21,7 +21,8 @@ class TracingDetailsStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     settingsRepository: SettingsRepository,
-    tracingRepository: TracingRepository
+    tracingRepository: TracingRepository,
+    exposureResultStore: ExposureResultStore
 ) {
 
     // TODO Refactore these singletons away
@@ -30,8 +31,8 @@ class TracingDetailsStateProvider @Inject constructor(
         RiskLevelRepository.riskLevelScore,
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
         tracingRepository.tracingProgress,
-        DefaultRiskLevels.matchedKeyCount,
-        DefaultRiskLevels.daysSinceLastExposure,
+        exposureResultStore.matchedKeyCount,
+        exposureResultStore.daysSinceLastExposure,
         tracingRepository.activeTracingDaysInRetentionPeriod,
         tracingRepository.lastTimeDiagnosisKeysFetched,
         backgroundModeStatus.isAutoModeEnabled,
@@ -53,8 +54,8 @@ class TracingDetailsStateProvider @Inject constructor(
         )
         val isInformationBodyNoticeVisible =
             riskDetailPresenter.isInformationBodyNoticeVisible(
-            riskLevelScore
-        )
+                riskLevelScore
+            )
 
         TracingDetailsState(
             tracingStatus = status,
