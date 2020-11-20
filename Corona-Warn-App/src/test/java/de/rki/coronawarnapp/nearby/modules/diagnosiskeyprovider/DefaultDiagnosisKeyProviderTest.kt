@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
+import de.rki.coronawarnapp.nearby.modules.version.OutdatedENFVersionException
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -33,7 +34,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
-        coEvery { enfVersion.requireAtLeast(any()) } returns Unit
+        coEvery { enfVersion.requireMinimumVersion(any()) } returns Unit
     }
 
     @AfterEach
@@ -49,11 +50,14 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
     @Test
     fun `provide diagnosis keys with outdated ENF versions`() {
-        coEvery { enfVersion.requireAtLeast(any()) } throws ENFVersion.Companion.UnsupportedENFVersionException()
+        coEvery { enfVersion.requireMinimumVersion(any()) } throws OutdatedENFVersionException(
+            current = 9000,
+            required = 5000
+        )
 
         val provider = createProvider()
 
-        assertThrows<ENFVersion.Companion.UnsupportedENFVersionException> {
+        assertThrows<OutdatedENFVersionException> {
             runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
         }
 
