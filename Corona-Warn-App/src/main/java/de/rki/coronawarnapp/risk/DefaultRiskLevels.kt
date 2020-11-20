@@ -371,7 +371,7 @@ class DefaultRiskLevels @Inject constructor(
     private fun List<AggregatedRiskPerDateResult>.mostRecentDateForRisk(riskLevel: ProtoRiskLevel): Instant? =
         filter { it.riskLevel == riskLevel }
             .maxOfOrNull { it.dateMillisSinceEpoch }
-            .let { Instant.ofEpochMilli(it) }
+            ?.let { Instant.ofEpochMilli(it) }
 
     private fun List<AggregatedRiskPerDateResult>.numberOfDaysForRisk(riskLevel: ProtoRiskLevel): Int =
         filter { it.riskLevel == riskLevel }
