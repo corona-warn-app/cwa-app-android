@@ -3,9 +3,6 @@ package de.rki.coronawarnapp.storage
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -17,22 +14,24 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SubmissionRepository @AssistedInject constructor(
-    @Assisted private val submissionSettings: SubmissionSettings,
+class SubmissionRepository @Inject constructor(
+    private val submissionSettings: SubmissionSettings,
     private val submissionService: SubmissionService,
-    @AppScope val appScope: AppCoroutineScope
+    @AppScope private val scope: CoroutineScope,
+    private val timeStamper: TimeStamper
 ) {
 
     companion object {
@@ -59,10 +58,7 @@ class SubmissionRepository @AssistedInject constructor(
     val deviceUIStateFlow: Flow<DeviceUIState> = deviceUIStateFlowInternal
 
     // to be used by new submission flow screens
-    val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow.asLiveData()
-
-    private val timeStamper: TimeStamper
-        get() = TimeStamper()
+    val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow
 
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
 
@@ -93,7 +89,7 @@ class SubmissionRepository @AssistedInject constructor(
         }
 
         uiStateStateFlowInternal.value = ApiRequestState.STARTED
-        appScope.launch {
+        scope.launch {
             try {
                 deviceUIStateFlowInternal.value = refreshUIState(refresh)
                 uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
@@ -148,7 +144,7 @@ class SubmissionRepository @AssistedInject constructor(
         BackgroundNoise.getInstance().scheduleDummyPattern()
     }
 
-    fun resetUiState() {
+    fun reset() {
         uiStateStateFlowInternal.value = ApiRequestState.IDLE
         deviceUIStateFlowInternal.value = DeviceUIState.UNPAIRED
     }
@@ -181,13 +177,6 @@ class SubmissionRepository @AssistedInject constructor(
         deriveUiState(testResult)
     } catch (err: NoRegistrationTokenSetException) {
         DeviceUIState.UNPAIRED
-    }
-
-    @AssistedInject.Factory
-    interface Factory : InjectedSubmissionRepositoryFactory
-
-    interface InjectedSubmissionRepositoryFactory {
-        fun create(submissionSettings: SubmissionSettings): SubmissionRepository
     }
 }
 

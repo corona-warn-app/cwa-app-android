@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.storage
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -64,7 +65,7 @@ class SubmissionRepositoryTest {
         every {submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
 
         val appScope =  AppCoroutineScope()
-        submissionRepository = SubmissionRepository(submissionSettings, submissionService, appScope)
+        submissionRepository = SubmissionRepository(submissionSettings, submissionService, appScope, TimeStamper())
     }
 
     @Test

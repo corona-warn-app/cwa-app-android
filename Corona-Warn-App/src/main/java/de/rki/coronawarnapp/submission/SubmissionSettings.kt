@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.submission
 
 import android.content.Context
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SubmissionSettings @AssistedInject constructor(
-    @Assisted val context: Context
+class SubmissionSettings @Inject constructor(
+    @AppContext val context: Context
 ) {
 
     private val prefs by lazy {
@@ -19,11 +19,4 @@ class SubmissionSettings @AssistedInject constructor(
         key = "key_submission_consent",
         defaultValue = false
     )
-
-    @AssistedInject.Factory
-    interface Factory : InjectedSubmissionSettingsFactory
-}
-
-interface InjectedSubmissionSettingsFactory {
-    fun create(context: Context): SubmissionSettings
 }

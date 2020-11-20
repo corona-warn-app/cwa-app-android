@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -21,6 +20,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
@@ -30,11 +30,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
     tracingCardStateProvider: TracingCardStateProvider,
-    @Assisted private val submissionCardsStateProvider: SubmissionCardsStateProvider,
+    private val submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository,
     private val testResultNotificationService: TestResultNotificationService,
-    @Assisted private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(settingsViewModel)
@@ -136,12 +136,5 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : HomeViewModelFactory
-
-    interface HomeViewModelFactory {
-        fun create(
-            submissionCardsStateProvider: SubmissionCardsStateProvider,
-            submissionRepository: SubmissionRepository
-        ): HomeFragmentViewModel
-    }
+    interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
 }

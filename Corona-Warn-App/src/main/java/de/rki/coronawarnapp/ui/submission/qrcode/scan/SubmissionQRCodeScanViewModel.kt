@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.lifecycle.MutableLiveData
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -16,11 +15,11 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.InjectedSubmissionViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
-    @Assisted private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository
 ) :
     CWAViewModel() {
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -94,5 +93,5 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : InjectedSubmissionViewModelFactory<SubmissionQRCodeScanViewModel>
+    interface Factory : SimpleCWAViewModelFactory<SubmissionQRCodeScanViewModel>
 }

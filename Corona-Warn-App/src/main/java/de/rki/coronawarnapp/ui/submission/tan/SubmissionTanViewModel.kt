@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission.tan
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -13,14 +12,14 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.InjectedSubmissionViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTanViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    @Assisted private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel() {
 
     private val currentTan = MutableStateFlow(Tan(""))
@@ -80,5 +79,5 @@ class SubmissionTanViewModel @AssistedInject constructor(
     )
 
     @AssistedInject.Factory
-    interface Factory : InjectedSubmissionViewModelFactory<SubmissionTanViewModel>
+    interface Factory : SimpleCWAViewModelFactory<SubmissionTanViewModel>
 }
