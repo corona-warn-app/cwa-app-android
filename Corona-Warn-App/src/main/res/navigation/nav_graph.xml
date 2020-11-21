@@ -219,8 +219,8 @@
             android:id="@+id/action_submissionDispatcherFragment_to_submissionContactFragment"
             app:destination="@id/submissionContactFragment" />
         <action
-            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeInfoFragment"
-            app:destination="@id/submissionQRCodeInfoFragment" />
+            android:id="@+id/action_submissionDispatcherFragment_to_submissionConsentFragment"
+            app:destination="@id/submissionConsentFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
@@ -386,6 +386,14 @@
         <argument
             android:name="symptomIndication"
             app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionConsentFragment"
+        android:label="SubmissionConsentFragment" >
+        <action
+            android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeInfoFragment"
+            app:destination="@id/submissionQRCodeInfoFragment" />
     </fragment>
 
 

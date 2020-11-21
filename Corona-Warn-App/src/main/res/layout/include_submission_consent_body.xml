@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/spacing_normal"
+    android:paddingBottom="@dimen/spacing_normal"
+    style="@style/cardGrey">
+
+    <TextView
+        android:id="@+id/submission_consent_your_consent_subsection_headline"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="match_parent"
+        android:text="@string/submission_consent_your_consent_subsection_headline"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/headline5"/>
+
+    <TextView
+        android:id="@+id/submission_consent_your_consent_subsection_tapping_agree"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@+id/submission_consent_your_consent_subsection_headline"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        android:text="@string/submission_consent_your_consent_subsection_tapping_agree"
+        style="@style/subtitle" />
+
+    <TextView
+        android:id="@+id/submission_consent_your_consent_subsection_first_point"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@+id/submission_consent_your_consent_subsection_tapping_agree"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        android:text="@string/submission_consent_your_consent_subsection_first_point"
+        style="@style/subtitle" />
+
+    <TextView
+        android:id="@+id/submission_consent_your_consent_subsection_second_point"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@+id/submission_consent_your_consent_subsection_first_point"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        android:text="@string/submission_consent_your_consent_subsection_second_point"
+        style="@style/body1" />
+
+    <TextView
+        android:id="@+id/submission_consent_your_consent_subsection_third_point"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@+id/submission_consent_your_consent_subsection_second_point"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        android:text="@string/submission_consent_your_consent_subsection_third_point"
+        style="@style/body1" />
+
+    <include layout="@layout/merge_guidelines_side" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

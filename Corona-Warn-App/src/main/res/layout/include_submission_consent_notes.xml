@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/submission_consent_main_first_point"
+            layout="@layout/view_bullet_point_text"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:itemText="@{@string/submission_consent_main_first_point}"
+            style="@style/subtitle" />
+
+        <TextView
+            android:id="@+id/submission_consent_main_second_point"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_consent_main_second_point"
+            style="@style/subtitle" />
+
+        <TextView
+            android:id="@+id/submission_consent_main_third_point"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_main_second_point"
+            android:text="@string/submission_consent_main_third_point"
+            style="@style/subtitle" />
+
+        <TextView
+            android:id="@+id/submission_consent_main_fourth_point"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_main_third_point"
+            android:text="@string/submission_consent_main_fourth_point"
+            style="@style/subtitle" />
+
+        <TextView
+            android:id="@+id/submission_consent_main_bottom_body"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_consent_main_bottom_body"
+            style="@style/subtitle"/>
+
+    </LinearLayout>
+</layout>

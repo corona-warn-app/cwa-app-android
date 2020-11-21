@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -42,11 +41,6 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToQRInfo ->
-                    doNavigate(
-                        SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
-                    )
             }
         }
     }
@@ -61,7 +55,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             viewModel.onBackPressed()
         }
         binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
-            checkForDataPrivacyPermission()
+            goToSubmissionConsentScreen()
         }
         binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             viewModel.onTanPressed()
@@ -71,23 +65,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         }
     }
 
-    private fun checkForDataPrivacyPermission() {
-        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_dispatcher_qr_privacy_dialog_headline,
-            R.string.submission_dispatcher_qr_privacy_dialog_body,
-            R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
-            R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
-            true,
-            positiveButtonFunction = {
-                onPrivacyPermissionGranted()
-            }
+    private fun goToSubmissionConsentScreen() {
+        doNavigate(
+            SubmissionDispatcherFragmentDirections
+                .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
         )
-
-        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
-    }
-
-    private fun onPrivacyPermissionGranted() {
-        viewModel.onQRScanPressed()
     }
 }
