@@ -2,13 +2,12 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment
-import de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoFragment
-import de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoModule
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentModule
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanModule
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment
@@ -60,9 +59,6 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionSymptomCalendarModule::class])
     abstract fun submissionSymptomCalendarScreen(): SubmissionSymptomCalendarFragment
-
-    @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
-    abstract fun submissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
 
     @ContributesAndroidInjector(modules = [SubmissionConsentModule::class])
     abstract fun submissionConsentScreen(): SubmissionConsentFragment

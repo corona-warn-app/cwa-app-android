@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.viewmodel
+package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
