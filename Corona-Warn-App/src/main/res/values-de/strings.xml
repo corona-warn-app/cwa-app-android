@@ -958,17 +958,16 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">"So funktioniert das Corona-Warn-System"</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiv getesteten Personen angewiesen.\n\nDa nur verschlüsselte Zufalls-IDs ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:"</string>
+    <string name="submission_intro_text">"Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiv getesteten Personen angewiesen. Teilen Sie Ihr Testergebnis in der App und warnen Sie Ihre Mitmenschen.\n\nDa nur verschlüsselte Zufalls-IDs ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Weiter"</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
     <string name="submission_intro_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
     <!-- YTXT: submission introduction bullet points -->
     <string-array name="submission_intro_bullet_points">
-        <item>"Wenn sich auf Ihrem Testdokument ein QR-Code befindet, können Sie diesen in der App scannen und den Test damit registrieren. Sobald das Ergebnis vorliegt, können Sie es in der App einsehen."</item>
-        <item>"Wenn Sie Corona-positiv getestet wurden, können Sie andere warnen."</item>
-        <item>"Wenn Ihnen für einen positiven Testbefund eine TAN mitgeteilt wurde, können Sie diese für die Registrierung des Tests nutzen."</item>
-        <item>"Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen."</item>
+        <item>"Wenn sich auf Ihrem Testdokument ein QR-Code befindet, können Sie diesen in der  App scannen und so Ihren Test registrieren. Sobald das Testergebnis vorliegt, wird es automatisch in der App anzeigt."</item>
+        <item>"Wenn Sie zusammen mit Ihrem Testdokument eine TAN erhalten haben, können Sie diese in der App eingeben, um Ihren Test in der App zu registrieren. Sobald das Testergebnis vorliegt, wird es automatisch in der App anzeigt."</item>
+        <item>""</item>
     </string-array>
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">"Wurden Sie getestet? So funktioniert das Corona-Warn-System"</string>
