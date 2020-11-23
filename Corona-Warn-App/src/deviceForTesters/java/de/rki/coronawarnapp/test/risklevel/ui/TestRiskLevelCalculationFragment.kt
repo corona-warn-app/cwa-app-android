@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -51,8 +52,8 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
-
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
+
         vm.riskLevelResetEvent.observe2(this) {
             Toast.makeText(
                 requireContext(), "Reset done, please fetch diagnosis keys from server again",
@@ -68,6 +69,10 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             binding.labelAggregatedRiskResult.text = it
         }
 
+        vm.backendParameters.observe2(this) {
+            binding.labelBackendParameters.text = it
+        }
+
         vm.exposureWindowCountString.observe2(this) {
             binding.labelExposureWindowCount.text = it
         }
@@ -76,13 +81,25 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             binding.labelExposureWindows.text = it
         }
 
-        vm.backendParameters.observe2(this) {
-            binding.labelBackendParameters.text = it
+        binding.buttonExposureWindowsShare.setOnClickListener { shareExposureWindows() }
+    }
+
+    private fun shareExposureWindows() {
+        activity?.let { activity ->
+            val shareIntent = ShareCompat.IntentBuilder
+                .from(activity)
+                .setType("text/plain")
+                .setText(binding.labelExposureWindows.text)
+                .createChooserIntent()
+
+            if (shareIntent.resolveActivity(activity.packageManager) != null) {
+                startActivity(shareIntent)
+            }
         }
     }
 
     companion object {
-        val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!
+        private val TAG = TestRiskLevelCalculationFragment::class.java.simpleName
         val MENU_ITEM = TestMenuItem(
             title = "ENF v2 Calculation",
             description = "Window Mode related overview.",

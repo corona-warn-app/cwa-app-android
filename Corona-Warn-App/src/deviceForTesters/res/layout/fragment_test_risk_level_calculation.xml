@@ -23,6 +23,7 @@
             type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
     </data>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,21 +37,21 @@
 
             <TextView
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Preview (no interaction possible)" />
 
             <FrameLayout
                 android:id="@+id/test_risk_card"
                 style="@style/card"
+                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
-                android:focusable="true"
                 android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                android:backgroundTintMode="src_over">
+                android:backgroundTintMode="src_over"
+                android:focusable="true">
 
                 <include
                     android:id="@+id/risk_card_content"
@@ -94,10 +95,10 @@
             <TextView
                 android:id="@+id/label_aggregated_risk_result_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
                 android:text="Aggregated Risk Result" />
 
             <TextView
@@ -109,9 +110,9 @@
             <TextView
                 android:id="@+id/label_risk_additional_info_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Risk Calculation Additional Information" />
 
             <TextView
@@ -123,9 +124,9 @@
             <TextView
                 android:id="@+id/label_backend_parameters_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Backend Parameters" />
 
             <TextView
@@ -137,9 +138,9 @@
             <TextView
                 android:id="@+id/label_exposure_window_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Exposure Windows" />
 
             <TextView
@@ -155,6 +156,17 @@
                 android:paddingTop="5dp"
                 android:text="-" />
 
+            <Button
+                android:id="@+id/buttonExposureWindowsShare"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:text="Share ExposureWindows" />
+
         </LinearLayout>
     </ScrollView>
+
+
 </layout>

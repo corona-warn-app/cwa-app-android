@@ -214,6 +214,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
     }
 
+    fun shareExposureWindows() {
+        Timber.d("Opening Share-Intent for Exposure Windows")
+    }
+
     fun clearKeyCache() {
         Timber.d("Clearing key cache")
         launch { keyCacheRepository.clear() }
