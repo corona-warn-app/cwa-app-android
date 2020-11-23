@@ -33,7 +33,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
-    @MockK lateinit var riskLevelData: RiskLevelData
+    @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -46,9 +46,9 @@ class RiskLevelTaskTest : BaseTest() {
         enfClient = enfClient,
         timeStamper = timeStamper,
         backgroundModeStatus = backgroundModeStatus,
-        riskLevelData = riskLevelData,
+        riskLevelSettings = riskLevelSettings,
         appConfigProvider = appConfigProvider,
-        exposureResultStore = riskLevelStorage
+        riskLevelStorage = riskLevelStorage
     )
 
     @BeforeEach
@@ -72,7 +72,7 @@ class RiskLevelTaskTest : BaseTest() {
         every { enfClient.isTracingEnabled } returns flowOf(true)
         every { timeStamper.nowUTC } returns Instant.EPOCH
 
-        every { riskLevelData.lastUsedConfigIdentifier = any() } just Runs
+        every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
     }
 
     @Test

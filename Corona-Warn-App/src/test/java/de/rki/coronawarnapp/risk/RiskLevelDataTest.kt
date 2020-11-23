@@ -22,7 +22,7 @@ class RiskLevelDataTest : BaseTest() {
         every { context.getSharedPreferences("risklevel_localdata", Context.MODE_PRIVATE) } returns preferences
     }
 
-    fun createInstance() = RiskLevelData(context = context)
+    fun createInstance() = RiskLevelSettings(context = context)
 
     @Test
     fun `update last used config identifier`() {

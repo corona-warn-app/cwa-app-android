@@ -40,7 +40,7 @@ class RiskLevelTask @Inject constructor(
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
     private val backgroundModeStatus: BackgroundModeStatus,
-    private val riskLevelData: RiskLevelData,
+    private val riskLevelSettings: RiskLevelSettings,
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage
 ) : Task<DefaultProgress, RiskLevelTaskResult> {
@@ -115,7 +115,7 @@ class RiskLevelTask @Inject constructor(
                 Timber.tag(TAG).d("storeTaskResult(...)")
                 riskLevelStorage.storeResult(it)
 
-                riskLevelData.lastUsedConfigIdentifier = configData.identifier
+                riskLevelSettings.lastUsedConfigIdentifier = configData.identifier
             }
         } catch (error: Exception) {
             Timber.tag(TAG).e(error)

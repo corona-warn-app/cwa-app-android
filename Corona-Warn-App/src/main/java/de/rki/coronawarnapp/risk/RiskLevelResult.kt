@@ -12,14 +12,13 @@ interface RiskLevelResult {
     val exposureWindows: List<ExposureWindow>?
 
     val wasSuccessfullyCalculated: Boolean
-        get() = UNSUCCESSFUL_RISK_LEVELS.contains(riskLevel)
+        get() = !UNSUCCESSFUL_RISK_LEVELS.contains(riskLevel)
     val isIncreasedRisk: Boolean
 
     val matchedKeyCount: Int
     val daysSinceLastExposure: Int
 
     companion object {
-
         private val UNSUCCESSFUL_RISK_LEVELS = arrayOf(
             RiskLevel.UNDETERMINED,
             RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF,

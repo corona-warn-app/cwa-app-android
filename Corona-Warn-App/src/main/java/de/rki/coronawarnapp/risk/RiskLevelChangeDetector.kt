@@ -7,11 +7,13 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -22,13 +24,16 @@ class RiskLevelChangeDetector @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val riskLevelStorage: RiskLevelStorage,
-    private val notificationManagerCompat: NotificationManagerCompat
+    private val notificationManagerCompat: NotificationManagerCompat,
+    private val foregroundState: ForegroundState
 ) {
 
     fun launch() {
         Timber.v("Monitoring config changes.")
         riskLevelStorage.riskLevelResults
-            .map { results -> results.sortedBy { it.calculatedAt }.takeLast(2) }
+            .map { results ->
+                results.sortedBy { it.calculatedAt }.takeLast(2)
+            }
             .filter { it.size == 2 }
             .onEach {
                 Timber.v("Checking for risklevel change.")
@@ -38,8 +43,7 @@ class RiskLevelChangeDetector @Inject constructor(
             .launchIn(appScope)
     }
 
-    @VisibleForTesting
-    internal fun check(changedLevels: List<RiskLevelResult>) {
+    private suspend fun check(changedLevels: List<RiskLevelResult>) {
         val oldResult = changedLevels.first()
         val newResult = changedLevels.last()
 
@@ -48,11 +52,14 @@ class RiskLevelChangeDetector @Inject constructor(
 
         Timber.d("last CalculatedS core is ${oldRiskLevel.raw} and Current Risk Level is ${newRiskLevel.raw}")
 
-        if (riskLevelChangedBetweenLowAndHigh(oldRiskLevel, newRiskLevel) && !LocalData.submissionWasSuccessful()) {
+        if (hasHighLowLevelChanged(oldRiskLevel, newRiskLevel) && !LocalData.submissionWasSuccessful()) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
-            // TODO Static access bad!
-            NotificationHelper.sendNotification(context.getString(R.string.notification_body))
+            if (!foregroundState.isInForeground.first()) {
+                NotificationHelper.sendNotification("", context.getString(R.string.notification_body), true)
+            } else {
+                Timber.d("App is in foreground, not sending notifications")
+            }
 
             Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskLevel")
         }
@@ -72,7 +79,8 @@ class RiskLevelChangeDetector @Inject constructor(
          * @param current newly calculated RiskLevel
          * @return
          */
-        private fun riskLevelChangedBetweenLowAndHigh(previous: RiskLevel, current: RiskLevel): Boolean {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal fun hasHighLowLevelChanged(previous: RiskLevel, current: RiskLevel): Boolean {
             return HIGH_RISK_LEVELS.contains(previous) && LOW_RISK_LEVELS.contains(current) ||
                 LOW_RISK_LEVELS.contains(previous) && HIGH_RISK_LEVELS.contains(current)
         }

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.appconfig
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.risk.RiskLevelData
+import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
@@ -19,7 +19,7 @@ class ConfigChangeDetector @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val taskController: TaskController,
     @AppScope private val appScope: CoroutineScope,
-    private val riskLevelData: RiskLevelData,
+    private val riskLevelSettings: RiskLevelSettings,
     private val riskLevelStorage: RiskLevelStorage
 ) {
 
@@ -37,13 +37,13 @@ class ConfigChangeDetector @Inject constructor(
 
     @VisibleForTesting
     internal suspend fun check(newIdentifier: String) {
-        if (riskLevelData.lastUsedConfigIdentifier == null) {
+        if (riskLevelSettings.lastUsedConfigIdentifier == null) {
             // No need to reset anything if we didn't calculate a risklevel yet.
             Timber.d("Config changed, but no previous identifier is available.")
             return
         }
 
-        val oldConfigId = riskLevelData.lastUsedConfigIdentifier
+        val oldConfigId = riskLevelSettings.lastUsedConfigIdentifier
         if (newIdentifier != oldConfigId) {
             Timber.i("New config id ($newIdentifier) differs from last one ($oldConfigId), resetting.")
             riskLevelStorage.clear()
