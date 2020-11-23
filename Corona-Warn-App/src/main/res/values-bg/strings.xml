@@ -176,8 +176,6 @@
         <item quantity="few">"%1$s дни от последния контакт"</item>
         <item quantity="many">"%1$s дни от последния контакт"</item>
     </plurals>
-    <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Неизвестен риск"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Тъй като регистрирането на излагания на риск не е било активно достатъчно дълго, не можем да изчислим Вашия риск от заразяване."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -343,8 +341,6 @@
     <string name="risk_details_subtitle_infection_risk_past">"Ето как е изчислено Вашето ниво на риск"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Ето как се изчислява Вашето ниво на риск"</string>
-    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
-    <string name="risk_details_information_body_unknown_risk">"Тъй като регистрирането на излагания на риск не е било активно достатъчно дълго, не можем да изчислим Вашия риск от заразяване."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- YTXT: risk details - low risk explanation text -->

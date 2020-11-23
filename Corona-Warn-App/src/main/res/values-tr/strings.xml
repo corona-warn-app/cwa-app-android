@@ -176,8 +176,6 @@
         <item quantity="few">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
         <item quantity="many">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
     </plurals>
-    <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Bilinmeyen Risk"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Maruz kalma günlüğünü uzun süredir etkinleştirmediğiniz için enfeksiyon riskinizi hesaplayamadık."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -343,8 +341,6 @@
     <string name="risk_details_subtitle_infection_risk_past">"Riskiniz bu şekilde hesaplandı"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Riskiniz bu şekilde hesaplanır"</string>
-    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
-    <string name="risk_details_information_body_unknown_risk">"Maruz kalma günlüğünü uzun süredir etkinleştirmediğiniz için enfeksiyon riskinizi hesaplayamadık."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
     <!-- YTXT: risk details - low risk explanation text -->

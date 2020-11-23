@@ -52,14 +52,12 @@ class RiskFormattingTest : BaseTest() {
             RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF
         )
         formatBehaviorIconBackground(context, RiskLevelConstants.LOW_LEVEL_RISK)
-        formatBehaviorIconBackground(context, RiskLevelConstants.UNKNOWN_RISK_INITIAL)
 
         verifySequence {
             context.getColor(R.color.colorSemanticHighRisk)
             context.getColor(R.color.colorSurface2)
             context.getColor(R.color.colorSurface2)
             context.getColor(R.color.colorSemanticLowRisk)
-            context.getColor(R.color.colorSemanticNeutralRisk)
         }
     }
 }

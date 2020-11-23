@@ -75,8 +75,6 @@ data class TracingDetailsState(
                     if (count > 0) R.string.risk_details_information_body_low_risk_with_encounter
                     else R.string.risk_details_information_body_low_risk
                 )
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
-                c.getString(R.string.risk_details_information_body_unknown_risk)
             else -> ""
         }
     }

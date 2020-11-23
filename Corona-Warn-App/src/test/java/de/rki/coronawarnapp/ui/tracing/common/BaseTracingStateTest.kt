@@ -23,7 +23,6 @@ class BaseTracingStateTest : BaseTest() {
     @MockK(relaxed = true) lateinit var context: Context
 
     val constants = listOf(
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL,
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
         RiskLevelConstants.LOW_LEVEL_RISK,
         RiskLevelConstants.INCREASED_RISK,
@@ -88,10 +87,6 @@ class BaseTracingStateTest : BaseTest() {
             getRiskColor(context)
             verify { context.getColor(R.color.colorSemanticLowRisk) }
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            getRiskColor(context)
-            verify { context.getColor(R.color.colorSemanticNeutralRisk) }
-        }
     }
 
     @Test
@@ -101,9 +96,6 @@ class BaseTracingStateTest : BaseTest() {
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
             isTracingOffRiskLevel() shouldBe true
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isTracingOffRiskLevel() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
             isTracingOffRiskLevel() shouldBe false
@@ -127,9 +119,6 @@ class BaseTracingStateTest : BaseTest() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
             getStableTextColor(context)
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            getStableTextColor(context)
-        }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
             getStableTextColor(context)
         }
@@ -146,7 +135,6 @@ class BaseTracingStateTest : BaseTest() {
         verifySequence {
             context.getColor(R.color.colorTextPrimary1)
             context.getColor(R.color.colorTextPrimary1)
-            context.getColor(R.color.colorStableLight)
             context.getColor(R.color.colorStableLight)
             context.getColor(R.color.colorStableLight)
             context.getColor(R.color.colorStableLight)

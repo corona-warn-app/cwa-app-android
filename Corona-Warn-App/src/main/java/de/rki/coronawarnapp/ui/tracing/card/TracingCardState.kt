@@ -46,7 +46,6 @@ data class TracingCardState(
             when (riskLevelScore) {
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.string.risk_card_outdated_risk_body
                 RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.string.risk_card_body_tracing_off
-                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> R.string.risk_card_unknown_risk_body
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.string.risk_card_outdated_manual_risk_body
                 else -> null
             }?.let { c.getString(it) } ?: ""
@@ -69,8 +68,7 @@ data class TracingCardState(
             ) {
                 when (lastRiskLevelScoreCalculated) {
                     RiskLevelConstants.LOW_LEVEL_RISK,
-                    RiskLevelConstants.INCREASED_RISK,
-                    RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
+                    RiskLevelConstants.INCREASED_RISK -> {
                         val arg = formatRiskLevelHeadline(c, lastRiskLevelScoreCalculated)
                         c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                             .format(arg)
@@ -228,8 +226,7 @@ data class TracingCardState(
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
                 when (lastRiskLevelScoreCalculated) {
                     RiskLevelConstants.LOW_LEVEL_RISK,
-                    RiskLevelConstants.INCREASED_RISK,
-                    RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
+                    RiskLevelConstants.INCREASED_RISK -> {
                         if (lastTimeDiagnosisKeysFetched != null) {
                             c.getString(
                                 R.string.risk_card_body_time_fetched,
@@ -272,13 +269,15 @@ data class TracingCardState(
     fun formatRiskLevelHeadline(c: Context, riskLevelScore: Int): String {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
             when (riskLevelScore) {
-                RiskLevelConstants.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.string.risk_card_outdated_risk_headline
+                RiskLevelConstants.INCREASED_RISK ->
+                    R.string.risk_card_increased_risk_headline
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+                    R.string.risk_card_outdated_risk_headline
                 RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
                     R.string.risk_card_no_calculation_possible_headline
-                RiskLevelConstants.LOW_LEVEL_RISK -> R.string.risk_card_low_risk_headline
-                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> R.string.risk_card_unknown_risk_headline
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.string.risk_card_unknown_risk_headline
+                RiskLevelConstants.LOW_LEVEL_RISK ->
+                    R.string.risk_card_low_risk_headline
                 else -> null
             }?.let { c.getString(it) } ?: ""
         } else {
@@ -305,9 +304,8 @@ data class TracingCardState(
         when (riskLevelScore) {
             RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
-            RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.card_no_calculation
             RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
-            else -> R.color.card_unknown
+            else -> R.color.card_no_calculation
         }.let { c.getColorStateList(it) }
     } else {
             return c.getColorStateList(R.color.card_no_calculation)

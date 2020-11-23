@@ -29,10 +29,8 @@ abstract class BaseTracingState {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
             when (riskLevelScore) {
                 RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.colorSemanticUnknownRisk
                 RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
-                else -> R.color.colorSemanticNeutralRisk
+                else -> R.color.colorSemanticUnknownRisk
             }.let { c.getColor(it) }
         } else {
             return c.getColor(R.color.colorSemanticUnknownRisk)

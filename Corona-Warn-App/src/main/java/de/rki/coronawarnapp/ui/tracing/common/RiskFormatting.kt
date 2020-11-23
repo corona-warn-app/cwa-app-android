@@ -33,8 +33,6 @@ fun formatBehaviorIconBackground(context: Context, riskLevelScore: Int): Int {
     val colorRes = when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> R.color.colorSemanticNeutralRisk
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.color.colorSemanticNeutralRisk
         else -> R.color.colorSurface2
     }
     return context.getColor(colorRes)

@@ -177,8 +177,6 @@
         <item quantity="few">"%1$s Tage seit der letzten Begegnung"</item>
         <item quantity="many">"%1$s Tage seit der letzten Begegnung"</item>
     </plurals>
-    <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Unbekanntes Risiko"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -344,8 +342,6 @@
     <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt"</string>
-    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
-    <string name="risk_details_information_body_unknown_risk">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- YTXT: risk details - low risk explanation text -->

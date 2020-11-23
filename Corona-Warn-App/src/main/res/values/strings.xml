@@ -181,8 +181,6 @@
         <item quantity="few">"%1$s days since the last encounter"</item>
         <item quantity="many">"%1$s days since the last encounter"</item>
     </plurals>
-    <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Unknown Risk"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Since you have not activated exposure logging for long enough, we could not calculate your risk of infection."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -348,8 +346,6 @@
     <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"This is how your risk is calculated"</string>
-    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
-    <string name="risk_details_information_body_unknown_risk">"Since you have not activated exposure logging for long enough, we could not calculate your risk of infection."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
