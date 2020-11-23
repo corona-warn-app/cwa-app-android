@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.toPersistedExposureWindow
 import de.rki.coronawarnapp.risk.storage.internal.toPersistedRiskResult
+import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -19,7 +20,8 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultRiskLevelStorage @Inject constructor(
-    private val riskResultDatabaseFactory: RiskResultDatabase.Factory
+    private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
+    private val riskLevelResultMigrator: RiskLevelResultMigrator
 ) : RiskLevelStorage {
 
     private val database by lazy { riskResultDatabaseFactory.create() }
@@ -31,9 +33,16 @@ class DefaultRiskLevelStorage @Inject constructor(
         windows.map { it.toExposureWindow() }
     }
 
-    override val riskLevelResults: Flow<List<RiskLevelResult>> =
-        riskResultsTable.allEntries().map { latestResults ->
+    override val riskLevelResults: Flow<List<RiskLevelResult>> = riskResultsTable.allEntries()
+        .map { latestResults ->
             latestResults.map { it.toRiskResult() }
+        }
+        .map { results ->
+            if (results.isEmpty()) {
+                riskLevelResultMigrator.getLegacyResults()
+            } else {
+                results
+            }
         }
 
     override val lastRiskLevelResult: Flow<RiskLevelResult> = riskLevelResults.map { results ->
