@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
+import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import timber.log.Timber
 import java.io.File
@@ -16,10 +17,13 @@ import kotlin.coroutines.suspendCoroutine
 class DefaultDiagnosisKeyProvider @Inject constructor(
     private val enfVersion: ENFVersion,
     private val submissionQuota: SubmissionQuota,
-    private val enfClient: ExposureNotificationClient
+    private val enfClient: ExposureNotificationClient,
+    private val diagnosisKeysDataMapper: DiagnosisKeysDataMapper
 ) : DiagnosisKeyProvider {
 
     override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
+        diagnosisKeysDataMapper.updateDiagnosisKeysDataMapping()
+
         if (keyFiles.isEmpty()) {
             Timber.d("No key files submitted, returning early.")
             return true

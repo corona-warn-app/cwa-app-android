@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby.modules.exposurewindow
 
-import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import javax.inject.Inject
@@ -18,18 +17,4 @@ class DefaultExposureWindowProvider @Inject constructor(
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
     }
-
-    override suspend fun getDiagnosisKeysDataMapping(): DiagnosisKeysDataMapping =
-        suspendCoroutine { cont ->
-            client.diagnosisKeysDataMapping
-                .addOnSuccessListener { cont.resume(it) }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
-
-    override suspend fun setDiagnosisKeysDataMapping(diagnosisKeysDataMapping: DiagnosisKeysDataMapping) =
-        suspendCoroutine<Unit> { cont ->
-            client.setDiagnosisKeysDataMapping(diagnosisKeysDataMapping)
-                .addOnSuccessListener { cont.resume(Unit) }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
 }

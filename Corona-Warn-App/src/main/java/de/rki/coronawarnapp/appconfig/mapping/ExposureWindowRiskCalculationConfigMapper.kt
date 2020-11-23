@@ -46,12 +46,15 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         )
     }
 
-    private fun AppConfigAndroid.ApplicationConfigurationAndroid.getDiagnosisKeyDataMapping(): DiagnosisKeysDataMapping {
+    private fun AppConfigAndroid.ApplicationConfigurationAndroid.getDiagnosisKeyDataMapping():
+        DiagnosisKeysDataMapping {
         val diagnosisKeyDataMapping = this.diagnosisKeysDataMapping
         return DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
             .apply {
                 setDaysSinceOnsetToInfectiousness(diagnosisKeyDataMapping.daysSinceOnsetToInfectiousnessMap)
-                setInfectiousnessWhenDaysSinceOnsetMissing(diagnosisKeysDataMapping.infectiousnessWhenDaysSinceOnsetMissing)
+                setInfectiousnessWhenDaysSinceOnsetMissing(
+                    diagnosisKeysDataMapping.infectiousnessWhenDaysSinceOnsetMissing
+                )
                 setReportTypeWhenMissing(diagnosisKeysDataMapping.reportTypeWhenMissing)
             }.build()
     }

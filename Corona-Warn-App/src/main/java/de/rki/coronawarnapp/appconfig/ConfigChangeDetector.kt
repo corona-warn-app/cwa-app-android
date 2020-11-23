@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
 import androidx.annotation.VisibleForTesting
-import com.google.android.gms.common.api.ApiException
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelData
 import de.rki.coronawarnapp.risk.RiskLevelTask
@@ -23,7 +21,6 @@ class ConfigChangeDetector @Inject constructor(
     private val taskController: TaskController,
     @AppScope private val appScope: CoroutineScope,
     private val riskLevelData: RiskLevelData,
-    private val enfClient: ENFClient
 ) {
 
     fun launch() {
@@ -32,15 +29,14 @@ class ConfigChangeDetector @Inject constructor(
             .distinctUntilChangedBy { it.identifier }
             .onEach {
                 Timber.v("Running app config change checks.")
-                checkForRiskCalculation(it.identifier)
-                checkForDiagnosisKeysDataMapping(it)
+                check(it.identifier)
             }
             .catch { Timber.e(it, "App config change checks failed.") }
             .launchIn(appScope)
     }
 
     @VisibleForTesting
-    internal fun checkForRiskCalculation(newIdentifier: String) {
+    internal fun check(newIdentifier: String) {
         if (riskLevelData.lastUsedConfigIdentifier == null) {
             // No need to reset anything if we didn't calculate a risklevel yet.
             Timber.d("Config changed, but no previous identifier is available.")
@@ -62,21 +58,6 @@ class ConfigChangeDetector @Inject constructor(
 
         fun resetRiskLevel() {
             RiskLevelRepository.setRiskLevelScore(RiskLevel.UNDETERMINED)
-        }
-    }
-
-    @VisibleForTesting
-    internal suspend fun checkForDiagnosisKeysDataMapping(exposureWindowRiskCalculationConfig: ExposureWindowRiskCalculationConfig) {
-        val oldDiagnosisKeyDataMapping = enfClient.getDiagnosisKeysDataMapping()
-        val newDiagnosisKeyDataMapping = exposureWindowRiskCalculationConfig.diagnosisKeyDataMapping
-
-        if (oldDiagnosisKeyDataMapping != newDiagnosisKeyDataMapping) {
-            try {
-                Timber.i("New DiagnosisKeysDataMapping differs from last one, applying.")
-                enfClient.setDiagnosisKeysDataMapping(newDiagnosisKeyDataMapping)
-            } catch (e: ApiException) {
-                Timber.e(e, "Failed to setDiagnosisKeysDataMapping status code: %s", e.statusCode)
-            }
         }
     }
 }
