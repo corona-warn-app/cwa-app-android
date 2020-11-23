@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.TimeStamper
@@ -35,7 +36,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var riskLevelData: RiskLevelData
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var exposureResultStore: ExposureResultStore
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -47,7 +48,7 @@ class RiskLevelTaskTest : BaseTest() {
         backgroundModeStatus = backgroundModeStatus,
         riskLevelData = riskLevelData,
         appConfigProvider = appConfigProvider,
-        exposureResultStore = exposureResultStore
+        exposureResultStore = riskLevelStorage
     )
 
     @BeforeEach

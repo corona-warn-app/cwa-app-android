@@ -211,7 +211,7 @@ data class TracingCardState(
                 c.getString(R.string.risk_card_body_not_yet_fetched)
             }
         }
-            return when (riskLevelScore) {
+        return when (riskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> {
                 if (lastTimeDiagnosisKeysFetched != null) {
@@ -302,14 +302,14 @@ data class TracingCardState(
 
     fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-        when (riskLevelScore) {
-            RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
-            RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.card_no_calculation
-            RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
-            else -> R.color.card_unknown
-        }.let { c.getColorStateList(it) }
-    } else {
+            when (riskLevelScore) {
+                RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
+                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.card_no_calculation
+                RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
+                else -> R.color.card_unknown
+            }.let { c.getColorStateList(it) }
+        } else {
             return c.getColorStateList(R.color.card_no_calculation)
         }
     }
