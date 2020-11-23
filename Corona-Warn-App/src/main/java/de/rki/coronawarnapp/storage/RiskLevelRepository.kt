@@ -39,7 +39,7 @@ object RiskLevelRepository {
      *
      */
     fun reset() {
-        internalRisklevelScore.value = RiskLevelConstants.UNKNOWN_RISK_INITIAL
+        internalRisklevelScore.value = RiskLevelConstants.LOW_LEVEL_RISK
     }
 
     /**
@@ -53,7 +53,7 @@ object RiskLevelRepository {
     fun setLastCalculatedRiskLevelAsCurrent() {
         var lastRiskLevelScore = getLastCalculatedScore()
         if (lastRiskLevelScore == RiskLevel.UNDETERMINED) {
-            lastRiskLevelScore = RiskLevel.UNKNOWN_RISK_INITIAL
+            lastRiskLevelScore = RiskLevel.LOW_LEVEL_RISK
         }
         internalRisklevelScore.value = lastRiskLevelScore.raw
     }

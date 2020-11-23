@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.storage.LocalData
@@ -73,10 +72,6 @@ class RiskLevelTask @Inject constructor(
 
             return Result(
                 when {
-                    calculationNotPossibleBecauseOfNoKeys().also {
-                        checkCancel()
-                    } -> UNKNOWN_RISK_INITIAL
-
                     calculationNotPossibleBecauseOfOutdatedResults().also {
                         checkCancel()
                     } -> if (backgroundJobsEnabled()) {
@@ -88,10 +83,6 @@ class RiskLevelTask @Inject constructor(
                     isIncreasedRisk(configData).also {
                         checkCancel()
                     } -> INCREASED_RISK
-
-                    !isActiveTracingTimeAboveThreshold().also {
-                        checkCancel()
-                    } -> UNKNOWN_RISK_INITIAL
 
                     else -> LOW_LEVEL_RISK
                 }.also {
@@ -118,7 +109,7 @@ class RiskLevelTask @Inject constructor(
                     IllegalArgumentException("Time since last exposure calculation is null")
                 )
         /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
-        defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
+        defined threshold because [LOW_LEVEL_RISK] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
         return timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
             TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
     }

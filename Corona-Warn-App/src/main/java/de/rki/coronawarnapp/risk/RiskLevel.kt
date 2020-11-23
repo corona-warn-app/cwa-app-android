@@ -4,7 +4,6 @@ enum class RiskLevel(val raw: Int) {
     // mapped to: unknown risk - initial
     // the risk score is not yet calculated
     // This score is set if the application was freshly installed without running the tracing
-    UNKNOWN_RISK_INITIAL(RiskLevelConstants.UNKNOWN_RISK_INITIAL),
 
     // mapped to: no calculation possible
     // the ExposureNotification Framework or Bluetooth is not active
@@ -38,7 +37,6 @@ enum class RiskLevel(val raw: Int) {
     companion object {
         fun forValue(value: Int): RiskLevel {
             return when (value) {
-                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> UNKNOWN_RISK_INITIAL
                 RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> NO_CALCULATION_POSSIBLE_TRACING_OFF
                 RiskLevelConstants.LOW_LEVEL_RISK -> LOW_LEVEL_RISK
                 RiskLevelConstants.INCREASED_RISK -> INCREASED_RISK
@@ -58,7 +56,6 @@ enum class RiskLevel(val raw: Int) {
             )
         private val HIGH_RISK_LEVELS = arrayOf(INCREASED_RISK)
         private val LOW_RISK_LEVELS = arrayOf(
-            UNKNOWN_RISK_INITIAL,
             NO_CALCULATION_POSSIBLE_TRACING_OFF,
             LOW_LEVEL_RISK,
             UNKNOWN_RISK_OUTDATED_RESULTS,

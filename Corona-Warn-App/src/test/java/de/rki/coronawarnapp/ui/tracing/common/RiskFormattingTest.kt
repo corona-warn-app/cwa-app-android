@@ -32,13 +32,11 @@ class RiskFormattingTest : BaseTest() {
         formatBehaviorIcon(context, RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS)
         formatBehaviorIcon(context, RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF)
         formatBehaviorIcon(context, RiskLevelConstants.LOW_LEVEL_RISK)
-        formatBehaviorIcon(context, RiskLevelConstants.UNKNOWN_RISK_INITIAL)
 
         verifySequence {
             context.getColor(R.color.colorStableLight)
             context.getColor(R.color.colorTextSemanticNeutral)
             context.getColor(R.color.colorTextSemanticNeutral)
-            context.getColor(R.color.colorStableLight)
             context.getColor(R.color.colorStableLight)
         }
     }
