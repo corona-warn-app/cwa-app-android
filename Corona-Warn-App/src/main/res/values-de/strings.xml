@@ -967,7 +967,7 @@
     <string-array name="submission_intro_bullet_points">
         <item>"Wenn sich auf Ihrem Testdokument ein QR-Code befindet, können Sie diesen in der  App scannen und so Ihren Test registrieren. Sobald das Testergebnis vorliegt, wird es automatisch in der App anzeigt."</item>
         <item>"Wenn Sie zusammen mit Ihrem Testdokument eine TAN erhalten haben, können Sie diese in der App eingeben, um Ihren Test in der App zu registrieren. Sobald das Testergebnis vorliegt, wird es automatisch in der App anzeigt."</item>
-        <item>""</item>
+        <item>"Wenn Sie keine TAN erhalten haben und positiv getestet wurden, können Sie über die Hotline eine teleTAN anfordern. Mit dieser teleTAN können Sie dann Ihr Testergebnis in der App hochladen."</item>
     </string-array>
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">"Wurden Sie getestet? So funktioniert das Corona-Warn-System"</string>
