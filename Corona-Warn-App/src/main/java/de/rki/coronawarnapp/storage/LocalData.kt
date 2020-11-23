@@ -311,7 +311,7 @@ object LocalData {
         val rawRiskLevel = getSharedPreferenceInstance().getInt(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_risk_level_score_successful),
-            RiskLevel.UNDETERMINED.raw
+            RiskLevel.UNKNOWN_RISK_INITIAL.raw
         )
         return RiskLevel.forValue(rawRiskLevel)
     }

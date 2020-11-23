@@ -7,28 +7,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 object RiskLevelRepository {
 
-    private val internalRisklevelScore = setInternalRiskLevelScore()
+    private val internalRisklevelScore = MutableStateFlow(getLastSuccessfullyCalculatedScore().raw)
     val riskLevelScore: Flow<Int> = internalRisklevelScore
 
     private val internalRiskLevelScoreLastSuccessfulCalculated =
         MutableStateFlow(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
     val riskLevelScoreLastSuccessfulCalculated: Flow<Int> =
         internalRiskLevelScoreLastSuccessfulCalculated
-
-    /**
-     * Set the internal risk level score [internalRisklevelScore]
-     */
-    private fun setInternalRiskLevelScore(): MutableStateFlow<Int> {
-        val lastSuccessfullyCalculatedScore = getLastSuccessfullyCalculatedScore().raw
-        return MutableStateFlow(
-            if (lastSuccessfullyCalculatedScore !=
-                RiskLevelConstants.UNDETERMINED
-            )
-                lastSuccessfullyCalculatedScore
-            else RiskLevelConstants.UNKNOWN_RISK_INITIAL
-        )
-    }
-
+    
     /**
      * Set the new calculated [RiskLevel]
      * Calculation happens in the [de.rki.coronawarnapp.transaction.RiskLevelTransaction]
