@@ -198,6 +198,32 @@
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Erneut starten"</string>
 
+    <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
+    <string name="risk_card_low_risk_no_encounters_body">Keine Risiko-Begegnungen</string>
+    <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
+    <plurals name="risk_card_low_risk_encounter_days_body">
+        <item quantity="one">"Begegnungen mit niedrigem Risiko an %1$d Tag"</item>
+        <item quantity="other">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="zero">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="two">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="few">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="many">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+    </plurals>
+
+    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
+    <string name="risk_card_high_risk_no_encounters_body">Keine Risiko-Begegnungen</string>
+    <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
+    <plurals name="risk_card_high_risk_encounter_days_body">
+        <item quantity="one">"Begegnungen an %1$d Tag mit erhöhtem Risiko"</item>
+        <item quantity="other">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="zero">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="two">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="few">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="many">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+    </plurals>
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
+    <string name="risk_card_high_risk_most_recent_body">"Zuletzt am %1$s"</string>
+
     <!-- ####################################
               Risk Card - Progress
     ###################################### -->
@@ -376,7 +402,7 @@
     <string name="risk_details_explanation_dialog_title">"Information zur Funktionsweise der Risiko-Ermittlung"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
-     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
 
     <!-- XHED: risk details - deadman notification title -->
