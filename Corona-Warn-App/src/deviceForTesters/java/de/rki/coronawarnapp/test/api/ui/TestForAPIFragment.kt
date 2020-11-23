@@ -290,9 +290,9 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                    //enfClient.provideDiagnosisKeys(
-                    //    googleFileList,
-                    //)
+                    // enfClient.provideDiagnosisKeys(
+                    //     googleFileList,
+                    // )
                     showToast("Provided ${appleKeyList.size} keys to Google API")
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.EXPOSURENOTIFICATION)
