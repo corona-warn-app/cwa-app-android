@@ -18,11 +18,11 @@ class SkippingTask : QueueingTask() {
     }
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<QueueingTask>,
+        private val taskByDagger: Provider<QueueingTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
-        override val config: TaskFactory.Config =
-            Config()
+        override suspend fun createConfig(): Config = Config()
+
         override val taskProvider: () -> Task<DefaultProgress, Result> = {
             taskByDagger.get()
         }

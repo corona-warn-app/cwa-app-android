@@ -1,0 +1,33 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+
+message KeyDownloadParametersIOS {
+
+  repeated DayPackageMetadata revokedDayPackages = 1;
+  repeated HourPackageMetadata revokedHourPackages = 2;
+}
+
+message KeyDownloadParametersAndroid {
+
+  repeated DayPackageMetadata revokedDayPackages = 1;
+  repeated HourPackageMetadata revokedHourPackages = 2;
+
+  int32 downloadTimeoutInSeconds = 3;
+
+  int32 overallTimeoutInSeconds = 4;
+}
+
+message DayPackageMetadata {
+  string region = 1;
+  string date = 2;
+  string etag = 3;
+}
+
+message HourPackageMetadata {
+  string region = 1;
+  string date = 2;
+  int32 hour = 3;
+  string etag = 4;
+}

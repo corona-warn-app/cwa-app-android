@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util.flow
 
 import de.rki.coronawarnapp.util.mutate
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.coEvery
@@ -8,10 +9,13 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.withTimeoutOrNull
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
@@ -23,23 +27,47 @@ import kotlin.concurrent.thread
 class HotDataFlowTest : BaseTest() {
 
     @Test
-    fun `init call only happens on first collection`() {
+    fun `init happens on first collection and exception is forwarded`() {
         val testScope = TestCoroutineScope()
         val hotData = HotDataFlow<String>(
             loggingTag = "tag",
             scope = testScope,
             coroutineContext = Dispatchers.Unconfined,
-            startValueProvider = {
-                throw IOException()
-            }
+            startValueProvider = { throw IOException() }
         )
 
-        testScope.apply {
-            runBlockingTest2(permanentJobs = true) {
+        runBlocking {
+            // This blocking scope get's the init exception as the first caller
+            shouldThrow<IOException> {
                 hotData.data.first()
             }
-            uncaughtExceptions.single() shouldBe instanceOf(IOException::class)
         }
+
+        testScope.advanceUntilIdle()
+
+        testScope.uncaughtExceptions.singleOrNull() shouldBe null
+    }
+
+    @Test
+    fun `exception is not forwarded if flag is set`() {
+        val testScope = TestCoroutineScope()
+        val hotData = HotDataFlow<String>(
+            loggingTag = "tag",
+            scope = testScope,
+            coroutineContext = Dispatchers.Unconfined,
+            forwardException = false,
+            startValueProvider = { throw IOException() }
+        )
+        runBlocking {
+            withTimeoutOrNull(500) {
+                // This blocking scope get's the init exception as the first caller
+                hotData.data.firstOrNull()
+            } shouldBe null
+        }
+
+        testScope.advanceUntilIdle()
+
+        testScope.uncaughtExceptions.single() shouldBe instanceOf(IOException::class)
     }
 
     @Test
@@ -57,7 +85,7 @@ class HotDataFlowTest : BaseTest() {
         )
 
         testScope.apply {
-            runBlockingTest2(permanentJobs = true) {
+            runBlockingTest2(ignoreActive = true) {
                 hotData.data.first() shouldBe "Test"
                 hotData.data.first() shouldBe "Test"
             }
@@ -80,7 +108,7 @@ class HotDataFlowTest : BaseTest() {
         )
 
         testScope.apply {
-            runBlockingTest2(permanentJobs = true) {
+            runBlockingTest2(ignoreActive = true) {
                 hotData.data.first() shouldBe "Test"
                 hotData.data.first() shouldBe "Test"
             }
@@ -184,7 +212,6 @@ class HotDataFlowTest : BaseTest() {
         hotData.updateSafely { "2" }
         hotData.updateSafely { "1" }
 
-
         runBlocking {
             testCollector.await { list, l -> list.size == 3 }
             testCollector.latestValues shouldBe listOf("1", "2", "1")
@@ -204,8 +231,7 @@ class HotDataFlowTest : BaseTest() {
             sharingBehavior = SharingStarted.Lazily
         )
 
-
-        testScope.runBlockingTest2(permanentJobs = true) {
+        testScope.runBlockingTest2(ignoreActive = true) {
             val sub1 = hotData.data.test(tag = "sub1", startOnScope = this)
             val sub2 = hotData.data.test(tag = "sub2", startOnScope = this)
             val sub3 = hotData.data.test(tag = "sub3", startOnScope = this)
@@ -226,7 +252,7 @@ class HotDataFlowTest : BaseTest() {
     }
 
     @Test
-    fun `update queue is wiped on completion`() = runBlockingTest2(permanentJobs = true) {
+    fun `update queue is wiped on completion`() = runBlockingTest2(ignoreActive = true) {
         val valueProvider = mockk<suspend CoroutineScope.() -> Long>()
         coEvery { valueProvider.invoke(any()) } returns 1
 
@@ -266,5 +292,36 @@ class HotDataFlowTest : BaseTest() {
         testCollector2.latestValues shouldBe listOf(1L)
 
         coVerify(exactly = 2) { valueProvider.invoke(any()) }
+    }
+
+    @Test
+    fun `blocking update is actually blocking`() = runBlocking {
+        val testScope = TestCoroutineScope()
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            coroutineContext = testScope.coroutineContext,
+            startValueProvider = {
+                delay(2000)
+                2
+            },
+            sharingBehavior = SharingStarted.Lazily
+        )
+
+        hotData.updateSafely {
+            delay(2000)
+            this + 1
+        }
+
+        val testCollector = hotData.data.test(startOnScope = testScope)
+
+        testScope.advanceUntilIdle()
+
+        hotData.updateBlocking { this - 3 } shouldBe 0
+
+        testCollector.await { list, i -> i == 3 }
+        testCollector.latestValues shouldBe listOf(2, 3, 0)
+
+        testCollector.cancel()
     }
 }

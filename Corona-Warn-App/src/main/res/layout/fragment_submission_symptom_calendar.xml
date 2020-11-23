@@ -9,10 +9,6 @@
 
         <import type="de.rki.coronawarnapp.submission.Symptoms.StartOf" />
 
-        <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
-
     </data>
 
     <ScrollView
@@ -24,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:focusable="true"
-            tools:context=".ui.submission.fragment.SubmissionSymptomCalendarFragment">
+            tools:context=".ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment">
 
             <include
                 android:id="@+id/submission_symptom_calendar_header"

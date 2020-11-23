@@ -3,7 +3,10 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -14,11 +17,10 @@ import timber.log.Timber
  *
  * @see BackgroundWorkScheduler
  */
-class BackgroundNoisePeriodicWorker(
-    val context: Context,
-    workerParams: WorkerParameters
-) :
-    CoroutineWorker(context, workerParams) {
+class BackgroundNoisePeriodicWorker @AssistedInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     companion object {
         private val TAG: String? = BackgroundNoisePeriodicWorker::class.simpleName
@@ -32,7 +34,7 @@ class BackgroundNoisePeriodicWorker(
      * @see BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK
      */
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         var result = Result.success()
         try {
@@ -55,10 +57,15 @@ class BackgroundNoisePeriodicWorker(
                 Result.retry()
             }
         }
+        Timber.d("$id: doWork() finished with %s", result)
         return result
     }
 
     private fun stopWorker() {
         BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORK.stop()
+        Timber.d("$id: worker stopped")
     }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedWorkerFactory<BackgroundNoisePeriodicWorker>
 }

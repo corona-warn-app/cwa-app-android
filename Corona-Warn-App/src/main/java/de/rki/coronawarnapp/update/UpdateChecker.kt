@@ -6,10 +6,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.appconfig.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.appconfig.CWAConfig
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.server.protocols.internal.AppVersionConfig.SemanticVersion
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
+import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 
 class UpdateChecker(private val activity: LauncherActivity) {
@@ -66,10 +67,9 @@ class UpdateChecker(private val activity: LauncherActivity) {
     }
 
     private suspend fun checkIfUpdatesNeededFromServer(): Boolean {
-        val applicationConfigurationFromServer =
-            ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+        val cwaAppConfig: CWAConfig = AppInjector.component.appConfigProvider.getAppConfig()
 
-        val minVersionFromServer = applicationConfigurationFromServer.appVersion.android.min
+        val minVersionFromServer = cwaAppConfig.appVersion.android.min
         val minVersionFromServerString =
             constructSemanticVersionString(minVersionFromServer)
 

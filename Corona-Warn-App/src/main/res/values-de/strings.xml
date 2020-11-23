@@ -21,8 +21,6 @@
     <!-- NOTR -->
     <string name="preference_tracing"><xliff:g id="preference">"preference_tracing"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_timestamp_diagnosis_keys_fetch"><xliff:g id="preference">"preference_timestamp_diagnosis_keys_fetch"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"preference_timestamp_manual_diagnosis_keys_retrieval"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_string_google_api_token"><xliff:g id="preference">"preference_m_string_google_api_token"</xliff:g></string>
@@ -110,6 +108,10 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"Es gibt Neuigkeiten von Ihrer Corona-Warn-App."</string>
+    <!-- XHED: Notification title - Reminder to share a positive test result-->
+    <string name="notification_headline_share_positive_result">"Helfen Sie mit!"</string>
+    <!-- XTXT: Notification body - Reminder to share a positive test result-->
+    <string name="notification_body_share_positive_result">"Bitte warnen Sie andere und teilen Sie Ihr Testergebnis."</string>
 
     <!-- ####################################
               App Auto Update
@@ -154,8 +156,6 @@
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Aktualisiert: %1$s"</string>
-    <!-- XTXT: risk card - next update -->
-    <string name="risk_card_body_next_update">"Tägliche Aktualisierung"</string>
     <!-- XTXT: risk card - hint to open the app daily -->
     <string name="risk_card_body_open_daily">"Hinweis: Bitte öffnen Sie die App täglich, um den Risikostatus zu aktualisieren."</string>
     <!-- XBUT: risk card - update risk -->
@@ -186,13 +186,19 @@
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"Risiko-Ermittlung gestoppt"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
-    <string name="risk_card_no_calculation_possible_body_saved_risk">"Letzte Risiko-Ermittlung:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
+    <string name="risk_card_no_calculation_possible_body_saved_risk">"Letzte Risiko-Überprüfung:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
     <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
     <string name="risk_card_outdated_risk_headline">"Risiko-Ermittlung nicht möglich"</string>
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
     <string name="risk_card_outdated_manual_risk_body">"Ihr Risikostatus wurde seit mehr als 48 Stunden nicht aktualisiert. Bitte aktualisieren Sie Ihren Risikostatus."</string>
+    <!-- XHED: risk card - risk check failed headline, no internet connection -->
+    <string name="risk_card_check_failed_no_internet_headline">"Risiko-Überprüfung fehlgeschlagen"</string>
+    <!-- XTXT: risk card - risk check failed, please check your internet connection -->
+    <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufall-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
+    <!-- XTXT: risk card - risk check failed, restart button -->
+    <string name="risk_card_check_failed_no_internet_restart_button">"Erneut starten"</string>
 
     <!-- ####################################
               Risk Card - Progress
@@ -331,9 +337,9 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_headline_period_logged">"Ermittlungszeitraum"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
-    <string name="risk_details_subtitle_period_logged">"Dieser Zeitraum wird berücksichtigt"</string>
+    <string name="risk_details_subtitle_period_logged">"Dieser Zeitraum wird berücksichtigt."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko-Ermittlung sollte daher dauerhaft aktiv sein"</string>
+    <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko-Ermittlung sollte daher dauerhaft aktiv sein."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Für Ihre Risiko-Ermittlung wird nur der Zeitraum der letzten 14 Tage betrachtet. In diesem Zeitraum war Ihre Risiko-Ermittlung für eine Gesamtdauer von %1$s Tagen aktiv. Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -789,9 +795,9 @@
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Zurück"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_title">"Test fehlerhaft"</string>
+    <string name="submission_error_dialog_web_tan_redeemed_title">"QR-Code nicht mehr gültig"</string>
     <!-- XMSG: Dialog body for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_body">"Es gab ein Problem bei der Auswertung Ihres Tests. Ihr QR Code ist bereits abgelaufen."</string>
+    <string name="submission_error_dialog_web_tan_redeemed_body">"Ihr Test liegt länger als 21 Tage zurück und kann nicht mehr in der App registriert werden. Bitte stellen Sie bei zukünftigen Tests sicher, dass Sie den QR-Code scannen, sobald er Ihnen vorliegt."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
@@ -1203,7 +1209,10 @@
     <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlt dem Betriebssystem Ihres Smartphones der Dienst „COVID-19-Benachrichtigungen“ und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"Ihre Corona-Warn-App läuft fehlerfrei. Leider können Sie Ihren Risikostatus im Moment nicht aktualisieren. Ihre Risiko-Ermittlung ist weiterhin aktiv und funktioniert. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
-
+    <!-- XTXT: error dialog - Error title when the provideDiagnosisKeys quota limit was reached. -->
+    <string name="errors_risk_detection_limit_reached_title">"Limit bereits erreicht"</string>
+    <!-- XTXT: error dialog - Error description when the provideDiagnosisKeys quota limit was reached. -->
+    <string name="errors_risk_detection_limit_reached_description">"Heute sind keine weiteren Risiko-Überprüfungen möglich, weil das von Ihrem Betriebssystem festgelegte Limit von Risiko-Überprüfungen pro Tag bereits erreicht ist. Bitte überprüfen Sie Ihren Risikostatus morgen wieder."</string>
     <!-- ####################################
                Generic Error Messages
         ###################################### -->

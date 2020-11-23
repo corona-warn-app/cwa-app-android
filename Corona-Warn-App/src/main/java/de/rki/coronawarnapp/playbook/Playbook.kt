@@ -25,7 +25,7 @@ interface Playbook {
         val visistedCountries: List<String>
     )
 
-    suspend fun submission(data: SubmissionData)
+    suspend fun submit(data: SubmissionData)
 
     suspend fun dummy()
 }

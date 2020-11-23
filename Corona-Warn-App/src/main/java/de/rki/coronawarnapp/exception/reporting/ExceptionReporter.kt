@@ -5,29 +5,46 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_API_FAIL
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT
-import de.rki.coronawarnapp.util.tryFormattedError
+import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.HasHumanReadableError
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import java.io.PrintWriter
 import java.io.StringWriter
 
-fun Throwable.report(exceptionCategory: ExceptionCategory) =
+fun Throwable.report(exceptionCategory: ExceptionCategory) {
     this.report(exceptionCategory, null, null)
+}
 
 fun Throwable.report(
     exceptionCategory: ExceptionCategory,
     prefix: String?,
     suffix: String?
 ) {
+    reportProblem(tag = prefix, info = suffix)
+
+    if (CWADebug.isAUnitTest) return
+
     val context = CoronaWarnApplication.getAppContext()
 
     val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)
     intent.putExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA, exceptionCategory.name)
     intent.putExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA, prefix)
     intent.putExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA, suffix)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, this.tryFormattedError(context))
+
+    if (this is HasHumanReadableError) {
+        val humanReadable = this.tryHumanReadableError(context)
+        humanReadable.title?.let {
+            intent.putExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA, it)
+        }
+        intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, humanReadable.description)
+    } else {
+        intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, this.message)
+    }
 
     if (this is ReportedExceptionInterface) {
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, this.code)
@@ -49,10 +66,7 @@ fun Throwable.report(
             errorMessage = R.string.errors_google_api_error
         }
 
-        intent.putExtra(
-            ReportingConstants.ERROR_REPORT_RES_ID,
-            errorMessage
-        )
+        intent.putExtra(ReportingConstants.ERROR_REPORT_RES_ID, errorMessage)
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, ErrorCodes.API_EXCEPTION.code)
         intent.putExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE, this.statusCode)
     }
@@ -66,13 +80,4 @@ fun Throwable.report(
 
     intent.putExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA, stackExtra)
     LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
-}
-
-fun reportGeneric(
-    stackString: String
-) {
-    val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)
-    intent.putExtra("category", ExceptionCategory.INTERNAL.name)
-    intent.putExtra("stack", stackString)
-    LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
 }

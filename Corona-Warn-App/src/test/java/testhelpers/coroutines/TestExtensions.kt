@@ -5,21 +5,22 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.UncompletedCoroutinesError
 import kotlinx.coroutines.test.runBlockingTest
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 @ExperimentalCoroutinesApi // Since 1.2.1, tentatively till 1.3.0
 fun TestCoroutineScope.runBlockingTest2(
-    permanentJobs: Boolean = false,
+    ignoreActive: Boolean = false,
     block: suspend TestCoroutineScope.() -> Unit
 ): Unit = runBlockingTest2(
-    permanentJobs = permanentJobs,
+    ignoreActive = ignoreActive,
     context = coroutineContext,
     testBody = block
 )
 
 fun runBlockingTest2(
-    permanentJobs: Boolean = false,
+    ignoreActive: Boolean = false,
     context: CoroutineContext = EmptyCoroutineContext,
     testBody: suspend TestCoroutineScope.() -> Unit
 ) {
@@ -31,14 +32,13 @@ fun runBlockingTest2(
                     testBody = testBody
                 )
             } catch (e: UncompletedCoroutinesError) {
-                if (!permanentJobs) throw e
+                if (!ignoreActive) throw e
+                else Timber.v("Ignoring active job.")
             }
         }
     } catch (e: Exception) {
-        if (!permanentJobs || (e.message != "This job has not completed yet")) {
+        if (!ignoreActive || (e.message != "This job has not completed yet")) {
             throw e
         }
     }
 }
-
-

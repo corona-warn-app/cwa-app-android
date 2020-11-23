@@ -2,8 +2,10 @@
 
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import timber.log.Timber
 import java.io.File
@@ -101,6 +103,14 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
         enfClient
             .provideDiagnosisKeys(keyFiles.toList(), configuration, token)
             .addOnSuccessListener { cont.resume(it) }
-            .addOnFailureListener { cont.resumeWithException(it) }
+            .addOnFailureListener {
+                val wrappedException = when {
+                    it is ApiException && it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT -> {
+                        QuotaExceededException(cause = it)
+                    }
+                    else -> it
+                }
+                cont.resumeWithException(wrappedException)
+            }
     }
 }

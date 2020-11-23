@@ -1,16 +1,13 @@
 package de.rki.coronawarnapp.storage
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.Event
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -26,17 +23,12 @@ object SubmissionRepository {
         AppInjector.component.appScope
     }
 
-    val uiStateStateFlowInternal = MutableStateFlow(ApiRequestState.IDLE)
-    val uiStateStateFlow: Flow<ApiRequestState> = uiStateStateFlowInternal
-    val uiStateState: LiveData<ApiRequestState> = uiStateStateFlow.asLiveData()
-
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
-    val testResultReceivedDate = testResultReceivedDateFlow.asLiveData()
 
-    private val deviceUIStateFlowInternal = MutableStateFlow(DeviceUIState.UNPAIRED)
-    val deviceUIStateFlow: Flow<DeviceUIState> = deviceUIStateFlowInternal
-    val deviceUIState = deviceUIStateFlow.asLiveData()
+    private val deviceUIStateFlowInternal =
+        MutableStateFlow<NetworkRequestWrapper<DeviceUIState, Throwable>>(NetworkRequestWrapper.RequestIdle)
+    val deviceUIStateFlow: Flow<NetworkRequestWrapper<DeviceUIState, Throwable>> = deviceUIStateFlowInternal
 
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
 
@@ -82,32 +74,33 @@ object SubmissionRepository {
         LocalData.teletan(teletan)
     }
 
-    private val uiStateErrorInternal = MutableLiveData<Event<CwaWebException>>(null)
-    val uiStateError: LiveData<Event<CwaWebException>> = uiStateErrorInternal
-
     // TODO this should be more UI agnostic
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
         var refresh = refreshTestResult
 
-        deviceUIStateFlowInternal.value.let {
+        deviceUIStateFlowInternal.value.withSuccess {
             if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
                 refresh = false
                 Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
             }
         }
 
-        uiStateStateFlowInternal.value = ApiRequestState.STARTED
+        deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
+
         appScope.launch {
             try {
                 refreshUIState(refresh)
-                uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
             } catch (err: CwaWebException) {
-                uiStateErrorInternal.postValue(Event(err))
-                uiStateStateFlowInternal.value = ApiRequestState.FAILED
+                deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
             } catch (err: Exception) {
+                deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
                 err.report(ExceptionCategory.INTERNAL)
             }
         }
+    }
+
+    fun reset() {
+        deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestIdle
     }
 
     // TODO this should be more UI agnostic
@@ -129,6 +122,6 @@ object SubmissionRepository {
                 }
             }
         }
-        deviceUIStateFlowInternal.value = uiState
+        deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(uiState)
     }
 }

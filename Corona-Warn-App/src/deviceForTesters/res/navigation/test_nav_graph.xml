@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/test_menu_fragment"
         android:name="de.rki.coronawarnapp.test.menu.ui.TestMenuFragment"
-        android:label="TestMenuFragment">
+        android:label="TestMenuFragment"
+        tools:layout="@layout/fragment_test_menu">
+        <action
+            android:id="@+id/action_testMenuFragment_to_settingsCrashReportFragment"
+            app:destination="@id/test_bug_report_fragment" />
         <action
             android:id="@+id/action_testMenuFragment_to_testForAPIFragment"
             app:destination="@id/test_for_api_fragment" />
@@ -18,6 +22,18 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_testTaskControllerFragment"
             app:destination="@id/test_taskcontroller_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_appConfigTestFragment"
+            app:destination="@id/test_appconfig_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_debugOptionsFragment"
+            app:destination="@id/test_debugoptions_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_keyDownloadTestFragment"
+            app:destination="@id/test_keydownload_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_submissionTestFragment"
+            app:destination="@id/test_submission_fragment" />
     </fragment>
 
     <fragment
@@ -27,21 +43,56 @@
         tools:layout="@layout/fragment_test_for_a_p_i" />
 
     <fragment
+        android:id="@+id/test_bug_report_fragment"
+        android:name="de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment"
+        android:label="crashreporter"
+        tools:layout="@layout/fragment_crashreporter_overview">
+        <action
+            android:id="@+id/action_crashReportFragment_to_settingsCrashReportDetailsFragment"
+            app:destination="@id/settingsCrashReportDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsCrashReportDetailsFragment"
+        android:name="de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportDetailsFragment"
+        android:label="fragment_settings_crash_report_details"
+        tools:layout="@layout/fragment_settings_crash_report_details" />
+
+    <fragment
         android:id="@+id/test_risklevel_calculation_fragment"
         android:name="de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment"
         android:label="fragment_test_risk_level_calculation"
         tools:layout="@layout/fragment_test_risk_level_calculation">
         <argument
             android:name="exampleArgument"
-            app:argType="string"
             android:defaultValue="null"
+            app:argType="string"
             app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/test_taskcontroller_fragment"
         android:name="de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment"
-
-        tools:layout="@layout/fragment_test_task_controller"
-        android:label="TestTaskControllerFragment" />
+        android:label="TestTaskControllerFragment"
+        tools:layout="@layout/fragment_test_task_controller" />
+    <fragment
+        android:id="@+id/test_appconfig_fragment"
+        android:name="de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment"
+        android:label="AppConfigTestFragment"
+        tools:layout="@layout/fragment_test_appconfig" />
+    <fragment
+        android:id="@+id/test_debugoptions_fragment"
+        android:name="de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment"
+        android:label="DebugOptionsFragment"
+        tools:layout="@layout/fragment_test_debugoptions" />
+    <fragment
+        android:id="@+id/test_keydownload_fragment"
+        android:name="de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment"
+        android:label="KeyDownloadTestFragment"
+        tools:layout="@layout/fragment_test_keydownload" />
+    <fragment
+        android:id="@+id/test_submission_fragment"
+        android:name="de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment"
+        android:label="SubmissionTestFragment"
+        tools:layout="@layout/fragment_test_submission" />
 
 </navigation>

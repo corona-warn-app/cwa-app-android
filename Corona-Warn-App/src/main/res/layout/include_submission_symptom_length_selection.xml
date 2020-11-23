@@ -8,10 +8,6 @@
 
         <import type="de.rki.coronawarnapp.submission.Symptoms.StartOf" />
 
-        <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
