@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
@@ -15,6 +16,12 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         if (!rawConfig.hasRiskCalculationParameters()) {
             throw ApplicationConfigurationInvalidException(
                 message = "Risk Calculation Parameters are missing"
+            )
+        }
+
+        if (!rawConfig.hasDiagnosisKeysDataMapping()) {
+            throw ApplicationConfigurationInvalidException(
+                message = "Diagnosis Keys Data Mapping is missing"
             )
         }
 
@@ -34,8 +41,19 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             normalizedTimePerExposureWindowToRiskLevelMapping = riskCalculationParameters
                 .normalizedTimePerEWToRiskLevelMappingList,
             normalizedTimePerDayToRiskLevelMappingList = riskCalculationParameters
-                .normalizedTimePerDayToRiskLevelMappingList
+                .normalizedTimePerDayToRiskLevelMappingList,
+            diagnosisKeyDataMapping = rawConfig.getDiagnosisKeyDataMapping()
         )
+    }
+
+    private fun AppConfigAndroid.ApplicationConfigurationAndroid.getDiagnosisKeyDataMapping(): DiagnosisKeysDataMapping {
+        val diagnosisKeyDataMapping = this.diagnosisKeysDataMapping
+        return DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
+            .apply {
+                setDaysSinceOnsetToInfectiousness(diagnosisKeyDataMapping.daysSinceOnsetToInfectiousnessMap)
+                setInfectiousnessWhenDaysSinceOnsetMissing(diagnosisKeysDataMapping.infectiousnessWhenDaysSinceOnsetMissing)
+                setReportTypeWhenMissing(diagnosisKeysDataMapping.reportTypeWhenMissing)
+            }.build()
     }
 
     data class ExposureWindowRiskCalculationContainer(
@@ -47,6 +65,7 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
-        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        override val diagnosisKeyDataMapping: DiagnosisKeysDataMapping
     ) : ExposureWindowRiskCalculationConfig
 }

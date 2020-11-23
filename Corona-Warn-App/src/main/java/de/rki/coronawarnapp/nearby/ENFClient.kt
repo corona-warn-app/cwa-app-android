@@ -2,6 +2,7 @@
 
 package de.rki.coronawarnapp.nearby
 
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -72,4 +73,10 @@ class ENFClient @Inject constructor(
         }
 
     override suspend fun exposureWindows(): List<ExposureWindow> = exposureWindowProvider.exposureWindows()
+
+    override suspend fun getDiagnosisKeysDataMapping(): DiagnosisKeysDataMapping =
+        exposureWindowProvider.getDiagnosisKeysDataMapping()
+
+    override suspend fun setDiagnosisKeysDataMapping(diagnosisKeysDataMapping: DiagnosisKeysDataMapping) =
+        exposureWindowProvider.setDiagnosisKeysDataMapping(diagnosisKeysDataMapping)
 }
