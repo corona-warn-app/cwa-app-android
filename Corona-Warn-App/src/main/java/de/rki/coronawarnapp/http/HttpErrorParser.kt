@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.exception.http.UnauthorizedException
 import de.rki.coronawarnapp.exception.http.UnsupportedMediaTypeException
 import okhttp3.Interceptor
 import okhttp3.Response
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.net.ssl.HttpsURLConnection
 
@@ -66,6 +67,8 @@ class HttpErrorParser : Interceptor {
                     throw CwaWebException(code)
                 }
             }
+        } catch (err: SocketTimeoutException) {
+            throw NetworkConnectTimeoutException()
         } catch (err: UnknownHostException) {
             throw CwaUnknownHostException()
         }

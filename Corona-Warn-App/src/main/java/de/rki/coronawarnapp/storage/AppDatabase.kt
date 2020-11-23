@@ -62,7 +62,6 @@ abstract class AppDatabase : RoomDatabase() {
             val keyRepository = AppInjector.component.keyCacheRepository
             runBlocking { keyRepository.clear() } // TODO this is not nice
             TracingIntervalRepository.resetInstance()
-            ExposureSummaryRepository.resetInstance()
         }
 
         private fun buildDatabase(context: Context): AppDatabase {

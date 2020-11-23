@@ -69,26 +69,25 @@ class SubmissionQuotaTest : BaseTest() {
             quota.consumeQuota(5) shouldBe true
         }
 
-        coVerify { enfData.currentQuota = 20 }
+        coVerify { enfData.currentQuota = 6 }
 
         // Reset to 20, then consumed 5
-        testStorageCurrentQuota shouldBe 15
+        testStorageCurrentQuota shouldBe 1
     }
 
     @Test
     fun `quota consumption return true if quota was available`() {
-        testStorageCurrentQuota shouldBe 20
+        testStorageCurrentQuota shouldBe 6
 
         val quota = createQuota()
 
         runBlocking {
-            quota.consumeQuota(10) shouldBe true
-            quota.consumeQuota(10) shouldBe true
-            quota.consumeQuota(10) shouldBe false
+            quota.consumeQuota(3) shouldBe true
+            quota.consumeQuota(3) shouldBe true
             quota.consumeQuota(1) shouldBe false
         }
 
-        verify(exactly = 4) { timeStamper.nowUTC }
+        verify(exactly = 3) { timeStamper.nowUTC }
     }
 
     @Test
@@ -97,7 +96,7 @@ class SubmissionQuotaTest : BaseTest() {
 
         runBlocking {
             quota.consumeQuota(0) shouldBe true
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(0) shouldBe true
             quota.consumeQuota(1) shouldBe false
         }
@@ -105,12 +104,12 @@ class SubmissionQuotaTest : BaseTest() {
 
     @Test
     fun `partial consumption is not possible`() {
-        testStorageCurrentQuota shouldBe 20
+        testStorageCurrentQuota shouldBe 6
 
         val quota = createQuota()
 
         runBlocking {
-            quota.consumeQuota(18) shouldBe true
+            quota.consumeQuota(4) shouldBe true
             quota.consumeQuota(1) shouldBe true
             quota.consumeQuota(2) shouldBe false
         }
@@ -124,23 +123,23 @@ class SubmissionQuotaTest : BaseTest() {
         val timeTravelTarget = Instant.parse("2020-12-24T00:00:00.001Z")
 
         runBlocking {
-            quota.consumeQuota(20) shouldBe true
-            quota.consumeQuota(20) shouldBe false
+            quota.consumeQuota(6) shouldBe true
+            quota.consumeQuota(6) shouldBe false
 
             every { timeStamper.nowUTC } returns timeTravelTarget
 
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
         }
 
-        coVerify(exactly = 1) { enfData.currentQuota = 20 }
+        coVerify(exactly = 1) { enfData.currentQuota = 6 }
         verify(exactly = 4) { timeStamper.nowUTC }
         verify(exactly = 1) { enfData.lastQuotaResetAt = timeTravelTarget }
     }
 
     @Test
     fun `quota fill up is at midnight`() {
-        testStorageCurrentQuota = 20
+        testStorageCurrentQuota = 6
         testStorageLastQuotaReset = Instant.parse("2020-12-24T23:00:00.000Z")
         val startTime = Instant.parse("2020-12-24T23:59:59.998Z")
         every { timeStamper.nowUTC } returns startTime
@@ -148,7 +147,7 @@ class SubmissionQuotaTest : BaseTest() {
         val quota = createQuota()
 
         runBlocking {
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
 
             every { timeStamper.nowUTC } returns startTime.plus(1)
@@ -161,10 +160,10 @@ class SubmissionQuotaTest : BaseTest() {
             quota.consumeQuota(1) shouldBe true
 
             every { timeStamper.nowUTC } returns startTime.plus(4)
-            quota.consumeQuota(20) shouldBe false
+            quota.consumeQuota(6) shouldBe false
 
             every { timeStamper.nowUTC } returns startTime.plus(3).plus(Duration.standardDays(1))
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
         }
     }
 
@@ -175,26 +174,26 @@ class SubmissionQuotaTest : BaseTest() {
         runBlocking {
             every { timeStamper.nowUTC } returns startTime
             val quota = createQuota()
-            quota.consumeQuota(17) shouldBe true
+            quota.consumeQuota(3) shouldBe true
         }
 
         runBlocking {
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365))
             val quota = createQuota()
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
         }
 
         runBlocking {
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365 * 2))
             val quota = createQuota()
-            quota.consumeQuota(17) shouldBe true
+            quota.consumeQuota(3) shouldBe true
         }
         runBlocking {
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365 * 3))
             val quota = createQuota()
             quota.consumeQuota(3) shouldBe true
-            quota.consumeQuota(17) shouldBe true
+            quota.consumeQuota(3) shouldBe true
             quota.consumeQuota(1) shouldBe false
         }
     }
@@ -208,12 +207,12 @@ class SubmissionQuotaTest : BaseTest() {
         val quota = createQuota()
 
         runBlocking {
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
 
             // Go forward and get a reset
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardHours(1))
-            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
 
             // Go backwards and don't gain a reset

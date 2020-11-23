@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
@@ -23,7 +24,6 @@ import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -44,6 +44,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var taskController: TaskController
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManager: WorkManager
+    @Inject lateinit var configChangeDetector: ConfigChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -66,10 +67,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
-        // notification to test the WakeUpService from Google when the app was force stopped
-        BackgroundWorkHelper.sendDebugNotification(
-            "Application onCreate", "App was woken up"
-        )
         watchdogService.launch()
 
         foregroundState.isInForeground
@@ -79,6 +76,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         if (LocalData.onboardingCompletedTimestamp() != null) {
             deadmanNotificationScheduler.schedulePeriodic()
         }
+
+        configChangeDetector.launch()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
