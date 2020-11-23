@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.util.serialization.fromJson
 import java.io.File
 import java.io.FileWriter
 
-abstract class FileRepository {
+open class FileRepository {
 
     inline fun <reified T> loadOrNull(file: File): T? {
         if (!file.exists()) return null
