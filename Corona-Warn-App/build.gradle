@@ -125,7 +125,6 @@ android {
         device {
             dimension "version"
             resValue "string", "app_name", "Corona-Warn"
-            resValue "bool", "extract_native_libs", "false"
 
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
@@ -139,7 +138,6 @@ android {
             // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
-            resValue "bool", "extract_native_libs", "true"
             applicationIdSuffix '.test'
 
             ext {
