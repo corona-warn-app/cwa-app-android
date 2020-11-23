@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class ExposureResultRepository @Inject constructor(fileio: CWAFileIO) {
 
-    private val file = fileio.exposureResult
+    private val file = fileio.exposureResultFile
 
     fun load(): ExposureResult? {
         if (!file.exists()) return null

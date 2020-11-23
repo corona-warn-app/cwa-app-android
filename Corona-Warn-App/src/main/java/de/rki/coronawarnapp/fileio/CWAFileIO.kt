@@ -10,10 +10,9 @@ class CWAFileIO @Inject constructor(context: Context) {
 
     val rootDir = context.filesDir
 
-    val exposureResult: File
-        get() = File(rootDir, FILENANE_EXPOSURE_RESULT)
+    val exposureResultFile = File(rootDir, FILENAME_EXPOSURE_RESULT)
 
     companion object {
-        private const val FILENANE_EXPOSURE_RESULT = "exposure_result.json"
+        private const val FILENAME_EXPOSURE_RESULT = "exposure_result.json"
     }
 }
