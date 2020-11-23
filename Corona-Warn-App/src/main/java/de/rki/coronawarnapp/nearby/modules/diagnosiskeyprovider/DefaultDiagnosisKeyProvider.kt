@@ -9,6 +9,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
@@ -48,6 +49,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
         return suspendCoroutine { cont ->
             Timber.d("Performing key submission.")
             provideDiagnosisKeysTask
+                .addOnSuccessListener { cont.resume(true) }
                 .addOnFailureListener {
                     val wrappedException =
                         when (it is ApiException &&
