@@ -9,6 +9,7 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.abs
 
 @Singleton
 class DefaultENFVersion @Inject constructor(
@@ -39,9 +40,27 @@ class DefaultENFVersion @Inject constructor(
         }
     }
 
+    override suspend fun isAtLeast(compareVersion: Long): Boolean {
+        if (!compareVersion.isCorrectVersionLength) throw IllegalArgumentException("given version has incorrect length")
+        return try {
+            internalGetENFClientVersion() >= compareVersion
+        } catch (e: Exception) {
+            Timber.e(e)
+            false
+        }
+    }
+
     private suspend fun internalGetENFClientVersion(): Long = suspendCoroutine { cont ->
         client.version
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
+    }
+
+    // check if a raw long has the correct length to be considered an API version
+    private val Long.isCorrectVersionLength
+        get(): Boolean = abs(this).toString().length == GOOGLE_API_VERSION_FIELD_LENGTH
+
+    companion object {
+        private const val GOOGLE_API_VERSION_FIELD_LENGTH = 8
     }
 }
