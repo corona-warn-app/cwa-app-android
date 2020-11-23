@@ -42,12 +42,13 @@ class DefaultENFVersion @Inject constructor(
 
     override suspend fun isAtLeast(compareVersion: Long): Boolean {
         if (!compareVersion.isCorrectVersionLength) throw IllegalArgumentException("given version has incorrect length")
-        return try {
-            internalGetENFClientVersion() >= compareVersion
-        } catch (e: Exception) {
-            Timber.e(e)
-            false
+
+        getENFClientVersion()?.let { currentENFClientVersion ->
+            Timber.i("Comparing current ENF client version $currentENFClientVersion with $compareVersion")
+            return currentENFClientVersion >= compareVersion
         }
+
+        return false
     }
 
     private suspend fun internalGetENFClientVersion(): Long = suspendCoroutine { cont ->
