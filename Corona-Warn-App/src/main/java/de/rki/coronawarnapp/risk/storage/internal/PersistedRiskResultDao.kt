@@ -29,13 +29,20 @@ data class PersistedRiskResultDao(
     )
 
     data class PersistedAggregatedRiskResult(
-        @ColumnInfo(name = "totalRiskLevel") val totalRiskLevel: NormalizedTimeToRiskLevelMapping.RiskLevel,
-        @ColumnInfo(name = "totalMinimumDistinctEncountersWithLowRisk") val totalMinimumDistinctEncountersWithLowRisk: Int,
-        @ColumnInfo(name = "totalMinimumDistinctEncountersWithHighRisk") val totalMinimumDistinctEncountersWithHighRisk: Int,
-        @ColumnInfo(name = "mostRecentDateWithLowRisk") val mostRecentDateWithLowRisk: Instant?,
-        @ColumnInfo(name = "mostRecentDateWithHighRisk") val mostRecentDateWithHighRisk: Instant?,
-        @ColumnInfo(name = "numberOfDaysWithLowRisk") val numberOfDaysWithLowRisk: Int,
-        @ColumnInfo(name = "numberOfDaysWithHighRisk") val numberOfDaysWithHighRisk: Int
+        @ColumnInfo(name = "totalRiskLevel")
+        val totalRiskLevel: NormalizedTimeToRiskLevelMapping.RiskLevel,
+        @ColumnInfo(name = "totalMinimumDistinctEncountersWithLowRisk")
+        val totalMinimumDistinctEncountersWithLowRisk: Int,
+        @ColumnInfo(name = "totalMinimumDistinctEncountersWithHighRisk")
+        val totalMinimumDistinctEncountersWithHighRisk: Int,
+        @ColumnInfo(name = "mostRecentDateWithLowRisk")
+        val mostRecentDateWithLowRisk: Instant?,
+        @ColumnInfo(name = "mostRecentDateWithHighRisk")
+        val mostRecentDateWithHighRisk: Instant?,
+        @ColumnInfo(name = "numberOfDaysWithLowRisk")
+        val numberOfDaysWithLowRisk: Int,
+        @ColumnInfo(name = "numberOfDaysWithHighRisk")
+        val numberOfDaysWithHighRisk: Int
     ) {
 
         fun toAggregatedRiskResult() = AggregatedRiskResult(

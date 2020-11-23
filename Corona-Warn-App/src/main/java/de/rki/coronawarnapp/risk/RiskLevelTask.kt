@@ -34,6 +34,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("ReturnCount")
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     @AppContext private val context: Context,
@@ -50,10 +51,10 @@ class RiskLevelTask @Inject constructor(
 
     private var isCanceled = false
 
+    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult {
         try {
             Timber.d("Running with arguments=%s", arguments)
-            // If there is no connectivity the transaction will set the last calculated risk level
             if (!isNetworkEnabled(context)) {
                 return RiskLevelTaskResult(
                     riskLevel = UNDETERMINED,
@@ -77,7 +78,6 @@ class RiskLevelTask @Inject constructor(
                         calculatedAt = timeStamper.nowUTC
                     )
                 }
-                checkCancel()
 
                 if (calculationNotPossibleBecauseOfOutdatedResults()) {
                     return@evaluation RiskLevelTaskResult(

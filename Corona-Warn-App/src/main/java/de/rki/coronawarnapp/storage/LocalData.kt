@@ -328,7 +328,6 @@ object LocalData {
     fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) =
         lastTimeDiagnosisKeysFetchedFlowPref.update { value?.time ?: 0L }
 
-
     /****************************************************
      * SETTINGS DATA
      ****************************************************/

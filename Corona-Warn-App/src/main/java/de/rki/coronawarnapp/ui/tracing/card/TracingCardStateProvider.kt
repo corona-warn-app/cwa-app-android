@@ -61,7 +61,6 @@ class TracingCardStateProvider @Inject constructor(
 
         val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
 
-
         TracingCardState(
             tracingStatus = status,
             riskLevelScore = latestCalc.riskLevel.raw,

@@ -54,7 +54,7 @@ inline fun <T1, T2, T3, T4, T5, T6, T7, T8, R> combine(
     flow8: Flow<T8>,
     crossinline transform: suspend (T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Flow<R> = combine(
-    flow, flow2, flow3, flow4, flow5, flow6, flow7, flow8,
+    flow, flow2, flow3, flow4, flow5, flow6, flow7, flow8
 ) { args: Array<*> ->
     transform(
         args[0] as T1,

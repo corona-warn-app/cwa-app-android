@@ -64,7 +64,10 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskLevel")
         }
 
-        if (oldRiskLevel.raw == RiskLevelConstants.INCREASED_RISK && newRiskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK) {
+        if (
+            oldRiskLevel.raw == RiskLevelConstants.INCREASED_RISK &&
+            newRiskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK
+        ) {
             LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
 
             Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskLevel")

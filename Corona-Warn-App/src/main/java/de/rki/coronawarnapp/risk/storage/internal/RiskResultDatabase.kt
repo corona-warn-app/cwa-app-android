@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("MaxLineLength")
 @Database(
     entities = [
         PersistedRiskResultDao::class,

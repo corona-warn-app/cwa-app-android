@@ -137,7 +137,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
         val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
 
-
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,
             riskLevelScore = latestCalc.riskLevel.raw,
