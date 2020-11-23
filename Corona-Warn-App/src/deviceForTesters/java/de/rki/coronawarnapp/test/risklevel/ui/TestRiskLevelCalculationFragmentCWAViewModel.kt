@@ -51,7 +51,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
-    private val exposureResultStore: ExposureResultStore
+    private val exposureResultStore: ExposureResultStore,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -64,7 +65,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
 
-    val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
+    val showRiskStatusCard = submissionRepository.deviceUIStateFlow.map {
         it.withSuccess(false) { true }
     }.asLiveData(dispatcherProvider.Default)
 
