@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
@@ -8,7 +9,6 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
@@ -35,11 +35,19 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 //            return false
         }
 
+        val keyFilesList = keyFiles.toList()
+        val provideDiagnosisKeysTask = if (enfVersion.isAtLeast(ENFVersion.V1_7)) {
+            Timber.i("Provide diagnosis keys with DiagnosisKeyFileProvider")
+            val diagnosisKeyFileProvider = DiagnosisKeyFileProvider(keyFilesList)
+            enfClient.provideDiagnosisKeys(diagnosisKeyFileProvider)
+        } else {
+            Timber.i("Provide diagnosis keys as list")
+            enfClient.provideDiagnosisKeys(keyFilesList)
+        }
+
         return suspendCoroutine { cont ->
             Timber.d("Performing key submission.")
-            enfClient
-                .provideDiagnosisKeys(keyFiles.toList())
-                .addOnSuccessListener { cont.resume(true) }
+            provideDiagnosisKeysTask
                 .addOnFailureListener {
                     val wrappedException =
                         when (it is ApiException &&
