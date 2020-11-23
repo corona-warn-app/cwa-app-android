@@ -19,7 +19,7 @@ object RiskLevelRepository {
      * Set the internal risk level score [internalRisklevelScore]
      */
     private fun setInternalRiskLevelScore(): MutableStateFlow<Int> {
-        val lastSuccessfullyCalculatedScore = getLastCalculatedScore().raw
+        val lastSuccessfullyCalculatedScore = getLastSuccessfullyCalculatedScore().raw
         return MutableStateFlow(
             if (lastSuccessfullyCalculatedScore !=
                 RiskLevelConstants.UNDETERMINED
