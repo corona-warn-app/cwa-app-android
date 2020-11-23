@@ -14,7 +14,6 @@ object RiskLevelRepository {
         MutableStateFlow(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
     val riskLevelScoreLastSuccessfulCalculated: Flow<Int> =
         internalRiskLevelScoreLastSuccessfulCalculated
-    
     /**
      * Set the new calculated [RiskLevel]
      * Calculation happens in the [de.rki.coronawarnapp.transaction.RiskLevelTransaction]
