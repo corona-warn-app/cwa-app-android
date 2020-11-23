@@ -4,7 +4,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes.FAILED_RATE_LIMITED
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,8 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultDiagnosisKeysDataMapper @Inject constructor(
-    private val client: ExposureNotificationClient,
-    private val appConfigProvider: AppConfigProvider
+    private val client: ExposureNotificationClient
 ) : DiagnosisKeysDataMapper {
     private suspend fun getDiagnosisKeysDataMapping(): DiagnosisKeysDataMapping? =
         suspendCoroutine { cont ->
@@ -31,14 +29,22 @@ class DefaultDiagnosisKeysDataMapper @Inject constructor(
                 .addOnFailureListener { cont.resumeWithException(it) }
         }
 
-    override suspend fun updateDiagnosisKeysDataMapping() {
-        val currentDiagnosisKeysDataMapping = getDiagnosisKeysDataMapping()
-        val newDiagnosisKeysDataMapping = appConfigProvider
-            .getAppConfig().diagnosisKeysDataMapping
+    override suspend fun updateDiagnosisKeysDataMapping(newDiagnosisKeysDataMapping: DiagnosisKeysDataMapping) {
+        val currentDiagnosisKeysDataMapping =
+            try {
+                getDiagnosisKeysDataMapping()
+            } catch (e: Exception) {
+                Timber.e("Failed to get the current DiagnosisKeysDataMapping assuming none present")
+                null
+            }
 
         if (newDiagnosisKeysDataMapping.hasChanged(currentDiagnosisKeysDataMapping)) {
             try {
-                Timber.i("New DiagnosisKeysDataMapping differs from last one, applying.")
+                Timber.i(
+                    "Current DiagnosisKeysDataMapping: %s vs new: %s, applying new version.",
+                    currentDiagnosisKeysDataMapping,
+                    newDiagnosisKeysDataMapping
+                )
                 setDiagnosisKeysDataMapping(newDiagnosisKeysDataMapping)
             } catch (e: ApiException) {
                 if (e.statusCode == FAILED_RATE_LIMITED) {

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
@@ -21,8 +22,11 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
     private val diagnosisKeysDataMapper: DiagnosisKeysDataMapper
 ) : DiagnosisKeyProvider {
 
-    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
-        diagnosisKeysDataMapper.updateDiagnosisKeysDataMapping()
+    override suspend fun provideDiagnosisKeys(
+        keyFiles: Collection<File>,
+        newDiagnosisKeysDataMapping: DiagnosisKeysDataMapping
+    ): Boolean {
+        diagnosisKeysDataMapper.updateDiagnosisKeysDataMapping(newDiagnosisKeysDataMapping)
 
         if (keyFiles.isEmpty()) {
             Timber.d("No key files submitted, returning early.")
