@@ -1,16 +1,20 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.nearby.modules.version.OutdatedENFVersionException
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
@@ -25,12 +29,15 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     @MockK lateinit var googleENFClient: ExposureNotificationClient
     @MockK lateinit var enfVersion: ENFVersion
     @MockK lateinit var submissionQuota: SubmissionQuota
+    @MockK lateinit var diagnosisKeysDataMapper: DiagnosisKeysDataMapper
 
     private val exampleKeyFiles = listOf(File("file1"), File("file2"))
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        coEvery { diagnosisKeysDataMapper.updateDiagnosisKeysDataMapping(any()) } just Runs
 
         coEvery { submissionQuota.consumeQuota(any()) } returns true
 
@@ -47,7 +54,8 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     private fun createProvider() = DefaultDiagnosisKeyProvider(
         enfVersion = enfVersion,
         submissionQuota = submissionQuota,
-        enfClient = googleENFClient
+        enfClient = googleENFClient,
+        diagnosisKeysDataMapper = diagnosisKeysDataMapper
     )
 
     @Test
@@ -60,7 +68,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         val provider = createProvider()
 
         assertThrows<OutdatedENFVersionException> {
-            runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe false
+            runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe false
         }
 
         coVerify {
@@ -73,7 +81,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     fun `key provision is used on newer ENF versions`() {
         val provider = createProvider()
 
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
 
         coVerifySequence {
             submissionQuota.consumeQuota(1)
@@ -87,7 +95,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         val provider = createProvider()
 
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
 
         coVerifySequence {
             submissionQuota.consumeQuota(1)
@@ -99,7 +107,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     fun `provide empty key list`() {
         val provider = createProvider()
 
-        runBlocking { provider.provideDiagnosisKeys(emptyList()) } shouldBe true
+        runBlocking { provider.provideDiagnosisKeys(emptyList(), mockk()) } shouldBe true
 
         coVerify {
             googleENFClient wasNot Called

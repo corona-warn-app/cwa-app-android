@@ -56,8 +56,9 @@ class DefaultDiagnosisKeysDataMapper @Inject constructor(
         }
     }
 
-    private fun DiagnosisKeysDataMapping.hasChanged(old: DiagnosisKeysDataMapping?): Boolean {
-        // TODO: Make sure this check is enough
-        return old == null || old.hashCode() != hashCode()
+    companion object {
+        fun DiagnosisKeysDataMapping?.hasChanged(old: DiagnosisKeysDataMapping?): Boolean {
+            return old == null || old.hashCode() != hashCode()
+        }
     }
 }
