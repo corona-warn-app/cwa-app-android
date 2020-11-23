@@ -42,11 +42,11 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
                 .normalizedTimePerEWToRiskLevelMappingList,
             normalizedTimePerDayToRiskLevelMappingList = riskCalculationParameters
                 .normalizedTimePerDayToRiskLevelMappingList,
-            diagnosisKeyDataMapping = rawConfig.getDiagnosisKeyDataMapping()
+            diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
         )
     }
 
-    private fun AppConfigAndroid.ApplicationConfigurationAndroid.getDiagnosisKeyDataMapping():
+    private fun AppConfigAndroid.ApplicationConfigurationAndroid.diagnosisKeysDataMapping():
         DiagnosisKeysDataMapping {
         val diagnosisKeyDataMapping = this.diagnosisKeysDataMapping
         return DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
@@ -69,6 +69,6 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
-        override val diagnosisKeyDataMapping: DiagnosisKeysDataMapping
+        override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
     ) : ExposureWindowRiskCalculationConfig
 }

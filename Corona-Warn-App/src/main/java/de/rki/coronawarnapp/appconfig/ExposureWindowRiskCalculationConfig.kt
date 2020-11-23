@@ -14,7 +14,7 @@ interface ExposureWindowRiskCalculationConfig {
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
     val normalizedTimePerDayToRiskLevelMappingList:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
-    val diagnosisKeyDataMapping: DiagnosisKeysDataMapping
+    val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
 
     interface Mapper {
         fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskCalculationConfig

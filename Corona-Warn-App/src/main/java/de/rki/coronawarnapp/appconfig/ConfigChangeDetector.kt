@@ -20,7 +20,7 @@ class ConfigChangeDetector @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val taskController: TaskController,
     @AppScope private val appScope: CoroutineScope,
-    private val riskLevelData: RiskLevelData,
+    private val riskLevelData: RiskLevelData
 ) {
 
     fun launch() {

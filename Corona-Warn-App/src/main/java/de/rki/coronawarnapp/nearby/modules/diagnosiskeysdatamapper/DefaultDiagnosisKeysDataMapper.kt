@@ -34,7 +34,7 @@ class DefaultDiagnosisKeysDataMapper @Inject constructor(
     override suspend fun updateDiagnosisKeysDataMapping() {
         val currentDiagnosisKeysDataMapping = getDiagnosisKeysDataMapping()
         val newDiagnosisKeysDataMapping = appConfigProvider
-            .getAppConfig().diagnosisKeyDataMapping
+            .getAppConfig().diagnosisKeysDataMapping
 
         if (newDiagnosisKeysDataMapping.hasChanged(currentDiagnosisKeysDataMapping)) {
             try {

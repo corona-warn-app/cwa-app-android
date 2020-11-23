@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DefaultDiagnosisKeysDataMapper
+import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
 import de.rki.coronawarnapp.nearby.modules.exposurewindow.DefaultExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.DefaultScanningSupport
@@ -51,8 +52,8 @@ class ENFModule {
 
     @Singleton
     @Provides
-    fun diagnosisKeysDataMapper(diagnosisKeysDataMapper: DefaultDiagnosisKeysDataMapper): DefaultDiagnosisKeysDataMapper =
-        diagnosisKeysDataMapper
+    fun diagnosisKeysDataMapper(diagnosisKeysDataMapper: DefaultDiagnosisKeysDataMapper):
+        DiagnosisKeysDataMapper = diagnosisKeysDataMapper
 
     @Singleton
     @Provides
