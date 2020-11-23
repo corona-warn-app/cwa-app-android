@@ -10,9 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ExposureResultStore @Inject constructor(
-    private val repository: ExposureResultRepository
-) {
+class ExposureResultStore @Inject constructor(repository: ExposureResultRepository) {
 
     val entities = MutableStateFlow(repository.load() ?: emptyResult).onEach { repository.upsert(it) }
 
