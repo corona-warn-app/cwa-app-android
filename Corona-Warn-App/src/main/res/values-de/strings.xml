@@ -862,7 +862,7 @@
     <!-- XHED: Page headline for Submission consent  -->
     <string name="submission_consent_main_headline">"Ihr Einverständnis"</string>
     <!-- YTXT: Body for Submissionconsent  -->
-    <string name="submission_consent_main_headline_body">"Bevor Sie Ihr Testergebnis abrufen und andere warnen können, ist Ihr Einverständnis erforderlich.."</string>
+    <string name="submission_consent_main_headline_body">"Bevor Sie Ihr Testergebnis abrufen und andere warnen können, ist Ihr Einverständnis erforderlich."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Testergebnis abrufen"</string>
     <!-- YTXT: Body for Submission Consent call test result body  -->
@@ -880,9 +880,9 @@
     <!-- YTXT: Body for consent sub section your consent subtext -->
     <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie wie folgt ein:"</string>
    <!-- YTXT: Body for consent sub section your consent subtext first point  -->
-    <string name="submission_consent_your_consent_subsection_first_point">"Die App ruft Ihr Testergebnis ab. Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
+    <string name="submission_consent_your_consent_subsection_first_point">"<b>Die App ruft Ihr Testergebnis ab.</b> Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
   <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point">"Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von offiziellen Corona-Apps der oben genannten Länder. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt."</string>
+    <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von offiziellen Corona-Apps der oben genannten Länder. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
   <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen und um Freigabe Ihres Testergebnisses gebeten."</string>
     <!-- YTXT: Body for consent main section first point  -->

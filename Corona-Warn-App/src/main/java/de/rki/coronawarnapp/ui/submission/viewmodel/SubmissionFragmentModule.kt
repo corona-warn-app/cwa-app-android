@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment
@@ -62,4 +63,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
     abstract fun submissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionConsentModule::class])
+    abstract fun submissionConsentScreen(): SubmissionConsentFragment
 }

@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="countries"
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -40,32 +47,66 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <include layout="@layout/include_submission_consent_intro"
+                    android:id="@+id/include_submission_consent_intro"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/submission_consent_illustration"/>
 
-                <!--        country flags placeholder-->
-                <FrameLayout
-                    android:id="@+id/country_flag_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_consent_help_by_warning_others_body"
+                <de.rki.coronawarnapp.ui.view.CountryListView
+                    android:id="@+id/countryList"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    app:layout_constraintTop_toBottomOf="@+id/include_submission_consent_intro"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:countryList="@{countries}"/>
 
                 <include layout="@layout/include_submission_consent_body"
                     android:id="@+id/include_submission_consent_body"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginHorizontal="@dimen/guideline_card"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/country_flag_view"/>
+                    app:layout_constraintTop_toBottomOf="@id/countryList"/>
 
-                <include layout="@layout/include_submission_consent_notes"
-                    android:id="@+id/include_submission_consent_notes" />
+                <FrameLayout
+                    android:id="@+id/divider"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/card_divider"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"/>
+
+                <TextView
+                    android:id="@+id/submission_consent_main_bottom_body"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/spacing_tiny"
+                    android:text="@string/submission_consent_main_bottom_body"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:layout_constraintTop_toBottomOf="@id/divider"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    style="@style/subtitle"/>
+
+                <FrameLayout
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/card_divider"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintTop_toBottomOf="@id/submission_consent_main_bottom_body"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"/>
+
+                <include layout="@layout/merge_guidelines_side" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

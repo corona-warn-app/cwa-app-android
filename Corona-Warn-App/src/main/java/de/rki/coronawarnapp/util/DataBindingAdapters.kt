@@ -2,7 +2,9 @@ package de.rki.coronawarnapp.util
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.text.Html
 import android.widget.Switch
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
@@ -48,4 +50,12 @@ fun setAnimationColor(view: LottieAnimationView, color: Int?) {
             LottieProperty.COLOR_FILTER
         ) { PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP) }
     }
+}
+
+@BindingAdapter("htmlText")
+fun setHtmlText(view: TextView, htmlAsString: String) {
+    // get our html content
+    //val htmlAsString: String = view.context.getString(formattedTextRes)
+    val htmlAsSpanned = Html.fromHtml(htmlAsString) // used by TextView
+    view.text = htmlAsSpanned
 }
