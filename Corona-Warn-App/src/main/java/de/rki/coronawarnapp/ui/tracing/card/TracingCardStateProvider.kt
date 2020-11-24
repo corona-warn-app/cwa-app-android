@@ -24,7 +24,6 @@ class TracingCardStateProvider @Inject constructor(
     riskLevelStorage: RiskLevelStorage
 ) {
 
-    // TODO Refactor these singletons away
     val state: Flow<TracingCardState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.v("tracingStatus: $it")

@@ -25,7 +25,6 @@ class TracingDetailsStateProvider @Inject constructor(
     riskLevelStorage: RiskLevelStorage
 ) {
 
-    // TODO Refactore these singletons away
     val state: Flow<TracingDetailsState> = combine(
         tracingStatus.generalStatus,
         tracingRepository.tracingProgress,
