@@ -86,7 +86,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         val provider = createProvider()
 
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
 
         coVerifySequence {
             submissionQuota.consumeQuota(1)
