@@ -114,14 +114,6 @@ class RiskLevelTask @Inject constructor(
             TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
     }
 
-    private fun calculationNotPossibleBecauseOfNoKeys() =
-        (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
-            if (it) {
-                Timber.tag(TAG)
-                    .v("No last time diagnosis keys from server fetch timestamp was found")
-            }
-        }
-
     private fun isActiveTracingTimeAboveThreshold(): Boolean {
         val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
         val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
