@@ -46,7 +46,7 @@ abstract class BaseRiskLevelStorage constructor(
     override suspend fun storeResult(result: RiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", result.exposureWindows?.size)
 
-        val storedresultId = try {
+        val storedResultId = try {
             val startTime = System.currentTimeMillis()
 
             val resultToPersist = result.toPersistedRiskResult()
@@ -72,7 +72,7 @@ abstract class BaseRiskLevelStorage constructor(
         }
 
         Timber.d("Storing exposure windows.")
-        storeExposureWindows(storedResultId = storedresultId, result)
+        storeExposureWindows(storedResultId = storedResultId, result)
 
         Timber.d("Deleting orphaned exposure windows.")
         deletedOrphanedExposureWindows()

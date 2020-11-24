@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
 
-class RiskLevelDataTest : BaseTest() {
+class RiskLevelSettingsTest : BaseTest() {
 
     @MockK lateinit var context: Context
     lateinit var preferences: MockSharedPreferences

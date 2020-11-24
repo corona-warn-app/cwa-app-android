@@ -29,7 +29,7 @@ class RiskLevelChangeDetector @Inject constructor(
 ) {
 
     fun launch() {
-        Timber.v("Monitoring config changes.")
+        Timber.v("Monitoring risk level changes.")
         riskLevelStorage.riskLevelResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)
@@ -84,19 +84,9 @@ class RiskLevelChangeDetector @Inject constructor(
          */
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun hasHighLowLevelChanged(previous: RiskLevel, current: RiskLevel) =
-            previous.isHighRisk != current.isHighRisk
+            previous.isIncreasedRisk != current.isIncreasedRisk
 
-        private val HIGH_RISK_LEVELS = arrayOf(RiskLevel.INCREASED_RISK)
-        private val LOW_RISK_LEVELS = arrayOf( // TODO delete?
-            RiskLevel.UNKNOWN_RISK_INITIAL,
-            RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            RiskLevel.LOW_LEVEL_RISK,
-            RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS,
-            RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
-            RiskLevel.UNDETERMINED
-        )
-
-        private val RiskLevel.isHighRisk: Boolean
-            get() = HIGH_RISK_LEVELS.contains(this)
+        private val RiskLevel.isIncreasedRisk: Boolean
+            get() = this == RiskLevel.INCREASED_RISK
     }
 }
