@@ -34,23 +34,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                style="@style/headline6"
-                android:accessibilityHeading="true"
+            <LinearLayout
+                android:id="@+id/environment_container"
+                style="@style/card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Preview (no interaction possible)" />
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fake_windows_title"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fake exposure windows" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation."
+                    android:layout_height="wrap_content" />
+
+                <RadioGroup
+                    android:id="@+id/fake_windows_toggle_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:orientation="vertical" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/test_risk_card"
                 style="@style/card"
+                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
-                android:focusable="true"
                 android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                android:backgroundTintMode="src_over">
+                android:backgroundTintMode="src_over"
+                android:focusable="true">
 
                 <include
                     android:id="@+id/risk_card_content"
@@ -94,10 +116,10 @@
             <TextView
                 android:id="@+id/label_aggregated_risk_result_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
                 android:text="Aggregated Risk Result" />
 
             <TextView
@@ -109,9 +131,9 @@
             <TextView
                 android:id="@+id/label_risk_additional_info_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Risk Calculation Additional Information" />
 
             <TextView
@@ -123,9 +145,9 @@
             <TextView
                 android:id="@+id/label_backend_parameters_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Backend Parameters" />
 
             <TextView
@@ -137,9 +159,9 @@
             <TextView
                 android:id="@+id/label_exposure_window_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Exposure Windows" />
 
             <TextView
