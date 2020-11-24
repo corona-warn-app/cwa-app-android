@@ -34,10 +34,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/environment_container"
                 style="@style/card"
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -45,22 +46,22 @@
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Fake exposure windows"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="Fake exposure windows" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation."
+                    android:layout_height="wrap_content" />
 
                 <RadioGroup
                     android:id="@+id/fake_windows_toggle_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fake_windows_title" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:orientation="vertical" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/test_risk_card"
