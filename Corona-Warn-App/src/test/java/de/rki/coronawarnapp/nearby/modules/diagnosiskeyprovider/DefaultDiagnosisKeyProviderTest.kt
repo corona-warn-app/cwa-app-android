@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.nearby.modules.version.OutdatedENFVersionException
@@ -36,6 +37,8 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
+        coEvery { googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>()) } returns MockGMSTask.forValue(null)
+
         coEvery { enfVersion.requireMinimumVersion(any()) } returns Unit
     }
 
@@ -70,7 +73,23 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     @Test
-    fun `key provision is used on newer ENF versions`() {
+    fun `key provision is used with DiagnosisKeyFileProvider on ENF versions from 1_7 upwards`() {
+        coEvery { enfVersion.isAtLeast(any()) } returns true
+
+        val provider = createProvider()
+
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
+
+        coVerifySequence {
+            submissionQuota.consumeQuota(1)
+            googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>())
+        }
+    }
+
+    @Test
+    fun `key provision is used with key list on ENF versions 1_6`() {
+        coEvery { enfVersion.isAtLeast(any()) } returns false
+
         val provider = createProvider()
 
         runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles) } shouldBe true
@@ -81,9 +100,11 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         }
     }
 
+
     @Test
     fun `quota is just monitored`() {
         coEvery { submissionQuota.consumeQuota(any()) } returns false
+        coEvery { enfVersion.isAtLeast(any()) } returns true
 
         val provider = createProvider()
 
@@ -91,7 +112,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coVerifySequence {
             submissionQuota.consumeQuota(1)
-            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
+            googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>())
         }
     }
 
