@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
+import java.io.File
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -46,7 +47,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
-    dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
@@ -63,6 +64,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
+    val shareFileEvent = SingleLiveEvent<File>()
 
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
         it.withSuccess(false) { true }
@@ -72,14 +74,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
-    val exposureWindowCountString = exposureResultStore
+    val exposureWindowCount = exposureResultStore
         .entities
-        .map { "Retrieved ${it.exposureWindows.size} Exposure Windows" }
-        .asLiveData()
-
-    val exposureWindows = exposureResultStore
-        .entities
-        .map { if (it.exposureWindows.isEmpty()) "Exposure windows list is empty" else it.exposureWindows.toString() }
+        .map { it.exposureWindows.size }
         .asLiveData()
 
     val aggregatedRiskResult = exposureResultStore
@@ -215,7 +212,24 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun shareExposureWindows() {
-        Timber.d("Opening Share-Intent for Exposure Windows")
+        Timber.d("Creating text file for Exposure Windows")
+        launch(dispatcherProvider.IO) {
+            val exposureWindows = exposureResultStore.entities.value.exposureWindows
+
+            val path = File(context.cacheDir, "share/")
+            path.mkdirs()
+
+            val file = File(path, "exposureWindows.txt")
+            file.bufferedWriter()
+                .use {
+                    if (exposureWindows.isEmpty()) {
+                        it.appendLine("Exposure windows list was empty")
+                    } else {
+                        it.appendLine(exposureWindows.toString())
+                    }
+                }
+            shareFileEvent.postValue(file)
+        }
     }
 
     fun clearKeyCache() {

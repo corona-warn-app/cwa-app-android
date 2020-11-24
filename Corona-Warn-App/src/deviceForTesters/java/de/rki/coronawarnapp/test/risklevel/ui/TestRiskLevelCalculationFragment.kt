@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.test.risklevel.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -16,6 +18,8 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 @Suppress("LongMethod")
@@ -53,6 +57,7 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
+        binding.buttonExposureWindowsShare.setOnClickListener { vm.shareExposureWindows() }
 
         vm.riskLevelResetEvent.observe2(this) {
             Toast.makeText(
@@ -73,28 +78,34 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             binding.labelBackendParameters.text = it
         }
 
-        vm.exposureWindowCountString.observe2(this) {
-            binding.labelExposureWindowCount.text = it
+        vm.exposureWindowCount.observe2(this) { exposureWindowCount ->
+            binding.labelExposureWindowCount.text = "Retrieved $exposureWindowCount Exposure Windows"
+
+            binding.buttonExposureWindowsShare.visibility = when (exposureWindowCount > 0) {
+                true -> View.VISIBLE
+                false -> View.GONE
+            }
         }
 
-        vm.exposureWindows.observe2(this) {
-            binding.labelExposureWindows.text = it
+        vm.shareFileEvent.observe2(this) {
+            shareExposureWindowsFile(it)
         }
-
-        binding.buttonExposureWindowsShare.setOnClickListener { shareExposureWindows() }
     }
 
-    private fun shareExposureWindows() {
-        activity?.let { activity ->
-            val shareIntent = ShareCompat.IntentBuilder
-                .from(activity)
-                .setType("text/plain")
-                .setText(binding.labelExposureWindows.text)
-                .createChooserIntent()
+    private fun shareExposureWindowsFile(file: File) {
+        Timber.d("Opening Share-Intent for Exposure Windows")
+        val shareFileUri =
+            FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".fileProvider", file)
 
-            if (shareIntent.resolveActivity(activity.packageManager) != null) {
-                startActivity(shareIntent)
-            }
+        val shareIntent = ShareCompat.IntentBuilder
+            .from(requireActivity())
+            .setStream(shareFileUri)
+            .setType("text/plain")
+            .intent
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(shareIntent)
         }
     }
 
