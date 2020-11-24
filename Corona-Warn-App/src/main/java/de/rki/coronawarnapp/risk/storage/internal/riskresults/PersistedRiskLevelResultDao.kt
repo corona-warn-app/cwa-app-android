@@ -16,7 +16,7 @@ data class PersistedRiskLevelResultDao(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "riskLevel") val riskLevel: RiskLevel,
     @ColumnInfo(name = "calculatedAt") val calculatedAt: Instant,
-    @Embedded val aggregatedRiskResult: PersistedAggregatedRiskResult?,
+    @Embedded val aggregatedRiskResult: PersistedAggregatedRiskResult?
 ) {
 
     fun toRiskResult() = RiskLevelTaskResult(

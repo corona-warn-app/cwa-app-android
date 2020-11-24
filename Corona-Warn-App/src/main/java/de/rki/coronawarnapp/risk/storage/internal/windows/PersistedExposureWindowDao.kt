@@ -14,7 +14,7 @@ data class PersistedExposureWindowDao(
     @ColumnInfo(name = "dateMillisSinceEpoch") val dateMillisSinceEpoch: Long,
     @ColumnInfo(name = "calibrationConfidence") val calibrationConfidence: Int,
     @ColumnInfo(name = "infectiousness") val infectiousness: Int,
-    @ColumnInfo(name = "reportType") val reportType: Int,
+    @ColumnInfo(name = "reportType") val reportType: Int
 ) {
 
     @Entity(
