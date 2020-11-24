@@ -2,12 +2,17 @@ package de.rki.coronawarnapp.test.risklevel.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -78,6 +83,37 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
         vm.backendParameters.observe2(this) {
             binding.labelBackendParameters.text = it
+        }
+
+        vm.fakeWindowsState.observe2(this) { currentType ->
+            binding.apply {
+                if (fakeWindowsToggleGroup.childCount != TestSettings.FakeExposureWindowTypes.values().size) {
+                    fakeWindowsToggleGroup.removeAllViews()
+                    TestSettings.FakeExposureWindowTypes.values().forEach { type ->
+                        RadioButton(requireContext()).apply {
+                            id = ViewCompat.generateViewId()
+                            text = type.name
+                            layoutParams = RadioGroup.LayoutParams(
+                                RadioGroup.LayoutParams.MATCH_PARENT,
+                                RadioGroup.LayoutParams.WRAP_CONTENT
+                            )
+                            fakeWindowsToggleGroup.addView(this)
+                        }
+                    }
+                }
+
+                fakeWindowsToggleGroup.children.forEach {
+                    it as RadioButton
+                    it.isChecked = it.text == currentType.name
+                }
+            }
+        }
+        binding.fakeWindowsToggleGroup.apply {
+            setOnCheckedChangeListener { group, checkedId ->
+                val chip = group.findViewById<RadioButton>(checkedId)
+                if (!chip.isPressed) return@setOnCheckedChangeListener
+                vm.selectFakeExposureWindowMode(TestSettings.FakeExposureWindowTypes.valueOf(chip.text.toString()))
+            }
         }
     }
 
