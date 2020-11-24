@@ -30,7 +30,7 @@ private object InitialLowLevelRiskLevelResult : RiskLevelResult {
     override val aggregatedRiskResult: AggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
-    override val daysSinceLastExposure: Int = 0
+    override val daysWithEncounters: Int = 0
 }
 
 private object UndeterminedRiskLevelResult : RiskLevelResult {
@@ -39,5 +39,5 @@ private object UndeterminedRiskLevelResult : RiskLevelResult {
     override val aggregatedRiskResult: AggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
     override val matchedKeyCount: Int = 0
-    override val daysSinceLastExposure: Int = 0
+    override val daysWithEncounters: Int = 0
 }

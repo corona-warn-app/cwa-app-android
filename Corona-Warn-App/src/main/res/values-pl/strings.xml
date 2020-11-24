@@ -119,26 +119,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"Brak narażenia do tej pory"</string>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s narażenie z niskim ryzykiem"</item>
-        <item quantity="other">"%1$s narażenia z niskim ryzykiem"</item>
-        <item quantity="zero">"Brak narażenia z niskim ryzykiem do tej pory"</item>
-        <item quantity="two">"%1$s narażeń z niskim ryzykiem"</item>
-        <item quantity="few">"%1$s narażenia z niskim ryzykiem"</item>
-        <item quantity="many">"%1$s narażeń z niskim ryzykiem"</item>
-    </plurals>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value_high_risk">
-        <item quantity="one">"%1$s narażenie"</item>
-        <item quantity="other">"%1$s narażenia"</item>
-        <item quantity="zero">"Brak narażenia do tej pory"</item>
-        <item quantity="two">"%1$s narażenia"</item>
-        <item quantity="few">"%1$s narażenia"</item>
-        <item quantity="many">"%1$s narażeń"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Rejestrowanie narażenia było aktywne przez %1$s z ostatnich 14 dni."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -161,15 +141,6 @@
     <string name="risk_card_low_risk_headline">"Niskie ryzyko"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Podwyższone ryzyko"</string>
-    <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
-        <item quantity="one">"%1$s dzień od ostatniego kontaktu"</item>
-        <item quantity="other">"%1$s dnia od ostatniego kontaktu"</item>
-        <item quantity="zero">"%1$s dni od ostatniego kontaktu"</item>
-        <item quantity="two">"%1$s dni od ostatniego kontaktu"</item>
-        <item quantity="few">"%1$s dni od ostatniego kontaktu"</item>
-        <item quantity="many">"%1$s dni od ostatniego kontaktu"</item>
-    </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">"Ryzyko nieznane"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->

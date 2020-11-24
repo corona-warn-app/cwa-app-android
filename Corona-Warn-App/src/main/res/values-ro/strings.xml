@@ -119,26 +119,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"Nicio expunere până acum"</string>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s expunere cu risc redus"</item>
-        <item quantity="other">"%1$s de expuneri cu risc redus"</item>
-        <item quantity="zero">"Nicio expunere cu risc redus până acum"</item>
-        <item quantity="two">"%1$s expuneri cu risc redus"</item>
-        <item quantity="few">"%1$s expuneri cu risc redus"</item>
-        <item quantity="many">"%1$s expuneri cu risc redus"</item>
-    </plurals>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value_high_risk">
-        <item quantity="one">"%1$s expunere"</item>
-        <item quantity="other">"%1$s de expuneri"</item>
-        <item quantity="zero">"Nicio expunere până acum"</item>
-        <item quantity="two">"%1$s expuneri"</item>
-        <item quantity="few">"%1$s expuneri"</item>
-        <item quantity="many">"%1$s expuneri"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"În ultimele 14 zile, înregistrarea în jurnal a expunerilor a fost activă timp de %1$s zile."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -161,15 +141,6 @@
     <string name="risk_card_low_risk_headline">"Risc redus"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Risc crescut"</string>
-    <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
-        <item quantity="one">"%1$s zi de la ultima întâlnire"</item>
-        <item quantity="other">"%1$s de zile de la ultima întâlnire"</item>
-        <item quantity="zero">"%1$s zile de la ultima întâlnire"</item>
-        <item quantity="two">"%1$s zile de la ultima întâlnire"</item>
-        <item quantity="few">"%1$s zile de la ultima întâlnire"</item>
-        <item quantity="many">"%1$s zile de la ultima întâlnire"</item>
-    </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">"Risc necunoscut"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->

@@ -10,19 +10,4 @@ data class RiskLevelTaskResult(
     override val calculatedAt: Instant,
     override val aggregatedRiskResult: AggregatedRiskResult? = null,
     override val exposureWindows: List<ExposureWindow>? = null
-) : Task.Result, RiskLevelResult {
-
-    override val matchedKeyCount: Int
-        get() = if (isIncreasedRisk) {
-            aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk ?: 0
-        } else {
-            aggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
-        }
-
-    override val daysSinceLastExposure: Int
-        get() = if (isIncreasedRisk) {
-            aggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
-        } else {
-            aggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0
-        }
-}
+) : Task.Result, RiskLevelResult

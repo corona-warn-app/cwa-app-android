@@ -30,7 +30,6 @@ class TracingDetailsStateProvider @Inject constructor(
         tracingRepository.tracingProgress,
         riskLevelStorage.riskLevelResults,
         tracingRepository.activeTracingDaysInRetentionPeriod,
-        tracingRepository.lastTimeDiagnosisKeysFetched,
         backgroundModeStatus.isAutoModeEnabled,
         settingsRepository.isManualKeyRetrievalEnabledFlow,
         settingsRepository.manualKeyRetrievalTimeFlow
@@ -38,7 +37,6 @@ class TracingDetailsStateProvider @Inject constructor(
         tracingProgress,
         riskLevelResults,
         activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled,
         isManualKeyRetrievalEnabled,
         manualKeyRetrievalTime ->
@@ -56,11 +54,9 @@ class TracingDetailsStateProvider @Inject constructor(
             tracingStatus = status,
             riskLevelScore = latestCalc.riskLevel.raw,
             tracingProgress = tracingProgress,
-            lastRiskLevelScoreCalculated = latestSuccessfulCalc.riskLevel.raw,
             matchedKeyCount = latestCalc.matchedKeyCount,
-            daysSinceLastExposure = latestCalc.daysSinceLastExposure,
+            daysSinceLastExposure = latestCalc.daysWithEncounters,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
             isBackgroundJobEnabled = isBackgroundJobEnabled,
             isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
             manualKeyRetrievalTime = manualKeyRetrievalTime,

@@ -52,7 +52,7 @@ class RiskLevelResultMigrator @Inject constructor(
                     override val aggregatedRiskResult: AggregatedRiskResult? = null
                     override val exposureWindows: List<ExposureWindow>? = null
                     override val matchedKeyCount: Int = 0
-                    override val daysSinceLastExposure: Int = 0
+                    override val daysWithEncounters: Int = 0
                 }
             }
             ?.let { legacyResults.add(it) }
@@ -65,7 +65,7 @@ class RiskLevelResultMigrator @Inject constructor(
                     override val aggregatedRiskResult: AggregatedRiskResult? = null
                     override val exposureWindows: List<ExposureWindow>? = null
                     override val matchedKeyCount: Int = 0
-                    override val daysSinceLastExposure: Int = 0
+                    override val daysWithEncounters: Int = 0
                 }
             }
             ?.let { legacyResults.add(it) }

@@ -22,7 +22,25 @@ interface RiskLevelResult {
         get() = aggregatedRiskResult?.isHighRisk() ?: false
 
     val matchedKeyCount: Int
-    val daysSinceLastExposure: Int
+        get() = if (isIncreasedRisk) {
+            aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk ?: 0
+        } else {
+            aggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
+        }
+
+    val daysWithEncounters: Int
+        get() = if (isIncreasedRisk) {
+            aggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0
+        } else {
+            aggregatedRiskResult?.numberOfDaysWithLowRisk ?: 0
+        }
+
+    val lastRiskEncounterAt: Instant?
+        get() = if (isIncreasedRisk) {
+            aggregatedRiskResult?.mostRecentDateWithHighRisk
+        } else {
+            aggregatedRiskResult?.mostRecentDateWithLowRisk
+        }
 
     companion object {
         private val UNSUCCESSFUL_RISK_LEVELS = arrayOf(
