@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
@@ -50,10 +51,13 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
-    private val riskLevelStorage: RiskLevelStorage
+    private val riskLevelStorage: RiskLevelStorage,
+    private val testSettings: TestSettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
+
+    val fakeWindowsState = testSettings.fakeExposureWindows.flow.asLiveData()
 
     init {
         Timber.d("CWAViewModel: %s", this)
@@ -215,6 +219,10 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun clearKeyCache() {
         Timber.d("Clearing key cache")
         launch { keyCacheRepository.clear() }
+    }
+
+    fun selectFakeExposureWindowMode(newMode: TestSettings.FakeExposureWindowTypes) {
+        testSettings.fakeExposureWindows.update { newMode }
     }
 
     @AssistedInject.Factory
