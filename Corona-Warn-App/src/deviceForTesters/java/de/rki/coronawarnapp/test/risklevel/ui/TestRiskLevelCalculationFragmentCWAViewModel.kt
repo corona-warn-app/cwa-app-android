@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -25,6 +27,7 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
+import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -58,6 +61,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
+
+    // Use unique instance for pretty output
+    private val gson: Gson by lazy {
+        GsonBuilder().setPrettyPrinting().create()
+    }
 
     val fakeWindowsState = testSettings.fakeExposureWindows.flow.asLiveData()
 
@@ -218,7 +226,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun shareExposureWindows() {
         Timber.d("Creating text file for Exposure Windows")
         launch(dispatcherProvider.IO) {
-            val exposureWindows = exposureResultStore.entities.value.exposureWindows
+            val exposureWindows = exposureResultStore.entities.value.exposureWindows.map { it.toExposureWindowJson() }
 
             val path = File(context.cacheDir, "share/")
             path.mkdirs()
@@ -229,7 +237,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     if (exposureWindows.isEmpty()) {
                         it.appendLine("Exposure windows list was empty")
                     } else {
-                        it.appendLine(exposureWindows.toString())
+                        it.appendLine(gson.toJson(exposureWindows))
                     }
                 }
             shareFileEvent.postValue(file)
