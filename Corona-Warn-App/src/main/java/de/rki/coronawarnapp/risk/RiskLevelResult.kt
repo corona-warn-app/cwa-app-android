@@ -17,7 +17,9 @@ interface RiskLevelResult {
 
     val wasSuccessfullyCalculated: Boolean
         get() = !UNSUCCESSFUL_RISK_LEVELS.contains(riskLevel)
+
     val isIncreasedRisk: Boolean
+        get() = aggregatedRiskResult?.isHighRisk() ?: false
 
     val matchedKeyCount: Int
     val daysSinceLastExposure: Int

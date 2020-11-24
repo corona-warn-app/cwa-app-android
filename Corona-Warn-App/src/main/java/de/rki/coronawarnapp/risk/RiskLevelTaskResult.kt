@@ -12,8 +12,6 @@ data class RiskLevelTaskResult(
     override val exposureWindows: List<ExposureWindow>? = null
 ) : Task.Result, RiskLevelResult {
 
-    override val isIncreasedRisk: Boolean = aggregatedRiskResult?.isIncreasedRisk() ?: false
-
     override val matchedKeyCount: Int
         get() = if (isIncreasedRisk) {
             aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk ?: 0

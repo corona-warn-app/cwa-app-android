@@ -176,14 +176,14 @@ class RiskLevelTask @Inject constructor(
 
         return riskLevels.determineRisk(configData, exposureWindows).let {
             Timber.tag(TAG).d("Evaluated increased risk: %s", it)
-            if (it.isIncreasedRisk()) {
+            if (it.isHighRisk()) {
                 Timber.tag(TAG).i("Risk is increased!")
             } else {
                 Timber.tag(TAG).d("Risk is not increased, continuing evaluating.")
             }
 
             RiskLevelTaskResult(
-                riskLevel = if (it.isIncreasedRisk()) INCREASED_RISK else LOW_LEVEL_RISK,
+                riskLevel = if (it.isHighRisk()) INCREASED_RISK else LOW_LEVEL_RISK,
                 aggregatedRiskResult = it,
                 exposureWindows = exposureWindows,
                 calculatedAt = timeStamper.nowUTC

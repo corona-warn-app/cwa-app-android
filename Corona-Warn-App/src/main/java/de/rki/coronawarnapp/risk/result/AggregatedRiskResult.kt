@@ -14,5 +14,7 @@ data class AggregatedRiskResult(
     val numberOfDaysWithHighRisk: Int
 ) {
 
-    fun isIncreasedRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.HIGH
+    fun isHighRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.HIGH
+
+    fun isLowRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.LOW
 }
