@@ -9,6 +9,9 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
+import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
+import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +21,7 @@ import javax.inject.Inject
 @Suppress("MaxLineLength")
 @Database(
     entities = [
-        PersistedRiskResultDao::class,
+        PersistedRiskLevelResultDao::class,
         PersistedExposureWindowDao::class,
         PersistedExposureWindowDao.PersistedScanInstance::class
     ],
@@ -27,8 +30,8 @@ import javax.inject.Inject
 )
 @TypeConverters(
     CommonConverters::class,
-    PersistedRiskResultDao.Converter::class,
-    PersistedRiskResultDao.PersistedAggregatedRiskResult.Converter::class
+    PersistedRiskLevelResultDao.Converter::class,
+    PersistedRiskLevelResultDao.PersistedAggregatedRiskResult.Converter::class
 )
 abstract class RiskResultDatabase : RoomDatabase() {
 
@@ -39,10 +42,10 @@ abstract class RiskResultDatabase : RoomDatabase() {
     @Dao
     interface RiskResultsDao {
         @Query("SELECT * FROM riskresults")
-        fun allEntries(): Flow<List<PersistedRiskResultDao>>
+        fun allEntries(): Flow<List<PersistedRiskLevelResultDao>>
 
         @Insert(onConflict = OnConflictStrategy.ABORT)
-        suspend fun insertEntry(riskResultDao: PersistedRiskResultDao)
+        suspend fun insertEntry(riskResultDao: PersistedRiskLevelResultDao)
 
         @Query(
             "DELETE FROM riskresults where id NOT IN (SELECT id from riskresults ORDER BY calculatedAt DESC LIMIT :keep)"
@@ -53,15 +56,18 @@ abstract class RiskResultDatabase : RoomDatabase() {
     @Dao
     interface ExposureWindowsDao {
         @Query("SELECT * FROM exposurewindows")
-        fun allEntries(): Flow<List<PersistedExposureWindowDao>>
+        fun allEntries(): Flow<List<PersistedExposureWindowDaoWrapper>>
 
-        @Insert(onConflict = OnConflictStrategy.ABORT)
-        suspend fun insertEntry(exposureWindowDao: PersistedExposureWindowDao)
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insertWindows(exposureWindows: List<PersistedExposureWindowDao>): List<Long>
+
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insertScanInstances(scanInstances: List<PersistedExposureWindowDao.PersistedScanInstance>)
 
         @Query(
-            "DELETE FROM exposurewindows where id NOT IN (SELECT id from exposurewindows ORDER BY dateMillisSinceEpoch DESC LIMIT :keep)"
+            "DELETE FROM exposurewindows where riskLevelResultId NOT IN (:riskResultIds)"
         )
-        suspend fun deleteOldest(keep: Int): Int
+        suspend fun deleteByRiskResultId(riskResultIds: List<String>): Int
     }
 
     class Factory @Inject constructor(@AppContext private val context: Context) {

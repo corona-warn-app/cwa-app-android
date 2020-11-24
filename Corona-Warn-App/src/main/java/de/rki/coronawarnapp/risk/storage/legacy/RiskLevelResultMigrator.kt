@@ -30,35 +30,47 @@ class RiskLevelResultMigrator @Inject constructor(
         return Instant.ofEpochMilli(time)
     }
 
-    private fun lastCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = prefs.getInt("preference_risk_level_score", RiskLevel.UNDETERMINED.raw)
-        return RiskLevel.forValue(rawRiskLevel)
+    private fun lastCalculatedRiskLevel(): RiskLevel? {
+        val rawRiskLevel = prefs.getInt("preference_risk_level_score", -1)
+        return if (rawRiskLevel != -1) RiskLevel.forValue(rawRiskLevel) else null
     }
 
-    private fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", RiskLevel.UNDETERMINED.raw)
-        return RiskLevel.forValue(rawRiskLevel)
+    private fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel? {
+        val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", -1)
+        return if (rawRiskLevel != -1) RiskLevel.forValue(rawRiskLevel) else null
     }
 
     fun getLegacyResults(): List<RiskLevelResult> {
-        val lastCalculatedRisk = object : RiskLevelResult {
-            override val riskLevel: RiskLevel = lastCalculatedRiskLevel()
-            override val calculatedAt: Instant = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
-            override val aggregatedRiskResult: AggregatedRiskResult? = null
-            override val exposureWindows: List<ExposureWindow>? = null
-            override val isIncreasedRisk: Boolean = riskLevel == RiskLevel.INCREASED_RISK
-            override val matchedKeyCount: Int = 0
-            override val daysSinceLastExposure: Int = 0
-        }
-        val lastSuccessfullyCalculatedRisk = object : RiskLevelResult {
-            override val riskLevel: RiskLevel = lastSuccessfullyCalculatedRiskLevel()
-            override val calculatedAt: Instant = timeStamper.nowUTC
-            override val aggregatedRiskResult: AggregatedRiskResult? = null
-            override val exposureWindows: List<ExposureWindow>? = null
-            override val isIncreasedRisk: Boolean = riskLevel == RiskLevel.INCREASED_RISK
-            override val matchedKeyCount: Int = 0
-            override val daysSinceLastExposure: Int = 0
-        }
-        return listOf(lastCalculatedRisk, lastSuccessfullyCalculatedRisk)
+        val legacyResults = mutableListOf<RiskLevelResult>()
+
+        lastCalculatedRiskLevel()
+            ?.let {
+                object : RiskLevelResult {
+                    override val riskLevel: RiskLevel = it
+                    override val calculatedAt: Instant = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
+                    override val aggregatedRiskResult: AggregatedRiskResult? = null
+                    override val exposureWindows: List<ExposureWindow>? = null
+                    override val isIncreasedRisk: Boolean = riskLevel == RiskLevel.INCREASED_RISK
+                    override val matchedKeyCount: Int = 0
+                    override val daysSinceLastExposure: Int = 0
+                }
+            }
+            ?.let { legacyResults.add(it) }
+
+        lastSuccessfullyCalculatedRiskLevel()
+            ?.let {
+                object : RiskLevelResult {
+                    override val riskLevel: RiskLevel = it
+                    override val calculatedAt: Instant = timeStamper.nowUTC
+                    override val aggregatedRiskResult: AggregatedRiskResult? = null
+                    override val exposureWindows: List<ExposureWindow>? = null
+                    override val isIncreasedRisk: Boolean = riskLevel == RiskLevel.INCREASED_RISK
+                    override val matchedKeyCount: Int = 0
+                    override val daysSinceLastExposure: Int = 0
+                }
+            }
+            ?.let { legacyResults.add(it) }
+
+        return legacyResults
     }
 }

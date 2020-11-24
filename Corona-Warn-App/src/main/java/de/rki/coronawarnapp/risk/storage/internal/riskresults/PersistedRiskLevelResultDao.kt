@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.risk.storage.internal
+package de.rki.coronawarnapp.risk.storage.internal.riskresults
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -6,16 +6,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.risk.RiskLevel
-import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
-import de.rki.coronawarnapp.risk.storage.internal.PersistedRiskResultDao.PersistedAggregatedRiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
 import org.joda.time.Instant
-import java.util.UUID
 
 @Entity(tableName = "riskresults")
-data class PersistedRiskResultDao(
+data class PersistedRiskLevelResultDao(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "riskLevel") val riskLevel: RiskLevel,
     @ColumnInfo(name = "calculatedAt") val calculatedAt: Instant,
@@ -74,22 +71,3 @@ data class PersistedRiskResultDao(
         fun fromType(type: RiskLevel?): Int? = type?.raw
     }
 }
-
-fun RiskLevelResult.toPersistedRiskResult(
-    id: String = UUID.randomUUID().toString()
-) = PersistedRiskResultDao(
-    id = id,
-    riskLevel = riskLevel,
-    calculatedAt = calculatedAt,
-    aggregatedRiskResult = aggregatedRiskResult?.toPersistedAggregatedRiskResult()
-)
-
-fun AggregatedRiskResult.toPersistedAggregatedRiskResult() = PersistedAggregatedRiskResult(
-    totalRiskLevel = totalRiskLevel,
-    totalMinimumDistinctEncountersWithLowRisk = totalMinimumDistinctEncountersWithLowRisk,
-    totalMinimumDistinctEncountersWithHighRisk = totalMinimumDistinctEncountersWithHighRisk,
-    mostRecentDateWithLowRisk = mostRecentDateWithLowRisk,
-    mostRecentDateWithHighRisk = mostRecentDateWithHighRisk,
-    numberOfDaysWithLowRisk = numberOfDaysWithLowRisk,
-    numberOfDaysWithHighRisk = numberOfDaysWithHighRisk
-)

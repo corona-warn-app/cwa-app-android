@@ -90,9 +90,9 @@ class RiskLevelTask @Inject constructor(
                 }
                 checkCancel()
 
-                val increasedRiskResult = isIncreasedRisk(configData)
-                if (increasedRiskResult.isIncreasedRisk) {
-                    return@evaluation increasedRiskResult
+                val risklevelResult = isIncreasedRisk(configData)
+                if (risklevelResult.isIncreasedRisk) {
+                    return@evaluation risklevelResult
                 }
                 checkCancel()
 
@@ -104,10 +104,7 @@ class RiskLevelTask @Inject constructor(
                 }
                 checkCancel()
 
-                return@evaluation RiskLevelTaskResult(
-                    riskLevel = LOW_LEVEL_RISK,
-                    calculatedAt = timeStamper.nowUTC
-                )
+                return@evaluation risklevelResult
             }.also {
                 checkCancel()
                 Timber.i("Evaluation finished with %s", it)

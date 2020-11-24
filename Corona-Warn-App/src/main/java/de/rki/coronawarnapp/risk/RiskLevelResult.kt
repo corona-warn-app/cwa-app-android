@@ -9,6 +9,10 @@ interface RiskLevelResult {
     val calculatedAt: Instant
 
     val aggregatedRiskResult: AggregatedRiskResult?
+
+    /**
+     * This will only be filled in deviceForTester builds
+     */
     val exposureWindows: List<ExposureWindow>?
 
     val wasSuccessfullyCalculated: Boolean
