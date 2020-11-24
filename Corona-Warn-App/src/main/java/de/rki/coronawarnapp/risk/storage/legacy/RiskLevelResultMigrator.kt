@@ -51,7 +51,6 @@ class RiskLevelResultMigrator @Inject constructor(
                     override val calculatedAt: Instant = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
                     override val aggregatedRiskResult: AggregatedRiskResult? = null
                     override val exposureWindows: List<ExposureWindow>? = null
-                    override val isIncreasedRisk: Boolean = riskLevel == RiskLevel.INCREASED_RISK
                     override val matchedKeyCount: Int = 0
                     override val daysSinceLastExposure: Int = 0
                 }
@@ -65,7 +64,6 @@ class RiskLevelResultMigrator @Inject constructor(
                     override val calculatedAt: Instant = timeStamper.nowUTC
                     override val aggregatedRiskResult: AggregatedRiskResult? = null
                     override val exposureWindows: List<ExposureWindow>? = null
-                    override val isIncreasedRisk: Boolean = riskLevel == RiskLevel.INCREASED_RISK
                     override val matchedKeyCount: Int = 0
                     override val daysSinceLastExposure: Int = 0
                 }

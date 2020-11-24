@@ -12,8 +12,6 @@ interface RiskLevelStorage {
 
     val lastRiskLevelResult: Flow<RiskLevelResult>
 
-    suspend fun getLatestResults(limit: Int): List<RiskLevelResult>
-
     suspend fun storeResult(result: RiskLevelResult)
 
     suspend fun clear()

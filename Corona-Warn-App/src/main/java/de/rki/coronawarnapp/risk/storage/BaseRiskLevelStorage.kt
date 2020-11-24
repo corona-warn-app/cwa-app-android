@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
@@ -10,7 +8,6 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
@@ -46,10 +43,6 @@ abstract class BaseRiskLevelStorage constructor(
         results.maxByOrNull { it.calculatedAt } ?: INITIAL_RESULT
     }
 
-    override suspend fun getLatestResults(limit: Int): List<RiskLevelResult> = riskLevelResults.first()
-        .sortedBy { it.calculatedAt }
-        .takeLast(2)
-
     override suspend fun storeResult(result: RiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", result.exposureWindows?.size)
 
@@ -64,9 +57,7 @@ abstract class BaseRiskLevelStorage constructor(
             resultToPersist.id
         } catch (e: Exception) {
             Timber.e(e, "Failed to store latest result: %s", result)
-            e.report(ExceptionCategory.INTERNAL)
-            // Can't continue without an inserted result
-            return
+            throw e
         }
 
         try {
@@ -77,7 +68,7 @@ abstract class BaseRiskLevelStorage constructor(
             }
         } catch (e: Exception) {
             Timber.e(e, "Failed to clean up old results.")
-            e.report(ExceptionCategory.INTERNAL)
+            throw e
         }
 
         Timber.d("Storing exposure windows.")

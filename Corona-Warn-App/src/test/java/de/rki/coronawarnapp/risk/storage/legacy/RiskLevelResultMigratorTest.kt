@@ -17,7 +17,17 @@ class RiskLevelResultMigratorTest : BaseTest() {
     )
 
     @Test
-    fun `test me`() {
+    fun `empty list if no previous data was available`() {
+        TODO()
+    }
+
+    @Test
+    fun `if no timestamp is available we use the current time`() {
+        TODO()
+    }
+
+    @Test
+    fun `either last successful or just last calculated values can be null`() {
         TODO()
     }
 }
