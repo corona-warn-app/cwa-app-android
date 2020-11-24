@@ -1005,10 +1005,6 @@
     <string name="submission_dispatcher_card_qr">"Document with QR code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Register your test by scanning the QR code of your test document."</string>
-    <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
-    <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
-    <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->

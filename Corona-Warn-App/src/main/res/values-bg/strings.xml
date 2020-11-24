@@ -831,19 +831,6 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Отказ"</string>
 
-    <!-- QR Code Scan Info Screen -->
-    <!-- XHED: Page headline for QR Scan info screen -->
-    <string name="submission_qr_info_headline">"Сканиране на QR код"</string>
-    <!-- YTXT: Body text for for QR Scan info point 1  -->
-    <string name="submission_qr_info_point_1_body">"Сканирайте само Вашия собствен тест."</string>
-    <!-- YTXT: Body text for for QR Scan info point 2  -->
-    <string name="submission_qr_info_point_2_body">"Тестът може да се сканира само "<b>"веднъж"</b>"."</string>
-    <!-- YTXT: Body text for for QR Scan info point 3  -->
-    <string name="submission_qr_info_point_3_body">"В приложението "<b>"не може"</b>" да се обработват няколко теста едновременно."</string>
-    <!-- YTXT:Body text for for QR Scan info point 4 -->
-    <string name="submission_qr_info_point_4_body">"Ако съществува нов тест, изтрийте съществуващия и сканирайте QR кода на най-новия тест."</string>
-
-
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Позиционирайте QR кода в рамката."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -951,10 +938,6 @@
     <string name="submission_dispatcher_card_qr">"Документ с QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Регистрирайте теста си, като сканирате QR кода на документа."</string>
-    <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
-    <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
-    <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"ТАН код"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
