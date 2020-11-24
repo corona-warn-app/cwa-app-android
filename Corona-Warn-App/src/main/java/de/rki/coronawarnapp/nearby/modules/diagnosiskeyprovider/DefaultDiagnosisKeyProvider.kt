@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
@@ -43,10 +44,19 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 //            return false
         }
 
+        val keyFilesList = keyFiles.toList()
+        val provideDiagnosisKeysTask = if (enfVersion.isAtLeast(ENFVersion.V1_7)) {
+            Timber.i("Provide diagnosis keys with DiagnosisKeyFileProvider")
+            val diagnosisKeyFileProvider = DiagnosisKeyFileProvider(keyFilesList)
+            enfClient.provideDiagnosisKeys(diagnosisKeyFileProvider)
+        } else {
+            Timber.i("Provide diagnosis keys as list")
+            enfClient.provideDiagnosisKeys(keyFilesList)
+        }
+
         return suspendCoroutine { cont ->
             Timber.d("Performing key submission.")
-            enfClient
-                .provideDiagnosisKeys(keyFiles.toList())
+            provideDiagnosisKeysTask
                 .addOnSuccessListener { cont.resume(true) }
                 .addOnFailureListener {
                     val wrappedException =

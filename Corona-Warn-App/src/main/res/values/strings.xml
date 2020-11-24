@@ -202,6 +202,32 @@
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Restart"</string>
 
+    <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
+    <string name="risk_card_low_risk_no_encounters_body" />
+    <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
+    <plurals name="risk_card_low_risk_encounter_days_body">
+        <item quantity="one" />
+        <item quantity="other" />
+        <item quantity="zero" />
+        <item quantity="two" />
+        <item quantity="few" />
+        <item quantity="many" />
+    </plurals>
+
+    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
+    <string name="risk_card_high_risk_no_encounters_body" />
+    <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
+    <plurals name="risk_card_high_risk_encounter_days_body">
+        <item quantity="one" />
+        <item quantity="other" />
+        <item quantity="zero" />
+        <item quantity="two" />
+        <item quantity="few" />
+        <item quantity="many" />
+    </plurals>
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
+    <string name="risk_card_high_risk_most_recent_body" />
+
     <!-- ####################################
               Risk Card - Progress
     ###################################### -->
