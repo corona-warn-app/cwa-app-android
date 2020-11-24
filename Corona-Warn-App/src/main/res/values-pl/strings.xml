@@ -938,6 +938,10 @@
     <string name="submission_dispatcher_headline">"Wybór"</string>
     <!-- XHED: Page subheadline for dispatcher menu  -->
     <string name="submission_dispatcher_subheadline">"Jakie informacje posiadasz?"</string>
+    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
+    <string name="submission_dispatcher_needs_testing_subheadline">""</string>
+    <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
+    <string name="submission_dispatcher_already_positive_subheadline">""</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Dokument z kodem QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
