@@ -15,11 +15,11 @@ class SubmissionDoneNoConsentViewModel @AssistedInject constructor() : CWAViewMo
     }
 
     fun onContinueWithSymptomRecordingPressed() {
-        TODO("Not yet implemented")
+        // Implementation will be done when other screens are ready
     }
 
     fun onBreakFlowPressed() {
-        TODO("Not yet implemented")
+        // Implementation will be done when other screens are ready
     }
 
     @AssistedInject.Factory
