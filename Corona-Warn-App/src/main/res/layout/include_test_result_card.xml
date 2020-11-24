@@ -13,7 +13,7 @@
 
         <variable
             name="deviceUIState"
-            type="de.rki.coronawarnapp.util.DeviceUIState" />
+            type="de.rki.coronawarnapp.util.NetworkRequestWrapper&lt;de.rki.coronawarnapp.util.DeviceUIState,java.lang.Throwable>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

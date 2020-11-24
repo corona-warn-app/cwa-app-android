@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -20,7 +20,8 @@ class TracingCardStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     settingsRepository: SettingsRepository,
-    tracingRepository: TracingRepository
+    tracingRepository: TracingRepository,
+    exposureResultStore: ExposureResultStore
 ) {
 
     // TODO Refactor these singletons away
@@ -37,10 +38,10 @@ class TracingCardStateProvider @Inject constructor(
         tracingRepository.tracingProgress.onEach {
             Timber.v("tracingProgress: $it")
         },
-        ExposureSummaryRepository.matchedKeyCount.onEach {
+        exposureResultStore.matchedKeyCount.onEach {
             Timber.v("matchedKeyCount: $it")
         },
-        ExposureSummaryRepository.daysSinceLastExposure.onEach {
+        exposureResultStore.daysSinceLastExposure.onEach {
             Timber.v("daysSinceLastExposure: $it")
         },
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {

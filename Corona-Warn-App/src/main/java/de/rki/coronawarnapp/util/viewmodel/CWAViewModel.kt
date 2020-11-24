@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
@@ -29,7 +29,13 @@ abstract class CWAViewModel constructor(
     fun launch(
         context: CoroutineContext = dispatcherProvider.Default,
         block: suspend CoroutineScope.() -> Unit
-    ): Job = viewModelScope.launch(context = context, block = block)
+    ) {
+        try {
+            viewModelScope.launch(context = context, block = block)
+        } catch (e: CancellationException) {
+            Timber.w(e, "launch()ed coroutine was canceled.")
+        }
+    }
 
     @CallSuper
     override fun onCleared() {

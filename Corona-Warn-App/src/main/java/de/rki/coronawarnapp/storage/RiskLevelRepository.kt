@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 object RiskLevelRepository {
 
-    private val internalRisklevelScore = MutableStateFlow(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
+    private val internalRisklevelScore = MutableStateFlow(getLastSuccessfullyCalculatedScore().raw)
     val riskLevelScore: Flow<Int> = internalRisklevelScore
 
     private val internalRiskLevelScoreLastSuccessfulCalculated =
@@ -78,7 +78,7 @@ object RiskLevelRepository {
      *
      * @return
      */
-    private fun getLastSuccessfullyCalculatedScore(): RiskLevel =
+    fun getLastSuccessfullyCalculatedScore(): RiskLevel =
         LocalData.lastSuccessfullyCalculatedRiskLevel()
 
     /**

@@ -44,4 +44,10 @@ interface ConfigData : ConfigMapping {
          */
         LOCAL_DEFAULT
     }
+
+    /**
+     * Has the config validity expired?
+     * Is this configs update date, past the maximum cache age?
+     */
+    fun isValid(nowUTC: Instant): Boolean
 }
