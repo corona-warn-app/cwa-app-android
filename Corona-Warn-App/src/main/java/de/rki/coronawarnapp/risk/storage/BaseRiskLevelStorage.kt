@@ -102,8 +102,6 @@ abstract class BaseRiskLevelStorage constructor(
             override val calculatedAt: Instant = Instant.EPOCH
             override val aggregatedRiskResult: AggregatedRiskResult? = null
             override val exposureWindows: List<ExposureWindow>? = null
-
-            override val isIncreasedRisk: Boolean = false
             override val matchedKeyCount: Int = 0
             override val daysSinceLastExposure: Int = 0
         }
