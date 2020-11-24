@@ -34,12 +34,10 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment()
                 )
                 is SubmissionNavigationEvents.NavigateToDispatcher -> findNavController().popBackStack()
-
             }
         }
         viewModel.countries.observe2(this) {
             binding.countries = it
         }
-
     }
 }

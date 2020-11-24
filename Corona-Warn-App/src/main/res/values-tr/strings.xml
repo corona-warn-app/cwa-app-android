@@ -952,13 +952,9 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Test belgenizin QR kodunu tarayarak testinizi kaydedin."</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
-    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Onay"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"\"Kabul Et\" seçeneğine dokunarak Uygulamanın koronavirüs testinizin durumunu sorgulamasına ve Uygulamada görüntülemesine izin verirsiniz. Bu özelliği, QR kod aldıysanız ve test sonucunuzun Uygulamanın sunucu sistemine aktarılmasına onay verdiyseniz kullanabilirsiniz. Testi yapan laboratuvar test sonucunuzu sunucuya kaydettiği anda sonucu Uygulamada görüntüleyebilirsiniz. Ayrıca bildirimleri etkinleştirirseniz Uygulama, kullanmadığınız sırada test sonucunuzun alındığını belirten bir bildirim gönderir. Ancak gizlilik nedenleriyle testin sonucu yalnızca Uygulamada görüntülenecektir. Uygulamada test kaydınızı silerek dilediğiniz zaman bu onayı geri çekebilirsiniz. Onayınızı geri çekmeniz, onayınızı geri çekmeden önce testi işlemenin hukuki niteliğini etkilemeyecektir. Menüde \"Veri Gizliliği\" başlığında daha fazla bilgiye erişebilirsiniz."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
-    <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Kabul Et"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
-    <string name="submission_dispatcher_qr_privacy_dialog_button_negative">"Kabul Etme"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
