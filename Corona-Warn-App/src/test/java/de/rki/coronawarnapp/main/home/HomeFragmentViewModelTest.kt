@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
@@ -47,6 +48,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var submissionCardsStateProvider: SubmissionCardsStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setup() {
@@ -70,7 +72,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingCardStateProvider = tracingCardStateProvider,
         submissionCardsStateProvider = submissionCardsStateProvider,
         tracingRepository = tracingRepository,
-        testResultNotificationService = testResultNotificationService
+        testResultNotificationService = testResultNotificationService,
+        submissionRepository = submissionRepository
     )
 
     @Test

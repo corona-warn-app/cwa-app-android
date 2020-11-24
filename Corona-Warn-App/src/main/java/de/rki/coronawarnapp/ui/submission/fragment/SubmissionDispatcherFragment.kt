@@ -79,15 +79,15 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
             R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
             true,
-            {
-                privacyPermissionIsGranted()
+            positiveButtonFunction = {
+                onPrivacyPermissionGranted()
             }
         )
 
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun privacyPermissionIsGranted() {
+    private fun onPrivacyPermissionGranted() {
         viewModel.onQRScanPressed()
     }
 }

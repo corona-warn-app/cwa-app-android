@@ -43,7 +43,8 @@ class DataReset @Inject constructor(
     @AppContext private val context: Context,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
-    private val interoperabilityRepository: InteroperabilityRepository
+    private val interoperabilityRepository: InteroperabilityRepository,
+    private val submissionRepository: SubmissionRepository
 ) {
 
     private val mutex = Mutex()
@@ -61,7 +62,7 @@ class DataReset @Inject constructor(
         // Reset the current risk level stored in LiveData
         RiskLevelRepository.reset()
         // Reset the current states stored in LiveData
-        SubmissionRepository.reset()
+        submissionRepository.reset()
         keyCacheRepository.clear()
         appConfigProvider.clear()
         interoperabilityRepository.clear()
