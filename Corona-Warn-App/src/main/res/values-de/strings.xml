@@ -1214,6 +1214,12 @@
     <!-- XBUT Symptoms exact date button -->
     <string name="symptoms_calendar_exact_date_button">"Genaues Datum"</string>
 
+    <!-- Submission consent custom view -->
+    <!-- XHED: Title for consent given -->
+    <string name="submission_consent_view_consent_given">"Einverständnis\n“Andere warnen” erteilt"</string>
+    <!-- XHED: Title for consent NOT given -->
+    <string name="submission_consent_view_consent_not_given">"Einverständnis\n“Andere warnen” nicht erteilt"</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->

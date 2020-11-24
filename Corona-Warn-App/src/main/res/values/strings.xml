@@ -1219,9 +1219,9 @@
 
     <!-- Submission consent custom view -->
     <!-- XHED: Title for consent given -->
-    <string name="submission_consent_view_consent_given">"Einverständnis\n“Andere warnen” erteilt"</string>
+    <string name="submission_consent_view_consent_given">""</string>
     <!-- XHED: Title for consent NOT given -->
-    <string name="submission_consent_view_consent_not_given">"Einverständnis\n“Andere warnen” nicht erteilt"</string>
+    <string name="submission_consent_view_consent_not_given">""</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
