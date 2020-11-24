@@ -223,9 +223,6 @@ jobs:
       - run-gradle-cmd:
           desc: JaCoCo report
           cmd: ":Corona-Warn-App:jacocoTestReportDeviceRelease -i"
-      - run:
-          name: Skip SonarCloud for external Pull Requests
-          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
   quick_build_device_for_testers_signed:
     executor: android/android
@@ -275,9 +272,10 @@ jobs:
       - run:
           name: Send to T-System
           command: |
+            fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
-            --form 'file=@Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
+            --form "file=@${fileName}" \
 workflows:
   version: 2
   quick_build:

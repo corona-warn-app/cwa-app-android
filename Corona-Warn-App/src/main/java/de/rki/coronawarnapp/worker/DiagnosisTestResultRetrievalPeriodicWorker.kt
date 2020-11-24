@@ -28,10 +28,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private val submissionService: SubmissionService
 ) : CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisTestResultRetrievalPeriodicWorker::class.simpleName
-    }
-
     /**
      * Work execution
      *
@@ -46,16 +42,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
 
         Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount "
-        )
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            BackgroundWorkHelper.sendDebugNotification(
-                "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts"
-            )
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             Timber.d("$id Rescheduled background worker")
 
@@ -81,9 +71,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             result = Result.retry()
         }
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: End", "TestResult result: $result "
-        )
         Timber.d("$id: doWork() finished with %s", result)
 
         return result
@@ -133,9 +120,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
         Timber.d("$id: Background worker stopped")
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Stopped", "TestResult Stopped"
-        )
     }
 
     @AssistedInject.Factory

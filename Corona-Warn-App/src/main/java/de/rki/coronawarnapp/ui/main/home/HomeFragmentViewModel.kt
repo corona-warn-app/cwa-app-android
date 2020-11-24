@@ -76,10 +76,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private var isLoweredRiskLevelDialogBeingShown = false
 
-    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionCardsStateProvider.state
             .first { it.isPositiveSubmissionCardVisible() }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+    }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
@@ -103,8 +104,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         submissionRepository.refreshDeviceUIState()
         // TODO the ordering here is weird, do we expect these to run in sequence?
         tracingRepository.refreshRiskLevel()
-        tracingRepository.refreshExposureSummary()
-        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         tracingRepository.refreshLastSuccessfullyCalculatedScore()

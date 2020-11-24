@@ -32,12 +32,9 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
         super.onViewCreated(view, savedInstanceState)
 
         vm.currentConfig.observe2(this) { data ->
-            binding.currentConfiguration.text =
-                data?.rawConfig?.toString() ?: "No config available."
-            binding.lastUpdate.text = data?.updatedAt?.let { timeFormatter.print(it) } ?: "n/a"
-            binding.timeOffset.text = data?.let {
-                "${it.localOffset.millis}ms (configType=${it.configType})"
-            } ?: "n/a"
+            binding.currentConfiguration.text = data.rawConfig.toString()
+            binding.lastUpdate.text = timeFormatter.print(data.updatedAt)
+            binding.timeOffset.text = "${data.localOffset.millis}ms (configType=${data.configType})"
         }
 
         vm.errorEvent.observe2(this) {
