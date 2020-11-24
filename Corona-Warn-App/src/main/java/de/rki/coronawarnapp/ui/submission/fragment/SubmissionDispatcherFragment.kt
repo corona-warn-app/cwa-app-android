@@ -41,6 +41,11 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
+                is SubmissionNavigationEvents.NavigateToConsent ->
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
+                    )
             }
         }
     }
@@ -55,7 +60,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             viewModel.onBackPressed()
         }
         binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
-            goToSubmissionConsentScreen()
+            viewModel.onQRCodePressed()
         }
         binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             viewModel.onTanPressed()
@@ -63,12 +68,5 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         binding.submissionDispatcherContent.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
             viewModel.onTeleTanPressed()
         }
-    }
-
-    private fun goToSubmissionConsentScreen() {
-        doNavigate(
-            SubmissionDispatcherFragmentDirections
-                .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
-        )
     }
 }

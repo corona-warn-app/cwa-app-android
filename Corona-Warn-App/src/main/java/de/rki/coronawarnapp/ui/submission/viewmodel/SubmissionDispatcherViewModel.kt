@@ -21,6 +21,10 @@ class SubmissionDispatcherViewModel @AssistedInject constructor() : CWAViewModel
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToContact)
     }
 
+    fun onQRCodePressed() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
+    }
+
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<SubmissionDispatcherViewModel>
 }

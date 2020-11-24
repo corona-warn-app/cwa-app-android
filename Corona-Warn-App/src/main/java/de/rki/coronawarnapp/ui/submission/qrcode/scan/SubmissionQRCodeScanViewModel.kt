@@ -85,7 +85,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     }
 
     fun onBackPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRInfo)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
     }
 
     fun onClosePressed() {

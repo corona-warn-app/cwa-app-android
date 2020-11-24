@@ -7,6 +7,10 @@
             name="countries"
             type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
 
+        <variable
+            name="viewModel"
+            type="de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +48,8 @@
                     android:src="@drawable/ic_illustration_consent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:importantForAccessibility="no"/>
 
                 <include layout="@layout/include_submission_consent_intro"
                     android:id="@+id/include_submission_consent_intro"
@@ -119,6 +124,7 @@
             android:layout_height="wrap_content"
             android:text="@string/submission_positive_other_warning_button"
             android:textAllCaps="true"
+            android:onClick="@{ () -> viewModel.onConsentButtonClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

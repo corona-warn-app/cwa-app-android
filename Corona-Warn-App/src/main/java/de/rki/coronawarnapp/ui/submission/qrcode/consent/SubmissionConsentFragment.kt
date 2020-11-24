@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -22,21 +23,23 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            viewModel.onBackButtonClick()
+        }
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToQRCodeScan -> doNavigate(
+                    SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment()
+                )
+                is SubmissionNavigationEvents.NavigateToDispatcher -> findNavController().popBackStack()
+
+            }
+        }
         viewModel.countries.observe2(this) {
             binding.countries = it
         }
-    }
 
-    private fun setButtonOnClickListener() {
-        binding.submissionConsentButton.setOnClickListener {
-            viewModel.onConsentButtonClick()
-            doNavigate(
-                SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment()
-            )
-        }
-        binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 }
