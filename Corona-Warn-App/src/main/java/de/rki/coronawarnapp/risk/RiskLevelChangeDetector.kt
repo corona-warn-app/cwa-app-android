@@ -83,13 +83,11 @@ class RiskLevelChangeDetector @Inject constructor(
          * @return
          */
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal fun hasHighLowLevelChanged(previous: RiskLevel, current: RiskLevel): Boolean {
-            return HIGH_RISK_LEVELS.contains(previous) && LOW_RISK_LEVELS.contains(current) ||
-                LOW_RISK_LEVELS.contains(previous) && HIGH_RISK_LEVELS.contains(current)
-        }
+        internal fun hasHighLowLevelChanged(previous: RiskLevel, current: RiskLevel) =
+            previous.isHighRisk != current.isHighRisk
 
         private val HIGH_RISK_LEVELS = arrayOf(RiskLevel.INCREASED_RISK)
-        private val LOW_RISK_LEVELS = arrayOf(
+        private val LOW_RISK_LEVELS = arrayOf( // TODO delete?
             RiskLevel.UNKNOWN_RISK_INITIAL,
             RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             RiskLevel.LOW_LEVEL_RISK,
@@ -97,5 +95,8 @@ class RiskLevelChangeDetector @Inject constructor(
             RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
             RiskLevel.UNDETERMINED
         )
+
+        private val RiskLevel.isHighRisk: Boolean
+            get() = HIGH_RISK_LEVELS.contains(this)
     }
 }

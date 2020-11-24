@@ -10,4 +10,3 @@ data class PersistedRiskLevelResultDaoWrapper(
     @Relation(parentColumn = "id", entityColumn = "riskLevelResultId")
     val exposureWindows: List<PersistedExposureWindowDao>
 )
-
