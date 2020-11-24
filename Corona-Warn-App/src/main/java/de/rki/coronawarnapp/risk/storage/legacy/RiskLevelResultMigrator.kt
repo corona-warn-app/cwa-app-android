@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,35 +42,34 @@ class RiskLevelResultMigrator @Inject constructor(
         return if (rawRiskLevel != -1) RiskLevel.forValue(rawRiskLevel) else null
     }
 
-    fun getLegacyResults(): List<RiskLevelResult> {
+    fun getLegacyResults(): List<RiskLevelResult> = try {
         val legacyResults = mutableListOf<RiskLevelResult>()
+        lastCalculatedRiskLevel()?.let {
+            legacyResults.add(
+                LegacyResult(
+                    riskLevel = it,
+                    calculatedAt = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
+                )
+            )
+        }
 
-        lastCalculatedRiskLevel()
-            ?.let {
-                object : RiskLevelResult {
-                    override val riskLevel: RiskLevel = it
-                    override val calculatedAt: Instant = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
-                    override val aggregatedRiskResult: AggregatedRiskResult? = null
-                    override val exposureWindows: List<ExposureWindow>? = null
-                    override val matchedKeyCount: Int = 0
-                    override val daysWithEncounters: Int = 0
-                }
-            }
-            ?.let { legacyResults.add(it) }
+        lastSuccessfullyCalculatedRiskLevel()?.let {
+            legacyResults.add(LegacyResult(riskLevel = it, calculatedAt = timeStamper.nowUTC))
+        }
 
-        lastSuccessfullyCalculatedRiskLevel()
-            ?.let {
-                object : RiskLevelResult {
-                    override val riskLevel: RiskLevel = it
-                    override val calculatedAt: Instant = timeStamper.nowUTC
-                    override val aggregatedRiskResult: AggregatedRiskResult? = null
-                    override val exposureWindows: List<ExposureWindow>? = null
-                    override val matchedKeyCount: Int = 0
-                    override val daysWithEncounters: Int = 0
-                }
-            }
-            ?.let { legacyResults.add(it) }
+        legacyResults
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to parse legacy risklevel data.")
+        emptyList()
+    }
 
-        return legacyResults
+    data class LegacyResult(
+        override val riskLevel: RiskLevel,
+        override val calculatedAt: Instant
+    ) : RiskLevelResult {
+        override val aggregatedRiskResult: AggregatedRiskResult? = null
+        override val exposureWindows: List<ExposureWindow>? = null
+        override val matchedKeyCount: Int = 0
+        override val daysWithEncounters: Int = 0
     }
 }

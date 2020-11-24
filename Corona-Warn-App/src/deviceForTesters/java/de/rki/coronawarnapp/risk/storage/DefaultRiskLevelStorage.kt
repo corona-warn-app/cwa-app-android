@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindo
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedExposureWindow
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedScanInstances
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,7 +48,8 @@ class DefaultRiskLevelStorage @Inject constructor(
 
     override suspend fun deletedOrphanedExposureWindows() {
         Timber.d("deletedOrphanedExposureWindows() running...")
-        val currentRiskResultIds = riskResultsTables.allEntries().first().map { it.id }
+        val currentRiskResultIds = riskResultsTables.allEntries().firstOrNull()?.map { it.id } ?: emptyList()
+
         exposureWindowsTables.deleteByRiskResultId(currentRiskResultIds).also {
             Timber.d("$it orphaned exposure windows were deleted.")
         }
