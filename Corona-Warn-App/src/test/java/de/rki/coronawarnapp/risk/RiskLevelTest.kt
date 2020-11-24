@@ -42,5 +42,4 @@ class RiskLevelTest {
         assertNotEquals(RiskLevel.forValue(RiskLevelConstants.INCREASED_RISK), RiskLevel.UNDETERMINED)
         assertNotEquals(RiskLevel.forValue(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS), RiskLevel.UNDETERMINED)
     }
-
 }

@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldNotBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import kotlin.random.Random
 
 class PersistedRiskResultDaoTest : BaseTest() {
     @Test

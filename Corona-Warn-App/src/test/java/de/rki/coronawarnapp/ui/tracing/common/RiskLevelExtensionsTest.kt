@@ -44,7 +44,7 @@ class RiskLevelExtensionsTest : BaseTest() {
     fun `getLastestAndLastSuccessful last calculation was successful`() {
         val results = listOf(
             createRiskLevel(RiskLevel.INCREASED_RISK, calculatedAt = Instant.EPOCH),
-            createRiskLevel(RiskLevel.LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+            createRiskLevel(RiskLevel.LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH.plus(1))
         )
 
         results.tryLatestResultsWithDefaults().apply {
@@ -61,7 +61,7 @@ class RiskLevelExtensionsTest : BaseTest() {
         val results = listOf(
             createRiskLevel(RiskLevel.INCREASED_RISK, calculatedAt = Instant.EPOCH),
             createRiskLevel(RiskLevel.LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-            createRiskLevel(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF, calculatedAt = Instant.EPOCH.plus(2)),
+            createRiskLevel(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF, calculatedAt = Instant.EPOCH.plus(2))
         )
 
         results.tryLatestResultsWithDefaults().apply {
@@ -79,7 +79,7 @@ class RiskLevelExtensionsTest : BaseTest() {
             createRiskLevel(RiskLevel.UNDETERMINED, calculatedAt = Instant.EPOCH.plus(10)),
             createRiskLevel(RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL, calculatedAt = Instant.EPOCH.plus(11)),
             createRiskLevel(RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS, calculatedAt = Instant.EPOCH.plus(12)),
-            createRiskLevel(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF, calculatedAt = Instant.EPOCH.plus(13)),
+            createRiskLevel(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF, calculatedAt = Instant.EPOCH.plus(13))
         )
 
         results.tryLatestResultsWithDefaults().apply {
