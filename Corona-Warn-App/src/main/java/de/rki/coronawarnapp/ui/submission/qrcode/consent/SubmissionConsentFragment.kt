@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.qrcode.consent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -33,7 +32,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToQRCodeScan -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment()
                 )
-                is SubmissionNavigationEvents.NavigateToDispatcher -> findNavController().popBackStack()
+                is SubmissionNavigationEvents.NavigateToDispatcher -> doNavigate(
+                    SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToHomeFragment()
+                )
             }
         }
         viewModel.countries.observe2(this) {

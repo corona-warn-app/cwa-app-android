@@ -386,6 +386,10 @@
         <action
             android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeScanFragment"
             app:destination="@id/submissionQRCodeScanFragment" />
+        <action
+            android:id="@+id/action_submissionConsentFragment_to_homeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
 </navigation>
