@@ -31,10 +31,6 @@ class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyPeriodic Executing: Start", "KeyPeriodic started. Run attempt: $runAttemptCount"
-        )
-
         var result = Result.success()
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
@@ -46,21 +42,12 @@ class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Timber.w(e, "$id: Retry attempts exceeded.")
 
-                BackgroundWorkHelper.sendDebugNotification(
-                    "KeyPeriodic Executing: Failure",
-                    "KeyPeriodic failed with $runAttemptCount attempts"
-                )
-
                 return Result.failure()
             } else {
                 Timber.d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
-
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyPeriodic Executing: End", "KeyPeriodic result: $result "
-        )
 
         Timber.d("$id: doWork() finished with %s", result)
         return result

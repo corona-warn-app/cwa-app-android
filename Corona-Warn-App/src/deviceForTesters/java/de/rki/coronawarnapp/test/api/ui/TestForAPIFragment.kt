@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -32,25 +31,24 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
+import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -66,6 +64,8 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    @Inject lateinit var enfClient: ENFClient
+    @Inject lateinit var exposureResultStore: ExposureResultStore
     private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
@@ -85,18 +85,12 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         }
     }
 
-    private val enfClient by lazy {
-        AppInjector.component.enfClient
-    }
-
     private var myExposureKeysJSON: String? = null
     private var myExposureKeys: List<TemporaryExposureKey>? = mutableListOf()
     private var otherExposureKey: AppleLegacyKeyExchange.Key? = null
     private var otherExposureKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
-
-    private var token: String? = null
 
     private lateinit var qrPager: ViewPager2
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
@@ -107,8 +101,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        token = UUID.randomUUID().toString()
 
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
@@ -127,7 +119,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         binding.apply {
             buttonApiTestStart.setOnClickListener { start() }
             buttonApiGetExposureKeys.setOnClickListener { getExposureKeys() }
-            buttonApiGetCheckExposure.setOnClickListener { checkExposure() }
 
             buttonApiScanQrCode.setOnClickListener {
                 IntentIntegrator.forSupportFragment(this@TestForAPIFragment)
@@ -168,8 +159,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = ExposureSummaryRepository.getExposureSummaryRepository()
-                        .getExposureSummaryEntities().toString()
+                    val summary = exposureResultStore.entities.first().exposureWindows.toString()
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)
@@ -204,12 +194,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        updateExposureSummaryDisplay(null)
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -274,9 +258,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         if (null == otherExposureKey) {
             showToast("No other keys provided. Please fill the EditText with the JSON containing keys")
         } else {
-            token = UUID.randomUUID().toString()
-            LocalData.googleApiToken(token)
-
             val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
             for (key in otherExposureKeyList) {
@@ -298,7 +279,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             val dir = File(
                 File(requireContext().getExternalFilesDir(null), "key-export"),
-                token ?: ""
+                UUID.randomUUID().toString()
             )
             dir.mkdirs()
 
@@ -306,65 +287,18 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             lifecycleScope.launch {
                 googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
+                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     enfClient.provideDiagnosisKeys(
-                        googleFileList,
-                        AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
-                        token!!
+                        googleFileList
                     )
-                    showToast("Provided ${appleKeyList.size} keys to Google API with token $token")
+                    showToast("Provided ${appleKeyList.size} keys to Google API")
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.EXPOSURENOTIFICATION)
                 }
             }
         }
-    }
-
-    private fun checkExposure() {
-        Timber.d("Check Exposure with token $token")
-
-        lifecycleScope.launch {
-            try {
-                val exposureSummary =
-                    InternalExposureNotificationClient.asyncGetExposureSummary(token!!)
-                updateExposureSummaryDisplay(exposureSummary)
-                showToast("Updated Exposure Summary with token $token")
-                Timber.d("Received exposure with token $token from QR Code")
-                Timber.i(exposureSummary.toString())
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-    private fun updateExposureSummaryDisplay(exposureSummary: ExposureSummary?) {
-
-        binding.labelExposureSummaryMatchedKeyCount.text = getString(
-            R.string.test_api_body_matchedKeyCount,
-            (exposureSummary?.matchedKeyCount ?: "-").toString()
-        )
-
-        binding.labelExposureSummaryDaysSinceLastExposure.text = getString(
-            R.string.test_api_body_daysSinceLastExposure,
-            (exposureSummary?.daysSinceLastExposure ?: "-").toString()
-        )
-
-        binding.labelExposureSummaryMaximumRiskScore.text = getString(
-            R.string.test_api_body_maximumRiskScore,
-            (exposureSummary?.maximumRiskScore ?: "-").toString()
-        )
-
-        binding.labelExposureSummarySummationRiskScore.text = getString(
-            R.string.test_api_body_summation_risk,
-            (exposureSummary?.summationRiskScore ?: "-").toString()
-        )
-
-        binding.labelExposureSummaryAttenuation.text = getString(
-            R.string.test_api_body_attenuation,
-            (exposureSummary?.attenuationDurationsInMinutes?.joinToString() ?: "-").toString()
-        )
     }
 
     private fun updateKeysDisplay() {

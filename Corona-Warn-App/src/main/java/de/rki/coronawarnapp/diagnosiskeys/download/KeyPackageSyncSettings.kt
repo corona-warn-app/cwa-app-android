@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
+import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import org.joda.time.Instant
 import javax.inject.Inject
@@ -31,6 +33,11 @@ class KeyPackageSyncSettings @Inject constructor(
         reader = FlowPreference.gsonReader<LastDownload?>(gson, null),
         writer = FlowPreference.gsonWriter(gson)
     )
+
+    @SuppressLint("ApplySharedPref")
+    fun clear() {
+        prefs.clearAndNotify()
+    }
 
     data class LastDownload(
         val startedAt: Instant,

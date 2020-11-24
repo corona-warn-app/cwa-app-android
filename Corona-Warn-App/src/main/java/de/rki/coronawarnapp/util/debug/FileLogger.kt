@@ -1,39 +1,45 @@
 package de.rki.coronawarnapp.util.debug
 
 import android.content.Context
+import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import java.io.File
 
-class FileLogger constructor(private val context: Context) {
+class FileLogger constructor(context: Context) {
 
     val logFile = File(context.cacheDir, "FileLoggerTree.log")
-    val triggerFile = File(context.filesDir, "FileLoggerTree.trigger")
+
+    private val blockerFile = File(context.filesDir, "FileLoggerTree.blocker")
     private var loggerTree: FileLoggerTree? = null
 
     val isLogging: Boolean
         get() = loggerTree != null
 
     init {
-        if (triggerFile.exists()) {
+        if (!blockerFile.exists()) {
             start()
         }
     }
 
     fun start() {
+        if (!CWADebug.isDeviceForTestersBuild) return
+
         if (loggerTree != null) return
 
         loggerTree = FileLoggerTree(logFile).also {
             Timber.plant(it)
             it.start()
-            triggerFile.createNewFile()
+            blockerFile.delete()
         }
     }
 
     fun stop() {
+        if (!CWADebug.isDeviceForTestersBuild) return
+
         loggerTree?.let {
             it.stop()
             logFile.delete()
-            triggerFile.delete()
+            blockerFile.createNewFile()
             loggerTree = null
         }
     }

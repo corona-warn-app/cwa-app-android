@@ -21,11 +21,7 @@
     <!-- NOTR -->
     <string name="preference_tracing"><xliff:g id="preference">"preference_tracing"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_timestamp_diagnosis_keys_fetch"><xliff:g id="preference">"preference_timestamp_diagnosis_keys_fetch"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"preference_timestamp_manual_diagnosis_keys_retrieval"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_string_google_api_token"><xliff:g id="preference">"preference_m_string_google_api_token"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_background_job_allowed"><xliff:g id="preference">"preference_background_job_enabled"</xliff:g></string>
     <!-- NOTR -->
@@ -233,11 +229,11 @@
     ###################################### -->
 
     <!-- XHED: Share app link page title -->
-    <string name="main_share_title">"Corona-Warn-App teilen"</string>
+    <string name="main_share_title">"Corona-Warn-App empfehlen"</string>
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Gemeinsam Corona bekämpfen"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Laden Sie Familie, Freunde und Bekannte ein!"</string>
+    <string name="main_share_body">"Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Verschicken Sie einen Link auf die Corona-Warn-App an Familie, Freunde und Bekannte!"</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Download-Link versenden"</string>
     <!-- YMSG: Message when sharing is executed -->
@@ -282,7 +278,7 @@
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
     <string name="main_overview_subtitle_glossary_calculation">"Risiko-Überprüfung"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
-    <string name="main_overview_body_glossary_calculation">"Abfrage der Begegnungs-Aufzeichnung und Abgleich mit den gemeldeten Infektionen anderer Nutzerinnen und Nutzer. Die Risiko-Überprüfung erfolgt automatisch ungefähr alle zwei Stunden."</string>
+    <string name="main_overview_body_glossary_calculation">"Abfrage der Begegnungs-Aufzeichnung und Abgleich mit den gemeldeten Infektionen anderer Nutzerinnen und Nutzer. Ihr Risiko wird mehrmals täglich automatisch überprüft."</string>
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Risiko-Begegnung"</string>
     <!-- YTXT: App overview body for glossary contact -->
@@ -1299,17 +1295,7 @@
     <!-- NOTR -->
     <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
     <!-- NOTR -->
-    <string name="test_api_exposure_summary_headline">"Exposure summary"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_daysSinceLastExposure">"Days since last exposure: %1$s"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_attenuation">"Attenuation Durations in Minutes: %1$s"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_summation_risk">"Summation Risk Score: %1$s"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_matchedKeyCount">"Matched key count: %1$s"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_maximumRiskScore">"Maximum risk score %1$s"</string>
+    <string name="test_api_exposure_summary_headline">"Exposure Windows"</string>
     <!-- NOTR -->
     <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
     <!-- NOTR -->
