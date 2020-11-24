@@ -1060,6 +1060,46 @@
       "expAgeOfMostRecentDateWithHighRisk": null,
       "expNumberOfDaysWithLowRisk": 1,
       "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "ignores negative secondsSinceLastScan (can happen when time-travelling, not officially supported)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": -86160
+            },
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
     }
   ]
 }

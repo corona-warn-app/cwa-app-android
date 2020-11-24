@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.storage
 
 import android.content.Context
+import com.google.gson.Gson
 import de.rki.coronawarnapp.util.CWADebug
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -16,6 +17,7 @@ class TestSettingsTest : BaseTest() {
 
     @MockK lateinit var context: Context
     private lateinit var mockPreferences: MockSharedPreferences
+    private val gson = Gson()
 
     @BeforeEach
     fun setup() {
@@ -35,6 +37,7 @@ class TestSettingsTest : BaseTest() {
     }
 
     private fun buildInstance(): TestSettings = TestSettings(
-        context = context
+        context = context,
+        gson = gson
     )
 }
