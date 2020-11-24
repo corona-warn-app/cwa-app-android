@@ -38,8 +38,8 @@
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionIntroFragment"
-            app:destination="@id/submissionIntroFragment" />
+            android:id="@+id/action_mainFragment_to_submissionDispatcher"
+            app:destination="@id/submissionDispatcherFragment" />
         <action
             android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
             app:destination="@id/onboardingDeltaInteroperabilityFragment" />
