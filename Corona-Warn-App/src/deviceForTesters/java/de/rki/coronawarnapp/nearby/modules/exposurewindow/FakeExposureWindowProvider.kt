@@ -7,15 +7,18 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import dagger.Reusable
 import de.rki.coronawarnapp.storage.TestSettings.FakeExposureWindowTypes
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import org.joda.time.Duration
-import org.joda.time.Instant
 import javax.inject.Inject
 
 @Reusable
 class FakeExposureWindowProvider @Inject constructor(
-    @AppContext val context: Context
+    @AppContext val context: Context,
+    @BaseGson val gson: Gson,
+    val timeStamper: TimeStamper
 ) {
 
     fun getExposureWindows(testSettings: FakeExposureWindowTypes): List<ExposureWindow> {
@@ -24,13 +27,11 @@ class FakeExposureWindowProvider @Inject constructor(
             FakeExposureWindowTypes.LOW_RISK_DEFAULT -> "exposure-windows-lowrisk-random.json"
             else -> throw NotImplementedError()
         }.let { context.assets.open(it) }.readBytes().toString(Charsets.UTF_8)
-        val jsonWindows: List<JsonWindow> = Gson().fromJson(jsonInput)
-
+        val jsonWindows: List<JsonWindow> = gson.fromJson(jsonInput)
+        val nowUTC = timeStamper.nowUTC
         return jsonWindows.map { jWindow ->
             ExposureWindow.Builder().apply {
-                setDateMillisSinceEpoch(
-                    Instant.now().minus(Duration.standardDays(jWindow.ageInDays.toLong())).millis
-                )
+                setDateMillisSinceEpoch(nowUTC.minus(Duration.standardDays(jWindow.ageInDays.toLong())).millis)
                 setCalibrationConfidence(jWindow.calibrationConfidence)
                 setInfectiousness(jWindow.infectiousness)
                 setReportType(jWindow.reportType)
