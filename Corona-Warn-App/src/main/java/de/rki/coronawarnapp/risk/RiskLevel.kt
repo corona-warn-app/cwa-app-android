@@ -1,10 +1,6 @@
 package de.rki.coronawarnapp.risk
 
 enum class RiskLevel(val raw: Int) {
-    // mapped to: unknown risk - initial
-    // the risk score is not yet calculated
-    // This score is set if the application was freshly installed without running the tracing
-
     // mapped to: no calculation possible
     // the ExposureNotification Framework or Bluetooth is not active
     // This risk score level has the highest priority and can oversteer the other risk score levels.
