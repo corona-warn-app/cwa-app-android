@@ -5,7 +5,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneNoConsentBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneNoConsentViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
