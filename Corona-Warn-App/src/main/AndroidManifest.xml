@@ -39,16 +39,6 @@
             android:authorities="${applicationId}.workmanager-init"
             tools:node="remove" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
-        </provider>
-
         <receiver
             android:name=".receiver.ExposureStateUpdateReceiver"
             android:permission="com.google.android.gms.nearby.exposurenotification.EXPOSURE_CALLBACK">
