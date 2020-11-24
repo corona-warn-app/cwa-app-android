@@ -26,8 +26,9 @@ class RiskLevelResultMigrator @Inject constructor(
     private val prefs by lazy { encryptedPreferences.get() }
 
     private fun lastTimeRiskLevelCalculation(): Instant? {
-        val time = prefs.getLong("preference_timestamp_risk_level_calculation", 0L)
-        return Instant.ofEpochMilli(time)
+        prefs.getLong("preference_timestamp_risk_level_calculation", -1L).also {
+            return if (it < 0) null else Instant.ofEpochMilli(it)
+        }
     }
 
     private fun lastCalculatedRiskLevel(): RiskLevel? {
