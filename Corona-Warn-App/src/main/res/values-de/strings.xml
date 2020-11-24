@@ -315,7 +315,7 @@
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Verhalten"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior">"So verhalten Sie sich richtig"</string>
+    <string name="risk_details_subtitle_behavior">"So verhalten Sie sich richtig:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Begeben Sie sich, wenn möglich, nach Hause bzw. bleiben Sie zu Hause."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
@@ -345,9 +345,9 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Für Ihre Risiko-Ermittlung wird nur der Zeitraum der letzten 14 Tage betrachtet. In diesem Zeitraum war Ihre Risiko-Ermittlung für eine Gesamtdauer von %1$s Tagen aktiv. Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt"</string>
+    <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt"</string>
+    <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt."</string>
     <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
     <string name="risk_details_information_body_unknown_risk">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
