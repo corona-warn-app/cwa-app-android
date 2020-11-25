@@ -30,10 +30,10 @@ class InteroperabilityRepository @Inject constructor(
     val countryList = countryListFlow.asLiveData()
 
     init {
-        refreshCountryList()
+        getAllCountries()
     }
 
-    fun refreshCountryList() {
+    fun getAllCountries() {
         // TODO Make this reactive, the AppConfigProvider should refresh itself on network changes.
         appScope.launch(context = dispatcherProvider.IO) {
             try {

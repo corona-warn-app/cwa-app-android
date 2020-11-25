@@ -28,7 +28,7 @@ class InteroperabilityConfigurationFragmentViewModelTest {
         every { interoperabilityRepository.countryList } returns MutableLiveData(
             Country.values().toList()
         )
-        every { interoperabilityRepository.refreshCountryList() } just Runs
+        every { interoperabilityRepository.getAllCountries() } just Runs
     }
 
     private fun createViewModel() =
@@ -44,9 +44,9 @@ class InteroperabilityConfigurationFragmentViewModelTest {
     @Test
     fun testFetchCountryList() {
         val vm = createViewModel()
-        verify(exactly = 0) { interoperabilityRepository.refreshCountryList() }
-        vm.refreshCountryList()
-        verify(exactly = 1) { interoperabilityRepository.refreshCountryList() }
+        verify(exactly = 0) { interoperabilityRepository.getAllCountries() }
+        vm.getAllCountries()
+        verify(exactly = 1) { interoperabilityRepository.getAllCountries() }
     }
 
     @Test

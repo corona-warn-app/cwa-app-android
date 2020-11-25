@@ -21,8 +21,8 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
         interoperabilityRepository.saveInteroperabilityUsed()
     }
 
-    fun refreshCountryList() {
-        interoperabilityRepository.refreshCountryList()
+    fun getAllCountries() {
+        interoperabilityRepository.getAllCountries()
     }
 
     @AssistedInject.Factory
