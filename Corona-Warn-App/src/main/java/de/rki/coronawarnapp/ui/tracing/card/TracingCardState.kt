@@ -10,18 +10,21 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import org.joda.time.Instant
+import org.joda.time.format.DateTimeFormat
 import java.util.Date
 
 data class TracingCardState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
     override val tracingProgress: TracingProgress,
-    override val lastRiskLevelScoreCalculated: Int,
-    override val matchedKeyCount: Int,
-    override val daysSinceLastExposure: Int,
-    override val activeTracingDaysInRetentionPeriod: Long,
-    override val lastTimeDiagnosisKeysFetched: Date?,
-    override val isBackgroundJobEnabled: Boolean,
+    val lastRiskLevelScoreCalculated: Int,
+    val daysWithEncounters: Int,
+    val lastEncounterAt: Instant?,
+    val activeTracingDaysInRetentionPeriod: Long,
+    val lastTimeDiagnosisKeysFetched: Date?,
+    val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val manualKeyRetrievalTime: Long,
     override val showDetails: Boolean = false
@@ -92,27 +95,26 @@ data class TracingCardState(
      */
     fun getRiskContactBody(c: Context): String {
         val resources = c.resources
-        val contacts = matchedKeyCount
         return when (riskLevelScore) {
             RiskLevelConstants.INCREASED_RISK -> {
-                if (matchedKeyCount == 0) {
-                    c.getString(R.string.risk_card_body_contact)
+                if (daysWithEncounters == 0) {
+                    c.getString(R.string.risk_card_high_risk_no_encounters_body)
                 } else {
                     resources.getQuantityString(
-                        R.plurals.risk_card_body_contact_value_high_risk,
-                        contacts,
-                        contacts
+                        R.plurals.risk_card_high_risk_encounter_days_body,
+                        daysWithEncounters,
+                        daysWithEncounters
                     )
                 }
             }
             RiskLevelConstants.LOW_LEVEL_RISK -> {
-                if (matchedKeyCount == 0) {
-                    c.getString(R.string.risk_card_body_contact)
+                if (daysWithEncounters == 0) {
+                    c.getString(R.string.risk_card_low_risk_no_encounters_body)
                 } else {
                     resources.getQuantityString(
-                        R.plurals.risk_card_body_contact_value,
-                        contacts,
-                        contacts
+                        R.plurals.risk_card_low_risk_encounter_days_body,
+                        daysWithEncounters,
+                        daysWithEncounters
                     )
                 }
             }
@@ -136,18 +138,11 @@ data class TracingCardState(
      * only in the special case of increased risk as a positive contact is a
      * prerequisite for increased risk
      */
-    fun getRiskContactLast(c: Context): String {
-        val resources = c.resources
-        val days = daysSinceLastExposure
-        return if (riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
-            resources.getQuantityString(
-                R.plurals.risk_card_increased_risk_body_contact_last,
-                days,
-                days
-            )
-        } else {
-            ""
-        }
+    fun getRiskContactLast(c: Context): String = if (riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
+        val formattedDate = lastEncounterAt?.toLocalDate()?.toString(DateTimeFormat.mediumDate())
+        c.getString(R.string.risk_card_high_risk_most_recent_body, formattedDate)
+    } else {
+        ""
     }
 
     /**
@@ -211,7 +206,7 @@ data class TracingCardState(
                 c.getString(R.string.risk_card_body_not_yet_fetched)
             }
         }
-            return when (riskLevelScore) {
+        return when (riskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> {
                 if (lastTimeDiagnosisKeysFetched != null) {
@@ -302,14 +297,14 @@ data class TracingCardState(
 
     fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-        when (riskLevelScore) {
-            RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
-            RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.card_no_calculation
-            RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
-            else -> R.color.card_unknown
-        }.let { c.getColorStateList(it) }
-    } else {
+            when (riskLevelScore) {
+                RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
+                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.card_no_calculation
+                RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
+                else -> R.color.card_unknown
+            }.let { c.getColorStateList(it) }
+        } else {
             return c.getColorStateList(R.color.card_no_calculation)
         }
     }

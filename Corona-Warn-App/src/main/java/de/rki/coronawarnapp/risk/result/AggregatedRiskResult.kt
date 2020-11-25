@@ -15,4 +15,6 @@ data class AggregatedRiskResult(
 ) {
 
     fun isIncreasedRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.HIGH
+
+    fun isLowRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.LOW
 }
