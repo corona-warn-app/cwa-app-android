@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class RiskLevelTest {
@@ -39,87 +37,5 @@ class RiskLevelTest {
         assertNotEquals(RiskLevel.forValue(RiskLevelConstants.LOW_LEVEL_RISK), RiskLevel.UNDETERMINED)
         assertNotEquals(RiskLevel.forValue(RiskLevelConstants.INCREASED_RISK), RiskLevel.UNDETERMINED)
         assertNotEquals(RiskLevel.forValue(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS), RiskLevel.UNDETERMINED)
-    }
-
-    @Test
-    fun testUnsuccessfulRistLevels() {
-        assertTrue(RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(RiskLevel.UNDETERMINED))
-        assertTrue(RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF))
-        assertTrue(RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS))
-
-        assertFalse(RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(RiskLevel.LOW_LEVEL_RISK))
-        assertFalse(RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(RiskLevel.INCREASED_RISK))
-    }
-
-    @Test
-    fun testRiskLevelChangedFromHighToHigh() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.INCREASED_RISK,
-            RiskLevel.INCREASED_RISK
-        )
-        assertFalse(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromLowToLow() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.LOW_LEVEL_RISK,
-            RiskLevel.LOW_LEVEL_RISK
-        )
-        assertFalse(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromLowToHigh() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.LOW_LEVEL_RISK,
-            RiskLevel.INCREASED_RISK
-        )
-        assertTrue(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromHighToLow() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.INCREASED_RISK,
-            RiskLevel.LOW_LEVEL_RISK
-        )
-        assertTrue(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromUndeterminedToLow() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.UNDETERMINED,
-            RiskLevel.LOW_LEVEL_RISK
-        )
-        assertFalse(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromUndeterminedToHigh() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.UNDETERMINED,
-            RiskLevel.INCREASED_RISK
-        )
-        assertTrue(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromLowToUndetermined() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.LOW_LEVEL_RISK,
-            RiskLevel.UNDETERMINED
-        )
-        assertFalse(riskLevelHasChanged)
-    }
-
-    @Test
-    fun testRiskLevelChangedFromHighToUndetermined() {
-        val riskLevelHasChanged = RiskLevel.riskLevelChangedBetweenLowAndHigh(
-            RiskLevel.INCREASED_RISK,
-            RiskLevel.UNDETERMINED
-        )
-        assertTrue(riskLevelHasChanged)
     }
 }

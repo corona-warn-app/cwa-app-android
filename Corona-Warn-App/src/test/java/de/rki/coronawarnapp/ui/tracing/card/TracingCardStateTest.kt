@@ -16,6 +16,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifySequence
+import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -41,8 +42,8 @@ class TracingCardStateTest : BaseTest() {
         riskLevel: Int = 0,
         tracingProgress: TracingProgress = TracingProgress.Idle,
         riskLevelLastSuccessfulCalculation: Int = 0,
-        matchedKeyCount: Int = 0,
-        daysSinceLastExposure: Int = 0,
+        daysWithEncounters: Int = 0,
+        lastEncounterAt: Instant? = null,
         activeTracingDaysInRetentionPeriod: Long = 0,
         lastTimeDiagnosisKeysFetched: Date? = mockk(),
         isBackgroundJobEnabled: Boolean = false,
@@ -53,8 +54,8 @@ class TracingCardStateTest : BaseTest() {
         riskLevelScore = riskLevel,
         tracingProgress = tracingProgress,
         lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
-        matchedKeyCount = matchedKeyCount,
-        daysSinceLastExposure = daysSinceLastExposure,
+        daysWithEncounters = daysWithEncounters,
+        lastEncounterAt = lastEncounterAt,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
         lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled = isBackgroundJobEnabled,
@@ -272,73 +273,29 @@ class TracingCardStateTest : BaseTest() {
     @Test
     fun `risk contact body is affected by risklevel`() {
         createInstance(
-            riskLevel = INCREASED_RISK,
-            matchedKeyCount = 0
-        ).apply {
-            getRiskContactBody(context)
-            verify { context.getString(R.string.risk_card_body_contact) }
-        }
-
-        createInstance(
-            riskLevel = INCREASED_RISK,
-            matchedKeyCount = 2
-        ).apply {
-            getRiskContactBody(context)
-            verify {
-                context.resources.getQuantityString(
-                    R.plurals.risk_card_body_contact_value_high_risk,
-                    2,
-                    2
-                )
-            }
-        }
-
-        createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            matchedKeyCount = 0
-        ).apply {
-            getRiskContactBody(context)
-            verify { context.getString(R.string.risk_card_body_contact) }
-        }
-
-        createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            matchedKeyCount = 2
-        ).apply {
-            getRiskContactBody(context)
-            verify {
-                context.resources.getQuantityString(
-                    R.plurals.risk_card_body_contact_value,
-                    2,
-                    2
-                )
-            }
-        }
-
-        createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            matchedKeyCount = 0
+            daysWithEncounters = 0
         ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            matchedKeyCount = 0
+            daysWithEncounters = 0
         ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            matchedKeyCount = 2
+            daysWithEncounters = 2
         ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            matchedKeyCount = 2
+            daysWithEncounters = 2
         ).apply {
             getRiskContactBody(context) shouldBe ""
         }
@@ -370,50 +327,19 @@ class TracingCardStateTest : BaseTest() {
     @Test
     fun `last risk contact text formatting`() {
         createInstance(
-            riskLevel = INCREASED_RISK,
-            daysSinceLastExposure = 2
-        ).apply {
-            getRiskContactLast(context)
-            verify {
-                context.resources.getQuantityString(
-                    R.plurals.risk_card_increased_risk_body_contact_last,
-                    2,
-                    2
-                )
-            }
-        }
-
-        createInstance(
-            riskLevel = INCREASED_RISK,
-            daysSinceLastExposure = 0
-        ).apply {
-            getRiskContactLast(context)
-            verify {
-                context.resources.getQuantityString(
-                    R.plurals.risk_card_increased_risk_body_contact_last,
-                    0,
-                    0
-                )
-            }
-        }
-
-        createInstance(
-            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            daysSinceLastExposure = 2
+            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS
         ).apply {
             getRiskContactLast(context) shouldBe ""
         }
 
         createInstance(
-            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            daysSinceLastExposure = 2
+            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF
         ).apply {
             getRiskContactLast(context) shouldBe ""
         }
 
         createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            daysSinceLastExposure = 2
+            riskLevel = LOW_LEVEL_RISK
         ).apply {
             getRiskContactLast(context) shouldBe ""
         }

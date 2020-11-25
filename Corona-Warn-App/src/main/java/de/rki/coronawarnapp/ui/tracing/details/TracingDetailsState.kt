@@ -6,22 +6,19 @@ import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
-import java.util.Date
 
 data class TracingDetailsState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
     override val tracingProgress: TracingProgress,
-    override val lastRiskLevelScoreCalculated: Int,
-    override val matchedKeyCount: Int,
-    override val daysSinceLastExposure: Int,
-    override val activeTracingDaysInRetentionPeriod: Long,
-    override val lastTimeDiagnosisKeysFetched: Date?,
-    override val isBackgroundJobEnabled: Boolean,
+    val matchedKeyCount: Int,
+    val activeTracingDaysInRetentionPeriod: Long,
+    val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val manualKeyRetrievalTime: Long,
     val isInformationBodyNoticeVisible: Boolean,
-    val isAdditionalInformationVisible: Boolean
+    val isAdditionalInformationVisible: Boolean,
+    val daysSinceLastExposure: Int
 ) : BaseTracingState() {
 
     override val showDetails: Boolean = true

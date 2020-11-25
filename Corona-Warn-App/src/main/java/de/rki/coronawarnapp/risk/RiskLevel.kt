@@ -41,37 +41,5 @@ enum class RiskLevel(val raw: Int) {
                 else -> UNDETERMINED
             }
         }
-
-        // risk level categories
-        val UNSUCCESSFUL_RISK_LEVELS =
-            arrayOf(
-                UNDETERMINED,
-                NO_CALCULATION_POSSIBLE_TRACING_OFF,
-                UNKNOWN_RISK_OUTDATED_RESULTS,
-                UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-            )
-        private val HIGH_RISK_LEVELS = arrayOf(INCREASED_RISK)
-        private val LOW_RISK_LEVELS = arrayOf(
-            NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            LOW_LEVEL_RISK,
-            UNKNOWN_RISK_OUTDATED_RESULTS,
-            UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
-            UNDETERMINED
-        )
-
-        /**
-         * Checks if the RiskLevel has change from a high to low or from low to high
-         *
-         * @param previousRiskLevel previously persisted RiskLevel
-         * @param currentRiskLevel newly calculated RiskLevel
-         * @return
-         */
-        fun riskLevelChangedBetweenLowAndHigh(
-            previousRiskLevel: RiskLevel,
-            currentRiskLevel: RiskLevel
-        ): Boolean {
-            return HIGH_RISK_LEVELS.contains(previousRiskLevel) && LOW_RISK_LEVELS.contains(currentRiskLevel) ||
-                    LOW_RISK_LEVELS.contains(previousRiskLevel) && HIGH_RISK_LEVELS.contains(currentRiskLevel)
-        }
     }
 }

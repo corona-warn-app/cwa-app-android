@@ -34,12 +34,6 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_risk_level_score"><xliff:g id="preference">"preference_risk_level_score"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_level_score_successful"><xliff:g id="preference">"preference_risk_level_score_successful"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_risk_level_calculation"><xliff:g id="preference">"preference_timestamp_risk_level_calculation"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
@@ -125,26 +119,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"До момента няма излагане на риск"</string>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s излагане на нисък риск"</item>
-        <item quantity="other">"%1$s излагания на нисък риск"</item>
-        <item quantity="zero">"До момента няма излагане на нисък риск"</item>
-        <item quantity="two">"%1$s излагания на нисък риск"</item>
-        <item quantity="few">"%1$s излагания на нисък риск"</item>
-        <item quantity="many">"%1$s излагания на нисък риск"</item>
-    </plurals>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value_high_risk">
-        <item quantity="one">"%1$s излагане на риск"</item>
-        <item quantity="other">"%1$s излагания на риск"</item>
-        <item quantity="zero">"До момента няма излагане на риск"</item>
-        <item quantity="two">"%1$s излагания на риск"</item>
-        <item quantity="few">"%1$s излагания на риск"</item>
-        <item quantity="many">"%1$s излагания на риск"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск беше активно през %1$s от изминалите 14 дни."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -167,15 +141,6 @@
     <string name="risk_card_low_risk_headline">"Нисък риск"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Повишен риск"</string>
-    <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
-        <item quantity="one">"%1$s ден от последния контакт"</item>
-        <item quantity="other">"%1$s дни от последния контакт"</item>
-        <item quantity="zero">"%1$s дни от последния контакт"</item>
-        <item quantity="two">"%1$s дни от последния контакт"</item>
-        <item quantity="few">"%1$s дни от последния контакт"</item>
-        <item quantity="many">"%1$s дни от последния контакт"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Тъй като регистрирането на излагания на риск не е било активно достатъчно дълго, не можем да изчислим Вашия риск от заразяване."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->

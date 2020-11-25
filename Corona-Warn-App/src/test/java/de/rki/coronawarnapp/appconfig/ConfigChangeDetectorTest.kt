@@ -1,16 +1,17 @@
 package de.rki.coronawarnapp.appconfig
 
-import de.rki.coronawarnapp.risk.RiskLevelData
+import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.verify
-import io.mockk.verifySequence
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
@@ -21,7 +22,8 @@ class ConfigChangeDetectorTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var taskController: TaskController
-    @MockK lateinit var riskLevelData: RiskLevelData
+    @MockK lateinit var riskLevelSettings: RiskLevelSettings
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     private val currentConfigFake = MutableStateFlow(mockConfigId("initial"))
 
@@ -29,11 +31,9 @@ class ConfigChangeDetectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(ConfigChangeDetector.RiskLevelRepositoryDeferrer)
-        every { ConfigChangeDetector.RiskLevelRepositoryDeferrer.resetRiskLevel() } just Runs
-
         every { taskController.submit(any()) } just Runs
         every { appConfigProvider.currentConfig } returns currentConfigFake
+        coEvery { riskLevelStorage.clear() } just Runs
     }
 
     private fun mockConfigId(id: String): ConfigData {
@@ -46,58 +46,59 @@ class ConfigChangeDetectorTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         taskController = taskController,
         appScope = TestCoroutineScope(),
-        riskLevelData = riskLevelData
+        riskLevelSettings = riskLevelSettings,
+        riskLevelStorage = riskLevelStorage
     )
 
     @Test
     fun `new identifier without previous one is ignored`() {
 
-        every { riskLevelData.lastUsedConfigIdentifier } returns null
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns null
 
         createInstance().launch()
 
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             taskController.submit(any())
-            ConfigChangeDetector.RiskLevelRepositoryDeferrer.resetRiskLevel()
+            riskLevelStorage.clear()
         }
     }
 
     @Test
     fun `new identifier results in new risk level calculation`() {
-        every { riskLevelData.lastUsedConfigIdentifier } returns "I'm a new identifier"
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns "I'm a new identifier"
 
         createInstance().launch()
 
-        verifySequence {
-            ConfigChangeDetector.RiskLevelRepositoryDeferrer.resetRiskLevel()
+        coVerifySequence {
+            riskLevelStorage.clear()
             taskController.submit(any())
         }
     }
 
     @Test
     fun `same idetifier results in no op`() {
-        every { riskLevelData.lastUsedConfigIdentifier } returns "initial"
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
         createInstance().launch()
 
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             taskController.submit(any())
-            ConfigChangeDetector.RiskLevelRepositoryDeferrer.resetRiskLevel()
+            riskLevelStorage.clear()
         }
     }
 
     @Test
     fun `new emissions keep triggering the check`() {
-        every { riskLevelData.lastUsedConfigIdentifier } returns "initial"
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
         createInstance().launch()
         currentConfigFake.value = mockConfigId("Straw")
         currentConfigFake.value = mockConfigId("berry")
 
-        verifySequence {
-            ConfigChangeDetector.RiskLevelRepositoryDeferrer.resetRiskLevel()
+        coVerifySequence {
+            riskLevelStorage.clear()
             taskController.submit(any())
-            ConfigChangeDetector.RiskLevelRepositoryDeferrer.resetRiskLevel()
+            riskLevelStorage.clear()
             taskController.submit(any())
         }
     }

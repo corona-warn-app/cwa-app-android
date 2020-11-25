@@ -6,18 +6,11 @@ import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
-import java.util.Date
 
 abstract class BaseTracingState {
     abstract val tracingStatus: GeneralTracingStatus.Status
     abstract val riskLevelScore: Int
     abstract val tracingProgress: TracingProgress
-    abstract val lastRiskLevelScoreCalculated: Int
-    abstract val matchedKeyCount: Int
-    abstract val daysSinceLastExposure: Int
-    abstract val activeTracingDaysInRetentionPeriod: Long
-    abstract val lastTimeDiagnosisKeysFetched: Date?
-    abstract val isBackgroundJobEnabled: Boolean
     abstract val showDetails: Boolean // Only true for riskdetailsfragment
     abstract val isManualKeyRetrievalEnabled: Boolean
     abstract val manualKeyRetrievalTime: Long
