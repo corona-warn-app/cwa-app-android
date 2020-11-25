@@ -1084,6 +1084,8 @@
     <string name="submission_done_no_consent_continue_with_symptom_recording">"Weiter mit Symptom-Erfassung"</string>
     <!-- XBUT: submission continue break flow button-->
     <string name="submission_done_no_consent_break_flow">"Beenden"</string>
+    <!-- XACT: submission finished - illustration description, explanation image -->
+    <string name="submission_done_no_consent_illustration_description"></string>
 
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->

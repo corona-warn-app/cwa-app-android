@@ -35,6 +35,9 @@
             android:id="@+id/action_mainFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment" />
         <action
+            android:id="@+id/action_mainFragment_to_submissionDoneNoConsentFragment"
+            app:destination="@id/submissionDoneNoConsentFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
@@ -346,6 +349,16 @@
         android:label="SubmissionDoneFragment">
         <action
             android:id="@+id/action_submissionDoneFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionDoneNoConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneNoConsentFragment"
+        android:label="SubmissionDoneNoConsentFragment">
+        <action
+            android:id="@+id/action_submissionDoneNoConsentFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />

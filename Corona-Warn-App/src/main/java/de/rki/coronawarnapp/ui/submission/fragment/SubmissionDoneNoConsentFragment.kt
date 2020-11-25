@@ -33,7 +33,7 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(
-                        SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+                        SubmissionDoneNoConsentFragmentDirections.actionSubmissionDoneNoConsentFragmentToMainFragment()
                     )
             }
         }
