@@ -61,14 +61,9 @@ class AppConfigStorage @Inject constructor(
         }
 
         return@withLock try {
-            if (!configFile.exists()) {
-                Timber.v("No stored config available.")
-                null
-            } else {
-                gson.fromJson<InternalConfigData>(configFile).also {
-                    requireNotNull(it.rawData)
-                    Timber.v("Loaded stored config, serverTime=%s", it.serverTime)
-                }
+            gson.fromJson<InternalConfigData>(configFile)?.also {
+                requireNotNull(it.rawData)
+                Timber.v("Loaded stored config, serverTime=%s", it.serverTime)
             }
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load config.")
