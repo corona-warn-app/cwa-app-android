@@ -16,17 +16,12 @@ abstract class BaseTracingState {
     /**
      * Formats the risk card colors for default and pressed states depending on risk level
      */
-    fun getRiskColor(c: Context): Int {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            when (riskLevelScore) {
-                RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
-                RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
-                else -> R.color.colorSemanticUnknownRisk
-            }.let { c.getColor(it) }
-        } else {
-            return c.getColor(R.color.colorSemanticUnknownRisk)
-        }
-    }
+    fun getRiskColor(c: Context): Int = when {
+        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorSemanticUnknownRisk
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
+        else -> R.color.colorSemanticUnknownRisk
+    }.let { c.getColor(it) }
 
     fun isTracingOffRiskLevel(): Boolean {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
@@ -40,9 +35,12 @@ abstract class BaseTracingState {
         }
     }
 
-    fun getStableTextColor(c: Context): Int = c.getColor(
-        if (!isTracingOffRiskLevel()) R.color.colorStableLight else R.color.colorTextPrimary1
-    )
+    fun getStableTextColor(c: Context): Int = when {
+            tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorTextPrimary1
+            riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorTextPrimary1InvertedStable
+            else -> R.color.colorTextPrimary1
+        }.let { c.getColor(it) }
 
     /**
      * Change the manual update button text according to current timer

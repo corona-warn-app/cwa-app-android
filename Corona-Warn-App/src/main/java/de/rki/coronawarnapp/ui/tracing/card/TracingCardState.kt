@@ -33,9 +33,12 @@ data class TracingCardState(
      * This special handling is required due to light / dark mode differences and switches
      * between colored / light / dark background
      */
-    fun getStableIconColor(c: Context): Int = c.getColor(
-        if (!isTracingOffRiskLevel()) R.color.colorStableLight else R.color.colorTextSemanticNeutral
-    )
+    fun getStableIconColor(c: Context): Int = when {
+        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorTextSemanticNeutral
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+        else -> R.color.colorTextSemanticNeutral
+    }.let { c.getColor(it) }
 
     /**
      * Formats the risk card text display depending on risk level
@@ -310,4 +313,16 @@ data class TracingCardState(
             return c.getColorStateList(R.color.card_no_calculation)
         }
     }
+
+    fun getUpdateButtonColor(c: Context): Int = when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK,
+        RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+        else -> R.color.colorAccentTintButton
+    }.let { c.getColor(it) }
+
+    fun getUpdateButtonTextColor(c: Context): Int = when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK,
+        RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorTextPrimary1Stable
+        else -> R.color.colorTextPrimary1InvertedStable
+    }.let { c.getColor(it) }
 }

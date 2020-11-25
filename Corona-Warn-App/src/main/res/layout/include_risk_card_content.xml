@@ -250,6 +250,8 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:enabled="@{tracingCard.isUpdateButtonEnabled()}"
                 android:text="@{tracingCard.getUpdateButtonText(context)}"
+                android:textColor="@{tracingCard.getUpdateButtonTextColor(context)}"
+                android:backgroundTint="@{tracingCard.getUpdateButtonColor(context)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_button_enable_tracing"
