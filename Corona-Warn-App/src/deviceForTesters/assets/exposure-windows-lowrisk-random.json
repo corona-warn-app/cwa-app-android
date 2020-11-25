@@ -1,0 +1,38 @@
+[
+  {
+    "ageInDays": 1,
+    "reportType": 2,
+    "infectiousness": 2,
+    "calibrationConfidence": 0,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "typicalAttenuation": 25,
+        "secondsSinceLastScan": 300
+      },
+      {
+        "minAttenuation": 30,
+        "typicalAttenuation": 25,
+        "secondsSinceLastScan": 300
+      }
+    ]
+  },
+  {
+    "ageInDays": 4,
+    "calibrationConfidence": 0,
+    "infectiousness": 2,
+    "reportType": 1,
+    "scanInstances": [
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      },
+      {
+        "minAttenuation": 30,
+        "secondsSinceLastScan": 300,
+        "typicalAttenuation": 25
+      }
+    ]
+  }
+]
