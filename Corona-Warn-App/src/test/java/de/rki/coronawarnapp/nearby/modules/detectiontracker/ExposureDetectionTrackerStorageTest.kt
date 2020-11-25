@@ -113,11 +113,10 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     @Test
     fun `saving data creates a json file`() = runBlockingTest {
-
         createStorage().save(demoData)
         storageFile.exists() shouldBe true
 
-        val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(storageFile)
+        val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(storageFile)!!
 
         storedData shouldBe demoData
         gson.toJson(storedData) shouldBe demoJsonString

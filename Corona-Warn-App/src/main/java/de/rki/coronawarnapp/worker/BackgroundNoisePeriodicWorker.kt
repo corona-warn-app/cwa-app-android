@@ -22,19 +22,11 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = BackgroundNoisePeriodicWorker::class.simpleName
-    }
-
     /**
-     * Work execution
-     *
-     * @return Result
-     *
      * @see BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK
      */
     override suspend fun doWork(): Result {
-        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         var result = Result.success()
         try {
@@ -57,15 +49,19 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
                 Result.retry()
             }
         }
-        Timber.d("$id: doWork() finished with %s", result)
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
         return result
     }
 
     private fun stopWorker() {
         BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORK.stop()
-        Timber.d("$id: worker stopped")
+        Timber.tag(TAG).d("$id: worker stopped")
     }
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<BackgroundNoisePeriodicWorker>
+
+    companion object {
+        private val TAG = BackgroundNoisePeriodicWorker::class.java.simpleName
+    }
 }

@@ -22,12 +22,10 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         try {
-            Timber.v("worker to persist exposure summary started")
-
             taskController.submit(
                 DefaultTaskRequest(RiskLevelTask::class, originTag = "ExposureStateUpdateWorker")
             )
-            Timber.v("risk level calculation triggered")
+            Timber.tag(TAG).v("Risk level calculation triggered")
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
@@ -37,4 +35,8 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<ExposureStateUpdateWorker>
+
+    companion object {
+        private val TAG = ExposureStateUpdateWorker::class.java.simpleName
+    }
 }
