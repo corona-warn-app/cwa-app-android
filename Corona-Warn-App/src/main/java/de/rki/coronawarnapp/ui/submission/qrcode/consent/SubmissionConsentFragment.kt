@@ -35,6 +35,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToDispatcher -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToHomeFragment()
                 )
+                is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
+                    SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
+                )
             }
         }
         viewModel.countries.observe2(this) {

@@ -1008,7 +1008,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_body">"If you wish, you can now ensure that others are warned of possible infection.\n\nTo do so, you can transmit your own random IDs from the last 14 days – and, optionally, information about when you first noticed coronavirus symptoms – to the server operated jointly by the participating countries. From there, your random IDs and any additional information will be distributed to the users of the relevant official coronavirus apps. In this way, any other users with whom you have had contact can be warned of a possible infection.\n\nThe only information transmitted will be your random IDs and any optional information you provide about the onset of your symptoms. No personal data such as your name, address or location will be disclosed."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Accept"</string>
+    <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A smartphone transmits an encrypted positive test diagnosis to the system."</string>
     <!-- XHED: Title for the interop country list-->

@@ -32,7 +32,7 @@ class SubmissionConsentViewModelTest {
     }
 
     @Test
-    fun testBackPressButton() {
+    fun testConsentButtonClick() {
         viewModel.onConsentButtonClick()
         verify(exactly = 1) { submissionRepository.giveConsentToSubmission() }
     }

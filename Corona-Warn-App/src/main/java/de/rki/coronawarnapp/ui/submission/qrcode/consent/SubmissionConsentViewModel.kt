@@ -28,6 +28,11 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     fun onBackButtonClick() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
     }
+
+    fun onDataPrivacyClick() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDataPrivacy)
+    }
+
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<SubmissionConsentViewModel>
 }

@@ -965,7 +965,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz zapewnić, by inni otrzymali ostrzeżenie dotyczące potencjalnego zakażenia.\n\nW tym celu możesz wysłać losowe identyfikatory z ostatnich 14 dni – oraz opcjonalnie informację o dostrzeżeniu objawów koronawirusa u siebie – na serwer obsługiwany wspólnie przez uczestniczące kraje. Z tego serwera Twoje losowe identyfikatory i wszelkie dodatkowe informacje będą przesyłane do użytkowników odpowiednich oficjalnych aplikacji koronawirusowych. Dzięki temu inni użytkownicy, z którymi miałeś(-łaś) kontakt, otrzymają ostrzeżenie dotyczące ewentualnego zakażenia.\n\nJedynymi przesyłanymi informacjami są Twoje losowe identyfikatory oraz wszelkie opcjonalnie podane przez Ciebie informacje o wystąpieniu u Ciebie objawów. Nie są udostępniane żadne dane osobowe, takie jak imię i nazwisko, adres czy lokalizacja."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Akceptuj"</string>
+    <string name="submission_accept_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
     <!-- XHED: Title for the interop country list-->

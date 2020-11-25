@@ -965,7 +965,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_body">"Ако желаете, вече можете да помогнете и околните да бъдат предупредени за възможно заразяване.\n\nЗа целта трябва да споделите своите случайни идентификатори от последните 14 дни на сървъра, използван съвместно от участващите държави. По желание може да споделите също кога за пръв път сте забелязали симптомите на коронавирусната инфекция. От там Вашите уникални ИД и всяка допълнителна информация се разпращат до потребителите на съответните официални приложения за борба с коронавируса. По този начин и чуждестранните потребители, с които сте били в контакт, ще бъдат предупредени за възможно заразяване.\n\nСподелят се единствено Вашите случайни идентификатори и информацията за развитието на симптомите, която доброволно сте споделили. Не се разкриват лични данни като име, адрес или местоположение."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Приемам"</string>
+    <string name="submission_accept_button">"Приемам"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Смартфонът предава на системата информация за положителен резултат от тест."</string>
     <!-- XHED: Title for the interop country list-->
