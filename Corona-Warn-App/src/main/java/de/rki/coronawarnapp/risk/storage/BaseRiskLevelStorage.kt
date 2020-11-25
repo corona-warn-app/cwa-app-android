@@ -49,6 +49,10 @@ abstract class BaseRiskLevelStorage constructor(
         val storedResultId = try {
             val startTime = System.currentTimeMillis()
 
+            require(result.aggregatedRiskResult == null || result.failureReason == null) {
+                "A result needs to have either an aggregatedRiskResult or a failureReason, not both!"
+            }
+
             val resultToPersist = result.toPersistedRiskResult()
             riskResultsTables.insertEntry(resultToPersist).also {
                 Timber.d("Storing RiskLevelResult took %dms.", (System.currentTimeMillis() - startTime))
@@ -92,6 +96,7 @@ abstract class BaseRiskLevelStorage constructor(
             override val riskLevel: RiskLevel = RiskLevel.LOW_LEVEL_RISK
             override val calculatedAt: Instant = Instant.EPOCH
             override val aggregatedRiskResult: AggregatedRiskResult? = null
+            override val failureReason: RiskLevelResult.FailureReason? = null
             override val exposureWindows: List<ExposureWindow>? = null
             override val matchedKeyCount: Int = 0
             override val daysWithEncounters: Int = 0

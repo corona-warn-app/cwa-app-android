@@ -6,8 +6,30 @@ import de.rki.coronawarnapp.task.Task
 import org.joda.time.Instant
 
 data class RiskLevelTaskResult(
-    override val riskLevel: RiskLevel,
     override val calculatedAt: Instant,
-    override val aggregatedRiskResult: AggregatedRiskResult? = null,
-    override val exposureWindows: List<ExposureWindow>? = null
-) : Task.Result, RiskLevelResult
+    override val failureReason: RiskLevelResult.FailureReason?,
+    override val aggregatedRiskResult: AggregatedRiskResult?,
+    override val exposureWindows: List<ExposureWindow>?
+) : Task.Result, RiskLevelResult {
+
+    constructor(
+        calculatedAt: Instant,
+        aggregatedRiskResult: AggregatedRiskResult,
+        exposureWindows: List<ExposureWindow>?
+    ) : this(
+        calculatedAt = calculatedAt,
+        aggregatedRiskResult = aggregatedRiskResult,
+        exposureWindows = exposureWindows,
+        failureReason = null
+    )
+
+    constructor(
+        calculatedAt: Instant,
+        failureReason: RiskLevelResult.FailureReason
+    ) : this(
+        calculatedAt = calculatedAt,
+        failureReason = failureReason,
+        aggregatedRiskResult = null,
+        exposureWindows = null
+    )
+}

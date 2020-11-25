@@ -50,6 +50,7 @@ data class TracingCardState(
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.string.risk_card_outdated_risk_body
                 RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.string.risk_card_body_tracing_off
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.string.risk_card_outdated_manual_risk_body
+                RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET -> R.string.risk_card_check_failed_no_internet_body
                 else -> null
             }?.let { c.getString(it) } ?: ""
         } else {
@@ -67,7 +68,8 @@ data class TracingCardState(
             return if (
                 riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
                 riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ||
-                riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+                riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ||
+                riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET
             ) {
                 when (lastRiskLevelScoreCalculated) {
                     RiskLevelConstants.LOW_LEVEL_RISK,
@@ -218,7 +220,8 @@ data class TracingCardState(
             }
             RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
+            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
+            RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET -> {
                 when (lastRiskLevelScoreCalculated) {
                     RiskLevelConstants.LOW_LEVEL_RISK,
                     RiskLevelConstants.INCREASED_RISK -> {
@@ -257,7 +260,9 @@ data class TracingCardState(
      * background task setting and current view
      */
     fun showUpdateButton(): Boolean =
-        !isTracingOffRiskLevel() && !isBackgroundJobEnabled && !showDetails
+        !isTracingOffRiskLevel() &&
+            (!isBackgroundJobEnabled || riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET)
+            && !showDetails
 
     fun getRiskLevelHeadline(c: Context) = formatRiskLevelHeadline(c, riskLevelScore)
 
@@ -273,6 +278,7 @@ data class TracingCardState(
                     R.string.risk_card_no_calculation_possible_headline
                 RiskLevelConstants.LOW_LEVEL_RISK ->
                     R.string.risk_card_low_risk_headline
+                RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET -> R.string.risk_card_check_failed_no_internet_headline
                 else -> null
             }?.let { c.getString(it) } ?: ""
         } else {
@@ -300,7 +306,7 @@ data class TracingCardState(
                 RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
                 RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
-            else -> R.color.card_no_calculation
+                else -> R.color.card_no_calculation
             }.let { c.getColorStateList(it) }
         } else {
             return c.getColorStateList(R.color.card_no_calculation)

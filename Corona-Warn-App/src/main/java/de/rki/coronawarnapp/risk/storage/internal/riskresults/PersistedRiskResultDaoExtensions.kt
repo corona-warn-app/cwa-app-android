@@ -8,9 +8,9 @@ fun RiskLevelResult.toPersistedRiskResult(
     id: String = UUID.randomUUID().toString()
 ) = PersistedRiskLevelResultDao(
     id = id,
-    riskLevel = riskLevel,
     calculatedAt = calculatedAt,
-    aggregatedRiskResult = aggregatedRiskResult?.toPersistedAggregatedRiskResult()
+    aggregatedRiskResult = aggregatedRiskResult?.toPersistedAggregatedRiskResult(),
+    failureReason = failureReason
 )
 
 fun AggregatedRiskResult.toPersistedAggregatedRiskResult() = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(

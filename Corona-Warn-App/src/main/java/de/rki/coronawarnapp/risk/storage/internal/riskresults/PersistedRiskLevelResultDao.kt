@@ -5,25 +5,39 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
 import org.joda.time.Instant
+import timber.log.Timber
 
 @Entity(tableName = "riskresults")
 data class PersistedRiskLevelResultDao(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
-    @ColumnInfo(name = "riskLevel") val riskLevel: RiskLevel,
     @ColumnInfo(name = "calculatedAt") val calculatedAt: Instant,
+    @ColumnInfo(name = "failureReason") val failureReason: FailureReason?,
     @Embedded val aggregatedRiskResult: PersistedAggregatedRiskResult?
 ) {
 
-    fun toRiskResult() = RiskLevelTaskResult(
-        riskLevel = riskLevel,
-        calculatedAt = calculatedAt,
-        aggregatedRiskResult = aggregatedRiskResult?.toAggregatedRiskResult()
-    )
+    fun toRiskResult() = when {
+        aggregatedRiskResult != null -> {
+            RiskLevelTaskResult(
+                calculatedAt = calculatedAt,
+                aggregatedRiskResult = aggregatedRiskResult.toAggregatedRiskResult(),
+                exposureWindows = null
+            )
+        }
+        else -> {
+            if (failureReason == null) {
+                Timber.e("Entry contained no aggregateResult and no failure reason, shouldn't happen.")
+            }
+            RiskLevelTaskResult(
+                calculatedAt = calculatedAt,
+                failureReason = failureReason ?: FailureReason.UNKNOWN,
+            )
+        }
+    }
 
     data class PersistedAggregatedRiskResult(
         @ColumnInfo(name = "totalRiskLevel")
@@ -54,8 +68,9 @@ data class PersistedRiskLevelResultDao(
 
         class Converter {
             @TypeConverter
-            fun toType(value: Int?): NormalizedTimeToRiskLevelMapping.RiskLevel? =
-                value?.let { NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(value) }
+            fun toType(value: Int?): NormalizedTimeToRiskLevelMapping.RiskLevel? = value?.let {
+                NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(value)
+            }
 
             @TypeConverter
             fun fromType(type: NormalizedTimeToRiskLevelMapping.RiskLevel?): Int? = type?.number
@@ -64,10 +79,11 @@ data class PersistedRiskLevelResultDao(
 
     class Converter {
         @TypeConverter
-        fun toType(value: Int?): RiskLevel? =
-            value?.let { RiskLevel.values().single { it.raw == value } }
+        fun toType(value: String?): FailureReason? = value?.let {
+            FailureReason.values().singleOrNull { it.failureCode == value } ?: FailureReason.UNKNOWN
+        }
 
         @TypeConverter
-        fun fromType(type: RiskLevel?): Int? = type?.raw
+        fun fromType(type: FailureReason?): String? = type?.failureCode
     }
 }

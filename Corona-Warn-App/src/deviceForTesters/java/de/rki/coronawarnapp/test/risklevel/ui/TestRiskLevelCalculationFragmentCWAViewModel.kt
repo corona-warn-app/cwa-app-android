@@ -143,8 +143,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,
-            riskLevelScore = latestCalc.riskLevel.raw,
-            riskLevelScoreLastSuccessfulCalculated = latestSuccessfulCalc.riskLevel.raw,
+            riskLevel = latestCalc.riskLevel,
+            riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskLevel,
             matchedKeyCount = latestCalc.matchedKeyCount,
             daysSinceLastExposure = latestCalc.daysWithEncounters,
             lastTimeDiagnosisKeysFromServerFetch = lastTimeDiagnosisKeysFromServerFetch
@@ -153,14 +153,14 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     private suspend fun createAdditionalRiskCalcInfo(
         lastTimeRiskLevelCalculation: Instant,
-        riskLevelScore: Int,
-        riskLevelScoreLastSuccessfulCalculated: Int,
+        riskLevel: RiskLevel,
+        riskLevelLastSuccessfulCalculated: RiskLevel,
         matchedKeyCount: Int,
         daysSinceLastExposure: Int,
         lastTimeDiagnosisKeysFromServerFetch: Date?
     ): String = StringBuilder()
-        .appendLine("Risk Level: ${RiskLevel.forValue(riskLevelScore)}")
-        .appendLine("Last successful Risk Level: ${RiskLevel.forValue(riskLevelScoreLastSuccessfulCalculated)}")
+        .appendLine("Risk Level: $riskLevel")
+        .appendLine("Last successful Risk Level: $riskLevelLastSuccessfulCalculated")
         .appendLine("Matched key count: $matchedKeyCount")
         .appendLine("Days since last Exposure: $daysSinceLastExposure days")
         .appendLine("Last Time Server Fetch: ${lastTimeDiagnosisKeysFromServerFetch?.time?.let { Instant.ofEpochMilli(it) }}")

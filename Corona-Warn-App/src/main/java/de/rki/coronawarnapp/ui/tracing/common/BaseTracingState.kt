@@ -49,12 +49,17 @@ abstract class BaseTracingState {
     /**
      * Change the manual update button text according to current timer
      */
-    fun getUpdateButtonText(c: Context): String = if (manualKeyRetrievalTime <= 0) {
-        c.getString(R.string.risk_card_button_update)
+    fun getUpdateButtonText(c: Context): String = if (riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET) {
+        c.getString(R.string.risk_card_check_failed_no_internet_restart_button)
     } else {
-        val hmsCooldownTime = manualKeyRetrievalTime.millisecondsToHMS()
-        c.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+        if (manualKeyRetrievalTime <= 0) {
+            c.getString(R.string.risk_card_button_update)
+        } else {
+            val hmsCooldownTime = manualKeyRetrievalTime.millisecondsToHMS()
+            c.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+        }
     }
 
-    fun isUpdateButtonEnabled(): Boolean = isManualKeyRetrievalEnabled
+    fun isUpdateButtonEnabled(): Boolean = isManualKeyRetrievalEnabled ||
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET
 }
