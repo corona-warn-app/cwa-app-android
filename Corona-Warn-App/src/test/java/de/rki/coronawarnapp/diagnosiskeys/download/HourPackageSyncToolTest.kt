@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -257,5 +258,19 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         createInstance().syncMissingHourPackages(listOf("EUR".loc), false)
 
         coVerify(exactly = 0) { keyServer.getHourIndex("EUR".loc, "2020-01-04".day) }
+    }
+
+    @Test
+    fun `network connection time out does not clear the cache and returns an unsuccessful result`() = runBlockingTest {
+        coEvery { keyServer.getHourIndex(any(), any()) } throws NetworkConnectTimeoutException()
+
+        val instance = createInstance()
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
+            successful = false,
+            newPackages = emptyList()
+        )
+
+        coVerify(exactly = 1) { keyServer.getHourIndex("EUR".loc, "2020-01-04".day) }
+        coVerify(exactly = 0) { keyCache.delete(any()) }
     }
 }
