@@ -108,7 +108,6 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         }
     }
 
-
     @Test
     fun `quota is just monitored`() {
         coEvery { submissionQuota.consumeQuota(any()) } returns false

@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -45,6 +46,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var configChangeDetector: ConfigChangeDetector
+    @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -78,6 +80,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         }
 
         configChangeDetector.launch()
+        riskLevelChangeDetector.launch()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

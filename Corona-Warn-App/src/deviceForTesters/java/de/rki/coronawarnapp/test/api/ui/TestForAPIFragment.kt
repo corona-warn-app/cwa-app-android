@@ -35,8 +35,8 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
-import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
@@ -66,10 +66,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var enfClient: ENFClient
-    @Inject lateinit var exposureResultStore: ExposureResultStore
 
     // TODO: This is ugly, remove when refactoring the fragment
     @Inject lateinit var appConfigProvider: AppConfigProvider
+    @Inject lateinit var riskLevelStorage: RiskLevelStorage
     private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
@@ -163,7 +163,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = exposureResultStore.entities.first().exposureWindows.toString()
+                    val summary = riskLevelStorage.exposureWindows.first().toString()
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)
