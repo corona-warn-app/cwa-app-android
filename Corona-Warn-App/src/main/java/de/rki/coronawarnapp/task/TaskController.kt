@@ -123,7 +123,6 @@ class TaskController @Inject constructor(
 
     private suspend fun processMap() = internalTaskData.updateSafely {
         Timber.tag(TAG).d("Processing task data (count=%d)", size)
-        Timber.tag(TAG).v("Tasks before processing: %s", this.values)
 
         // Procress all unprocessed finished tasks
         procressFinishedTasks(this).let {
@@ -137,7 +136,19 @@ class TaskController @Inject constructor(
             this.putAll(it)
         }
 
-        Timber.tag(TAG).v("Tasks after processing: %s", this.values)
+        if (size > TASK_HISTORY_LIMIT) {
+            Timber.v("Enforcing history limits (%d), need to remove %d.", TASK_HISTORY_LIMIT, size - TASK_HISTORY_LIMIT)
+            values
+                .filter { it.isFinished }
+                .sortedBy { it.finishedAt }
+                .take(size - TASK_HISTORY_LIMIT)
+                .forEach {
+                    Timber.v("Removing from history: %s", get(it.id))
+                    remove(it.id)
+                }
+        }
+
+        Timber.tag(TAG).v("Tasks after processing (count=%d):\n%s", size, values.joinToString("\n"))
     }
 
     private fun procressFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
@@ -178,9 +189,9 @@ class TaskController @Inject constructor(
                         it.id != state.id
                 }
                 Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)
-                Timber.tag(TAG).v(
-                    "Sibling are:\n%s", siblingTasks.joinToString("\n")
-                )
+                if (siblingTasks.isNotEmpty()) {
+                    Timber.tag(TAG).v("Sibling are:\n%s", siblingTasks.joinToString("\n"))
+                }
 
                 // Handle collision behavior for tasks of same type
                 when {
@@ -237,5 +248,6 @@ class TaskController @Inject constructor(
 
     companion object {
         private const val TAG = "TaskController"
+        private const val TASK_HISTORY_LIMIT = 50
     }
 }
