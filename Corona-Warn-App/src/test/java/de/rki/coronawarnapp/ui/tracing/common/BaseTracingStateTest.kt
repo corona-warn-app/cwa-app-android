@@ -111,8 +111,8 @@ class BaseTracingStateTest : BaseTest() {
         verifySequence {
             context.getColor(R.color.colorTextPrimary1)
             context.getColor(R.color.colorTextPrimary1)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorTextPrimary1InvertedStable)
+            context.getColor(R.color.colorTextPrimary1InvertedStable)
             context.getColor(R.color.colorTextPrimary1)
             context.getColor(R.color.colorTextPrimary1)
         }

@@ -13,7 +13,7 @@ interface RiskLevelResult {
             aggregatedRiskResult?.isLowRisk() == true -> RiskLevel.LOW_LEVEL_RISK
             failureReason == FailureReason.OUTDATED_RESULTS -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
             failureReason == FailureReason.OUTDATED_RESULTS_MANUAL -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-            failureReason == FailureReason.TRACING_OFF -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+            failureReason == FailureReason.TRACING_OFF -> RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
             failureReason == FailureReason.NO_INTERNET -> RiskLevel.UNKNOWN_RISK_NO_INTERNET
             failureReason == FailureReason.UNKNOWN -> RiskLevel.UNDETERMINED
             else -> RiskLevel.UNDETERMINED

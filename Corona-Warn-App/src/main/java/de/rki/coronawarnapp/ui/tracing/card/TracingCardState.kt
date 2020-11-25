@@ -15,7 +15,7 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import java.util.Date
 
-@Suppress ("TooManyFUnctions")
+@Suppress("TooManyFunctions")
 data class TracingCardState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
@@ -37,7 +37,7 @@ data class TracingCardState(
     fun getStableIconColor(c: Context): Int = when {
         tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextSemanticNeutral
         riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
-        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
     }.let { c.getColor(it) }
 
@@ -65,7 +65,7 @@ data class TracingCardState(
      * only in the special case where tracing is turned off and
      * the persisted risk level is of importance
      */
-    @Suppress ("ComplexCondition")
+    @Suppress("ComplexCondition")
     fun getSavedRiskBody(c: Context): String {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
             return if (
