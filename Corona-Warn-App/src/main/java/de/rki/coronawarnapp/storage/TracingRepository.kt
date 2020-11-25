@@ -172,10 +172,6 @@ class TracingRepository @Inject constructor(
         }
     }
 
-    fun refreshLastSuccessfullyCalculatedScore() {
-        RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
-    }
-
     companion object {
         private val TAG: String? = TracingRepository::class.simpleName
     }
