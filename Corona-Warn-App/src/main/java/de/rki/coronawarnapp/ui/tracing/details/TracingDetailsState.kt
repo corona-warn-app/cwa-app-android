@@ -13,9 +13,7 @@ data class TracingDetailsState(
     override val tracingProgress: TracingProgress,
     val matchedKeyCount: Int,
     val activeTracingDaysInRetentionPeriod: Long,
-    val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
-    override val manualKeyRetrievalTime: Long,
     val isInformationBodyNoticeVisible: Boolean,
     val isAdditionalInformationVisible: Boolean,
     val daysSinceLastExposure: Int
@@ -72,8 +70,6 @@ data class TracingDetailsState(
                     if (count > 0) R.string.risk_details_information_body_low_risk_with_encounter
                     else R.string.risk_details_information_body_low_risk
                 )
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
-                c.getString(R.string.risk_details_information_body_unknown_risk)
             else -> ""
         }
     }
@@ -101,8 +97,7 @@ data class TracingDetailsState(
      * Formats the risk details button display for manual updates depending on risk level and
      * background task setting
      */
-    fun isRiskDetailsUpdateButtonVisible(): Boolean =
-        !isTracingOffRiskLevel() && !isBackgroundJobEnabled
+    fun isRiskDetailsUpdateButtonVisible(): Boolean = !isTracingOffRiskLevel() && isManualKeyRetrievalEnabled
 
     /**
      * Formats the risk logged period card text display of tracing active duration in days depending on risk level
@@ -111,4 +106,24 @@ data class TracingDetailsState(
     fun getRiskActiveTracingDaysInRetentionPeriodLogged(c: Context): String = c.getString(
         R.string.risk_details_information_body_period_logged_assessment
     ).format(activeTracingDaysInRetentionPeriod)
+
+    fun getBehaviorIcon(context: Context) = when {
+        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorTextSemanticNeutral
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+        else -> R.color.colorTextSemanticNeutral
+    }.let { context.getColor(it) }
+
+    /**
+     * Formats the risk details suggested behavior icon background color depending on risk level
+     *
+     * @param riskLevelScore
+     * @return
+     */
+    fun getBehaviorIconBackground(context: Context) = when {
+        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorSurface2
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
+            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
+        else -> R.color.colorSurface2
+    }.let { context.getColor(it) }
 }

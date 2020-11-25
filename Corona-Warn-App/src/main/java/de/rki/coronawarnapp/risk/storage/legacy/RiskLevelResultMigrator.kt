@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.risk.storage.legacy
 
 import android.content.SharedPreferences
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import dagger.Lazy
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.EncryptedPreferences
@@ -34,12 +36,12 @@ class RiskLevelResultMigrator @Inject constructor(
 
     private fun lastCalculatedRiskLevel(): RiskLevel? {
         val rawRiskLevel = prefs.getInt("preference_risk_level_score", -1)
-        return if (rawRiskLevel != -1) RiskLevel.forValue(rawRiskLevel) else null
+        return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
     private fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel? {
         val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", -1)
-        return if (rawRiskLevel != -1) RiskLevel.forValue(rawRiskLevel) else null
+        return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
     fun getLegacyResults(): List<RiskLevelResult> = try {
@@ -67,9 +69,26 @@ class RiskLevelResultMigrator @Inject constructor(
         override val riskLevel: RiskLevel,
         override val calculatedAt: Instant
     ) : RiskLevelResult {
+        override val failureReason: RiskLevelResult.FailureReason? = null
         override val aggregatedRiskResult: AggregatedRiskResult? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
+    }
+
+    companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal fun mapRiskLevelConstant(value: Int): RiskLevel {
+            return when (value) {
+                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
+                RiskLevelConstants.LOW_LEVEL_RISK -> RiskLevel.LOW_LEVEL_RISK
+                RiskLevelConstants.INCREASED_RISK -> RiskLevel.INCREASED_RISK
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
+                    RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+                }
+                else -> RiskLevel.UNDETERMINED
+            }
+        }
     }
 }

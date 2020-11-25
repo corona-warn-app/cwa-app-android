@@ -1,11 +1,6 @@
 package de.rki.coronawarnapp.risk
 
 enum class RiskLevel(val raw: Int) {
-    // mapped to: unknown risk - initial
-    // the risk score is not yet calculated
-    // This score is set if the application was freshly installed without running the tracing
-    UNKNOWN_RISK_INITIAL(RiskLevelConstants.UNKNOWN_RISK_INITIAL),
-
     // mapped to: no calculation possible
     // the ExposureNotification Framework or Bluetooth is not active
     // This risk score level has the highest priority and can oversteer the other risk score levels.
@@ -31,21 +26,9 @@ enum class RiskLevel(val raw: Int) {
     // and background jobs are disabled
     UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL),
 
+    UNKNOWN_RISK_NO_INTERNET(RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET),
+
     // mapped to no UI state
     // this should never happen
     UNDETERMINED(RiskLevelConstants.UNDETERMINED);
-
-    companion object {
-        fun forValue(value: Int): RiskLevel {
-            return when (value) {
-                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> UNKNOWN_RISK_INITIAL
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> NO_CALCULATION_POSSIBLE_TRACING_OFF
-                RiskLevelConstants.LOW_LEVEL_RISK -> LOW_LEVEL_RISK
-                RiskLevelConstants.INCREASED_RISK -> INCREASED_RISK
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> UNKNOWN_RISK_OUTDATED_RESULTS
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-                else -> UNDETERMINED
-            }
-        }
-    }
 }

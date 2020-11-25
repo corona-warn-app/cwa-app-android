@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
@@ -50,8 +49,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
-        riskLevel = RiskLevel.INCREASED_RISK,
         calculatedAt = Instant.ofEpochMilli(9999L),
+        failureReason = null,
         aggregatedRiskResult = PersistedAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
             totalMinimumDistinctEncountersWithLowRisk = 1,
@@ -64,7 +63,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
     )
 
     private val testRisklevelResult = RiskLevelTaskResult(
-        riskLevel = RiskLevel.INCREASED_RISK,
         calculatedAt = Instant.ofEpochMilli(9999L),
         aggregatedRiskResult = AggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,

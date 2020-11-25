@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk.storage.internal
 
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.matchers.shouldBe
@@ -11,11 +12,11 @@ import testhelpers.BaseTest
 
 class PersistedRiskResultDaoTest : BaseTest() {
     @Test
-    fun `mapping is correct`() {
+    fun `mapping succesful result`() {
         PersistedRiskLevelResultDao(
             id = "",
-            riskLevel = RiskLevel.LOW_LEVEL_RISK,
             calculatedAt = Instant.ofEpochMilli(931161601L),
+            failureReason = null,
             aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
                 totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
                 totalMinimumDistinctEncountersWithLowRisk = 89,
@@ -29,6 +30,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
             riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
+            failureReason shouldBe null
             aggregatedRiskResult shouldNotBe null
             aggregatedRiskResult?.apply {
                 totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
@@ -41,6 +43,22 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 numberOfDaysWithLowRisk shouldBe 52
                 numberOfDaysWithHighRisk shouldBe 81
             }
+        }
+    }
+
+    @Test
+    fun `mapping failed result`() {
+        PersistedRiskLevelResultDao(
+            id = "",
+            calculatedAt = Instant.ofEpochMilli(931161601L),
+            failureReason = RiskLevelResult.FailureReason.TRACING_OFF,
+            aggregatedRiskResult = null
+        ).toRiskResult().apply {
+            riskLevel shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
+            calculatedAt.millis shouldBe 931161601L
+            exposureWindows shouldBe null
+            failureReason shouldBe RiskLevelResult.FailureReason.TRACING_OFF
+            aggregatedRiskResult shouldBe null
         }
     }
 }

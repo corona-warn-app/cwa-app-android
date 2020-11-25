@@ -42,7 +42,7 @@
 
         <include
             android:id="@+id/submission_done_contagious"
-            layout="@layout/include_risk_details_behavior_row"
+            layout="@layout/include_submission_behaviour_row"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -50,12 +50,11 @@
             app:icon="@{@drawable/ic_risk_details_contact}"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle" />
 
         <include
             android:id="@+id/submission_done_isolate"
-            layout="@layout/include_risk_details_behavior_row"
+            layout="@layout/include_submission_behaviour_row"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -63,8 +62,7 @@
             app:icon="@{@drawable/ic_submission_home}"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_contagious"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_contagious" />
 
         <include
             layout="@layout/include_submission_done_further_info"

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import io.kotest.matchers.longs.shouldBeInRange
 import io.kotest.matchers.shouldBe
+import io.mockk.mockk
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -13,12 +14,13 @@ import testhelpers.BaseTest
 class RiskLevelExtensionsTest : BaseTest() {
 
     private fun createRiskLevel(
-        riskLevel: RiskLevel,
+        hasResult: Boolean,
         calculatedAt: Instant
     ): RiskLevelResult = object : RiskLevelResult {
-        override val riskLevel: RiskLevel = riskLevel
         override val calculatedAt: Instant = calculatedAt
-        override val aggregatedRiskResult: AggregatedRiskResult? = null
+        override val aggregatedRiskResult: AggregatedRiskResult? = if (hasResult) mockk() else null
+        override val failureReason: RiskLevelResult.FailureReason?
+            get() = if (!hasResult) RiskLevelResult.FailureReason.UNKNOWN else null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
@@ -43,15 +45,12 @@ class RiskLevelExtensionsTest : BaseTest() {
     @Test
     fun `getLastestAndLastSuccessful last calculation was successful`() {
         val results = listOf(
-            createRiskLevel(RiskLevel.INCREASED_RISK, calculatedAt = Instant.EPOCH),
-            createRiskLevel(RiskLevel.LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH.plus(1))
+            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH),
+            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH.plus(1))
         )
 
         results.tryLatestResultsWithDefaults().apply {
-            lastCalculated.riskLevel shouldBe lastSuccessfullyCalculated.riskLevel
-            lastCalculated.calculatedAt shouldBe lastSuccessfullyCalculated.calculatedAt
-
-            lastCalculated.riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
         }
     }
@@ -59,16 +58,13 @@ class RiskLevelExtensionsTest : BaseTest() {
     @Test
     fun `getLastestAndLastSuccessful last calculation was not successful`() {
         val results = listOf(
-            createRiskLevel(RiskLevel.INCREASED_RISK, calculatedAt = Instant.EPOCH),
-            createRiskLevel(RiskLevel.LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-            createRiskLevel(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF, calculatedAt = Instant.EPOCH.plus(2))
+            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH),
+            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH.plus(1)),
+            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(2))
         )
 
         results.tryLatestResultsWithDefaults().apply {
-            lastCalculated.riskLevel shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
             lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(2)
-
-            lastSuccessfullyCalculated.riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
         }
     }
@@ -76,17 +72,14 @@ class RiskLevelExtensionsTest : BaseTest() {
     @Test
     fun `getLastestAndLastSuccessful no successful calculations yet`() {
         val results = listOf(
-            createRiskLevel(RiskLevel.UNDETERMINED, calculatedAt = Instant.EPOCH.plus(10)),
-            createRiskLevel(RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL, calculatedAt = Instant.EPOCH.plus(11)),
-            createRiskLevel(RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS, calculatedAt = Instant.EPOCH.plus(12)),
-            createRiskLevel(RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF, calculatedAt = Instant.EPOCH.plus(13))
+            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(10)),
+            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(11)),
+            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(12)),
+            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(13))
         )
 
         results.tryLatestResultsWithDefaults().apply {
-            lastCalculated.riskLevel shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
             lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(13)
-
-            lastSuccessfullyCalculated.riskLevel shouldBe RiskLevel.UNDETERMINED
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH
         }
     }

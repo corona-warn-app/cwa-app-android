@@ -8,13 +8,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
-import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -52,76 +47,60 @@ class RiskLevelTask @Inject constructor(
     private var isCanceled = false
 
     @Suppress("LongMethod")
-    override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult {
-        try {
-            Timber.d("Running with arguments=%s", arguments)
-            if (!isNetworkEnabled(context)) {
-                return RiskLevelTaskResult(
-                    riskLevel = UNDETERMINED,
-                    calculatedAt = timeStamper.nowUTC
-                )
-            }
+    override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult = try {
+        Timber.d("Running with arguments=%s", arguments)
 
-            if (!enfClient.isTracingEnabled.first()) {
-                return RiskLevelTaskResult(
-                    riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-                    calculatedAt = timeStamper.nowUTC
-                )
-            }
+        val configData: ConfigData = appConfigProvider.getAppConfig()
 
-            val configData: ConfigData = appConfigProvider.getAppConfig()
+        determineRiskLevelResult(configData).also {
+            Timber.i("Risklevel determined: %s", it)
 
-            return kotlin.run evaluation@{
-                if (calculationNotPossibleBecauseOfNoKeys()) {
-                    return@evaluation RiskLevelTaskResult(
-                        riskLevel = UNKNOWN_RISK_INITIAL,
-                        calculatedAt = timeStamper.nowUTC
-                    )
-                }
+            checkCancel()
 
-                if (calculationNotPossibleBecauseOfOutdatedResults()) {
-                    return@evaluation RiskLevelTaskResult(
-                        riskLevel = when (backgroundJobsEnabled()) {
-                            true -> UNKNOWN_RISK_OUTDATED_RESULTS
-                            false -> UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-                        },
-                        calculatedAt = timeStamper.nowUTC
-                    )
-                }
-                checkCancel()
+            Timber.tag(TAG).d("storeTaskResult(...)")
+            riskLevelStorage.storeResult(it)
 
-                val risklevelResult = calculateRiskLevel(configData)
-                if (risklevelResult.isIncreasedRisk) {
-                    return@evaluation risklevelResult
-                }
-                checkCancel()
-
-                if (!isActiveTracingTimeAboveThreshold()) {
-                    return@evaluation RiskLevelTaskResult(
-                        riskLevel = UNKNOWN_RISK_INITIAL,
-                        calculatedAt = timeStamper.nowUTC
-                    )
-                }
-                checkCancel()
-
-                return@evaluation risklevelResult
-            }.also {
-                checkCancel()
-                Timber.i("Evaluation finished with %s", it)
-
-                Timber.tag(TAG).d("storeTaskResult(...)")
-                riskLevelStorage.storeResult(it)
-
-                riskLevelSettings.lastUsedConfigIdentifier = configData.identifier
-            }
-        } catch (error: Exception) {
-            Timber.tag(TAG).e(error)
-            error.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            throw error
-        } finally {
-            Timber.i("Finished (isCanceled=$isCanceled).")
-            internalProgress.close()
+            riskLevelSettings.lastUsedConfigIdentifier = configData.identifier
         }
+    } catch (error: Exception) {
+        Timber.tag(TAG).e(error)
+        error.report(ExceptionCategory.EXPOSURENOTIFICATION)
+        throw error
+    } finally {
+        Timber.i("Finished (isCanceled=$isCanceled).")
+        internalProgress.close()
+    }
+
+    private suspend fun determineRiskLevelResult(configData: ConfigData): RiskLevelTaskResult {
+        if (!isNetworkEnabled(context)) {
+            Timber.i("Risk not calculated, internet unavailable.")
+            return RiskLevelTaskResult(
+                calculatedAt = timeStamper.nowUTC,
+                failureReason = FailureReason.NO_INTERNET
+            )
+        }
+
+        if (!enfClient.isTracingEnabled.first()) {
+            Timber.i("Risk not calculated, tracing is disabled.")
+            return RiskLevelTaskResult(
+                calculatedAt = timeStamper.nowUTC,
+                failureReason = FailureReason.TRACING_OFF
+            )
+        }
+
+        if (calculationNotPossibleBecauseOfOutdatedResults()) {
+            Timber.i("Risk not calculated, results are outdated.")
+            return RiskLevelTaskResult(
+                calculatedAt = timeStamper.nowUTC,
+                failureReason = when (backgroundJobsEnabled()) {
+                    true -> FailureReason.OUTDATED_RESULTS
+                    false -> FailureReason.OUTDATED_RESULTS_MANUAL
+                }
+            )
+        }
+        checkCancel()
+
+        return calculateRiskLevel(configData)
     }
 
     private fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean {
@@ -144,17 +123,6 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    private fun calculationNotPossibleBecauseOfNoKeys(): Boolean {
-        Timber.tag(TAG).d("Evaluating calculationNotPossibleBecauseOfNoKeys()")
-        return (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
-            if (it) {
-                Timber.tag(TAG).v("No last time diagnosis keys from server fetch timestamp was found")
-            } else {
-                Timber.tag(TAG).d("Diagnosis keys from server are available, continuing evaluation.")
-            }
-        }
-    }
-
     private fun isActiveTracingTimeAboveThreshold(): Boolean {
         Timber.tag(TAG).d("Evaluating isActiveTracingTimeAboveThreshold()")
 
@@ -171,11 +139,11 @@ class RiskLevelTask @Inject constructor(
     }
 
     private suspend fun calculateRiskLevel(configData: ExposureWindowRiskCalculationConfig): RiskLevelTaskResult {
-        Timber.tag(TAG).d("Evaluating isIncreasedRisk(...)")
+        Timber.tag(TAG).d("Calculating risklevel")
         val exposureWindows = enfClient.exposureWindows()
 
         return riskLevels.determineRisk(configData, exposureWindows).let {
-            Timber.tag(TAG).d("Evaluated increased risk: %s", it)
+            Timber.tag(TAG).d("Risklevel calculated: %s", it)
             if (it.isIncreasedRisk()) {
                 Timber.tag(TAG).i("Risk is increased!")
             } else {
@@ -183,16 +151,11 @@ class RiskLevelTask @Inject constructor(
             }
 
             RiskLevelTaskResult(
-                riskLevel = if (it.isIncreasedRisk()) INCREASED_RISK else LOW_LEVEL_RISK,
+                calculatedAt = timeStamper.nowUTC,
                 aggregatedRiskResult = it,
-                exposureWindows = exposureWindows,
-                calculatedAt = timeStamper.nowUTC
+                exposureWindows = exposureWindows
             )
         }
-    }
-
-    private fun checkCancel() {
-        if (isCanceled) throw TaskCancellationException()
     }
 
     private suspend fun backgroundJobsEnabled() =
@@ -205,6 +168,10 @@ class RiskLevelTask @Inject constructor(
                 Timber.tag(TAG).v("manual mode active (background jobs disabled)")
             }
         }
+
+    private fun checkCancel() {
+        if (isCanceled) throw TaskCancellationException()
+    }
 
     override suspend fun cancel() {
         Timber.w("cancel() called.")

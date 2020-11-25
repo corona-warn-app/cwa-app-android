@@ -7,7 +7,6 @@ class RiskLevelConstantsTest {
 
     @Test
     fun allRiskLevelConstants() {
-        Assert.assertEquals(RiskLevelConstants.UNKNOWN_RISK_INITIAL, 0)
         Assert.assertEquals(RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF, 1)
         Assert.assertEquals(RiskLevelConstants.LOW_LEVEL_RISK, 2)
         Assert.assertEquals(RiskLevelConstants.INCREASED_RISK, 3)

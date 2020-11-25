@@ -6,7 +6,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
@@ -63,6 +62,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         override val riskLevel: RiskLevel = riskLevel
         override val calculatedAt: Instant = calculatedAt
         override val aggregatedRiskResult: AggregatedRiskResult? = null
+        override val failureReason: RiskLevelResult.FailureReason? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
@@ -162,13 +162,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `evaluate risk level change detection function`() {
+        RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, UNDETERMINED) shouldBe false
+        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_LEVEL_RISK, LOW_LEVEL_RISK) shouldBe false
         RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNKNOWN_RISK_INITIAL, LOW_LEVEL_RISK) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNKNOWN_RISK_INITIAL, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, UNKNOWN_RISK_INITIAL) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, UNKNOWN_RISK_INITIAL) shouldBe false
+        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_LEVEL_RISK) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_LEVEL_RISK, INCREASED_RISK) shouldBe true
         RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNKNOWN_RISK_INITIAL, UNDETERMINED) shouldBe false
         RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, UNDETERMINED) shouldBe true
     }
 }

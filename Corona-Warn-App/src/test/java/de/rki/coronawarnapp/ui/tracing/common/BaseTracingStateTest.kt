@@ -16,21 +16,10 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import java.util.Date
 
 class BaseTracingStateTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
-
-    val constants = listOf(
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.LOW_LEVEL_RISK,
-        RiskLevelConstants.INCREASED_RISK,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
-        RiskLevelConstants.UNDETERMINED
-    )
 
     @BeforeEach
     fun setup() {
@@ -46,14 +35,7 @@ class BaseTracingStateTest : BaseTest() {
         tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevelScore: Int = 0,
         tracingProgress: TracingProgress = TracingProgress.Idle,
-        riskLevelLastSuccessfulCalculation: Int = 0,
-        matchedKeyCount: Int = 0,
-        daysSinceLastExposure: Int = 0,
-        activeTracingDaysInRetentionPeriod: Long = 0,
-        lastTimeDiagnosisKeysFetched: Date? = mockk(),
-        isBackgroundJobEnabled: Boolean = false,
         isManualKeyRetrievalEnabled: Boolean = false,
-        manualKeyRetrievalTime: Long = 0L,
         showDetails: Boolean = false
     ) = object : BaseTracingState() {
         override val tracingStatus: GeneralTracingStatus.Status = tracingStatus
@@ -61,7 +43,6 @@ class BaseTracingStateTest : BaseTest() {
         override val tracingProgress: TracingProgress = tracingProgress
         override val showDetails: Boolean = showDetails
         override val isManualKeyRetrievalEnabled: Boolean = isManualKeyRetrievalEnabled
-        override val manualKeyRetrievalTime: Long = manualKeyRetrievalTime
     }
 
     @Test
@@ -82,10 +63,6 @@ class BaseTracingStateTest : BaseTest() {
             getRiskColor(context)
             verify { context.getColor(R.color.colorSemanticLowRisk) }
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            getRiskColor(context)
-            verify { context.getColor(R.color.colorSemanticNeutralRisk) }
-        }
     }
 
     @Test
@@ -95,9 +72,6 @@ class BaseTracingStateTest : BaseTest() {
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
             isTracingOffRiskLevel() shouldBe true
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isTracingOffRiskLevel() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
             isTracingOffRiskLevel() shouldBe false
@@ -121,9 +95,6 @@ class BaseTracingStateTest : BaseTest() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
             getStableTextColor(context)
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            getStableTextColor(context)
-        }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
             getStableTextColor(context)
         }
@@ -140,23 +111,22 @@ class BaseTracingStateTest : BaseTest() {
         verifySequence {
             context.getColor(R.color.colorTextPrimary1)
             context.getColor(R.color.colorTextPrimary1)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorTextPrimary1InvertedStable)
+            context.getColor(R.color.colorTextPrimary1InvertedStable)
+            context.getColor(R.color.colorTextPrimary1)
+            context.getColor(R.color.colorTextPrimary1)
         }
     }
 
     @Test
     fun `update button text`() {
-        createInstance(manualKeyRetrievalTime = 0).apply {
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET).apply {
+            getUpdateButtonText(context)
+            verify { context.getString(R.string.risk_card_check_failed_no_internet_restart_button) }
+        }
+        createInstance().apply {
             getUpdateButtonText(context)
             verify { context.getString(R.string.risk_card_button_update) }
-        }
-        createInstance(manualKeyRetrievalTime = 1).apply {
-            getUpdateButtonText(context)
-            verify { context.getString(R.string.risk_card_button_cooldown) }
         }
     }
 
