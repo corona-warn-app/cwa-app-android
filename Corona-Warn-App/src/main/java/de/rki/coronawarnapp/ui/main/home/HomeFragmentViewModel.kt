@@ -106,7 +106,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingRepository.refreshRiskLevel()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
-        tracingRepository.refreshLastSuccessfullyCalculatedScore()
     }
 
     fun tracingExplanationWasShown() {

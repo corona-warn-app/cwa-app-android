@@ -17,6 +17,9 @@ object CWADebug {
         if (isDeviceForTestersBuild) {
             fileLogger = FileLogger(application)
         }
+
+        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
+        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
     }
 
     val isDebugBuildOrMode: Boolean

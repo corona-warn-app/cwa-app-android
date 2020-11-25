@@ -27,7 +27,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.di.AppContext
@@ -65,8 +64,7 @@ class DataReset @Inject constructor(
         LocalData.clear()
         // Shared Preferences Reset
         SecurityHelper.resetSharedPrefs()
-        // Reset the current risk level stored in LiveData
-        RiskLevelRepository.reset()
+
         // Reset the current states stored in LiveData
         SubmissionRepository.reset()
         keyCacheRepository.clear()
@@ -74,6 +72,7 @@ class DataReset @Inject constructor(
         interoperabilityRepository.clear()
         exposureDetectionTracker.clear()
         keyPackageSyncSettings.clear()
+
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }
