@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RiskLevelData @Inject constructor(
+class RiskLevelSettings @Inject constructor(
     @AppContext private val context: Context
 ) {
 

@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.TimeStamper
@@ -32,10 +33,10 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
-    @MockK lateinit var riskLevelData: RiskLevelData
+    @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var exposureResultStore: ExposureResultStore
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -45,9 +46,9 @@ class RiskLevelTaskTest : BaseTest() {
         enfClient = enfClient,
         timeStamper = timeStamper,
         backgroundModeStatus = backgroundModeStatus,
-        riskLevelData = riskLevelData,
+        riskLevelSettings = riskLevelSettings,
         appConfigProvider = appConfigProvider,
-        exposureResultStore = exposureResultStore
+        riskLevelStorage = riskLevelStorage
     )
 
     @BeforeEach
@@ -71,7 +72,7 @@ class RiskLevelTaskTest : BaseTest() {
         every { enfClient.isTracingEnabled } returns flowOf(true)
         every { timeStamper.nowUTC } returns Instant.EPOCH
 
-        every { riskLevelData.lastUsedConfigIdentifier = any() } just Runs
+        every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
     }
 
     @Test
