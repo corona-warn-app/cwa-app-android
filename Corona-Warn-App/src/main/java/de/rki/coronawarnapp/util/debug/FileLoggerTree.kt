@@ -7,6 +7,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
+import java.time.Instant
 
 @SuppressLint("LogNotTimber")
 class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
@@ -55,7 +56,7 @@ class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         logWriter?.let {
             try {
-                it.write("${System.currentTimeMillis()}  ${priorityToString(priority)}/$tag: $message\n")
+                it.write("${Instant.now()}  ${priorityToString(priority)}/$tag: $message\n")
                 it.flush()
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e)
