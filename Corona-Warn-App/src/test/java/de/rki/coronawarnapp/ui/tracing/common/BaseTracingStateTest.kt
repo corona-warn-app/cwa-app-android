@@ -113,8 +113,8 @@ class BaseTracingStateTest : BaseTest() {
             context.getColor(R.color.colorTextPrimary1)
             context.getColor(R.color.colorStableLight)
             context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorTextPrimary1)
+            context.getColor(R.color.colorTextPrimary1)
         }
     }
 

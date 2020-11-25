@@ -54,7 +54,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
             failureReason = RiskLevelResult.FailureReason.TRACING_OFF,
             aggregatedRiskResult = null
         ).toRiskResult().apply {
-            riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+            riskLevel shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe RiskLevelResult.FailureReason.TRACING_OFF
