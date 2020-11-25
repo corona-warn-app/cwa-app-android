@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.util.debug
 
 import android.annotation.SuppressLint
 import android.util.Log
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
-import java.time.Instant
 
 @SuppressLint("LogNotTimber")
 class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
