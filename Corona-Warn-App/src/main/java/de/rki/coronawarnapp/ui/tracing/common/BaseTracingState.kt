@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 
 abstract class BaseTracingState {
     abstract val tracingStatus: GeneralTracingStatus.Status
@@ -13,7 +12,6 @@ abstract class BaseTracingState {
     abstract val tracingProgress: TracingProgress
     abstract val showDetails: Boolean // Only true for riskdetailsfragment
     abstract val isManualKeyRetrievalEnabled: Boolean
-    abstract val manualKeyRetrievalTime: Long
 
     /**
      * Formats the risk card colors for default and pressed states depending on risk level
@@ -52,12 +50,7 @@ abstract class BaseTracingState {
     fun getUpdateButtonText(c: Context): String = if (riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET) {
         c.getString(R.string.risk_card_check_failed_no_internet_restart_button)
     } else {
-        if (manualKeyRetrievalTime <= 0) {
-            c.getString(R.string.risk_card_button_update)
-        } else {
-            val hmsCooldownTime = manualKeyRetrievalTime.millisecondsToHMS()
-            c.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
-        }
+        c.getString(R.string.risk_card_button_update)
     }
 
     fun isUpdateButtonEnabled(): Boolean = isManualKeyRetrievalEnabled ||

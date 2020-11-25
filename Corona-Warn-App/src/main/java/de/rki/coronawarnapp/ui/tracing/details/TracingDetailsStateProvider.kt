@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Reusable
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
@@ -20,7 +19,6 @@ class TracingDetailsStateProvider @Inject constructor(
     private val riskDetailPresenter: DefaultRiskDetailPresenter,
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
-    settingsRepository: SettingsRepository,
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage
 ) {
@@ -30,16 +28,12 @@ class TracingDetailsStateProvider @Inject constructor(
         tracingRepository.tracingProgress,
         riskLevelStorage.riskLevelResults,
         tracingRepository.activeTracingDaysInRetentionPeriod,
-        backgroundModeStatus.isAutoModeEnabled,
-        settingsRepository.isManualKeyRetrievalEnabledFlow,
-        settingsRepository.manualKeyRetrievalTimeFlow
+        backgroundModeStatus.isAutoModeEnabled
     ) { status,
         tracingProgress,
         riskLevelResults,
         activeTracingDaysInRetentionPeriod,
-        isBackgroundJobEnabled,
-        isManualKeyRetrievalEnabled,
-        manualKeyRetrievalTime ->
+        isBackgroundJobEnabled ->
 
         val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
 
@@ -57,9 +51,7 @@ class TracingDetailsStateProvider @Inject constructor(
             matchedKeyCount = latestCalc.matchedKeyCount,
             daysSinceLastExposure = latestCalc.daysWithEncounters,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            isBackgroundJobEnabled = isBackgroundJobEnabled,
-            isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
-            manualKeyRetrievalTime = manualKeyRetrievalTime,
+            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled,
             isAdditionalInformationVisible = isAdditionalInformationVisible,
             isInformationBodyNoticeVisible = isInformationBodyNoticeVisible
         )

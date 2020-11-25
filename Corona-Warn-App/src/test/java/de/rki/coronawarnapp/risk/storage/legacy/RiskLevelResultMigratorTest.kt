@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.risk.storage.legacy
 
 import androidx.core.content.edit
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -120,5 +121,25 @@ class RiskLevelResultMigratorTest : BaseTest() {
         }
         every { timeStamper.nowUTC } throws Exception("Surprise!")
         createInstance().getLegacyResults() shouldBe emptyList()
+    }
+
+    @Test
+    fun `legacy risk level mapping`() {
+        RiskLevelResultMigrator.mapRiskLevelConstant(
+            RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF
+        ) shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
+
+        RiskLevelResultMigrator.mapRiskLevelConstant(RiskLevelConstants.LOW_LEVEL_RISK) shouldBe RiskLevel.LOW_LEVEL_RISK
+        RiskLevelResultMigrator.mapRiskLevelConstant(RiskLevelConstants.INCREASED_RISK) shouldBe RiskLevel.INCREASED_RISK
+
+        RiskLevelResultMigrator.mapRiskLevelConstant(
+            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+        ) shouldBe RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+
+        RiskLevelResultMigrator.mapRiskLevelConstant(
+            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+        ) shouldBe RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+
+        RiskLevelResultMigrator.mapRiskLevelConstant(RiskLevelConstants.UNDETERMINED) shouldBe RiskLevel.UNDETERMINED
     }
 }

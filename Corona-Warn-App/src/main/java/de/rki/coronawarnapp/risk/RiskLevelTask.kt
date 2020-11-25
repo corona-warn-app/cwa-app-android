@@ -88,7 +88,6 @@ class RiskLevelTask @Inject constructor(
             )
         }
 
-
         if (calculationNotPossibleBecauseOfOutdatedResults()) {
             Timber.i("Risk not calculated, results are outdated.")
             return RiskLevelTaskResult(

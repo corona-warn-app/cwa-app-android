@@ -43,8 +43,6 @@ class TracingDetailsStateTest : BaseTest() {
         daysSinceLastExposure: Int = 2,
         activeTracingDaysInRetentionPeriod: Long = 0,
         isBackgroundJobEnabled: Boolean = false,
-        isManualKeyRetrievalEnabled: Boolean = false,
-        manualKeyRetrievalTime: Long = 0L,
         isInformationBodyNoticeVisible: Boolean = false,
         isAdditionalInformationVisible: Boolean = false
     ) = TracingDetailsState(
@@ -54,9 +52,7 @@ class TracingDetailsStateTest : BaseTest() {
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-        isBackgroundJobEnabled = isBackgroundJobEnabled,
-        isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
-        manualKeyRetrievalTime = manualKeyRetrievalTime,
+        isManualKeyRetrievalEnabled = !isBackgroundJobEnabled,
         isInformationBodyNoticeVisible = isInformationBodyNoticeVisible,
         isAdditionalInformationVisible = isAdditionalInformationVisible
     )

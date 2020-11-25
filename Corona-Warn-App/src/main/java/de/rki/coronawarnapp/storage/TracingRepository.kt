@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
-import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeStamper
@@ -95,7 +94,6 @@ class TracingRepository @Inject constructor(
                     RiskLevelTask::class, originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
-            TimerHelper.startManualKeyRetrievalTimer()
         }
     }
 
@@ -143,7 +141,6 @@ class TracingRepository @Inject constructor(
                             originTag = "TracingRepository.refreshRisklevel()"
                         )
                     )
-                    TimerHelper.checkManualKeyRetrievalTimer()
 
                     taskController.submit(
                         DefaultTaskRequest(RiskLevelTask::class, originTag = "TracingRepository.refreshRiskLevel()")

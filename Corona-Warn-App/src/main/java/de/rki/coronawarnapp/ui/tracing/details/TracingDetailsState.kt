@@ -13,9 +13,7 @@ data class TracingDetailsState(
     override val tracingProgress: TracingProgress,
     val matchedKeyCount: Int,
     val activeTracingDaysInRetentionPeriod: Long,
-    val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
-    override val manualKeyRetrievalTime: Long,
     val isInformationBodyNoticeVisible: Boolean,
     val isAdditionalInformationVisible: Boolean,
     val daysSinceLastExposure: Int
@@ -99,8 +97,7 @@ data class TracingDetailsState(
      * Formats the risk details button display for manual updates depending on risk level and
      * background task setting
      */
-    fun isRiskDetailsUpdateButtonVisible(): Boolean =
-        !isTracingOffRiskLevel() && !isBackgroundJobEnabled
+    fun isRiskDetailsUpdateButtonVisible(): Boolean = !isTracingOffRiskLevel() && isManualKeyRetrievalEnabled
 
     /**
      * Formats the risk logged period card text display of tracing active duration in days depending on risk level

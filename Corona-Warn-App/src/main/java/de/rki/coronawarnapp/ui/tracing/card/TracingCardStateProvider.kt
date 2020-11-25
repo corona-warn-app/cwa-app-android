@@ -42,21 +42,13 @@ class TracingCardStateProvider @Inject constructor(
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.v("isAutoModeEnabled: $it")
-        },
-        settingsRepository.isManualKeyRetrievalEnabledFlow.onEach {
-            Timber.v("isManualKeyRetrievalEnabledFlow: $it")
-        },
-        settingsRepository.manualKeyRetrievalTimeFlow.onEach {
-            Timber.v("manualKeyRetrievalTimeFlow: $it")
         }
     ) { status,
         tracingProgress,
         riskLevelResults,
         activeTracingDaysInRetentionPeriod,
         lastTimeDiagnosisKeysFetched,
-        isBackgroundJobEnabled,
-        isManualKeyRetrievalEnabled,
-        manualKeyRetrievalTime ->
+        isBackgroundJobEnabled ->
 
         val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
 
@@ -69,9 +61,7 @@ class TracingCardStateProvider @Inject constructor(
             daysWithEncounters = latestCalc.daysWithEncounters,
             lastEncounterAt = latestCalc.lastRiskEncounterAt,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            isBackgroundJobEnabled = isBackgroundJobEnabled,
-            isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
-            manualKeyRetrievalTime = manualKeyRetrievalTime
+            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled
         )
     }
         .onStart { Timber.v("TracingCardState FLOW start") }

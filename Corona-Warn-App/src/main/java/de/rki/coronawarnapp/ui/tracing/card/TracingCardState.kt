@@ -24,9 +24,7 @@ data class TracingCardState(
     val lastEncounterAt: Instant?,
     val activeTracingDaysInRetentionPeriod: Long,
     val lastTimeDiagnosisKeysFetched: Date?,
-    val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
-    override val manualKeyRetrievalTime: Long,
     override val showDetails: Boolean = false
 ) : BaseTracingState() {
 
@@ -261,8 +259,8 @@ data class TracingCardState(
      */
     fun showUpdateButton(): Boolean =
         !isTracingOffRiskLevel() &&
-            (!isBackgroundJobEnabled || riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET)
-            && !showDetails
+            (isManualKeyRetrievalEnabled || riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET) &&
+            !showDetails
 
     fun getRiskLevelHeadline(c: Context) = formatRiskLevelHeadline(c, riskLevelScore)
 

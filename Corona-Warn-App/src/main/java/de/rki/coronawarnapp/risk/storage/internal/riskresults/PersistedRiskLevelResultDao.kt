@@ -34,7 +34,7 @@ data class PersistedRiskLevelResultDao(
             }
             RiskLevelTaskResult(
                 calculatedAt = calculatedAt,
-                failureReason = failureReason ?: FailureReason.UNKNOWN,
+                failureReason = failureReason ?: FailureReason.UNKNOWN
             )
         }
     }

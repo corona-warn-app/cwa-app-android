@@ -46,9 +46,7 @@ class TracingCardStateTest : BaseTest() {
         lastEncounterAt: Instant? = null,
         activeTracingDaysInRetentionPeriod: Long = 0,
         lastTimeDiagnosisKeysFetched: Date? = mockk(),
-        isBackgroundJobEnabled: Boolean = false,
-        isManualKeyRetrievalEnabled: Boolean = false,
-        manualKeyRetrievalTime: Long = 0L
+        isBackgroundJobEnabled: Boolean = false
     ) = TracingCardState(
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevel,
@@ -58,9 +56,7 @@ class TracingCardStateTest : BaseTest() {
         lastEncounterAt = lastEncounterAt,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
         lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
-        isBackgroundJobEnabled = isBackgroundJobEnabled,
-        isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
-        manualKeyRetrievalTime = manualKeyRetrievalTime
+        isManualKeyRetrievalEnabled = !isBackgroundJobEnabled
     )
 
     @Test
@@ -243,7 +239,6 @@ class TracingCardStateTest : BaseTest() {
                     .format(context.getString(R.string.risk_card_increased_risk_headline))
             }
         }
-
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
@@ -483,7 +478,6 @@ class TracingCardStateTest : BaseTest() {
             getTimeFetched(context)
             verify { context.getString(R.string.risk_card_body_not_yet_fetched) }
         }
-
     }
 
     @Test
