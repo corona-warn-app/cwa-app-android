@@ -32,14 +32,14 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun ApplicationConfigurationAndroid.mapAppFeatures(): List<AppFeaturesOuterClass.AppFeature> =
-        if (!hasAppFeatures()) {
-            emptyList()
-        } else {
+        if (hasAppFeatures()) {
             val parsedFeatures = mutableListOf<AppFeaturesOuterClass.AppFeature>()
             for (index in 0 until appFeatures.appFeaturesCount) {
                 parsedFeatures.add(appFeatures.getAppFeatures(index))
             }
             parsedFeatures
+        } else {
+           emptyList()
         }
 
     data class CWAConfigContainer(
