@@ -189,12 +189,10 @@ object NotificationHelper {
      *
      * @param title: String
      * @param content: String
-     * @param visibility: Int
      * @param expandableLongText: Boolean
      * @param notificationId: NotificationId
      * @param pendingIntent: PendingIntent
      */
-
     fun sendNotification(
         title: String,
         content: String,
@@ -206,19 +204,6 @@ object NotificationHelper {
             buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
             notify(notificationId, notification)
-        }
-    }
-
-    /**
-     * Send notification
-     * Build and send notification with content and visibility.
-     * Notification is only sent if app is not in foreground.
-     *
-     * @param content: String
-     */
-    fun sendNotification(content: String) {
-        if (!CoronaWarnApplication.isAppInForeground) {
-            sendNotification("", content, true)
         }
     }
 

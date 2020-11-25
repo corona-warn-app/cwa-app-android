@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import kotlinx.coroutines.flow.Flow
@@ -261,78 +260,6 @@ object LocalData {
             )
         }
 
-    /****************************************************
-     * RISK LEVEL
-     ****************************************************/
-
-    /**
-     * Gets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @return
-     */
-    fun lastCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score),
-            RiskLevel.UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(rawRiskLevel)
-    }
-
-    /**
-     * Sets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @param rawRiskLevel
-     */
-    fun lastCalculatedRiskLevel(rawRiskLevel: Int) =
-        getSharedPreferenceInstance().edit(true) {
-            putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score),
-                rawRiskLevel
-            )
-        }
-
-    /**
-     * Gets the last successfully calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @return
-     */
-    fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score_successful),
-            RiskLevel.UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(rawRiskLevel)
-    }
-
-    /**
-     * Sets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @param rawRiskLevel
-     */
-    fun lastSuccessfullyCalculatedRiskLevel(rawRiskLevel: Int) =
-        getSharedPreferenceInstance().edit(true) {
-            putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score_successful),
-                rawRiskLevel
-            )
-        }
-
     /**
      * Gets the boolean if the user has seen the explanation dialog for the
      * risk level tracing days
@@ -400,37 +327,6 @@ object LocalData {
 
     fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) =
         lastTimeDiagnosisKeysFetchedFlowPref.update { value?.time ?: 0L }
-
-    /**
-     * Gets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @return Long
-     */
-    fun lastTimeRiskLevelCalculation(): Long? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_risk_level_calculation),
-            0L
-        )
-        return Date(time).time
-    }
-
-    /**
-     * Sets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Long
-     */
-    fun lastTimeRiskLevelCalculation(value: Long?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_risk_level_calculation),
-                value ?: 0L
-            )
-        }
-    }
 
     /****************************************************
      * SETTINGS DATA
