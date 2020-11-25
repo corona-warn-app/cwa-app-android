@@ -15,6 +15,7 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import java.util.Date
 
+@Suppress ("TooManyFUnctions")
 data class TracingCardState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
@@ -64,6 +65,7 @@ data class TracingCardState(
      * only in the special case where tracing is turned off and
      * the persisted risk level is of importance
      */
+    @Suppress ("ComplexCondition")
     fun getSavedRiskBody(c: Context): String {
         return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
             return if (
