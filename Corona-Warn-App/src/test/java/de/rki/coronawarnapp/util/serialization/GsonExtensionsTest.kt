@@ -45,5 +45,7 @@ class GsonExtensionsTest : BaseIOTest() {
         val testData: TestData? = gson.fromJson(testFile)
 
         testData shouldBe null
+
+        testFile.exists() shouldBe false
     }
 }
