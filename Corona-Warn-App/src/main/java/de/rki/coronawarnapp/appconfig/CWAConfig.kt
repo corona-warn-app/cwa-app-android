@@ -11,7 +11,7 @@ interface CWAConfig {
 
     val supportedCountries: List<String>
 
-    val appFeatures: AppFeaturesOuterClass.AppFeatures
+    val appFeatures: List<AppFeaturesOuterClass.AppFeature>
 
     interface Mapper : ConfigMapper<CWAConfig>
 }

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -43,6 +44,29 @@ class CWAConfigMapperTest : BaseTest() {
             this.latestVersionCode shouldBe rawConfig.latestVersionCode
             this.minVersionCode shouldBe rawConfig.minVersionCode
             this.supportedCountries shouldBe emptyList()
+        }
+    }
+
+    @Test
+    fun `app features are mapped`() {
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeaturesOuterClass.AppFeatures.newBuilder().apply {
+                    addAppFeatures(AppFeaturesOuterClass.AppFeature.newBuilder().apply { }.build())
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            appFeatures.size shouldBe 1
+        }
+    }
+
+    @Test
+    fun `app features being empty are handled`() {
+        val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
+            .build()
+        createInstance().map(rawConfig).apply {
+            appFeatures shouldBe emptyList()
         }
     }
 }
