@@ -17,7 +17,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import java.util.Date
 
 class TracingDetailsStateTest : BaseTest() {
 
@@ -40,11 +39,9 @@ class TracingDetailsStateTest : BaseTest() {
         tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevelScore: Int = 0,
         tracingProgress: TracingProgress = TracingProgress.Idle,
-        riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 3,
         daysSinceLastExposure: Int = 2,
         activeTracingDaysInRetentionPeriod: Long = 0,
-        lastTimeDiagnosisKeysFetched: Date? = mockk(),
         isBackgroundJobEnabled: Boolean = false,
         isManualKeyRetrievalEnabled: Boolean = false,
         manualKeyRetrievalTime: Long = 0L,
@@ -54,11 +51,9 @@ class TracingDetailsStateTest : BaseTest() {
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevelScore,
         tracingProgress = tracingProgress,
-        lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled = isBackgroundJobEnabled,
         isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
         manualKeyRetrievalTime = manualKeyRetrievalTime,
