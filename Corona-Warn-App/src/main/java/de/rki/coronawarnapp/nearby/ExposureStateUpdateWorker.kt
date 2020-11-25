@@ -26,16 +26,16 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         try {
-            Timber.v("worker to persist exposure summary started")
+            Timber.tag(TAG).v("Worker to persist exposure summary started")
             enfClient.exposureWindows().let {
                 exposureResultStore.entities.value = ExposureResult(it, null)
-                Timber.v("exposure summary state updated: $it")
+                Timber.tag(TAG).v("Exposure summary state updated: $it")
             }
 
             taskController.submit(
                 DefaultTaskRequest(RiskLevelTask::class, originTag = "ExposureStateUpdateWorker")
             )
-            Timber.v("risk level calculation triggered")
+            Timber.tag(TAG).v("Risk level calculation triggered")
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
@@ -45,4 +45,8 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<ExposureStateUpdateWorker>
+
+    companion object {
+        private val TAG = ExposureStateUpdateWorker::class.java.simpleName
+    }
 }
