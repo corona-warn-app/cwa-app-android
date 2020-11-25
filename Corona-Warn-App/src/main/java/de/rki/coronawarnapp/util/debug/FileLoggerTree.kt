@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util.debug
 
 import android.annotation.SuppressLint
 import android.util.Log
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -55,7 +56,7 @@ class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         logWriter?.let {
             try {
-                it.write("${System.currentTimeMillis()}  ${priorityToString(priority)}/$tag: $message\n")
+                it.write("${Instant.now()}  ${priorityToString(priority)}/$tag: $message\n")
                 it.flush()
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e)
