@@ -3,11 +3,14 @@ package de.rki.coronawarnapp.util.di
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.storage.EncryptedPreferences
+import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
 import javax.inject.Singleton
 
@@ -38,4 +41,9 @@ class AndroidModule {
     fun workManager(
         workManagerProvider: WorkManagerProvider
     ): WorkManager = workManagerProvider.workManager
+
+    @EncryptedPreferences
+    @Provides
+    @Singleton
+    fun encryptedPreferences(): SharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
 }

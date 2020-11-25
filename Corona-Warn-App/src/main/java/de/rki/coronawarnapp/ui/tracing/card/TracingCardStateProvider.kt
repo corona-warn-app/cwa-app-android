@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
-import de.rki.coronawarnapp.risk.ExposureResultStore
-import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
@@ -21,28 +21,18 @@ class TracingCardStateProvider @Inject constructor(
     backgroundModeStatus: BackgroundModeStatus,
     settingsRepository: SettingsRepository,
     tracingRepository: TracingRepository,
-    exposureResultStore: ExposureResultStore
+    riskLevelStorage: RiskLevelStorage
 ) {
 
-    // TODO Refactor these singletons away
     val state: Flow<TracingCardState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.v("tracingStatus: $it")
         },
-        RiskLevelRepository.riskLevelScore.onEach {
-            Timber.v("riskLevelScore: $it")
-        },
-        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach {
-            Timber.v("riskLevelScoreLastSuccessfulCalculated: $it")
-        },
         tracingRepository.tracingProgress.onEach {
             Timber.v("tracingProgress: $it")
         },
-        exposureResultStore.matchedKeyCount.onEach {
-            Timber.v("matchedKeyCount: $it")
-        },
-        exposureResultStore.daysSinceLastExposure.onEach {
-            Timber.v("daysSinceLastExposure: $it")
+        riskLevelStorage.riskLevelResults.onEach {
+            Timber.v("riskLevelResults: $it")
         },
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
             Timber.v("activeTracingDaysInRetentionPeriod: $it")
@@ -60,25 +50,24 @@ class TracingCardStateProvider @Inject constructor(
             Timber.v("manualKeyRetrievalTimeFlow: $it")
         }
     ) { status,
-        riskLevelScore,
-        riskLevelScoreLastSuccessfulCalculated,
         tracingProgress,
-        matchedKeyCount,
-        daysSinceLastExposure,
+        riskLevelResults,
         activeTracingDaysInRetentionPeriod,
         lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled,
         isManualKeyRetrievalEnabled,
         manualKeyRetrievalTime ->
 
+        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
+
         TracingCardState(
             tracingStatus = status,
-            riskLevelScore = riskLevelScore,
+            riskLevelScore = latestCalc.riskLevel.raw,
             tracingProgress = tracingProgress,
-            lastRiskLevelScoreCalculated = riskLevelScoreLastSuccessfulCalculated,
+            lastRiskLevelScoreCalculated = latestSuccessfulCalc.riskLevel.raw,
             lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
-            matchedKeyCount = matchedKeyCount,
-            daysSinceLastExposure = daysSinceLastExposure,
+            daysWithEncounters = latestCalc.daysWithEncounters,
+            lastEncounterAt = latestCalc.lastRiskEncounterAt,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
             isBackgroundJobEnabled = isBackgroundJobEnabled,
             isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,

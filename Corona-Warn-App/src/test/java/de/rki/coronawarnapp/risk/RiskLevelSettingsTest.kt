@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
 
-class RiskLevelDataTest : BaseTest() {
+class RiskLevelSettingsTest : BaseTest() {
 
     @MockK lateinit var context: Context
     lateinit var preferences: MockSharedPreferences
@@ -22,7 +22,7 @@ class RiskLevelDataTest : BaseTest() {
         every { context.getSharedPreferences("risklevel_localdata", Context.MODE_PRIVATE) } returns preferences
     }
 
-    fun createInstance() = RiskLevelData(context = context)
+    fun createInstance() = RiskLevelSettings(context = context)
 
     @Test
     fun `update last used config identifier`() {
