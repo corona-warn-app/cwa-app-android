@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Singleton
 @Singleton
 class InteroperabilityRepository @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
+    private val dispatcherProvider: DefaultDispatcherProvider
 ) {
 
     private val countryListFlowInternal = MutableStateFlow(listOf<Country>())
@@ -33,7 +35,7 @@ class InteroperabilityRepository @Inject constructor(
 
     fun refreshCountryList() {
         // TODO Make this reactive, the AppConfigProvider should refresh itself on network changes.
-        appScope.launch {
+        appScope.launch(context = dispatcherProvider.IO) {
             try {
                 val countries = appConfigProvider.getAppConfig()
                     .supportedCountries
