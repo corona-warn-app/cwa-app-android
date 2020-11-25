@@ -5,9 +5,12 @@ import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.Country
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
@@ -15,12 +18,10 @@ import javax.inject.Singleton
 
 @Singleton
 class InteroperabilityRepository @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    @AppScope private val appScope: CoroutineScope,
+    private val dispatcherProvider: DefaultDispatcherProvider
 ) {
-
-    fun saveInteroperabilityUsed() {
-        LocalData.isInteroperabilityShownAtLeastOnce = true
-    }
 
     private val countryListFlowInternal = MutableStateFlow(listOf<Country>())
     val countryListFlow: Flow<List<Country>> = countryListFlowInternal
@@ -32,12 +33,9 @@ class InteroperabilityRepository @Inject constructor(
         getAllCountries()
     }
 
-    /**
-     * Gets all countries from @see ApplicationConfigurationService.asyncRetrieveApplicationConfiguration
-     * Also changes every country code to lower case
-     */
     fun getAllCountries() {
-        runBlocking {
+        // TODO Make this reactive, the AppConfigProvider should refresh itself on network changes.
+        appScope.launch(context = dispatcherProvider.IO) {
             try {
                 val countries = appConfigProvider.getAppConfig()
                     .supportedCountries
@@ -59,5 +57,9 @@ class InteroperabilityRepository @Inject constructor(
 
     fun clear() {
         countryListFlowInternal.value = emptyList()
+    }
+
+    fun saveInteroperabilityUsed() {
+        LocalData.isInteroperabilityShownAtLeastOnce = true
     }
 }
