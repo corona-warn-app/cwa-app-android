@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
-import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid.ApplicationConfigurationAndroid
@@ -19,8 +18,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         )
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun ApplicationConfigurationAndroid.getMappedSupportedCountries(): List<String> =
+    private fun ApplicationConfigurationAndroid.getMappedSupportedCountries(): List<String> =
         when {
             supportedCountriesList == null -> emptyList()
             supportedCountriesList.size == 1 && !VALID_CC.matches(supportedCountriesList.single()) -> {
@@ -30,8 +28,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             else -> supportedCountriesList
         }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun ApplicationConfigurationAndroid.mapAppFeatures(): List<AppFeaturesOuterClass.AppFeature> =
+    private fun ApplicationConfigurationAndroid.mapAppFeatures(): List<AppFeaturesOuterClass.AppFeature> =
         if (hasAppFeatures()) {
             val parsedFeatures = mutableListOf<AppFeaturesOuterClass.AppFeature>()
             for (index in 0 until appFeatures.appFeaturesCount) {
@@ -39,7 +36,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             }
             parsedFeatures
         } else {
-           emptyList()
+            emptyList()
         }
 
     data class CWAConfigContainer(
