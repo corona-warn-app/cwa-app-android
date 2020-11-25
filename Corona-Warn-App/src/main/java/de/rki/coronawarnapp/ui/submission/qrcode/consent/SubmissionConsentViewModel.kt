@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.filterNotNull
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
@@ -17,8 +16,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
-    val countries = interoperabilityRepository.countryListFlow
-        .filterNotNull().asLiveData()
+    val countries = interoperabilityRepository.countryListFlow.asLiveData()
 
     fun onConsentButtonClick() {
         submissionRepository.giveConsentToSubmission()

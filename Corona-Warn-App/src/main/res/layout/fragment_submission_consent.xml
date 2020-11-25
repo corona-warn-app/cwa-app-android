@@ -85,6 +85,7 @@
                     android:id="@+id/divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="@dimen/card_divider"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:background="@color/colorHairline"
                     app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"

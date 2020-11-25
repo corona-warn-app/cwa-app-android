@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ui.submission.qrcode.consent
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.Country
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -23,17 +25,37 @@ class SubmissionConsentViewModelTest {
 
     lateinit var viewModel: SubmissionConsentViewModel
 
+    private val countryList = Country.values().toList()
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { interoperabilityRepository.countryListFlow } returns MutableStateFlow(Country.values().toList())
+        every { interoperabilityRepository.countryListFlow } returns MutableStateFlow(countryList)
         every { submissionRepository.giveConsentToSubmission() } just Runs
         viewModel =  SubmissionConsentViewModel(submissionRepository, interoperabilityRepository)
     }
 
     @Test
-    fun testConsentButtonClick() {
+    fun testOnConsentButtonClick() {
         viewModel.onConsentButtonClick()
         verify(exactly = 1) { submissionRepository.giveConsentToSubmission() }
+    }
+
+    @Test
+    fun testOnDataPrivacyClick() {
+        viewModel.onDataPrivacyClick()
+        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToDataPrivacy
+    }
+
+    @Test
+    fun testOnBackButtonClick() {
+        viewModel.onBackButtonClick()
+        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToDispatcher
+    }
+
+    @Test
+    fun testCountryList() {
+        viewModel.countries.observeForever { }
+        viewModel.countries.value shouldBe countryList
     }
 }

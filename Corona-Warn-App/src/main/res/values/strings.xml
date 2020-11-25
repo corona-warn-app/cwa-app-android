@@ -862,24 +862,6 @@
     <string name="submission_consent_help_by_warning_others_headline"></string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body"></string>
-    <!-- XHED: Page subheadline for consent sub section your consent  -->
-    <string name="submission_consent_your_consent_subsection_headline"></string>
-    <!-- YTXT: Body for consent sub section your consent subtext -->
-    <string name="submission_consent_your_consent_subsection_tapping_agree"></string>
-    <!-- YTXT: Body for consent sub section your consent subtext first point  -->
-    <string name="submission_consent_your_consent_subsection_first_point"></string>
-    <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point"></string>
-    <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point"></string>
-    <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point"></string>
-    <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point"></string>
-    <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point"></string>
-    <!-- YTXT: Body for consent main section fourth point  -->
-    <string name="submission_consent_main_fourth_point"></string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body"></string>
 

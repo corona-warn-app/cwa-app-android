@@ -858,24 +858,6 @@
     <string name="submission_consent_help_by_warning_others_headline">"Helfen Sie mit, indem Sie andere warnen, denen Sie begegnet sind!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
-    <!-- XHED: Page subheadline for consent sub section your consent  -->
-    <string name="submission_consent_your_consent_subsection_headline">"Ihr Einverständnis"</string>
-    <!-- YTXT: Body for consent sub section your consent subtext -->
-    <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie wie folgt ein:"</string>
-   <!-- YTXT: Body for consent sub section your consent subtext first point  -->
-    <string name="submission_consent_your_consent_subsection_first_point">"<b>Die App ruft Ihr Testergebnis ab.</b> Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
-  <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von offiziellen Corona-Apps der oben genannten Länder. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>"</string>
-  <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen und um Freigabe Ihres Testergebnisses gebeten."</string>
-    <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Ihr Einverständnis ist freiwillig."</string>
-    <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dies nicht teilen. Wenn Sie ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
-    <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
-    <!-- YTXT: Body for consent main section fourth point  -->
-    <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
 
