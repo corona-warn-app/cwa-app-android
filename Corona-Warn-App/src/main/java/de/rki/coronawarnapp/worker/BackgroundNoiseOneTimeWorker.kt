@@ -20,13 +20,8 @@ class BackgroundNoiseOneTimeWorker @AssistedInject constructor(
     private val playbook: Playbook
 ) : CoroutineWorker(context, workerParams) {
 
-    /**
-     * Work execution
-     *
-     * @return Result
-     */
     override suspend fun doWork(): Result {
-        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
         var result = Result.success()
 
         try {
@@ -40,10 +35,14 @@ class BackgroundNoiseOneTimeWorker @AssistedInject constructor(
             }
         }
 
-        Timber.d("$id: doWork() finished with %s", result)
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
         return result
     }
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<BackgroundNoiseOneTimeWorker>
+
+    companion object {
+        private val TAG = BackgroundNoiseOneTimeWorker::class.java.simpleName
+    }
 }

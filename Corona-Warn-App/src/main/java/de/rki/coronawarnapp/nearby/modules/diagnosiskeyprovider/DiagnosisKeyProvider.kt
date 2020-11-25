@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import java.io.File
 
 interface DiagnosisKeyProvider {
@@ -15,5 +16,8 @@ interface DiagnosisKeyProvider {
      * @return
      */
 
-    suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean
+    suspend fun provideDiagnosisKeys(
+        keyFiles: Collection<File>,
+        newDiagnosisKeysDataMapping: DiagnosisKeysDataMapping
+    ): Boolean
 }
