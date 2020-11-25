@@ -17,8 +17,13 @@ inline fun <reified T> Gson.fromJson(json: String): T = fromJson(
  * Throws an exception if the object can't be parsed.
  * An empty file, that was deserialized to a null value is deleted.
  */
-inline fun <reified T : Any> Gson.fromJson(file: File): T? = if (file.exists()) {
-    file.bufferedReader().use {
+inline fun <reified T : Any> Gson.fromJson(file: File): T? {
+    if (!file.exists()) {
+        Timber.v("fromJson(): File doesn't exist %s", file)
+        return null
+    }
+
+    return file.bufferedReader().use {
         val value: T? = fromJson(it, object : TypeToken<T>() {}.type)
         if (value != null) {
             Timber.v("Json read from %s", file)
@@ -29,9 +34,6 @@ inline fun <reified T : Any> Gson.fromJson(file: File): T? = if (file.exists()) 
             null
         }
     }
-} else {
-    Timber.v("fromJson(): File doesn't exist %s", file)
-    null
 }
 
 inline fun <reified T> Gson.toJson(data: T, file: File) = file.bufferedWriter().use { writer ->
