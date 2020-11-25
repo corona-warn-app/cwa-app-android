@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
@@ -19,7 +18,6 @@ import javax.inject.Inject
 class TracingCardStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
-    settingsRepository: SettingsRepository,
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage
 ) {
@@ -50,7 +48,9 @@ class TracingCardStateProvider @Inject constructor(
         lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled ->
 
-        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
+        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults(
+
+        )
 
         TracingCardState(
             tracingStatus = status,

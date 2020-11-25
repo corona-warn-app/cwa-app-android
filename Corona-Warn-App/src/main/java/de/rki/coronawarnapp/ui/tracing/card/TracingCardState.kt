@@ -96,33 +96,31 @@ data class TracingCardState(
     /**
      * Formats the risk card text display of infected contacts recognized
      */
-    fun getRiskContactBody(c: Context): String {
-        val resources = c.resources
-        return when (riskLevelScore) {
-            RiskLevelConstants.INCREASED_RISK -> {
-                if (daysWithEncounters == 0) {
-                    c.getString(R.string.risk_card_high_risk_no_encounters_body)
-                } else {
-                    resources.getQuantityString(
-                        R.plurals.risk_card_high_risk_encounter_days_body,
-                        daysWithEncounters,
-                        daysWithEncounters
-                    )
-                }
-            }
-            RiskLevelConstants.LOW_LEVEL_RISK -> {
-                if (daysWithEncounters == 0) {
-                    c.getString(R.string.risk_card_low_risk_no_encounters_body)
-                } else {
-                    resources.getQuantityString(
-                        R.plurals.risk_card_low_risk_encounter_days_body,
-                        daysWithEncounters,
-                        daysWithEncounters
-                    )
-                }
-            }
-            else -> ""
+    fun getRiskContactBody(c: Context): String = when {
+        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> {
+            ""
         }
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK && daysWithEncounters == 0 -> {
+            c.getString(R.string.risk_card_high_risk_no_encounters_body)
+        }
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK -> {
+            c.resources.getQuantityString(
+                R.plurals.risk_card_high_risk_encounter_days_body,
+                daysWithEncounters,
+                daysWithEncounters
+            )
+        }
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK && daysWithEncounters == 0 -> {
+            c.getString(R.string.risk_card_low_risk_no_encounters_body)
+        }
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> {
+            c.resources.getQuantityString(
+                R.plurals.risk_card_low_risk_encounter_days_body,
+                daysWithEncounters,
+                daysWithEncounters
+            )
+        }
+        else -> ""
     }
 
     /**
@@ -152,34 +150,21 @@ data class TracingCardState(
      * Formats the risk card text display of tracing active duration in days depending on risk level
      * Special case for increased risk as it is then only displayed on risk detail view
      */
-    fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> {
-            if (showDetails) {
-                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
-                    c.getString(
-                        R.string.risk_card_body_saved_days
-                    )
-                        .format(activeTracingDaysInRetentionPeriod)
-                } else {
-                    c.getString(
-                        R.string.risk_card_body_saved_days_full
-                    )
-                }
-            } else {
-                ""
-            }
+    fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when {
+        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> ""
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK && !showDetails -> ""
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK && activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDaysInRetentionPeriod)
         }
-        RiskLevelConstants.LOW_LEVEL_RISK ->
-            if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
-                c.getString(
-                    R.string.risk_card_body_saved_days
-                )
-                    .format(activeTracingDaysInRetentionPeriod)
-            } else {
-                c.getString(
-                    R.string.risk_card_body_saved_days_full
-                )
-            }
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK && activeTracingDaysInRetentionPeriod >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days_full)
+        }
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK && activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDaysInRetentionPeriod)
+        }
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK && activeTracingDaysInRetentionPeriod >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days_full)
+        }
         else -> ""
     }
 
