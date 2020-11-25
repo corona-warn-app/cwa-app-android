@@ -246,7 +246,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     if (exposureWindows.isNullOrEmpty()) {
                         it.appendLine("Exposure windows list was empty")
                     } else {
-                        Timber.d("Exposure count: ${exposureWindows.size}")
                         it.appendLine(gson.toJson(exposureWindows))
                     }
                 }
