@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.risk.ExposureResultStore
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import io.github.classgraph.ClassGraph
@@ -95,5 +95,5 @@ class MockProvider {
     fun enfClient(): ENFClient = mockk()
 
     @Provides
-    fun exposureSummaryRepository(): ExposureResultStore = mockk()
+    fun exposureSummaryRepository(): RiskLevelStorage = mockk()
 }
