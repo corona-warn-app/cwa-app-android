@@ -136,6 +136,18 @@ class TaskController @Inject constructor(
             this.putAll(it)
         }
 
+        if (size > TASK_HISTORY_LIMIT) {
+            Timber.v("Enforcing history limits (%d), need to remove %d.", TASK_HISTORY_LIMIT, size - TASK_HISTORY_LIMIT)
+            values
+                .filter { it.isFinished }
+                .sortedBy { it.startedAt }
+                .take(size - TASK_HISTORY_LIMIT)
+                .forEach {
+                    Timber.v("Removing from history: %s", get(it.id))
+                    remove(it.id)
+                }
+        }
+
         Timber.tag(TAG).v("Tasks after processing (count=%d):\n%s", size, values.joinToString("\n"))
     }
 
@@ -236,5 +248,6 @@ class TaskController @Inject constructor(
 
     companion object {
         private const val TAG = "TaskController"
+        private const val TASK_HISTORY_LIMIT = 50
     }
 }

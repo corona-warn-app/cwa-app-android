@@ -539,4 +539,44 @@ class TaskControllerTest : BaseIOTest() {
 
         instance.close()
     }
+
+    @Test
+    fun `old tasks are pruned from history`() = runBlockingTest {
+        val instance = createInstance(scope = this)
+
+        val expectedFiles = mutableListOf<File>()
+
+        repeat(60) {
+            val arguments = QueueingTask.Arguments(
+                delay = 5,
+                values = listOf("TestText"),
+                path = File(testDir, UUID.randomUUID().toString())
+            )
+            expectedFiles.add(arguments.path)
+
+            val request = DefaultTaskRequest(type = QueueingTask::class, arguments = arguments)
+            instance.submit(request)
+            delay(5)
+        }
+
+        this.advanceUntilIdle()
+
+        expectedFiles.forEach {
+            it.exists() shouldBe true
+        }
+
+        val taskHistory = instance.tasks.first()
+        taskHistory.size shouldBe 50
+        expectedFiles.size shouldBe 60
+
+        val sortedHistory = taskHistory.sortedBy { it.taskState.startedAt }.apply {
+            first().taskState.startedAt!!.isBefore(last().taskState.startedAt) shouldBe true
+        }
+
+        expectedFiles.subList(10, 60) shouldBe sortedHistory.map {
+            (it.taskState.request.arguments as QueueingTask.Arguments).path
+        }
+
+        instance.close()
+    }
 }
