@@ -84,7 +84,9 @@ class RiskLevelResultMigrator @Inject constructor(
                 RiskLevelConstants.LOW_LEVEL_RISK -> RiskLevel.LOW_LEVEL_RISK
                 RiskLevelConstants.INCREASED_RISK -> RiskLevel.INCREASED_RISK
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
+                    RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+                }
                 else -> RiskLevel.UNDETERMINED
             }
         }
