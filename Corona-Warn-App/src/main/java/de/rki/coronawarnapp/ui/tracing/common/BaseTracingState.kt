@@ -17,7 +17,7 @@ abstract class BaseTracingState {
      * Formats the risk card colors for default and pressed states depending on risk level
      */
     fun getRiskColor(c: Context): Int = when {
-        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorSemanticUnknownRisk
+        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorSemanticUnknownRisk
         riskLevelScore == RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
         riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
         else -> R.color.colorSemanticUnknownRisk
@@ -36,7 +36,7 @@ abstract class BaseTracingState {
     }
 
     fun getStableTextColor(c: Context): Int = when {
-            tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorTextPrimary1
+            tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextPrimary1
             riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
             riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorTextPrimary1InvertedStable
             else -> R.color.colorTextPrimary1

@@ -4,17 +4,12 @@
 
     <data>
         <variable
-            name="tracingDetails"
-            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
-
-        <variable
             name="body"
             type="String" />
 
         <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,8 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle"
-            android:backgroundTint="@{tracingDetails.getBehaviorIconBackground(context)}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:backgroundTint="@color/colorSemanticHighRisk"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -40,7 +34,7 @@
                 android:focusable="false"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                android:tint="@{tracingDetails.getBehaviorIcon(context)}"
+                android:tint="@color/colorStableLight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

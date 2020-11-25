@@ -106,4 +106,24 @@ data class TracingDetailsState(
     fun getRiskActiveTracingDaysInRetentionPeriodLogged(c: Context): String = c.getString(
         R.string.risk_details_information_body_period_logged_assessment
     ).format(activeTracingDaysInRetentionPeriod)
+
+    fun getBehaviorIcon(context: Context) = when {
+        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorTextSemanticNeutral
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+        else -> R.color.colorTextSemanticNeutral
+    }.let { context.getColor(it) }
+
+    /**
+     * Formats the risk details suggested behavior icon background color depending on risk level
+     *
+     * @param riskLevelScore
+     * @return
+     */
+    fun getBehaviorIconBackground(context: Context) = when {
+        tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorSurface2
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
+            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
+        else -> R.color.colorSurface2
+    }.let { context.getColor(it) }
 }
