@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.util.serialization
 
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -47,5 +49,14 @@ class GsonExtensionsTest : BaseIOTest() {
         testData shouldBe null
 
         testFile.exists() shouldBe false
+    }
+
+    @Test
+    fun `deserialize a malformed file`() {
+        testFile.writeText("{")
+
+        shouldThrow<JsonSyntaxException> {
+            gson.fromJson(testFile)
+        }
     }
 }
