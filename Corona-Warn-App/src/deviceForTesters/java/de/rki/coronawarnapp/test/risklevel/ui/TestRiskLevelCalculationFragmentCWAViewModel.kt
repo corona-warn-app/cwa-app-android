@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -34,11 +36,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
+import java.io.File
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -46,7 +50,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
-    dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
@@ -57,6 +61,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     dispatcherProvider = dispatcherProvider
 ) {
 
+    // Use unique instance for pretty output
+    private val gson: Gson by lazy {
+        GsonBuilder().setPrettyPrinting().create()
+    }
+
     val fakeWindowsState = testSettings.fakeExposureWindows.flow.asLiveData()
 
     init {
@@ -66,6 +75,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
+    val shareFileEvent = SingleLiveEvent<File>()
 
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
         it.withSuccess(false) { true }
@@ -75,14 +85,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
-    val exposureWindowCountString = riskLevelStorage
+    val exposureWindowCount = riskLevelStorage
         .exposureWindows
-        .map { "Retrieved ${it.size} Exposure Windows" }
-        .asLiveData()
-
-    val exposureWindows = riskLevelStorage
-        .exposureWindows
-        .map { if (it.isEmpty()) "Exposure windows list is empty" else it.toString() }
+        .map { it.size }
         .asLiveData()
 
     val aggregatedRiskResult = riskLevelStorage
@@ -213,6 +218,27 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             }
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             riskLevelResetEvent.postValue(Unit)
+        }
+    }
+
+    fun shareExposureWindows() {
+        Timber.d("Creating text file for Exposure Windows")
+        launch(dispatcherProvider.IO) {
+            val exposureWindows = riskLevelStorage.exposureWindows.firstOrNull()
+
+            val path = File(context.cacheDir, "share/")
+            path.mkdirs()
+
+            val file = File(path, "exposureWindows.txt")
+            file.bufferedWriter()
+                .use {
+                    if (exposureWindows.isNullOrEmpty()) {
+                        it.appendLine("Exposure windows list was empty")
+                    } else {
+                        it.appendLine(gson.toJson(exposureWindows))
+                    }
+                }
+            shareFileEvent.postValue(file)
         }
     }
 
