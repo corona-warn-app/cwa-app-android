@@ -546,7 +546,7 @@ class TaskControllerTest : BaseIOTest() {
 
         val expectedFiles = mutableListOf<File>()
 
-        repeat(60) {
+        repeat(100) {
             val arguments = QueueingTask.Arguments(
                 delay = 5,
                 values = listOf("TestText"),
@@ -567,13 +567,13 @@ class TaskControllerTest : BaseIOTest() {
 
         val taskHistory = instance.tasks.first()
         taskHistory.size shouldBe 50
-        expectedFiles.size shouldBe 60
+        expectedFiles.size shouldBe 100
 
         val sortedHistory = taskHistory.sortedBy { it.taskState.startedAt }.apply {
             first().taskState.startedAt!!.isBefore(last().taskState.startedAt) shouldBe true
         }
 
-        expectedFiles.subList(10, 60) shouldBe sortedHistory.map {
+        expectedFiles.subList(50, 100) shouldBe sortedHistory.map {
             (it.taskState.request.arguments as QueueingTask.Arguments).path
         }
 

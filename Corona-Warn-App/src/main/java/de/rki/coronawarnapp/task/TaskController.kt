@@ -140,7 +140,7 @@ class TaskController @Inject constructor(
             Timber.v("Enforcing history limits (%d), need to remove %d.", TASK_HISTORY_LIMIT, size - TASK_HISTORY_LIMIT)
             values
                 .filter { it.isFinished }
-                .sortedBy { it.startedAt }
+                .sortedBy { it.finishedAt }
                 .take(size - TASK_HISTORY_LIMIT)
                 .forEach {
                     Timber.v("Removing from history: %s", get(it.id))
