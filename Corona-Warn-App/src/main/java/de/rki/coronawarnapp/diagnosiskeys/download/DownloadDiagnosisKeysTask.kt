@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -63,7 +64,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
-            val exposureConfig: ExposureDetectionConfig = appConfigProvider.getAppConfig()
+            val exposureConfig: ConfigData = appConfigProvider.getAppConfig()
 
             internalProgress.send(Progress.ApiSubmissionStarted)
             internalProgress.send(Progress.KeyFilesDownloadStarted)
@@ -102,7 +103,10 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             )
 
             Timber.tag(TAG).d("Attempting submission to ENF")
-            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(availableKeyFiles)
+            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
+                availableKeyFiles,
+                exposureConfig.diagnosisKeysDataMapping
+            )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
             // EXPOSUREAPP-3878 write timestamp immediately after submission,
