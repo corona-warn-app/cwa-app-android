@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
+import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -231,11 +232,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
             val file = File(path, "exposureWindows.txt")
             file.bufferedWriter()
-                .use {
+                .use { writer ->
                     if (exposureWindows.isNullOrEmpty()) {
-                        it.appendLine("Exposure windows list was empty")
+                        writer.appendLine("Exposure windows list was empty")
                     } else {
-                        it.appendLine(gson.toJson(exposureWindows))
+                        writer.appendLine(gson.toJson(exposureWindows.map { it.toExposureWindowJson() }))
                     }
                 }
             shareFileEvent.postValue(file)
