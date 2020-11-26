@@ -22,8 +22,10 @@ constructor(
     init {
         inflate(context, R.layout.view_test_result_section, this)
         context.withStyledAttributes(attrs, R.styleable.TestResultSection) {
-            test_result_section_headline.text = getString(R.styleable.TestResultSection_test_result_section_headline)
-            test_result_section_content.text = SpannableString(getString(R.styleable.TestResultSection_test_result_section_content))
+            test_result_section_headline.text =
+                getString(R.styleable.TestResultSection_test_result_section_headline)
+            test_result_section_content.text =
+                SpannableString(getString(R.styleable.TestResultSection_test_result_section_content))
             test_result_section_registered_at_text.text =
                 getString(R.styleable.TestResultSection_test_result_section_registered_at_text)
             val resultIconId = getResourceId(R.styleable.TestResultSection_test_result_section_status_icon, 0)
