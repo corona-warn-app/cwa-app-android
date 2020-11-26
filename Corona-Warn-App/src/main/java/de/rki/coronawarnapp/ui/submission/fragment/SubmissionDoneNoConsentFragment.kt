@@ -35,6 +35,11 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
                     doNavigate(
                         SubmissionDoneNoConsentFragmentDirections.actionSubmissionDoneNoConsentFragmentToMainFragment()
                     )
+
+                SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
+                    doNavigate(
+                        SubmissionDoneNoConsentFragmentDirections.actionSubmissionDoneNoConsentFragmentToSubmissionSymptomIntroductionFragment()
+                    )
             }
         }
     }
@@ -45,6 +50,9 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
     }
 
     private fun setButtonOnClickListener() {
+        binding.submissionDoneNoConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            viewModel.onBackPressed()
+        }
         binding.submissionDoneButtonContinueWithSymptomRecording.setOnClickListener {
             viewModel.onContinueWithSymptomRecordingPressed()
         }

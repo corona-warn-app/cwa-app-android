@@ -10,12 +10,11 @@ class SubmissionDoneNoConsentViewModel @AssistedInject constructor() : CWAViewMo
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onBackPressed() {
-        // Flow needs to be validated once
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     fun onContinueWithSymptomRecordingPressed() {
-        // Implementation will be done when other screens are ready
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
     }
 
     fun onBreakFlowPressed() {
