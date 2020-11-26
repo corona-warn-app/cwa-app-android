@@ -19,10 +19,10 @@
     <declare-styleable name="BulletPointList">
         <attr name="entries" format="reference" />
     </declare-styleable>
-    <declare-styleable name="TestResultCard">
-        <attr name="test_result_card_headline" format="string" />
-        <attr name="test_result_card_content" format="string" />
-        <attr name="test_result_card_status_icon" format="reference" />
-        <attr name="test_result_card_registered_at_text" format="string" />
+    <declare-styleable name="TestResultSection">
+        <attr name="test_result_section_headline" format="string" />
+        <attr name="test_result_section_content" format="string" />
+        <attr name="test_result_section_status_icon" format="reference" />
+        <attr name="test_result_section_registered_at_text" format="string" />
     </declare-styleable>
 </resources>
