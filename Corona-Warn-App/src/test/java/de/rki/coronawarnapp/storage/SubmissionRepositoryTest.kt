@@ -62,9 +62,9 @@ class SubmissionRepositoryTest {
         every { LocalData.registrationToken(any()) } just Runs
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
-        every {submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
+        every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
 
-        val appScope =  AppCoroutineScope()
+        val appScope = AppCoroutineScope()
         submissionRepository = SubmissionRepository(submissionSettings, submissionService, appScope, TimeStamper())
     }
 
@@ -95,6 +95,7 @@ class SubmissionRepositoryTest {
             submissionRepository.updateTestResult(testResult)
         }
     }
+
     @Test
     fun registrationWithTeleTANSucceeds() {
         every { LocalData.teletan(any()) } just Runs
