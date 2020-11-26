@@ -236,7 +236,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             val path = File(context.cacheDir, "share/")
             path.mkdirs()
 
-            val file = File(path, "exposureWindows-${fileNameCompatibleTimestamp}.txt")
+            val file = File(path, "exposureWindows-$fileNameCompatibleTimestamp.txt")
             file.bufferedWriter()
                 .use { writer ->
                     if (exposureWindows.isNullOrEmpty()) {
