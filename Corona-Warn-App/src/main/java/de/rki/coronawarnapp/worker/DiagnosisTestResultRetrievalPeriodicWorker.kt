@@ -7,6 +7,7 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -27,10 +28,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisTestResultRetrievalPeriodicWorker::class.simpleName
-    }
-
     /**
      * Work execution
      *
@@ -43,7 +40,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      * @see LocalData.initialPollingForTestResultTimeStamp
      */
     override suspend fun doWork(): Result {
-
         Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
         BackgroundWorkHelper.sendDebugNotification(
             "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount "
@@ -111,7 +107,9 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                 CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
                 NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID
             )
-            Timber.d("$id: Test Result available - notification issued (if app is not in foreground")
+            NotificationHelper.cancelCurrentNotification(NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
+
+            Timber.d("$id: Test Result available - notification issued & risk level notification canceled")
             LocalData.isTestResultNotificationSent(true)
             stopWorker()
         }

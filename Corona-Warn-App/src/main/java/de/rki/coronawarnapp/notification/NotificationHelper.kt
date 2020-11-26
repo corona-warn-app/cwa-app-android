@@ -94,6 +94,11 @@ object NotificationHelper {
         Timber.v("Canceled future notifications with id: %s", notificationId)
     }
 
+    fun cancelCurrentNotification(notificationId: Int) {
+        NotificationManagerCompat.from(CoronaWarnApplication.getAppContext()).cancel(notificationId)
+        Timber.v("Canceled notifications with id: %s", notificationId)
+    }
+
     fun scheduleRepeatingNotification(
         initialTime: Instant,
         interval: Duration,
@@ -201,7 +206,7 @@ object NotificationHelper {
         expandableLongText: Boolean = false,
         pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ) {
-        Timber.d("Sending nsotification with id: %s | title: %s | content: %s", notificationId, title, content)
+        Timber.d("Sending notification with id: %s | title: %s | content: %s", notificationId, title, content)
         val notification =
             buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
