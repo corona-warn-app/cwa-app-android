@@ -23,7 +23,6 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
         binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackButtonClick()
         }
