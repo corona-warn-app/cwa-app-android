@@ -14,7 +14,9 @@ import kotlinx.android.synthetic.main.view_test_result_section.view.*
  */
 class TestResultSection @JvmOverloads
 constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
@@ -32,7 +34,6 @@ constructor(
         }
     }
 }
-
 
 
 
