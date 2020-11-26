@@ -33,12 +33,14 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(
-                        SubmissionDoneNoConsentFragmentDirections.actionSubmissionDoneNoConsentFragmentToMainFragment()
+                        SubmissionDoneNoConsentFragmentDirections
+                            .actionSubmissionDoneNoConsentFragmentToMainFragment()
                     )
 
                 SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
-                        SubmissionDoneNoConsentFragmentDirections.actionSubmissionDoneNoConsentFragmentToSubmissionSymptomIntroductionFragment()
+                        SubmissionDoneNoConsentFragmentDirections
+                            .actionSubmissionDoneNoConsentFragmentToSubmissionSymptomIntroductionFragment()
                     )
             }
         }
