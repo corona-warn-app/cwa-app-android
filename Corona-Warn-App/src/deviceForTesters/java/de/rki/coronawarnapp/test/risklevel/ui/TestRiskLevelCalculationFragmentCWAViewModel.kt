@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -57,7 +58,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
     private val riskLevelStorage: RiskLevelStorage,
-    private val testSettings: TestSettings
+    private val testSettings: TestSettings,
+    private val timeStamper: TimeStamper
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -230,7 +232,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             val path = File(context.cacheDir, "share/")
             path.mkdirs()
 
-            val file = File(path, "exposureWindows.txt")
+            val file = File(path, "exposureWindows-${timeStamper.nowUTC}.txt")
             file.bufferedWriter()
                 .use { writer ->
                     if (exposureWindows.isNullOrEmpty()) {
