@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.qrcode.info
+package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionQRCodeInfoModule {
+abstract class SubmissionConsentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionQRCodeInfoFragmentViewModel::class)
-    abstract fun infoQRFragment(
-        factory: SubmissionQRCodeInfoFragmentViewModel.Factory
+    @CWAViewModelKey(SubmissionConsentViewModel::class)
+    abstract fun submissionConsentFragment(
+        factory: SubmissionConsentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
