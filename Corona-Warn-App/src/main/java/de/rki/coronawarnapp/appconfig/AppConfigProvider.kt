@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
+import de.rki.coronawarnapp.appconfig.internal.AppConfigSource
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AppConfigProvider @Inject constructor(
-    private val source: AppConfigSource,
+    private val appConfigSource: AppConfigSource,
     private val dispatcherProvider: DispatcherProvider,
     @AppScope private val scope: CoroutineScope
 ) {
@@ -22,9 +23,9 @@ class AppConfigProvider @Inject constructor(
         loggingTag = "AppConfigProvider",
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
-        sharingBehavior = SharingStarted.WhileSubscribed(replayExpirationMillis = 0)
+        sharingBehavior = SharingStarted.Lazily
     ) {
-        source.retrieveConfig()
+        appConfigSource.getConfigData()
     }
 
     val currentConfig: Flow<ConfigData> = configHolder.data
@@ -34,7 +35,7 @@ class AppConfigProvider @Inject constructor(
         // we'd still like to have that new config in any case.
         val deferred = scope.async(context = dispatcherProvider.IO) {
             configHolder.updateBlocking {
-                source.retrieveConfig()
+                appConfigSource.getConfigData()
             }
         }
         return deferred.await()
@@ -42,7 +43,7 @@ class AppConfigProvider @Inject constructor(
 
     suspend fun clear() {
         Timber.tag(TAG).v("clear()")
-        source.clear()
+        appConfigSource.clear()
     }
 
     companion object {

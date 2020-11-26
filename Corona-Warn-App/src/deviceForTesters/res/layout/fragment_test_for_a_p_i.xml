@@ -61,36 +61,6 @@
                     android:layout_marginBottom="@dimen/spacing_tiny"
                     android:text="@string/test_api_exposure_summary_headline" />
 
-                <TextView
-                    android:id="@+id/label_exposure_summary_matchedKeyCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_matchedKeyCount" />
-
-                <TextView
-                    android:id="@+id/label_exposure_summary_daysSinceLastExposure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_daysSinceLastExposure" />
-
-                <TextView
-                    android:id="@+id/label_exposure_summary_maximumRiskScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_maximumRiskScore" />
-
-                <TextView
-                    android:id="@+id/label_exposure_summary_summationRiskScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_summation_risk" />
-
-                <TextView
-                    android:id="@+id/label_exposure_summary_attenuation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_api_body_attenuation" />
-
                 <Button
                     android:id="@+id/button_api_scan_qr_code"
                     style="@style/buttonPrimary"
@@ -106,14 +76,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="@string/test_api_button_enter_other_keys" />
-
-                <Button
-                    android:id="@+id/button_api_get_check_exposure"
-                    style="@style/buttonPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="@string/test_api_button_check_exposure" />
             </LinearLayout>
 
             <LinearLayout

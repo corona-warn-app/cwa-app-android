@@ -16,5 +16,6 @@ fun <T> mockFlowPreference(
         val updateCall = arg<(T) -> T>(0)
         flow.value = updateCall(flow.value)
     }
+
     return instance
 }

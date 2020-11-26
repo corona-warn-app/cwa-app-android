@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.ui.main.home
 import dagger.Reusable
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.util.DeviceUIState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
@@ -19,12 +17,10 @@ class SubmissionCardsStateProvider @Inject constructor(
 ) {
 
     val state: Flow<SubmissionCardState> = combine(
-        submissionRepository.deviceUIStateFlow,
-        submissionRepository.uiStateStateFlow
+        submissionRepository.deviceUIStateFlow
     ) { args ->
         SubmissionCardState(
-            deviceUiState = args[0] as DeviceUIState,
-            uiStateState = args[1] as ApiRequestState,
+            deviceUiState = args[0],
             isDeviceRegistered = LocalData.registrationToken() != null
         )
     }

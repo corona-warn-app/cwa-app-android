@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ui.CachedString
 
 enum class Country(
     val code: String,
@@ -40,5 +41,7 @@ enum class Country(
     RO("ro", R.string.country_name_ro, R.drawable.ic_country_ro),
     SE("se", R.string.country_name_se, R.drawable.ic_country_se),
     SI("si", R.string.country_name_si, R.drawable.ic_country_si),
-    SK("sk", R.string.country_name_sk, R.drawable.ic_country_sk)
+    SK("sk", R.string.country_name_sk, R.drawable.ic_country_sk);
+
+    val label = CachedString { it.getString(labelRes) }
 }

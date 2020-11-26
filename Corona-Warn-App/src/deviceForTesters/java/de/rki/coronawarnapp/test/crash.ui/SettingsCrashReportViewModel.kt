@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.reportProblem
@@ -12,9 +11,7 @@ import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
 
 class SettingsCrashReportViewModel @AssistedInject constructor(
     private val crashReportRepository: BugRepository
@@ -28,7 +25,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         createBugEventFormattedText(it)
     }
 
-    fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteAllCrashReports() = launch(Dispatchers.IO) {
         crashReportRepository.clear()
     }
 

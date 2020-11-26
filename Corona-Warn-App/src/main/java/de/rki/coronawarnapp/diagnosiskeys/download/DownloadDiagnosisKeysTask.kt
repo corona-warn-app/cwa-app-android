@@ -15,18 +15,14 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -50,10 +46,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.d("Running with arguments=%s", arguments)
             arguments as Arguments
 
-            if (arguments.withConstraints) {
-                if (!noKeysFetchedToday()) return object : Task.Result {}
-            }
-
             /**
              * Handles the case when the ENClient got disabled but the Task is still scheduled
              * in a background job. Also it acts as a failure catch in case the orchestration code did
@@ -68,10 +60,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val currentDate = Date(timeStamper.nowUTC.millis)
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
-            /****************************************************
-             * RETRIEVE TOKEN
-             ****************************************************/
-            val token = retrieveToken(rollbackItems)
             throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
@@ -94,11 +82,12 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
+                Timber.tag(TAG).i("task aborted, because detection was performed recently")
                 return object : Task.Result {}
             }
 
             if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
-                //  Last check was within 24h, and there are no new files.
+                Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
                 return object : Task.Result {}
             }
 
@@ -113,19 +102,16 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             )
 
             Timber.tag(TAG).d("Attempting submission to ENF")
-            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                keyFiles = availableKeyFiles,
-                configuration = exposureConfig.exposureDetectionConfiguration,
-                token = token
-            )
-            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
+            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(availableKeyFiles)
+            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
-            internalProgress.send(Progress.ApiSubmissionFinished)
-            throwIfCancelled()
-
+            // EXPOSUREAPP-3878 write timestamp immediately after submission,
+            // so that progress observers can rely on a clean app state
             if (isSubmissionSuccessful) {
                 saveTimestamp(currentDate, rollbackItems)
             }
+
+            internalProgress.send(Progress.ApiSubmissionFinished)
 
             return object : Task.Result {}
         } catch (error: Exception) {
@@ -181,35 +167,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
     }
 
-    private fun retrieveToken(rollbackItems: MutableList<RollbackItem>): String {
-        val googleAPITokenForRollback = LocalData.googleApiToken()
-        rollbackItems.add {
-            LocalData.googleApiToken(googleAPITokenForRollback)
-        }
-        return UUID.randomUUID().toString().also {
-            LocalData.googleApiToken(it)
-        }
-    }
-
-    private fun noKeysFetchedToday(): Boolean {
-        val currentDate = DateTime(timeStamper.nowUTC, DateTimeZone.UTC)
-        val lastFetch = DateTime(
-            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
-        )
-        return (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()).also {
-            if (it) {
-                Timber.tag(TAG)
-                    .d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
-                BackgroundWorkHelper.sendDebugNotification(
-                    "Start Task",
-                    "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
-                )
-            }
-        }
-    }
-
     private fun rollback(rollbackItems: MutableList<RollbackItem>) {
         try {
             Timber.tag(TAG).d("Initiate Rollback")
@@ -249,8 +206,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     }
 
     class Arguments(
-        val requestedCountries: List<String>? = null,
-        val withConstraints: Boolean = false
+        val requestedCountries: List<String>? = null
     ) : Task.Arguments
 
     data class Config(
