@@ -97,7 +97,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                is SubmissionNavigationEvents.NavigateToConsent ->
                     goBack()
             }
         }
