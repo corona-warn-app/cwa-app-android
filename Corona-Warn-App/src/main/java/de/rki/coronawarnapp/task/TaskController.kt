@@ -125,13 +125,13 @@ class TaskController @Inject constructor(
         Timber.tag(TAG).d("Processing task data (count=%d)", size)
 
         // Procress all unprocessed finished tasks
-        procressFinishedTasks(this).let {
+        processFinishedTasks(this).let {
             this.clear()
             this.putAll(it)
         }
 
         // Start new tasks
-        procressPendingTasks(this).let {
+        processPendingTasks(this).let {
             this.clear()
             this.putAll(it)
         }
@@ -151,7 +151,7 @@ class TaskController @Inject constructor(
         Timber.tag(TAG).v("Tasks after processing (count=%d):\n%s", size, values.joinToString("\n"))
     }
 
-    private fun procressFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+    private fun processFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
         val workMap = data.toMutableMap()
         workMap.values
             .filter { it.job.isCompleted && it.executionState != TaskState.ExecutionState.FINISHED }
@@ -176,7 +176,7 @@ class TaskController @Inject constructor(
         return workMap
     }
 
-    private suspend fun procressPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+    private suspend fun processPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
         val workMap = data.toMutableMap()
         workMap.values
             .filter { it.executionState == TaskState.ExecutionState.PENDING }
