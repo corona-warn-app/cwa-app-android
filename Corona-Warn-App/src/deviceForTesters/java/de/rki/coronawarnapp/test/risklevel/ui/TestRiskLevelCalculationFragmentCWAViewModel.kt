@@ -25,9 +25,11 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
+import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -41,6 +43,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
+import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -56,7 +59,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
     private val riskLevelStorage: RiskLevelStorage,
-    private val testSettings: TestSettings
+    private val testSettings: TestSettings,
+    private val timeStamper: TimeStamper
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -225,17 +229,20 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Creating text file for Exposure Windows")
         launch(dispatcherProvider.IO) {
             val exposureWindows = riskLevelStorage.exposureWindows.firstOrNull()
+            val fileNameCompatibleTimestamp = timeStamper.nowUTC.toString(
+                DateTimeFormat.forPattern("yyyy-MM-DD-HH-mm-ss")
+            )
 
             val path = File(context.cacheDir, "share/")
             path.mkdirs()
 
-            val file = File(path, "exposureWindows.txt")
+            val file = File(path, "exposureWindows-$fileNameCompatibleTimestamp.json")
             file.bufferedWriter()
-                .use {
+                .use { writer ->
                     if (exposureWindows.isNullOrEmpty()) {
-                        it.appendLine("Exposure windows list was empty")
+                        writer.appendLine("Exposure windows list was empty")
                     } else {
-                        it.appendLine(gson.toJson(exposureWindows))
+                        writer.appendLine(gson.toJson(exposureWindows.map { it.toExposureWindowJson() }))
                     }
                 }
             shareFileEvent.postValue(file)
