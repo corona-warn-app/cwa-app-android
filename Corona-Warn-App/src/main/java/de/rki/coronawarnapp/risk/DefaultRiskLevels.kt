@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
+import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
@@ -206,11 +207,12 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
                 }"
             )
 
-            NotificationHelper.sendNotification(
-                CoronaWarnApplication.getAppContext().getString(R.string.notification_body)
+            NotificationHelper.sendNotificationIfAppIsNotInForeground(
+                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
+                NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
             )
 
-            Timber.d("Risk level changed and notification sent. Current Risk level is ${riskLevel.raw}")
+            Timber.d("Risk level changed and notification issued. Current Risk level is ${riskLevel.raw}")
         }
         if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
             riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK) {
