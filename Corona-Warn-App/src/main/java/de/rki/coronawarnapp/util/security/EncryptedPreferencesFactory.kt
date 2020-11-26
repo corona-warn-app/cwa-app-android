@@ -16,13 +16,13 @@ class EncryptedPreferencesFactory @Inject constructor(
     @AppContext private val context: Context
 ) {
 
-    private val masterKeyAlias by lazy {
+    private val mainKeyAlias by lazy {
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
     }
 
     private fun createInstance(fileName: String) = EncryptedSharedPreferences.create(
         fileName,
-        masterKeyAlias,
+        mainKeyAlias,
         context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
