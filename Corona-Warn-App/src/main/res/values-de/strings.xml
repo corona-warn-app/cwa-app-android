@@ -620,7 +620,7 @@
     <string name="settings_notifications_illustration_description_inactive">"Eine Frau hat die Mitteilungen ihrer Corona-Warn-App ausgeschaltet."</string>
     <!-- XBUT: settings - go to reset application -->
     <string name="settings_reset_title">"Anwendung zurücksetzen"</string>
-    <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
+    <!-- XTXT: settings(reset) - explains the user what do expect when navigating to reset -->
     <string name="settings_reset_body_description">"Löschen Sie alle Ihre Daten in der App."</string>
     <!-- XHED: settings(reset) - multiline headline below illustration -->
     <string name="settings_reset_headline">"Sind Sie sicher, dass Sie die Anwendung zurücksetzen wollen?"</string>
