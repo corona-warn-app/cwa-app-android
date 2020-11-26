@@ -85,5 +85,4 @@ class SubmissionServiceTest {
             mockPlaybook.testResult(registrationToken)
         }
     }
-
 }
