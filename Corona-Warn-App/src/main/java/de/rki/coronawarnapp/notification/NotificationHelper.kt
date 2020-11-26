@@ -229,6 +229,8 @@ object NotificationHelper {
                 content,
                 notificationId,
                 true)
+        } else {
+            Timber.d("App is in foreground - not sending the notification with id: %s", notificationId)
         }
     }
 
