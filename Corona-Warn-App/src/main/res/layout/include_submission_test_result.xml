@@ -18,17 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.rki.coronawarnapp.ui.view.TestResultCard
-                android:id="@+id/submission_test_result_card"
+            <de.rki.coronawarnapp.ui.view.TestResultSection
+                android:id="@+id/submission_test_result_section"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 android:importantForAccessibility="yes"
-                app:test_result_card_headline="@string/test_result_card_headline"
-                app:test_result_card_content="@{FormatterSubmissionHelper.formatTestResultCardContent(uiState.deviceUiState)}"
-                app:test_result_card_status_icon="@{FormatterSubmissionHelper.formatTestStatusIcon(uiState.deviceUiState)}"
-                app:test_result_card_registered_at_text="@{FormatterSubmissionHelper.formatTestResultRegisteredAtText(uiState.testResultReceivedDate)}"
+                app:test_result_section_headline="@string/test_result_card_headline"
+                app:test_result_section_content="@{FormatterSubmissionHelper.formatTestResultCardContent(uiState.deviceUiState)}"
+                app:test_result_section_status_icon="@{FormatterSubmissionHelper.formatTestStatusIcon(uiState.deviceUiState)}"
+                app:test_result_section_registered_at_text="@{FormatterSubmissionHelper.formatTestResultRegisteredAtText(uiState.testResultReceivedDate)}"
                 app:layout_constraintEnd_toEndOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toTopOf="parent"/>

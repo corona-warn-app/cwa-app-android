@@ -149,8 +149,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
             SubmissionRepository.refreshDeviceUIState()
-            binding.submissionTestResultContent.submissionTestResultCard
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            binding.submissionTestResultContent.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
