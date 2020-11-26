@@ -8,6 +8,7 @@ sealed class SubmissionNavigationEvents {
     object NavigateToSubmissionDone : SubmissionNavigationEvents()
     object NavigateToSubmissionIntro : SubmissionNavigationEvents()
     object NavigateToQRCodeScan : SubmissionNavigationEvents()
+    object NavigateToDataPrivacy : SubmissionNavigationEvents()
 
     data class NavigateToResultPositiveOtherWarning(
         val symptoms: Symptoms
@@ -21,7 +22,7 @@ sealed class SubmissionNavigationEvents {
     object NavigateToSymptomIntroduction : SubmissionNavigationEvents()
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToTestResult : SubmissionNavigationEvents()
-    object NavigateToQRInfo : SubmissionNavigationEvents()
+    object NavigateToConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
     object ShowCancelDialog : SubmissionNavigationEvents()
 }
