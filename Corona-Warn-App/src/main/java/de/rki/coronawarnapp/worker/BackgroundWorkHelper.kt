@@ -69,6 +69,6 @@ object BackgroundWorkHelper {
     fun sendDebugNotification(title: String, content: String) {
         Timber.d("sendDebugNotification(title=%s, content=%s)", title, content)
         if (!LocalData.backgroundNotification()) return
-        NotificationHelper.sendNotification(title, content, true)
+        NotificationHelper.sendNotification(title, content, Random.nextInt(), true)
     }
 }
