@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
+import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -228,11 +229,14 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Creating text file for Exposure Windows")
         launch(dispatcherProvider.IO) {
             val exposureWindows = riskLevelStorage.exposureWindows.firstOrNull()
+            val fileNameCompatibleTimestamp = timeStamper.nowUTC.toString(
+                DateTimeFormat.forPattern("yyyy-MM-DD-HH-mm-ss")
+            )
 
             val path = File(context.cacheDir, "share/")
             path.mkdirs()
 
-            val file = File(path, "exposureWindows-${timeStamper.nowUTC}.txt")
+            val file = File(path, "exposureWindows-${fileNameCompatibleTimestamp}.txt")
             file.bufferedWriter()
                 .use { writer ->
                     if (exposureWindows.isNullOrEmpty()) {
