@@ -22,12 +22,4 @@
     <string name="submission_consent_your_consent_subsection_second_point"></string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point"></string>
-    <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point"></string>
-    <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point"></string>
-    <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point"></string>
-    <!-- YTXT: Body for consent main section fourth point  -->
-    <string name="submission_consent_main_fourth_point"></string>
 </resources>
