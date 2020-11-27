@@ -150,17 +150,20 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `exposureWindows are returned from database and mapped`() {
-        every { exposureWindowTables.allEntries() } returns flowOf(listOf(testExposureWindowDaoWrapper))
+        val testDaoWrappers = flowOf(listOf(testExposureWindowDaoWrapper))
+        every { exposureWindowTables.allEntries() } returns testDaoWrappers
 
         runBlockingTest {
-            val instance = createInstance()
-            instance.exposureWindows.first() shouldBe listOf(testExposureWindow)
+            val exposureWindowDAOWrappers = createInstance().exposureWindowsTables.allEntries()
+            exposureWindowDAOWrappers shouldBe testDaoWrappers
+            exposureWindowDAOWrappers.first().map { it.toExposureWindow() } shouldBe listOf(testExposureWindow)
         }
     }
 
     @Test
     fun `riskLevelResults are returned from database and mapped`() {
         every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
 
         runBlockingTest {
             val instance = createInstance()
@@ -174,6 +177,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `if no risk level results are available we try to get legacy results`() {
         every { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
         every { riskResultTables.allEntries() } returns flowOf(emptyList())
+        every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
 
         runBlockingTest {
             val instance = createInstance()
