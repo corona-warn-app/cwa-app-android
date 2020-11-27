@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.tracing.common
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import io.kotest.matchers.longs.shouldBeInRange
 import io.kotest.matchers.shouldBe
@@ -32,12 +32,12 @@ class RiskLevelExtensionsTest : BaseTest() {
 
         emptyResults.tryLatestResultsWithDefaults().apply {
             lastCalculated.apply {
-                riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+                riskState shouldBe RiskState.LOW_LEVEL_RISK
                 val now = Instant.now().millis
                 calculatedAt.millis shouldBeInRange ((now - 60 * 1000L)..now + 60 * 1000L)
             }
             lastSuccessfullyCalculated.apply {
-                riskLevel shouldBe RiskLevel.UNDETERMINED
+                riskState shouldBe RiskState.CALCULATION_FAILED
             }
         }
     }

@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.risk
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
+import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
+import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
@@ -56,10 +56,10 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     }
 
     private fun createRiskLevel(
-        riskLevel: RiskLevel,
+        riskLevel: RiskState,
         calculatedAt: Instant = Instant.EPOCH
     ): RiskLevelResult = object : RiskLevelResult {
-        override val riskLevel: RiskLevel = riskLevel
+        override val riskState: RiskState = riskLevel
         override val calculatedAt: Instant = calculatedAt
         override val aggregatedRiskResult: AggregatedRiskResult? = null
         override val failureReason: RiskLevelResult.FailureReason? = null
@@ -162,12 +162,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `evaluate risk level change detection function`() {
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, UNDETERMINED) shouldBe false
+        RiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
         RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_LEVEL_RISK, LOW_LEVEL_RISK) shouldBe false
         RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
         RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_LEVEL_RISK) shouldBe true
         RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_LEVEL_RISK, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, UNDETERMINED) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
     }
 }

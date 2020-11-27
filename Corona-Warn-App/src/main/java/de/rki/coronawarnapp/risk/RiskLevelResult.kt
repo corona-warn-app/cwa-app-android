@@ -7,16 +7,11 @@ import org.joda.time.Instant
 interface RiskLevelResult {
     val calculatedAt: Instant
 
-    val riskLevel: RiskLevel
+    val riskState: RiskState
         get() = when {
-            aggregatedRiskResult?.isIncreasedRisk() == true -> RiskLevel.INCREASED_RISK
-            aggregatedRiskResult?.isLowRisk() == true -> RiskLevel.LOW_LEVEL_RISK
-            failureReason == FailureReason.OUTDATED_RESULTS -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-            failureReason == FailureReason.OUTDATED_RESULTS_MANUAL -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-            failureReason == FailureReason.TRACING_OFF -> RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
-            failureReason == FailureReason.NO_INTERNET -> RiskLevel.UNKNOWN_RISK_NO_INTERNET
-            failureReason == FailureReason.UNKNOWN -> RiskLevel.UNDETERMINED
-            else -> RiskLevel.UNDETERMINED
+            aggregatedRiskResult?.isIncreasedRisk() == true -> RiskState.INCREASED_RISK
+            aggregatedRiskResult?.isLowRisk() == true -> RiskState.LOW_LEVEL_RISK
+            else -> RiskState.CALCULATION_FAILED
         }
 
     val failureReason: FailureReason?
@@ -62,12 +57,4 @@ interface RiskLevelResult {
         OUTDATED_RESULTS_MANUAL("outDatedResults.manual")
     }
 
-    companion object {
-        private val UNSUCCESSFUL_RISK_LEVELS = arrayOf(
-            RiskLevel.UNDETERMINED,
-            RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS,
-            RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-        )
-    }
 }

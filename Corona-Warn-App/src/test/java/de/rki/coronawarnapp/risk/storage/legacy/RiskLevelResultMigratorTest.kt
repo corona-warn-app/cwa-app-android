@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.risk.storage.legacy
 
 import androidx.core.content.edit
-import de.rki.coronawarnapp.risk.RiskLevel
-import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -41,18 +40,18 @@ class RiskLevelResultMigratorTest : BaseTest() {
     @Test
     fun `normal case with full values`() {
         mockPreferences.edit {
-            putInt("preference_risk_level_score", RiskLevel.INCREASED_RISK.raw)
-            putInt("preference_risk_level_score_successful", RiskLevel.LOW_LEVEL_RISK.raw)
+            putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
+            putInt("preference_risk_level_score_successful", MigrationRiskLevelConstants.LOW_LEVEL_RISK)
             putLong("preference_timestamp_risk_level_calculation", 1234567890L)
         }
         createInstance().apply {
             val legacyResults = getLegacyResults()
             legacyResults[0].apply {
-                riskLevel shouldBe RiskLevel.INCREASED_RISK
+                riskState shouldBe RiskState.INCREASED_RISK
                 calculatedAt shouldBe Instant.ofEpochMilli(1234567890L)
             }
             legacyResults[1].apply {
-                riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+                riskState shouldBe RiskState.LOW_LEVEL_RISK
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
         }
@@ -67,17 +66,17 @@ class RiskLevelResultMigratorTest : BaseTest() {
     @Test
     fun `if no timestamp is available we use the current time`() {
         mockPreferences.edit {
-            putInt("preference_risk_level_score", RiskLevel.INCREASED_RISK.raw)
-            putInt("preference_risk_level_score_successful", RiskLevel.LOW_LEVEL_RISK.raw)
+            putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
+            putInt("preference_risk_level_score_successful", MigrationRiskLevelConstants.LOW_LEVEL_RISK)
         }
         createInstance().apply {
             val legacyResults = getLegacyResults()
             legacyResults[0].apply {
-                riskLevel shouldBe RiskLevel.INCREASED_RISK
+                riskState shouldBe RiskState.INCREASED_RISK
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
             legacyResults[1].apply {
-                riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+                riskState shouldBe RiskState.LOW_LEVEL_RISK
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
         }
@@ -86,13 +85,13 @@ class RiskLevelResultMigratorTest : BaseTest() {
     @Test
     fun `last successful is null`() {
         mockPreferences.edit {
-            putInt("preference_risk_level_score_successful", RiskLevel.INCREASED_RISK.raw)
+            putInt("preference_risk_level_score_successful", MigrationRiskLevelConstants.INCREASED_RISK)
         }
         createInstance().apply {
             val legacyResults = getLegacyResults()
             legacyResults.size shouldBe 1
             legacyResults.first().apply {
-                riskLevel shouldBe RiskLevel.INCREASED_RISK
+                riskState shouldBe RiskState.INCREASED_RISK
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
         }
@@ -101,14 +100,14 @@ class RiskLevelResultMigratorTest : BaseTest() {
     @Test
     fun `last successfully calculated is null`() {
         mockPreferences.edit {
-            putInt("preference_risk_level_score", RiskLevel.INCREASED_RISK.raw)
+            putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
             putLong("preference_timestamp_risk_level_calculation", 1234567890L)
         }
         createInstance().apply {
             val legacyResults = getLegacyResults()
             legacyResults.size shouldBe 1
             legacyResults.first().apply {
-                riskLevel shouldBe RiskLevel.INCREASED_RISK
+                riskState shouldBe RiskState.INCREASED_RISK
                 calculatedAt shouldBe Instant.ofEpochMilli(1234567890L)
             }
         }
@@ -117,7 +116,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
     @Test
     fun `exceptions are handled gracefully`() {
         mockPreferences.edit {
-            putInt("preference_risk_level_score", RiskLevel.INCREASED_RISK.raw)
+            putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
         }
         every { timeStamper.nowUTC } throws Exception("Surprise!")
         createInstance().getLegacyResults() shouldBe emptyList()
@@ -126,20 +125,27 @@ class RiskLevelResultMigratorTest : BaseTest() {
     @Test
     fun `legacy risk level mapping`() {
         RiskLevelResultMigrator.mapRiskLevelConstant(
-            RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF
-        ) shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
-
-        RiskLevelResultMigrator.mapRiskLevelConstant(RiskLevelConstants.LOW_LEVEL_RISK) shouldBe RiskLevel.LOW_LEVEL_RISK
-        RiskLevelResultMigrator.mapRiskLevelConstant(RiskLevelConstants.INCREASED_RISK) shouldBe RiskLevel.INCREASED_RISK
+            MigrationRiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF
+        ) shouldBe RiskState.CALCULATION_FAILED
 
         RiskLevelResultMigrator.mapRiskLevelConstant(
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
-        ) shouldBe RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+            MigrationRiskLevelConstants.LOW_LEVEL_RISK
+        ) shouldBe RiskState.LOW_LEVEL_RISK
 
         RiskLevelResultMigrator.mapRiskLevelConstant(
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-        ) shouldBe RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+            MigrationRiskLevelConstants.INCREASED_RISK
+        ) shouldBe RiskState.INCREASED_RISK
 
-        RiskLevelResultMigrator.mapRiskLevelConstant(RiskLevelConstants.UNDETERMINED) shouldBe RiskLevel.UNDETERMINED
+        RiskLevelResultMigrator.mapRiskLevelConstant(
+            MigrationRiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+        ) shouldBe RiskState.CALCULATION_FAILED
+
+        RiskLevelResultMigrator.mapRiskLevelConstant(
+            MigrationRiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+        ) shouldBe RiskState.CALCULATION_FAILED
+
+        RiskLevelResultMigrator.mapRiskLevelConstant(
+            MigrationRiskLevelConstants.UNDETERMINED
+        ) shouldBe RiskState.CALCULATION_FAILED
     }
 }

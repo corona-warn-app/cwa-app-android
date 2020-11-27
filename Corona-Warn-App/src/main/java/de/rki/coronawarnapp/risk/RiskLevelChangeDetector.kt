@@ -47,10 +47,10 @@ class RiskLevelChangeDetector @Inject constructor(
         val oldResult = changedLevels.first()
         val newResult = changedLevels.last()
 
-        val oldRiskLevel = oldResult.riskLevel
-        val newRiskLevel = newResult.riskLevel
+        val oldRiskLevel = oldResult.riskState
+        val newRiskLevel = newResult.riskState
 
-        Timber.d("last CalculatedS core is ${oldRiskLevel.raw} and Current Risk Level is ${newRiskLevel.raw}")
+        Timber.d("Last state was $oldRiskLevel and current state is $newRiskLevel")
 
         if (hasHighLowLevelChanged(oldRiskLevel, newRiskLevel) && !LocalData.submissionWasSuccessful()) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
@@ -64,10 +64,7 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskLevel")
         }
 
-        if (
-            oldRiskLevel.raw == RiskLevelConstants.INCREASED_RISK &&
-            newRiskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK
-        ) {
+        if (oldRiskLevel == RiskState.INCREASED_RISK && newRiskLevel == RiskState.LOW_LEVEL_RISK) {
             LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
 
             Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskLevel")
@@ -83,10 +80,10 @@ class RiskLevelChangeDetector @Inject constructor(
          * @return
          */
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal fun hasHighLowLevelChanged(previous: RiskLevel, current: RiskLevel) =
+        internal fun hasHighLowLevelChanged(previous: RiskState, current: RiskState) =
             previous.isIncreasedRisk != current.isIncreasedRisk
 
-        private val RiskLevel.isIncreasedRisk: Boolean
-            get() = this == RiskLevel.INCREASED_RISK
+        private val RiskState.isIncreasedRisk: Boolean
+            get() = this == RiskState.INCREASED_RISK
     }
 }

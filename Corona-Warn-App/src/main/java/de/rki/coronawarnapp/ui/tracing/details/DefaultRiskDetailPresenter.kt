@@ -1,15 +1,14 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Reusable
-import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.RiskState
 import javax.inject.Inject
 
 @Reusable
 class DefaultRiskDetailPresenter @Inject constructor() {
 
-    fun isAdditionalInfoVisible(riskLevel: Int, matchedKeyCount: Int) =
-        riskLevel == RiskLevelConstants.LOW_LEVEL_RISK && matchedKeyCount > 0
+    fun isAdditionalInfoVisible(riskState: RiskState, matchedKeyCount: Int) =
+        riskState == RiskState.LOW_LEVEL_RISK && matchedKeyCount > 0
 
-    fun isInformationBodyNoticeVisible(riskLevel: Int) =
-        riskLevel != RiskLevelConstants.LOW_LEVEL_RISK
+    fun isInformationBodyNoticeVisible(riskState: RiskState) = riskState != RiskState.LOW_LEVEL_RISK
 }

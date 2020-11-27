@@ -2,14 +2,17 @@ package de.rki.coronawarnapp.ui.tracing.details
 
 import android.content.Context
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
+import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
 
 data class TracingDetailsState(
     override val tracingStatus: GeneralTracingStatus.Status,
-    override val riskLevelScore: Int,
+    override val riskState: RiskState,
     override val tracingProgress: TracingProgress,
     val matchedKeyCount: Int,
     val activeTracingDaysInRetentionPeriod: Long,
@@ -26,28 +29,26 @@ data class TracingDetailsState(
      * in all cases when risk level is not increased
      */
     fun isBehaviorNormalVisible(): Boolean =
-        riskLevelScore != RiskLevelConstants.INCREASED_RISK
+        riskState != INCREASED_RISK
 
     /**
      * Format the risk details include display for suggested behavior depending on risk level
      * Only applied in special case for increased risk
      */
     fun isBehaviorIncreasedRiskVisible(): Boolean =
-        riskLevelScore == RiskLevelConstants.INCREASED_RISK
+        riskState == INCREASED_RISK
 
     /**
      * Format the risk details period logged card display  depending on risk level
      * applied in case of low and high risk levels
      */
-    fun isBehaviorPeriodLoggedVisible(): Boolean =
-        riskLevelScore == RiskLevelConstants.INCREASED_RISK || riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK
+    fun isBehaviorPeriodLoggedVisible(): Boolean = riskState == INCREASED_RISK || riskState == LOW_LEVEL_RISK
 
     /**
      * Format the risk details include display for suggested behavior depending on risk level
      * Only applied in special case for low level risk
      */
-    fun isBehaviorLowLevelRiskVisible(): Boolean =
-        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK && matchedKeyCount > 0
+    fun isBehaviorLowLevelRiskVisible(): Boolean = riskState == LOW_LEVEL_RISK && matchedKeyCount > 0
 
     /**
      * Formats the risk details text display for each risk level
@@ -56,48 +57,38 @@ data class TracingDetailsState(
         val resources = c.resources
         val days = daysSinceLastExposure
         val count = matchedKeyCount
-        return when (riskLevelScore) {
-            RiskLevelConstants.INCREASED_RISK ->
-                resources.getQuantityString(
-                    R.plurals.risk_details_information_body_increased_risk,
-                    days,
-                    days
-                )
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ->
-                c.getString(R.string.risk_details_information_body_outdated_risk)
-            RiskLevelConstants.LOW_LEVEL_RISK ->
-                c.getString(
-                    if (count > 0) R.string.risk_details_information_body_low_risk_with_encounter
-                    else R.string.risk_details_information_body_low_risk
-                )
-            else -> ""
+        return when (riskState) {
+            INCREASED_RISK -> resources.getQuantityString(
+                R.plurals.risk_details_information_body_increased_risk,
+                days,
+                days
+            )
+            CALCULATION_FAILED -> c.getString(R.string.risk_details_information_body_outdated_risk)
+            LOW_LEVEL_RISK -> c.getString(
+                if (count > 0) R.string.risk_details_information_body_low_risk_with_encounter
+                else R.string.risk_details_information_body_low_risk
+            )
         }
     }
 
     /**
      * Formats the risk details text display for each risk level for the body notice
      */
-    fun getRiskDetailsRiskLevelBodyNotice(c: Context): String = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> R.string.risk_details_information_body_notice_increased
+    fun getRiskDetailsRiskLevelBodyNotice(c: Context): String = when (riskState) {
+        INCREASED_RISK -> R.string.risk_details_information_body_notice_increased
         else -> R.string.risk_details_information_body_notice
     }.let { c.getString(it) }
 
     /**
      * Formats the risk details button display for enable tracing depending on risk level
      */
-    fun areRiskDetailsButtonsVisible(): Boolean =
-        isRiskDetailsEnableTracingButtonVisible() || isRiskDetailsUpdateButtonVisible()
-
-    /**
-     * Formats the risk details button display for enable tracing depending on risk level
-     */
-    fun isRiskDetailsEnableTracingButtonVisible(): Boolean = isTracingOffRiskLevel()
+    fun isRiskDetailsEnableTracingButtonVisible(): Boolean = isTracingOff()
 
     /**
      * Formats the risk details button display for manual updates depending on risk level and
      * background task setting
      */
-    fun isRiskDetailsUpdateButtonVisible(): Boolean = !isTracingOffRiskLevel() && isManualKeyRetrievalEnabled
+    fun isRiskDetailsUpdateButtonVisible(): Boolean = !isTracingOff() && isManualKeyRetrievalEnabled
 
     /**
      * Formats the risk logged period card text display of tracing active duration in days depending on risk level
@@ -109,8 +100,7 @@ data class TracingDetailsState(
 
     fun getBehaviorIcon(context: Context) = when {
         tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorTextSemanticNeutral
-        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
-            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+        riskState == INCREASED_RISK || riskState == LOW_LEVEL_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
     }.let { context.getColor(it) }
 
@@ -122,8 +112,8 @@ data class TracingDetailsState(
      */
     fun getBehaviorIconBackground(context: Context) = when {
         tracingStatus != GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorSurface2
-        riskLevelScore == RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
-            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
+        riskState == INCREASED_RISK -> R.color.colorSemanticHighRisk
+        riskState == LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
         else -> R.color.colorSurface2
     }.let { context.getColor(it) }
 }

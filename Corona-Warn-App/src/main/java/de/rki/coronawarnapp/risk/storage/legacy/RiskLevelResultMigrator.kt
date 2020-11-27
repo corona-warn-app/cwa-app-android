@@ -4,9 +4,8 @@ import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import dagger.Lazy
-import de.rki.coronawarnapp.risk.RiskLevel
-import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.TimeStamper
@@ -34,12 +33,12 @@ class RiskLevelResultMigrator @Inject constructor(
         }
     }
 
-    private fun lastCalculatedRiskLevel(): RiskLevel? {
+    private fun lastCalculatedRiskLevel(): RiskState? {
         val rawRiskLevel = prefs.getInt("preference_risk_level_score", -1)
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
-    private fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel? {
+    private fun lastSuccessfullyCalculatedRiskLevel(): RiskState? {
         val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", -1)
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
@@ -49,14 +48,14 @@ class RiskLevelResultMigrator @Inject constructor(
         lastCalculatedRiskLevel()?.let {
             legacyResults.add(
                 LegacyResult(
-                    riskLevel = it,
+                    riskState = it,
                     calculatedAt = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
                 )
             )
         }
 
         lastSuccessfullyCalculatedRiskLevel()?.let {
-            legacyResults.add(LegacyResult(riskLevel = it, calculatedAt = timeStamper.nowUTC))
+            legacyResults.add(LegacyResult(riskState = it, calculatedAt = timeStamper.nowUTC))
         }
 
         legacyResults
@@ -66,7 +65,7 @@ class RiskLevelResultMigrator @Inject constructor(
     }
 
     data class LegacyResult(
-        override val riskLevel: RiskLevel,
+        override val riskState: RiskState,
         override val calculatedAt: Instant
     ) : RiskLevelResult {
         override val failureReason: RiskLevelResult.FailureReason? = null
@@ -77,18 +76,23 @@ class RiskLevelResultMigrator @Inject constructor(
     }
 
     companion object {
+
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal fun mapRiskLevelConstant(value: Int): RiskLevel {
-            return when (value) {
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
-                RiskLevelConstants.LOW_LEVEL_RISK -> RiskLevel.LOW_LEVEL_RISK
-                RiskLevelConstants.INCREASED_RISK -> RiskLevel.INCREASED_RISK
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
-                    RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-                }
-                else -> RiskLevel.UNDETERMINED
-            }
+        internal fun mapRiskLevelConstant(value: Int): RiskState = when (value) {
+            MigrationRiskLevelConstants.LOW_LEVEL_RISK -> RiskState.LOW_LEVEL_RISK
+            MigrationRiskLevelConstants.INCREASED_RISK -> RiskState.INCREASED_RISK
+            else -> RiskState.CALCULATION_FAILED
         }
     }
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+internal object MigrationRiskLevelConstants {
+    const val NO_CALCULATION_POSSIBLE_TRACING_OFF = 1
+    const val LOW_LEVEL_RISK = 2
+    const val INCREASED_RISK = 3
+    const val UNKNOWN_RISK_OUTDATED_RESULTS = 4
+    const val UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL = 5
+    const val UNKNOWN_RISK_NO_INTERNET = 6
+    const val UNDETERMINED = 9001
 }

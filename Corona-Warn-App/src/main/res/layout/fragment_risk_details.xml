@@ -309,7 +309,7 @@
             android:paddingTop="@dimen/spacing_small"
             android:paddingEnd="@dimen/spacing_normal"
             android:paddingBottom="@dimen/spacing_small"
-            gone="@{!tracingDetails.areRiskDetailsButtonsVisible()}"
+            gone="@{!tracingDetails.isRiskDetailsEnableTracingButtonVisible() &amp;&amp; !tracingDetails.isRiskDetailsUpdateButtonVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

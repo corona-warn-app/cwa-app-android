@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -54,14 +55,14 @@ class TracingCardStateProvider @Inject constructor(
 
         TracingCardState(
             tracingStatus = status,
-            riskLevelScore = latestCalc.riskLevel.raw,
+            riskState = latestCalc.riskState,
             tracingProgress = tracingProgress,
-            lastRiskLevelScoreCalculated = latestSuccessfulCalc.riskLevel.raw,
+            lastSuccessfulRiskState = latestSuccessfulCalc.riskState,
             lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
             daysWithEncounters = latestCalc.daysWithEncounters,
             lastEncounterAt = latestCalc.lastRiskEncounterAt,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled
+            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
         )
     }
         .onStart { Timber.v("TracingCardState FLOW start") }

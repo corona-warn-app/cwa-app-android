@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
@@ -93,7 +93,7 @@ abstract class BaseRiskLevelStorage constructor(
 
     companion object {
         private val INITIAL_RESULT = object : RiskLevelResult {
-            override val riskLevel: RiskLevel = RiskLevel.LOW_LEVEL_RISK
+            override val riskState: RiskState = RiskState.LOW_LEVEL_RISK
             override val calculatedAt: Instant = Instant.EPOCH
             override val aggregatedRiskResult: AggregatedRiskResult? = null
             override val failureReason: RiskLevelResult.FailureReason? = null

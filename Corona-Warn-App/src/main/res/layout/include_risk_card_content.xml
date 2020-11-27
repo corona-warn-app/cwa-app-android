@@ -117,11 +117,11 @@
             <TextView
                 android:id="@+id/risk_card_body"
                 style="@style/subtitle"
-                gone="@{tracingCard.getRiskBody(context).empty}"
+                gone="@{tracingCard.getErrorStateBody(context).empty}"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@{tracingCard.getRiskBody(context)}"
+                android:text="@{tracingCard.getErrorStateBody(context)}"
                 android:textColor="@{tracingCard.getStableTextColor(context)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
