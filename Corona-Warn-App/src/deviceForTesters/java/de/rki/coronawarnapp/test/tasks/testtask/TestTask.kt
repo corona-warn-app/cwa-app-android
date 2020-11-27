@@ -58,9 +58,6 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
-
-        override val preconditions: List<suspend () -> Boolean>
-            get() = emptyList()
     }
 
     class Factory @Inject constructor(

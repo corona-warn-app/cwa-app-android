@@ -218,10 +218,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
         override val collisionBehavior: CollisionBehavior = CollisionBehavior.SKIP_IF_SIBLING_RUNNING
 
-    ) : TaskFactory.Config {
-        override val preconditions: List<suspend () -> Boolean>
-            get() = emptyList()
-    }
+    ) : TaskFactory.Config
 
     class Factory @Inject constructor(
         private val taskByDagger: Provider<DownloadDiagnosisKeysTask>,

@@ -15,9 +15,6 @@ class SkippingTask : QueueingTask() {
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
-
-        override val preconditions: List<suspend () -> Boolean>
-            get() = emptyList()
     }
 
     class Factory @Inject constructor(

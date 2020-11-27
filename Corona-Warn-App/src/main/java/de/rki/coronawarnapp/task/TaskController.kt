@@ -90,15 +90,6 @@ class TaskController @Inject constructor(
 
         Timber.tag(TAG).v("Initiating task data for request: %s", newRequest)
         val taskConfig = taskFactory.createConfig()
-
-        Timber.tag(TAG).v("checking preconditions for request: %s", newRequest)
-        if (!taskConfig.preconditions.fold(true) { allPreConditionsMet, precondition ->
-                allPreConditionsMet && precondition.invoke()
-            }) {
-            Timber.tag(TAG).v("not all preconditions for request are met: %s", newRequest)
-            return
-        }
-
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(start = CoroutineStart.LAZY) {
@@ -185,7 +176,7 @@ class TaskController @Inject constructor(
         return workMap
     }
 
-    private fun procressPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+    private suspend fun procressPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
         val workMap = data.toMutableMap()
         workMap.values
             .filter { it.executionState == TaskState.ExecutionState.PENDING }
@@ -202,12 +193,17 @@ class TaskController @Inject constructor(
                     Timber.tag(TAG).v("Sibling are:\n%s", siblingTasks.joinToString("\n"))
                 }
 
+                Timber.tag(TAG).v("Checking preconditions for request: %s", state.config)
+                val arePreconditionsMet = state.config.preconditions.fold(true) { allPreConditionsMet, precondition ->
+                    allPreConditionsMet && precondition()
+                }
+
                 // Handle collision behavior for tasks of same type
                 when {
                     siblingTasks.isEmpty() -> {
                         workMap[state.id] = state.toRunningState()
                     }
-                    state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
+                    !arePreconditionsMet || state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
                         workMap[state.id] = state.toSkippedState()
                     }
                     state.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
