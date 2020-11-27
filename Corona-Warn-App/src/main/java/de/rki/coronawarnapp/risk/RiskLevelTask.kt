@@ -182,14 +182,11 @@ class RiskLevelTask @Inject constructor(
 
     data class Config(
         private val exposureDetectionTracker: ExposureDetectionTracker,
-
-        // TODO unit-test that not > 9 min
         override val executionTimeout: Duration = Duration.standardMinutes(8),
-
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
-
     ) : TaskFactory.Config {
+
         override val preconditions: List<suspend () -> Boolean>
             get() = listOf {
                 // check whether we already have a successful v2 exposure
