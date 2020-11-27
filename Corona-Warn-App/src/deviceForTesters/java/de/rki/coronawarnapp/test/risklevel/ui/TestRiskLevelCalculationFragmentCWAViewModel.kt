@@ -89,14 +89,18 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
-    private val lastRiskResult = riskLevelStorage.lastRiskLevelResult
+    private val lastRiskResult = riskLevelStorage.riskLevelResults.map { results ->
+        results.maxByOrNull { it.calculatedAt }
+    }
 
     val exposureWindowCount = lastRiskResult
-        .map { it.exposureWindows?.size ?: 0 }
+        .map { it?.exposureWindows?.size ?: 0 }
         .asLiveData()
 
     val aggregatedRiskResult = lastRiskResult
         .map {
+            if (it == null) return@map "No results yet."
+
             if (it.wasSuccessfullyCalculated) {
                 // wasSuccessfullyCalculated check for aggregatedRiskResult != null
                 it.aggregatedRiskResult!!.toReadableString()

@@ -8,6 +8,7 @@ import androidx.room.TypeConverter
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
 import org.joda.time.Instant
 import timber.log.Timber
@@ -20,12 +21,12 @@ data class PersistedRiskLevelResultDao(
     @Embedded val aggregatedRiskResult: PersistedAggregatedRiskResult?
 ) {
 
-    fun toRiskResult() = when {
+    fun toRiskResult(exposureWindows: List<PersistedExposureWindowDaoWrapper>?) = when {
         aggregatedRiskResult != null -> {
             RiskLevelTaskResult(
                 calculatedAt = calculatedAt,
                 aggregatedRiskResult = aggregatedRiskResult.toAggregatedRiskResult(),
-                exposureWindows = null
+                exposureWindows = exposureWindows?.map { it.toExposureWindow() }
             )
         }
         else -> {

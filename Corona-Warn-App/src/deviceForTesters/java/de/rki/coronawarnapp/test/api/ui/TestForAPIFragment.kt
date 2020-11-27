@@ -163,7 +163,9 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = riskLevelStorage.exposureWindows.first().toString()
+                    val summary = riskLevelStorage.riskLevelResults.first().maxByOrNull {
+                        it.calculatedAt
+                    }?.toString() ?: "No results yet."
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)
