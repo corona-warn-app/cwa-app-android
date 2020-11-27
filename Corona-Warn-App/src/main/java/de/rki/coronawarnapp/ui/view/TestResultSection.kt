@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -44,7 +43,7 @@ constructor(
         }
     }
 
-    fun setTestResultSection(uiState: TestResultUIState?){
+    fun setTestResultSection(uiState: TestResultUIState?) {
         val deviceUIState = uiState?.deviceUiState
         val registeredAt = uiState?.testResultReceivedDate
 
