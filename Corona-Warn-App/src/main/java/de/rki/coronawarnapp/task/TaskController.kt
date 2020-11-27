@@ -203,7 +203,8 @@ class TaskController @Inject constructor(
                     siblingTasks.isEmpty() -> {
                         workMap[state.id] = state.toRunningState()
                     }
-                    !arePreconditionsMet || state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
+                    !arePreconditionsMet ||
+                        state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
                         workMap[state.id] = state.toSkippedState()
                     }
                     state.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
