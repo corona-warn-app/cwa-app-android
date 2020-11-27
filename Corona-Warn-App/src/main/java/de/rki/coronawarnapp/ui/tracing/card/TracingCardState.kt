@@ -110,7 +110,7 @@ data class TracingCardState(
         riskState == LOW_LEVEL_RISK && daysWithEncounters == 0 -> {
             c.getString(R.string.risk_card_low_risk_no_encounters_body)
         }
-        riskState == INCREASED_RISK -> {
+        riskState == LOW_LEVEL_RISK -> {
             c.resources.getQuantityString(
                 R.plurals.risk_card_low_risk_encounter_days_body,
                 daysWithEncounters,
