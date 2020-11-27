@@ -76,7 +76,10 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         viewModel.uiState.observe2(this) {
             binding.uiState = it
-            binding.submissionTestResultContent.submissionTestResultSection.setTestResultSection(binding.uiState)
+            with(binding) {
+                submissionTestResultContent.submissionTestResultSection
+                        .setTestResultSection(uiState?.deviceUiState, uiState?.testResultReceivedDate)
+            }
             it.deviceUiState.withFailure {
                 if (it is CwaWebException) {
                     DialogHelper.showDialog(buildErrorDialog(it))

@@ -9,8 +9,9 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.formatter.formatTestResult
 import kotlinx.android.synthetic.main.view_test_result_section.view.*
@@ -43,30 +44,25 @@ constructor(
         }
     }
 
-    fun setTestResultSection(uiState: TestResultUIState?) {
-        val deviceUIState = uiState?.deviceUiState
-        val registeredAt = uiState?.testResultReceivedDate
-
+    fun setTestResultSection(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?, registeredAt: Date?) {
         test_result_section_registered_at_text.text = formatTestResultRegisteredAtText(registeredAt)
-        val testResultIcon = formatTestStatusIcon(deviceUIState)
+        val testResultIcon = formatTestStatusIcon(uiState)
         test_result_section_status_icon.setImageDrawable(testResultIcon)
-        test_result_section_content.text = formatTestResultSectionContent(deviceUIState)
+        test_result_section_content.text = formatTestResultSectionContent(uiState)
     }
 
-    private fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
-        return when (uiState) {
-            DeviceUIState.PAIRED_NO_RESULT ->
-                context.getDrawable(R.drawable.ic_test_result_illustration_pending)
-            DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            DeviceUIState.PAIRED_POSITIVE ->
-                context.getDrawable(R.drawable.ic_test_result_illustration_positive)
-            DeviceUIState.PAIRED_NEGATIVE ->
-                context.getDrawable(R.drawable.ic_test_result_illustration_negative)
-            DeviceUIState.PAIRED_ERROR,
-            DeviceUIState.PAIRED_REDEEMED ->
-                context.getDrawable(R.drawable.ic_test_result_illustration_invalid)
-            else -> context.getDrawable(R.drawable.ic_test_result_illustration_invalid)
-        }
+    private fun formatTestStatusIcon(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Drawable? {
+        return uiState.withSuccess(R.drawable.ic_test_result_illustration_invalid) {
+            when (it) {
+                DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
+                DeviceUIState.PAIRED_POSITIVE_TELETAN,
+                DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
+                DeviceUIState.PAIRED_NEGATIVE -> R.drawable.ic_test_result_illustration_negative
+                DeviceUIState.PAIRED_ERROR,
+                DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
+                else -> R.drawable.ic_test_result_illustration_invalid
+            }
+        }.let { context.getDrawable(it) }
     }
 
     private fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
@@ -74,18 +70,20 @@ constructor(
             .format(registeredAt?.toUIFormat(context))
     }
 
-    private fun formatTestResultSectionContent(uiState: DeviceUIState?): Spannable {
-        return when (uiState) {
-            DeviceUIState.PAIRED_NO_RESULT ->
-                SpannableString(context.getString(R.string.test_result_card_status_pending))
-            DeviceUIState.PAIRED_ERROR,
-            DeviceUIState.PAIRED_REDEEMED ->
-                SpannableString(context.getString(R.string.test_result_card_status_invalid))
+    private fun formatTestResultSectionContent(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
+        return uiState.withSuccess(SpannableString("")) {
+            when (it) {
+                DeviceUIState.PAIRED_NO_RESULT ->
+                    SpannableString(context.getString(R.string.test_result_card_status_pending))
+                DeviceUIState.PAIRED_ERROR,
+                DeviceUIState.PAIRED_REDEEMED ->
+                    SpannableString(context.getString(R.string.test_result_card_status_invalid))
 
-            DeviceUIState.PAIRED_POSITIVE,
-            DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
-            else -> SpannableString("")
+                DeviceUIState.PAIRED_POSITIVE,
+                DeviceUIState.PAIRED_POSITIVE_TELETAN,
+                DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+                else -> SpannableString("")
+            }
         }
     }
 }
