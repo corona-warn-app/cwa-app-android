@@ -24,14 +24,14 @@ class ConfigChangeDetector @Inject constructor(
 ) {
 
     fun launch() {
-        Timber.v("Monitoring config changes.")
+        Timber.tag(TAG).v("Monitoring config changes.")
         appConfigProvider.currentConfig
             .distinctUntilChangedBy { it.identifier }
             .onEach {
-                Timber.v("Running app config change checks.")
+                Timber.tag(TAG).v("Running app config change checks.")
                 check(it.identifier)
             }
-            .catch { Timber.e(it, "App config change checks failed.") }
+            .catch { Timber.tag(TAG).e(it, "App config change checks failed.") }
             .launchIn(appScope)
     }
 
@@ -39,17 +39,21 @@ class ConfigChangeDetector @Inject constructor(
     internal suspend fun check(newIdentifier: String) {
         if (riskLevelSettings.lastUsedConfigIdentifier == null) {
             // No need to reset anything if we didn't calculate a risklevel yet.
-            Timber.d("Config changed, but no previous identifier is available.")
+            Timber.tag(TAG).d("Config changed, but no previous identifier is available.")
             return
         }
 
         val oldConfigId = riskLevelSettings.lastUsedConfigIdentifier
         if (newIdentifier != oldConfigId) {
-            Timber.i("New config id ($newIdentifier) differs from last one ($oldConfigId), resetting.")
+            Timber.tag(TAG).i("New config id ($newIdentifier) differs from last one ($oldConfigId), resetting.")
             riskLevelStorage.clear()
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class, originTag = "ConfigChangeDetector"))
         } else {
-            Timber.v("Config identifier ($oldConfigId) didn't change, NOOP.")
+            Timber.tag(TAG).v("Config identifier ($oldConfigId) didn't change, NOOP.")
         }
+    }
+
+    companion object {
+        private const val TAG = "ConfigChangeDetector"
     }
 }
