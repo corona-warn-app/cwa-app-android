@@ -21,7 +21,7 @@ data class PersistedRiskLevelResultDao(
     @Embedded val aggregatedRiskResult: PersistedAggregatedRiskResult?
 ) {
 
-    fun toRiskResult(exposureWindows: List<PersistedExposureWindowDaoWrapper>?) = when {
+    fun toRiskResult(exposureWindows: List<PersistedExposureWindowDaoWrapper>? = null) = when {
         aggregatedRiskResult != null -> {
             RiskLevelTaskResult(
                 calculatedAt = calculatedAt,
