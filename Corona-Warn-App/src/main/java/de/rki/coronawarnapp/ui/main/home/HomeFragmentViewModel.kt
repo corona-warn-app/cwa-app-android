@@ -5,7 +5,6 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -34,7 +33,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository,
-    private val testResultNotificationService: TestResultNotificationService
+    private val testResultNotificationService: TestResultNotificationService,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(settingsViewModel)
@@ -76,10 +76,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private var isLoweredRiskLevelDialogBeingShown = false
 
-    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+    fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionCardsStateProvider.state
             .first { it.isPositiveSubmissionCardVisible() }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+    }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
@@ -100,11 +101,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshRequiredData() {
-        SubmissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshDeviceUIState()
         // TODO the ordering here is weird, do we expect these to run in sequence?
         tracingRepository.refreshRiskLevel()
-        tracingRepository.refreshExposureSummary()
-        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         tracingRepository.refreshLastSuccessfullyCalculatedScore()
@@ -123,11 +122,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun deregisterWarningAccepted() {
-        SubmissionService.deleteTestGUID()
-        SubmissionService.deleteRegistrationToken()
+        submissionRepository.deleteTestGUID()
+        SubmissionRepository.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
-        SubmissionRepository.refreshDeviceUIState()
+        submissionRepository.refreshDeviceUIState()
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

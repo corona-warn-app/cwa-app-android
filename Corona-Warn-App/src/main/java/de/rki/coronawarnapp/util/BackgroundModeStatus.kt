@@ -6,8 +6,6 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -23,18 +21,19 @@ class BackgroundModeStatus @Inject constructor(
     @AppScope private val appScope: CoroutineScope
 ) {
 
-    val isBackgroundRestricted: Flow<Boolean> = callbackFlow<Boolean> {
-        var isRunning = true
-        while (isRunning && isActive) {
+    val isBackgroundRestricted: Flow<Boolean?> = callbackFlow<Boolean> {
+        while (true) {
             try {
-                sendBlocking(pollIsBackgroundRestricted())
+                send(pollIsBackgroundRestricted())
             } catch (e: Exception) {
                 Timber.w(e, "isBackgroundRestricted failed.")
                 cancel("isBackgroundRestricted failed", e)
             }
+
+            if (!isActive) break
+
             delay(POLLING_DELAY_MS)
         }
-        awaitClose { isRunning = false }
     }
         .distinctUntilChanged()
         .shareLatest(
@@ -43,17 +42,18 @@ class BackgroundModeStatus @Inject constructor(
         )
 
     val isAutoModeEnabled: Flow<Boolean> = callbackFlow<Boolean> {
-        var isRunning = true
-        while (isRunning && isActive) {
+        while (true) {
             try {
-                sendBlocking(pollIsAutoMode())
+                send(pollIsAutoMode())
             } catch (e: Exception) {
                 Timber.w(e, "autoModeEnabled failed.")
                 cancel("autoModeEnabled failed", e)
             }
+
+            if (!isActive) break
+
             delay(POLLING_DELAY_MS)
         }
-        awaitClose { isRunning = false }
     }
         .distinctUntilChanged()
         .shareLatest(

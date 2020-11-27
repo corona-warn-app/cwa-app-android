@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
@@ -20,6 +21,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
+
+    val showCancelDialog = SingleLiveEvent<Unit>()
 
     fun onNextClicked() {
         launch {
@@ -41,7 +44,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     }
 
     fun onPreviousClicked() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
+        showCancelDialog.postValue(Unit)
     }
 
     fun onPositiveSymptomIndication() {
@@ -54,6 +57,11 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onNoInformationSymptomIndication() {
         symptomIndicationInternal.value = Symptoms.Indication.NO_INFORMATION
+    }
+
+    fun cancelSymptomSubmission() {
+        Timber.d("Symptom submission was cancelled.")
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
     }
 
     @AssistedInject.Factory

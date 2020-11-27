@@ -7,6 +7,7 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -23,12 +24,9 @@ import timber.log.Timber
  */
 class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters
+    @Assisted workerParams: WorkerParameters,
+    private val submissionService: SubmissionService
 ) : CoroutineWorker(context, workerParams) {
-
-    companion object {
-        private val TAG: String? = DiagnosisTestResultRetrievalPeriodicWorker::class.simpleName
-    }
 
     /**
      * Work execution
@@ -44,16 +42,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
 
         Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount "
-        )
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.d("$id doWork() failed after $runAttemptCount attempts. Rescheduling")
 
-            BackgroundWorkHelper.sendDebugNotification(
-                "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts"
-            )
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             Timber.d("$id Rescheduled background worker")
 
@@ -67,7 +59,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
                 Timber.d(" $id maximum days not exceeded")
-                val testResult = SubmissionService.asyncRequestTestResult()
+                val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+                val testResult = submissionService.asyncRequestTestResult(registrationToken)
                 initiateNotification(testResult)
                 Timber.d(" $id Test Result Notification Initiated")
             } else {
@@ -78,9 +71,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             result = Result.retry()
         }
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Executing: End", "TestResult result: $result "
-        )
         Timber.d("$id: doWork() finished with %s", result)
 
         return result
@@ -130,9 +120,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
         Timber.d("$id: Background worker stopped")
-        BackgroundWorkHelper.sendDebugNotification(
-            "TestResult Stopped", "TestResult Stopped"
-        )
     }
 
     @AssistedInject.Factory

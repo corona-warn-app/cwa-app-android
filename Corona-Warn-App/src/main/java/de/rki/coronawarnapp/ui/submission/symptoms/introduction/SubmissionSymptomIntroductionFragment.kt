@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
@@ -47,8 +47,15 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
                             it.symptoms
                         )
                 )
-                is SubmissionNavigationEvents.NavigateToTestResult -> handleSubmissionCancellation()
+                is SubmissionNavigationEvents.NavigateToTestResult -> doNavigate(
+                    SubmissionSymptomIntroductionFragmentDirections
+                        .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
+                )
             }
+        }
+
+        viewModel.showCancelDialog.observe2(this) {
+            showCancelDialog()
         }
 
         viewModel.symptomIndication.observe2(this) {
@@ -122,26 +129,16 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
             )
     }
 
-    /**
-     * Opens a Dialog that warns user
-     * when they're about to cancel the submission flow
-     */
-    private fun handleSubmissionCancellation() {
-        DialogHelper.showDialog(
-            DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_confirm_cancellation_title,
-                R.string.submission_error_dialog_confirm_cancellation_body,
-                R.string.submission_error_dialog_confirm_cancellation_button_positive,
-                R.string.submission_error_dialog_confirm_cancellation_button_negative,
-                true,
-                {
-                    doNavigate(
-                        SubmissionSymptomIntroductionFragmentDirections
-                            .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
-                    )
-                }
-            )
-        )
+    private fun showCancelDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
+            setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
+            setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
+                viewModel.cancelSymptomSubmission()
+            }
+            setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ ->
+                // NOOP
+            }
+        }.show()
     }
 }

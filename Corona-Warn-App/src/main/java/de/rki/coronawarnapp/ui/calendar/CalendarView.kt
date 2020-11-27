@@ -88,14 +88,13 @@ class CalendarView @JvmOverloads constructor(
         listener?.invoke(updateData.find { it.isSelected }?.date)
     }
 
-    /**
-     * Unset selection of each date shown
-     *
-     * @see CalendarAdapter.update
-     */
-    fun unsetSelection() {
-        val updateData = days.map { oldDay -> oldDay.copy(isSelected = false) }
-        updateSelection(false)
+    fun setSelectedDate(date: LocalDate?) {
+        val updateData = if (date != null) {
+            days.map { oldDay -> oldDay.copy(isSelected = oldDay.date == date) }
+        } else {
+            days.map { oldDay -> oldDay.copy(isSelected = false) }
+        }
+        updateSelection(date != null)
         adapter.update(updateData)
     }
 

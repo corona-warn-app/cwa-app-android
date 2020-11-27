@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.appconfig.mapping
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
-import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig
+import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class ConfigParser @Inject constructor(
     private val cwaConfigMapper: CWAConfig.Mapper,
     private val keyDownloadConfigMapper: KeyDownloadConfig.Mapper,
     private val exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper,
-    private val riskCalculationConfigMapper: RiskCalculationConfig.Mapper
+    private val exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper
 ) {
 
     fun parse(configBytes: ByteArray): ConfigMapping = try {
@@ -24,7 +24,7 @@ class ConfigParser @Inject constructor(
                 cwaConfig = cwaConfigMapper.map(it),
                 keyDownloadConfig = keyDownloadConfigMapper.map(it),
                 exposureDetectionConfig = exposureDetectionConfigMapper.map(it),
-                riskCalculationConfig = riskCalculationConfigMapper.map(it)
+                exposureWindowRiskCalculationConfig = exposureWindowRiskCalculationConfigMapper.map(it)
             )
         }
     } catch (e: Exception) {
@@ -32,8 +32,8 @@ class ConfigParser @Inject constructor(
         throw e
     }
 
-    private fun parseRawArray(configBytes: ByteArray): AppConfig.ApplicationConfiguration {
+    private fun parseRawArray(configBytes: ByteArray): AppConfigAndroid.ApplicationConfigurationAndroid {
         Timber.v("Parsing config (size=%dB)", configBytes.size)
-        return AppConfig.ApplicationConfiguration.parseFrom(configBytes)
+        return AppConfigAndroid.ApplicationConfigurationAndroid.parseFrom(configBytes)
     }
 }

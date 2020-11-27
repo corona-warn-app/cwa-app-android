@@ -38,8 +38,8 @@
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionIntroFragment"
-            app:destination="@id/submissionIntroFragment" />
+            android:id="@+id/action_mainFragment_to_submissionDispatcher"
+            app:destination="@id/submissionDispatcherFragment" />
         <action
             android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
             app:destination="@id/onboardingDeltaInteroperabilityFragment" />
@@ -219,8 +219,8 @@
             android:id="@+id/action_submissionDispatcherFragment_to_submissionContactFragment"
             app:destination="@id/submissionContactFragment" />
         <action
-            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeInfoFragment"
-            app:destination="@id/submissionQRCodeInfoFragment" />
+            android:id="@+id/action_submissionDispatcherFragment_to_submissionConsentFragment"
+            app:destination="@id/submissionConsentFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
@@ -312,14 +312,6 @@
             android:id="@+id/deepLink"
             app:uri="coronawarnapp://launch" />
     </activity>
-    <fragment
-        android:id="@+id/submissionQRCodeInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoFragment"
-        android:label="SubmissionQRCodeInfoFragment">
-        <action
-            android:id="@+id/action_submissionQRCodeInfoFragment_to_submissionQRCodeScanFragment"
-            app:destination="@id/submissionQRCodeScanFragment" />
-    </fragment>
 
     <fragment
         android:id="@+id/submissionQRCodeScanFragment"
@@ -387,6 +379,20 @@
             android:name="symptomIndication"
             app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
     </fragment>
-
+    <fragment
+        android:id="@+id/submissionConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment"
+        android:label="SubmissionConsentFragment" >
+        <action
+            android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeScanFragment"
+            app:destination="@id/submissionQRCodeScanFragment" />
+        <action
+            android:id="@+id/action_submissionConsentFragment_to_homeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+    </fragment>
 
 </navigation>

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
@@ -9,12 +10,12 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
-import de.rki.coronawarnapp.ui.submission.ApiRequestState.SUCCESS
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -47,6 +48,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var submissionCardsStateProvider: SubmissionCardsStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setup() {
@@ -70,7 +72,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingCardStateProvider = tracingCardStateProvider,
         submissionCardsStateProvider = submissionCardsStateProvider,
         tracingRepository = tracingRepository,
-        testResultNotificationService = testResultNotificationService
+        testResultNotificationService = testResultNotificationService,
+        submissionRepository = submissionRepository
     )
 
     @Test
@@ -128,7 +131,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive QR code result`() {
-        val state = SubmissionCardState(PAIRED_POSITIVE, true, SUCCESS)
+        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE), true)
         every { submissionCardsStateProvider.state } returns flowOf(state)
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 
@@ -142,7 +145,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive TeleTan code result`() {
-        val state = SubmissionCardState(PAIRED_POSITIVE_TELETAN, true, SUCCESS)
+        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN), true)
         every { submissionCardsStateProvider.state } returns flowOf(state)
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 

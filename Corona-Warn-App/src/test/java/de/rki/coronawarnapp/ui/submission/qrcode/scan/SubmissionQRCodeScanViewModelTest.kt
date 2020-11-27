@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -21,6 +22,7 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var backgroundNoise: BackgroundNoise
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setUp() {
@@ -33,7 +35,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         every { BackgroundNoise.getInstance() } returns backgroundNoise
     }
 
-    private fun createViewModel() = SubmissionQRCodeScanViewModel()
+    private fun createViewModel() = SubmissionQRCodeScanViewModel(submissionRepository)
 
     @Test
     fun scanStatusValid() {

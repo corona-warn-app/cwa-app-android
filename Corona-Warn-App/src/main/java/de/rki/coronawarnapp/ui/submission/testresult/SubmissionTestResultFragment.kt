@@ -6,23 +6,20 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result),
@@ -80,6 +77,11 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         viewModel.uiState.observe2(this) {
             binding.uiState = it
             binding.submissionTestResultContent.submissionTestResultSection.setTestResultSection(binding.uiState)
+            it.deviceUiState.withFailure {
+                if (it is CwaWebException) {
+                    DialogHelper.showDialog(buildErrorDialog(it))
+                }
+            }
         }
 
         // registers callback when the os level back is pressed
@@ -98,10 +100,6 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                 R.string.submission_test_result_dialog_tracing_required_button
             )
             DialogHelper.showDialog(tracingRequiredDialog)
-        }
-
-        viewModel.uiStateError.observeEvent(viewLifecycleOwner) {
-            DialogHelper.showDialog(buildErrorDialog(it))
         }
 
         viewModel.showRedeemedTokenWarning.observe2(this) {
@@ -136,20 +134,20 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             }
         }
 
-        lifecycleScope.launch { viewModel.observeTestResultToSchedulePositiveTestResultReminder() }
+        viewModel.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        SubmissionRepository.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
+        viewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
 
         skipInitialTestResultRefresh = false
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
-            SubmissionRepository.refreshDeviceUIState()
+            viewModel.refreshDeviceUIState()
             binding.submissionTestResultContent.submissionTestResultSection
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }
