@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskRes
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 abstract class BaseRiskLevelStorage constructor(
