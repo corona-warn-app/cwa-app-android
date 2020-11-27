@@ -195,7 +195,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/risk_card_row_saved_days_body"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/risk_card_row_saved_days_body"
-                    app:progress="@{tracingCard.activeTracingDaysInRetentionPeriod}"
+                    app:progress="@{tracingCard.activeTracingDays}"
                     app:progressColor="@color/colorStableLight" />
 
                 <TextView

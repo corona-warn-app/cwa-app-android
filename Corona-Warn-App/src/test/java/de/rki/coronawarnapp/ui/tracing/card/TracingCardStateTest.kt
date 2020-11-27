@@ -55,7 +55,7 @@ class TracingCardStateTest : BaseTest() {
         lastSuccessfulRiskState = lastSuccessfulRiskState,
         daysWithEncounters = daysWithEncounters,
         lastEncounterAt = lastEncounterAt,
-        activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
+        activeTracingDays = activeTracingDaysInRetentionPeriod,
         lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
         isManualKeyRetrievalEnabled = !isBackgroundJobEnabled
     )
@@ -230,7 +230,6 @@ class TracingCardStateTest : BaseTest() {
             getRiskActiveTracingDaysInRetentionPeriod(context) shouldBe ""
         }
 
-
         createInstance(riskState = LOW_LEVEL_RISK, activeTracingDaysInRetentionPeriod = 1).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context)
             verify { context.getString(R.string.risk_card_body_saved_days).format(1) }
@@ -303,7 +302,6 @@ class TracingCardStateTest : BaseTest() {
         createInstance(riskState = CALCULATION_FAILED, lastTimeDiagnosisKeysFetched = null).apply {
             getTimeFetched(context) shouldBe ""
         }
-
 
         createInstance(riskState = LOW_LEVEL_RISK, lastTimeDiagnosisKeysFetched = null).apply {
             getTimeFetched(context)

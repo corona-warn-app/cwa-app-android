@@ -56,5 +56,4 @@ interface RiskLevelResult {
         OUTDATED_RESULTS("outDatedResults"),
         OUTDATED_RESULTS_MANUAL("outDatedResults.manual")
     }
-
 }

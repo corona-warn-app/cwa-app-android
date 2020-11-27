@@ -45,6 +45,8 @@ class TracingDetailsStateProvider @Inject constructor(
             latestCalc.riskState
         )
 
+        val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
+
         TracingDetailsState(
             tracingStatus = status,
             riskState = latestCalc.riskState,
@@ -52,7 +54,7 @@ class TracingDetailsStateProvider @Inject constructor(
             matchedKeyCount = latestCalc.matchedKeyCount,
             daysSinceLastExposure = latestCalc.daysWithEncounters,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED,
+            isManualKeyRetrievalEnabled = isRestartButtonEnabled,
             isAdditionalInformationVisible = isAdditionalInformationVisible,
             isInformationBodyNoticeVisible = isInformationBodyNoticeVisible
         )

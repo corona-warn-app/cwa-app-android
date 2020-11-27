@@ -49,9 +49,12 @@ class TracingCardStateProvider @Inject constructor(
         lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled ->
 
-        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults(
+        val (
+            latestCalc,
+            latestSuccessfulCalc
+        ) = riskLevelResults.tryLatestResultsWithDefaults()
 
-        )
+        val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
 
         TracingCardState(
             tracingStatus = status,
@@ -61,8 +64,8 @@ class TracingCardStateProvider @Inject constructor(
             lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
             daysWithEncounters = latestCalc.daysWithEncounters,
             lastEncounterAt = latestCalc.lastRiskEncounterAt,
-            activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
+            activeTracingDays = activeTracingDaysInRetentionPeriod,
+            isManualKeyRetrievalEnabled = isRestartButtonEnabled
         )
     }
         .onStart { Timber.v("TracingCardState FLOW start") }

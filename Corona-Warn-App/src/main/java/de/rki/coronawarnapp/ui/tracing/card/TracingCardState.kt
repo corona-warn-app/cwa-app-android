@@ -26,7 +26,7 @@ data class TracingCardState(
     val lastSuccessfulRiskState: RiskState,
     val daysWithEncounters: Int,
     val lastEncounterAt: Instant?,
-    val activeTracingDaysInRetentionPeriod: Long,
+    val activeTracingDays: Long,
     val lastTimeDiagnosisKeysFetched: Date?,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val showDetails: Boolean = false
@@ -150,16 +150,16 @@ data class TracingCardState(
     fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when {
         tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> ""
         riskState == INCREASED_RISK && !showDetails -> ""
-        riskState == INCREASED_RISK && activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays() -> {
-            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDaysInRetentionPeriod)
+        riskState == INCREASED_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
         }
-        riskState == INCREASED_RISK && activeTracingDaysInRetentionPeriod >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+        riskState == INCREASED_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
             c.getString(R.string.risk_card_body_saved_days_full)
         }
-        riskState == LOW_LEVEL_RISK && activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays() -> {
-            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDaysInRetentionPeriod)
+        riskState == LOW_LEVEL_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
         }
-        riskState == LOW_LEVEL_RISK && activeTracingDaysInRetentionPeriod >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+        riskState == LOW_LEVEL_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
             c.getString(R.string.risk_card_body_saved_days_full)
         }
         else -> ""
