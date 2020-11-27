@@ -1,20 +1,15 @@
 package de.rki.coronawarnapp.risk.storage
 
-import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.RiskLevelTaskResult
-import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRiskLevelResultDao
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRisklevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWindowsDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
-import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
-import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao.PersistedAggregatedRiskResult
-import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
-import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -33,7 +28,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,65 +40,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var riskResultTables: RiskResultsDao
     @MockK lateinit var exposureWindowTables: ExposureWindowsDao
     @MockK lateinit var riskLevelResultMigrator: RiskLevelResultMigrator
-
-    private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
-        id = "riskresult-id",
-        calculatedAt = Instant.ofEpochMilli(9999L),
-        failureReason = null,
-        aggregatedRiskResult = PersistedAggregatedRiskResult(
-            totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
-            totalMinimumDistinctEncountersWithLowRisk = 1,
-            totalMinimumDistinctEncountersWithHighRisk = 2,
-            mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
-            mostRecentDateWithHighRisk = Instant.ofEpochMilli(4),
-            numberOfDaysWithLowRisk = 5,
-            numberOfDaysWithHighRisk = 6
-        )
-    )
-
-    private val testRisklevelResult = RiskLevelTaskResult(
-        calculatedAt = Instant.ofEpochMilli(9999L),
-        aggregatedRiskResult = AggregatedRiskResult(
-            totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
-            totalMinimumDistinctEncountersWithLowRisk = 1,
-            totalMinimumDistinctEncountersWithHighRisk = 2,
-            mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
-            mostRecentDateWithHighRisk = Instant.ofEpochMilli(4),
-            numberOfDaysWithLowRisk = 5,
-            numberOfDaysWithHighRisk = 6
-        ),
-        exposureWindows = null
-    )
-
-    private val testExposureWindowDaoWrapper = PersistedExposureWindowDaoWrapper(
-        exposureWindowDao = PersistedExposureWindowDao(
-            id = 1,
-            riskLevelResultId = "riskresult-id",
-            dateMillisSinceEpoch = 123L,
-            calibrationConfidence = 1,
-            infectiousness = 2,
-            reportType = 3
-        ),
-        scanInstances = listOf(
-            PersistedExposureWindowDao.PersistedScanInstance(
-                exposureWindowId = 1,
-                minAttenuationDb = 10,
-                secondsSinceLastScan = 20,
-                typicalAttenuationDb = 30
-            )
-        )
-    )
-    private val testExposureWindow = ExposureWindow.Builder().apply {
-        setDateMillisSinceEpoch(123L)
-        setCalibrationConfidence(1)
-        setInfectiousness(2)
-        setReportType(3)
-        ScanInstance.Builder().apply {
-            setMinAttenuationDb(10)
-            setSecondsSinceLastScan(20)
-            setTypicalAttenuationDb(30)
-        }.build().let { setScanInstances(listOf(it)) }
-    }.build()
 
     @BeforeEach
     fun setup() {
@@ -168,6 +103,20 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest {
             val instance = createInstance()
             instance.riskLevelResults.first() shouldBe listOf(testRisklevelResult)
+
+            verify { riskLevelResultMigrator wasNot Called }
+        }
+    }
+
+    @Test
+    fun `riskLevelResults with exposure windows are returned from database and mapped`() {
+        every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.allEntries() } returns flowOf(listOf(testExposureWindowDaoWrapper))
+
+        runBlockingTest {
+            val instance = createInstance()
+            val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
+            instance.riskLevelResults.first() shouldBe listOf(riskLevelResult)
 
             verify { riskLevelResultMigrator wasNot Called }
         }
