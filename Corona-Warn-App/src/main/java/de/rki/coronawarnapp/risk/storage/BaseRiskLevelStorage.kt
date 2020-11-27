@@ -27,7 +27,11 @@ abstract class BaseRiskLevelStorage constructor(
         Timber.v("Mapping ${allWindows.size} windows to ${allRiskResults.size} risk results.")
         allRiskResults.map { result ->
             val matchingWindows = allWindows.filter { it.exposureWindowDao.riskLevelResultId == result.id }
-            result.toRiskResult(matchingWindows)
+            if (matchingWindows.isEmpty()) {
+                result.toRiskResult()
+            } else {
+                result.toRiskResult(matchingWindows)
+            }
         }
     }
         .map { results ->
