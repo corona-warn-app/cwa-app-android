@@ -65,6 +65,9 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
+
+        override val preconditions: List<suspend () -> Boolean>
+            get() = emptyList()
     }
 
     class Factory @Inject constructor(

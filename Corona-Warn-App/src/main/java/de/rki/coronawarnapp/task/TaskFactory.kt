@@ -15,6 +15,8 @@ interface TaskFactory<
 
         val collisionBehavior: CollisionBehavior
 
+        val preconditions: List<suspend () -> Boolean>
+
         enum class CollisionBehavior {
             ENQUEUE,
             SKIP_IF_SIBLING_RUNNING

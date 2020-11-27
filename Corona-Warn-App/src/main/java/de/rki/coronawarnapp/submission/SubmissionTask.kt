@@ -90,7 +90,10 @@ class SubmissionTask @Inject constructor(
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
 
-    ) : TaskFactory.Config
+    ) : TaskFactory.Config {
+        override val preconditions: List<suspend () -> Boolean>
+            get() = emptyList()
+    }
 
     class Factory @Inject constructor(
         private val taskByDagger: Provider<SubmissionTask>

@@ -8,4 +8,7 @@ class TimeoutTaskConfig : TaskFactory.Config {
 
     override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
         TaskFactory.Config.CollisionBehavior.ENQUEUE
+
+    override val preconditions: List<suspend () -> Boolean>
+        get() = emptyList()
 }

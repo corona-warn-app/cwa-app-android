@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -179,19 +181,30 @@ class RiskLevelTask @Inject constructor(
     }
 
     data class Config(
+        private val exposureDetectionTracker: ExposureDetectionTracker,
+
         // TODO unit-test that not > 9 min
         override val executionTimeout: Duration = Duration.standardMinutes(8),
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
 
-    ) : TaskFactory.Config
+    ) : TaskFactory.Config {
+        override val preconditions: List<suspend () -> Boolean>
+            get() = listOf {
+                // check whether we already have a successful v2 exposure
+                exposureDetectionTracker.calculations.first().values.any {
+                    it.enfVersion == TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE && it.isSuccessful
+                }
+            }
+    }
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<RiskLevelTask>
+        private val taskByDagger: Provider<RiskLevelTask>,
+        private val exposureDetectionTracker: ExposureDetectionTracker
     ) : TaskFactory<DefaultProgress, RiskLevelTaskResult> {
 
-        override suspend fun createConfig(): TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config(exposureDetectionTracker)
         override val taskProvider: () -> Task<DefaultProgress, RiskLevelTaskResult> = {
             taskByDagger.get()
         }

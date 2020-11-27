@@ -90,6 +90,15 @@ class TaskController @Inject constructor(
 
         Timber.tag(TAG).v("Initiating task data for request: %s", newRequest)
         val taskConfig = taskFactory.createConfig()
+
+        Timber.tag(TAG).v("checking preconditions for request: %s", newRequest)
+        if (!taskConfig.preconditions.fold(true) { allPreConditionsMet, precondition ->
+                allPreConditionsMet && precondition.invoke()
+            }) {
+            Timber.tag(TAG).v("not all preconditions for request are met: %s", newRequest)
+            return
+        }
+
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(start = CoroutineStart.LAZY) {
