@@ -23,6 +23,8 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import java.util.Date
 import javax.inject.Inject
 
 class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result),
@@ -79,6 +81,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         viewModel.uiState.observe2(this) {
             binding.uiState = it
+            binding.submissionTestResultContent.submissionTestResultSection.setTestResultSection(binding.uiState)
         }
 
         // registers callback when the os level back is pressed

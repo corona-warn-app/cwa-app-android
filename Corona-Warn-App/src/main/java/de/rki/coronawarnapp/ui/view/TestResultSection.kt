@@ -1,13 +1,21 @@
 package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.text.Spannable
 import android.text.SpannableString
 import android.util.AttributeSet
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
+import de.rki.coronawarnapp.util.formatter.formatTestResult
 import kotlinx.android.synthetic.main.view_test_result_section.view.*
+import java.util.Date
 
 /**
  * The [TestResultSection] Displays the appropriate test result.
@@ -25,7 +33,7 @@ constructor(
             test_result_section_headline.text =
                 getText(R.styleable.TestResultSection_test_result_section_headline)
             test_result_section_content.text =
-                SpannableString(getText(R.styleable.TestResultSection_test_result_section_content))
+                getText(R.styleable.TestResultSection_test_result_section_content)
             test_result_section_registered_at_text.text =
                 getText(R.styleable.TestResultSection_test_result_section_registered_at_text)
             val resultIconId = getResourceId(R.styleable.TestResultSection_test_result_section_status_icon, 0)
@@ -33,6 +41,52 @@ constructor(
                 val drawable = getDrawable(context, resultIconId)
                 test_result_section_status_icon.setImageDrawable(drawable)
             }
+        }
+    }
+
+    fun setTestResultSection(uiState: TestResultUIState?){
+        val deviceUIState = uiState?.deviceUiState
+        val registeredAt = uiState?.testResultReceivedDate
+
+        test_result_section_registered_at_text.text = formatTestResultRegisteredAtText(registeredAt)
+        val testResultIcon = formatTestStatusIcon(deviceUIState)
+        test_result_section_status_icon.setImageDrawable(testResultIcon)
+        test_result_section_content.text = formatTestResultSectionContent(deviceUIState)
+    }
+
+    private fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
+        return when (uiState) {
+            DeviceUIState.PAIRED_NO_RESULT ->
+                context.getDrawable(R.drawable.ic_test_result_illustration_pending)
+            DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            DeviceUIState.PAIRED_POSITIVE ->
+                context.getDrawable(R.drawable.ic_test_result_illustration_positive)
+            DeviceUIState.PAIRED_NEGATIVE ->
+                context.getDrawable(R.drawable.ic_test_result_illustration_negative)
+            DeviceUIState.PAIRED_ERROR,
+            DeviceUIState.PAIRED_REDEEMED ->
+                context.getDrawable(R.drawable.ic_test_result_illustration_invalid)
+            else -> context.getDrawable(R.drawable.ic_test_result_illustration_invalid)
+        }
+    }
+
+    private fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
+        return context.getString(R.string.test_result_card_registered_at_text)
+            .format(registeredAt?.toUIFormat(context))
+    }
+
+    private fun formatTestResultSectionContent(uiState: DeviceUIState?): Spannable {
+        return when (uiState) {
+            DeviceUIState.PAIRED_NO_RESULT ->
+                SpannableString(context.getString(R.string.test_result_card_status_pending))
+            DeviceUIState.PAIRED_ERROR,
+            DeviceUIState.PAIRED_REDEEMED ->
+                SpannableString(context.getString(R.string.test_result_card_status_invalid))
+
+            DeviceUIState.PAIRED_POSITIVE,
+            DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+            else -> SpannableString("")
         }
     }
 }
