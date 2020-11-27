@@ -35,7 +35,7 @@
                 android:layout_marginEnd="16dp"
                 android:accessibilityHeading="true"
                 android:text="@{tracingCard.getProgressCardHeadline(context)}"
-                android:textColor="@color/colorStableLight"
+                android:textColor="@{tracingCard.getStableTextColor(context)}"
                 app:layout_constraintEnd_toStartOf="@+id/risk_card_progress_headline_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,7 @@
                 android:layout_height="@dimen/icon_size_risk_card"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_forward"
-                android:tint="@color/colorStableLight"
+                android:tint="@{tracingCard.getStableIconColor(context)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,19 +59,20 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:indeterminate="true"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                android:indeterminateTint="@{tracingCard.getStableIconColor(context)}"
+                app:layout_constraintBottom_toBottomOf="@+id/risk_card_progress_body"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
+                app:layout_constraintTop_toTopOf="@+id/risk_card_progress_body" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/risk_card_progress_body"
                 style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="24dp"
                 android:text="@{tracingCard.getProgressCardBody(context)}"
-                android:textColor="@color/colorStableLight"
+                android:textColor="@{tracingCard.getStableTextColor(context)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/risk_card_progress_indicator"
