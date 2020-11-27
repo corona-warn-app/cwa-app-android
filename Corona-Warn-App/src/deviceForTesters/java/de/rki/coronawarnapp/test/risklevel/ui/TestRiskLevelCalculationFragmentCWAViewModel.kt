@@ -29,7 +29,6 @@ import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -43,7 +42,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.withContext
 import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -59,8 +57,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     tracingCardStateProvider: TracingCardStateProvider,
     private val riskLevelStorage: RiskLevelStorage,
-    private val testSettings: TestSettings,
-    private val timeStamper: TimeStamper
+    private val testSettings: TestSettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -89,19 +86,21 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
-    val exposureWindowCount = riskLevelStorage
-        .exposureWindows
-        .map { it.size }
+    private val lastRiskResult = riskLevelStorage.lastRiskLevelResult
+
+    val exposureWindowCount = lastRiskResult
+        .map { it.exposureWindows?.size ?: 0 }
         .asLiveData()
 
-    val aggregatedRiskResult = riskLevelStorage
-        .riskLevelResults
+    val aggregatedRiskResult = lastRiskResult
         .map {
-            val latest = it.maxByOrNull { it.calculatedAt }
-            if (latest?.aggregatedRiskResult != null) {
-                latest.aggregatedRiskResult?.toReadableString()
+            if (it.wasSuccessfullyCalculated) {
+                // wasSuccessfullyCalculated check for aggregatedRiskResult != null
+                it.aggregatedRiskResult!!.toReadableString()
             } else {
-                "Aggregated risk result is not available"
+                var notAvailable = "Aggregated risk result is not available"
+                it.failureReason?.let { failureReason ->  notAvailable += " because ${failureReason.failureCode}"}
+                notAvailable
             }
         }
         .asLiveData()
@@ -228,21 +227,18 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun shareExposureWindows() {
         Timber.d("Creating text file for Exposure Windows")
         launch(dispatcherProvider.IO) {
-            val exposureWindows = riskLevelStorage.exposureWindows.firstOrNull()
-            val fileNameCompatibleTimestamp = timeStamper.nowUTC.toString(
-                DateTimeFormat.forPattern("yyyy-MM-DD-HH-mm-ss")
-            )
+            val exposureWindows = lastRiskResult.firstOrNull()?.exposureWindows?.map { it.toExposureWindowJson() }
 
             val path = File(context.cacheDir, "share/")
             path.mkdirs()
 
-            val file = File(path, "exposureWindows-$fileNameCompatibleTimestamp.json")
+            val file = File(path, "exposureWindows.txt")
             file.bufferedWriter()
-                .use { writer ->
+                .use {
                     if (exposureWindows.isNullOrEmpty()) {
-                        writer.appendLine("Exposure windows list was empty")
+                        it.appendLine("Exposure windows list was empty")
                     } else {
-                        writer.appendLine(gson.toJson(exposureWindows.map { it.toExposureWindowJson() }))
+                        it.appendLine(gson.toJson(exposureWindows))
                     }
                 }
             shareFileEvent.postValue(file)
