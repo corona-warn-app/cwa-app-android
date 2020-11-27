@@ -39,8 +39,7 @@ data class TracingCardState(
      */
     fun getStableIconColor(c: Context): Int = when {
         tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextSemanticNeutral
-        riskState == INCREASED_RISK ||
-            riskState == LOW_LEVEL_RISK -> R.color.colorStableLight
+        riskState == INCREASED_RISK || riskState == LOW_LEVEL_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
     }.let { c.getColor(it) }
 
