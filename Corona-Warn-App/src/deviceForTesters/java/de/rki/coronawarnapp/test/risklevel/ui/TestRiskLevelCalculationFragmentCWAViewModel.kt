@@ -102,7 +102,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 it.aggregatedRiskResult!!.toReadableString()
             } else {
                 var notAvailable = "Aggregated risk result is not available"
-                it.failureReason?.let { failureReason ->  notAvailable += " because ${failureReason.failureCode}"}
+                it.failureReason?.let { failureReason -> notAvailable += " because ${failureReason.failureCode}" }
                 notAvailable
             }
         }
