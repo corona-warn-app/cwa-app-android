@@ -95,6 +95,7 @@ class SubmissionRepositoryTest {
             submissionRepository.updateTestResult(testResult)
         }
     }
+
     @Test
     fun registrationWithTeleTANSucceeds() {
         every { LocalData.teletan(any()) } just Runs

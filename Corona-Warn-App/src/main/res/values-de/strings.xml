@@ -311,7 +311,7 @@
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Verhalten"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior">"So verhalten Sie sich richtig"</string>
+    <string name="risk_details_subtitle_behavior">"So verhalten Sie sich richtig:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Begeben Sie sich, wenn möglich, nach Hause bzw. bleiben Sie zu Hause."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
@@ -341,9 +341,9 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Für Ihre Risiko-Ermittlung wird nur der Zeitraum der letzten 14 Tage betrachtet. In diesem Zeitraum war Ihre Risiko-Ermittlung für eine Gesamtdauer von %1$s Tagen aktiv. Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt"</string>
+    <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt"</string>
+    <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt."</string>
     <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
     <string name="risk_details_information_body_unknown_risk">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
@@ -620,7 +620,7 @@
     <string name="settings_notifications_illustration_description_inactive">"Eine Frau hat die Mitteilungen ihrer Corona-Warn-App ausgeschaltet."</string>
     <!-- XBUT: settings - go to reset application -->
     <string name="settings_reset_title">"Anwendung zurücksetzen"</string>
-    <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
+    <!-- XTXT: settings(reset) - explains the user what do expect when navigating to reset -->
     <string name="settings_reset_body_description">"Löschen Sie alle Ihre Daten in der App."</string>
     <!-- XHED: settings(reset) - multiline headline below illustration -->
     <string name="settings_reset_headline">"Sind Sie sicher, dass Sie die Anwendung zurücksetzen wollen?"</string>
@@ -800,9 +800,9 @@
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- XHED: Dialog title for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie wirklich abbrechen?"</string>
+    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Symptom-Erfassung abbrechen?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_body">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <string name="submission_error_dialog_confirm_cancellation_body">"Wenn Sie Angaben zu Ihren Symptomen machen, können Sie andere noch genauer warnen."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Ja"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
@@ -836,19 +836,6 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
-    <!-- QR Code Scan Info Screen -->
-    <!-- XHED: Page headline for QR Scan info screen -->
-    <string name="submission_qr_info_headline">"QR-Code Scan"</string>
-    <!-- YTXT: Body text for for QR Scan info point 1  -->
-    <string name="submission_qr_info_point_1_body">"Scannen Sie nur Ihren eigenen Test."</string>
-    <!-- YTXT: Body text for for QR Scan info point 2  -->
-    <string name="submission_qr_info_point_2_body">"Jeder Test kann <b>nur einmal</b> gescannt werden."</string>
-    <!-- YTXT: Body text for for QR Scan info point 3  -->
-    <string name="submission_qr_info_point_3_body">"Die App kann <b>nicht</b> gleichzeitig mehrere Tests verwalten."</string>
-    <!-- YTXT:Body text for for QR Scan info point 4 -->
-    <string name="submission_qr_info_point_4_body">"Wenn Ihnen ein aktuellerer Test vorliegt, löschen Sie den vorhandenen Test und scannen Sie den QR-Code des aktuellen Tests ein."</string>
-
-
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -858,37 +845,19 @@
     <!-- XHED: Page headline for Submission consent  -->
     <string name="submission_consent_main_headline">"Ihr Einverständnis"</string>
     <!-- YTXT: Body for Submissionconsent  -->
-    <string name="submission_consent_main_headline_body">"Bevor Sie Ihr Testergebnis abrufen und andere warnen können, ist Ihr Einverständnis erforderlich.."</string>
+    <string name="submission_consent_main_headline_body">"Bevor Sie Ihr Testergebnis abrufen und andere warnen können, ist Ihr Einverständnis erforderlich."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Testergebnis abrufen"</string>
     <!-- YTXT: Body for Submission Consent call test result body  -->
     <string name="submission_consent_call_test_result_body">"Scannen Sie im nächsten Schritt den QR-Code auf Ihrem Test und rufen Sie Ihr Testergebnis ab."</string>
     <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Scannen Sie nur Ihren eigenen Test"</string>
+    <string name="submission_consent_call_test_result_scan_your_test_only">"Scannen Sie nur Ihren eigenen Test."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Ihr Test kann nur einmal gescannt werden. Die App kann nicht gleichzeitig mehrere Tests verwalten."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Helfen Sie mit, indem Sie andere warnen, denen Sie begegnet sind!"</string>
     <!-- YTXT: Body for consent help by warning others -->
     <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
-    <!-- XHED: Page subheadline for consent sub section your consent  -->
-    <string name="submission_consent_your_consent_subsection_headline">"Ihr Einverständnis"</string>
-    <!-- YTXT: Body for consent sub section your consent subtext -->
-    <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie wie folgt ein:"</string>
-   <!-- YTXT: Body for consent sub section your consent subtext first point  -->
-    <string name="submission_consent_your_consent_subsection_first_point">"Die App ruft Ihr Testergebnis ab. Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
-  <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point">"Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von offiziellen Corona-Apps der oben genannten Länder. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt."</string>
-  <!-- YTXT: Body for consent sub section your consent subtext third point  -->
-    <string name="submission_consent_your_consent_subsection_third_point">"Sie können Ihr Einverständnis jederzeit zurücknehmen. Die Einstellung hierfür finden Sie unter „Test anzeigen“. Vor dem Teilen werden Sie nochmal auf Ihr Einverständnis hingewiesen und um Freigabe Ihres Testergebnisses gebeten."</string>
-    <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Ihr Einverständnis ist freiwillig."</string>
-    <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dies nicht teilen. Wenn Sie ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
-    <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
-    <!-- YTXT: Body for consent main section fourth point  -->
-    <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
 
@@ -998,14 +967,6 @@
     <string name="submission_dispatcher_card_qr">"Test mit QR-Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokuments scannen."</string>
-    <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
-    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Einwilligungserklärung"</string>
-    <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"Durch Antippen von „Erlauben“ willigen Sie ein, dass die App den Status Ihres Corona-Virus-Tests abfragen und in der App anzeigen darf. Diese Funktion steht Ihnen zur Verfügung, wenn Sie einen QR-Code erhalten und eingewilligt haben, dass Ihr Testergebnis an das Serversystem der App übermittelt werden darf. Sobald das Testlabor Ihr Testergebnis auf dem Server hinterlegt hat, können Sie das Ergebnis in der App sehen. Falls Sie Mitteilungen aktiviert haben, werden Sie auch außerhalb der App über den Eingang des Testergebnis informiert. Das Testergebnis selbst wird aus Datenschutzgründen jedoch nur in der App angezeigt. Sie können diese Einwilligung jederzeit widerrufen, indem Sie die Testregistrierung in der App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutz“."</string>
-    <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
-    <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Erlauben"</string>
-    <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
-    <string name="submission_dispatcher_qr_privacy_dialog_button_negative">"Nicht erlauben"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN-Eingabe"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1026,7 +987,7 @@
     <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen vor einer möglichen Infektion gewarnt werden.\n\nHierfür können Sie Ihre eigenen Zufalls-IDs der letzten 14 Tage und optional auch Angaben zum ersten Auftreten von eventuellen Corona-Symptomen an den von den teilnehmenden Ländern gemeinsam betriebenen 
         Server übertragen. Von dort werden Ihre Zufalls-IDs und eventuelle weitere Angaben an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. So können die anderen Nutzer, mit denen Sie Kontakt hatten, vor einer eventuellen Ansteckung gewarnt werden.\n\nEs werden nur Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Einverstanden"</string>
+    <string name="submission_accept_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
     <!-- XHED: Title for the interop country list-->
