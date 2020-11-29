@@ -918,6 +918,8 @@
     <string name="submission_test_result_card_positive_title">"SARS-CoV-2 positiv"</string>
     <!-- YTXT: Body text for test result card positive -->
     <string name="submission_test_result_card_positive_body">"Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen."</string>
+    <!-- XHED: Page headline for test result with consent given  -->
+    <string name="submission_test_result_consent_given_heading">"Ihr Testergebnis"</string>
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
