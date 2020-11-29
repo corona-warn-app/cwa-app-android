@@ -95,7 +95,6 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
                             .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
                     )
             }
-
         }
     }
 
@@ -107,7 +106,6 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonConsentGivenContinue.setOnClickListener {
             viewModel.onContinuePressed()
-
         }
 
         binding.submissionTestResultButtonConsentGivenContinueWithoutSymptoms.setOnClickListener {

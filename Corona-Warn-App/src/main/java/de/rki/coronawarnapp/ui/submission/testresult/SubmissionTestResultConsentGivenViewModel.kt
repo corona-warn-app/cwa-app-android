@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.ui.submission.testresult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DeviceUIState
