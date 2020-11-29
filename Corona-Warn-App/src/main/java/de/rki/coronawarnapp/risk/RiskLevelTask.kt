@@ -114,27 +114,12 @@ class RiskLevelTask @Inject constructor(
         /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
         defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
         return (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
-            TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()).also {
+            TimeVariables.getMaxStaleExposureRiskRange()).also {
             if (it) {
                 Timber.tag(TAG).i("Calculation was not possible because reults are outdated.")
             } else {
                 Timber.tag(TAG).d("Results are not out dated, continuing evaluation.")
             }
-        }
-    }
-
-    private fun isActiveTracingTimeAboveThreshold(): Boolean {
-        Timber.tag(TAG).d("Evaluating isActiveTracingTimeAboveThreshold()")
-
-        val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
-        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
-        val durationTracingIsActiveThreshold = TimeVariables.getMinActivatedTracingTime().toLong()
-
-        return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-            Timber.tag(TAG).v(
-                "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                    "($durationTracingIsActiveThreshold h): $it"
-            )
         }
     }
 
