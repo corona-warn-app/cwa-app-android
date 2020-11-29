@@ -31,7 +31,8 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
 
     private fun navigateToMainScreen() =
         doNavigate(
-            SubmissionTestResultConsentGivenFragmentDirections.actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
+            SubmissionTestResultConsentGivenFragmentDirections
+                .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
         )
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
