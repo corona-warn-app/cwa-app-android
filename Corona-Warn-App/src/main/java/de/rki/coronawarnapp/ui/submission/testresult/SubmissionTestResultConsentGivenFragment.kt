@@ -21,7 +21,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_submission_test_result_consent_given), AutoInject {
+class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_submission_test_result_consent_given),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultConsentGivenViewModel by cwaViewModels { viewModelFactory }
@@ -32,7 +33,6 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
         doNavigate(
             SubmissionTestResultConsentGivenFragmentDirections.actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
         )
-
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
@@ -105,14 +105,14 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
     }
 
     private fun setButtonOnClickListener() {
-            binding.submissionTestResultButtonConsentGivenContinue.setOnClickListener {
-                viewModel.onContinuePressed()
+        binding.submissionTestResultButtonConsentGivenContinue.setOnClickListener {
+            viewModel.onContinuePressed()
 
-            }
+        }
 
-            binding.submissionTestResultButtonConsentGivenContinueWithoutSymptoms.setOnClickListener {
-                viewModel.onShowCancelDialog()
-            }
+        binding.submissionTestResultButtonConsentGivenContinueWithoutSymptoms.setOnClickListener {
+            viewModel.onShowCancelDialog()
+        }
     }
 
     private fun showCancelDialog() {
@@ -127,5 +127,4 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
             }
         }.show()
     }
-
-    }
+}

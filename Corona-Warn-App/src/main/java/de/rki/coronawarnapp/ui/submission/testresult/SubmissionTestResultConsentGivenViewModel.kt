@@ -53,7 +53,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     val showCancelDialog = SingleLiveEvent<Unit>()
 
-    fun onContinuePressed(){
+    fun onContinuePressed() {
         Timber.d("Beginning symptom flow")
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
     }
@@ -66,7 +66,6 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
         Timber.d("Submission was cancelled.")
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
-
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultConsentGivenViewModel>
