@@ -30,4 +30,8 @@
     <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
+    <!-- YTXT: Body for your consent screen agreement share test results -->
+    <string name="submission_your_consent_agreement_share_test_results">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer zu warnen, denen Sie begegnet sind.</b>\n\n<b>Die Warnung erreicht Nutzer von offiziellen Corona-Apps der folgenden teilnehmenden Länder:</b>"</string>
+    <!-- YTXT: Body for your consent screen agreement share symptoms -->
+    <string name="submission_your_consent_agreement_share_symptoms">"<b>Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b>\n\nSie können Ihr Einverständnis zurücknehmen, indem Sie oben „Andere warnen“ deaktivieren."</string>
 </resources>
