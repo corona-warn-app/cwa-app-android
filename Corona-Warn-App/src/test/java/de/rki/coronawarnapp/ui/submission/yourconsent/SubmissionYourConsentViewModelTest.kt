@@ -14,6 +14,7 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,36 +47,34 @@ class SubmissionYourConsentViewModelTest {
     }
 
     @Test
-    fun testCountryList() {
+    fun `country list`() {
         viewModel.countryList.observeForever { }
         viewModel.countryList.value shouldBe countryList
     }
 
     @Test
-    fun testGoBack() {
+    fun `go back`() {
         viewModel.goBack()
         viewModel.clickEvent.value shouldBe SubmissionYourConsentEvents.GoBack
     }
 
     @Test
-    fun testConsentRevoke() {
+    fun `consent removed`() {
         coEvery { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
         viewModel.switchConsent()
         verify(exactly = 1) { submissionRepository.revokeConsentToSubmission() }
-        viewModel.clickEvent.value shouldBe SubmissionYourConsentEvents.SwitchConsent
     }
 
     @Test
-    fun testConsentGiven() {
+    fun `consent given`() = runBlockingTest {
         coEvery { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
         viewModel = SubmissionYourConsentViewModel(interoperabilityRepository, submissionRepository)
         viewModel.switchConsent()
         verify(exactly = 1) { submissionRepository.giveConsentToSubmission() }
-        viewModel.clickEvent.value shouldBe SubmissionYourConsentEvents.SwitchConsent
     }
 
     @Test
-    fun testGoLegal() {
+    fun `go to legal page`() {
         viewModel.goLegal()
         viewModel.clickEvent.value shouldBe SubmissionYourConsentEvents.GoLegal
     }
