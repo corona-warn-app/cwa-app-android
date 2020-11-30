@@ -89,19 +89,25 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
-    val exposureWindowCount = riskLevelStorage
-        .exposureWindows
-        .map { it.size }
+    private val lastRiskResult = riskLevelStorage.riskLevelResults.map { results ->
+        results.maxByOrNull { it.calculatedAt }
+    }
+
+    val exposureWindowCount = lastRiskResult
+        .map { it?.exposureWindows?.size ?: 0 }
         .asLiveData()
 
-    val aggregatedRiskResult = riskLevelStorage
-        .riskLevelResults
+    val aggregatedRiskResult = lastRiskResult
         .map {
-            val latest = it.maxByOrNull { it.calculatedAt }
-            if (latest?.aggregatedRiskResult != null) {
-                latest.aggregatedRiskResult?.toReadableString()
+            if (it == null) return@map "No results yet."
+
+            if (it.wasSuccessfullyCalculated) {
+                // wasSuccessfullyCalculated check for aggregatedRiskResult != null
+                it.aggregatedRiskResult!!.toReadableString()
             } else {
-                "Aggregated risk result is not available"
+                var notAvailable = "Aggregated risk result is not available"
+                it.failureReason?.let { failureReason -> notAvailable += " because ${failureReason.failureCode}" }
+                notAvailable
             }
         }
         .asLiveData()
@@ -228,7 +234,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun shareExposureWindows() {
         Timber.d("Creating text file for Exposure Windows")
         launch(dispatcherProvider.IO) {
-            val exposureWindows = riskLevelStorage.exposureWindows.firstOrNull()
+            val exposureWindows = lastRiskResult.firstOrNull()?.exposureWindows?.map { it.toExposureWindowJson() }
             val fileNameCompatibleTimestamp = timeStamper.nowUTC.toString(
                 DateTimeFormat.forPattern("yyyy-MM-DD-HH-mm-ss")
             )
@@ -242,7 +248,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     if (exposureWindows.isNullOrEmpty()) {
                         writer.appendLine("Exposure windows list was empty")
                     } else {
-                        writer.appendLine(gson.toJson(exposureWindows.map { it.toExposureWindowJson() }))
+                        writer.appendLine(gson.toJson(exposureWindows))
                     }
                 }
             shareFileEvent.postValue(file)
