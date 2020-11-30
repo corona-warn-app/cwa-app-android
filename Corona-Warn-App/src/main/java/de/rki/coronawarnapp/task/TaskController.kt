@@ -148,7 +148,12 @@ class TaskController @Inject constructor(
                 }
         }
 
-        Timber.tag(TAG).v("Tasks after processing (count=%d):\n%s", size, values.joinToString("\n"))
+        Timber.tag(TAG).v(
+            "Tasks after processing (count=%d):\n%s",
+            size, values.sortedBy { it.finishedAt }.joinToString("\n") {
+                it.toLogString()
+            }
+        )
     }
 
     private fun processFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
