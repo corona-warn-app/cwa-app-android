@@ -124,7 +124,7 @@ class TaskController @Inject constructor(
     private suspend fun processMap() = internalTaskData.updateSafely {
         Timber.tag(TAG).d("Processing task data (count=%d)", size)
 
-        // Procress all unprocessed finished tasks
+        // Process all unprocessed finished tasks
         processFinishedTasks(this).let {
             this.clear()
             this.putAll(it)
