@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.tracing.common
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import org.joda.time.Instant
 
@@ -26,7 +26,7 @@ data class DisplayableRiskResults(
 
 private object InitialLowLevelRiskLevelResult : RiskLevelResult {
     override val calculatedAt: Instant = Instant.now()
-    override val riskLevel: RiskLevel = RiskLevel.LOW_LEVEL_RISK
+    override val riskState: RiskState = RiskState.LOW_RISK
     override val failureReason: RiskLevelResult.FailureReason? = null
     override val aggregatedRiskResult: AggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null
@@ -36,7 +36,7 @@ private object InitialLowLevelRiskLevelResult : RiskLevelResult {
 
 private object UndeterminedRiskLevelResult : RiskLevelResult {
     override val calculatedAt: Instant = Instant.EPOCH
-    override val riskLevel: RiskLevel = RiskLevel.UNDETERMINED
+    override val riskState: RiskState = RiskState.CALCULATION_FAILED
     override val failureReason: RiskLevelResult.FailureReason? = null
     override val aggregatedRiskResult: AggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null

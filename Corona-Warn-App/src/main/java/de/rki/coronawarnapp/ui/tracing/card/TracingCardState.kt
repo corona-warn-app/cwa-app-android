@@ -5,7 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
+import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
@@ -18,12 +21,12 @@ import java.util.Date
 @Suppress("TooManyFunctions")
 data class TracingCardState(
     override val tracingStatus: GeneralTracingStatus.Status,
-    override val riskLevelScore: Int,
+    override val riskState: RiskState,
     override val tracingProgress: TracingProgress,
-    val lastRiskLevelScoreCalculated: Int,
+    val lastSuccessfulRiskState: RiskState,
     val daysWithEncounters: Int,
     val lastEncounterAt: Instant?,
-    val activeTracingDaysInRetentionPeriod: Long,
+    val activeTracingDays: Long,
     val lastTimeDiagnosisKeysFetched: Date?,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val showDetails: Boolean = false
@@ -35,9 +38,8 @@ data class TracingCardState(
      * between colored / light / dark background
      */
     fun getStableIconColor(c: Context): Int = when {
-        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextSemanticNeutral
-        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
-            riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+        isTracingOff() -> R.color.colorTextSemanticNeutral
+        riskState == INCREASED_RISK || riskState == LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
     }.let { c.getColor(it) }
 
@@ -46,17 +48,13 @@ data class TracingCardState(
      * for general information when no definite risk level
      * can be calculated
      */
-    fun getRiskBody(c: Context): String {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            when (riskLevelScore) {
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.string.risk_card_outdated_risk_body
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.string.risk_card_body_tracing_off
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.string.risk_card_outdated_manual_risk_body
-                RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET -> R.string.risk_card_check_failed_no_internet_body
-                else -> null
-            }?.let { c.getString(it) } ?: ""
-        } else {
+    fun getErrorStateBody(c: Context): String {
+        if (isTracingOff()) {
             return c.getString(R.string.risk_card_body_tracing_off)
+        }
+        return when (riskState) {
+            CALCULATION_FAILED -> c.getString(R.string.risk_card_check_failed_no_internet_body)
+            else -> ""
         }
     }
 
@@ -65,71 +63,67 @@ data class TracingCardState(
      * only in the special case where tracing is turned off and
      * the persisted risk level is of importance
      */
-    @Suppress("ComplexCondition")
     fun getSavedRiskBody(c: Context): String {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            return if (
-                riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
-                riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ||
-                riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ||
-                riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET
-            ) {
-                when (lastRiskLevelScoreCalculated) {
-                    RiskLevelConstants.LOW_LEVEL_RISK,
-                    RiskLevelConstants.INCREASED_RISK -> {
-                        val arg = formatRiskLevelHeadline(c, lastRiskLevelScoreCalculated)
-                        c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                            .format(arg)
-                    }
-                    else -> ""
-                }
-            } else {
-                ""
-            }
-        } else {
-            val arg = formatRiskLevelHeadline(c, lastRiskLevelScoreCalculated)
-            c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(arg)
+        // Don't display last risk when tracing is disabled
+        if (isTracingOff()) {
+            val arg = c.getString(R.string.risk_card_no_calculation_possible_headline)
+            return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(arg)
         }
+
+        // Don't have any old risk state to display
+        if (lastSuccessfulRiskState == CALCULATION_FAILED) {
+            return ""
+        }
+
+        // If we failed this time, we want to display the old risk
+        if (riskState == CALCULATION_FAILED) {
+            val arg = when (lastSuccessfulRiskState) {
+                INCREASED_RISK -> R.string.risk_card_increased_risk_headline
+                LOW_RISK -> R.string.risk_card_low_risk_headline
+                else -> null
+            }?.let { c.getString(it) } ?: ""
+            return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(arg)
+        }
+
+        // We are not in an error state
+        return ""
     }
 
     /**
      * Formats the risk card text display of infected contacts recognized
      */
-    fun getRiskContactBody(c: Context): String {
-        val resources = c.resources
-        return when (riskLevelScore) {
-            RiskLevelConstants.INCREASED_RISK -> {
-                if (daysWithEncounters == 0) {
-                    c.getString(R.string.risk_card_high_risk_no_encounters_body)
-                } else {
-                    resources.getQuantityString(
-                        R.plurals.risk_card_high_risk_encounter_days_body,
-                        daysWithEncounters,
-                        daysWithEncounters
-                    )
-                }
-            }
-            RiskLevelConstants.LOW_LEVEL_RISK -> {
-                if (daysWithEncounters == 0) {
-                    c.getString(R.string.risk_card_low_risk_no_encounters_body)
-                } else {
-                    resources.getQuantityString(
-                        R.plurals.risk_card_low_risk_encounter_days_body,
-                        daysWithEncounters,
-                        daysWithEncounters
-                    )
-                }
-            }
-            else -> ""
+    fun getRiskContactBody(c: Context): String = when {
+        isTracingOff() -> {
+            ""
         }
+        riskState == INCREASED_RISK && daysWithEncounters == 0 -> {
+            c.getString(R.string.risk_card_high_risk_no_encounters_body)
+        }
+        riskState == INCREASED_RISK -> {
+            c.resources.getQuantityString(
+                R.plurals.risk_card_high_risk_encounter_days_body,
+                daysWithEncounters,
+                daysWithEncounters
+            )
+        }
+        riskState == LOW_RISK && daysWithEncounters == 0 -> {
+            c.getString(R.string.risk_card_low_risk_no_encounters_body)
+        }
+        riskState == LOW_RISK -> {
+            c.resources.getQuantityString(
+                R.plurals.risk_card_low_risk_encounter_days_body,
+                daysWithEncounters,
+                daysWithEncounters
+            )
+        }
+        else -> ""
     }
 
     /**
      * Formats the risk card icon display of infected contacts recognized
      */
     fun getRiskContactIcon(c: Context): Drawable? = c.getDrawable(
-        if (riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
+        if (riskState == INCREASED_RISK) {
             R.drawable.ic_risk_card_contact_increased
         } else {
             R.drawable.ic_risk_card_contact
@@ -141,7 +135,7 @@ data class TracingCardState(
      * only in the special case of increased risk as a positive contact is a
      * prerequisite for increased risk
      */
-    fun getRiskContactLast(c: Context): String = if (riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
+    fun getRiskContactLast(c: Context): String = if (riskState == INCREASED_RISK) {
         val formattedDate = lastEncounterAt?.toLocalDate()?.toString(DateTimeFormat.mediumDate())
         c.getString(R.string.risk_card_high_risk_most_recent_body, formattedDate)
     } else {
@@ -152,34 +146,21 @@ data class TracingCardState(
      * Formats the risk card text display of tracing active duration in days depending on risk level
      * Special case for increased risk as it is then only displayed on risk detail view
      */
-    fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> {
-            if (showDetails) {
-                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
-                    c.getString(
-                        R.string.risk_card_body_saved_days
-                    )
-                        .format(activeTracingDaysInRetentionPeriod)
-                } else {
-                    c.getString(
-                        R.string.risk_card_body_saved_days_full
-                    )
-                }
-            } else {
-                ""
-            }
+    fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when {
+        isTracingOff() -> ""
+        riskState == INCREASED_RISK && !showDetails -> ""
+        riskState == INCREASED_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
         }
-        RiskLevelConstants.LOW_LEVEL_RISK ->
-            if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
-                c.getString(
-                    R.string.risk_card_body_saved_days
-                )
-                    .format(activeTracingDaysInRetentionPeriod)
-            } else {
-                c.getString(
-                    R.string.risk_card_body_saved_days_full
-                )
-            }
+        riskState == INCREASED_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days_full)
+        }
+        riskState == LOW_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
+        }
+        riskState == LOW_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+            c.getString(R.string.risk_card_body_saved_days_full)
+        }
         else -> ""
     }
 
@@ -199,7 +180,7 @@ data class TracingCardState(
     */
      */
     fun getTimeFetched(c: Context): String {
-        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (isTracingOff()) {
             return if (lastTimeDiagnosisKeysFetched != null) {
                 c.getString(
                     R.string.risk_card_body_time_fetched,
@@ -209,9 +190,8 @@ data class TracingCardState(
                 c.getString(R.string.risk_card_body_not_yet_fetched)
             }
         }
-        return when (riskLevelScore) {
-            RiskLevelConstants.LOW_LEVEL_RISK,
-            RiskLevelConstants.INCREASED_RISK -> {
+        return when (riskState) {
+            LOW_RISK, INCREASED_RISK -> {
                 if (lastTimeDiagnosisKeysFetched != null) {
                     c.getString(
                         R.string.risk_card_body_time_fetched,
@@ -221,13 +201,9 @@ data class TracingCardState(
                     c.getString(R.string.risk_card_body_not_yet_fetched)
                 }
             }
-            RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
-            RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET -> {
-                when (lastRiskLevelScoreCalculated) {
-                    RiskLevelConstants.LOW_LEVEL_RISK,
-                    RiskLevelConstants.INCREASED_RISK -> {
+            CALCULATION_FAILED -> {
+                when (lastSuccessfulRiskState) {
+                    LOW_RISK, INCREASED_RISK -> {
                         if (lastTimeDiagnosisKeysFetched != null) {
                             c.getString(
                                 R.string.risk_card_body_time_fetched,
@@ -240,7 +216,6 @@ data class TracingCardState(
                     else -> ""
                 }
             }
-            else -> ""
         }
     }
 
@@ -250,43 +225,36 @@ data class TracingCardState(
      * between colored / light / dark background
      */
     fun getStableDividerColor(c: Context): Int = c.getColor(
-        if (!isTracingOffRiskLevel()) R.color.colorStableHairlineLight else R.color.colorStableHairlineDark
+        if (isTracingOff() || riskState == CALCULATION_FAILED) {
+            R.color.colorStableHairlineDark
+        } else {
+            R.color.colorStableHairlineLight
+        }
     )
 
     /**
      * Formats the risk card button display for enable tracing depending on risk level and current view
      */
-    fun showTracingButton(): Boolean = isTracingOffRiskLevel() && !showDetails
+    fun showTracingButton(): Boolean = isTracingOff() && !showDetails
 
     /**
      * Formats the risk card button display for manual updates depending on risk level,
      * background task setting and current view
      */
     fun showUpdateButton(): Boolean =
-        !isTracingOffRiskLevel() &&
-            (isManualKeyRetrievalEnabled || riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET) &&
+        !isTracingOff() &&
+            (isManualKeyRetrievalEnabled || riskState == CALCULATION_FAILED) &&
             !showDetails
 
-    fun getRiskLevelHeadline(c: Context) = formatRiskLevelHeadline(c, riskLevelScore)
-
-    fun formatRiskLevelHeadline(c: Context, riskLevelScore: Int): String {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            when (riskLevelScore) {
-                RiskLevelConstants.INCREASED_RISK ->
-                    R.string.risk_card_increased_risk_headline
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
-                    R.string.risk_card_outdated_risk_headline
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
-                    R.string.risk_card_no_calculation_possible_headline
-                RiskLevelConstants.LOW_LEVEL_RISK ->
-                    R.string.risk_card_low_risk_headline
-                RiskLevelConstants.UNKNOWN_RISK_NO_INTERNET -> R.string.risk_card_check_failed_no_internet_headline
-                else -> null
-            }?.let { c.getString(it) } ?: ""
-        } else {
+    fun getRiskLevelHeadline(c: Context): String {
+        if (isTracingOff()) {
             return c.getString(R.string.risk_card_no_calculation_possible_headline)
         }
+        return when (riskState) {
+            INCREASED_RISK -> R.string.risk_card_increased_risk_headline
+            LOW_RISK -> R.string.risk_card_low_risk_headline
+            CALCULATION_FAILED -> R.string.risk_card_check_failed_no_internet_headline
+        }.let { c.getString(it) }
     }
 
     fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
@@ -304,27 +272,23 @@ data class TracingCardState(
     fun isTracingInProgress(): Boolean = tracingProgress != TracingProgress.Idle
 
     fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            when (riskLevelScore) {
-                RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
-                RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
-                else -> R.color.card_no_calculation
-            }.let { c.getColorStateList(it) }
-        } else {
+        if (isTracingOff()) {
             return c.getColorStateList(R.color.card_no_calculation)
         }
+        return when (riskState) {
+            INCREASED_RISK -> R.color.card_increased
+            LOW_RISK -> R.color.card_low
+            CALCULATION_FAILED -> R.color.card_no_calculation
+        }.let { c.getColorStateList(it) }
     }
 
-    fun getUpdateButtonColor(c: Context): Int = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK,
-        RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorStableLight
+    fun getUpdateButtonColor(c: Context): Int = when (riskState) {
+        INCREASED_RISK, LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorAccentTintButton
     }.let { c.getColor(it) }
 
-    fun getUpdateButtonTextColor(c: Context): Int = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK,
-        RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorTextPrimary1Stable
+    fun getUpdateButtonTextColor(c: Context): Int = when (riskState) {
+        INCREASED_RISK, LOW_RISK -> R.color.colorTextPrimary1Stable
         else -> R.color.colorTextPrimary1InvertedStable
     }.let { c.getColor(it) }
 }

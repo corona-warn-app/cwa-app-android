@@ -13,8 +13,8 @@ import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -158,8 +158,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,
-            riskLevel = latestCalc.riskLevel,
-            riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskLevel,
+            riskLevel = latestCalc.riskState,
+            riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskState,
             matchedKeyCount = latestCalc.matchedKeyCount,
             daysSinceLastExposure = latestCalc.daysWithEncounters,
             lastTimeDiagnosisKeysFromServerFetch = lastTimeDiagnosisKeysFromServerFetch
@@ -168,8 +168,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     private suspend fun createAdditionalRiskCalcInfo(
         lastTimeRiskLevelCalculation: Instant,
-        riskLevel: RiskLevel,
-        riskLevelLastSuccessfulCalculated: RiskLevel,
+        riskLevel: RiskState,
+        riskLevelLastSuccessfulCalculated: RiskState,
         matchedKeyCount: Int,
         daysSinceLastExposure: Int,
         lastTimeDiagnosisKeysFromServerFetch: Date?

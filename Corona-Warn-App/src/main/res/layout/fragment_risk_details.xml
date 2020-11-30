@@ -108,6 +108,7 @@
                     android:background="@drawable/rectangle"
                     android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
                     android:backgroundTintMode="src_over"
+                    android:elevation="@dimen/spacing_tiny"
                     android:padding="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -309,7 +310,7 @@
             android:paddingTop="@dimen/spacing_small"
             android:paddingEnd="@dimen/spacing_normal"
             android:paddingBottom="@dimen/spacing_small"
-            gone="@{!tracingDetails.areRiskDetailsButtonsVisible()}"
+            gone="@{!tracingDetails.isRiskLevelButtonGroupVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
