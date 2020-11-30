@@ -31,5 +31,7 @@
     <string name="submission_consent_main_third_point" translatable="false"></string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point" translatable="false"></string>
+    <!-- YTXT: Body for consent sub section your consent subtext -->
+    <string name="submission_no_consent_your_consent_subsection_body" translatable="false"></string>
 
 </resources>

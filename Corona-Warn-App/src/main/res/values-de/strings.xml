@@ -993,6 +993,10 @@
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"Folgende Länder nehmen derzeit an der länderübergreifenden Risiko-Ermittlung teil:"</string>
 
+    <!-- Submission Positive Other Warning No Consent -->
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_no_consent_body">"Da Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen.\n\n Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title">"Europaweit warnen"</string>

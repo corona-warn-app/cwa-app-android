@@ -996,6 +996,9 @@
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"The following countries currently participate in transnational exposure logging:"</string>
 
+    <!-- Submission Positive Other Warning No Consent -->
+    <string name="submission_positive_other_warning_no_consent_body"></string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title"></string>
