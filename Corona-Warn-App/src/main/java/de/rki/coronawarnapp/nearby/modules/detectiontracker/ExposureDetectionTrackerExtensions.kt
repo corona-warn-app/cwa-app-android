@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 suspend fun ExposureDetectionTracker.lastSubmission(
-    onlySuccessful: Boolean = true
+    onlyFinished: Boolean = true
 ): TrackedExposureDetection? = calculations
     .first().values
-    .filter { it.isSuccessful || !onlySuccessful }
+    .filter { it.isSuccessful || !onlyFinished }
     .maxByOrNull { it.startedAt }
 
 fun ExposureDetectionTracker.latestSubmission(
@@ -20,4 +20,3 @@ fun ExposureDetectionTracker.latestSubmission(
     .map { detections ->
         detections.maxByOrNull { it.startedAt }
     }
-

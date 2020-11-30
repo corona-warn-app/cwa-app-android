@@ -128,7 +128,7 @@ class TracingRepository @Inject constructor(
 
         if (isNetworkEnabled && isBackgroundJobEnabled) {
             scope.launch {
-                val lastSubmission = exposureDetectionTracker.lastSubmission(onlySuccessful = false)
+                val lastSubmission = exposureDetectionTracker.lastSubmission(onlyFinished = false)
                 Timber.tag(TAG).v("Last submission was %s", lastSubmission)
 
                 if (lastSubmission == null || downloadDiagnosisKeysTaskDidNotRunRecently()) {

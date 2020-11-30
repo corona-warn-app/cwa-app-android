@@ -22,7 +22,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import java.util.Date
 
 class TracingCardStateTest : BaseTest() {
 
@@ -46,7 +45,7 @@ class TracingCardStateTest : BaseTest() {
         daysWithEncounters: Int = 0,
         lastEncounterAt: Instant? = null,
         activeTracingDaysInRetentionPeriod: Long = 0,
-        lastTimeDiagnosisKeysFetched: Date? = mockk(),
+        lastExposureDetectionTime: Instant? = mockk(),
         isBackgroundJobEnabled: Boolean = false
     ) = TracingCardState(
         tracingStatus = tracingStatus,
@@ -56,7 +55,7 @@ class TracingCardStateTest : BaseTest() {
         daysWithEncounters = daysWithEncounters,
         lastEncounterAt = lastEncounterAt,
         activeTracingDays = activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
+        lastExposureDetectionTime = lastExposureDetectionTime,
         isManualKeyRetrievalEnabled = !isBackgroundJobEnabled
     )
 
@@ -243,11 +242,11 @@ class TracingCardStateTest : BaseTest() {
 
     @Test
     fun `text for last time diagnosis keys were fetched`() {
-        val date = Date()
+        val date = Instant()
         createInstance(
             riskState = INCREASED_RISK,
             lastSuccessfulRiskState = LOW_RISK,
-            lastTimeDiagnosisKeysFetched = date
+            lastExposureDetectionTime = date
         ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
@@ -256,7 +255,7 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskState = CALCULATION_FAILED,
             lastSuccessfulRiskState = LOW_RISK,
-            lastTimeDiagnosisKeysFetched = date
+            lastExposureDetectionTime = date
         ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
@@ -265,7 +264,7 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskState = CALCULATION_FAILED,
             lastSuccessfulRiskState = LOW_RISK,
-            lastTimeDiagnosisKeysFetched = date
+            lastExposureDetectionTime = date
         ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
@@ -274,36 +273,36 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskState = LOW_RISK,
             lastSuccessfulRiskState = LOW_RISK,
-            lastTimeDiagnosisKeysFetched = date
+            lastExposureDetectionTime = date
         ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
 
-        createInstance(riskState = INCREASED_RISK, lastTimeDiagnosisKeysFetched = date).apply {
+        createInstance(riskState = INCREASED_RISK, lastExposureDetectionTime = date).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
 
-        createInstance(riskState = CALCULATION_FAILED, lastTimeDiagnosisKeysFetched = date).apply {
+        createInstance(riskState = CALCULATION_FAILED, lastExposureDetectionTime = date).apply {
             getTimeFetched(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_RISK, lastTimeDiagnosisKeysFetched = date).apply {
+        createInstance(riskState = LOW_RISK, lastExposureDetectionTime = date).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
 
-        createInstance(riskState = INCREASED_RISK, lastTimeDiagnosisKeysFetched = null).apply {
+        createInstance(riskState = INCREASED_RISK, lastExposureDetectionTime = null).apply {
             getTimeFetched(context)
             verify { context.getString(R.string.risk_card_body_not_yet_fetched) }
         }
 
-        createInstance(riskState = CALCULATION_FAILED, lastTimeDiagnosisKeysFetched = null).apply {
+        createInstance(riskState = CALCULATION_FAILED, lastExposureDetectionTime = null).apply {
             getTimeFetched(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_RISK, lastTimeDiagnosisKeysFetched = null).apply {
+        createInstance(riskState = LOW_RISK, lastExposureDetectionTime = null).apply {
             getTimeFetched(context)
             verify { context.getString(R.string.risk_card_body_not_yet_fetched) }
         }

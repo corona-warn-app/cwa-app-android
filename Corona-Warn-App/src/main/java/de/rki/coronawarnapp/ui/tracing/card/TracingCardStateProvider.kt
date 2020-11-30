@@ -64,7 +64,7 @@ class TracingCardStateProvider @Inject constructor(
             riskState = latestCalc.riskState,
             tracingProgress = tracingProgress,
             lastSuccessfulRiskState = latestSuccessfulCalc.riskState,
-            lastTimeDiagnosisKeysFetched = latestSubmission?.startedAt,
+            lastExposureDetectionTime = latestSubmission?.startedAt,
             daysWithEncounters = latestCalc.daysWithEncounters,
             lastEncounterAt = latestCalc.lastRiskEncounterAt,
             activeTracingDays = activeTracingDaysInRetentionPeriod,
