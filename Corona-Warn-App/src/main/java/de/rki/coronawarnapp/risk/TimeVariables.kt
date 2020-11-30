@@ -80,19 +80,6 @@ object TimeVariables {
      */
     fun getMinActivatedTracingTime(): Int = MIN_ACTIVATED_TRACING_TIME
 
-    /**
-     * The timeRange until the calculated exposure figures are rated as stale.
-     * In hours.
-     */
-    private const val MAX_STALE_EXPOSURE_RISK_RANGE = 48
-
-    /**
-     * Getter function for [MAX_STALE_EXPOSURE_RISK_RANGE]
-     *
-     * @return stale threshold in hours
-     */
-    fun getMaxStaleExposureRiskRange(): Int = MAX_STALE_EXPOSURE_RISK_RANGE
-
     private const val MILISECONDS_IN_A_SECOND = 1000
     private const val SECONDS_IN_A_MINUTES = 60
     private const val MINUTES_IN_AN_HOUR = 60
@@ -140,32 +127,9 @@ object TimeVariables {
     fun getInitialExposureTracingActivationTimestamp(): Long? =
         LocalData.initialTracingActivationTimestamp()
 
-    /**
-     * timestamp when the last successful exposureRisk calculation happened read from the mobile device storage.
-     * Last time when the transaction was successfully executed
-     *
-     * @return last time in milliseconds [de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction]
-     * was run successfully
-     */
-    // because we have risk level calculation and key retrieval calculation
-    fun getLastTimeDiagnosisKeysFromServerFetch(): Long? =
-        LocalData.lastTimeDiagnosisKeysFromServerFetch()?.time
-
     /****************************************************
      * CALCULATED TIME VARIABLES
      ****************************************************/
-
-    /**
-     * The time since the last successful exposure calculation ran in foreground or background.
-     * In milliseconds
-     *
-     * @return time in milliseconds since the exposure calculation was run successfully
-     */
-    fun getTimeSinceLastDiagnosisKeyFetchFromServer(): Long? {
-        val lastTimeDiagnosisKeysFromServerFetch =
-            getLastTimeDiagnosisKeysFromServerFetch() ?: return null
-        return System.currentTimeMillis() - lastTimeDiagnosisKeysFromServerFetch
-    }
 
     /**
      * The time the tracing is active.

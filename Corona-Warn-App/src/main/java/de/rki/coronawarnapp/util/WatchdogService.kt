@@ -34,18 +34,18 @@ class WatchdogService @Inject constructor(
     fun launch() {
         // Only do this if the background jobs are enabled
         if (!ConnectivityHelper.autoModeEnabled(context)) {
-            Timber.d("Background jobs are not enabled, aborting.")
+            Timber.tag(TAG).d("Background jobs are not enabled, aborting.")
             return
         }
 
-        Timber.v("Acquiring wakelocks for watchdog routine.")
+        Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing
             val wifiLock = createWifiLock()
 
-            Timber.d("Automatic mode is on, check if we have downloaded keys already today")
+            Timber.tag(TAG).d("Automatic mode is on, check if we have downloaded keys already today")
 
             val state = taskController.submitBlocking(
                 DefaultTaskRequest(
@@ -55,7 +55,7 @@ class WatchdogService @Inject constructor(
                 )
             )
             if (state.isFailed) {
-                Timber.e(state.error, "RetrieveDiagnosisKeysTransaction failed")
+                Timber.tag(TAG).e(state.error, "RetrieveDiagnosisKeysTransaction failed")
                 // retry the key retrieval in case of an error with a scheduled work
                 BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
             }
@@ -78,6 +78,7 @@ class WatchdogService @Inject constructor(
         .apply { acquire() }
 
     companion object {
+        private const val TAG = "WatchdogService"
         private const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
     }
 }

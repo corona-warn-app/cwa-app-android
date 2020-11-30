@@ -37,6 +37,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
     @MockK lateinit var foregroundState: ForegroundState
+    @MockK lateinit var riskLevelSettings: RiskLevelSettings
 
     @BeforeEach
     fun setup() {
@@ -48,6 +49,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { LocalData.submissionWasSuccessful() } returns false
         every { foregroundState.isInForeground } returns flowOf(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
+        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
+        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns null
     }
 
     @AfterEach
@@ -73,7 +76,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         appScope = scope,
         riskLevelStorage = riskLevelStorage,
         notificationManagerCompat = notificationManagerCompat,
-        foregroundState = foregroundState
+        foregroundState = foregroundState,
+        riskLevelSettings = riskLevelSettings
     )
 
     @Test
@@ -156,6 +160,29 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData.submissionWasSuccessful()
                 foregroundState.isInForeground
+            }
+        }
+    }
+
+    @Test
+    fun `risklevel went from LOW to HIGH but it is has already been processed`() {
+        every { riskLevelStorage.riskLevelResults } returns flowOf(
+            listOf(
+                createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createRiskLevel(LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH)
+            )
+        )
+        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
+
+        runBlockingTest {
+            val instance = createInstance(scope = this)
+            instance.launch()
+
+            advanceUntilIdle()
+
+            coVerifySequence {
+                LocalData wasNot Called
+                notificationManagerCompat wasNot Called
             }
         }
     }
