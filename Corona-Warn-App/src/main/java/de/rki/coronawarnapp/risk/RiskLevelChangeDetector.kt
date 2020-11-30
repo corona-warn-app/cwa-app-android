@@ -25,6 +25,7 @@ class RiskLevelChangeDetector @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val riskLevelStorage: RiskLevelStorage,
+    private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState
 ) {
@@ -47,6 +48,13 @@ class RiskLevelChangeDetector @Inject constructor(
     private suspend fun check(changedLevels: List<RiskLevelResult>) {
         val oldResult = changedLevels.first()
         val newResult = changedLevels.last()
+
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
+        if (lastCheckedResult == newResult.calculatedAt) {
+            Timber.d("We already checked this risk level change, skipping further checks.")
+            return
+        }
+        riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = newResult.calculatedAt
 
         val oldRiskLevel = oldResult.riskLevel
         val newRiskLevel = newResult.riskLevel
