@@ -76,12 +76,12 @@
       }
     ],
     "trlEncoding": {
-      "infectiousnessOffsetStandard": 0,
-      "infectiousnessOffsetHigh": 4,
-      "reportTypeOffsetRecursive": 4,
-      "reportTypeOffsetSelfReport": 3,
-      "reportTypeOffsetConfirmedClinicalDiagnosis": 2,
-      "reportTypeOffsetConfirmedTest": 1
+      "infectiousnessOffsetStandard": 1,
+      "infectiousnessOffsetHigh": 2,
+      "reportTypeOffsetRecursive": 0,
+      "reportTypeOffsetSelfReport": 2,
+      "reportTypeOffsetConfirmedClinicalDiagnosis": 4,
+      "reportTypeOffsetConfirmedTest": 6
     },
     "transmissionRiskLevelMultiplier": 0.2
   },
@@ -211,8 +211,8 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 2,
-          "infectiousness": 1,
+          "reportType": 4,
+          "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -271,8 +271,8 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 1,
-          "infectiousness": 2,
+          "reportType": 2,
+          "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -306,8 +306,8 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 1,
-          "infectiousness": 2,
+          "reportType": 2,
+          "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -521,8 +521,8 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 4,
-          "infectiousness": 1,
+          "reportType": 3,
+          "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -665,7 +665,7 @@
       "exposureWindows": [
         {
           "ageInDays": 3,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -683,7 +683,7 @@
         },
         {
           "ageInDays": 2,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -701,7 +701,7 @@
         },
         {
           "ageInDays": 4,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -731,7 +731,7 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -749,7 +749,7 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -779,7 +779,7 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -797,7 +797,7 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 1,
           "scanInstances": [
@@ -827,7 +827,7 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -845,8 +845,8 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 3,
-          "infectiousness": 2,
+          "reportType": 1,
+          "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -875,7 +875,7 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -893,7 +893,7 @@
         },
         {
           "ageInDays": 2,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -941,7 +941,7 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 4,
+          "reportType": 1,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -1001,8 +1001,8 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
-          "infectiousness": 2,
+          "reportType": 1,
+          "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -1031,8 +1031,8 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
-          "infectiousness": 2,
+          "reportType": 1,
+          "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
@@ -1066,8 +1066,8 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
-          "infectiousness": 2,
+          "reportType": 1,
+          "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
