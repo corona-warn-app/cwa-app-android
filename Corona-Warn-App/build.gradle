@@ -303,7 +303,7 @@ configurations.all {
 
 dependencies {
     // KOTLIN
-    def coroutineVersion = "1.4.1"
+    def coroutineVersion = "1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
