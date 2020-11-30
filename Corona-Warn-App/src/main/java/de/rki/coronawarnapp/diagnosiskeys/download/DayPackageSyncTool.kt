@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
@@ -46,9 +47,15 @@ class DayPackageSyncTool @Inject constructor(
         val downloadConfig: KeyDownloadConfig = configProvider.getAppConfig()
         val keysWereRevoked = revokeCachedKeys(downloadConfig.revokedDayPackages)
 
-        val missingDays = targetLocations.mapNotNull {
-            determineMissingDayPackages(it, forceIndexLookup || keysWereRevoked)
+        val missingDays = try {
+            targetLocations.mapNotNull {
+                determineMissingDayPackages(it, forceIndexLookup || keysWereRevoked)
+            }
+        } catch (e: CwaUnknownHostException) {
+            Timber.tag(TAG).w(e, "Failed to sync with day index.")
+            return SyncResult(successful = false, newPackages = emptyList())
         }
+
         if (missingDays.isEmpty()) {
             Timber.tag(TAG).i("There were no missing day packages.")
             return SyncResult(successful = true, newPackages = emptyList())
