@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.risk
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
+import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
+import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
@@ -59,10 +59,10 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     }
 
     private fun createRiskLevel(
-        riskLevel: RiskLevel,
+        riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH
     ): RiskLevelResult = object : RiskLevelResult {
-        override val riskLevel: RiskLevel = riskLevel
+        override val riskState: RiskState = riskState
         override val calculatedAt: Instant = calculatedAt
         override val aggregatedRiskResult: AggregatedRiskResult? = null
         override val failureReason: RiskLevelResult.FailureReason? = null
@@ -82,7 +82,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `nothing happens if there is only one result yet`() {
-        every { riskLevelStorage.riskLevelResults } returns flowOf(listOf(createRiskLevel(LOW_LEVEL_RISK)))
+        every { riskLevelStorage.riskLevelResults } returns flowOf(listOf(createRiskLevel(LOW_RISK)))
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -101,8 +101,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     fun `no risklevel change, nothing should happen`() {
         every { riskLevelStorage.riskLevelResults } returns flowOf(
             listOf(
-                createRiskLevel(LOW_LEVEL_RISK),
-                createRiskLevel(LOW_LEVEL_RISK)
+                createRiskLevel(LOW_RISK),
+                createRiskLevel(LOW_RISK)
             )
         )
 
@@ -123,7 +123,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     fun `risklevel went from HIGH to LOW`() {
         every { riskLevelStorage.riskLevelResults } returns flowOf(
             listOf(
-                createRiskLevel(LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
                 createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -147,7 +147,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.riskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                createRiskLevel(LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH)
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
 
@@ -169,7 +169,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.riskLevelResults } returns flowOf(
             listOf(
                 createRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                createRiskLevel(LOW_LEVEL_RISK, calculatedAt = Instant.EPOCH)
+                createRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
@@ -189,12 +189,12 @@ class RiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `evaluate risk level change detection function`() {
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, UNDETERMINED) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_LEVEL_RISK, LOW_LEVEL_RISK) shouldBe false
+        RiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
+        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, LOW_RISK) shouldBe false
         RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_LEVEL_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_LEVEL_RISK, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(UNDETERMINED, INCREASED_RISK) shouldBe true
-        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, UNDETERMINED) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_RISK) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, INCREASED_RISK) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
+        RiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
     }
 }

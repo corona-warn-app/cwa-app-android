@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Reusable
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -38,20 +39,22 @@ class TracingDetailsStateProvider @Inject constructor(
         val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
 
         val isAdditionalInformationVisible = riskDetailPresenter.isAdditionalInfoVisible(
-            latestCalc.riskLevel.raw, latestCalc.matchedKeyCount
+            latestCalc.riskState, latestCalc.matchedKeyCount
         )
         val isInformationBodyNoticeVisible = riskDetailPresenter.isInformationBodyNoticeVisible(
-            latestCalc.riskLevel.raw
+            latestCalc.riskState
         )
+
+        val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
 
         TracingDetailsState(
             tracingStatus = status,
-            riskLevelScore = latestCalc.riskLevel.raw,
+            riskState = latestCalc.riskState,
             tracingProgress = tracingProgress,
             matchedKeyCount = latestCalc.matchedKeyCount,
             daysSinceLastExposure = latestCalc.daysWithEncounters,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            isManualKeyRetrievalEnabled = !isBackgroundJobEnabled,
+            isManualKeyRetrievalEnabled = isRestartButtonEnabled,
             isAdditionalInformationVisible = isAdditionalInformationVisible,
             isInformationBodyNoticeVisible = isInformationBodyNoticeVisible
         )

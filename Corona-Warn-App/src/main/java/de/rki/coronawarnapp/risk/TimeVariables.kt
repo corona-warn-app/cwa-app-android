@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
+import timber.log.Timber
 
 object TimeVariables {
 
@@ -176,7 +177,13 @@ object TimeVariables {
 
         // because we delete periods that are past 14 days but tracingActiveMS counts from first
         // ever activation, there are edge cases where tracingActiveMS gets to be > 14 days
-        return (minOf(tracingActiveMS, retentionPeriodInMS) - inactiveTracingMS).roundUpMsToDays()
+        val activeTracingDays = (minOf(tracingActiveMS, retentionPeriodInMS) - inactiveTracingMS).roundUpMsToDays()
+        return if (activeTracingDays >= 0) {
+            activeTracingDays
+        } else {
+            Timber.w("Negative active tracing days: %d", activeTracingDays)
+            0
+        }
     }
 
     /****************************************************

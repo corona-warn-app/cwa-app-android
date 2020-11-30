@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.risk.storage.internal
 
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
@@ -30,7 +30,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 numberOfDaysWithHighRisk = 81
             )
         ).toRiskResult(listOf(testExposureWindowDaoWrapper)).apply {
-            riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+            riskState shouldBe RiskState.LOW_RISK
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe listOf(testExposureWindow)
             failureReason shouldBe null
@@ -65,7 +65,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 numberOfDaysWithHighRisk = 81
             )
         ).toRiskResult().apply {
-            riskLevel shouldBe RiskLevel.LOW_LEVEL_RISK
+            riskState shouldBe RiskState.LOW_RISK
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe null
@@ -92,7 +92,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
             failureReason = RiskLevelResult.FailureReason.TRACING_OFF,
             aggregatedRiskResult = null
         ).toRiskResult().apply {
-            riskLevel shouldBe RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
+            riskState shouldBe RiskState.CALCULATION_FAILED
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe RiskLevelResult.FailureReason.TRACING_OFF
