@@ -112,6 +112,10 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
         binding.submissionTestResultButtonConsentGivenContinueWithoutSymptoms.setOnClickListener {
             viewModel.onShowCancelDialog()
         }
+
+        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            viewModel.onShowCancelDialog()
+        }
     }
 
     private fun showCancelDialog() {
