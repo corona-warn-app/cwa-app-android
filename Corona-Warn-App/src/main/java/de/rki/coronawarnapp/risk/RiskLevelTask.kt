@@ -4,11 +4,10 @@ import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
@@ -25,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -38,7 +38,8 @@ class RiskLevelTask @Inject constructor(
     private val backgroundModeStatus: BackgroundModeStatus,
     private val riskLevelSettings: RiskLevelSettings,
     private val appConfigProvider: AppConfigProvider,
-    private val riskLevelStorage: RiskLevelStorage
+    private val riskLevelStorage: RiskLevelStorage,
+    private val keyCacheRepository: KeyCacheRepository
 ) : Task<DefaultProgress, RiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -72,10 +73,14 @@ class RiskLevelTask @Inject constructor(
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): RiskLevelTaskResult {
+        val nowUTC = timeStamper.nowUTC.also {
+            Timber.d("The current time is %s", it)
+        }
+
         if (!isNetworkEnabled(context)) {
             Timber.i("Risk not calculated, internet unavailable.")
             return RiskLevelTaskResult(
-                calculatedAt = timeStamper.nowUTC,
+                calculatedAt = nowUTC,
                 failureReason = FailureReason.NO_INTERNET
             )
         }
@@ -83,15 +88,15 @@ class RiskLevelTask @Inject constructor(
         if (!enfClient.isTracingEnabled.first()) {
             Timber.i("Risk not calculated, tracing is disabled.")
             return RiskLevelTaskResult(
-                calculatedAt = timeStamper.nowUTC,
+                calculatedAt = nowUTC,
                 failureReason = FailureReason.TRACING_OFF
             )
         }
 
-        if (calculationNotPossibleBecauseOfOutdatedResults()) {
+        if (areKeyPkgsOutDated(nowUTC)) {
             Timber.i("Risk not calculated, results are outdated.")
             return RiskLevelTaskResult(
-                calculatedAt = timeStamper.nowUTC,
+                calculatedAt = nowUTC,
                 failureReason = when (backgroundJobsEnabled()) {
                     true -> FailureReason.OUTDATED_RESULTS
                     false -> FailureReason.OUTDATED_RESULTS_MANUAL
@@ -103,22 +108,26 @@ class RiskLevelTask @Inject constructor(
         return calculateRiskLevel(configData)
     }
 
-    private fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean {
-        Timber.tag(TAG).d("Evaluating calculationNotPossibleBecauseOfOutdatedResults()")
-        // if the last calculation is longer in the past as the defined threshold we return the stale state
-        val timeSinceLastDiagnosisKeyFetchFromServer =
-            TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
-                ?: throw RiskLevelCalculationException(
-                    IllegalArgumentException("Time since last exposure calculation is null")
-                )
-        /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
-        defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
-        return (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
-            TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()).also {
+    private suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
+        Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
+
+        val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {
+            it.info.toDateTime()
+        }
+        if (latestDownload == null) {
+            Timber.w("areKeyPkgsOutDated(): No downloads available, why is the RiskLevelTask running? Aborting!")
+            return true
+        }
+
+        val downloadAge = Duration(latestDownload.info.toDateTime(), nowUTC).also {
+            Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
+        }
+
+        return (downloadAge.isLongerThan(STALE_DOWNLOAD_LIMIT) && isActiveTracingTimeAboveThreshold()).also {
             if (it) {
-                Timber.tag(TAG).i("Calculation was not possible because reults are outdated.")
+                Timber.tag(TAG).i("areKeyPkgsOutDated(): Calculation was not possible because reults are outdated.")
             } else {
-                Timber.tag(TAG).d("Results are not out dated, continuing evaluation.")
+                Timber.tag(TAG).d("areKeyPkgsOutDated(): Key pkgs are fresh :), continuing evaluation.")
             }
         }
     }
@@ -199,5 +208,6 @@ class RiskLevelTask @Inject constructor(
 
     companion object {
         private val TAG: String? = RiskLevelTask::class.simpleName
+        private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
     }
 }
