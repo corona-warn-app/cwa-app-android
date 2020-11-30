@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
@@ -37,26 +38,15 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var keyCacheRepository: KeyCacheRepository
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
-
-    private fun createTask() = RiskLevelTask(
-        riskLevels = riskLevels,
-        context = context,
-        enfClient = enfClient,
-        timeStamper = timeStamper,
-        backgroundModeStatus = backgroundModeStatus,
-        riskLevelSettings = riskLevelSettings,
-        appConfigProvider = appConfigProvider,
-        riskLevelStorage = riskLevelStorage
-    )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         mockkObject(TimeVariables)
-        every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns null
 
         coEvery { appConfigProvider.getAppConfig() } returns configData
         every { configData.identifier } returns "config-identifier"
@@ -73,13 +63,27 @@ class RiskLevelTaskTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH
 
         every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns emptyList()
     }
+
+    private fun createTask() = RiskLevelTask(
+        riskLevels = riskLevels,
+        context = context,
+        enfClient = enfClient,
+        timeStamper = timeStamper,
+        backgroundModeStatus = backgroundModeStatus,
+        riskLevelSettings = riskLevelSettings,
+        appConfigProvider = appConfigProvider,
+        riskLevelStorage = riskLevelStorage,
+        keyCacheRepository = keyCacheRepository
+    )
 
     @Test
     fun `last used config ID is set after calculation`() = runBlockingTest {
 //        val task = createTask()
 //        task.run(arguments)
 //
-//        verify { riskLevelData.lastUsedConfigIdentifier = "config-identifier" }
+//        verify { riskLevelSettings.lastUsedConfigIdentifier = "config-identifier" }
     }
 }
