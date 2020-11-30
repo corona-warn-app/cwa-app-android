@@ -35,12 +35,6 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_risk_level_score"><xliff:g id="preference">"preference_risk_level_score"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_level_score_successful"><xliff:g id="preference">"preference_risk_level_score_successful"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_risk_level_calculation"><xliff:g id="preference">"preference_timestamp_risk_level_calculation"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
@@ -130,27 +124,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"No exposure up to now"</string>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s exposure with low risk"</item>
-        <item quantity="other">"%1$s exposures with low risk"</item>
-        <item quantity="zero">"No exposure with low risk so far"</item>
-        <item quantity="two">"%1$s exposures with low risk"</item>
-        <item quantity="few">"%1$s exposures with low risk"</item>
-        <item quantity="many">"%1$s exposures with low risk"</item>
-    </plurals>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value_high_risk">
-        <item quantity="one">"%1$s exposure"</item>
-        <item quantity="other">"%1$s exposures"</item>
-        <item quantity="zero">"No exposure up to now"</item>
-        <item quantity="two">"%1$s exposures"</item>
-        <item quantity="few">"%1$s exposures"</item>
-        <item quantity="many">"%1$s exposures"</item>
-    </plurals>
-
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -163,8 +136,6 @@
     <string name="risk_card_body_open_daily">"Note: Please open the app daily to update your risk status."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Update"</string>
-    <!-- XBUT: risk card - update risk with time display -->
-    <string name="risk_card_button_cooldown">"Update in %1$s"</string>
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">"Activate Exposure Logging"</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
@@ -173,15 +144,6 @@
     <string name="risk_card_low_risk_headline">"Low Risk"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Increased Risk"</string>
-    <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
-        <item quantity="one">"%1$s day since the last encounter"</item>
-        <item quantity="other">"%1$s days since the last encounter"</item>
-        <item quantity="zero">"%1$s days since the last encounter"</item>
-        <item quantity="two">"%1$s days since the last encounter"</item>
-        <item quantity="few">"%1$s days since the last encounter"</item>
-        <item quantity="many">"%1$s days since the last encounter"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Since you have not activated exposure logging for long enough, we could not calculate your risk of infection."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -1160,7 +1122,7 @@
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the text. You can then add another."</string>
+    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Learn More and Help"</string>
     <!-- XBUT: submission status card show results button -->
