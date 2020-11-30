@@ -43,7 +43,6 @@ import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsent
         SubmissionContactTestModule::class,
         SubmissionDoneTestModule::class,
         SubmissionQRScanFragmentModule::class,
-        SubmissionTestResultConsentGivenModule::class
     ]
 )
 class FragmentTestModuleRegistrar

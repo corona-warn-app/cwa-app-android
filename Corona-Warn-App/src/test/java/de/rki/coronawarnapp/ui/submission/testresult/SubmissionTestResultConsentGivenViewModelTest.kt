@@ -1,44 +1,32 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
-import androidx.lifecycle.MutableLiveData
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.runner.RunWith
-import testhelpers.BaseUITest
+import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
 
-@RunWith(AndroidJUnit4::class)
-class SubmissionTestResultConsentGivenViewModelTest : BaseUITest() {
+@ExtendWith(InstantExecutorExtension::class)
+class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
+    @MockK
+    lateinit var submissionRepository: SubmissionRepository
+    lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 
-    @MockK lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
-    @MockK lateinit var uiState: TestResultUIState
-
-    @Before
-    fun setup() {
+    @BeforeEach
+    fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
-        every { viewModel.uiState } returns MutableLiveData()
-
-        setupMockViewModel(object : SubmissionTestResultConsentGivenViewModel.Factory {
-            override fun create(): SubmissionTestResultConsentGivenViewModel = viewModel
-        })
     }
 
-    @After
-    fun teardown() {
-        clearAllViewModels()
-    }
+    private fun createViewModel() = SubmissionTestResultConsentGivenViewModel(submissionRepository)
 
     @Test
     fun testOnConsentProvideSymptomsButtonClick() {
+        viewModel = createViewModel()
         viewModel.onContinuePressed()
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToSymptomIntroduction
 
@@ -46,8 +34,8 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseUITest() {
 
     @Test
     fun testOnCancelled() {
+        viewModel = createViewModel()
         viewModel.cancelTestSubmission()
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToMainActivity
     }
-
 }

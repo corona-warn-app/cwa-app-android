@@ -7,19 +7,18 @@ import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository
-) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) : CWAViewModel() {
 
     private val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     private var wasRedeemedTokenErrorShown = false
@@ -45,7 +44,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
             deviceUiState = deviceUiState,
             testResultReceivedDate = resultDate
         ).let { emit(it) }
-    }.asLiveData(context = dispatcherProvider.Default)
+    }.asLiveData(context = Dispatchers.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 

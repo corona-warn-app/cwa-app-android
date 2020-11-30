@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission
 
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
@@ -14,9 +13,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenFragment
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenViewModel
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -30,14 +27,10 @@ import testhelpers.BaseUITest
 class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
-    @MockK lateinit var uiState: TestResultUIState
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        every { viewModel.uiState } returns MutableLiveData()
-
         setupMockViewModel(object : SubmissionTestResultConsentGivenViewModel.Factory {
             override fun create(): SubmissionTestResultConsentGivenViewModel = viewModel
         })
@@ -53,7 +46,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         launchFragment<SubmissionTestResultConsentGivenFragment>()
     }
 
-    @Test
+   @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
 
         val mockNavController = mock(NavController::class.java)
