@@ -12,10 +12,5 @@ class NotificationConstantsTest {
         Assert.assertEquals(NotificationConstants.NOTIFICATION_SMALL_ICON, R.drawable.ic_splash_logo)
         Assert.assertEquals(NotificationConstants.CHANNEL_NAME, R.string.notification_name)
         Assert.assertEquals(NotificationConstants.CHANNEL_DESCRIPTION, R.string.notification_description)
-        Assert.assertEquals(
-            NotificationConstants.NOTIFICATION_CONTENT_TITLE_RISK_CHANGED,
-            R.string.notification_headline
-        )
-        Assert.assertEquals(NotificationConstants.NOTIFICATION_CONTENT_TEXT_RISK_CHANGED, R.string.notification_body)
     }
 }
