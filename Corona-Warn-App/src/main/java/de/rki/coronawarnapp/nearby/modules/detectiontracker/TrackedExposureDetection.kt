@@ -9,7 +9,8 @@ data class TrackedExposureDetection(
     @SerializedName("identifier") val identifier: String,
     @SerializedName("startedAt") val startedAt: Instant,
     @SerializedName("result") val result: Result? = null,
-    @SerializedName("finishedAt") val finishedAt: Instant? = null
+    @SerializedName("finishedAt") val finishedAt: Instant? = null,
+    @SerializedName("enfVersion") val enfVersion: EnfVersion? = null
 ) {
 
     val isCalculating: Boolean
@@ -27,5 +28,12 @@ data class TrackedExposureDetection(
 
         @SerializedName("TIMEOUT")
         TIMEOUT
+    }
+
+    enum class EnfVersion {
+        @SerializedName("V1_LEGACY_MODE")
+        V1_LEGACY_MODE,
+        @SerializedName("V2_WINDOW_MODE")
+        V2_WINDOW_MODE
     }
 }

@@ -61,5 +61,3 @@ class CWAWorkerFactoryTest : BaseTest() {
         worker1 shouldNotBe worker2
     }
 }
-
-
