@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
@@ -64,7 +65,9 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
-                NotificationHelper.sendNotification("", context.getString(R.string.notification_body), true)
+                NotificationHelper.sendNotification(
+                    content = context.getString(R.string.notification_body),
+                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
             } else {
                 Timber.d("App is in foreground, not sending notifications")
             }
