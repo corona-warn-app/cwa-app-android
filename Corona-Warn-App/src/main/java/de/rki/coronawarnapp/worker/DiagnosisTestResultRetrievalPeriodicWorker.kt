@@ -7,6 +7,8 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -88,15 +90,13 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
         ) {
-            if (!CoronaWarnApplication.isAppInForeground) {
-                NotificationHelper.sendNotification(
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_name),
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_body)
-                )
-                Timber.tag(TAG).d("$id: Test Result available and notification is initiated")
-            }
+            NotificationHelper.sendNotificationIfAppIsNotInForeground(
+                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
+                NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID
+            )
+            NotificationHelper.cancelCurrentNotification(NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
+
+            Timber.tag(TAG).d("$id: Test Result available - notification issued & risk level notification canceled")
             LocalData.isTestResultNotificationSent(true)
             stopWorker()
         }

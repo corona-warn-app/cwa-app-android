@@ -16,12 +16,12 @@ import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.ui.main.MainActivity
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
-import kotlin.random.Random
 
 /**
  * Singleton class for notification handling
@@ -92,6 +92,11 @@ object NotificationHelper {
             CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
         Timber.v("Canceled future notifications with id: %s", notificationId)
+    }
+
+    fun cancelCurrentNotification(notificationId: Int) {
+        NotificationManagerCompat.from(CoronaWarnApplication.getAppContext()).cancel(notificationId)
+        Timber.v("Canceled notifications with id: %s", notificationId)
     }
 
     fun scheduleRepeatingNotification(
@@ -194,16 +199,36 @@ object NotificationHelper {
      * @param pendingIntent: PendingIntent
      */
     fun sendNotification(
-        title: String,
+        title: String = CoronaWarnApplication.getAppContext().getString(R.string.notification_name),
         content: String,
+        notificationId: NotificationId,
         expandableLongText: Boolean = false,
-        notificationId: NotificationId = Random.nextInt(),
         pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ) {
+        Timber.d("Sending notification with id: %s | title: %s | content: %s", notificationId, title, content)
         val notification =
             buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
             notify(notificationId, notification)
+        }
+    }
+
+    /**
+     * Send notification
+     * Build and send notification with content and visibility.
+     * Notification is only sent if app is not in foreground.
+     *
+     * @param content: String
+     * @param notificationId: NotificationId
+     */
+    fun sendNotificationIfAppIsNotInForeground(content: String, notificationId: NotificationId) {
+        if (!CoronaWarnApplication.isAppInForeground) {
+            sendNotification(
+                content = content,
+                notificationId = notificationId,
+                expandableLongText = true)
+        } else {
+            Timber.d("App is in foreground - not sending the notification with id: %s", notificationId)
         }
     }
 
