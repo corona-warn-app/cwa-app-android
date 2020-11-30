@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
@@ -47,10 +48,12 @@ class DataReset @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val interoperabilityRepository: InteroperabilityRepository,
     private val exposureDetectionTracker: ExposureDetectionTracker,
-    private val keyPackageSyncSettings: KeyPackageSyncSettings
+    private val keyPackageSyncSettings: KeyPackageSyncSettings,
+    private val riskLevelStorage: RiskLevelStorage
 ) {
 
     private val mutex = Mutex()
+
     /**
      * Deletes all data known to the Application
      *
@@ -72,6 +75,7 @@ class DataReset @Inject constructor(
         interoperabilityRepository.clear()
         exposureDetectionTracker.clear()
         keyPackageSyncSettings.clear()
+        riskLevelStorage.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
