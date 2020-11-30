@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
@@ -24,6 +25,7 @@ class RiskLevelChangeDetector @Inject constructor(
     @AppContext private val context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val riskLevelStorage: RiskLevelStorage,
+    private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState
 ) {
@@ -47,6 +49,13 @@ class RiskLevelChangeDetector @Inject constructor(
         val oldResult = changedLevels.first()
         val newResult = changedLevels.last()
 
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
+        if (lastCheckedResult == newResult.calculatedAt) {
+            Timber.d("We already checked this risk level change, skipping further checks.")
+            return
+        }
+        riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = newResult.calculatedAt
+
         val oldRiskLevel = oldResult.riskLevel
         val newRiskLevel = newResult.riskLevel
 
@@ -56,7 +65,9 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
-                NotificationHelper.sendNotification("", context.getString(R.string.notification_body), true)
+                NotificationHelper.sendNotification(
+                    content = context.getString(R.string.notification_body),
+                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
             } else {
                 Timber.d("App is in foreground, not sending notifications")
             }
