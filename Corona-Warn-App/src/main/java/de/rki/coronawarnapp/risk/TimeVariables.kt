@@ -80,7 +80,7 @@ object TimeVariables {
      */
     fun getMinActivatedTracingTime(): Int = MIN_ACTIVATED_TRACING_TIME
 
-    private const val MILISECONDS_IN_A_SECOND = 1000
+    private const val MILLISECONDS_IN_A_SECOND = 1000
     private const val SECONDS_IN_A_MINUTES = 60
     private const val MINUTES_IN_AN_HOUR = 60
     private const val HOURS_IN_AN_DAY = 24
@@ -94,9 +94,9 @@ object TimeVariables {
      */
     fun getManualKeyRetrievalDelay() =
         if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
-            MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES
+            MILLISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES
         } else {
-            MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES * MINUTES_IN_AN_HOUR * HOURS_IN_AN_DAY
+            MILLISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES * MINUTES_IN_AN_HOUR * HOURS_IN_AN_DAY
         }
 
     /**

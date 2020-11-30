@@ -95,7 +95,8 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
                 key shouldBe expectedIdentifier
                 value shouldBe TrackedExposureDetection(
                     identifier = expectedIdentifier,
-                    startedAt = Instant.EPOCH
+                    startedAt = Instant.EPOCH,
+                    enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
             }
 
