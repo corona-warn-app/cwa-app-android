@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
-import java.util.Date
 
 @Suppress("TooManyFunctions")
 data class TracingCardState(
@@ -27,7 +26,7 @@ data class TracingCardState(
     val daysWithEncounters: Int,
     val lastEncounterAt: Instant?,
     val activeTracingDays: Long,
-    val lastTimeDiagnosisKeysFetched: Date?,
+    val lastTimeDiagnosisKeysFetched: Instant?,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val showDetails: Boolean = false
 ) : BaseTracingState() {
@@ -164,10 +163,10 @@ data class TracingCardState(
         else -> ""
     }
 
-    private fun formatRelativeDateTimeString(c: Context, date: Date): CharSequence? =
+    private fun formatRelativeDateTimeString(c: Context, date: Instant): CharSequence? =
         DateUtils.getRelativeDateTimeString(
             c,
-            date.time,
+            date.millis,
             DateUtils.DAY_IN_MILLIS,
             DateUtils.DAY_IN_MILLIS * 2,
             0

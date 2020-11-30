@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
@@ -13,6 +12,7 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.storage.TestSettings
@@ -59,12 +59,9 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
         binding.buttonExposureWindowsShare.setOnClickListener { vm.shareExposureWindows() }
-        vm.riskLevelResetEvent.observe2(this) {
-            Toast.makeText(
-                requireContext(), "Reset done, please fetch diagnosis keys from server again",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+
+        vm.dataResetEvent.observe2(this) { Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show() }
+
         vm.additionalRiskCalcInfo.observe2(this) {
             binding.labelRiskAdditionalInfo.text = it
         }
