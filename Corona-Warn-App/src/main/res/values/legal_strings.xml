@@ -31,5 +31,9 @@
     <string name="submission_consent_main_third_point" translatable="false"></string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point" translatable="false"></string>
+    <!-- YTXT: Your consent screen agreement share test results -->
+    <string name="submission_your_consent_agreement_share_test_results" translatable="false">""</string>
+    <!-- YTXT: Your consent screen agreement share symptoms -->
+    <string name="submission_your_consent_agreement_share_symptoms" translatable="false">""</string>
 
 </resources>
