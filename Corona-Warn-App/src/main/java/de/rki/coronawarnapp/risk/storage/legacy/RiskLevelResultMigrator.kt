@@ -79,7 +79,7 @@ class RiskLevelResultMigrator @Inject constructor(
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun mapRiskLevelConstant(value: Int): RiskState = when (value) {
-            MigrationRiskLevelConstants.LOW_LEVEL_RISK -> RiskState.LOW_LEVEL_RISK
+            MigrationRiskLevelConstants.LOW_LEVEL_RISK -> RiskState.LOW_RISK
             MigrationRiskLevelConstants.INCREASED_RISK -> RiskState.INCREASED_RISK
             else -> RiskState.CALCULATION_FAILED
         }

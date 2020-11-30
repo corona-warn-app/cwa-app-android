@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskState.LOW_LEVEL_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
@@ -38,8 +38,8 @@ data class TracingCardState(
      * between colored / light / dark background
      */
     fun getStableIconColor(c: Context): Int = when {
-        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextSemanticNeutral
-        riskState == INCREASED_RISK || riskState == LOW_LEVEL_RISK -> R.color.colorStableLight
+        isTracingOff() -> R.color.colorTextSemanticNeutral
+        riskState == INCREASED_RISK || riskState == LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
     }.let { c.getColor(it) }
 
@@ -49,7 +49,7 @@ data class TracingCardState(
      * can be calculated
      */
     fun getErrorStateBody(c: Context): String {
-        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (isTracingOff()) {
             return c.getString(R.string.risk_card_body_tracing_off)
         }
         return when (riskState) {
@@ -65,7 +65,7 @@ data class TracingCardState(
      */
     fun getSavedRiskBody(c: Context): String {
         // Don't display last risk when tracing is disabled
-        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (isTracingOff()) {
             val arg = c.getString(R.string.risk_card_no_calculation_possible_headline)
             return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(arg)
         }
@@ -79,7 +79,7 @@ data class TracingCardState(
         if (riskState == CALCULATION_FAILED) {
             val arg = when (lastSuccessfulRiskState) {
                 INCREASED_RISK -> R.string.risk_card_increased_risk_headline
-                LOW_LEVEL_RISK -> R.string.risk_card_low_risk_headline
+                LOW_RISK -> R.string.risk_card_low_risk_headline
                 else -> null
             }?.let { c.getString(it) } ?: ""
             return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(arg)
@@ -93,7 +93,7 @@ data class TracingCardState(
      * Formats the risk card text display of infected contacts recognized
      */
     fun getRiskContactBody(c: Context): String = when {
-        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> {
+        isTracingOff() -> {
             ""
         }
         riskState == INCREASED_RISK && daysWithEncounters == 0 -> {
@@ -106,10 +106,10 @@ data class TracingCardState(
                 daysWithEncounters
             )
         }
-        riskState == LOW_LEVEL_RISK && daysWithEncounters == 0 -> {
+        riskState == LOW_RISK && daysWithEncounters == 0 -> {
             c.getString(R.string.risk_card_low_risk_no_encounters_body)
         }
-        riskState == LOW_LEVEL_RISK -> {
+        riskState == LOW_RISK -> {
             c.resources.getQuantityString(
                 R.plurals.risk_card_low_risk_encounter_days_body,
                 daysWithEncounters,
@@ -147,7 +147,7 @@ data class TracingCardState(
      * Special case for increased risk as it is then only displayed on risk detail view
      */
     fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when {
-        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> ""
+        isTracingOff() -> ""
         riskState == INCREASED_RISK && !showDetails -> ""
         riskState == INCREASED_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
             c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
@@ -155,10 +155,10 @@ data class TracingCardState(
         riskState == INCREASED_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
             c.getString(R.string.risk_card_body_saved_days_full)
         }
-        riskState == LOW_LEVEL_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
+        riskState == LOW_RISK && activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays() -> {
             c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
         }
-        riskState == LOW_LEVEL_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
+        riskState == LOW_RISK && activeTracingDays >= TimeVariables.getDefaultRetentionPeriodInDays() -> {
             c.getString(R.string.risk_card_body_saved_days_full)
         }
         else -> ""
@@ -180,7 +180,7 @@ data class TracingCardState(
     */
      */
     fun getTimeFetched(c: Context): String {
-        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (isTracingOff()) {
             return if (lastTimeDiagnosisKeysFetched != null) {
                 c.getString(
                     R.string.risk_card_body_time_fetched,
@@ -191,7 +191,7 @@ data class TracingCardState(
             }
         }
         return when (riskState) {
-            LOW_LEVEL_RISK, INCREASED_RISK -> {
+            LOW_RISK, INCREASED_RISK -> {
                 if (lastTimeDiagnosisKeysFetched != null) {
                     c.getString(
                         R.string.risk_card_body_time_fetched,
@@ -203,7 +203,7 @@ data class TracingCardState(
             }
             CALCULATION_FAILED -> {
                 when (lastSuccessfulRiskState) {
-                    LOW_LEVEL_RISK, INCREASED_RISK -> {
+                    LOW_RISK, INCREASED_RISK -> {
                         if (lastTimeDiagnosisKeysFetched != null) {
                             c.getString(
                                 R.string.risk_card_body_time_fetched,
@@ -247,12 +247,12 @@ data class TracingCardState(
             !showDetails
 
     fun getRiskLevelHeadline(c: Context): String {
-        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (isTracingOff()) {
             return c.getString(R.string.risk_card_no_calculation_possible_headline)
         }
         return when (riskState) {
             INCREASED_RISK -> R.string.risk_card_increased_risk_headline
-            LOW_LEVEL_RISK -> R.string.risk_card_low_risk_headline
+            LOW_RISK -> R.string.risk_card_low_risk_headline
             CALCULATION_FAILED -> R.string.risk_card_check_failed_no_internet_headline
         }.let { c.getString(it) }
     }
@@ -272,23 +272,23 @@ data class TracingCardState(
     fun isTracingInProgress(): Boolean = tracingProgress != TracingProgress.Idle
 
     fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList {
-        if (tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE) {
+        if (isTracingOff()) {
             return c.getColorStateList(R.color.card_no_calculation)
         }
         return when (riskState) {
             INCREASED_RISK -> R.color.card_increased
-            LOW_LEVEL_RISK -> R.color.card_low
+            LOW_RISK -> R.color.card_low
             CALCULATION_FAILED -> R.color.card_no_calculation
         }.let { c.getColorStateList(it) }
     }
 
     fun getUpdateButtonColor(c: Context): Int = when (riskState) {
-        INCREASED_RISK, LOW_LEVEL_RISK -> R.color.colorStableLight
+        INCREASED_RISK, LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorAccentTintButton
     }.let { c.getColor(it) }
 
     fun getUpdateButtonTextColor(c: Context): Int = when (riskState) {
-        INCREASED_RISK, LOW_LEVEL_RISK -> R.color.colorTextPrimary1Stable
+        INCREASED_RISK, LOW_RISK -> R.color.colorTextPrimary1Stable
         else -> R.color.colorTextPrimary1InvertedStable
     }.let { c.getColor(it) }
 }

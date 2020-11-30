@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskState.LOW_LEVEL_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
@@ -62,7 +62,7 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `normal behavior visibility`() {
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             isBehaviorNormalVisible() shouldBe true
         }
         createInstance(riskState = INCREASED_RISK).apply {
@@ -75,7 +75,7 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `increased risk visibility`() {
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             isBehaviorIncreasedRiskVisible() shouldBe false
         }
         createInstance(riskState = INCREASED_RISK).apply {
@@ -88,7 +88,7 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `logged period card visibility`() {
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             isBehaviorPeriodLoggedVisible() shouldBe true
         }
         createInstance(riskState = INCREASED_RISK).apply {
@@ -101,10 +101,10 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `low level risk visibility`() {
-        createInstance(riskState = LOW_LEVEL_RISK, matchedKeyCount = 1).apply {
+        createInstance(riskState = LOW_RISK, matchedKeyCount = 1).apply {
             isBehaviorLowLevelRiskVisible() shouldBe true
         }
-        createInstance(riskState = LOW_LEVEL_RISK, matchedKeyCount = 0).apply {
+        createInstance(riskState = LOW_RISK, matchedKeyCount = 0).apply {
             isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskState = INCREASED_RISK).apply {
@@ -117,11 +117,11 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `risk details body text`() {
-        createInstance(riskState = LOW_LEVEL_RISK, matchedKeyCount = 1).apply {
+        createInstance(riskState = LOW_RISK, matchedKeyCount = 1).apply {
             getRiskDetailsRiskLevelBody(context)
             verify { context.getString(R.string.risk_details_information_body_low_risk_with_encounter) }
         }
-        createInstance(riskState = LOW_LEVEL_RISK, matchedKeyCount = 0).apply {
+        createInstance(riskState = LOW_RISK, matchedKeyCount = 0).apply {
             getRiskDetailsRiskLevelBody(context)
             verify { context.getString(R.string.risk_details_information_body_low_risk) }
         }
@@ -142,7 +142,7 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `riskdetails body notice`() {
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskDetailsRiskLevelBodyNotice(context)
             verify { context.getString(R.string.risk_details_information_body_notice) }
         }
@@ -158,10 +158,10 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `is tracing enable tracing button visible`() {
-        createInstance(riskState = LOW_LEVEL_RISK, tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE).apply {
+        createInstance(riskState = LOW_RISK, tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE).apply {
             isRiskDetailsEnableTracingButtonVisible() shouldBe true
         }
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             isRiskDetailsEnableTracingButtonVisible() shouldBe false
         }
         createInstance(riskState = INCREASED_RISK).apply {
@@ -188,10 +188,10 @@ class TracingDetailsStateTest : BaseTest() {
             isRiskDetailsUpdateButtonVisible() shouldBe true
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, isBackgroundJobEnabled = true).apply {
+        createInstance(riskState = LOW_RISK, isBackgroundJobEnabled = true).apply {
             isRiskDetailsUpdateButtonVisible() shouldBe false
         }
-        createInstance(riskState = LOW_LEVEL_RISK, isBackgroundJobEnabled = false).apply {
+        createInstance(riskState = LOW_RISK, isBackgroundJobEnabled = false).apply {
             isRiskDetailsUpdateButtonVisible() shouldBe true
         }
 
@@ -205,7 +205,7 @@ class TracingDetailsStateTest : BaseTest() {
 
     @Test
     fun `format active tracing days in retention`() {
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskActiveTracingDaysInRetentionPeriodLogged(context)
             verify { context.getString(R.string.risk_details_information_body_period_logged_assessment) }
         }

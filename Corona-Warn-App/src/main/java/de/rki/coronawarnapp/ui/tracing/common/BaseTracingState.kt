@@ -19,7 +19,7 @@ abstract class BaseTracingState {
     fun getRiskColor(c: Context): Int = when {
         tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorSemanticUnknownRisk
         riskState == RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
-        riskState == RiskState.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
+        riskState == RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         else -> R.color.colorSemanticUnknownRisk
     }.let { c.getColor(it) }
 
@@ -28,7 +28,7 @@ abstract class BaseTracingState {
     fun getStableTextColor(c: Context): Int = when {
         tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextPrimary1
         riskState == RiskState.INCREASED_RISK ||
-            riskState == RiskState.LOW_LEVEL_RISK -> R.color.colorTextPrimary1InvertedStable
+            riskState == RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
         else -> R.color.colorTextPrimary1
     }.let { c.getColor(it) }
 

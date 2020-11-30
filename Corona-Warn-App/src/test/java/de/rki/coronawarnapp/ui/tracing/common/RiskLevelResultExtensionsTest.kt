@@ -11,9 +11,9 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RiskLevelExtensionsTest : BaseTest() {
+class RiskLevelResultExtensionsTest : BaseTest() {
 
-    private fun createRiskLevel(
+    private fun createRiskLevelResult(
         hasResult: Boolean,
         calculatedAt: Instant
     ): RiskLevelResult = object : RiskLevelResult {
@@ -32,7 +32,7 @@ class RiskLevelExtensionsTest : BaseTest() {
 
         emptyResults.tryLatestResultsWithDefaults().apply {
             lastCalculated.apply {
-                riskState shouldBe RiskState.LOW_LEVEL_RISK
+                riskState shouldBe RiskState.LOW_RISK
                 val now = Instant.now().millis
                 calculatedAt.millis shouldBeInRange ((now - 60 * 1000L)..now + 60 * 1000L)
             }
@@ -45,8 +45,8 @@ class RiskLevelExtensionsTest : BaseTest() {
     @Test
     fun `getLastestAndLastSuccessful last calculation was successful`() {
         val results = listOf(
-            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH),
-            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH.plus(1))
+            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH),
+            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1))
         )
 
         results.tryLatestResultsWithDefaults().apply {
@@ -58,9 +58,9 @@ class RiskLevelExtensionsTest : BaseTest() {
     @Test
     fun `getLastestAndLastSuccessful last calculation was not successful`() {
         val results = listOf(
-            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH),
-            createRiskLevel(hasResult = true, calculatedAt = Instant.EPOCH.plus(1)),
-            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(2))
+            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH),
+            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(2))
         )
 
         results.tryLatestResultsWithDefaults().apply {
@@ -72,10 +72,10 @@ class RiskLevelExtensionsTest : BaseTest() {
     @Test
     fun `getLastestAndLastSuccessful no successful calculations yet`() {
         val results = listOf(
-            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(10)),
-            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(11)),
-            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(12)),
-            createRiskLevel(hasResult = false, calculatedAt = Instant.EPOCH.plus(13))
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(10)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(11)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(12)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(13))
         )
 
         results.tryLatestResultsWithDefaults().apply {

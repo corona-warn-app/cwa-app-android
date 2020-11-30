@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DefaultRiskDetailPresenter @Inject constructor() {
 
     fun isAdditionalInfoVisible(riskState: RiskState, matchedKeyCount: Int) =
-        riskState == RiskState.LOW_LEVEL_RISK && matchedKeyCount > 0
+        riskState == RiskState.LOW_RISK && matchedKeyCount > 0
 
-    fun isInformationBodyNoticeVisible(riskState: RiskState) = riskState != RiskState.LOW_LEVEL_RISK
+    fun isInformationBodyNoticeVisible(riskState: RiskState) = riskState != RiskState.LOW_RISK
 }

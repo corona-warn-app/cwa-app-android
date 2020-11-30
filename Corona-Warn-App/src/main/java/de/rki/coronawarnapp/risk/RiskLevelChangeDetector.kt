@@ -56,29 +56,30 @@ class RiskLevelChangeDetector @Inject constructor(
         }
         riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = newResult.calculatedAt
 
-        val oldRiskLevel = oldResult.riskState
-        val newRiskLevel = newResult.riskState
+        val oldRiskState = oldResult.riskState
+        val newRiskState = newResult.riskState
 
-        Timber.d("Last state was $oldRiskLevel and current state is $newRiskLevel")
+        Timber.d("Last state was $oldRiskState and current state is $newRiskState")
 
-        if (hasHighLowLevelChanged(oldRiskLevel, newRiskLevel) && !LocalData.submissionWasSuccessful()) {
+        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !LocalData.submissionWasSuccessful()) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
                 NotificationHelper.sendNotification(
                     content = context.getString(R.string.notification_body),
-                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
+                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+                )
             } else {
                 Timber.d("App is in foreground, not sending notifications")
             }
 
-            Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskLevel")
+            Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
         }
 
-        if (oldRiskLevel == RiskState.INCREASED_RISK && newRiskLevel == RiskState.LOW_LEVEL_RISK) {
+        if (oldRiskState == RiskState.INCREASED_RISK && newRiskState == RiskState.LOW_RISK) {
             LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
 
-            Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskLevel")
+            Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskState")
         }
     }
 

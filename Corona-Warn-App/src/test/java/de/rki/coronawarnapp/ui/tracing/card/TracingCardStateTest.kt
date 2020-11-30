@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskState.LOW_LEVEL_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
@@ -40,9 +40,9 @@ class TracingCardStateTest : BaseTest() {
 
     private fun createInstance(
         tracingStatus: Status = mockk(),
-        riskState: RiskState = LOW_LEVEL_RISK,
+        riskState: RiskState = LOW_RISK,
         tracingProgress: TracingProgress = TracingProgress.Idle,
-        lastSuccessfulRiskState: RiskState = LOW_LEVEL_RISK,
+        lastSuccessfulRiskState: RiskState = LOW_RISK,
         daysWithEncounters: Int = 0,
         lastEncounterAt: Instant? = null,
         activeTracingDaysInRetentionPeriod: Long = 0,
@@ -67,7 +67,7 @@ class TracingCardStateTest : BaseTest() {
             verify { context.getColor(R.color.colorStableLight) }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getStableIconColor(context)
             verify { context.getColor(R.color.colorStableLight) }
         }
@@ -85,7 +85,7 @@ class TracingCardStateTest : BaseTest() {
             verify { context.getColorStateList(R.color.card_increased) }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskInfoContainerBackgroundTint(context)
             verify { context.getColorStateList(R.color.card_low) }
         }
@@ -102,7 +102,7 @@ class TracingCardStateTest : BaseTest() {
             getErrorStateBody(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getErrorStateBody(context) shouldBe ""
         }
 
@@ -126,7 +126,7 @@ class TracingCardStateTest : BaseTest() {
             getSavedRiskBody(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, lastSuccessfulRiskState = CALCULATION_FAILED).apply {
+        createInstance(riskState = LOW_RISK, lastSuccessfulRiskState = CALCULATION_FAILED).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
@@ -138,11 +138,11 @@ class TracingCardStateTest : BaseTest() {
             getSavedRiskBody(context) shouldBe ""
         }
 
-        createInstance(riskState = INCREASED_RISK, lastSuccessfulRiskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = INCREASED_RISK, lastSuccessfulRiskState = LOW_RISK).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
-        createInstance(riskState = CALCULATION_FAILED, lastSuccessfulRiskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = CALCULATION_FAILED, lastSuccessfulRiskState = LOW_RISK).apply {
             getSavedRiskBody(context)
             verify {
                 context
@@ -160,7 +160,7 @@ class TracingCardStateTest : BaseTest() {
             }
         }
 
-        createInstance(riskState = CALCULATION_FAILED, lastSuccessfulRiskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = CALCULATION_FAILED, lastSuccessfulRiskState = LOW_RISK).apply {
             getSavedRiskBody(context)
             verify {
                 context
@@ -188,7 +188,7 @@ class TracingCardStateTest : BaseTest() {
             verify { context.getDrawable(R.drawable.ic_risk_card_contact_increased) }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskContactIcon(context)
             verify { context.getDrawable(R.drawable.ic_risk_card_contact) }
         }
@@ -211,7 +211,7 @@ class TracingCardStateTest : BaseTest() {
             }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskContactLast(context) shouldBe ""
         }
 
@@ -230,12 +230,12 @@ class TracingCardStateTest : BaseTest() {
             getRiskActiveTracingDaysInRetentionPeriod(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, activeTracingDaysInRetentionPeriod = 1).apply {
+        createInstance(riskState = LOW_RISK, activeTracingDaysInRetentionPeriod = 1).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context)
             verify { context.getString(R.string.risk_card_body_saved_days).format(1) }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, activeTracingDaysInRetentionPeriod = 2).apply {
+        createInstance(riskState = LOW_RISK, activeTracingDaysInRetentionPeriod = 2).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context)
             verify { context.getString(R.string.risk_card_body_saved_days).format(2) }
         }
@@ -246,7 +246,7 @@ class TracingCardStateTest : BaseTest() {
         val date = Date()
         createInstance(
             riskState = INCREASED_RISK,
-            lastSuccessfulRiskState = LOW_LEVEL_RISK,
+            lastSuccessfulRiskState = LOW_RISK,
             lastTimeDiagnosisKeysFetched = date
         ).apply {
             getTimeFetched(context)
@@ -255,7 +255,7 @@ class TracingCardStateTest : BaseTest() {
 
         createInstance(
             riskState = CALCULATION_FAILED,
-            lastSuccessfulRiskState = LOW_LEVEL_RISK,
+            lastSuccessfulRiskState = LOW_RISK,
             lastTimeDiagnosisKeysFetched = date
         ).apply {
             getTimeFetched(context)
@@ -264,7 +264,7 @@ class TracingCardStateTest : BaseTest() {
 
         createInstance(
             riskState = CALCULATION_FAILED,
-            lastSuccessfulRiskState = LOW_LEVEL_RISK,
+            lastSuccessfulRiskState = LOW_RISK,
             lastTimeDiagnosisKeysFetched = date
         ).apply {
             getTimeFetched(context)
@@ -272,8 +272,8 @@ class TracingCardStateTest : BaseTest() {
         }
 
         createInstance(
-            riskState = LOW_LEVEL_RISK,
-            lastSuccessfulRiskState = LOW_LEVEL_RISK,
+            riskState = LOW_RISK,
+            lastSuccessfulRiskState = LOW_RISK,
             lastTimeDiagnosisKeysFetched = date
         ).apply {
             getTimeFetched(context)
@@ -289,7 +289,7 @@ class TracingCardStateTest : BaseTest() {
             getTimeFetched(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, lastTimeDiagnosisKeysFetched = date).apply {
+        createInstance(riskState = LOW_RISK, lastTimeDiagnosisKeysFetched = date).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
@@ -303,7 +303,7 @@ class TracingCardStateTest : BaseTest() {
             getTimeFetched(context) shouldBe ""
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, lastTimeDiagnosisKeysFetched = null).apply {
+        createInstance(riskState = LOW_RISK, lastTimeDiagnosisKeysFetched = null).apply {
             getTimeFetched(context)
             verify { context.getString(R.string.risk_card_body_not_yet_fetched) }
         }
@@ -321,7 +321,7 @@ class TracingCardStateTest : BaseTest() {
             verify { context.getColor(R.color.colorStableHairlineDark) }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getStableDividerColor(context)
             verify { context.getColor(R.color.colorStableHairlineLight) }
         }
@@ -338,7 +338,7 @@ class TracingCardStateTest : BaseTest() {
             showTracingButton() shouldBe false
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             showTracingButton() shouldBe false
         }
 
@@ -369,11 +369,11 @@ class TracingCardStateTest : BaseTest() {
             showUpdateButton() shouldBe true
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, isBackgroundJobEnabled = false).apply {
+        createInstance(riskState = LOW_RISK, isBackgroundJobEnabled = false).apply {
             showUpdateButton() shouldBe true
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK, isBackgroundJobEnabled = true).apply {
+        createInstance(riskState = LOW_RISK, isBackgroundJobEnabled = true).apply {
             showUpdateButton() shouldBe false
         }
     }
@@ -400,7 +400,7 @@ class TracingCardStateTest : BaseTest() {
             verify { context.getString(R.string.risk_card_no_calculation_possible_headline) }
         }
 
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_low_risk_headline) }
         }

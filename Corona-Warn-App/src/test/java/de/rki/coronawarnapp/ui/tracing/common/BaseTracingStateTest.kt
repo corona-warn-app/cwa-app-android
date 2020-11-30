@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskState.LOW_LEVEL_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
@@ -35,7 +35,7 @@ class BaseTracingStateTest : BaseTest() {
 
     private fun createInstance(
         tracingStatus: Status = mockk(),
-        riskState: RiskState = LOW_LEVEL_RISK,
+        riskState: RiskState = LOW_RISK,
         tracingProgress: TracingProgress = TracingProgress.Idle,
         isManualKeyRetrievalEnabled: Boolean = false,
         showDetails: Boolean = false
@@ -53,7 +53,7 @@ class BaseTracingStateTest : BaseTest() {
             getRiskColor(context)
             verify { context.getColor(R.color.colorSemanticHighRisk) }
         }
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskColor(context)
             verify { context.getColor(R.color.colorSemanticLowRisk) }
         }
@@ -71,7 +71,7 @@ class BaseTracingStateTest : BaseTest() {
         createInstance(riskState = CALCULATION_FAILED).apply {
             isTracingOff() shouldBe false
         }
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             isTracingOff() shouldBe false
         }
         createInstance(riskState = INCREASED_RISK).apply {
@@ -86,7 +86,7 @@ class BaseTracingStateTest : BaseTest() {
             getStableTextColor(context)
             verify { context.getColor(R.color.colorTextPrimary1) }
         }
-        createInstance(riskState = LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getStableTextColor(context)
             verify { context.getColor(R.color.colorTextPrimary1InvertedStable) }
         }

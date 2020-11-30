@@ -30,7 +30,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 numberOfDaysWithHighRisk = 81
             )
         ).toRiskResult(listOf(testExposureWindowDaoWrapper)).apply {
-            riskState shouldBe RiskState.LOW_LEVEL_RISK
+            riskState shouldBe RiskState.LOW_RISK
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe listOf(testExposureWindow)
             failureReason shouldBe null
@@ -65,7 +65,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 numberOfDaysWithHighRisk = 81
             )
         ).toRiskResult().apply {
-            riskState shouldBe RiskState.LOW_LEVEL_RISK
+            riskState shouldBe RiskState.LOW_RISK
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe null

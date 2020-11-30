@@ -26,7 +26,7 @@ data class DisplayableRiskResults(
 
 private object InitialLowLevelRiskLevelResult : RiskLevelResult {
     override val calculatedAt: Instant = Instant.now()
-    override val riskState: RiskState = RiskState.LOW_LEVEL_RISK
+    override val riskState: RiskState = RiskState.LOW_RISK
     override val failureReason: RiskLevelResult.FailureReason? = null
     override val aggregatedRiskResult: AggregatedRiskResult? = null
     override val exposureWindows: List<ExposureWindow>? = null

@@ -10,7 +10,7 @@ interface RiskLevelResult {
     val riskState: RiskState
         get() = when {
             aggregatedRiskResult?.isIncreasedRisk() == true -> RiskState.INCREASED_RISK
-            aggregatedRiskResult?.isLowRisk() == true -> RiskState.LOW_LEVEL_RISK
+            aggregatedRiskResult?.isLowRisk() == true -> RiskState.LOW_RISK
             else -> RiskState.CALCULATION_FAILED
         }
 

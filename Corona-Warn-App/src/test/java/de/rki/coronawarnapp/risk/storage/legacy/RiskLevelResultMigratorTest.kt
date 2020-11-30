@@ -51,7 +51,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
                 calculatedAt shouldBe Instant.ofEpochMilli(1234567890L)
             }
             legacyResults[1].apply {
-                riskState shouldBe RiskState.LOW_LEVEL_RISK
+                riskState shouldBe RiskState.LOW_RISK
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
         }
@@ -76,7 +76,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
             legacyResults[1].apply {
-                riskState shouldBe RiskState.LOW_LEVEL_RISK
+                riskState shouldBe RiskState.LOW_RISK
                 calculatedAt shouldBe Instant.EPOCH.plus(1337)
             }
         }
@@ -130,7 +130,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
 
         RiskLevelResultMigrator.mapRiskLevelConstant(
             MigrationRiskLevelConstants.LOW_LEVEL_RISK
-        ) shouldBe RiskState.LOW_LEVEL_RISK
+        ) shouldBe RiskState.LOW_RISK
 
         RiskLevelResultMigrator.mapRiskLevelConstant(
             MigrationRiskLevelConstants.INCREASED_RISK
