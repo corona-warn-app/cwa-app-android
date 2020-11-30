@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -125,27 +124,12 @@ class RiskLevelTask @Inject constructor(
             Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
         }
 
-        return (downloadAge.isLongerThan(STALE_DOWNLOAD_LIMIT) && isActiveTracingTimeAboveThreshold()).also {
+        return (downloadAge.isLongerThan(STALE_DOWNLOAD_LIMIT)).also {
             if (it) {
-                Timber.tag(TAG).i("areKeyPkgsOutDated(): Calculation was not possible because reults are outdated.")
+                Timber.tag(TAG).i("areKeyPkgsOutDated(): Calculation was not possible because results are outdated.")
             } else {
                 Timber.tag(TAG).d("areKeyPkgsOutDated(): Key pkgs are fresh :), continuing evaluation.")
             }
-        }
-    }
-
-    private fun isActiveTracingTimeAboveThreshold(): Boolean {
-        Timber.tag(TAG).d("Evaluating isActiveTracingTimeAboveThreshold()")
-
-        val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
-        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
-        val durationTracingIsActiveThreshold = TimeVariables.getMinActivatedTracingTime().toLong()
-
-        return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-            Timber.tag(TAG).v(
-                "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                    "($durationTracingIsActiveThreshold h): $it"
-            )
         }
     }
 
