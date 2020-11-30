@@ -14,7 +14,6 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -66,7 +65,7 @@ class SubmissionYourConsentViewModelTest {
     }
 
     @Test
-    fun `consent given`() = runBlockingTest {
+    fun `consent given`() {
         coEvery { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
         viewModel = SubmissionYourConsentViewModel(interoperabilityRepository, submissionRepository)
         viewModel.switchConsent()
