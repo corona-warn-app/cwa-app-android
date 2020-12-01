@@ -51,16 +51,14 @@ class TracingRepository @Inject constructor(
     private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
     val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
 
-    private val internalIsRefreshing =
-        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
-
     val tracingProgress: Flow<TracingProgress> = combine(
-        internalIsRefreshing,
-        enfClient.isPerformingExposureDetection()
-    ) { isDownloading, isCalculating ->
+        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() },
+        enfClient.isPerformingExposureDetection(),
+        taskController.tasks.map { it.isRiskLevelTaskRunning() }
+    ) { isDownloading, isExposureDetecting, isRiskLeveling ->
         when {
             isDownloading -> TracingProgress.Downloading
-            isCalculating -> TracingProgress.ENFIsCalculating
+            isExposureDetecting || isRiskLeveling -> TracingProgress.ENFIsCalculating
             else -> TracingProgress.Idle
         }
     }
