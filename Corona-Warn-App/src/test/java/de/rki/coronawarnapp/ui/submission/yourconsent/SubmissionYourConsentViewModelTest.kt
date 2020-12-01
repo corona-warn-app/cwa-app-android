@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.yourconsent
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.Country
@@ -13,7 +11,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -90,16 +87,16 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @Test
     fun `consent repository changed`() {
-//        val viewModel = createViewModel()
-//
-//        val consentMutable = MutableStateFlow(false)
-//        every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
-//
-//        viewModel.consent.observeForever { }
-//        viewModel.consent.value shouldBe false
-//
-//        consentMutable.value = false
-//        viewModel.consent.value shouldBe false
+        val consentMutable = MutableStateFlow(false)
+        every { submissionRepository.hasGivenConsentToSubmission } returns consentMutable
+
+        val viewModel = createViewModel()
+
+        viewModel.consent.observeForever { }
+        viewModel.consent.value shouldBe false
+
+        consentMutable.value = true
+        viewModel.consent.value shouldBe true
     }
 
     @Test
