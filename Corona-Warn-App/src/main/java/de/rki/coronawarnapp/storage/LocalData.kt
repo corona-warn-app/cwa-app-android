@@ -4,12 +4,10 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
-import java.util.Date
+import timber.log.Timber
 
 /**
  * LocalData is responsible for all access to the shared preferences. Each preference is accessible
@@ -307,28 +305,6 @@ object LocalData {
             .also { isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value }
 
     /****************************************************
-     * SERVER FETCH DATA
-     ****************************************************/
-
-    private val dateMapperForFetchTime: (Long) -> Date? = {
-        if (it != 0L) Date(it) else null
-    }
-
-    private val lastTimeDiagnosisKeysFetchedFlowPref by lazy {
-        getSharedPreferenceInstance()
-            .createFlowPreference<Long>(key = "preference_timestamp_diagnosis_keys_fetch", 0L)
-    }
-
-    fun lastTimeDiagnosisKeysFromServerFetchFlow() = lastTimeDiagnosisKeysFetchedFlowPref.flow
-        .map { dateMapperForFetchTime(it) }
-
-    fun lastTimeDiagnosisKeysFromServerFetch() =
-        dateMapperForFetchTime(lastTimeDiagnosisKeysFetchedFlowPref.value)
-
-    fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) =
-        lastTimeDiagnosisKeysFetchedFlowPref.update { value?.time ?: 0L }
-
-    /****************************************************
      * SETTINGS DATA
      ****************************************************/
 
@@ -583,6 +559,6 @@ object LocalData {
         }
 
     fun clear() {
-        lastTimeDiagnosisKeysFetchedFlowPref.update { 0L }
+        Timber.w("LocalData.clear()")
     }
 }

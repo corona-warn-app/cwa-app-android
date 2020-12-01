@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -20,7 +22,8 @@ class TracingCardStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
-    riskLevelStorage: RiskLevelStorage
+    riskLevelStorage: RiskLevelStorage,
+    exposureDetectionTracker: ExposureDetectionTracker
 ) {
 
     val state: Flow<TracingCardState> = combine(
@@ -36,8 +39,8 @@ class TracingCardStateProvider @Inject constructor(
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
             Timber.v("activeTracingDaysInRetentionPeriod: $it")
         },
-        tracingRepository.lastTimeDiagnosisKeysFetched.onEach {
-            Timber.v("lastTimeDiagnosisKeysFetched: $it")
+        exposureDetectionTracker.latestSubmission().onEach {
+            Timber.v("latestSubmission: $it")
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.v("isAutoModeEnabled: $it")
@@ -46,7 +49,7 @@ class TracingCardStateProvider @Inject constructor(
         tracingProgress,
         riskLevelResults,
         activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched,
+        latestSubmission,
         isBackgroundJobEnabled ->
 
         val (
@@ -61,7 +64,7 @@ class TracingCardStateProvider @Inject constructor(
             riskState = latestCalc.riskState,
             tracingProgress = tracingProgress,
             lastSuccessfulRiskState = latestSuccessfulCalc.riskState,
-            lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
+            lastExposureDetectionTime = latestSubmission?.startedAt,
             daysWithEncounters = latestCalc.daysWithEncounters,
             lastEncounterAt = latestCalc.lastRiskEncounterAt,
             activeTracingDays = activeTracingDaysInRetentionPeriod,

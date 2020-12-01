@@ -34,13 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            
+
             <LinearLayout
                 android:id="@+id/environment_container"
                 style="@style/card"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/fake_windows_title"
@@ -50,11 +50,11 @@
                     android:text="Fake exposure windows" />
 
                 <TextView
-                    android:layout_width="match_parent"
                     style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation."
-                    android:layout_height="wrap_content" />
+                    android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation." />
 
                 <RadioGroup
                     android:id="@+id/fake_windows_toggle_group"
@@ -83,20 +83,18 @@
             </FrameLayout>
 
             <Button
-                android:id="@+id/button_retrieve_diagnosis_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Retrieve Diagnosis Keys" />
-
-            <Button
                 android:id="@+id/button_calculate_risk_level"
                 style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="Calculate Risk Level" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Start the task that gets the latest exposure windows and calculates a current risk state." />
 
             <Button
                 android:id="@+id/button_reset_risk_level"
@@ -106,13 +104,41 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="Reset Risk Level" />
 
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Delete the all stored calculated risk level results." />
+
+            <Button
+                android:id="@+id/button_retrieve_diagnosis_keys"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Download Diagnosis Keys" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Start the task syncs the local diagnosis key cache with the server and submits them to the exposure notification framework for detection (if constraints allow). " />
+
             <Button
                 android:id="@+id/button_clear_diagnosis_key_cache"
                 style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Clear Diagnosis-Key cache" />
+                android:text="Reset Diagnosis-Keys" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Restore download task conditions to initial state. Remove cached keys, delete last download logs, reset tracked exposure detections. " />
 
             <TextView
                 android:id="@+id/label_aggregated_risk_result_title"

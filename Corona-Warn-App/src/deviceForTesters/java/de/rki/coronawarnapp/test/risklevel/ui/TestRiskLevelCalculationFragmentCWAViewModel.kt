@@ -10,16 +10,15 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
+import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
@@ -32,21 +31,17 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
-import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
-import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
@@ -60,7 +55,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     tracingCardStateProvider: TracingCardStateProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val testSettings: TestSettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val exposureDetectionTracker: ExposureDetectionTracker,
+    private val keyPackageSyncSettings: KeyPackageSyncSettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -78,7 +75,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Example arg: %s", exampleArg)
     }
 
-    val riskLevelResetEvent = SingleLiveEvent<Unit>()
+    val dataResetEvent = SingleLiveEvent<String>()
     val shareFileEvent = SingleLiveEvent<File>()
 
     val showRiskStatusCard = SubmissionRepository.deviceUIStateFlow.map {
@@ -151,8 +148,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val additionalRiskCalcInfo = combine(
         riskLevelStorage.riskLevelResults,
-        LocalData.lastTimeDiagnosisKeysFromServerFetchFlow()
-    ) { riskLevelResults, lastTimeDiagnosisKeysFromServerFetch ->
+        exposureDetectionTracker.latestSubmission()
+    ) { riskLevelResults, latestSubmission ->
 
         val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestResultsWithDefaults()
 
@@ -162,7 +159,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskState,
             matchedKeyCount = latestCalc.matchedKeyCount,
             daysSinceLastExposure = latestCalc.daysWithEncounters,
-            lastTimeDiagnosisKeysFromServerFetch = lastTimeDiagnosisKeysFromServerFetch
+            lastKeySubmission = latestSubmission?.startedAt
         )
     }.asLiveData()
 
@@ -172,13 +169,13 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         riskLevelLastSuccessfulCalculated: RiskState,
         matchedKeyCount: Int,
         daysSinceLastExposure: Int,
-        lastTimeDiagnosisKeysFromServerFetch: Date?
+        lastKeySubmission: Instant?
     ): String = StringBuilder()
         .appendLine("Risk Level: $riskLevel")
         .appendLine("Last successful Risk Level: $riskLevelLastSuccessfulCalculated")
         .appendLine("Matched key count: $matchedKeyCount")
         .appendLine("Days since last Exposure: $daysSinceLastExposure days")
-        .appendLine("Last Time Server Fetch: ${lastTimeDiagnosisKeysFromServerFetch?.time?.let { Instant.ofEpochMilli(it) }}")
+        .appendLine("Last key submission: $lastKeySubmission")
         .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
         .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
         .appendLine("Last time risk level calculation $lastTimeRiskLevelCalculation")
@@ -210,24 +207,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun resetRiskLevel() {
         Timber.d("Resetting risk level")
         launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    // Preference reset
-                    SecurityHelper.resetSharedPrefs()
-                    // Database Reset
-                    AppDatabase.reset(context)
-                    // Export File Reset
-                    keyCacheRepository.clear()
-
-                    riskLevelStorage.clear()
-
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
-                } catch (e: Exception) {
-                    e.report(ExceptionCategory.INTERNAL)
-                }
-            }
-            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            riskLevelResetEvent.postValue(Unit)
+            riskLevelStorage.clear()
+            dataResetEvent.postValue("Risk level calculation related data reset.")
         }
     }
 
@@ -257,7 +238,13 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     fun clearKeyCache() {
         Timber.d("Clearing key cache")
-        launch { keyCacheRepository.clear() }
+        launch {
+            keyCacheRepository.clear()
+            keyPackageSyncSettings.clear()
+            exposureDetectionTracker.clear()
+
+            dataResetEvent.postValue("Download & Submission related data reset.")
+        }
     }
 
     fun selectFakeExposureWindowMode(newMode: TestSettings.FakeExposureWindowTypes) {
