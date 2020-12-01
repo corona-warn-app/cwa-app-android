@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
 import kotlinx.android.synthetic.main.include_step_entry_simple_body.view.simple_step_entry_body
@@ -25,6 +26,8 @@ class SimpleStepEntry @JvmOverloads constructor(
 
             simple_step_entry_body.text =
                 getText(R.styleable.SimpleStepEntry_simple_step_entry_text)
+
+            if (simple_step_entry_body.text.isEmpty()) simple_step_entry_body.visibility = View.GONE
         }
     }
 }

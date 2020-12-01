@@ -32,7 +32,7 @@ class SubmissionConsentViewModelTest {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryListFlow } returns MutableStateFlow(countryList)
         every { submissionRepository.giveConsentToSubmission() } just Runs
-        viewModel =  SubmissionConsentViewModel(submissionRepository, interoperabilityRepository)
+        viewModel = SubmissionConsentViewModel(submissionRepository, interoperabilityRepository)
     }
 
     @Test
