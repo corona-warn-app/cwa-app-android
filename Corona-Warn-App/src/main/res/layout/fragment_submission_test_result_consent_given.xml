@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/submission_test_result_consent_given_heading}" />
 
-        <de.rki.coronawarnapp.ui.view.TestResultSection
+        <de.rki.coronawarnapp.ui.view.TestResultSectionView
             android:id="@+id/submission_test_result_section"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"

@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.view_test_result_section.view.*
 import java.util.Date
 
 /**
- * The [TestResultSection] Displays the appropriate test result.
+ * The [TestResultSectionView] Displays the appropriate test result.
  */
-class TestResultSection @JvmOverloads
+class TestResultSectionView @JvmOverloads
 constructor(
     context: Context,
     attrs: AttributeSet? = null,
