@@ -145,11 +145,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
             }
             mainTestUnregistered.apply {
-                val toSubmissionIntro = {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionIntroFragment())
+                val toSubmissionDispatcher = {
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
                 }
-                submissionStatusCardUnregistered.setOnClickListener { toSubmissionIntro() }
-                submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionIntro() }
+                submissionStatusCardUnregistered.setOnClickListener { toSubmissionDispatcher() }
+                submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionDispatcher() }
             }
 
             mainTestDone.submissionStatusCardDone.setOnClickListener {
