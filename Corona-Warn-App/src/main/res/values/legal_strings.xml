@@ -35,5 +35,6 @@
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">""</string>
     <!-- YTXT: Your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms" translatable="false">""</string>
-
+    <!-- YTXT: Body for keys submission no consent text -->
+    <string name="submission_no_consent_your_consent_subsection_body" translatable="false"></string>
 </resources>

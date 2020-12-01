@@ -12,7 +12,7 @@ abstract class SubmissionResultPositiveOtherWarningNoConsentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(SubmissionResultPositiveOtherWarningNoConsentViewModel::class)
-    abstract fun submissionResultPositveOtherWarningFragment(
+    abstract fun submissionResultPositveOtherWarningNoConsentFragment(
         factory: SubmissionResultPositiveOtherWarningNoConsentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
