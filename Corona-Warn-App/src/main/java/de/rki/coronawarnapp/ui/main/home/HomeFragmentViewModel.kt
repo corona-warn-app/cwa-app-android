@@ -122,11 +122,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun deregisterWarningAccepted() {
-        submissionRepository.deleteTestGUID()
-        SubmissionRepository.deleteRegistrationToken()
-        LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.initialTestResultReceivedTimestamp(0L)
-        LocalData.isTestResultNotificationSent(false)
+        submissionRepository.removeTestFromDevice()
         submissionRepository.refreshDeviceUIState()
     }
 

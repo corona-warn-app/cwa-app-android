@@ -57,10 +57,9 @@ class SubmissionRepositoryTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         mockkObject(LocalData)
-        every { LocalData.devicePairingSuccessfulTimestamp(0L) } just Runs
-        every { LocalData.initialTestResultReceivedTimestamp() } returns 1L
         every { LocalData.registrationToken(any()) } just Runs
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
+        every { LocalData.initialTestResultReceivedTimestamp() } returns 1L
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
 
@@ -69,18 +68,24 @@ class SubmissionRepositoryTest {
     }
 
     @Test
-    fun deleteRegistrationTokenSucceeds() {
-        SubmissionRepository.deleteRegistrationToken()
+    fun removeTestFromDeviceSucceeds() {
+        every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
+        every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
+        every { LocalData.isTestResultNotificationSent(any()) } just Runs
+
+        submissionRepository.removeTestFromDevice()
 
         verify(exactly = 1) {
             LocalData.registrationToken(null)
             LocalData.devicePairingSuccessfulTimestamp(0L)
+            LocalData.initialPollingForTestResultTimeStamp(0L)
+            LocalData.isAllowedToSubmitDiagnosisKeys(false)
+            LocalData.isTestResultNotificationSent(false)
         }
     }
 
     @Test
     fun registrationWithGUIDSucceeds() {
-        every { LocalData.testGUID(any()) } just Runs
         coEvery { submissionService.asyncRegisterDeviceViaGUID(guid) } returns registrationData
 
         runBlocking {
@@ -90,7 +95,6 @@ class SubmissionRepositoryTest {
         verify(exactly = 1) {
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.registrationToken(registrationToken)
-            LocalData.testGUID(null)
             backgroundNoise.scheduleDummyPattern()
             submissionRepository.updateTestResult(testResult)
         }
@@ -98,7 +102,6 @@ class SubmissionRepositoryTest {
 
     @Test
     fun registrationWithTeleTANSucceeds() {
-        every { LocalData.teletan(any()) } just Runs
         coEvery { submissionService.asyncRegisterDeviceViaTAN(tan) } returns registrationData
 
         runBlocking {
@@ -108,7 +111,6 @@ class SubmissionRepositoryTest {
         coVerify(exactly = 1) {
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.registrationToken(registrationToken)
-            LocalData.teletan(null)
             backgroundNoise.scheduleDummyPattern()
             submissionRepository.updateTestResult(testResult)
         }

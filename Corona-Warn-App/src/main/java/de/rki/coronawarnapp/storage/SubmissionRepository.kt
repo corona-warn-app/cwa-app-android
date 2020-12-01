@@ -37,10 +37,6 @@ class SubmissionRepository @Inject constructor(
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
         }
-        fun deleteRegistrationToken() {
-            LocalData.registrationToken(null)
-            LocalData.devicePairingSuccessfulTimestamp(0L)
-        }
     }
 
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
@@ -54,14 +50,6 @@ class SubmissionRepository @Inject constructor(
     val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow
 
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
-
-    fun setTeletan(teletan: String) {
-        LocalData.teletan(teletan)
-    }
-
-    fun deleteTestGUID() {
-        LocalData.testGUID(null)
-    }
 
     // to be used by new submission flow screens
     fun giveConsentToSubmission() {
@@ -128,7 +116,6 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.teletan(null)
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
@@ -137,7 +124,6 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.testGUID(null)
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
@@ -177,6 +163,14 @@ class SubmissionRepository @Inject constructor(
         deriveUiState(testResult)
     } catch (err: NoRegistrationTokenSetException) {
         DeviceUIState.UNPAIRED
+    }
+
+    fun removeTestFromDevice() {
+        LocalData.registrationToken(null)
+        LocalData.devicePairingSuccessfulTimestamp(0L)
+        LocalData.initialPollingForTestResultTimeStamp(0L)
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.isTestResultNotificationSent(false)
     }
 }
 
