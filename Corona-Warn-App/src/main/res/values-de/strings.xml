@@ -1183,6 +1183,50 @@
     <!-- XBUT Symptoms exact date button -->
     <string name="symptoms_calendar_exact_date_button">"Genaues Datum"</string>
 
+    <!-- Submission consent custom view -->
+    <!-- XHED: Title for consent given -->
+    <string name="submission_consent_view_consent_given">"Einverständnis\n“Andere warnen” erteilt"</string>
+    <!-- XHED: Title for consent NOT given -->
+    <string name="submission_consent_view_consent_not_given">"Einverständnis\n“Andere warnen” nicht erteilt"</string>
+
+    <!--  Submission test result available -->
+    <!-- XHED: Page title for test results available step -->
+    <string name="submission_test_result_available_title">"Ihr Testergebnis liegt vor"</string>
+    <!-- XACT: Test result available illustration description -->
+    <string name="submission_test_result_available_illustration_description">""</string>
+    <!-- YTXT: Text for consent given -->
+    <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Bitte geben Sie Ihr Testergebnis im nächsten Schritt frei, indem Sie „Teilen“ antippen."</b>""</string>
+    <!-- XHED: Close screen popup title for consent given -->
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Wollen Sie wirklich abbrechen?"</string>
+    <!-- XTXT: Close screen popup text for consent given -->
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <!-- YTXT: Text for consent NOT given -->
+    <string name="submission_test_result_available_text_consent_not_given">"Sie haben sich entschieden, Ihr Testergebnis nicht zu teilen. Ihre Mitmenschen werden nicht gewarnt. \n\nSie können im Anschluss Ihr Testergebnis doch noch teilen und mithelfen, die Verbreitung von Corona zu bekämpfen und Ihre Mitmenschen zu schützen."</string>
+    <!-- XHED: Close screen popup title for consent NOT given -->
+    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
+    <!-- XTXT: Close screen popup text for consent NOT given -->
+    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
+    <!-- XBUT: Close screen popup cancel button -->
+    <string name="submission_test_result_available_close_dialog_cancel_button">"Abbrechen"</string>
+    <!-- XBUT: Close screen popup continue button -->
+    <string name="submission_test_result_available_close_dialog_continue_button">"Fortsetzen"</string>
+
+    <!-- Submission your consent screen -->
+    <!-- XHED: Your consent screen title  -->
+    <string name="submission_your_consent_title">"Ihr Einverständnis"</string>
+    <!-- XTXT: Your consent screen switch label - next to a switch  -->
+    <string name="submission_your_consent_switch_subtitle">"Andere warnen"</string>
+    <!-- XTXT: Your consent screen switch status on  -->
+    <string name="submission_your_consent_switch_status_on">"Aktiv"</string>
+    <!-- XTXT: Your consent screen switch status off  -->
+    <string name="submission_your_consent_switch_status_off">"Gestoppt"</string>
+    <!-- XTXT: Your consent screen about agreement  -->
+    <string name="submission_your_consent_about_agreement">"Sie haben sich wie folgt einverstanden erklärt:"</string>
+    <!-- XHED: Your consent screen agreement title  -->
+    <string name="submission_your_consent_agreement_title">"<b>Einverständnis</b>"</string>
+    <!-- XTXT: Your consent screen detailed information -->
+    <string name="submission_your_consent_agreement_details">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
