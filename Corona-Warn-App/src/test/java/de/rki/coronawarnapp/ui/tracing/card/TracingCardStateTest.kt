@@ -210,6 +210,14 @@ class TracingCardStateTest : BaseTest() {
             }
         }
 
+        createInstance(
+            riskState = INCREASED_RISK,
+            lastEncounterAt = Instant.EPOCH,
+            tracingStatus = Status.TRACING_INACTIVE
+        ).apply {
+            getRiskContactLast(context) shouldBe ""
+        }
+
         createInstance(riskState = LOW_RISK).apply {
             getRiskContactLast(context) shouldBe ""
         }
