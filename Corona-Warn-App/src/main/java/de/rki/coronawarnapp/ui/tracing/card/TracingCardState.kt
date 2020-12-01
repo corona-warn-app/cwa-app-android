@@ -135,11 +135,13 @@ data class TracingCardState(
      * only in the special case of increased risk as a positive contact is a
      * prerequisite for increased risk
      */
-    fun getRiskContactLast(c: Context): String = if (riskState == INCREASED_RISK) {
-        val formattedDate = lastEncounterAt?.toLocalDate()?.toString(DateTimeFormat.mediumDate())
-        c.getString(R.string.risk_card_high_risk_most_recent_body, formattedDate)
-    } else {
-        ""
+    fun getRiskContactLast(c: Context): String = when {
+        isTracingOff() -> ""
+        riskState == INCREASED_RISK -> {
+            val formattedDate = lastEncounterAt?.toLocalDate()?.toString(DateTimeFormat.mediumDate())
+            c.getString(R.string.risk_card_high_risk_most_recent_body, formattedDate)
+        }
+        else -> ""
     }
 
     /**
