@@ -79,6 +79,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             SubmissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
+            LocalData.isTestResultNotificationSent(false)
 
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
