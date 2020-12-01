@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetec
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
+import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import io.kotest.matchers.shouldBe
@@ -41,6 +42,7 @@ class ENFClientTest : BaseTest() {
     @MockK lateinit var exposureWindowProvider: ExposureWindowProvider
     @MockK lateinit var exposureDetectionTracker: ExposureDetectionTracker
     @MockK lateinit var enfVersion: ENFVersion
+    @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
 
     @BeforeEach
     fun setup() {
@@ -61,7 +63,8 @@ class ENFClientTest : BaseTest() {
         scanningSupport = scanningSupport,
         enfVersion = enfVersion,
         exposureWindowProvider = exposureWindowProvider,
-        exposureDetectionTracker = exposureDetectionTracker
+        exposureDetectionTracker = exposureDetectionTracker,
+        tekHistoryProvider = tekHistoryProvider
     )
 
     @Test
@@ -285,5 +288,11 @@ class ENFClientTest : BaseTest() {
         createClient().getENFClientVersion() shouldBe Long.MAX_VALUE
 
         coVerifySequence { enfVersion.getENFClientVersion() }
+    }
+
+
+    @Test
+    fun `tek history provider calls are forwarded to the right module`() {
+
     }
 }

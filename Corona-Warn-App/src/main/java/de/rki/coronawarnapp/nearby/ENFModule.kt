@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.nearby.modules.exposurewindow.DefaultExposureWindowP
 import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.DefaultScanningSupport
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
+import de.rki.coronawarnapp.nearby.modules.tekhistory.DefaultTEKHistoryProvider
+import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.nearby.modules.tracing.DefaultTracingStatus
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.nearby.modules.version.DefaultENFVersion
@@ -56,4 +58,8 @@ class ENFModule {
     @Singleton
     @Provides
     fun enfClientVersion(enfVersion: DefaultENFVersion): ENFVersion = enfVersion
+
+    @Singleton
+    @Provides
+    fun tekHistory(tekHistory: DefaultTEKHistoryProvider): TEKHistoryProvider = tekHistory
 }
