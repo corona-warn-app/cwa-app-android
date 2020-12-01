@@ -136,7 +136,6 @@
     <style name="SixteenInclude">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSemanticNeutralRisk</item>
         <item name="android:textColor">@color/colorStableLight</item>
     </style>
 

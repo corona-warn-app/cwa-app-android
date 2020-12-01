@@ -34,12 +34,6 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_risk_level_score"><xliff:g id="preference">"preference_risk_level_score"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_level_score_successful"><xliff:g id="preference">"preference_risk_level_score_successful"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_risk_level_calculation"><xliff:g id="preference">"preference_timestamp_risk_level_calculation"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
@@ -86,7 +80,7 @@
     <!-- XMIT: application overview -->
     <string name="menu_help">"Общ преглед"</string>
     <!-- XMIT: application information -->
-    <string name="menu_information">"Информация за приложението"</string>
+    <string name="menu_information">"За приложението"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Настройки"</string>
 
@@ -125,28 +119,8 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"До момента няма излагане на риск"</string>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s излагане на нисък риск"</item>
-        <item quantity="other">"%1$s излагания на нисък риск"</item>
-        <item quantity="zero">"До момента няма излагане на нисък риск"</item>
-        <item quantity="two">"%1$s излагания на нисък риск"</item>
-        <item quantity="few">"%1$s излагания на нисък риск"</item>
-        <item quantity="many">"%1$s излагания на нисък риск"</item>
-    </plurals>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value_high_risk">
-        <item quantity="one">"%1$s излагане на риск"</item>
-        <item quantity="other">"%1$s излагания на риск"</item>
-        <item quantity="zero">"До момента няма излагане на риск"</item>
-        <item quantity="two">"%1$s излагания на риск"</item>
-        <item quantity="few">"%1$s излагания на риск"</item>
-        <item quantity="many">"%1$s излагания на риск"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск беше активно през %1$s от изминалите 14 дни."</string>
+    <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск е било активно през %1$s от изминалите 14 дни."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
     <string name="risk_card_body_saved_days_full">"Няма прекъсване на регистрирането на излагания на риск"</string>
     <!-- XTXT; risk card - no update done yet -->
@@ -157,8 +131,6 @@
     <string name="risk_card_body_open_daily">"Бележка: Моля, отваряйте приложението всеки ден, за да актуализирате своя статус на риск."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Актуализиране"</string>
-    <!-- XBUT: risk card - update risk with time display -->
-    <string name="risk_card_button_cooldown">"Актуализиране след %1$s"</string>
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">"Активиране на регистрирането на излагания на риск"</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
@@ -167,17 +139,6 @@
     <string name="risk_card_low_risk_headline">"Нисък риск"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Повишен риск"</string>
-    <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
-        <item quantity="one">"%1$s ден от последния контакт"</item>
-        <item quantity="other">"%1$s дни от последния контакт"</item>
-        <item quantity="zero">"%1$s дни от последния контакт"</item>
-        <item quantity="two">"%1$s дни от последния контакт"</item>
-        <item quantity="few">"%1$s дни от последния контакт"</item>
-        <item quantity="many">"%1$s дни от последния контакт"</item>
-    </plurals>
-    <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Неизвестен риск"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Тъй като регистрирането на излагания на риск не е било активно достатъчно дълго, не можем да изчислим Вашия риск от заразяване."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -191,11 +152,37 @@
     <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
     <string name="risk_card_outdated_manual_risk_body">"Вашият статус на риск не е обновяван от повече от 48 часа. Моля, актуализирайте го."</string>
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
-    <string name="risk_card_check_failed_no_internet_headline">"Проверката за излагане на риск е неуспешна"</string>
+    <string name="risk_card_check_failed_no_internet_headline">"Проверката за излагане е риск е неуспешна"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
     <string name="risk_card_check_failed_no_internet_body">"Синхронизацията на случайни ИД със сървъра е неуспешна. Можете да я рестартирате ръчно."</string>
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Рестартиране"</string>
+
+    <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
+    <string name="risk_card_low_risk_no_encounters_body">"До момента няма излагане на риск"</string>
+    <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
+    <plurals name="risk_card_low_risk_encounter_days_body">
+        <item quantity="one">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="zero">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="few">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="many">"Брой дни с излагания с нисък риск - %1$d"</item>
+    </plurals>
+
+    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
+    <string name="risk_card_high_risk_no_encounters_body">"До момента няма излагане на риск"</string>
+    <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
+    <plurals name="risk_card_high_risk_encounter_days_body">
+        <item quantity="one">"Брой дни с излагания с повишен риск - %1$d"</item>
+        <item quantity="other">"Брой дни с излагания с повишен риск - %1$d"</item>
+        <item quantity="zero">"Брой дни с излагания с повишен риск - %1$d"</item>
+        <item quantity="two">"Брой дни с излагания с повишен риск - %1$d"</item>
+        <item quantity="few">"Брой дни с излагания с повишен риск - %1$d"</item>
+        <item quantity="many">"Брой дни с излагания с повишен риск - %1$d"</item>
+    </plurals>
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
+    <string name="risk_card_high_risk_most_recent_body">"Най-близка дата - %1$s"</string>
 
     <!-- ####################################
               Risk Card - Progress
@@ -238,7 +225,7 @@
     <!-- YMSG: Message when sharing is executed -->
     <string name="main_share_message">"Да се преборим с коронавируса заедно"<xliff:g id="line_break">"\n"</xliff:g>"Аз ще участвам, а ти?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
-    <string name="main_share_illustration_description">"Човек споделя Corona-Warn-App с четирима души."</string>
+    <string name="main_share_illustration_description">"Човек споделя приложението Corona-Warn-App с четирима души."</string>
 
     <!-- ####################################
                 Main - Overview
@@ -249,9 +236,9 @@
     <!-- XACT: main overview page title -->
     <string name="main_overview_accessibility_title">"Общ преглед"</string>
     <!-- XHED: App overview subtitle for tracing explanation-->
-    <string name="main_overview_subtitle_tracing">"Регистър на рисковете"</string>
+    <string name="main_overview_subtitle_tracing">"Регистриране на излаганията на риск"</string>
     <!-- YTXT: App overview body text about tracing -->
-    <string name="main_overview_body_tracing">"Регистрирането на излагания на риск е една от трите основни функции на приложението. Когато е активирана, всички осъществени контакти между смартфоните се записват, без да е необходимо да правите друго."</string>
+    <string name="main_overview_body_tracing">"Регистрирането на излагания на риск е една от трите основни функции на приложението. Когато е активирана, всички осъществени контакти между смартфони се записват, без да е необходимо да правите друго."</string>
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Риск от заразяване"</string>
     <!-- YTXT: App overview body text about risk levels -->
@@ -277,11 +264,11 @@
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
     <string name="main_overview_subtitle_glossary_calculation">"Проверка за излагане на риск"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
-    <string name="main_overview_body_glossary_calculation">"Данните от регистъра на излаганията на риск се извличат и синхронизират с регистрираните случаи на заразяване на други потребители. Проверката за излагане на риск се извършва автоматично на всеки два часа."</string>
+    <string name="main_overview_body_glossary_calculation">"Данните от регистъра на излаганията на риск се извличат и синхронизират с регистрираните случаи на заразяване на други потребители. Проверката за излагане на риск се извършва автоматично няколко пъти на ден."</string>
     <!-- XHED: App overview subtitle for glossary contact  -->
-    <string name="main_overview_subtitle_glossary_contact">"Излагания на риск"</string>
+    <string name="main_overview_subtitle_glossary_contact">"Излагане на риск"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Контакти с по-голяма продължителност и близост до лица, диагностицирани с COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Контакт със заразено лице, което е споделило положителен резултат от тест в приложението. За да бъде класифицирано като излагане с висока степен на риск, то трябва да отговаря на определени критерии по отношение на продължителност, разстояние и предполагаема заразност на другото лице."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Известия за излагане на риск"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -338,13 +325,11 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излагания на риск е било активно. Затова тази функция трябва да бъде активирана постоянно."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged_assessment">"Регистрирането на излагания на риск покрива последните 14 дни. За този период от време функцията е била активна на Вашето устройство в продължение на %1$s дни. Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
+    <string name="risk_details_information_body_period_logged_assessment">"Регистрирането на излагания на риск покрива последните 14 дни. За този период от време функцията е била активна на Вашия смартфон в продължение на %1$s дни. Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Ето как е изчислено Вашето ниво на риск"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Ето как се изчислява Вашето ниво на риск"</string>
-    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
-    <string name="risk_details_information_body_unknown_risk">"Тъй като регистрирането на излагания на риск не е било активно достатъчно дълго, не можем да изчислим Вашия риск от заразяване."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -375,7 +360,7 @@
     <string name="risk_details_explanation_dialog_title">"Информация относно функционалността за регистриране на излагания на риск"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
-     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
 
     <!-- XHED: risk details - deadman notification title -->
@@ -442,7 +427,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"Криптираните случайни идентификатори предават само информация за дата, продължителност и близост на контакта (изчислена от силата на сигнала). Самоличността Ви не може да бъде установена по случайните ИД."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
-    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация за приложението на опростен и жестомимичен език"</a></string>
+    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация за приложението на опростен и жестомимичен език."</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
     <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
@@ -460,13 +445,13 @@
     <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
     <string name="onboarding_background_fetch_dialog_body">"Дезактивирали сте фоновите актуализации за приложението Corona-Warn-App. Моля, активирайте ги, за да използвате автоматичното регистриране на излагания на риск. Ако не го направите, регистрирането на излаганията може да бъде стартирано само ръчно от приложението. Може да активирате фоновите актуализации за приложението от настройките на Вашето устройство."</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
-    <string name="onboarding_background_fetch_dialog_button_positive">"Към настройките за устройството"</string>
+    <string name="onboarding_background_fetch_dialog_button_positive">"Към настройките на устройството"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Ръчно стартиране на регистрирането на излагания на риск"</string>
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Разрешаване на приоритетната работа във фонов режим"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Активирайте приоритетната работа във фонов режим, за да позволите на приложението да определя рисковете, на които сте изложени, по всяко време като работи на заден план (препоръчително). Това ще изключи оптимизацията на потребление на батерия само за приложението Corona-Warn-App. Не очакваме това да доведе до значително по-бързо изтощаване на батерията на вашето устройство.\n\nАко не разрешите тази настройка, препоръчваме да отваряте приложението ръчно поне веднъж на всеки 24 часа."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Активирайте приоритетната работа във фонов режим, за да позволите на приложението да определя рисковете, на които сте изложени, по всяко време като работи на заден план (препоръчително). Това ще изключи оптимизацията на потребление на батерия само за приложението Corona-Warn-App. Не очакваме това да доведе до значително по-бързо изтощаване на батерията на вашия смартфон.\n\nАко не разрешите тази настройка, препоръчваме да отваряте приложението ръчно поне веднъж на всеки 24 часа."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Разрешавам"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -482,17 +467,17 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Не може да бъде осъществен достъп до Вашето местоположение. За да използвате Bluetooth, Google и/или Android изискват от Вас да предоставите достъп до местоположението на устройството си."</string>
+    <string name="onboarding_tracing_location_body">"Не може да бъде осъществен достъп до Вашето местоположение. За да използвате Bluetooth, Google и/или Android изискват от Вас да предоставите достъп до местоположението на смартфона си."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Към настройките за устройството"</string>
+    <string name="onboarding_tracing_location_button">"Към настройките на устройството"</string>
     <!-- XACT: Onboarding (test) page title -->
-    <string name="onboarding_test_accessibility_title">"Въведение - страница 5 от 6: Ако имате поставена диагноза COVID-19..."</string>
+    <string name="onboarding_test_accessibility_title">"Въведение - страница 5 от 6: Ако имате поставена диагноза COVID-19"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"Ако имате поставена диагноза COVID-19,..."</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">"... моля съобщете за това в приложението Corona-Warn-App. Споделянето на резултатите от Вашите тестове е доброволно и безопасно. Направете го в името на общото здраве."</string>
     <!-- YTXT: onboarding(test) - explain test -->
-    <string name="onboarding_test_body">"Вашето известие се криптира с висока степен на сигурност и се обработва на защитен сървър. Лицата, чиито криптирани случайни ИД кодове са запазени на Вашето устройство, ще получат предупреждение, както и информация относно това, което трябва да направят."</string>
+    <string name="onboarding_test_body">"Вашето известие се криптира с висока степен на сигурност и се обработва на защитен сървър. Лицата, чиито криптирани случайни ИД кодове са запазени на Вашия смартфон, ще получат предупреждение, както и информация относно това, което трябва да направят."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Криптираният положителен резултат от тест се изпраща в системата, за да бъдат предупредени останалите потребители."</string>
     <!-- XACT: Onboarding (datashare) page title -->
@@ -528,7 +513,7 @@
     <!-- XTXT: settings - off, like a label next to a setting -->
     <string name="settings_off">"Изключено"</string>
     <!-- XHED: settings(tracing) - page title -->
-    <string name="settings_tracing_title">"Регистър на рисковете"</string>
+    <string name="settings_tracing_title">"Регистриране на излаганията на риск"</string>
     <!-- XHED: settings(tracing) - headline bellow illustration -->
     <string name="settings_tracing_headline">"Как работи регистрирането на излагания на риск"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
@@ -556,7 +541,7 @@
     <!-- XTXT: settings(tracing) - explains user what to do on card if bluetooth is disabled -->
     <string name="settings_tracing_status_bluetooth_body">"Функцията Bluetooth трябва да бъде включена, за да могат да се регистрират случаите на излагане на риск. Моля, включете я от настройките на Вашето устройство."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_bluetooth_button">"Към настройките за устройството"</string>
+    <string name="settings_tracing_status_bluetooth_button">"Към настройките на устройството"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
@@ -564,13 +549,13 @@
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
     <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
-    <string name="settings_tracing_status_location_button">"Към настройките за устройството"</string>
+    <string name="settings_tracing_status_location_button">"Към настройките на устройството"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Необходима е връзка с интернет"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Необходима е връзка с интернет за изчисляване на излаганията на риск. Моля, свържете се с Wi-Fi или мобилна мрежа за данни от настройките на устройството си."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Към настройките за устройството"</string>
+    <string name="settings_tracing_status_connection_button">"Към настройките на устройството"</string>
     <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Регистрирането на излагания на риск е активно от един ден. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
@@ -610,9 +595,9 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Промяна на Вашия риск от заразяване"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Наличие на резултат от Ваш тест за COVID-19"</string>
+    <string name="settings_notifications_subtitle_update_test">"Статус на Вашия тест за COVID-19"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Към настройките за устройството"</string>
+    <string name="settings_notifications_button_open_settings">"Към настройките на устройството"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Жена, която получава известие от приложението Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -675,7 +660,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Институтът „Роберт Кох“ (RKI) е федералната служба за обществено здравеопазване в Германия. Той е издател на приложението Corona-Warn-App по поръчка на федералното правителство. Приложението е предназначено да бъде дигитално допълнение на вече въведените мерки за опазване на общественото здраве: социално дистанциране, поддържане на висока хигиена и носене на маски."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Всеки, който използва приложението, помага за проследяване и прекъсване на веригите на заразяване. Приложението запазва във Вашия смартфон данните за контактите Ви с други хора. Получавате известие, ако сте били в контакт с лица, които впоследствие са били диагностицирани с COVID-19. Вашата самоличност и неприкосновеността на данните Ви са защитени по всяко време."</string>
+    <string name="information_about_body">"Хората, които използват приложението, помагат за проследяване и прекъсване на веригите на заразяване. Приложението запазва във Вашето устройство данните за контактите Ви с други хора. Получавате известие, ако сте били в контакт с лица, които впоследствие са били диагностицирани с COVID-19. Вашата самоличност и неприкосновеността на данните Ви са защитени по всяко време."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Група лица използват смартфоните си, придвижвайки се из града."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -745,7 +730,7 @@
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_legal_illustration_description">"Ръка държи смартфон, на чийто екран се вижда голямо количество текст, а до нея има изображение на везна, която символизира правната информация."</string>
+    <string name="information_legal_illustration_description">"Ръка държи смартфон, на чийто екран се вижда голямо количество текст, а до нея се вижда знакът за раздел, символизиращ правната информация."</string>
 
     <!-- ####################################
               Interoperability
@@ -856,13 +841,13 @@
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->
-    <string name="submission_test_result_pending_remove_test_button">"Изтриване на теста"</string>
+    <string name="submission_test_result_pending_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Резултатът от Вашия тест"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nМоля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
     <!-- XBUT: negative test result : remove the test button -->
-    <string name="submission_test_result_negative_remove_test_button">"Изтриване на теста"</string>
+    <string name="submission_test_result_negative_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Предупредете другите"</string>
     <!-- YTXT: Body text for for other warnings screen-->
@@ -925,9 +910,9 @@
     <string name="submission_intro_illustration_description">"Криптираният положителен резултат от тест се изпраща в системата, за да бъдат предупредени останалите потребители."</string>
     <!-- YTXT: submission introduction bullet points -->
     <string-array name="submission_intro_bullet_points">
-        <item>"Ако в документа за Вашия тест има QR код, можете да го сканирате и да регистрирате теста си. В момента, в който резултатът бъде готов, ще можете да го видите в приложението."</item>
+        <item>"Ако в документа с резултата от теста Ви има QR код, можете да го сканирате и да регистрирате теста си. В момента, в който резултатът бъде готов, ще можете да го видите в приложението."</item>
         <item>"Ако Ви е поставена диагноза COVID-19, можете да предупредите останалите потребители."</item>
-        <item>"Ако разполагате с ТАН код за положителен резултат, може да го използвате, за да регистрирате теста."</item>
+        <item>"Ако Ви е предоставен ТАН код за положителен резултат, може да го използвате, за да регистрирате теста."</item>
         <item>"Ако не разполагате с ТАН код, по телефона може да заявите да Ви бъде предоставен такъв."</item>
     </string-array>
     <!-- XACT: Submission Intro page title -->
@@ -969,7 +954,7 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Смартфонът предава на системата информация за положителен резултат от тест."</string>
     <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"В момента в международното регистриране на излаганията участват следните държави:"</string>
+    <string name="submission_interoperability_list_title">"В момента в международното регистриране на излаганията на риск от заразяване участват следните държави:"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1048,7 +1033,7 @@
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Обаждане"</string>
     <!-- XBUT: submission contact enter tan button -->
-    <string name="submission_contact_button_enter">"Въвеждане на ТАН"</string>
+    <string name="submission_contact_button_enter">"Въведете ТАН код"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Обадете се на горещата линия и поискайте ТАН код:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->

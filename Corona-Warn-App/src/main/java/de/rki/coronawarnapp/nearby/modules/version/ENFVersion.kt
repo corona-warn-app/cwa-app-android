@@ -12,7 +12,15 @@ interface ENFVersion {
      */
     suspend fun requireMinimumVersion(required: Long)
 
+    /**
+     * Indicates if the client runs above a certain version
+     *
+     * @return isAboveVersion, if connected to an old unsupported version, return false
+     */
+    suspend fun isAtLeast(compareVersion: Long): Boolean
+
     companion object {
         const val V1_6 = 16000000L
+        const val V1_7 = 17000000L
     }
 }
