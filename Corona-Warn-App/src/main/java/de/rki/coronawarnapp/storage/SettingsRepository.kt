@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.util.BackgroundPrioritization
-import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +25,6 @@ class SettingsRepository @Inject constructor(
 ) {
 
     val isConnectionEnabled = MutableLiveData(true)
-    val isBackgroundJobEnabled = MutableLiveData(true)
 
     private val internalIsBackgroundPriorityEnabled = MutableStateFlow(false)
     val isBackgroundPriorityEnabledFlow: Flow<Boolean> = internalIsBackgroundPriorityEnabled
@@ -44,45 +42,9 @@ class SettingsRepository @Inject constructor(
     }
 
     /**
-     * Refresh global bluetooth state to point out that tracing isn't working
-     *
-     * @see ConnectivityHelper
-     */
-    fun updateBackgroundJobEnabled(value: Boolean) {
-        isBackgroundJobEnabled.postValue(value)
-    }
-
-    private val internalIsManualKeyRetrievalEnabled = MutableStateFlow(true)
-    val isManualKeyRetrievalEnabledFlow: Flow<Boolean> = internalIsManualKeyRetrievalEnabled
-
-    @Deprecated("Please use isManualKeyRetrievalEnabledFlow")
-    val isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabledFlow.asLiveData()
-
-    /**
-     * Refresh manual key retrieval button status
-     */
-    fun updateManualKeyRetrievalEnabled(value: Boolean) {
-        internalIsManualKeyRetrievalEnabled.value = value
-    }
-
-    private val internalManualKeyRetrievalTime = MutableStateFlow(0L)
-    val manualKeyRetrievalTimeFlow: Flow<Long> = internalManualKeyRetrievalTime
-
-    @Deprecated("Please use manualKeyRetrievalTimeFlow")
-    val manualKeyRetrievalTime = manualKeyRetrievalTimeFlow.asLiveData()
-
-    /**
-     * Refresh manual key retrieval button status
-     */
-    fun updateManualKeyRetrievalTime(value: Long) {
-        internalManualKeyRetrievalTime.value = value
-    }
-
-    /**
      * Refresh the current background priority state.
      */
     fun refreshBackgroundPriorityEnabled() {
-        internalIsBackgroundPriorityEnabled.value =
-            backgroundPrioritization.isBackgroundActivityPrioritized
+        internalIsBackgroundPriorityEnabled.value = backgroundPrioritization.isBackgroundActivityPrioritized
     }
 }

@@ -88,7 +88,8 @@ class DefaultExposureDetectionTracker @Inject constructor(
             mutate {
                 this[identifier] = TrackedExposureDetection(
                     identifier = identifier,
-                    startedAt = timeStamper.nowUTC
+                    startedAt = timeStamper.nowUTC,
+                    enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
             }
         }
