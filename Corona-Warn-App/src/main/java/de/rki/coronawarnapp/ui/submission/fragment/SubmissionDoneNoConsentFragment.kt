@@ -37,7 +37,7 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
                             .actionSubmissionDoneNoConsentFragmentToMainFragment()
                     )
 
-                SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
+                is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
                         SubmissionDoneNoConsentFragmentDirections
                             .actionSubmissionDoneNoConsentFragmentToSubmissionSymptomIntroductionFragment()
