@@ -42,6 +42,12 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         }
     }.asLiveData(context = dispatcherProvider.Default)
 
+    init {
+        tekHistoryUpdater.tekUpdateListener = { teks, error ->
+            Timber.d(error, "Received tekUpdateListener callback: teks=%s", teks)
+        }
+    }
+
     fun scrambleRegistrationToken() {
         LocalData.registrationToken(UUID.randomUUID().toString())
         internalToken.value = LocalData.registrationToken()
@@ -53,8 +59,8 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     }
 
     fun updateStorage(activity: Activity) {
-        launch {
-            tekHistoryUpdater.updateTEKHistoryOrRequestPermission(activity)
+        tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
+            permissionRequest.invoke(activity)
         }
     }
 

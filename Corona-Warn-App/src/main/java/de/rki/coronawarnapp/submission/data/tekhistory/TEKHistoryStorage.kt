@@ -52,7 +52,7 @@ class TEKHistoryStorage @Inject constructor(
                     obtainedAt = batchTEKs.first().obtainedAt,
                     keys = batchTEKs.map { it.persistedTEK.toTemporaryExposureKey() }
                 )
-            }
+            }.toList()
         }
     }
 
@@ -64,7 +64,7 @@ class TEKHistoryStorage @Inject constructor(
     data class TEKBatch(
         val obtainedAt: Instant,
         val batchId: String,
-        val keys: Collection<TemporaryExposureKey>
+        val keys: List<TemporaryExposureKey>
     )
 
     companion object {

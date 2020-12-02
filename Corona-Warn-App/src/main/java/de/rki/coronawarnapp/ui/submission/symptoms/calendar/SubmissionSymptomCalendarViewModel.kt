@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
-    @Assisted private val symptomIndication: Symptoms.Indication,
     dispatcherProvider: DispatcherProvider,
     private val submissionSettings: SubmissionSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -67,6 +65,6 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<SubmissionSymptomCalendarViewModel> {
 
-        fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel
+        fun create(): SubmissionSymptomCalendarViewModel
     }
 }

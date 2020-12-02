@@ -31,8 +31,4 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createViewModel(): TestForApiFragmentViewModel = TestForApiFragmentViewModel(
-        context = context,
-        taskController = taskController
-    )
 }

@@ -14,12 +14,12 @@ interface TEKHistoryProvider {
      * The permission granted by the user lasts for 24 hours, so the permission dialog appears
      * only once for each 24-hour period, regardless of how many times the method is called
      */
-    suspend fun getTEKHistory(): Collection<TemporaryExposureKey>
+    suspend fun getTEKHistory(): List<TemporaryExposureKey>
 
     suspend fun isTEKAccessPermissionGranted(): Boolean
 
     suspend fun getTEKHistoryOrRequestPermission(
-        onTEKHistoryAvailable: (Collection<TemporaryExposureKey>) -> Unit,
+        onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
         onPermissionRequired: (Status) -> Unit
     )
 }

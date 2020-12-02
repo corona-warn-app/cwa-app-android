@@ -32,7 +32,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
     }
 
     override suspend fun getTEKHistoryOrRequestPermission(
-        onTEKHistoryAvailable: (Collection<TemporaryExposureKey>) -> Unit,
+        onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
         onPermissionRequired: (Status) -> Unit
     ) {
         try {
@@ -52,7 +52,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    override suspend fun getTEKHistory(): Collection<TemporaryExposureKey> = suspendCoroutine { cont ->
+    override suspend fun getTEKHistory(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
         Timber.i("Retrieving temporary exposure keys.")
         client.temporaryExposureKeyHistory
             .addOnSuccessListener {

@@ -243,9 +243,6 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
-        <argument
-            android:name="symptoms"
-            app:argType="de.rki.coronawarnapp.submission.Symptoms" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
@@ -383,9 +380,6 @@
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment" />
-        <argument
-            android:name="symptomIndication"
-            app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
     </fragment>
 
 

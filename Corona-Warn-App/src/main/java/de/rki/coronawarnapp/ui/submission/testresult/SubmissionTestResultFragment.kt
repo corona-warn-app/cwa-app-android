@@ -22,8 +22,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result),
-    AutoInject {
+class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultViewModel by cwaViewModels { viewModelFactory }
@@ -122,9 +121,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                 is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning ->
                     doNavigate(
                         SubmissionTestResultFragmentDirections
-                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment(
-                                it.symptoms
-                            )
+                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(

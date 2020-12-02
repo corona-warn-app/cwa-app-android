@@ -33,10 +33,6 @@ class SubmissionRepository @Inject constructor(
 ) {
 
     companion object {
-        fun submissionSuccessful() {
-            BackgroundWorkScheduler.stopWorkScheduler()
-            LocalData.numberOfSuccessfulSubmissions(1)
-        }
         fun deleteRegistrationToken() {
             LocalData.registrationToken(null)
             LocalData.devicePairingSuccessfulTimestamp(0L)

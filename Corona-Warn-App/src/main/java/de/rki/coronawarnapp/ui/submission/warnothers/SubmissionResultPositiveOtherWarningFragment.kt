@@ -6,8 +6,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -15,7 +13,6 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.http.ForbiddenException
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -27,22 +24,18 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class SubmissionResultPositiveOtherWarningFragment :
-    Fragment(R.layout.fragment_submission_positive_other_warning),
-    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
-
-    private val navArgs by navArgs<SubmissionResultPositiveOtherWarningFragmentArgs>()
+    Fragment(R.layout.fragment_submission_positive_other_warning), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionResultPositiveOtherWarningViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionResultPositiveOtherWarningViewModel.Factory
-            factory.create(navArgs.symptoms)
+            factory.create()
         }
     )
 
     private val binding: FragmentSubmissionPositiveOtherWarningBinding by viewBindingLazy()
-    private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,9 +43,6 @@ class SubmissionResultPositiveOtherWarningFragment :
         viewModel.uiState.observe2(this) {
             binding.uiState = it
         }
-
-        internalExposureNotificationPermissionHelper =
-            InternalExposureNotificationPermissionHelper(this, this)
 
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
             viewModel.onWarnOthersPressed()
@@ -74,13 +64,12 @@ class SubmissionResultPositiveOtherWarningFragment :
                 is SubmissionNavigationEvents.NavigateToTestResult -> findNavController().popBackStack()
             }
         }
+        viewModel.permissionRequestEvent.observe2(this) { permissionRequest ->
+            permissionRequest.invoke(requireActivity())
+        }
 
         viewModel.submissionError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        }
-
-        viewModel.requestKeySharing.observe2(this) {
-            internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
         }
 
         viewModel.showEnableTracingEvent.observe2(this) {
@@ -105,20 +94,7 @@ class SubmissionResultPositiveOtherWarningFragment :
     )
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        this.internalExposureNotificationPermissionHelper.onResolutionComplete(
-            requestCode,
-            resultCode
-        )
-    }
-
-    // InternalExposureNotificationPermissionHelper - callbacks
-    override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
-        super.onKeySharePermissionGranted(keys)
-        viewModel.onKeysShared(keys)
-    }
-
-    override fun onFailure(exception: Exception?) {
-        // NOOP
+        viewModel.onHandleActivityResult(requestCode, resultCode, data)
     }
 
     private fun buildErrorDialog(throwable: Throwable): DialogHelper.DialogInstance {

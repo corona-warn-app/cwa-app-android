@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
@@ -23,14 +22,12 @@ import javax.inject.Inject
 class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_symptom_calendar),
     AutoInject {
 
-    private val navArgs by navArgs<SubmissionSymptomCalendarFragmentArgs>()
-
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionSymptomCalendarViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionSymptomCalendarViewModel.Factory
-            factory.create(navArgs.symptomIndication)
+            factory.create()
         }
     )
 
@@ -46,9 +43,7 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
             when (it) {
                 is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> doNavigate(
                     SubmissionSymptomCalendarFragmentDirections
-                        .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment(
-                            it.symptoms
-                        )
+                        .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment()
                 )
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> doNavigate(
                     SubmissionSymptomCalendarFragmentDirections

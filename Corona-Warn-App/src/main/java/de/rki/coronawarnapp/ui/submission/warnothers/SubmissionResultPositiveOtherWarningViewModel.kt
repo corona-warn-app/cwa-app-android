@@ -1,17 +1,14 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
+import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.asLiveData
-import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionTask
-import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -28,42 +25,56 @@ import timber.log.Timber
 import java.util.UUID
 
 class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
-    @Assisted private val symptoms: Symptoms,
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
     private val taskController: TaskController,
     interoperabilityRepository: InteroperabilityRepository,
-    private val testResultNotificationService: TestResultNotificationService
+    private val testResultNotificationService: TestResultNotificationService,
+    private val tekHistoryUpdater: TEKHistoryUpdater
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var currentSubmissionRequestId: UUID? = null
     private val currentSubmission = taskController.tasks
-            .map { it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState }
+        .map { it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState }
     private val submissionState = currentSubmission
-            .map { taskState ->
-                when {
-                    taskState == null -> ApiRequestState.IDLE
-                    taskState.isFailed -> ApiRequestState.FAILED.also { updateUI(taskState) }
-                    taskState.isFinished -> ApiRequestState.SUCCESS.also { updateUI(taskState) }
-                    else -> ApiRequestState.STARTED
-                }
+        .map { taskState ->
+            when {
+                taskState == null -> ApiRequestState.IDLE
+                taskState.isFailed -> ApiRequestState.FAILED.also { updateUI(taskState) }
+                taskState.isFinished -> ApiRequestState.SUCCESS.also { updateUI(taskState) }
+                else -> ApiRequestState.STARTED
             }
+        }
     val submissionError = SingleLiveEvent<Throwable>()
 
     val uiState = combineTransform(
-            submissionState,
-            interoperabilityRepository.countryListFlow
+        submissionState,
+        interoperabilityRepository.countryListFlow
     ) { state, countries ->
         WarnOthersState(
-                apiRequestState = state,
-                countryList = countries
+            apiRequestState = state,
+            countryList = countries
         ).also { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
-    val requestKeySharing = SingleLiveEvent<Unit>()
+    val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
     val showEnableTracingEvent = SingleLiveEvent<Unit>()
+
+    init {
+        tekHistoryUpdater.tekUpdateListener = { teks, error ->
+            if (teks != null) {
+                val taskRequest = DefaultTaskRequest(SubmissionTask::class)
+                currentSubmissionRequestId = taskRequest.id
+                taskController.submit(taskRequest)
+                testResultNotificationService.cancelPositiveTestResultNotification()
+            } else {
+                Timber.e(error, "Couldn't temporary exposure key history.")
+                submissionError.postValue(error)
+            }
+        }
+    }
 
     private fun updateUI(taskState: TaskState) {
         if (taskState.request.id == currentSubmissionRequestId) {
@@ -84,42 +95,21 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
     fun onWarnOthersPressed() {
         launch {
             if (enfClient.isTracingEnabled.first()) {
-                requestKeySharing.postValue(Unit)
+                tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
+                    permissionRequestEvent.postValue(permissionRequest)
+                }
             } else {
                 showEnableTracingEvent.postValue(Unit)
             }
         }
     }
 
-    fun onKeysShared(keys: List<TemporaryExposureKey>) {
-        if (keys.isNotEmpty()) {
-            submitDiagnosisKeys(keys)
-        } else {
-            submitWithNoDiagnosisKeys()
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
-        }
-        testResultNotificationService.cancelPositiveTestResultNotification()
-    }
-
-    private fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
-        Timber.d("submitDiagnosisKeys(keys=%s, symptoms=%s)", keys, symptoms)
-        val registrationToken =
-                LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        val taskRequest = DefaultTaskRequest(
-                SubmissionTask::class,
-                SubmissionTask.Arguments(registrationToken, keys, symptoms)
-        )
-        currentSubmissionRequestId = taskRequest.id
-        taskController.submit(taskRequest)
-    }
-
-    private fun submitWithNoDiagnosisKeys() {
-        Timber.d("submitWithNoDiagnosisKeys()")
-        SubmissionRepository.submissionSuccessful()
+    fun onHandleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningViewModel> {
-        fun create(symptoms: Symptoms): SubmissionResultPositiveOtherWarningViewModel
+        fun create(): SubmissionResultPositiveOtherWarningViewModel
     }
 }

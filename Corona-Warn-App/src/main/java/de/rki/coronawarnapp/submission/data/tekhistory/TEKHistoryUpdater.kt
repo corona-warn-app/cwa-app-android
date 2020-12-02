@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.submission.data.tekhistory
 
 import android.app.Activity
 import android.content.Intent
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -19,22 +22,28 @@ class TEKHistoryUpdater @Inject constructor(
     @AppScope private val scope: CoroutineScope
 ) {
 
-    suspend fun updateTEKHistoryOrRequestPermission(hostActivity: Activity) {
-        enfClient.getTEKHistoryOrRequestPermission(
-            onTEKHistoryAvailable = { teks ->
-                scope.launch { updateTEKHistory() }
-            },
-            onPermissionRequired = { status ->
-                status.startResolutionForResult(hostActivity, TEK_PERMISSION_REQUESTCODE)
-            }
-        )
+    var tekUpdateListener: (suspend (List<TemporaryExposureKey>?, error: Throwable?) -> Unit)? = null
+
+    fun updateTEKHistoryOrRequestPermission(
+        onUserPermissionRequired: (permissionRequest: (Activity) -> Unit) -> Unit
+    ) {
+        scope.launch {
+            enfClient.getTEKHistoryOrRequestPermission(
+                onTEKHistoryAvailable = {
+                    updateHistoryAndTriggerCallback()
+                },
+                onPermissionRequired = { status ->
+                    val permissionRequestTrigger: (Activity) -> Unit = {
+                        status.startResolutionForResult(it, TEK_PERMISSION_REQUESTCODE)
+                    }
+                    onUserPermissionRequired(permissionRequestTrigger)
+                }
+            )
+        }
     }
 
-    suspend fun updateHistoryOrThrow() {
-        val async = scope.async {
-            updateTEKHistory()
-        }
-        async.await()
+    suspend fun updateHistoryOrThrow(): List<TemporaryExposureKey> {
+        return updateTEKHistory()
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): UpdateResult {
@@ -47,18 +56,44 @@ class TEKHistoryUpdater @Inject constructor(
             return UpdateResult.NO_PERMISSION
         }
 
+        updateHistoryAndTriggerCallback()
+
         return UpdateResult.PERMISSION_AVAILABLE
     }
 
-    private suspend fun updateTEKHistory() {
-        val tekBatch = TEKHistoryStorage.TEKBatch(
-            batchId = UUID.randomUUID().toString(),
-            obtainedAt = timeStamper.nowUTC,
-            keys = enfClient.getTEKHistory()
-        )
+    private fun updateHistoryAndTriggerCallback() {
+        scope.launch {
+            try {
+                val result = updateTEKHistory()
+                tekUpdateListener?.invoke(result, null)
+            } catch (e: Exception) {
+                tekUpdateListener?.invoke(null, e)
+            }
+        }
+    }
 
-        Timber.i("Permission are available, storing TEK history.")
-        tekHistoryStorage.storeTEKData(tekBatch)
+    private suspend fun updateTEKHistory(): List<TemporaryExposureKey> {
+        val deferred = scope.async {
+            val teks = enfClient.getTEKHistory()
+            Timber.i("Permission are available, storing TEK history.")
+
+            tekHistoryStorage.storeTEKData(
+                TEKHistoryStorage.TEKBatch(
+                    batchId = UUID.randomUUID().toString(),
+                    obtainedAt = timeStamper.nowUTC,
+                    keys = teks
+                )
+            )
+
+            teks
+        }
+        return try {
+            deferred.await()
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Positive permission result but failed to update history?")
+            e.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
+            throw e
+        }
     }
 
     enum class UpdateResult {

@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragmentViewModel.Event
@@ -21,8 +20,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -32,8 +29,7 @@ import javax.inject.Inject
  * @see InternalExposureNotificationClient
  * @see InternalExposureNotificationPermissionHelper
  */
-class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
-    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
+class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsTracingFragmentViewModel by cwaViewModels(
@@ -42,8 +38,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     )
 
     private val binding: FragmentSettingsTracingBinding by viewBindingLazy()
-
-    private lateinit var exposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,11 +58,10 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             }
         }
 
-        exposureNotificationPermissionHelper = InternalExposureNotificationPermissionHelper(this, this)
 
         vm.events.observe2(this) {
             when (it) {
-                Event.RequestPermissions -> exposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
                 Event.ShowConsentDialog -> showConsentDialog()
                 Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
             }
@@ -83,18 +76,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        exposureNotificationPermissionHelper.onResolutionComplete(
-            requestCode,
-            resultCode
-        )
-    }
-
-    override fun onStartPermissionGranted() {
-        BackgroundWorkScheduler.startWorkScheduler()
-    }
-
-    override fun onFailure(exception: Exception?) {
-        Timber.w(exception, "onPermissionFaliure")
+        vm.handleActivityResult(requestCode, resultCode, data)
     }
 
     private fun setButtonOnClickListener() {
@@ -150,16 +132,19 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
 
     private fun showConsentDialog() {
         val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.onboarding_tracing_headline_consent,
-            R.string.onboarding_tracing_body_consent,
-            R.string.onboarding_button_enable,
-            R.string.onboarding_button_cancel,
-            true, {
-                exposureNotificationPermissionHelper.requestPermissionToStartTracing()
-            }, {
+            context = requireActivity(),
+            title = R.string.onboarding_tracing_headline_consent,
+            message = R.string.onboarding_tracing_body_consent,
+            positiveButton = R.string.onboarding_button_enable,
+            negativeButton = R.string.onboarding_button_cancel,
+            cancelable = true,
+            positiveButtonFunction = {
+                vm.startStopTracing()
+            },
+            negativeButtonFunction = {
                 // Declined
-            })
+            }
+        )
         DialogHelper.showDialog(dialog)
     }
 

@@ -32,7 +32,7 @@ class ENFClient @Inject constructor(
     private val enfVersion: ENFVersion,
     private val tekHistoryProvider: TEKHistoryProvider
 ) : DiagnosisKeyProvider,
-    TracingStatus,
+    TracingStatus by tracingStatus,
     ScanningSupport,
     ExposureWindowProvider,
     ENFVersion by enfVersion,
@@ -58,9 +58,6 @@ class ENFClient @Inject constructor(
 
     override val isLocationLessScanningSupported: Flow<Boolean>
         get() = scanningSupport.isLocationLessScanningSupported
-
-    override val isTracingEnabled: Flow<Boolean>
-        get() = tracingStatus.isTracingEnabled
 
     fun isPerformingExposureDetection(): Flow<Boolean> = exposureDetectionTracker.calculations
         .map { it.values }
