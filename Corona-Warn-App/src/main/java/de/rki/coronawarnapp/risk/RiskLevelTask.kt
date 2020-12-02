@@ -1,34 +1,23 @@
 package de.rki.coronawarnapp.risk
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
-import androidx.core.app.NotificationManagerCompat
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
-import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -36,197 +25,132 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("ReturnCount")
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     @AppContext private val context: Context,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
     private val backgroundModeStatus: BackgroundModeStatus,
-    private val riskLevelData: RiskLevelData,
+    private val riskLevelSettings: RiskLevelSettings,
     private val appConfigProvider: AppConfigProvider,
-    private val exposureResultStore: ExposureResultStore
-) : Task<DefaultProgress, RiskLevelTask.Result> {
+    private val riskLevelStorage: RiskLevelStorage,
+    private val keyCacheRepository: KeyCacheRepository
+) : Task<DefaultProgress, RiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
     override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
 
     private var isCanceled = false
 
-    override suspend fun run(arguments: Task.Arguments): Result {
-        try {
-            Timber.d("Running with arguments=%s", arguments)
-            // If there is no connectivity the transaction will set the last calculated risk level
-            if (!isNetworkEnabled(context)) {
-                RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
-                return Result(UNDETERMINED)
-            }
+    @Suppress("LongMethod")
+    override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult = try {
+        Timber.d("Running with arguments=%s", arguments)
 
-            if (!enfClient.isTracingEnabled.first()) {
-                return Result(NO_CALCULATION_POSSIBLE_TRACING_OFF)
-            }
+        val configData: ConfigData = appConfigProvider.getAppConfig()
 
-            val configData: ConfigData = appConfigProvider.getAppConfig()
+        determineRiskLevelResult(configData).also {
+            Timber.i("Risklevel determined: %s", it)
 
-            return Result(
-                when {
-                    calculationNotPossibleBecauseOfNoKeys().also {
-                        checkCancel()
-                    } -> UNKNOWN_RISK_INITIAL
+            checkCancel()
 
-                    calculationNotPossibleBecauseOfOutdatedResults().also {
-                        checkCancel()
-                    } -> if (backgroundJobsEnabled()) {
-                        UNKNOWN_RISK_OUTDATED_RESULTS
-                    } else {
-                        UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-                    }
+            Timber.tag(TAG).d("storeTaskResult(...)")
+            riskLevelStorage.storeResult(it)
 
-                    isIncreasedRisk(configData).also {
-                        checkCancel()
-                    } -> INCREASED_RISK
+            riskLevelSettings.lastUsedConfigIdentifier = configData.identifier
+        }
+    } catch (error: Exception) {
+        Timber.tag(TAG).e(error)
+        error.report(ExceptionCategory.EXPOSURENOTIFICATION)
+        throw error
+    } finally {
+        Timber.i("Finished (isCanceled=$isCanceled).")
+        internalProgress.close()
+    }
 
-                    !isActiveTracingTimeAboveThreshold().also {
-                        checkCancel()
-                    } -> UNKNOWN_RISK_INITIAL
+    private suspend fun determineRiskLevelResult(configData: ConfigData): RiskLevelTaskResult {
+        val nowUTC = timeStamper.nowUTC.also {
+            Timber.d("The current time is %s", it)
+        }
 
-                    else -> LOW_LEVEL_RISK
-                }.also {
-                    checkCancel()
-                    updateRepository(it, timeStamper.nowUTC.millis)
-                    riskLevelData.lastUsedConfigIdentifier = configData.identifier
+        if (!isNetworkEnabled(context)) {
+            Timber.i("Risk not calculated, internet unavailable.")
+            return RiskLevelTaskResult(
+                calculatedAt = nowUTC,
+                failureReason = FailureReason.NO_INTERNET
+            )
+        }
+
+        if (!enfClient.isTracingEnabled.first()) {
+            Timber.i("Risk not calculated, tracing is disabled.")
+            return RiskLevelTaskResult(
+                calculatedAt = nowUTC,
+                failureReason = FailureReason.TRACING_OFF
+            )
+        }
+
+        if (areKeyPkgsOutDated(nowUTC)) {
+            Timber.i("Risk not calculated, results are outdated.")
+            return RiskLevelTaskResult(
+                calculatedAt = nowUTC,
+                failureReason = when (backgroundJobsEnabled()) {
+                    true -> FailureReason.OUTDATED_RESULTS
+                    false -> FailureReason.OUTDATED_RESULTS_MANUAL
                 }
             )
-        } catch (error: Exception) {
-            Timber.tag(TAG).e(error)
-            error.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            throw error
-        } finally {
-            Timber.i("Finished (isCanceled=$isCanceled).")
-            internalProgress.close()
         }
+        checkCancel()
+
+        return calculateRiskLevel(configData)
     }
 
-    private fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean {
-        // if the last calculation is longer in the past as the defined threshold we return the stale state
-        val timeSinceLastDiagnosisKeyFetchFromServer =
-            TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
-                ?: throw RiskLevelCalculationException(
-                    IllegalArgumentException("Time since last exposure calculation is null")
-                )
-        /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
-        defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
-        return timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
-            TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
-    }
+    private suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
+        Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
 
-    private fun calculationNotPossibleBecauseOfNoKeys() =
-        (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
+        val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {
+            it.info.toDateTime()
+        }
+        if (latestDownload == null) {
+            Timber.w("areKeyPkgsOutDated(): No downloads available, why is the RiskLevelTask running? Aborting!")
+            return true
+        }
+
+        val downloadAge = Duration(latestDownload.info.toDateTime(), nowUTC).also {
+            Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
+        }
+
+        return (downloadAge.isLongerThan(STALE_DOWNLOAD_LIMIT)).also {
             if (it) {
-                Timber.tag(TAG)
-                    .v("No last time diagnosis keys from server fetch timestamp was found")
+                Timber.tag(TAG).i("areKeyPkgsOutDated(): Calculation was not possible because results are outdated.")
+            } else {
+                Timber.tag(TAG).d("areKeyPkgsOutDated(): Key pkgs are fresh :), continuing evaluation.")
             }
         }
-
-    private fun isActiveTracingTimeAboveThreshold(): Boolean {
-        val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
-        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
-        val durationTracingIsActiveThreshold = TimeVariables.getMinActivatedTracingTime().toLong()
-
-        return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-            Timber.tag(TAG).v(
-                "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                    "($durationTracingIsActiveThreshold h): $it"
-            )
-        }
     }
 
-    private suspend fun isIncreasedRisk(configData: ExposureWindowRiskCalculationConfig): Boolean {
+    private suspend fun calculateRiskLevel(configData: ExposureWindowRiskCalculationConfig): RiskLevelTaskResult {
+        Timber.tag(TAG).d("Calculating risklevel")
         val exposureWindows = enfClient.exposureWindows()
 
-        return riskLevels.determineRisk(configData, exposureWindows).apply {
-            // TODO This should be solved differently, by saving a more specialised result object
-            if (isIncreasedRisk()) {
-                exposureResultStore.internalMatchedKeyCount.value = totalMinimumDistinctEncountersWithHighRisk
-                exposureResultStore.internalDaysSinceLastExposure.value = numberOfDaysWithHighRisk
+        return riskLevels.determineRisk(configData, exposureWindows).let {
+            Timber.tag(TAG).d("Risklevel calculated: %s", it)
+            if (it.isIncreasedRisk()) {
+                Timber.tag(TAG).i("Risk is increased!")
             } else {
-                exposureResultStore.internalMatchedKeyCount.value = totalMinimumDistinctEncountersWithLowRisk
-                exposureResultStore.internalDaysSinceLastExposure.value = numberOfDaysWithLowRisk
-            }
-            exposureResultStore.entities.value = ExposureResult(exposureWindows, this)
-        }.isIncreasedRisk()
-    }
-
-    private fun updateRepository(riskLevel: RiskLevel, time: Long) {
-        val rollbackItems = mutableListOf<RollbackItem>()
-        try {
-            Timber.tag(TAG).v("Update the risk level with $riskLevel")
-            val lastCalculatedRiskLevelScoreForRollback = RiskLevelRepository.getLastCalculatedScore()
-            updateRiskLevelScore(riskLevel)
-            rollbackItems.add {
-                updateRiskLevelScore(lastCalculatedRiskLevelScoreForRollback)
+                Timber.tag(TAG).d("Risk is not increased, continuing evaluating.")
             }
 
-            // risk level calculation date update
-            val lastCalculatedRiskLevelDate = LocalData.lastTimeRiskLevelCalculation()
-            LocalData.lastTimeRiskLevelCalculation(time)
-            rollbackItems.add {
-                LocalData.lastTimeRiskLevelCalculation(lastCalculatedRiskLevelDate)
-            }
-        } catch (error: Exception) {
-            Timber.tag(TAG).e(error, "Updating the RiskLevelRepository failed.")
-
-            try {
-                Timber.tag(TAG).d("Initiate Rollback")
-                for (rollbackItem: RollbackItem in rollbackItems) rollbackItem.invoke()
-            } catch (rollbackException: Exception) {
-                Timber.tag(TAG).e(rollbackException, "RiskLevelRepository rollback failed.")
-            }
-
-            throw error
-        }
-    }
-
-    /**
-     * Updates the Risk Level Score in the repository with the calculated Risk Level
-     *
-     * @param riskLevel
-     */
-    @VisibleForTesting
-    internal fun updateRiskLevelScore(riskLevel: RiskLevel) {
-        val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
-        Timber.d("last CalculatedS core is ${lastCalculatedScore.raw} and Current Risk Level is ${riskLevel.raw}")
-
-        if (RiskLevel.riskLevelChangedBetweenLowAndHigh(lastCalculatedScore, riskLevel) &&
-            !LocalData.submissionWasSuccessful()
-        ) {
-            Timber.d(
-                "Notification Permission = ${
-                    NotificationManagerCompat.from(CoronaWarnApplication.getAppContext()).areNotificationsEnabled()
-                }"
+            RiskLevelTaskResult(
+                calculatedAt = timeStamper.nowUTC,
+                aggregatedRiskResult = it,
+                exposureWindows = exposureWindows
             )
-
-            NotificationHelper.sendNotification(
-                CoronaWarnApplication.getAppContext().getString(R.string.notification_body)
-            )
-
-            Timber.d("Risk level changed and notification sent. Current Risk level is ${riskLevel.raw}")
         }
-        if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
-            riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK
-        ) {
-            LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
-
-            Timber.d("Risk level changed LocalData is updated. Current Risk level is ${riskLevel.raw}")
-        }
-        RiskLevelRepository.setRiskLevelScore(riskLevel)
-    }
-
-    private fun checkCancel() {
-        if (isCanceled) throw TaskCancellationException()
     }
 
     private suspend fun backgroundJobsEnabled() =
@@ -240,37 +164,44 @@ class RiskLevelTask @Inject constructor(
             }
         }
 
+    private fun checkCancel() {
+        if (isCanceled) throw TaskCancellationException()
+    }
+
     override suspend fun cancel() {
         Timber.w("cancel() called.")
         isCanceled = true
     }
 
-    class Result(val riskLevel: RiskLevel) : Task.Result {
-        override fun toString(): String {
-            return "Result(riskLevel=${riskLevel.name})"
-        }
-    }
-
     data class Config(
-        // TODO unit-test that not > 9 min
+        private val exposureDetectionTracker: ExposureDetectionTracker,
         override val executionTimeout: Duration = Duration.standardMinutes(8),
-
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
+    ) : TaskFactory.Config {
 
-    ) : TaskFactory.Config
+        override val preconditions: List<suspend () -> Boolean>
+            get() = listOf {
+                // check whether we already have a successful v2 exposure
+                exposureDetectionTracker.calculations.first().values.any {
+                    it.enfVersion == TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE && it.isSuccessful
+                }
+            }
+    }
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<RiskLevelTask>
-    ) : TaskFactory<DefaultProgress, Result> {
+        private val taskByDagger: Provider<RiskLevelTask>,
+        private val exposureDetectionTracker: ExposureDetectionTracker
+    ) : TaskFactory<DefaultProgress, RiskLevelTaskResult> {
 
-        override suspend fun createConfig(): TaskFactory.Config = Config()
-        override val taskProvider: () -> Task<DefaultProgress, Result> = {
+        override suspend fun createConfig(): TaskFactory.Config = Config(exposureDetectionTracker)
+        override val taskProvider: () -> Task<DefaultProgress, RiskLevelTaskResult> = {
             taskByDagger.get()
         }
     }
 
     companion object {
         private val TAG: String? = RiskLevelTask::class.simpleName
+        private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
     }
 }
