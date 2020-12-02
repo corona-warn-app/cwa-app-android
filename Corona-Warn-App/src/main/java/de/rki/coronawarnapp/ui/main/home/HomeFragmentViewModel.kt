@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
-import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
@@ -105,8 +104,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         // TODO the ordering here is weird, do we expect these to run in sequence?
         tracingRepository.refreshRiskLevel()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
-        TimerHelper.checkManualKeyRetrievalTimer()
-        tracingRepository.refreshLastSuccessfullyCalculatedScore()
     }
 
     fun tracingExplanationWasShown() {

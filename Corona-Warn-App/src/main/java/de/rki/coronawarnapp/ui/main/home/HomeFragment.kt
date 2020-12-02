@@ -131,7 +131,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
                 vm.refreshDiagnosisKeys()
-                vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
             }
             riskCardButtonEnableTracing.setOnClickListener {
                 doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())

@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.exception.http.UnauthorizedException
 import de.rki.coronawarnapp.exception.http.UnsupportedMediaTypeException
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.net.ssl.HttpsURLConnection
@@ -34,43 +35,54 @@ class HttpErrorParser : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         try {
             val response = chain.proceed(chain.request())
+
+            val message: String? = try {
+                if (response.isSuccessful) {
+                    null
+                } else {
+                    response.message
+                }
+            } catch (e: Exception) {
+                Timber.w("Failed to get http error message.")
+                null
+            }
             return when (val code = response.code) {
                 HttpsURLConnection.HTTP_OK -> response
                 HttpsURLConnection.HTTP_CREATED -> response
                 HttpsURLConnection.HTTP_ACCEPTED -> response
                 HttpsURLConnection.HTTP_NO_CONTENT -> response
-                HttpsURLConnection.HTTP_BAD_REQUEST -> throw BadRequestException()
-                HttpsURLConnection.HTTP_UNAUTHORIZED -> throw UnauthorizedException()
-                HttpsURLConnection.HTTP_FORBIDDEN -> throw ForbiddenException()
-                HttpsURLConnection.HTTP_NOT_FOUND -> throw NotFoundException()
-                HttpsURLConnection.HTTP_CONFLICT -> throw ConflictException()
-                HttpsURLConnection.HTTP_GONE -> throw GoneException()
-                HttpsURLConnection.HTTP_UNSUPPORTED_TYPE -> throw UnsupportedMediaTypeException()
-                429 -> throw TooManyRequestsException()
-                HttpsURLConnection.HTTP_INTERNAL_ERROR -> throw InternalServerErrorException()
-                HttpsURLConnection.HTTP_NOT_IMPLEMENTED -> throw NotImplementedException()
-                HttpsURLConnection.HTTP_BAD_GATEWAY -> throw BadGatewayException()
-                HttpsURLConnection.HTTP_UNAVAILABLE -> throw ServiceUnavailableException()
-                HttpsURLConnection.HTTP_GATEWAY_TIMEOUT -> throw GatewayTimeoutException()
-                HttpsURLConnection.HTTP_VERSION -> throw HTTPVersionNotSupported()
-                511 -> throw NetworkAuthenticationRequiredException()
-                598 -> throw NetworkReadTimeoutException()
-                599 -> throw NetworkConnectTimeoutException()
+                HttpsURLConnection.HTTP_BAD_REQUEST -> throw BadRequestException(message)
+                HttpsURLConnection.HTTP_UNAUTHORIZED -> throw UnauthorizedException(message)
+                HttpsURLConnection.HTTP_FORBIDDEN -> throw ForbiddenException(message)
+                HttpsURLConnection.HTTP_NOT_FOUND -> throw NotFoundException(message)
+                HttpsURLConnection.HTTP_CONFLICT -> throw ConflictException(message)
+                HttpsURLConnection.HTTP_GONE -> throw GoneException(message)
+                HttpsURLConnection.HTTP_UNSUPPORTED_TYPE -> throw UnsupportedMediaTypeException(message)
+                429 -> throw TooManyRequestsException(message)
+                HttpsURLConnection.HTTP_INTERNAL_ERROR -> throw InternalServerErrorException(message)
+                HttpsURLConnection.HTTP_NOT_IMPLEMENTED -> throw NotImplementedException(message)
+                HttpsURLConnection.HTTP_BAD_GATEWAY -> throw BadGatewayException(message)
+                HttpsURLConnection.HTTP_UNAVAILABLE -> throw ServiceUnavailableException(message)
+                HttpsURLConnection.HTTP_GATEWAY_TIMEOUT -> throw GatewayTimeoutException(message)
+                HttpsURLConnection.HTTP_VERSION -> throw HTTPVersionNotSupported(message)
+                511 -> throw NetworkAuthenticationRequiredException(message)
+                598 -> throw NetworkReadTimeoutException(message)
+                599 -> throw NetworkConnectTimeoutException(message)
                 else -> {
-                    if (code in 100..199) throw CwaInformationalNotSupportedError(code)
+                    if (code in 100..199) throw CwaInformationalNotSupportedError(code, message)
                     if (code in 200..299) throw CwaSuccessResponseWithCodeMismatchNotSupportedError(
-                        code
+                        code, message
                     )
-                    if (code in 300..399) throw CwaRedirectNotSupportedError(code)
-                    if (code in 400..499) throw CwaClientError(code)
-                    if (code in 500..599) throw CwaServerError(code)
-                    throw CwaWebException(code)
+                    if (code in 300..399) throw CwaRedirectNotSupportedError(code, message)
+                    if (code in 400..499) throw CwaClientError(code, message)
+                    if (code in 500..599) throw CwaServerError(code, message)
+                    throw CwaWebException(code, message)
                 }
             }
         } catch (err: SocketTimeoutException) {
-            throw NetworkConnectTimeoutException()
+            throw NetworkConnectTimeoutException(cause = err)
         } catch (err: UnknownHostException) {
-            throw CwaUnknownHostException()
+            throw CwaUnknownHostException(cause = err)
         }
     }
 }
