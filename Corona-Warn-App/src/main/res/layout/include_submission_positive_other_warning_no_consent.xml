@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewModel" />
+            type="de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentViewModel" />
 
     </data>
 

@@ -117,6 +117,10 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         SubmissionRepository.submissionSuccessful()
     }
 
+    fun onDataPrivacyClick() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDataPrivacy)
+    }
+
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
         fun create(symptoms: Symptoms): SubmissionResultPositiveOtherWarningNoConsentViewModel
