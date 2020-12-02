@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -24,6 +23,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.util.UUID
 
@@ -38,28 +38,27 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     private var currentSubmissionRequestId: UUID? = null
     private val currentSubmission = taskController.tasks
-            .map { it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState }
-    private val submissionState = currentSubmission
-            .map { taskState ->
+        .map { it.find { taskInfo -> taskInfo.taskState.request.id == currentSubmissionRequestId }?.taskState }
+        .onEach {
+            it?.let {
                 when {
-                    taskState == null -> ApiRequestState.IDLE
-                    taskState.isFailed -> ApiRequestState.FAILED.also { updateUI(taskState) }
-                    taskState.isFinished -> ApiRequestState.SUCCESS.also { updateUI(taskState) }
-                    else -> ApiRequestState.STARTED
+                    it.isFailed -> submissionError.postValue(it.error)
+                    it.isSuccessful -> routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
                 }
             }
-    val submissionError = SingleLiveEvent<Throwable>()
+        }
 
     val uiState = combineTransform(
-            submissionState,
-            interoperabilityRepository.countryListFlow
+        currentSubmission,
+        interoperabilityRepository.countryListFlow
     ) { state, countries ->
         WarnOthersState(
-                apiRequestState = state,
-                countryList = countries
+            submitTaskState = state,
+            countryList = countries
         ).also { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
+    val submissionError = SingleLiveEvent<Throwable>()
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     val requestKeySharing = SingleLiveEvent<Unit>()
