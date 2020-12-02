@@ -62,6 +62,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
                 android:focusable="true"
                 android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(uiState.deviceUiState)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
