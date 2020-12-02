@@ -849,6 +849,14 @@
     <string name="submission_consent_help_by_warning_others_body"></string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body"></string>
+    <!-- YTXT: Body for consent main section first point  -->
+    <string name="submission_consent_main_first_point"></string>
+    <!-- YTXT: Body for consent main section second point  -->
+    <string name="submission_consent_main_second_point"></string>
+    <!-- YTXT: Body for consent main section third point  -->
+    <string name="submission_consent_main_third_point"></string>
+    <!-- YTXT: Body for consent main section fourth point  -->
+    <string name="submission_consent_main_fourth_point"></string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -907,6 +915,15 @@
     <string name="submission_test_result_card_positive_title">"SARS-CoV-2 positive"</string>
     <!-- YTXT: Body text for test result card positive -->
     <string name="submission_test_result_card_positive_body">"You have been diagnosed with the SARS-CoV-2 virus."</string>
+    <!-- XHED: Page headline for test result with consent given  -->
+    <string name="submission_test_result_consent_given_heading">""</string>
+    <!-- YTXT: Subtitle text for test result card with consent given -->
+    <string name="submission_test_result_consent_given_subtitle">""</string>
+    <!-- YTXT: body text for test result card with consent given -->
+    <string name="submission_test_result_consent_given_body">""</string>
+    <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
+    <string name="submission_test_result_consent_given_breakup_button">""</string>
+
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
@@ -980,6 +997,18 @@
     <string name="submission_positive_other_illustration_description">"A smartphone transmits an encrypted positive test diagnosis to the system."</string>
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"The following countries currently participate in transnational exposure logging:"</string>
+
+    <!-- Test result positive and no consent given -->
+    <!-- XHED: Title for test result positive and no consent given-->
+    <string name="submission_test_result_positive_no_consent_subtitle"></string>
+    <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_1"></string>
+    <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_2"></string>
+    <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_3"></string>
+    <!-- XBUT: Button for giving consent for key sharing -->
+    <string name="submission_test_result_positive_no_consent_button_warn_others"></string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1425,6 +1454,5 @@
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">"Your Internet connection may have been lost. Please ensure that you are connected to the Internet."</string>
     <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
     <string name="interoperability_onboarding_list_button_title_no_network">"Open Device Settings"</string>
-
 
 </resources>
