@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
+import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
@@ -44,4 +45,8 @@ class SubmissionSettings @Inject constructor(
         reader = FlowPreference.gsonReader(gson, Symptoms.NO_INFO_GIVEN),
         writer = FlowPreference.gsonWriter(gson)
     )
+
+    fun clear() {
+        prefs.clearAndNotify()
+    }
 }

@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
+import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionTask
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
@@ -26,7 +27,6 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
     private val enfClient: ENFClient,
     private val taskController: TaskController,
     interoperabilityRepository: InteroperabilityRepository,
-    private val testResultNotificationService: TestResultNotificationService,
     private val tekHistoryUpdater: TEKHistoryUpdater
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private var currentSubmissionRequestId: UUID? = null
@@ -64,9 +64,8 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
                 val taskRequest = DefaultTaskRequest(SubmissionTask::class)
                 currentSubmissionRequestId = taskRequest.id
                 taskController.submit(taskRequest)
-                testResultNotificationService.cancelPositiveTestResultNotification()
             } else {
-                Timber.e(error, "Couldn't temporary exposure key history.")
+                Timber.e(error, "Couldn't access temporary exposure key history.")
                 submissionError.postValue(error)
             }
         }

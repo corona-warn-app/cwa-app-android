@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.storage
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -19,7 +20,9 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.preferences.mockFlowPreference
@@ -31,6 +34,7 @@ class SubmissionRepositoryTest {
 
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var appComponent: ApplicationComponent
+    @MockK lateinit var taskController: TaskController
 
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
@@ -40,8 +44,6 @@ class SubmissionRepositoryTest {
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
     private val testResult = TestResult.PENDING
     private val registrationData = SubmissionService.RegistrationData(registrationToken, testResult)
-
-    lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setUp() {
@@ -63,10 +65,18 @@ class SubmissionRepositoryTest {
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
+        every { submissionSettings.symptoms } returns mockFlowPreference(Symptoms.NO_INFO_GIVEN)
 
-        val appScope = AppCoroutineScope()
-        submissionRepository = SubmissionRepository(submissionSettings, submissionService, appScope, TimeStamper())
+        every { taskController.tasks } returns emptyFlow()
     }
+
+    fun createInstance(scope: CoroutineScope) = SubmissionRepository(
+        scope = scope,
+        submissionSettings = submissionSettings,
+        submissionService = submissionService,
+        timeStamper = TimeStamper(),
+        taskController = taskController
+    )
 
     @Test
     fun deleteRegistrationTokenSucceeds() {
@@ -79,13 +89,13 @@ class SubmissionRepositoryTest {
     }
 
     @Test
-    fun registrationWithGUIDSucceeds() {
+    fun registrationWithGUIDSucceeds() = runBlockingTest {
         every { LocalData.testGUID(any()) } just Runs
         coEvery { submissionService.asyncRegisterDeviceViaGUID(guid) } returns registrationData
 
-        runBlocking {
-            submissionRepository.asyncRegisterDeviceViaGUID(guid)
-        }
+        val submissionRepository = createInstance(scope = this)
+
+        submissionRepository.asyncRegisterDeviceViaGUID(guid)
 
         verify(exactly = 1) {
             LocalData.devicePairingSuccessfulTimestamp(any())
@@ -97,13 +107,13 @@ class SubmissionRepositoryTest {
     }
 
     @Test
-    fun registrationWithTeleTANSucceeds() {
+    fun registrationWithTeleTANSucceeds() = runBlockingTest {
         every { LocalData.teletan(any()) } just Runs
         coEvery { submissionService.asyncRegisterDeviceViaTAN(tan) } returns registrationData
 
-        runBlocking {
-            submissionRepository.asyncRegisterDeviceViaTAN(tan)
-        }
+        val submissionRepository = createInstance(scope = this)
+
+        submissionRepository.asyncRegisterDeviceViaTAN(tan)
 
         coVerify(exactly = 1) {
             LocalData.devicePairingSuccessfulTimestamp(any())

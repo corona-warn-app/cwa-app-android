@@ -1,21 +1,44 @@
 package de.rki.coronawarnapp.ui.submission.resultavailable
 
+import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    submissionRepository: SubmissionRepository
+    private val tekHistoryUpdater: TEKHistoryUpdater,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val clickEvent: SingleLiveEvent<SubmissionTestResultAvailableEvents> = SingleLiveEvent()
 
     val consent = submissionRepository.hasGivenConsentToSubmission.asLiveData(dispatcherProvider.Default)
+    val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
+
+    init {
+        tekHistoryUpdater.tekUpdateListener = { teks, error ->
+            if (teks != null) {
+                clickEvent.postValue(SubmissionTestResultAvailableEvents.GoToTestResult)
+            } else {
+                Timber.e(error, "Failed to update TEKs.")
+                error?.report(
+                    exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
+                    prefix = "SubmissionTestResultAvailableViewModel"
+                )
+            }
+        }
+    }
 
     fun goBack() {
         clickEvent.postValue(SubmissionTestResultAvailableEvents.GoBack)
@@ -26,7 +49,19 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun proceed() {
-        clickEvent.postValue(SubmissionTestResultAvailableEvents.Proceed)
+        launch {
+            if (submissionRepository.hasGivenConsentToSubmission.first()) {
+                tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
+                    showPermissionRequest.postValue(permissionRequest)
+                }
+            } else {
+                clickEvent.postValue(SubmissionTestResultAvailableEvents.GoToTestResult)
+            }
+        }
+    }
+
+    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
     @AssistedInject.Factory

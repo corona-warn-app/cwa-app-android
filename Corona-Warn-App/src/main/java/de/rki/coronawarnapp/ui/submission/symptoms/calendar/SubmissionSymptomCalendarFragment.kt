@@ -3,11 +3,15 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
+import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToMainActivity
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
@@ -32,22 +36,33 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
     )
 
     private val binding: FragmentSubmissionSymptomCalendarBinding by viewBindingLazy()
+    private lateinit var uploadDialog: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        uploadDialog = SubmissionBlockingDialog(requireContext())
+
         binding.symptomCalendarContainer.setDateSelectedListener {
             viewModel.onDateSelected(it)
         }
 
+        viewModel.showCancelDialog.observe2(this) {
+            SubmissionCancelDialog(requireContext()).show {
+                viewModel.onCancelConfirmed()
+            }
+        }
+        viewModel.showUploadDialog.observe2(this) {
+            uploadDialog.setState(show = it)
+        }
+
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> doNavigate(
+                is NavigateToResultPositiveOtherWarning -> doNavigate(
                     SubmissionSymptomCalendarFragmentDirections
                         .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment()
                 )
-                is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> doNavigate(
-                    SubmissionSymptomCalendarFragmentDirections
-                        .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment()
+                is NavigateToMainActivity -> doNavigate(
+                    SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
                 )
             }
         }
@@ -61,28 +76,35 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
             updateButtons(it)
         }
 
+        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.onCalendarPreviousClicked()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         binding.apply {
-            submissionSymptomCalendarHeader.headerButtonBack.buttonIcon
-                .setOnClickListener { viewModel.onCalendarPreviousClicked() }
+            submissionSymptomCalendarHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                viewModel.onCalendarPreviousClicked()
+            }
 
-            symptomButtonNext
-                .setOnClickListener { viewModel.onCalendarNextClicked() }
+            symptomButtonNext.setOnClickListener { viewModel.onDone() }
 
-            symptomCalendarChoiceSelection
-                .calendarButtonSevenDays
-                .setOnClickListener { viewModel.onLastSevenDaysStart() }
+            symptomCalendarChoiceSelection.calendarButtonSevenDays.setOnClickListener {
+                viewModel.onLastSevenDaysStart()
+            }
 
-            symptomCalendarChoiceSelection
-                .calendarButtonOneTwoWeeks
-                .setOnClickListener { viewModel.onOneToTwoWeeksAgoStart() }
+            symptomCalendarChoiceSelection.calendarButtonOneTwoWeeks.setOnClickListener {
+                viewModel.onOneToTwoWeeksAgoStart()
+            }
 
-            symptomCalendarChoiceSelection
-                .calendarButtonMoreThanTwoWeeks
-                .setOnClickListener { viewModel.onMoreThanTwoWeeksStart() }
+            symptomCalendarChoiceSelection.calendarButtonMoreThanTwoWeeks.setOnClickListener {
+                viewModel.onMoreThanTwoWeeksStart()
+            }
 
-            symptomCalendarChoiceSelection
-                .targetButtonVerify
-                .setOnClickListener { viewModel.onNoInformationStart() }
+            symptomCalendarChoiceSelection.targetButtonVerify.setOnClickListener {
+                viewModel.onNoInformationStart()
+            }
         }
     }
 

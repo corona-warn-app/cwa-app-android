@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.resultavailable
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -26,10 +27,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         vm.consent.observe2(this) {
             if (it) {
                 binding.submissionTestResultAvailableText.setText(
-                    R.string.submission_test_result_available_text_consent_given)
+                    R.string.submission_test_result_available_text_consent_given
+                )
             } else {
                 binding.submissionTestResultAvailableText.setText(
-                    R.string.submission_test_result_available_text_consent_not_given)
+                    R.string.submission_test_result_available_text_consent_not_given
+                )
             }
             binding.submissionTestResultAvailableConsentStatus.consent = it
         }
@@ -45,9 +48,20 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
                 is SubmissionTestResultAvailableEvents.GoBack -> showCloseDialog()
                 // TODO: Add navigation
                 // is SubmissionTestResultAvailableEvents.GoConsent -> doNavigate(TestResultAvailableFragmentDirections.actionTestResultAvailableToSubmissionYourConsent())
-                is SubmissionTestResultAvailableEvents.Proceed -> showProceedPopUp()
+                is SubmissionTestResultAvailableEvents.GoToTestResult -> {
+                    // FIXME: Advance to next screen
+                }
             }
         }
+
+        vm.showPermissionRequest.observe2(this) { permissionRequest ->
+            permissionRequest.invoke(requireActivity())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionTestResultAvailableContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun showCloseDialog() {
@@ -75,12 +89,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         DialogHelper.showDialog(closeDialogInstance)
     }
 
-    private fun showProceedPopUp() {
-        // TODO: Show proceed pop up with further navigation
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.submissionTestResultAvailableContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        vm.handleActivityResult(requestCode, resultCode, data)
     }
 }

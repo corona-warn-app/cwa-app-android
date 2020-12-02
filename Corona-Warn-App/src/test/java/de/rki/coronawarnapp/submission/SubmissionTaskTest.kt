@@ -4,6 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.storage.LocalData
@@ -37,6 +38,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryCalculations: ExposureKeyHistoryCalculations
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
+    @MockK lateinit var testResultNotificationService: TestResultNotificationService
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
     @MockK lateinit var tek: TemporaryExposureKey
@@ -73,6 +75,8 @@ class SubmissionTaskTest : BaseTest() {
         every { appConfigData.supportedCountries } returns listOf("NL")
 
         coEvery { playbook.submit(any()) } just Runs
+
+        every { testResultNotificationService.cancelPositiveTestResultNotification() } just Runs
     }
 
     private fun createTask() = SubmissionTask(
@@ -80,7 +84,8 @@ class SubmissionTaskTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         tekHistoryCalculations = tekHistoryCalculations,
         tekHistoryStorage = tekHistoryStorage,
-        submissionSettings = submissionSettings
+        submissionSettings = submissionSettings,
+        testResultNotificationService
     )
 
     @Test
@@ -110,6 +115,8 @@ class SubmissionTaskTest : BaseTest() {
 
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
+
+            testResultNotificationService.cancelPositiveTestResultNotification()
         }
 
         submissionSettings.symptoms.value shouldBe Symptoms.NO_INFO_GIVEN
@@ -144,6 +151,7 @@ class SubmissionTaskTest : BaseTest() {
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
             mockSymptomsPreference.update(any())
+            testResultNotificationService.cancelPositiveTestResultNotification()
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
     }

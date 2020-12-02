@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.worker
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.runner.RunWith
-
 /**
  * DiagnosisKeyRetrievalOneTimeWorker test.
  */
-@RunWith(AndroidJUnit4::class)
 class DiagnosisKeyRetrievalOneTimeWorkerTest {
 //    private lateinit var context: Context
 //    private lateinit var worker: ListenableWorker

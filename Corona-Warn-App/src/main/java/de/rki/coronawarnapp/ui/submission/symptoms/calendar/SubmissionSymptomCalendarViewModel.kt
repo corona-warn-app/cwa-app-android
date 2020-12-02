@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -11,30 +11,21 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val submissionSettings: SubmissionSettings
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val symptomStart = submissionSettings.symptoms.flow
+    val symptomStart = submissionRepository.currentSymptoms.flow
         .map { it.startOfSymptoms }
         .asLiveData(context = dispatcherProvider.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-
-    fun onCalendarNextClicked() {
-        launch {
-            val symptoms = submissionSettings.symptoms.value
-            routeToScreen.postValue(
-                SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning(symptoms)
-            )
-        }
-    }
-
-    fun onCalendarPreviousClicked() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
-    }
+    val showCancelDialog = SingleLiveEvent<Unit>()
+    val showUploadDialog = submissionRepository.isSubmissionRunning
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun onLastSevenDaysStart() {
         updateSymptomStart(Symptoms.StartOf.LastSevenDays)
@@ -57,8 +48,34 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     }
 
     private fun updateSymptomStart(startOf: Symptoms.StartOf?) {
-        submissionSettings.symptoms.update {
+        submissionRepository.currentSymptoms.update {
             it.copy(startOfSymptoms = startOf)
+        }
+    }
+
+    fun onCalendarPreviousClicked() {
+        showCancelDialog.postValue(Unit)
+    }
+
+    fun onDone() {
+        Timber.d("onDone() clicked on calender screen.")
+        performSubmission()
+    }
+
+    fun onCancelConfirmed() {
+        Timber.d("onCancelConfirmed() clicked on calendar screen.")
+        performSubmission()
+    }
+
+    private fun performSubmission() {
+        launch {
+            try {
+                submissionRepository.startSubmission()
+            } catch (e: Exception) {
+                Timber.e(e, "performSubmission() failed.")
+            } finally {
+                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
+            }
         }
     }
 

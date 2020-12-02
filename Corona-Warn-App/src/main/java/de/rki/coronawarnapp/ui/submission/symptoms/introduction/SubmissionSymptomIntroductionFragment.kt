@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
-import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -10,6 +9,8 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
+import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
@@ -29,9 +30,11 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
     private val viewModel: SubmissionSymptomIntroductionViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentSubmissionSymptomIntroBinding by viewBindingLazy()
+    private lateinit var uploadDialog: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        uploadDialog = SubmissionBlockingDialog(requireContext())
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
@@ -47,17 +50,32 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
                     SubmissionSymptomIntroductionFragmentDirections
                         .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
                 )
+                is SubmissionNavigationEvents.NavigateToMainActivity -> doNavigate(
+                    SubmissionSymptomIntroductionFragmentDirections
+                        .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+                )
             }
         }
 
         viewModel.showCancelDialog.observe2(this) {
-            showCancelDialog()
+            SubmissionCancelDialog(requireContext()).show {
+                viewModel.onCancelConfirmed()
+            }
+        }
+
+        viewModel.showUploadDialog.observe2(this) {
+            uploadDialog.setState(show = it)
         }
 
         viewModel.symptomIndication.observe2(this) {
             updateButtons(it)
         }
 
+        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.onPreviousClicked()
+            }
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.apply {
@@ -77,13 +95,6 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
                 .setOnClickListener { viewModel.onNoInformationSymptomIndication() }
         }
     }
-
-    private val backCallback: OnBackPressedCallback =
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.onPreviousClicked()
-            }
-        }
 
     private fun updateButtons(symptomIndication: Symptoms.Indication?) {
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply)
@@ -123,18 +134,5 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
             isEnableSymptomIntroButtonByState(
                 symptomIndication
             )
-    }
-
-    private fun showCancelDialog() {
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
-            setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
-            setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
-                viewModel.cancelSymptomSubmission()
-            }
-            setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ ->
-                // NOOP
-            }
-        }.show()
     }
 }
