@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="119dp" />
+            app:layout_constraintGuide_end="120dp" />
 
         <include layout="@layout/merge_guidelines_side" />
 
