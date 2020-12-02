@@ -1059,7 +1059,7 @@
     <!-- YTXT: Page subtitle for completed submission page -->
     <string name="submission_done_no_consent_subtitle">"Vielen Dank, dass Sie mithelfen, die Verbreitung von Corona zu bekämpfen."</string>
     <!-- YTXT: Page body for submission no consent page -->
-    <string name="submission_done_no_consent_body_title">"Ihre Mitmenschen werden jetzt gewarnt"</string>
+    <string name="submission_done_no_consent_body_title">"Ihre Mitmenschen werden jetzt gewarnt."</string>
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body">"Bitte helfen Sie nun, die Genauigkeit der Warnungen zu verbessern. Geben Sie hierfür im nächsten Schritt an, wann Sie erstmals Symptome hatten. Sie können diesen Schritt jederzeit abbrechen."</string>
     <!-- XBUT: submission continue with symptom recording button -->
