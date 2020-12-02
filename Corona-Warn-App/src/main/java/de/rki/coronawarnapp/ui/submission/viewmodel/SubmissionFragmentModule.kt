@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsent
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenModule
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultModule
+import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment
+import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentModule
 import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningFragment
 import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningModule
 
@@ -67,4 +69,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTestResultConsentGivenModule::class])
     abstract fun submissionTestResultConsentGivenScreen(): SubmissionTestResultConsentGivenFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionTestResultNoConsentModule::class])
+    abstract fun submissionTestResultNoConsentScreen(): SubmissionTestResultNoConsentFragment
 }

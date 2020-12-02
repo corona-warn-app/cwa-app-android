@@ -68,11 +68,11 @@
                     android:layout_width="@dimen/circle_icon_big"
                     android:layout_height="@dimen/circle_icon_big"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:src="@drawable/ic_consent_status_view_icon"
+                    android:src="@drawable/ic_submission_share"
                     android:tint="@color/colorStableLight"
                     android:background="@drawable/circle"
                     android:backgroundTint="@color/button_red"
-                    android:padding="@dimen/circle_icon_big_padding"
+                    android:padding="@dimen/circle_icon_padding"
                     android:importantForAccessibility="no"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -160,7 +160,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_normal"
-            android:text="@string/submission_test_result_consent_given_breakup_button"
+            android:text="@string/submission_test_result_positive_no_consent_button_abort"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />

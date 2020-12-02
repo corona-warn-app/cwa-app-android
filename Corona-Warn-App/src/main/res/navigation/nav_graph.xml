@@ -289,6 +289,11 @@
                 android:defaultValue="true"
                 app:argType="boolean" />
         </action>
+        <action
+            android:id="@+id/action_submissionTanFragment_to_submissionTestResultNoConsentFragment"
+            app:destination="@id/submissionTestResultNoConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <fragment
@@ -407,4 +412,8 @@
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/submissionTestResultNoConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment"
+        android:label="SubmissionTestResultNoConsentFragment"/>
 </navigation>
