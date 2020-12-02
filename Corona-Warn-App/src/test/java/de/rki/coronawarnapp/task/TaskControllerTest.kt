@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.task
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.example.QueueingTask
 import de.rki.coronawarnapp.task.testtasks.SkippingTask
+import de.rki.coronawarnapp.task.testtasks.precondition.PreconditionTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask2
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTaskArguments
@@ -54,6 +55,7 @@ class TaskControllerTest : BaseIOTest() {
     private val timeoutFactory2 = spyk(TimeoutTask2.Factory(Provider { TimeoutTask2() }))
     private val queueingFactory = spyk(QueueingTask.Factory(Provider { QueueingTask() }))
     private val skippingFactory = spyk(SkippingTask.Factory(Provider { SkippingTask() }))
+    private val preconditionFactory = spyk(PreconditionTask.Factory(Provider { PreconditionTask() }))
 
     @BeforeEach
     fun setup() {
@@ -63,6 +65,7 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap[SkippingTask::class.java] = skippingFactory
         taskFactoryMap[TimeoutTask::class.java] = timeoutFactory
         taskFactoryMap[TimeoutTask2::class.java] = timeoutFactory2
+        taskFactoryMap[PreconditionTask::class.java] = preconditionFactory
 
         every { timeStamper.nowUTC } answers {
             Instant.now()
@@ -74,7 +77,6 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap.clear()
         clearAllMocks()
         testDir.deleteRecursively()
-        QueueingTask.preconditionIsMet = true
     }
 
     private fun createInstance(scope: CoroutineScope) = TaskController(
@@ -305,12 +307,11 @@ class TaskControllerTest : BaseIOTest() {
         )
         arguments.path.exists() shouldBe false
 
-        val request = DefaultTaskRequest(
-            type = QueueingTask::class,
+        val request1 = DefaultTaskRequest(
+            type = SkippingTask::class,
             arguments = arguments
         )
-        QueueingTask.preconditionIsMet = false
-        instance.submit(request)
+        instance.submit(request1)
 
         val request2 = DefaultTaskRequest(
             type = SkippingTask::class,
@@ -325,9 +326,10 @@ class TaskControllerTest : BaseIOTest() {
         }
         infoFinished.size shouldBe 2
 
-        infoFinished.single { it.taskState.request == request }.apply {
-            taskState.type shouldBe QueueingTask::class
-            taskState.isSkipped shouldBe true
+        infoFinished.single { it.taskState.request == request1 }.apply {
+            taskState.type shouldBe SkippingTask::class
+            taskState.isSkipped shouldBe false
+            taskState.resultOrThrow shouldNotBe null
         }
         infoFinished.single { it.taskState.request == request2 }.apply {
             taskState.type shouldBe SkippingTask::class
@@ -342,31 +344,37 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `tasks, where preconditions are not met, are skipped`() = runBlockingTest {
+    fun `tasks with preconditions that are not met are skipped`() = runBlockingTest {
         val instance = createInstance(scope = this)
 
-        val arguments = QueueingTask.Arguments(
-            path = File(testDir, UUID.randomUUID().toString())
-        )
-        arguments.path.exists() shouldBe false
-
-        val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
-        )
-        QueueingTask.preconditionIsMet = false
+        val request = DefaultTaskRequest(type = PreconditionTask::class)
+        preconditionFactory.arePreconditionsMet = false
         instance.submit(request)
+
+        advanceUntilIdle()
+
+        val request2 = DefaultTaskRequest(type = PreconditionTask::class)
+        preconditionFactory.arePreconditionsMet = true
+        instance.submit(request2)
 
         this.advanceUntilIdle()
 
         val infoFinished = instance.tasks.first { emission ->
             emission.any { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
         }
-        infoFinished.size shouldBe 1
+        infoFinished.size shouldBe 2
 
         infoFinished.single { it.taskState.request == request }.apply {
-            taskState.type shouldBe QueueingTask::class
+            taskState.type shouldBe PreconditionTask::class
             taskState.isSkipped shouldBe true
+            taskState.result shouldBe null
+            taskState.error shouldBe null
+        }
+        infoFinished.single { it.taskState.request == request2 }.apply {
+            taskState.type shouldBe PreconditionTask::class
+            taskState.isSkipped shouldBe false
+            taskState.result shouldNotBe null
+            taskState.error shouldBe null
         }
 
         instance.close()
