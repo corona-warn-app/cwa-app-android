@@ -1004,6 +1004,18 @@
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"The following countries currently participate in transnational exposure logging:"</string>
 
+    <!-- Test result positive and no consent given -->
+    <!-- XHED: Title for test result positive and no consent given-->
+    <string name="submission_test_result_positive_no_consent_subtitle"></string>
+    <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_1"></string>
+    <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_2"></string>
+    <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_3"></string>
+    <!-- XBUT: Button for giving consent for key sharing -->
+    <string name="submission_test_result_positive_no_consent_button_warn_others"></string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title"></string>
@@ -1448,6 +1460,5 @@
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">"Your Internet connection may have been lost. Please ensure that you are connected to the Internet."</string>
     <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
     <string name="interoperability_onboarding_list_button_title_no_network">"Open Device Settings"</string>
-
 
 </resources>

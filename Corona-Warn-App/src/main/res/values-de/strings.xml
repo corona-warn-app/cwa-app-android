@@ -1001,6 +1001,18 @@
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"Folgende Länder nehmen derzeit an der länderübergreifenden Risiko-Ermittlung teil:"</string>
 
+    <!-- Test result positive and no consent given -->
+    <!-- XHED: Title for test result positive and no consent given-->
+    <string name="submission_test_result_positive_no_consent_subtitle">Bitte helfen Sie mit!</string>
+    <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_1"><b>Helfen Sie mit, Ihre Mitmenschen vor Ansteckungen zu schützen und teilen Sie Ihr Testergebnis.</b></string>
+    <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_2">Ihre Identität bleibt dabei geheim. Andere Nutzer erfahren nicht, wer das Testergebnis geteilt hat.</string>
+    <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_3">Bitte beachten Sie unbedingt die Hinweise des zuständigen Gesundheitsamtes und bleiben Sie zuhause, um andere Personen nicht anzustecken.</string>
+    <!-- XBUT: Button for giving consent for key sharing -->
+    <string name="submission_test_result_positive_no_consent_button_warn_others">Andere warnen</string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title">"Europaweit warnen"</string>
