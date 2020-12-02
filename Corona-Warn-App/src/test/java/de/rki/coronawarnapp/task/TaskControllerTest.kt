@@ -305,11 +305,12 @@ class TaskControllerTest : BaseIOTest() {
         )
         arguments.path.exists() shouldBe false
 
-        val request1 = DefaultTaskRequest(
-            type = SkippingTask::class,
+        val request = DefaultTaskRequest(
+            type = QueueingTask::class,
             arguments = arguments
         )
-        instance.submit(request1)
+        QueueingTask.preconditionIsMet = false
+        instance.submit(request)
 
         val request2 = DefaultTaskRequest(
             type = SkippingTask::class,
@@ -324,10 +325,9 @@ class TaskControllerTest : BaseIOTest() {
         }
         infoFinished.size shouldBe 2
 
-        infoFinished.single { it.taskState.request == request1 }.apply {
-            taskState.type shouldBe SkippingTask::class
-            taskState.isSkipped shouldBe false
-            taskState.resultOrThrow shouldNotBe null
+        infoFinished.single { it.taskState.request == request }.apply {
+            taskState.type shouldBe QueueingTask::class
+            taskState.isSkipped shouldBe true
         }
         infoFinished.single { it.taskState.request == request2 }.apply {
             taskState.type shouldBe SkippingTask::class
@@ -343,8 +343,6 @@ class TaskControllerTest : BaseIOTest() {
 
     @Test
     fun `tasks, where preconditions are not met, are skipped`() = runBlockingTest {
-        QueueingTask.preconditionIsMet = false
-
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -353,9 +351,10 @@ class TaskControllerTest : BaseIOTest() {
         arguments.path.exists() shouldBe false
 
         val request = DefaultTaskRequest(
-            type = SkippingTask::class,
+            type = QueueingTask::class,
             arguments = arguments
         )
+        QueueingTask.preconditionIsMet = false
         instance.submit(request)
 
         this.advanceUntilIdle()
@@ -366,12 +365,8 @@ class TaskControllerTest : BaseIOTest() {
         infoFinished.size shouldBe 1
 
         infoFinished.single { it.taskState.request == request }.apply {
-            taskState.type shouldBe SkippingTask::class
-            taskState.isFinished shouldBe true
-            taskState.error shouldBe null
-            taskState.result shouldBe null
+            taskState.type shouldBe QueueingTask::class
             taskState.isSkipped shouldBe true
-            taskState.resultOrThrow shouldNotBe null
         }
 
         instance.close()

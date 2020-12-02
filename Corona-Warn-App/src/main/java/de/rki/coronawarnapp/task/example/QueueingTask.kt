@@ -67,7 +67,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
             TaskFactory.Config.CollisionBehavior.ENQUEUE
 
         override val preconditions: List<suspend () -> Boolean>
-            get() = listOf { preconditionIsMet }
+            get() = listOf(::isPreconditionMet)
     }
 
     class Factory @Inject constructor(
@@ -79,6 +79,9 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
     }
 
     companion object {
+        suspend fun isPreconditionMet(): Boolean{
+            return preconditionIsMet
+        }
         var preconditionIsMet = true
     }
 }
