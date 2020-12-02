@@ -53,6 +53,18 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
 
+            <de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
+                android:id="@+id/consent_status"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                android:focusable="true"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(uiState.deviceUiState)}"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_test_result_pending_steps" />
+
             <include
                 android:id="@+id/submission_test_result_negative_steps"
                 layout="@layout/include_test_result_negative_steps"
