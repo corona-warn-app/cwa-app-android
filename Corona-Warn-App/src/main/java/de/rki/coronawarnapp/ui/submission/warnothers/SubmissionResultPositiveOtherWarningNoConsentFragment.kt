@@ -63,10 +63,6 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToSubmissionIntro -> doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
-                )
                 is SubmissionNavigationEvents.NavigateToSubmissionDone -> doNavigate(
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                         .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionDoneFragment()
@@ -118,7 +114,10 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
     }
 
     override fun onFailure(exception: Exception?) {
-        // NOOP
+        doNavigate(
+            SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
+                .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToMainFragment()
+        )
     }
 
     private fun buildErrorDialog(throwable: Throwable): DialogHelper.DialogInstance {

@@ -257,7 +257,7 @@
             app:argType="de.rki.coronawarnapp.submission.Symptoms" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_mainFragment"
-            app:destination="@id/submissionResultFragment"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
         <action
@@ -417,11 +417,11 @@
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenFragment"
-        android:label="SubmissionTestResultConsentFragment" >
+        android:label="SubmissionTestResultConsentFragment">
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
