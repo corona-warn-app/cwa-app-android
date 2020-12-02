@@ -110,4 +110,54 @@ internal class DefaultENFVersionTest : BaseTest() {
             }
         }
     }
+
+    @Test
+    fun `isAtLeast is true for newer version`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_7)
+
+        runBlockingTest {
+            createInstance().isAtLeast(ENFVersion.V1_6) shouldBe true
+        }
+    }
+
+    @Test
+    fun `isAtLeast is true for equal version`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_6)
+
+        runBlockingTest {
+            createInstance().isAtLeast(ENFVersion.V1_6) shouldBe true
+        }
+    }
+
+    @Test
+    fun `isAtLeast is false for older version`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_6)
+
+        runBlockingTest {
+            createInstance().isAtLeast(ENFVersion.V1_7) shouldBe false
+        }
+    }
+
+    @Test
+    fun `invalid input for isAtLeast throws IllegalArgumentException`() {
+        runBlockingTest {
+            shouldThrow<IllegalArgumentException> {
+                createInstance().isAtLeast(16)
+            }
+        }
+    }
+
+    @Test
+    fun `isAtLeast returns false when client not connected`() {
+        every { client.version } returns MockGMSTask.forError(ApiException(Status(API_NOT_CONNECTED)))
+
+        runBlockingTest {
+            createInstance().apply {
+                shouldNotThrowAny {
+                    isAtLeast(ENFVersion.V1_6) shouldBe false
+                    isAtLeast(ENFVersion.V1_7) shouldBe false
+                }
+            }
+        }
+    }
 }

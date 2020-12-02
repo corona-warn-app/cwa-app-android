@@ -20,6 +20,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -47,7 +48,7 @@ class ENFClientTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns true
         every { exposureDetectionTracker.trackNewExposureDetection(any()) } just Runs
     }
 
@@ -78,19 +79,20 @@ class ENFClientTest : BaseTest() {
         val client = createClient()
         val keyFiles = listOf(File("test"))
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns true
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles) shouldBe true
+            client.provideDiagnosisKeys(keyFiles, mockk()) shouldBe true
         }
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns false
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns false
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles) shouldBe false
+            client.provideDiagnosisKeys(keyFiles, mockk()) shouldBe false
         }
 
         coVerify(exactly = 2) {
             diagnosisKeyProvider.provideDiagnosisKeys(
-                keyFiles
+                keyFiles,
+                any()
             )
         }
     }
@@ -100,13 +102,13 @@ class ENFClientTest : BaseTest() {
         val client = createClient()
         val keyFiles = emptyList<File>()
 
-        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any()) } returns true
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns true
         runBlocking {
-            client.provideDiagnosisKeys(keyFiles) shouldBe true
+            client.provideDiagnosisKeys(keyFiles, mockk()) shouldBe true
         }
 
         coVerify(exactly = 0) {
-            diagnosisKeyProvider.provideDiagnosisKeys(any())
+            diagnosisKeyProvider.provideDiagnosisKeys(any(), any())
         }
     }
 

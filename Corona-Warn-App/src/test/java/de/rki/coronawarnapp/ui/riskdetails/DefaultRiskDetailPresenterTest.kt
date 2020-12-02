@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.ui.riskdetails
 
-import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
+import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.ui.tracing.details.DefaultRiskDetailPresenter
-import org.junit.Assert
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class DefaultRiskDetailPresenterTest {
@@ -10,25 +12,19 @@ class DefaultRiskDetailPresenterTest {
     @Test
     fun test_isAdditionalInfoVisible() {
         DefaultRiskDetailPresenter().apply {
-            Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.LOW_LEVEL_RISK, 0))
-            Assert.assertTrue(isAdditionalInfoVisible(RiskLevelConstants.LOW_LEVEL_RISK, 1))
-            Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.UNKNOWN_RISK_INITIAL, 0))
-            Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.INCREASED_RISK, 0))
-            Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS, 0))
-            Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF, 0))
-            Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.UNDETERMINED, 0))
+            isAdditionalInfoVisible(LOW_RISK, 0) shouldBe false
+            isAdditionalInfoVisible(LOW_RISK, 1) shouldBe true
+            isAdditionalInfoVisible(INCREASED_RISK, 0) shouldBe false
+            isAdditionalInfoVisible(CALCULATION_FAILED, 0) shouldBe false
         }
     }
 
     @Test
     fun test_isInformationBodyNoticeVisible() {
         DefaultRiskDetailPresenter().apply {
-            Assert.assertFalse(isInformationBodyNoticeVisible(RiskLevelConstants.LOW_LEVEL_RISK))
-            Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.UNKNOWN_RISK_INITIAL))
-            Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.INCREASED_RISK))
-            Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS))
-            Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF))
-            Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.UNDETERMINED))
+            isInformationBodyNoticeVisible(LOW_RISK) shouldBe false
+            isInformationBodyNoticeVisible(INCREASED_RISK) shouldBe true
+            isInformationBodyNoticeVisible(CALCULATION_FAILED) shouldBe true
         }
     }
 }

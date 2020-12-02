@@ -2,6 +2,7 @@
 
 package de.rki.coronawarnapp.nearby
 
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -43,7 +44,10 @@ class ENFClient @Inject constructor(
     internal val internalClient: ExposureNotificationClient
         get() = googleENFClient
 
-    override suspend fun provideDiagnosisKeys(keyFiles: Collection<File>): Boolean {
+    override suspend fun provideDiagnosisKeys(
+        keyFiles: Collection<File>,
+        newDiagnosisKeysDataMapping: DiagnosisKeysDataMapping
+    ): Boolean {
         Timber.d("asyncProvideDiagnosisKeys(keyFiles=$keyFiles)")
 
         return if (keyFiles.isEmpty()) {
@@ -52,7 +56,7 @@ class ENFClient @Inject constructor(
         } else {
             Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
             exposureDetectionTracker.trackNewExposureDetection(UUID.randomUUID().toString())
-            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles)
+            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, newDiagnosisKeysDataMapping)
         }
     }
 

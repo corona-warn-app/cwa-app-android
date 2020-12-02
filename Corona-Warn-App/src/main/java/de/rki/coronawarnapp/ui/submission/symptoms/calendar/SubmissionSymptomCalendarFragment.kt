@@ -53,10 +53,12 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
         }
 
         viewModel.symptomStart.observe2(this) {
-            updateButtons(it)
-            if (it !is Symptoms.StartOf.Date) {
-                binding.symptomCalendarContainer.unsetSelection()
+            when (it) {
+                is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date)
+                else -> binding.symptomCalendarContainer.setSelectedDate(null)
             }
+
+            updateButtons(it)
         }
 
         binding.apply {

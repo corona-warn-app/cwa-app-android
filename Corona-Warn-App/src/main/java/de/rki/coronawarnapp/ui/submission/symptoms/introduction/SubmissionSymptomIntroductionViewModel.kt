@@ -23,6 +23,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
+    val showCancelDialog = SingleLiveEvent<Unit>()
+
     fun onNextClicked() {
         launch {
             when (submissionSettings.symptoms.value.symptomIndication) {
@@ -43,7 +45,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     }
 
     fun onPreviousClicked() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
+        showCancelDialog.postValue(Unit)
     }
 
     fun onPositiveSymptomIndication() {
@@ -63,6 +65,11 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
         submissionSettings.symptoms.update {
             it.copy(symptomIndication = indication)
         }
+    }
+
+    fun cancelSymptomSubmission() {
+        Timber.d("Symptom submission was cancelled.")
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
     }
 
     @AssistedInject.Factory
