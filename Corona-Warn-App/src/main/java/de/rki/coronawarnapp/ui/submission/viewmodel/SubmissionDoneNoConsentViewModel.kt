@@ -17,7 +17,7 @@ class SubmissionDoneNoConsentViewModel @AssistedInject constructor() : CWAViewMo
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
     }
 
-    fun onFlowFinished() {
+    fun onKeySubmissionFlowFinished() {
         // Implementation will be done when other screens are ready
     }
 

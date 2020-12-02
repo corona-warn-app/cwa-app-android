@@ -58,8 +58,8 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
         binding.submissionDoneButtonContinueWithSymptomRecording.setOnClickListener {
             viewModel.onContinueWithSymptomRecordingPressed()
         }
-        binding.submissionDoneContactButtonBreak.setOnClickListener {
-            viewModel.onFlowFinished()
+        binding.submissionDoneContactButtonFinishFlow.setOnClickListener {
+            viewModel.onKeySubmissionFlowFinished()
         }
     }
 }
