@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riskLevel="@{tracingDetails.riskLevelScore}" />
+            app:tracingDetails="@{tracingDetails}" />
 
         <include
             android:id="@+id/risk_details_behavior_stay_away"
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_home"
-            app:riskLevel="@{tracingDetails.riskLevelScore}" />
+            app:tracingDetails="@{tracingDetails}" />
 
         <include
             android:id="@+id/risk_details_behavior_cough_sneeze"
@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_away"
-            app:riskLevel="@{tracingDetails.riskLevelScore}" />
+            app:tracingDetails="@{tracingDetails}" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
