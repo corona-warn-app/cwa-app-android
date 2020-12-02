@@ -27,5 +27,10 @@
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">""</string>
     <!-- YTXT: Your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms" translatable="false">""</string>
-
+    <!-- YTXT: Body for keys submission no consent text first part-->
+    <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">""</string>
+    <!-- YTXT: Body for keys submission no consent text second part-->
+    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">""</string>
+    <!-- YTXT: Body for keys submission no consent text third part-->
+    <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">""</string>
 </resources>
