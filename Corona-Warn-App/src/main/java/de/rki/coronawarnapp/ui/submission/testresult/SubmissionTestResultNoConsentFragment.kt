@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoCo
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -26,19 +25,15 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultNoConsentViewModel by cwaViewModels { viewModelFactory }
-
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBindingLazy()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.uiState.observe2(this) {
-            //binding.uiState = it
-//            with(binding) {
-//                submissionTestResultSection
-//                    .setTestResultSection(uiState?.deviceUiState, uiState?.testResultReceivedDate)
-//            }
+            binding.submissionTestResultSection
+                    .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+
             it.deviceUiState.withFailure {
                 if (it is CwaWebException) {
                     DialogHelper.showDialog(buildErrorDialog(it))
@@ -46,19 +41,15 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
             }
         }
 
-        setButtonOnClickListener()
-
-        viewModel.showCancelDialog.observe2(this) {
+        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
             showCancelDialog()
         }
 
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> {}
-
-                is SubmissionNavigationEvents.NavigateToMainActivity -> {}
-
-            }
+        binding.submissionTestResultPositiveNoConsentButtonAbort.setOnClickListener {
+            showCancelDialog()
+        }
+        binding.submissionTestResultPositiveNoConsentButtonWarnOthers.setOnClickListener {
+            // TODO navigation
         }
     }
 
@@ -67,30 +58,28 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun setButtonOnClickListener() {
-        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onShowCancelDialog()
-        }
-    }
-
     private fun showCancelDialog() {
         AlertDialog.Builder(requireContext()).apply {
-            setTitle(getString(R.string.submission_test_result_positive_dialog_title))
-            setMessage(getString(R.string.submission_test_result_positive_dialog_message))
-            setPositiveButton(getString(R.string.submission_test_result_positive_dialog_positive_button)) { _, _ ->
-                viewModel.cancelTestSubmission()
+            setTitle(getString(R.string.submission_test_result_positive_no_consent_dialog_title))
+            setMessage(getString(R.string.submission_test_result_positive_no_consent_dialog_message))
+            setPositiveButton(getString(R.string.submission_test_result_positive_no_consent_dialog_positive_button)) { _, _ ->
+                navigateToWarnOthers()
             }
-            setNegativeButton(getString(R.string.submission_test_result_positive_dialog_negative_button)) { _, _ ->
-                // NOOP
+            setNegativeButton(getString(R.string.submission_test_result_positive_no_consent_dialog_negative_button)) { _, _ ->
+                navigateToHome()
             }
         }.show()
     }
 
-    private fun navigateToMainScreen() =
+    private fun navigateToHome() {
         doNavigate(
-            SubmissionTestResultConsentGivenFragmentDirections
-                .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
+            SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToHomeFragment()
         )
+    }
+
+    private fun navigateToWarnOthers() {
+        // TODO
+    }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
@@ -104,7 +93,7 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToMainScreen
+                ::navigateToHome
             )
             else -> DialogHelper.DialogInstance(
                 requireActivity(),
@@ -113,7 +102,7 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToMainScreen
+                ::navigateToHome
             )
         }
     }

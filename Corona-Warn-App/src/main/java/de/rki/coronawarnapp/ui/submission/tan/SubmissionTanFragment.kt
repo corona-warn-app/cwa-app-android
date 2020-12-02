@@ -55,11 +55,8 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
         }
 
         binding.submissionTanButtonEnter.setOnClickListener {
-            //TODO
-            //viewModel.onTanSubmit()
-            doNavigate(
-                SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment()
-            )
+            //TODO navigation
+            viewModel.onTanSubmit()
         }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 

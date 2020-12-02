@@ -415,5 +415,10 @@
     <fragment
         android:id="@+id/submissionTestResultNoConsentFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment"
-        android:label="SubmissionTestResultNoConsentFragment"/>
+        android:label="SubmissionTestResultNoConsentFragment">
+        <action
+            android:id="@+id/action_submissionTestResultNoConsentFragment_to_homeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
 </navigation>
