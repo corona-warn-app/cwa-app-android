@@ -17,27 +17,7 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
         AppInjector.component.settingsRepository
     }
 
-    // Will impact UI if background activity is not permitted, persistent storing is not necessary
-    val isBackgroundJobEnabled: LiveData<Boolean> = settingsRepository.isBackgroundJobEnabled
-
-    val isBackgroundPriorityEnabled: LiveData<Boolean> =
-        settingsRepository.isBackgroundPriorityEnabled
-
-    /**
-     * Is manual key retrieval enabled
-     * Used for "Update" button on the Risk Card and in the Risk Details
-     *
-     * @see SettingsRepository.isManualKeyRetrievalEnabled
-     */
-    val isManualKeyRetrievalEnabled: LiveData<Boolean> =
-        settingsRepository.isManualKeyRetrievalEnabled
-
-    /**
-     * Manual update button timer value
-     *
-     * @see SettingsRepository.manualKeyRetrievalTime
-     */
-    val manualKeyRetrievalTime: LiveData<Long> = settingsRepository.manualKeyRetrievalTime
+    val isBackgroundPriorityEnabled: LiveData<Boolean> = settingsRepository.isBackgroundPriorityEnabled
 
     /**
      * Update connection enabled
@@ -46,24 +26,6 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
      */
     fun updateConnectionEnabled(value: Boolean) {
         settingsRepository.updateConnectionEnabled(value)
-    }
-
-    /**
-     * Update background job enabled
-     *
-     * @param value
-     */
-    fun updateBackgroundJobEnabled(value: Boolean) {
-        settingsRepository.updateBackgroundJobEnabled(value)
-    }
-
-    /**
-     * Update manual key button enabled
-     *
-     * @param value
-     */
-    fun updateManualKeyRetrievalEnabled(value: Boolean) {
-        settingsRepository.updateManualKeyRetrievalEnabled(value)
     }
 
     fun refreshBackgroundPriorityEnabled() {

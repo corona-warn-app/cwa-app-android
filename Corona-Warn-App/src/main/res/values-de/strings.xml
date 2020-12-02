@@ -35,12 +35,6 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_risk_level_score"><xliff:g id="preference">"preference_risk_level_score"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_level_score_successful"><xliff:g id="preference">"preference_risk_level_score_successful"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_timestamp_risk_level_calculation"><xliff:g id="preference">"preference_timestamp_risk_level_calculation"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
@@ -126,26 +120,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s Begegnung mit niedrigem Risiko"</item>
-        <item quantity="other">"%1$s Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="zero">"Bisher keine Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="two">"%1$s Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="few">"%1$s Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="many">"%1$s Begegnungen mit niedrigem Risiko"</item>
-    </plurals>
-    <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value_high_risk">
-        <item quantity="one">"%1$s Risiko-Begegnung"</item>
-        <item quantity="other">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="zero">"Bisher keine Risiko-Begegnungen"</item>
-        <item quantity="two">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="few">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="many">"%1$s Risiko-Begegnungen"</item>
-    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Risiko-Ermittlung war für %1$s der letzten 14 Tage aktiv"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -158,8 +132,6 @@
     <string name="risk_card_body_open_daily">"Hinweis: Bitte öffnen Sie die App täglich, um den Risikostatus zu aktualisieren."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Aktualisieren"</string>
-    <!-- XBUT: risk card - update risk with time display -->
-    <string name="risk_card_button_cooldown">"Aktualisierung in %1$s"</string>
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">"Risiko-Ermittlung einschalten"</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
@@ -168,17 +140,6 @@
     <string name="risk_card_low_risk_headline">"Niedriges Risiko"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Erhöhtes Risiko"</string>
-    <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
-        <item quantity="one">"%1$s Tag seit der letzten Begegnung"</item>
-        <item quantity="other">"%1$s Tage seit der letzten Begegnung"</item>
-        <item quantity="zero">"%1$s Tage seit der letzten Begegnung"</item>
-        <item quantity="two">"%1$s Tage seit der letzten Begegnung"</item>
-        <item quantity="few">"%1$s Tage seit der letzten Begegnung"</item>
-        <item quantity="many">"%1$s Tage seit der letzten Begegnung"</item>
-    </plurals>
-    <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Unbekanntes Risiko"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
@@ -197,6 +158,32 @@
     <string name="risk_card_check_failed_no_internet_body">"Der Abgleich der Zufall-IDs mit dem Server ist fehlgeschlagen. Sie können den Abgleich manuell neu starten."</string>
     <!-- XTXT: risk card - risk check failed, restart button -->
     <string name="risk_card_check_failed_no_internet_restart_button">"Erneut starten"</string>
+
+    <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
+    <string name="risk_card_low_risk_no_encounters_body">Keine Risiko-Begegnungen</string>
+    <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
+    <plurals name="risk_card_low_risk_encounter_days_body">
+        <item quantity="one">"Begegnungen mit niedrigem Risiko an einem Tag"</item>
+        <item quantity="other">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="zero">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="two">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="few">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="many">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+    </plurals>
+
+    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
+    <string name="risk_card_high_risk_no_encounters_body">Keine Risiko-Begegnungen</string>
+    <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
+    <plurals name="risk_card_high_risk_encounter_days_body">
+        <item quantity="one">"Begegnungen an einem Tag mit erhöhtem Risiko"</item>
+        <item quantity="other">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="zero">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="two">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="few">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+        <item quantity="many">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
+    </plurals>
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
+    <string name="risk_card_high_risk_most_recent_body">"Zuletzt am %1$s"</string>
 
     <!-- ####################################
               Risk Card - Progress
@@ -344,8 +331,6 @@
     <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt."</string>
-    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
-    <string name="risk_details_information_body_unknown_risk">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -376,7 +361,7 @@
     <string name="risk_details_explanation_dialog_title">"Information zur Funktionsweise der Risiko-Ermittlung"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
-     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
 
     <!-- XHED: risk details - deadman notification title -->
@@ -420,9 +405,9 @@
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
     <string name="onboarding_subtitle">"Mehr Schutz für Sie und uns alle. Mit der Corona-Warn-App durchbrechen wir Infektionsketten schneller."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen Corona-positiv getestete Personen in ihrer Nähe waren."</string>
+    <string name="onboarding_body">"Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen Corona-positiv getestete Personen in Ihrer Nähe waren."</string>
     <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufalls-IDs austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen."</string>
+    <string name="onboarding_body_emphasized">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufalls-IDs austauschen. Persönliche Daten werden dabei nicht ausgetauscht."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -860,6 +845,14 @@
     <string name="submission_consent_help_by_warning_others_body">"Wenn Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen. Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
+    <!-- YTXT: Body for consent main section first point  -->
+    <string name="submission_consent_main_first_point">"Ihr Einverständnis ist freiwillig."</string>
+    <!-- YTXT: Body for consent main section second point  -->
+    <string name="submission_consent_main_second_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dies nicht teilen. Wenn Sie ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
+    <!-- YTXT: Body for consent main section third point  -->
+    <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
+    <!-- YTXT: Body for consent main section fourth point  -->
+    <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -871,9 +864,9 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Testergebnis noch nicht verfügbar"</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Bitte gedulden Sie sich, die Auswertung kann einige Tage dauern.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nFalls Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, rufen Sie bitte die unter "TAN anfragen" angegebene Nummer an, um Ihr Testergebnis in der App registrieren und andere damit warnen zu können."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualisieren"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -918,6 +911,16 @@
     <string name="submission_test_result_card_positive_title">"SARS-CoV-2 positiv"</string>
     <!-- YTXT: Body text for test result card positive -->
     <string name="submission_test_result_card_positive_body">"Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen."</string>
+    <!-- XHED: Page headline for test result with consent given  -->
+    <string name="submission_test_result_consent_given_heading">"Ihr Testergebnis"</string>
+    <!-- XHED: Subtitle text for test result card with consent given -->
+    <string name="submission_test_result_consent_given_subtitle">"Vielen Dank, dass Sie mithelfen, die Verbreitung von Corona zu bekämpfen."</string>
+    <!-- YTXT: body text for test result card with consent given -->
+    <string name="submission_test_result_consent_given_body">"<b>Ihre Mitmenschen werden jetzt gewarnt.</b> <br/><br/>Bitte helfen Sie nun, die Genauigkeit der Warnungen zu verbessern. Geben Sie hierfür im nächsten Schritt an, wann Sie erstmals Symptome hatten. Sie können diesen Schritt jederzeit abbrechen."</string>
+    <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
+    <string name="submission_test_result_consent_given_breakup_button">"Beenden"</string>
+
+
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
@@ -993,6 +996,24 @@
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"Folgende Länder nehmen derzeit an der länderübergreifenden Risiko-Ermittlung teil:"</string>
 
+    <!-- Submission Positive Other Warning No Consent -->
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_no_consent_body_first_part"></string>
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_no_consent_body_second_part"></string>
+
+    <!-- Test result positive and no consent given -->
+    <!-- XHED: Title for test result positive and no consent given-->
+    <string name="submission_test_result_positive_no_consent_subtitle">Bitte helfen Sie mit!</string>
+    <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_1"><b>Helfen Sie mit, Ihre Mitmenschen vor Ansteckungen zu schützen und teilen Sie Ihr Testergebnis.</b></string>
+    <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_2">Ihre Identität bleibt dabei geheim. Andere Nutzer erfahren nicht, wer das Testergebnis geteilt hat.</string>
+    <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
+    <string name="submission_test_result_positive_no_consent_text_3">Bitte beachten Sie unbedingt die Hinweise des zuständigen Gesundheitsamtes und bleiben Sie zuhause, um andere Personen nicht anzustecken.</string>
+    <!-- XBUT: Button for giving consent for key sharing -->
+    <string name="submission_test_result_positive_no_consent_button_warn_others">Andere warnen</string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title">"Europaweit warnen"</string>
@@ -1032,13 +1053,29 @@
     <!-- XACT: submission finished - illustration description, explanation image -->
     <string name="submission_done_illustration_description">"Sind eines oder mehrere der folgenden Symptome in den letzten Tagen bei Ihnen neu aufgetreten?"</string>
 
+    <!-- Submission Done No Consent-->
+    <!-- XHED: Page title for completed submission page -->
+    <string name="submission_done_no_consent_title">"Vielen Dank!"</string>
+    <!-- YTXT: Page subtitle for completed submission page -->
+    <string name="submission_done_no_consent_subtitle">"Vielen Dank, dass Sie mithelfen, die Verbreitung von Corona zu bekämpfen."</string>
+    <!-- YTXT: Page body for submission no consent page -->
+    <string name="submission_done_no_consent_body_title">"Ihre Mitmenschen werden jetzt gewarnt."</string>
+    <!-- YTXT: Page body for submission no consent page -->
+    <string name="submission_done_no_consent_body">"Bitte helfen Sie nun, die Genauigkeit der Warnungen zu verbessern. Geben Sie hierfür im nächsten Schritt an, wann Sie erstmals Symptome hatten. Sie können diesen Schritt jederzeit abbrechen."</string>
+    <!-- XBUT: submission continue with symptom recording button -->
+    <string name="submission_done_no_consent_continue_with_symptom_recording">"Weiter mit Symptom-Erfassung"</string>
+    <!-- XBUT: submission continue break flow button-->
+    <string name="submission_done_no_consent_break_flow">"Beenden"</string>
+    <!-- XACT: submission finished - illustration description, explanation image -->
+    <string name="submission_done_no_consent_illustration_description"></string>
+
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Symptome"</string>
     <!-- XTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Sind bei Ihnen in den letzten Tagen folgende Symptome aufgetreten?"</string>
+    <string name="submission_symptom_initial_headline">"Sind bei Ihnen in den letzten Tagen eines oder mehrere der folgenden Symptome aufgetreten?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Wenn Sie angeben, ob und wann eventuelle Corona-Symptome bei Ihnen aufgetreten sind, kann das Infektionsrisiko von anderen App-Nutzern genauer berechnet werden. Sie müssen keine Angabe machen, wählen Sie dazu „Keine Angabe“."</string>
+    <string name="submission_symptom_initial_explanation">"Wenn Sie angeben, ob und wann eventuelle Corona-Symptome bei Ihnen aufgetreten sind, kann das Infektionsrisiko von anderen App-Nutzern genauer berechnet werden. Die Angabe von Symptomen ist freiwillig. Wenn Sie keine Symptome mitteilen wollen, wählen Sie „Keine Angabe“."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Erhöhte Temperatur oder Fieber"</item>
@@ -1095,9 +1132,9 @@
     <!-- XHED: Page title for calendar page in submission symptom flow -->
     <string name="submission_symptom_calendar_title">"Symptom-Beginn"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
-    <string name="submission_symptom_calendar_headline">"Wann sind die Symptome bei Ihnen aufgetreten? "</string>
+    <string name="submission_symptom_calendar_headline">"Wann sind die Symptome bei Ihnen zum ersten Mal aufgetreten?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Selektieren Sie entweder das genaue Datum in dem Kalender oder wenn Sie sich nicht genau erinnern, eine der anderen Optionen."</string>
+    <string name="submission_symptom_calendar_body">"Bitte geben Sie das Datum so genau wie möglich an."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"In den letzten 7 Tagen"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
@@ -1113,9 +1150,9 @@
     <!-- XHED: Page title for the various submission status: unregistered -->
     <string name="submission_status_card_title_unregistered">"Wurden Sie getestet?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Ergebnis liegt noch nicht vor"</string>
+    <string name="submission_status_card_title_pending">"Testergebnis liegt noch nicht vor"</string>
     <!-- XHED: Page title for the various submission status: available -->
-    <string name="submission_status_card_title_available">"Ihr Ergebnis liegt vor"</string>
+    <string name="submission_status_card_title_available">"Ihr Testergebnis liegt vor"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Befund positiv"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
@@ -1177,7 +1214,7 @@
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
-    <string name="symptoms_calendar_exact_date_button">"Genaues Datum"</string>
+    <string name="symptoms_calendar_exact_date_button">"Datum"</string>
 
     <!-- Submission consent custom view -->
     <!-- XHED: Title for consent given -->
@@ -1436,5 +1473,16 @@
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind.</string>
     <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
     <string name="interoperability_onboarding_list_button_title_no_network">Geräte-Einstellungen öffnen</string>
+
+    <!-- XHED: Title for the dialog on test result positive no consent screen  -->
+    <string name="submission_test_result_positive_no_consent_dialog_title">Sie wollen keine Warnung verschicken?</string>
+    <!-- XTXT: Message for the dialog on test result positive no consent screen -->
+    <string name="submission_test_result_positive_no_consent_dialog_message">Nur wenn Sie Ihr Testergebnis teilen, helfen Sie mit, Ihre Mitmenschen zu warnen.</string>
+    <!-- XBUT: Positive button for the dialog on test result positive no consent screen -->
+    <string name="submission_test_result_positive_no_consent_dialog_positive_button">Warnen</string>
+    <!-- XBUT: Negative button for the dialog on test result positive no consent screen -->
+    <string name="submission_test_result_positive_no_consent_dialog_negative_button">Nicht warnen</string>
+    <!-- XBUT: Abort button for test result positive no consent screen -->
+    <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
 
 </resources>
