@@ -29,38 +29,6 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
 
     private val binding: FragmentSubmissionTestResultConsentGivenBinding by viewBindingLazy()
 
-    private fun navigateToMainScreen() =
-        doNavigate(
-            SubmissionTestResultConsentGivenFragmentDirections
-                .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
-        )
-
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -96,6 +64,38 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
                             .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
                     )
             }
+        }
+    }
+
+    private fun navigateToMainScreen() =
+        doNavigate(
+            SubmissionTestResultConsentGivenFragmentDirections
+                .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
+        )
+
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
+        return when (exception) {
+            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
         }
     }
 

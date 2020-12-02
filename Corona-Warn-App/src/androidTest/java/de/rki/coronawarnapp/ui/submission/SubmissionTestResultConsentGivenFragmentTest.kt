@@ -46,7 +46,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         launchFragment<SubmissionTestResultConsentGivenFragment>()
     }
 
-   @Test
+    @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
 
         val mockNavController = mock(NavController::class.java)
@@ -59,7 +59,6 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         onView(ViewMatchers.withId(R.id.submission_test_result_button_consent_given_continue)).perform(ViewActions.click())
         verify(mockNavController).navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
     }
-
 }
 
 @Module

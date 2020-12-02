@@ -56,10 +56,12 @@ class GeneralTracingStatusTest : BaseTest() {
     @Test
     fun `flow updates work`() = runBlockingTest {
         val testCollector = createInstance().generalStatus.test(startOnScope = this)
+        advanceUntilIdle()
 
         isBluetoothEnabled.emit(false)
-        isBluetoothEnabled.emit(true)
+        advanceUntilIdle()
 
+        isBluetoothEnabled.emit(true)
         advanceUntilIdle()
 
         testCollector.latestValues shouldBe listOf(

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -8,7 +9,6 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -63,7 +63,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
-            val exposureConfig: ExposureDetectionConfig = appConfigProvider.getAppConfig()
+            val exposureConfig: ConfigData = appConfigProvider.getAppConfig()
 
             internalProgress.send(Progress.ApiSubmissionStarted)
             internalProgress.send(Progress.KeyFilesDownloadStarted)
@@ -102,14 +102,11 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             )
 
             Timber.tag(TAG).d("Attempting submission to ENF")
-            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(availableKeyFiles)
+            val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
+                availableKeyFiles,
+                exposureConfig.diagnosisKeysDataMapping
+            )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
-
-            // EXPOSUREAPP-3878 write timestamp immediately after submission,
-            // so that progress observers can rely on a clean app state
-            if (isSubmissionSuccessful) {
-                saveTimestamp(currentDate, rollbackItems)
-            }
 
             internalProgress.send(Progress.ApiSubmissionFinished)
 
@@ -153,18 +150,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         return (hasRecentDetection && keySyncResult.newKeys.isEmpty()).also {
             if (it) Timber.tag(TAG).w("Aborting. Last detection is recent (<24h) and no new keyfiles.")
         }
-    }
-
-    private fun saveTimestamp(
-        currentDate: Date,
-        rollbackItems: MutableList<RollbackItem>
-    ) {
-        val lastFetchDateForRollback = LocalData.lastTimeDiagnosisKeysFromServerFetch()
-        rollbackItems.add {
-            LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback)
-        }
-        Timber.tag(TAG).d("dateUpdate(currentDate=%s)", currentDate)
-        LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
     }
 
     private fun rollback(rollbackItems: MutableList<RollbackItem>) {
