@@ -864,6 +864,14 @@
     <string name="submission_consent_help_by_warning_others_body"></string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body"></string>
+    <!-- YTXT: Body for consent main section first point  -->
+    <string name="submission_consent_main_first_point"></string>
+    <!-- YTXT: Body for consent main section second point  -->
+    <string name="submission_consent_main_second_point"></string>
+    <!-- YTXT: Body for consent main section third point  -->
+    <string name="submission_consent_main_third_point"></string>
+    <!-- YTXT: Body for consent main section fourth point  -->
+    <string name="submission_consent_main_fourth_point"></string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
