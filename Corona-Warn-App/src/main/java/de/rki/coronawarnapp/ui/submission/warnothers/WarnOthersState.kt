@@ -1,17 +1,16 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
+import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.ui.Country
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 
 data class WarnOthersState(
-    val apiRequestState: ApiRequestState,
+    val submitTaskState: TaskState?,
     val countryList: List<Country>
 ) {
 
     fun isSubmitButtonEnabled(): Boolean =
-        apiRequestState == ApiRequestState.IDLE || apiRequestState == ApiRequestState.FAILED
+        submitTaskState == null || submitTaskState.isFailed
 
-    fun isSubmitSpinnerVisible(): Boolean {
-        return apiRequestState == ApiRequestState.STARTED
-    }
+    fun isSubmitSpinnerVisible(): Boolean =
+        submitTaskState != null && submitTaskState.isActive
 }

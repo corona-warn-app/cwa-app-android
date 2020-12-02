@@ -2,10 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <import type="de.rki.coronawarnapp.risk.RiskLevelConstants" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_status_card_positive"
         style="@style/card"
@@ -69,7 +65,7 @@
 
         <include
             android:id="@+id/submission_status_card_positive_result_contact"
-            layout="@layout/include_risk_details_behavior_row"
+            layout="@layout/include_submission_behaviour_row"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -77,12 +73,11 @@
             app:icon="@{@drawable/ic_risk_details_contact}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_subtitle"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_subtitle" />
 
         <include
             android:id="@+id/submission_status_card_positive_result_contagious"
-            layout="@layout/include_risk_details_behavior_row"
+            layout="@layout/include_submission_behaviour_row"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -90,12 +85,11 @@
             app:icon="@{@drawable/ic_submission_home}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contact"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contact" />
 
         <include
             android:id="@+id/submission_status_card_positive_result_share"
-            layout="@layout/include_risk_details_behavior_row"
+            layout="@layout/include_submission_behaviour_row"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -103,8 +97,7 @@
             app:icon="@{@drawable/ic_submission_share}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contagious"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contagious" />
 
         <Button
             android:id="@+id/submission_status_card_positive_button"
