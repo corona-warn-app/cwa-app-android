@@ -930,6 +930,15 @@
     <string name="submission_test_result_card_positive_title">"SARS-CoV-2 positive"</string>
     <!-- YTXT: Body text for test result card positive -->
     <string name="submission_test_result_card_positive_body">"You have been diagnosed with the SARS-CoV-2 virus."</string>
+    <!-- XHED: Page headline for test result with consent given  -->
+    <string name="submission_test_result_consent_given_heading">""</string>
+    <!-- YTXT: Subtitle text for test result card with consent given -->
+    <string name="submission_test_result_consent_given_subtitle">""</string>
+    <!-- YTXT: body text for test result card with consent given -->
+    <string name="submission_test_result_consent_given_body">""</string>
+    <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
+    <string name="submission_test_result_consent_given_breakup_button">""</string>
+
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
