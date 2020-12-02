@@ -63,29 +63,19 @@ data class TracingCardState(
      * the persisted risk level is of importance
      */
     fun getSavedRiskBody(c: Context): String {
-        // Don't display last risk when tracing is disabled
-        if (isTracingOff()) {
-            val arg = c.getString(R.string.risk_card_no_calculation_possible_headline)
-            return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(arg)
+        val stateToDisplay = when {
+            riskState == CALCULATION_FAILED -> lastSuccessfulRiskState
+            isTracingOff() -> riskState
+            else -> null
         }
-
-        // Don't have any old risk state to display
-        if (lastSuccessfulRiskState == CALCULATION_FAILED) {
-            return ""
-        }
-
-        // If we failed this time, we want to display the old risk
-        if (riskState == CALCULATION_FAILED) {
-            val arg = when (lastSuccessfulRiskState) {
-                INCREASED_RISK -> R.string.risk_card_increased_risk_headline
-                LOW_RISK -> R.string.risk_card_low_risk_headline
-                else -> null
-            }?.let { c.getString(it) } ?: ""
-            return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(arg)
-        }
-
-        // We are not in an error state
-        return ""
+        return when (stateToDisplay) {
+            INCREASED_RISK -> R.string.risk_card_increased_risk_headline
+            LOW_RISK -> R.string.risk_card_low_risk_headline
+            else -> null
+        }?.let {
+            val argumentValue = c.getString(it)
+            c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
+        } ?: ""
     }
 
     /**
