@@ -78,6 +78,8 @@
     <dimen name="circle_small_width">5</dimen>
     <dimen name="circle_icon">32dp</dimen>
     <dimen name="circle_icon_padding">6dp</dimen>
+    <dimen name="circle_icon_big">40dp</dimen>
+    <dimen name="circle_icon_big_padding">8dp</dimen>
 
     <!-- todo illustration sizes -->
 

@@ -14,6 +14,10 @@ sealed class SubmissionNavigationEvents {
         val symptoms: Symptoms
     ) : SubmissionNavigationEvents()
 
+    data class NavigateToResultPositiveOtherWarningNoConsent(
+        val symptoms: Symptoms
+    ) : SubmissionNavigationEvents()
+
     object NavigateToSymptomSubmission : SubmissionNavigationEvents()
     data class NavigateToSymptomCalendar(
         val symptomIndication: Symptoms.Indication
