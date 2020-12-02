@@ -245,6 +245,25 @@
             app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
     <fragment
+        android:id="@+id/submissionResultPositiveOtherWarningNoConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragment"
+        android:label="fragment_submission_result_positive_other_no_consent_warning"
+        tools:layout="@layout/fragment_submission_no_consent_positive_other_warning">
+        <argument
+            android:name="symptoms"
+            app:argType="de.rki.coronawarnapp.submission.Symptoms" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_submissionDoneFragment"
+            app:destination="@id/submissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
         android:id="@+id/submissionResultFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment"
         android:label="fragment_submission_result"
@@ -286,6 +305,11 @@
                 android:defaultValue="true"
                 app:argType="boolean" />
         </action>
+        <action
+            android:id="@+id/action_submissionTanFragment_to_submissionTestResultNoConsentFragment"
+            app:destination="@id/submissionTestResultNoConsentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
     <fragment
@@ -410,5 +434,14 @@
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionTestResultNoConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment"
+        android:label="SubmissionTestResultNoConsentFragment">
+        <action
+            android:id="@+id/action_submissionTestResultNoConsentFragment_to_homeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 </navigation>
