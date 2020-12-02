@@ -1121,9 +1121,9 @@
     <!-- XHED: Page title for the various submission status: unregistered -->
     <string name="submission_status_card_title_unregistered">"Wurden Sie getestet?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Ergebnis liegt noch nicht vor"</string>
+    <string name="submission_status_card_title_pending">"Testergebnis liegt noch nicht vor"</string>
     <!-- XHED: Page title for the various submission status: available -->
-    <string name="submission_status_card_title_available">"Ihr Ergebnis liegt vor"</string>
+    <string name="submission_status_card_title_available">"Ihr Testergebnis liegt vor"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Befund positiv"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
