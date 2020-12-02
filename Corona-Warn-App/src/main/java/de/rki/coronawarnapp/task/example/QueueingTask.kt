@@ -65,6 +65,9 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
+
+        override val preconditions: List<suspend () -> Boolean>
+            get() = listOf { preconditionIsMet }
     }
 
     class Factory @Inject constructor(
@@ -73,5 +76,9 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
 
         override suspend fun createConfig(): TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, Result> = { taskByDagger.get() }
+    }
+
+    companion object {
+        var preconditionIsMet = true
     }
 }

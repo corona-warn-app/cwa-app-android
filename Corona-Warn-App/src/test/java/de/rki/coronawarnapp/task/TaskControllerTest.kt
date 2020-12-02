@@ -74,6 +74,7 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap.clear()
         clearAllMocks()
         testDir.deleteRecursively()
+        QueueingTask.preconditionIsMet = true
     }
 
     private fun createInstance(scope: CoroutineScope) = TaskController(
@@ -336,6 +337,39 @@ class TaskControllerTest : BaseIOTest() {
         }
 
         arguments.path.length() shouldBe 360L
+
+        instance.close()
+    }
+
+    @Test
+    fun `tasks, where preconditions are not met, are skipped`() = runBlockingTest {
+        QueueingTask.preconditionIsMet = false
+
+        val instance = createInstance(scope = this)
+
+        val arguments = QueueingTask.Arguments(
+            path = File(testDir, UUID.randomUUID().toString())
+        )
+        arguments.path.exists() shouldBe false
+
+        val request1 = DefaultTaskRequest(
+            type = SkippingTask::class,
+            arguments = arguments
+        )
+        instance.submit(request1)
+
+        this.advanceUntilIdle()
+
+        val infoFinished = instance.tasks.first { emission ->
+            emission.any { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
+        }
+        infoFinished.size shouldBe 1
+
+        infoFinished.single { it.taskState.request == request1 }.apply {
+            taskState.type shouldBe SkippingTask::class
+            taskState.isSkipped shouldBe false
+            taskState.resultOrThrow shouldNotBe null
+        }
 
         instance.close()
     }
