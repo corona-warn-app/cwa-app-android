@@ -998,6 +998,12 @@
     <!-- XHED: Title for the interop country list-->
     <string name="submission_interoperability_list_title">"The following countries currently participate in transnational exposure logging:"</string>
 
+    <!-- Submission Positive Other Warning No Consent -->
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_no_consent_body_first_part">""</string>
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_no_consent_body_second_part">""</string>
+
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
     <string name="submission_test_result_positive_no_consent_subtitle"></string>
@@ -1048,6 +1054,22 @@
     <string name="submission_done_button_done">"Done"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
     <string name="submission_done_illustration_description">"Have you experienced one or more of the following symptoms in the past few days?"</string>
+
+    <!-- Submission Done No Consent-->
+    <!-- XHED: Page title for completed submission page -->
+    <string name="submission_done_no_consent_title"></string>
+    <!-- YTXT: Page subtitle for completed submission page -->
+    <string name="submission_done_no_consent_subtitle"></string>
+    <!-- YTXT: Page body for submission no consent page -->
+    <string name="submission_done_no_consent_body_title"></string>
+    <!-- YTXT: Page body for submission no consent page -->
+    <string name="submission_done_no_consent_body"></string>
+    <!-- XBUT: submission continue with symptom recording button -->
+    <string name="submission_done_no_consent_continue_with_symptom_recording"></string>
+    <!-- XBUT: submission continue break flow button-->
+    <string name="submission_done_no_consent_break_flow"></string>
+    <!-- XACT: submission finished - illustration description, explanation image -->
+    <string name="submission_done_no_consent_illustration_description"></string>
 
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
