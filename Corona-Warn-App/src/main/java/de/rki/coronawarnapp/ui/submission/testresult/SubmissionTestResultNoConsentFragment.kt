@@ -7,11 +7,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
-import de.rki.coronawarnapp.exception.http.CwaClientError
-import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -33,12 +28,6 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
         viewModel.uiState.observe2(this) {
             binding.submissionTestResultSection
                     .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
-
-            it.deviceUiState.withFailure {
-                if (it is CwaWebException) {
-                    DialogHelper.showDialog(buildErrorDialog(it))
-                }
-            }
         }
 
         binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -79,31 +68,5 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
 
     private fun navigateToWarnOthers() {
         // TODO
-    }
-
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToHome
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToHome
-            )
-        }
     }
 }
