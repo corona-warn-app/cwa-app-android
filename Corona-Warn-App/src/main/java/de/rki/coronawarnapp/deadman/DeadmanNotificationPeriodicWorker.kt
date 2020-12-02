@@ -22,10 +22,10 @@ class DeadmanNotificationPeriodicWorker @AssistedInject constructor(
     CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.tag(TAG).d("Background job started. Run attempt: $runAttemptCount")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
+            Timber.tag(TAG).d("Background job failed after $runAttemptCount attempts. Rescheduling")
 
             return Result.failure()
         }
@@ -34,7 +34,7 @@ class DeadmanNotificationPeriodicWorker @AssistedInject constructor(
             // Schedule one time deadman notification send work
             scheduler.scheduleOneTime()
         } catch (e: Exception) {
-            Timber.d(e)
+            Timber.tag(TAG).d(e)
             result = Result.retry()
         }
 
@@ -43,4 +43,8 @@ class DeadmanNotificationPeriodicWorker @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<DeadmanNotificationPeriodicWorker>
+
+    companion object {
+        private val TAG = DeadmanNotificationPeriodicWorker::class.java.simpleName
+    }
 }

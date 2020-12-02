@@ -2,67 +2,43 @@ package de.rki.coronawarnapp.ui.tracing.common
 
 import android.content.Context
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
-import java.util.Date
 
 abstract class BaseTracingState {
     abstract val tracingStatus: GeneralTracingStatus.Status
-    abstract val riskLevelScore: Int
+    abstract val riskState: RiskState
     abstract val tracingProgress: TracingProgress
-    abstract val lastRiskLevelScoreCalculated: Int
-    abstract val matchedKeyCount: Int
-    abstract val daysSinceLastExposure: Int
-    abstract val activeTracingDaysInRetentionPeriod: Long
-    abstract val lastTimeDiagnosisKeysFetched: Date?
-    abstract val isBackgroundJobEnabled: Boolean
     abstract val showDetails: Boolean // Only true for riskdetailsfragment
     abstract val isManualKeyRetrievalEnabled: Boolean
-    abstract val manualKeyRetrievalTime: Long
 
     /**
      * Formats the risk card colors for default and pressed states depending on risk level
      */
-    fun getRiskColor(c: Context): Int {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            when (riskLevelScore) {
-                RiskLevelConstants.INCREASED_RISK -> R.color.colorSemanticHighRisk
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.colorSemanticUnknownRisk
-                RiskLevelConstants.LOW_LEVEL_RISK -> R.color.colorSemanticLowRisk
-                else -> R.color.colorSemanticNeutralRisk
-            }.let { c.getColor(it) }
-        } else {
-            return c.getColor(R.color.colorSemanticUnknownRisk)
-        }
-    }
+    fun getRiskColor(c: Context): Int = when {
+        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorSemanticUnknownRisk
+        riskState == RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
+        riskState == RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
+        else -> R.color.colorSemanticUnknownRisk
+    }.let { c.getColor(it) }
 
-    fun isTracingOffRiskLevel(): Boolean {
-        return if (tracingStatus != GeneralTracingStatus.Status.TRACING_INACTIVE) {
-            when (riskLevelScore) {
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> true
-                else -> false
-            }
-        } else {
-            return true
-        }
-    }
+    fun isTracingOff(): Boolean = tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE
 
-    fun getStableTextColor(c: Context): Int = c.getColor(
-        if (!isTracingOffRiskLevel()) R.color.colorStableLight else R.color.colorTextPrimary1
-    )
+    fun getStableTextColor(c: Context): Int = when {
+        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextPrimary1
+        riskState == RiskState.INCREASED_RISK ||
+            riskState == RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
+        else -> R.color.colorTextPrimary1
+    }.let { c.getColor(it) }
 
     /**
      * Change the manual update button text according to current timer
      */
-    fun getUpdateButtonText(c: Context): String = if (manualKeyRetrievalTime <= 0) {
-        c.getString(R.string.risk_card_button_update)
+    fun getUpdateButtonText(c: Context): String = if (riskState == RiskState.CALCULATION_FAILED) {
+        c.getString(R.string.risk_card_check_failed_no_internet_restart_button)
     } else {
-        val hmsCooldownTime = manualKeyRetrievalTime.millisecondsToHMS()
-        c.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+        c.getString(R.string.risk_card_button_update)
     }
 
     fun isUpdateButtonEnabled(): Boolean = isManualKeyRetrievalEnabled

@@ -26,6 +26,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
@@ -34,8 +35,8 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
-import de.rki.coronawarnapp.risk.ExposureResultStore
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
@@ -65,7 +66,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var enfClient: ENFClient
-    @Inject lateinit var exposureResultStore: ExposureResultStore
+
+    // TODO: This is ugly, remove when refactoring the fragment
+    @Inject lateinit var appConfigProvider: AppConfigProvider
+    @Inject lateinit var riskLevelStorage: RiskLevelStorage
     private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
@@ -159,7 +163,9 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
             buttonRetrieveExposureSummary.setOnClickListener {
                 vm.launch {
-                    val summary = exposureResultStore.entities.first().exposureWindows.toString()
+                    val summary = riskLevelStorage.riskLevelResults.first().maxByOrNull {
+                        it.calculatedAt
+                    }?.toString() ?: "No results yet."
 
                     withContext(Dispatchers.Main) {
                         showToast(summary)
@@ -291,7 +297,8 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     enfClient.provideDiagnosisKeys(
-                        googleFileList
+                        googleFileList,
+                        appConfigProvider.getAppConfig().diagnosisKeysDataMapping
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API")
                 } catch (e: Exception) {
