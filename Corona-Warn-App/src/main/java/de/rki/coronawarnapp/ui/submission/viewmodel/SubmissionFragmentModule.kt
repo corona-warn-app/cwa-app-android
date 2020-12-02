@@ -69,7 +69,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionYourConsentModule::class])
     abstract fun submissionYourConsentScreen(): SubmissionYourConsentFragment
-  
+
     @ContributesAndroidInjector(modules = [SubmissionTestResultConsentGivenModule::class])
     abstract fun submissionTestResultConsentGivenScreen(): SubmissionTestResultConsentGivenFragment
 }
