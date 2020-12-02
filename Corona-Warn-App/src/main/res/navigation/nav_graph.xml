@@ -263,8 +263,8 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
-            app:popUpTo="@id/submissionDoneFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
