@@ -352,11 +352,11 @@ class TaskControllerTest : BaseIOTest() {
         )
         arguments.path.exists() shouldBe false
 
-        val request1 = DefaultTaskRequest(
+        val request = DefaultTaskRequest(
             type = SkippingTask::class,
             arguments = arguments
         )
-        instance.submit(request1)
+        instance.submit(request)
 
         this.advanceUntilIdle()
 
@@ -365,9 +365,12 @@ class TaskControllerTest : BaseIOTest() {
         }
         infoFinished.size shouldBe 1
 
-        infoFinished.single { it.taskState.request == request1 }.apply {
+        infoFinished.single { it.taskState.request == request }.apply {
             taskState.type shouldBe SkippingTask::class
-            taskState.isSkipped shouldBe false
+            taskState.isFinished shouldBe true
+            taskState.error shouldBe null
+            taskState.result shouldBe null
+            taskState.isSkipped shouldBe true
             taskState.resultOrThrow shouldNotBe null
         }
 
