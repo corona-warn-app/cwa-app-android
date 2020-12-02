@@ -205,11 +205,16 @@ class TaskController @Inject constructor(
 
                 // Handle collision behavior for tasks of same type
                 when {
+                    !arePreconditionsMet -> {
+                        Timber.tag(TAG).d("Preconditions are not met, skipping: %s", state)
+                        workMap[state.id] = state.toSkippedState()
+                    }
                     siblingTasks.isEmpty() -> {
+                        Timber.tag(TAG).d("No siblings exists, running: %s", state)
                         workMap[state.id] = state.toRunningState()
                     }
-                    !arePreconditionsMet ||
-                        state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
+                    state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
+                        Timber.tag(TAG).d("Siblings exists, skipping according to collision behavior: %s", state)
                         workMap[state.id] = state.toSkippedState()
                     }
                     state.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
