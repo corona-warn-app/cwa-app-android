@@ -998,7 +998,10 @@
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body">"Da Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen.\n\n Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
+    <string name="submission_positive_other_warning_no_consent_body_first_part">"Da Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen."</string>
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_no_consent_body_second_part">"Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
+    <!-- YTXT: Body text for the positive result additional warning page-->
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->

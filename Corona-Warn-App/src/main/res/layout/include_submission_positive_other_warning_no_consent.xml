@@ -49,16 +49,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_hero_illustration" />
 
             <TextView
-                android:id="@+id/submission_positive_other_warning_text"
+                android:id="@+id/submission_positive_other_warning_text_first_part"
                 style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
-                android:text="@string/submission_positive_other_warning_no_consent_body"
+                android:text="@string/submission_positive_other_warning_no_consent_body_first_part"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
+
+            <TextView
+                android:id="@+id/submission_positive_other_warning_text_second_part"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/submission_positive_other_warning_no_consent_body_second_part"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_first_part" />
+
 
             <de.rki.coronawarnapp.ui.view.CountryListView
                 android:id="@+id/countryList"
@@ -68,7 +81,7 @@
                 app:countryList="@{countryData}"
                 app:layout_constraintEnd_toEndOf="@+id/submission_positive_other_warning_text"
                 app:layout_constraintStart_toStartOf="@+id/submission_positive_other_warning_text"
-                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_second_part" />
 
             <include
                 android:id="@+id/submission_positive_location_card_16_years"
