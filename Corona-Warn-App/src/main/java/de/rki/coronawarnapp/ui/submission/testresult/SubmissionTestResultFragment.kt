@@ -76,6 +76,10 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         viewModel.uiState.observe2(this) {
             binding.uiState = it
+            with(binding) {
+                submissionTestResultContent.submissionTestResultSection
+                        .setTestResultSection(uiState?.deviceUiState, uiState?.testResultReceivedDate)
+            }
             it.deviceUiState.withFailure {
                 if (it is CwaWebException) {
                     DialogHelper.showDialog(buildErrorDialog(it))
@@ -147,7 +151,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
             viewModel.refreshDeviceUIState()
-            binding.submissionTestResultContent.submissionTestResultCard.testResultCard
+            binding.submissionTestResultContent.submissionTestResultSection
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }
 
