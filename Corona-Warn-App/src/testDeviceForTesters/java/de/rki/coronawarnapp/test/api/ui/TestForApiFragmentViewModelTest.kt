@@ -30,5 +30,4 @@ class TestForApiFragmentViewModelTest : BaseTest() {
     fun teardown() {
         clearAllMocks()
     }
-
 }

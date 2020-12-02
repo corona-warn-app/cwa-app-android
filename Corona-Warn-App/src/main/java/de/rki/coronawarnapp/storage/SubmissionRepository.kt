@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.SubmissionTask
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -36,7 +37,8 @@ class SubmissionRepository @Inject constructor(
     private val submissionService: SubmissionService,
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    private val taskController: TaskController
+    private val taskController: TaskController,
+    private val tekHistoryStorage: TEKHistoryStorage
 ) {
 
     companion object {
@@ -163,9 +165,10 @@ class SubmissionRepository @Inject constructor(
         return registrationData.testResult
     }
 
-    fun reset() {
+    suspend fun reset() {
         deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestIdle
-        revokeConsentToSubmission()
+        tekHistoryStorage.clear()
+        submissionSettings.clear()
     }
 
     @VisibleForTesting

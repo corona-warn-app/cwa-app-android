@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
@@ -292,9 +293,13 @@ class ENFClientTest : BaseTest() {
         coVerifySequence { enfVersion.getENFClientVersion() }
     }
 
-
     @Test
-    fun `tek history provider calls are forwarded to the right module`() {
+    fun `tek history provider calls are forwarded to the right module`() = runBlocking {
+        val mockTEK = mockk<TemporaryExposureKey>()
+        coEvery { tekHistoryProvider.getTEKHistory() } returns listOf(mockTEK)
 
+        createClient().getTEKHistory() shouldBe listOf(mockTEK)
+
+        coVerifySequence { tekHistoryProvider.getTEKHistory() }
     }
 }

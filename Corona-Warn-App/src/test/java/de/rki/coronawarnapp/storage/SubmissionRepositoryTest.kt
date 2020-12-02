@@ -4,17 +4,21 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -22,7 +26,9 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.preferences.mockFlowPreference
@@ -35,6 +41,8 @@ class SubmissionRepositoryTest {
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var taskController: TaskController
+    @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
+    @MockK lateinit var timeStamper: TimeStamper
 
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
@@ -66,16 +74,22 @@ class SubmissionRepositoryTest {
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
         every { submissionSettings.symptoms } returns mockFlowPreference(Symptoms.NO_INFO_GIVEN)
+        every { submissionSettings.clear() } just Runs
 
         every { taskController.tasks } returns emptyFlow()
+
+        coEvery { tekHistoryStorage.clear() } just Runs
+
+        every { timeStamper.nowUTC } returns Instant.EPOCH
     }
 
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(
         scope = scope,
         submissionSettings = submissionSettings,
         submissionService = submissionService,
-        timeStamper = TimeStamper(),
-        taskController = taskController
+        timeStamper = timeStamper,
+        taskController = taskController,
+        tekHistoryStorage = tekHistoryStorage
     )
 
     @Test
@@ -121,6 +135,19 @@ class SubmissionRepositoryTest {
             LocalData.teletan(null)
             backgroundNoise.scheduleDummyPattern()
             submissionRepository.updateTestResult(testResult)
+        }
+    }
+
+    @Test
+    fun `reset clears tek history and settings`() = runBlockingTest {
+        val instance = createInstance(this)
+        instance.reset()
+
+        instance.deviceUIStateFlow.first() shouldBe NetworkRequestWrapper.RequestIdle
+
+        coVerifyOrder {
+            tekHistoryStorage.clear()
+            submissionSettings.clear()
         }
     }
 }

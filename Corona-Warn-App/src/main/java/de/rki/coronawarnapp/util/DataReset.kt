@@ -30,8 +30,6 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.sync.Mutex
@@ -52,9 +50,7 @@ class DataReset @Inject constructor(
     private val submissionRepository: SubmissionRepository,
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val keyPackageSyncSettings: KeyPackageSyncSettings,
-    private val riskLevelStorage: RiskLevelStorage,
-    private val tekHistoryStorage: TEKHistoryStorage,
-    private val submissionSettings: SubmissionSettings
+    private val riskLevelStorage: RiskLevelStorage
 ) {
 
     private val mutex = Mutex()
@@ -81,8 +77,6 @@ class DataReset @Inject constructor(
         exposureDetectionTracker.clear()
         keyPackageSyncSettings.clear()
         riskLevelStorage.clear()
-        tekHistoryStorage.clear()
-        submissionSettings.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

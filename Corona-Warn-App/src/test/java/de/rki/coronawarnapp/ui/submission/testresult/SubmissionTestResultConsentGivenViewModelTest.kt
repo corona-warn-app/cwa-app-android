@@ -29,7 +29,6 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
         viewModel = createViewModel()
         viewModel.onContinuePressed()
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToSymptomIntroduction
-
     }
 
     @Test

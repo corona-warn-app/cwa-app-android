@@ -30,7 +30,6 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
             } else {
                 Timber.e(error, "Failed to activate tracing during onboarding.")
             }
-
         }
     }
 

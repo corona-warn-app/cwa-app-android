@@ -146,7 +146,6 @@ class SubmissionTaskTest : BaseTest() {
                     listOf("NL")
                 )
             )
-
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
