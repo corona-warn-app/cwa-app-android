@@ -997,6 +997,7 @@
     <string name="submission_interoperability_list_title">"The following countries currently participate in transnational exposure logging:"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
+    <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body"></string>
 
     <!-- Submission Country Selector -->
