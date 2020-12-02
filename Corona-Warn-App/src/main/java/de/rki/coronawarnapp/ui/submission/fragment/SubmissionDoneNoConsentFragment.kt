@@ -59,7 +59,7 @@ class SubmissionDoneNoConsentFragment : Fragment(R.layout.fragment_submission_do
             viewModel.onContinueWithSymptomRecordingPressed()
         }
         binding.submissionDoneContactButtonBreak.setOnClickListener {
-            viewModel.onBreakFlowPressed()
+            viewModel.onFlowFinished()
         }
     }
 }
