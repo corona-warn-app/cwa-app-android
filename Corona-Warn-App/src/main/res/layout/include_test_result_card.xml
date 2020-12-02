@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
         <variable
             name="registerDate"
             type="java.util.Date" />

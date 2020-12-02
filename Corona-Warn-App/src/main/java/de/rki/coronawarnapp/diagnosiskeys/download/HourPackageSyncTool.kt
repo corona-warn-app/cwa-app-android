@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
@@ -51,7 +52,12 @@ class HourPackageSyncTool @Inject constructor(
         val keysWereRevoked = revokeCachedKeys(downloadConfig.revokedHourPackages)
 
         val missingHours = targetLocations.mapNotNull {
-            determineMissingHours(it, forceIndexLookup || keysWereRevoked)
+            try {
+                determineMissingHours(it, forceIndexLookup || keysWereRevoked)
+            } catch (e: NetworkConnectTimeoutException) {
+                Timber.tag(TAG).i("missing hours sync failed due to network timeout")
+                return SyncResult(successful = false, newPackages = emptyList())
+            }
         }
         if (missingHours.isEmpty()) {
             Timber.tag(TAG).i("There were no missing hours.")
@@ -142,6 +148,9 @@ class HourPackageSyncTool @Inject constructor(
         val availableHours = run {
             val hoursToday = try {
                 keyServer.getHourIndex(location, today)
+            } catch (e: NetworkConnectTimeoutException) {
+                Timber.tag(TAG).e(e, "Failed to get today's hour due - not going to delete the cache.")
+                throw e
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e, "failed to get today's hour index.")
                 emptyList()
