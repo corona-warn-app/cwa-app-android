@@ -1068,7 +1068,7 @@
     <!-- XBUT: submission continue break flow button-->
     <string name="submission_done_no_consent_break_flow">"Beenden"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_no_consent_illustration_description">Mehrere Personen, die auf ihr Smartphone schauen.</string>
+    <string name="submission_done_no_consent_illustration_description">"Mehrere Personen, die auf ihr Smartphone schauen."</string>
 
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
