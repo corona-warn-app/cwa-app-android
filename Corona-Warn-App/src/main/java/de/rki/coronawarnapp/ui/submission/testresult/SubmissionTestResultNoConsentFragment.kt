@@ -51,10 +51,14 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.submission_test_result_positive_no_consent_dialog_title))
             setMessage(getString(R.string.submission_test_result_positive_no_consent_dialog_message))
-            setPositiveButton(getString(R.string.submission_test_result_positive_no_consent_dialog_positive_button)) { _, _ ->
+            setPositiveButton(
+                getString(R.string.submission_test_result_positive_no_consent_dialog_positive_button)
+            ) { _, _ ->
                 navigateToWarnOthers()
             }
-            setNegativeButton(getString(R.string.submission_test_result_positive_no_consent_dialog_negative_button)) { _, _ ->
+            setNegativeButton(
+                getString(R.string.submission_test_result_positive_no_consent_dialog_negative_button)
+            ) { _, _ ->
                 navigateToHome()
             }
         }.show()
