@@ -170,6 +170,48 @@ class TracingCardStateTest : BaseTest() {
     }
 
     @Test
+    fun `saved risk body when tracing is disabled`() {
+        createInstance(
+            riskState = CALCULATION_FAILED,
+            lastSuccessfulRiskState = LOW_RISK,
+            tracingStatus = Status.TRACING_INACTIVE
+        ).apply {
+            getSavedRiskBody(context)
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_low_risk_headline))
+            }
+        }
+
+        createInstance(
+            riskState = CALCULATION_FAILED,
+            lastSuccessfulRiskState = INCREASED_RISK,
+            tracingStatus = Status.TRACING_INACTIVE
+        ).apply {
+            getSavedRiskBody(context)
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_increased_risk_headline))
+            }
+        }
+
+        createInstance(
+            riskState = CALCULATION_FAILED,
+            lastSuccessfulRiskState = LOW_RISK,
+            tracingStatus = Status.TRACING_INACTIVE
+        ).apply {
+            getSavedRiskBody(context)
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_low_risk_headline))
+            }
+        }
+    }
+
+    @Test
     fun `risk contact body is affected by risklevel`() {
         createInstance(riskState = CALCULATION_FAILED, daysWithEncounters = 0).apply {
             getRiskContactBody(context) shouldBe ""
