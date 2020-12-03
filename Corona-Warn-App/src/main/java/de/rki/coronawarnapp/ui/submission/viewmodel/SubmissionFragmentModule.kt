@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOth
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentModule
 
+@Suppress("FunctionNaming", "MaxLineLength")
 @Module
 internal abstract class SubmissionFragmentModule {
 

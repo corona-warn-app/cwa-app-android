@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+@Suppress("LongMethod")
 class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory

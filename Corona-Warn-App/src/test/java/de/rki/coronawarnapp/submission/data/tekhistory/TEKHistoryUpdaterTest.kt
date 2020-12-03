@@ -36,9 +36,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     @Test
     fun `request is forwaded to enf client`() = runBlockingTest {
         val instance = createInstance(scope = this)
-        instance.updateTEKHistoryOrRequestPermission {
-
-        }
+        instance.updateTEKHistoryOrRequestPermission { }
         coVerify {
             enfClient.getTEKHistoryOrRequestPermission(
                 any(),

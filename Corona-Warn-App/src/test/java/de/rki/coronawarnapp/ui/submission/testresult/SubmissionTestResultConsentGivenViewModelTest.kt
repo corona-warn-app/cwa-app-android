@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -22,7 +23,10 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
         MockKAnnotations.init(this, relaxed = true)
     }
 
-    private fun createViewModel() = SubmissionTestResultConsentGivenViewModel(submissionRepository)
+    private fun createViewModel() = SubmissionTestResultConsentGivenViewModel(
+        submissionRepository = submissionRepository,
+        dispatcherProvider = TestDispatcherProvider
+    )
 
     @Test
     fun testOnConsentProvideSymptomsButtonClick() {

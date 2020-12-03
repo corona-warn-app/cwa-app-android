@@ -47,7 +47,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @MockK lateinit var appConfigData: ConfigData
 
-    private lateinit var mockSymptomsPreference: FlowPreference<Symptoms>
+    private lateinit var mockSymptomsPreference: FlowPreference<Symptoms?>
 
     @BeforeEach
     fun setup() {
