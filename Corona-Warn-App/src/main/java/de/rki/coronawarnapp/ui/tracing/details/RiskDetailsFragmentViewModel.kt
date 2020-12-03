@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.TracingRepository
-import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -36,13 +35,11 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
 
     fun refreshData() {
         tracingRepository.refreshRiskLevel()
-        TimerHelper.checkManualKeyRetrievalTimer()
         tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
     }
 
     fun updateRiskDetails() {
         tracingRepository.refreshDiagnosisKeys()
-        settingsViewModel.updateManualKeyRetrievalEnabled(false)
     }
 
     @AssistedInject.Factory

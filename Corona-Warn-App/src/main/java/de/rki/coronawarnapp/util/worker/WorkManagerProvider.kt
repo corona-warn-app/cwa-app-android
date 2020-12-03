@@ -15,17 +15,21 @@ class WorkManagerProvider @Inject constructor(
 ) {
 
     val workManager by lazy {
-        Timber.v("Setting up WorkManager.")
+        Timber.tag(TAG).v("Setting up WorkManager.")
         val configuration = Configuration.Builder().apply {
             setMinimumLoggingLevel(android.util.Log.DEBUG)
             setWorkerFactory(cwaWorkerFactory)
         }.build()
 
-        Timber.v("WorkManager initialize...")
+        Timber.tag(TAG).v("WorkManager initialize...")
         WorkManager.initialize(context, configuration)
 
         WorkManager.getInstance(context).also {
-            Timber.v("WorkManager setup done: %s", it)
+            Timber.tag(TAG).v("WorkManager setup done: %s", it)
         }
+    }
+
+    companion object {
+        private const val TAG = "WorkManagerProvider"
     }
 }

@@ -23,17 +23,14 @@
     <string name="submission_consent_your_consent_subsection_second_point" translatable="false"></string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point" translatable="false"></string>
-    <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point" translatable="false"></string>
-    <!-- YTXT: Body for consent main section second point  -->
-    <string name="submission_consent_main_second_point" translatable="false"></string>
-    <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point" translatable="false"></string>
-    <!-- YTXT: Body for consent main section fourth point  -->
-    <string name="submission_consent_main_fourth_point" translatable="false"></string>
     <!-- YTXT: Your consent screen agreement share test results -->
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">""</string>
     <!-- YTXT: Your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms" translatable="false">""</string>
-
+    <!-- YTXT: Body for keys submission no consent text first part-->
+    <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">""</string>
+    <!-- YTXT: Body for keys submission no consent text second part-->
+    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">""</string>
+    <!-- YTXT: Body for keys submission no consent text third part-->
+    <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">""</string>
 </resources>

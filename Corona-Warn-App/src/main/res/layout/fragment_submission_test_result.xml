@@ -43,18 +43,17 @@
         <include
             android:id="@+id/submission_test_result_content"
             layout="@layout/include_submission_test_result"
-            android:accessibilityLiveRegion="assertive"
-            android:importantForAccessibility="yes"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/button_padding_top_bottom"
+            android:accessibilityLiveRegion="assertive"
+            android:importantForAccessibility="yes"
             android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(uiState.deviceUiState)}"
             app:layout_constraintBottom_toTopOf="@+id/include_submission_test_result_buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_test_result_header"
             app:uiState="@{uiState}" />
-
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/include_submission_test_result_buttons"
             android:layout_width="wrap_content"

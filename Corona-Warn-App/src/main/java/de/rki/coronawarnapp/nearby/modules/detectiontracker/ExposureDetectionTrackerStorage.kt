@@ -43,13 +43,11 @@ class ExposureDetectionTrackerStorage @Inject constructor(
 
     suspend fun load(): Map<String, TrackedExposureDetection> = mutex.withLock {
         return@withLock try {
-            if (!storageFile.exists()) return@withLock emptyMap()
-
-            gson.fromJson<Map<String, TrackedExposureDetection>>(storageFile).also {
+            gson.fromJson<Map<String, TrackedExposureDetection>>(storageFile)?.also {
                 require(it.size >= 0)
                 Timber.v("Loaded detection data: %s", it)
                 lastCalcuationData = it
-            }
+            } ?: emptyMap()
         } catch (e: Exception) {
             Timber.e(e, "Failed to load tracked detections.")
             if (storageFile.delete()) Timber.w("Storage file was deleted.")

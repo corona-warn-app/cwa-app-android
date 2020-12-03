@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.ui.tracing.common.RiskFormatting" />
+        <variable
+            name="tracingDetails"
+            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
 
         <variable
             name="body"
@@ -14,9 +15,6 @@
             name="icon"
             type="android.graphics.drawable.Drawable" />
 
-        <variable
-            name="riskLevel"
-            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle"
-            android:backgroundTint="@{RiskFormatting.formatBehaviorIconBackground(context,riskLevel)}"
+            android:backgroundTint="@{tracingDetails.getBehaviorIconBackground(context)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -42,7 +40,7 @@
                 android:focusable="false"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                android:tint="@{RiskFormatting.formatBehaviorIcon(context,riskLevel)}"
+                android:tint="@{tracingDetails.getBehaviorIcon(context)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
