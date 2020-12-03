@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTime
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +19,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -51,7 +52,12 @@ class HourPackageSyncTool @Inject constructor(
         val keysWereRevoked = revokeCachedKeys(downloadConfig.revokedHourPackages)
 
         val missingHours = targetLocations.mapNotNull {
-            determineMissingHours(it, forceIndexLookup || keysWereRevoked)
+            try {
+                determineMissingHours(it, forceIndexLookup || keysWereRevoked)
+            } catch (e: NetworkConnectTimeoutException) {
+                Timber.tag(TAG).i("missing hours sync failed due to network timeout")
+                return SyncResult(successful = false, newPackages = emptyList())
+            }
         }
         if (missingHours.isEmpty()) {
             Timber.tag(TAG).i("There were no missing hours.")
@@ -117,10 +123,10 @@ class HourPackageSyncTool @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewHourPackages(cachedHours: List<CachedKey>, now: Instant): Boolean {
-        val previousHour = now.toLocalTime().minusHours(1)
-        val newestHour = cachedHours.map { it.info.toDateTime() }.maxOrNull()?.toLocalTime()
+        val today = now.toDateTime(DateTimeZone.UTC)
+        val newestHour = cachedHours.map { it.info.toDateTime() }.maxOrNull()
 
-        return previousHour.hourOfDay != newestHour?.hourOfDay
+        return today.minusHours(1).hourOfDay != newestHour?.hourOfDay || today.toLocalDate() != newestHour.toLocalDate()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -142,6 +148,9 @@ class HourPackageSyncTool @Inject constructor(
         val availableHours = run {
             val hoursToday = try {
                 keyServer.getHourIndex(location, today)
+            } catch (e: NetworkConnectTimeoutException) {
+                Timber.tag(TAG).e(e, "Failed to get today's hour due - not going to delete the cache.")
+                throw e
             } catch (e: IOException) {
                 Timber.tag(TAG).e(e, "failed to get today's hour index.")
                 emptyList()

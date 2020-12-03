@@ -11,12 +11,15 @@ object CWADebug {
     fun init(application: Application) {
         if (isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
-        if (BuildConfig.DEBUG) {
+        if (isDeviceForTestersBuild) {
             Timber.plant(Timber.DebugTree())
         }
-        if ((buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS || BuildConfig.DEBUG)) {
+        if (isDeviceForTestersBuild) {
             fileLogger = FileLogger(application)
         }
+
+        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
+        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
     }
 
     val isDebugBuildOrMode: Boolean

@@ -18,14 +18,14 @@ interface Playbook {
 
     suspend fun testResult(registrationToken: String): TestResult
 
+    suspend fun submit(data: SubmissionData)
+
+    suspend fun dummy()
+
     data class SubmissionData(
         val registrationToken: String,
         val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visistedCountries: List<String>
     )
-
-    suspend fun submit(data: SubmissionData)
-
-    suspend fun dummy()
 }

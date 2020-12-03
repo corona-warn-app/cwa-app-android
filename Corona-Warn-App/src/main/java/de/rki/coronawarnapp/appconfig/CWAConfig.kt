@@ -1,16 +1,17 @@
 package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
-import de.rki.coronawarnapp.server.protocols.internal.AppFeaturesOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.AppVersionConfig
+import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass
 
 interface CWAConfig {
 
-    val appVersion: AppVersionConfig.ApplicationVersionConfiguration
+    val latestVersionCode: Long
+
+    val minVersionCode: Long
 
     val supportedCountries: List<String>
 
-    val appFeatureus: AppFeaturesOuterClass.AppFeatures
+    val appFeatures: List<AppFeaturesOuterClass.AppFeature>
 
     interface Mapper : ConfigMapper<CWAConfig>
 }

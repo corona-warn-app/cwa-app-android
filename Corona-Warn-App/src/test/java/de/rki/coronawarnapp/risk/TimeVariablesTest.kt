@@ -35,11 +35,6 @@ class TimeVariablesTest {
     }
 
     @Test
-    fun getMaxStaleExposureRiskRange() {
-        Assert.assertEquals(TimeVariables.getMaxStaleExposureRiskRange(), 48)
-    }
-
-    @Test
     fun getManualKeyRetrievalDelay() {
         mockkObject(CWADebug)
         every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS

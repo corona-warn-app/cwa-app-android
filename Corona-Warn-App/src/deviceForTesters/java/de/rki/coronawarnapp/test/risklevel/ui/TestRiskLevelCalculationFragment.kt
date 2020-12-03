@@ -3,25 +3,28 @@ package de.rki.coronawarnapp.test.risklevel.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentResult
+import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
-import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.sharing.ExposureSharingService
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 @Suppress("LongMethod")
@@ -39,93 +42,96 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
     )
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private val submissionViewModel: SubmissionViewModel by activityViewModels()
 
     private val binding: FragmentTestRiskLevelCalculationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         vm.tracingCardState.observe2(this) {
             binding.tracingCard = it
         }
-
         binding.settingsViewModel = settingsViewModel
-        binding.submissionViewModel = submissionViewModel
-
+        vm.showRiskStatusCard.observe2(this) {
+            binding.showRiskStatusCard = it
+        }
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
-        binding.buttonProvideKeyViaQr.setOnClickListener { vm.scanLocalQRCodeAndProvide() }
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
-
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
-        vm.riskLevelResetEvent.observe2(this) {
-            Toast.makeText(
-                requireContext(), "Reset done, please fetch diagnosis keys from server again",
-                Toast.LENGTH_SHORT
-            ).show()
+        binding.buttonExposureWindowsShare.setOnClickListener { vm.shareExposureWindows() }
+
+        vm.dataResetEvent.observe2(this) { Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show() }
+
+        vm.additionalRiskCalcInfo.observe2(this) {
+            binding.labelRiskAdditionalInfo.text = it
         }
-
-        vm.riskScoreState.observe2(this) { state ->
-            binding.labelRiskScore.text = state.riskScoreMsg
-            binding.labelBackendParameters.text = state.backendParameters
-            binding.labelExposureSummary.text = state.exposureSummary
-            binding.labelFormula.text = state.formula
-            binding.labelExposureInfo.text = state.exposureInfo
+        vm.aggregatedRiskResult.observe2(this) {
+            binding.labelAggregatedRiskResult.text = it
         }
-        vm.startENFObserver()
-
-        vm.apiKeysProvidedEvent.observe2(this) { event ->
-            Toast.makeText(
-                requireContext(),
-                "Provided ${event.keyCount} keys to Google API with token ${event.token}",
-                Toast.LENGTH_SHORT
-            ).show()
+        vm.backendParameters.observe2(this) {
+            binding.labelBackendParameters.text = it
         }
-
-        vm.startLocalQRCodeScanEvent.observe2(this) {
-            IntentIntegrator.forSupportFragment(this)
-                .setOrientationLocked(false)
-                .setBeepEnabled(false)
-                .initiateScan()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        vm.calculateRiskLevel()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result: IntentResult =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                ?: return super.onActivityResult(requestCode, resultCode, data)
-
-        if (result.contents == null) {
-            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
-            return
-        }
-
-        ExposureSharingService.getOthersKeys(result.contents) { key: AppleLegacyKeyExchange.Key? ->
-            Timber.i("Keys scanned: %s", key)
-            if (key == null) {
-                Toast.makeText(
-                    requireContext(), "No Key data found in QR code", Toast.LENGTH_SHORT
-                ).show()
-                return@getOthersKeys Unit
+        vm.exposureWindowCount.observe2(this) { exposureWindowCount ->
+            binding.labelExposureWindowCount.text = "Retrieved $exposureWindowCount Exposure Windows"
+            binding.buttonExposureWindowsShare.visibility = when (exposureWindowCount > 0) {
+                true -> View.VISIBLE
+                false -> View.GONE
             }
+        }
+        vm.shareFileEvent.observe2(this) {
+            shareExposureWindowsFile(it)
+        }
+        vm.fakeWindowsState.observe2(this) { currentType ->
+            binding.apply {
+                if (fakeWindowsToggleGroup.childCount != TestSettings.FakeExposureWindowTypes.values().size) {
+                    fakeWindowsToggleGroup.removeAllViews()
+                    TestSettings.FakeExposureWindowTypes.values().forEach { type ->
+                        RadioButton(requireContext()).apply {
+                            id = ViewCompat.generateViewId()
+                            text = type.name
+                            layoutParams = RadioGroup.LayoutParams(
+                                RadioGroup.LayoutParams.MATCH_PARENT,
+                                RadioGroup.LayoutParams.WRAP_CONTENT
+                            )
+                            fakeWindowsToggleGroup.addView(this)
+                        }
+                    }
+                }
+                fakeWindowsToggleGroup.children.forEach {
+                    it as RadioButton
+                    it.isChecked = it.text == currentType.name
+                }
+            }
+        }
+        binding.fakeWindowsToggleGroup.apply {
+            setOnCheckedChangeListener { group, checkedId ->
+                val chip = group.findViewById<RadioButton>(checkedId)
+                if (!chip.isPressed) return@setOnCheckedChangeListener
+                vm.selectFakeExposureWindowMode(TestSettings.FakeExposureWindowTypes.valueOf(chip.text.toString()))
+            }
+        }
+    }
 
-            val text = binding.transmissionNumber.text.toString()
-            val number = if (!text.isBlank()) Integer.valueOf(text) else 5
-            vm.provideDiagnosisKey(number, key)
+    private fun shareExposureWindowsFile(file: File) {
+        Timber.d("Opening Share-Intent for Exposure Windows")
+        val shareFileUri =
+            FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".fileProvider", file)
+        val shareIntent = ShareCompat.IntentBuilder
+            .from(requireActivity())
+            .setStream(shareFileUri)
+            .setType("text/plain")
+            .intent
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(shareIntent)
         }
     }
 
     companion object {
-        val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!
+        private val TAG = TestRiskLevelCalculationFragment::class.java.simpleName
         val MENU_ITEM = TestMenuItem(
-            title = "Risklevel Calculation",
-            description = "Risklevel calculation related test options.",
+            title = "ENF v2 Calculation",
+            description = "Window Mode related overview.",
             targetId = R.id.test_risklevel_calculation_fragment
         )
     }

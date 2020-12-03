@@ -19,8 +19,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomStartInternal = MutableStateFlow<Symptoms.StartOf?>(null)
-    val symptomStart = symptomStartInternal
-        .asLiveData(context = dispatcherProvider.Default)
+    val symptomStart = symptomStartInternal.asLiveData()
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 

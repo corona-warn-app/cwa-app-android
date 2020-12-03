@@ -11,8 +11,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+            name="showRiskStatusCard"
+            type="Boolean" />
 
         <variable
             name="settingsViewModel"
@@ -23,6 +23,7 @@
             type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
     </data>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,26 +33,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
             android:orientation="vertical">
 
-            <TextView
-                style="@style/headline6"
-                android:accessibilityHeading="true"
+            <LinearLayout
+                android:id="@+id/environment_container"
+                style="@style/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Preview (no interaction possible)" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/fake_windows_title"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fake exposure windows" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation." />
+
+                <RadioGroup
+                    android:id="@+id/fake_windows_toggle_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:orientation="vertical" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/test_risk_card"
                 style="@style/card"
+                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
-                android:focusable="true"
                 android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                android:backgroundTintMode="src_over">
+                android:backgroundTintMode="src_over"
+                android:focusable="true">
 
                 <include
                     android:id="@+id/risk_card_content"
@@ -60,42 +82,6 @@
 
             </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Transmission Risk Level for scan: " />
-
-                <EditText
-                    android:id="@+id/transmission_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:text="5" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/button_provide_key_via_qr"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:text="Scan Local QR Code" />
-
-            <Button
-                android:id="@+id/button_retrieve_diagnosis_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Retrieve Diagnosis Keys" />
-
             <Button
                 android:id="@+id/button_calculate_risk_level"
                 style="@style/buttonPrimary"
@@ -103,6 +89,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="Calculate Risk Level" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Start the task that gets the latest exposure windows and calculates a current risk state." />
 
             <Button
                 android:id="@+id/button_reset_risk_level"
@@ -112,39 +104,67 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="Reset Risk Level" />
 
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Delete the all stored calculated risk level results." />
+
+            <Button
+                android:id="@+id/button_retrieve_diagnosis_keys"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Download Diagnosis Keys" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Start the task syncs the local diagnosis key cache with the server and submits them to the exposure notification framework for detection (if constraints allow). " />
+
             <Button
                 android:id="@+id/button_clear_diagnosis_key_cache"
                 style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Clear Diagnosis-Key cache" />
+                android:text="Reset Diagnosis-Keys" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Restore download task conditions to initial state. Remove cached keys, delete last download logs, reset tracked exposure detections. " />
 
             <TextView
-                android:id="@+id/label_exposure_summary_title"
+                android:id="@+id/label_aggregated_risk_result_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Exposure Summary" />
+                android:accessibilityHeading="true"
+                android:text="Aggregated Risk Result" />
 
             <TextView
-                android:id="@+id/label_exposure_summary"
+                android:id="@+id/label_aggregated_risk_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
 
             <TextView
-                android:id="@+id/label_risk_score_title"
+                android:id="@+id/label_risk_additional_info_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Risk Score" />
+                android:accessibilityHeading="true"
+                android:text="Risk Calculation Additional Information" />
 
             <TextView
-                android:id="@+id/label_risk_score"
+                android:id="@+id/label_risk_additional_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
@@ -152,9 +172,9 @@
             <TextView
                 android:id="@+id/label_backend_parameters_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="Backend Parameters" />
 
             <TextView
@@ -164,33 +184,30 @@
                 android:text="-" />
 
             <TextView
-                android:id="@+id/label_formula_title"
+                android:id="@+id/label_exposure_window_title"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Used Formula" />
+                android:accessibilityHeading="true"
+                android:text="Exposure Windows" />
 
             <TextView
-                android:id="@+id/label_formula"
+                android:id="@+id/label_exposure_window_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
 
-            <TextView
-                android:id="@+id/label_exposure_info_title"
-                style="@style/headline6"
-                android:accessibilityHeading="true"
+            <Button
+                android:id="@+id/buttonExposureWindowsShare"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exposure Information" />
-
-            <TextView
-                android:id="@+id/label_exposure_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:text="Share ExposureWindows" />
 
         </LinearLayout>
     </ScrollView>
+
+
 </layout>

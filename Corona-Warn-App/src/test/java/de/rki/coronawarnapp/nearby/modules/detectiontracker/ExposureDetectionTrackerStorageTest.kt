@@ -34,7 +34,8 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
                 "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
                 "startedAt": {
                   "iMillis": 1234
-                }
+                },
+                "enfVersion": "V2_WINDOW_MODE"
               },
               "aeb15509-fb34-42ce-8795-7a9ae0c2f389": {
                 "identifier": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
@@ -44,7 +45,8 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
                 "result": "UPDATED_STATE",
                 "finishedAt": {
                   "iMillis": 1603473968125
-                }
+                },
+                "enfVersion": "V1_LEGACY_MODE"
               }
             }
         """.trimIndent()
@@ -52,13 +54,15 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     private val demoData = run {
         val calculation1 = TrackedExposureDetection(
             identifier = "b2b98400-058d-43e6-b952-529a5255248b",
-            startedAt = Instant.ofEpochMilli(1234)
+            startedAt = Instant.ofEpochMilli(1234),
+            enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
         )
         val calculation2 = TrackedExposureDetection(
             identifier = "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
             startedAt = Instant.ofEpochMilli(5678),
             finishedAt = Instant.ofEpochMilli(1603473968125),
-            result = TrackedExposureDetection.Result.UPDATED_STATE
+            result = TrackedExposureDetection.Result.UPDATED_STATE,
+            enfVersion = TrackedExposureDetection.EnfVersion.V1_LEGACY_MODE
         )
         mapOf(
             calculation1.identifier to calculation1,
@@ -113,11 +117,10 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     @Test
     fun `saving data creates a json file`() = runBlockingTest {
-
         createStorage().save(demoData)
         storageFile.exists() shouldBe true
 
-        val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(storageFile)
+        val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(storageFile)!!
 
         storedData shouldBe demoData
         gson.toJson(storedData) shouldBe demoJsonString
@@ -129,5 +132,21 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
         val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(demoJsonString)
         storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").isCalculating shouldBe true
         storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").isCalculating shouldBe false
+    }
+
+    @Test
+    fun `we catch empty json data and prevent unsafely initialized maps`() = runBlockingTest {
+        storageDir.mkdirs()
+        storageFile.writeText("")
+
+        storageFile.exists() shouldBe true
+
+        createStorage().apply {
+            val value = load()
+            value.size shouldBe 0
+            value shouldBe emptyMap()
+
+            storageFile.exists() shouldBe false
+        }
     }
 }

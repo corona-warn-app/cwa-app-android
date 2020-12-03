@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -205,6 +206,20 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
+    fun `EXPECT_NEW_HOUR_PACKAGES does not get confused by same hour on next day`() = runBlockingTest {
+        val cachedKey1 = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns Instant.parse("2020-01-01T00:00:03.000Z").toDateTime(DateTimeZone.UTC)
+            }
+        }
+
+        val instance = createInstance()
+
+        val now = Instant.parse("2020-01-02T01:00:03.000Z")
+        instance.expectNewHourPackages(listOf(cachedKey1), now) shouldBe true
+    }
+
+    @Test
     fun `if keys were revoked skip the EXPECT packages check`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
@@ -243,5 +258,19 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         createInstance().syncMissingHourPackages(listOf("EUR".loc), false)
 
         coVerify(exactly = 0) { keyServer.getHourIndex("EUR".loc, "2020-01-04".day) }
+    }
+
+    @Test
+    fun `network connection time out does not clear the cache and returns an unsuccessful result`() = runBlockingTest {
+        coEvery { keyServer.getHourIndex(any(), any()) } throws NetworkConnectTimeoutException()
+
+        val instance = createInstance()
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
+            successful = false,
+            newPackages = emptyList()
+        )
+
+        coVerify(exactly = 1) { keyServer.getHourIndex("EUR".loc, "2020-01-04".day) }
+        coVerify(exactly = 0) { keyCache.delete(any()) }
     }
 }

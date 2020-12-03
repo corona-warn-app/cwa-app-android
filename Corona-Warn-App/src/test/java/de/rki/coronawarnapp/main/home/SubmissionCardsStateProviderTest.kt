@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -29,11 +29,11 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionCardsStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        mockkObject(SubmissionRepository)
         mockkObject(LocalData)
     }
 
@@ -42,24 +42,23 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance() = SubmissionCardsStateProvider()
+    private fun createInstance() = SubmissionCardsStateProvider(submissionRepository)
 
     @Test
     fun `state is combined correctly`() = runBlockingTest {
-        every { SubmissionRepository.deviceUIStateFlow } returns flow { emit(DeviceUIState.PAIRED_POSITIVE) }
-        every { SubmissionRepository.uiStateStateFlow } returns flow { emit(ApiRequestState.SUCCESS) }
+        every { submissionRepository.deviceUIStateFlow } returns flow {
+            emit(NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>(DeviceUIState.PAIRED_POSITIVE))
+        }
         every { LocalData.registrationToken() } returns "token"
 
         createInstance().apply {
             state.first() shouldBe SubmissionCardState(
-                deviceUiState = DeviceUIState.PAIRED_POSITIVE,
-                uiStateState = ApiRequestState.SUCCESS,
+                deviceUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
                 isDeviceRegistered = true
             )
 
             verify {
-                SubmissionRepository.deviceUIStateFlow
-                SubmissionRepository.uiStateStateFlow
+                submissionRepository.deviceUIStateFlow
                 LocalData.registrationToken()
             }
         }

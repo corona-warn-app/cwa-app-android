@@ -4,11 +4,10 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.util.Date
+import timber.log.Timber
 
 /**
  * LocalData is responsible for all access to the shared preferences. Each preference is accessible
@@ -259,78 +258,6 @@ object LocalData {
             )
         }
 
-    /****************************************************
-     * RISK LEVEL
-     ****************************************************/
-
-    /**
-     * Gets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @return
-     */
-    fun lastCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score),
-            RiskLevel.UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(rawRiskLevel)
-    }
-
-    /**
-     * Sets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @param rawRiskLevel
-     */
-    fun lastCalculatedRiskLevel(rawRiskLevel: Int) =
-        getSharedPreferenceInstance().edit(true) {
-            putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score),
-                rawRiskLevel
-            )
-        }
-
-    /**
-     * Gets the last successfully calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @return
-     */
-    fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score_successful),
-            RiskLevel.UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(rawRiskLevel)
-    }
-
-    /**
-     * Sets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @param rawRiskLevel
-     */
-    fun lastSuccessfullyCalculatedRiskLevel(rawRiskLevel: Int) =
-        getSharedPreferenceInstance().edit(true) {
-            putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score_successful),
-                rawRiskLevel
-            )
-        }
-
     /**
      * Gets the boolean if the user has seen the explanation dialog for the
      * risk level tracing days
@@ -376,103 +303,6 @@ object LocalData {
         set(value) = getSharedPreferenceInstance()
             .edit(commit = true) { putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value) }
             .also { isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value }
-
-    /****************************************************
-     * SERVER FETCH DATA
-     ****************************************************/
-
-    /**
-     * Gets the last time the server fetched the diagnosis keys from the server as Date object
-     * from the EncryptedSharedPrefs
-     *
-     * @return timestamp as Date
-     */
-    // TODO should be changed to Long as well to align with other timestamps
-    fun lastTimeDiagnosisKeysFromServerFetch(): Date? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-            0L
-        )
-        if (time == 0L) return null
-
-        return Date(time)
-    }
-
-    /**
-     * Sets the last time the server fetched the diagnosis keys from the server as Date object
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Date
-     */
-    fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-                value?.time ?: 0L
-            )
-        }
-    }
-
-    /**
-     * Gets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @return Long
-     */
-    fun lastTimeRiskLevelCalculation(): Long? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_risk_level_calculation),
-            0L
-        )
-        return Date(time).time
-    }
-
-    /**
-     * Sets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Long
-     */
-    fun lastTimeRiskLevelCalculation(value: Long?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_risk_level_calculation),
-                value ?: 0L
-            )
-        }
-    }
-
-    /****************************************************
-     * EXPOSURE NOTIFICATION DATA
-     ****************************************************/
-
-    /**
-     * Gets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @return UUID as string
-     */
-    fun googleApiToken(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_string_google_api_token),
-        null
-    )
-
-    /**
-     * Sets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @param value UUID as string
-     */
-    fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
-        putString(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_string_google_api_token),
-            value
-        )
-    }
 
     /****************************************************
      * SETTINGS DATA
@@ -705,19 +535,6 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
-    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_notification),
-            value
-        )
-    }
-
-    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_background_notification), false
-    )
-
     /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
@@ -740,4 +557,8 @@ object LocalData {
                 putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
             }
         }
+
+    fun clear() {
+        Timber.w("LocalData.clear()")
+    }
 }
