@@ -1187,9 +1187,9 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden."</string>
+    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
-    <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufallcodes, damit andere gewarnt werden können. "</string>
+    <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr Befund:"</string>
