@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetec
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.exposurewindow.ExposureWindowProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
+import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import kotlinx.coroutines.flow.Flow
@@ -29,8 +30,14 @@ class ENFClient @Inject constructor(
     private val scanningSupport: ScanningSupport,
     private val exposureWindowProvider: ExposureWindowProvider,
     private val exposureDetectionTracker: ExposureDetectionTracker,
-    private val enfVersion: ENFVersion
-) : DiagnosisKeyProvider, TracingStatus, ScanningSupport, ExposureWindowProvider, ENFVersion by enfVersion {
+    private val enfVersion: ENFVersion,
+    private val tekHistoryProvider: TEKHistoryProvider
+) : DiagnosisKeyProvider,
+    TracingStatus by tracingStatus,
+    ScanningSupport,
+    ExposureWindowProvider,
+    ENFVersion by enfVersion,
+    TEKHistoryProvider by tekHistoryProvider {
 
     // TODO Remove this once we no longer need direct access to the ENF Client,
     // i.e. in **[InternalExposureNotificationClient]**
@@ -55,9 +62,6 @@ class ENFClient @Inject constructor(
 
     override val isLocationLessScanningSupported: Flow<Boolean>
         get() = scanningSupport.isLocationLessScanningSupported
-
-    override val isTracingEnabled: Flow<Boolean>
-        get() = tracingStatus.isTracingEnabled
 
     fun isPerformingExposureDetection(): Flow<Boolean> = exposureDetectionTracker.calculations
         .map { it.values }

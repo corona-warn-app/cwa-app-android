@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
-import de.rki.coronawarnapp.submission.Symptoms
-
 sealed class SubmissionNavigationEvents {
     object NavigateToContact : SubmissionNavigationEvents()
     object NavigateToDispatcher : SubmissionNavigationEvents()
@@ -10,23 +8,18 @@ sealed class SubmissionNavigationEvents {
     object NavigateToQRCodeScan : SubmissionNavigationEvents()
     object NavigateToDataPrivacy : SubmissionNavigationEvents()
 
-    data class NavigateToResultPositiveOtherWarning(
-        val symptoms: Symptoms
-    ) : SubmissionNavigationEvents()
+    object NavigateToResultPositiveOtherWarning : SubmissionNavigationEvents()
 
-    data class NavigateToResultPositiveOtherWarningNoConsent(
-        val symptoms: Symptoms
-    ) : SubmissionNavigationEvents()
+    object NavigateToResultPositiveOtherWarningNoConsent : SubmissionNavigationEvents()
 
     object NavigateToSymptomSubmission : SubmissionNavigationEvents()
-    data class NavigateToSymptomCalendar(
-        val symptomIndication: Symptoms.Indication
-    ) : SubmissionNavigationEvents()
+    object NavigateToSymptomCalendar : SubmissionNavigationEvents()
 
     object NavigateToSymptomIntroduction : SubmissionNavigationEvents()
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToTestResult : SubmissionNavigationEvents()
     object NavigateToConsent : SubmissionNavigationEvents()
+    object NavigateToYourConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
     object ShowCancelDialog : SubmissionNavigationEvents()
 }

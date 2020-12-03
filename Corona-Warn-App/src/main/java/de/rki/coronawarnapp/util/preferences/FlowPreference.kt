@@ -91,3 +91,14 @@ inline fun <reified T : Any?> SharedPreferences.createFlowPreference(
     reader = FlowPreference.basicReader(defaultValue),
     writer = FlowPreference.basicWriter()
 )
+
+inline fun <reified T : Any?> SharedPreferences.createFlowPreference(
+    key: String,
+    noinline reader: SharedPreferences.(key: String) -> T,
+    noinline writer: SharedPreferences.Editor.(key: String, value: T) -> Unit
+) = FlowPreference(
+    preferences = this,
+    key = key,
+    reader = reader,
+    writer = writer
+)

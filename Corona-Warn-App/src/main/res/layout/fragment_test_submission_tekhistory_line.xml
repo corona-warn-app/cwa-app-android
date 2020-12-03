@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/primary"
+        style="@style/body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="rollingStartIntervalNumber=2677680 rollingPeriod=144" />
+
+    <TextView
+        android:id="@+id/secondary"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/primary"
+        app:layout_constraintStart_toStartOf="@id/primary"
+        app:layout_constraintTop_toBottomOf="@id/primary"
+        tools:text="daysSinceOnsetOfSymptoms=2147483647\ntransmissionRiskLevel=0 reportType=0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

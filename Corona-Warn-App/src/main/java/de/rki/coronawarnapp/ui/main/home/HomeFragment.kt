@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
-import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -36,7 +35,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
-    @Inject lateinit var networkStateProvider: NetworkStateProvider
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -140,9 +138,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     private fun setupTestResultCard() {
         binding.apply {
-            val toSubmissionResult = {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
-            }
+
             mainTestUnregistered.apply {
                 val toSubmissionDispatcher = {
                     doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
@@ -151,17 +147,24 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionDispatcher() }
             }
 
-            mainTestDone.submissionStatusCardDone.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDoneFragment())
-            }
+            // Test is negative
             mainTestResult.apply {
+                val toSubmissionResult = {
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
+                }
                 submissionStatusCardContent.setOnClickListener { toSubmissionResult() }
                 submissionStatusCardContentButton.setOnClickListener { toSubmissionResult() }
             }
-
+            // Test is positive
             mainTestPositive.apply {
-                submissionStatusCardPositive.setOnClickListener { toSubmissionResult() }
-                submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
+                val toConsentScreen = {
+                    doNavigate(
+                        HomeFragmentDirections
+                            .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                    )
+                }
+                submissionStatusCardPositive.setOnClickListener { toConsentScreen() }
+                submissionStatusCardPositiveButton.setOnClickListener { toConsentScreen() }
             }
 
             mainTestFailed.apply {
