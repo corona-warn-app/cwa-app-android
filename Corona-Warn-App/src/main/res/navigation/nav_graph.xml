@@ -367,16 +367,9 @@
         android:id="@+id/submissionSymptomIntroductionFragment"
         android:name="de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment"
         android:label="SubmissionSymptomIntroductionFragment">
-
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
             app:destination="@id/submissionSymptomCalendarFragment" />
-        <action
-            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultFragment"
-            app:destination="@id/submissionResultFragment" />
-        <action
-            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultPositiveOtherWarningFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_mainFragment"
             app:destination="@id/mainFragment"

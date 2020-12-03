@@ -40,14 +40,6 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
                     SubmissionSymptomIntroductionFragmentDirections
                         .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
                 )
-                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> doNavigate(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
-                )
-                is SubmissionNavigationEvents.NavigateToTestResult -> doNavigate(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
-                )
                 is SubmissionNavigationEvents.NavigateToMainActivity -> doNavigate(
                     SubmissionSymptomIntroductionFragmentDirections
                         .actionSubmissionSymptomIntroductionFragmentToMainFragment()
