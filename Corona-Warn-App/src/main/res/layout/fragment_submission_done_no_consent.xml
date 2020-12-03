@@ -126,12 +126,5 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="@dimen/guideline_action_large" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
