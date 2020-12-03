@@ -45,6 +45,7 @@ constructor(
     }
 
     fun setTestResultSection(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?, registeredAt: Date?) {
+        test_result_section_headline.text = context.getString(R.string.test_result_card_headline)
         test_result_section_registered_at_text.text = formatTestResultRegisteredAtText(registeredAt)
         val testResultIcon = formatTestStatusIcon(uiState)
         test_result_section_status_icon.setImageDrawable(testResultIcon)
