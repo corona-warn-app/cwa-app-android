@@ -119,7 +119,7 @@ class SubmissionTaskTest : BaseTest() {
             testResultNotificationService.cancelPositiveTestResultNotification()
         }
 
-        submissionSettings.symptoms.value shouldBe Symptoms.NO_INFO_GIVEN
+        submissionSettings.symptoms.value shouldBe null
     }
 
     @Test
@@ -181,5 +181,10 @@ class SubmissionTaskTest : BaseTest() {
                 )
             )
         }
+    }
+
+    @Test
+    fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() {
+        // TODO
     }
 }

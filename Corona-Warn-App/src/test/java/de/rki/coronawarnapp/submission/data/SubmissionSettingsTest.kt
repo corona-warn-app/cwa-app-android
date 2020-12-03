@@ -51,7 +51,7 @@ class SubmissionSettingsTest {
     @Test
     fun `persist symptoms`() {
         createInstance().apply {
-            symptoms.value shouldBe Symptoms.NO_INFO_GIVEN
+            symptoms.value shouldBe null
             mockPreferences.dataMapPeek.isEmpty() shouldBe true
 
             Symptoms(startOfSymptoms = Symptoms.StartOf.NoInformation, Symptoms.Indication.POSITIVE).let { value ->
@@ -132,9 +132,9 @@ class SubmissionSettingsTest {
     }
 
     @Test
-    fun `symptoms default to NO INFORMATION`() {
+    fun `symptoms default to null`() {
         createInstance().apply {
-            symptoms.value shouldBe Symptoms.NO_INFO_GIVEN
+            symptoms.value shouldBe null
         }
     }
 }

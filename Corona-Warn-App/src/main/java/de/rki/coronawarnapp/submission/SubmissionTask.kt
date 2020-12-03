@@ -64,7 +64,7 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()
-        submissionSettings.symptoms.update { Symptoms.NO_INFO_GIVEN }
+        submissionSettings.symptoms.update { null }
 
         // TODO re-evaluate the necessity of this behavior
         BackgroundWorkScheduler.stopWorkScheduler()

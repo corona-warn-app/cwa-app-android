@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.submission.testavailable
 
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
-import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableEvents
+import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragmentDirections
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -35,6 +35,9 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
         every { tekHistoryUpdater.callback = any() } just Runs
         every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission(any()) } just Runs
+
+        // TODO Check specific behavior
+        every { submissionRepository.refreshDeviceUIState(any()) } just Runs
     }
 
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(
@@ -66,8 +69,9 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     fun `go back`() {
         val viewModel = createViewModel()
 
+        viewModel.showCloseDialog.value shouldBe null
         viewModel.goBack()
-        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableEvents.GoBack
+        viewModel.showCloseDialog.value shouldBe Unit
     }
 
     @Test
@@ -75,7 +79,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         viewModel.goConsent()
-        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableEvents.GoConsent
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment()
     }
 
     @Test
@@ -94,6 +99,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         viewModel.proceed()
-        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableEvents.GoToTestResult
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
+            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
     }
 }
