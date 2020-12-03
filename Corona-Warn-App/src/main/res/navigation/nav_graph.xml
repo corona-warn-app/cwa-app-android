@@ -421,8 +421,9 @@
         android:label="SubmissionTestResultConsentFragment">
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />

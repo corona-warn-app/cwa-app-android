@@ -29,11 +29,6 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
     private lateinit var uploadDialog: SubmissionBlockingDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        uploadDialog = SubmissionBlockingDialog(requireContext())
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         uploadDialog = SubmissionBlockingDialog(requireContext())
