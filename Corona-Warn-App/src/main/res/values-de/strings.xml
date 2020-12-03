@@ -998,9 +998,10 @@
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_first_part"></string>
+    <string name="submission_positive_other_warning_no_consent_body_first_part">"Da Sie positiv auf Corona getestet wurden, können Sie Ihre Mitmenschen über die App warnen."</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part"></string>
+    <string name="submission_positive_other_warning_no_consent_body_second_part">"Die Warnung funktioniert in mehreren Ländern. Derzeit nehmen folgende Länder teil:"</string>
+
 
     <!-- Test result positive and no consent given -->
     <!-- XHED: Title for test result positive and no consent given-->
@@ -1067,7 +1068,7 @@
     <!-- XBUT: submission continue break flow button-->
     <string name="submission_done_no_consent_break_flow">"Beenden"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_no_consent_illustration_description"></string>
+    <string name="submission_done_no_consent_illustration_description">"Mehrere Personen, die auf ihr Smartphone schauen."</string>
 
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
@@ -1226,7 +1227,7 @@
     <!-- XHED: Page title for test results available step -->
     <string name="submission_test_result_available_title">"Ihr Testergebnis liegt vor"</string>
     <!-- XACT: Test result available illustration description -->
-    <string name="submission_test_result_available_illustration_description">""</string>
+    <string name="submission_test_result_available_illustration_description">"Eine Frau hält ihr Smartphone in der Hand. Es überträgt ein Signal an ein weiteres Smartphone."</string>
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Bitte geben Sie Ihr Testergebnis im nächsten Schritt frei, indem Sie „Teilen“ antippen."</b>""</string>
     <!-- XHED: Close screen popup title for consent given -->

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="countryData"
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
+
+        <variable
+            name="viewModel"
+            type="de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/submission_positive_other_warning_hero_illustration"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_submission_illustration_other_warning"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:cwaContentDescription="@{@string/submission_positive_other_illustration_description}"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/submission_positive_other_warning_headline"
+                style="@style/headline5"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/submission_positive_other_warning_headline"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_hero_illustration" />
+
+            <TextView
+                android:id="@+id/submission_positive_other_warning_text_first_part"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/submission_positive_other_warning_no_consent_body_first_part"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
+
+            <TextView
+                android:id="@+id/submission_positive_other_warning_text_second_part"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/submission_positive_other_warning_no_consent_body_second_part"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_first_part" />
+
+
+            <de.rki.coronawarnapp.ui.view.CountryListView
+                android:id="@+id/countryList"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                app:countryList="@{countryData}"
+                app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_second_part" />
+
+            <include
+                android:id="@+id/submission_positive_other_privacy"
+                layout="@layout/include_privacy_card_no_consent"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/countryList" />
+
+            <include layout="@layout/view_bullet_point_text"
+                android:id="@+id/submission_no_consent_main_first_point"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_positive_other_privacy"
+                app:itemText="@{@string/submission_consent_main_first_point}" />
+
+            <include layout="@layout/view_bullet_point_text"
+                android:id="@+id/submission_no_consent_main_second_point"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_first_point"
+                app:itemText="@{@string/submission_consent_main_third_point}" />
+
+
+            <include layout="@layout/view_bullet_point_text"
+                android:id="@+id/submission_no_consent_main_third_point"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_second_point"
+                app:itemText="@{@string/submission_consent_main_fourth_point}" />
+
+
+
+            <TextView
+                android:id="@+id/submission_consent_main_bottom_body"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{ () -> viewModel.onDataPrivacyClick() }"
+                android:paddingVertical="@dimen/spacing_tiny"
+                android:text="@string/submission_consent_main_bottom_body"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_third_point" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/guideline_action" />
+            <include layout="@layout/merge_guidelines_side" />
+
+            <include layout="@layout/merge_guidelines_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

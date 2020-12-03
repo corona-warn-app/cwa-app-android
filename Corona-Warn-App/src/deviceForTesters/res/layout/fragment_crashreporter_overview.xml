@@ -51,7 +51,7 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="Note: Select a card to view and share details."
-        android:textColor="@color/colorTextSixteenWhite"
+        android:textColor="@color/colorTextSixteen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonTestItemForCrashReport" />
