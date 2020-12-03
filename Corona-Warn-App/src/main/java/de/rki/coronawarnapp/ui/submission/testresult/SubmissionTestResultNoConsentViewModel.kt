@@ -15,7 +15,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
-    submissionRepository: SubmissionRepository
+    val submissionRepository: SubmissionRepository
 ) : CWAViewModel() {
 
     private val showRedeemedTokenWarning = SingleLiveEvent<Unit>()

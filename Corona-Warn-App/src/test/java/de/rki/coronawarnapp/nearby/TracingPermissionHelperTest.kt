@@ -1,126 +1,57 @@
 package de.rki.coronawarnapp.nearby
 
+import android.app.Activity
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class TracingPermissionHelperTest : BaseTest() {
+    @MockK lateinit var enfClient: ENFClient
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+
+        coEvery { enfClient.isTracingEnabled } returns flowOf(false)
+    }
+
+    fun createInstance(scope: CoroutineScope) = TracingPermissionHelper(
+        scope = scope,
+        enfClient = enfClient
+    )
 
     @Test
-    fun todo() {
+    fun `request is forwarded if tracing is disabled`() = runBlockingTest {
         TODO()
     }
 
-//     /**
-//     * Launch test fragment, required for view lifecycle owner.
-//     *
-//     * @see [InternalExposureNotificationPermissionHelper]
-//     * @see [Fragment.getViewLifecycleOwner]
-//     */
-//    @Before
-//    fun setUp() {
-//        fail = false
-//        startSuccess = false
-//        sharingSuccess = false
-//        mockkObject(InternalExposureNotificationClient)
-//        scenario = launchFragmentInContainer<TestFragment>()
-//    }
-//
-//    /**
-//     * Test tracing permission request assuming EN Client is enabled.
-//     */
-//    @Test
-//    fun testRequestPermissionToStartTracingENIsEnabled() {
-//        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
-//        scenario.onFragment {
-//            val helper = InternalExposureNotificationPermissionHelper(it, callback)
-//            helper.requestPermissionToStartTracing()
-//        }
-//        assertThat(fail, `is`(false))
-//        assertThat(startSuccess, `is`(true))
-//    }
-//
-//    /**
-//     * Test tracing permission request assuming EN Client is disabled.
-//     */
-//    @Test
-//    fun testRequestPermissionToStartTracingENIsNotEnabled() {
-//        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns false
-//        // not every device/emulator has access to exposure notifications Google API:
-//        coEvery { InternalExposureNotificationClient.asyncStart() } returns mockk()
-//
-//        scenario.onFragment {
-//            val helper = InternalExposureNotificationPermissionHelper(it, callback)
-//            helper.requestPermissionToStartTracing()
-//        }
-//        assertThat(fail, `is`(false))
-//        assertThat(startSuccess, `is`(true))
-//    }
-//
-//    /**
-//     * Test tracing permission request exception handling.
-//     */
-//    @Test
-//    fun testRequestPermissionToStartTracingExceptionHandling() {
-//        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns false
-//
-//        // not every device/emulator has access to exposure notifications Google API:
-//        coEvery { InternalExposureNotificationClient.asyncStart() } throws mockApiException(Status.RESULT_CANCELED)
-//
-//        scenario.onFragment {
-//            val helper = InternalExposureNotificationPermissionHelper(it, callback)
-//            helper.requestPermissionToStartTracing()
-//        }
-//        assertThat(fail, `is`(true))
-//        assertThat(startSuccess, `is`(false))
-//    }
-//
-//    /**
-//     * Test keys sharing permission request.
-//     */
-//    @Test
-//    fun testRequestPermissionToShareKeys() {
-//        // not every device/emulator has access to exposure notifications Google API:
-//        coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns mockk()
-//
-//        scenario.onFragment {
-//            val helper = InternalExposureNotificationPermissionHelper(it, callback)
-//            helper.requestPermissionToShareKeys()
-//        }
-//        assertThat(fail, `is`(false))
-//        assertThat(sharingSuccess, `is`(true))
-//    }
-//
-//    /**
-//     * Test keys sharing permission request exception handling.
-//     */
-//    @Test
-//    fun testRequestPermissionToShareKeysException() {
-//        // not every device/emulator has access to exposure notifications Google API:
-//        coEvery {
-//            InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory()
-//        } throws mockApiException(Status.RESULT_CANCELED)
-//
-//        scenario.onFragment {
-//            val helper = InternalExposureNotificationPermissionHelper(it, callback)
-//            helper.requestPermissionToShareKeys()
-//        }
-//        assertThat(fail, `is`(true))
-//        assertThat(sharingSuccess, `is`(false))
-//    }
-//
-//    private fun mockApiException(status: Status): ApiException {
-//        mockkObject(LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()))
-//        val exception = ApiException(status)
-//        // don't need a dialog for exception
-//        every {
-//            LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext())
-//                .sendBroadcast(any())
-//        } returns true
-//        return exception
-//    }
-//
-//    @After
-//    fun cleanUp() {
-//        unmockkAll()
-//    }
+    @Test
+    fun `request is not forwarded if tracing is enabled`() = runBlockingTest {
+        coEvery { enfClient.isTracingEnabled } returns flowOf(true)
+
+        val callback = mockk<TracingPermissionHelper.Callback>()
+        every { callback.onUpdateTracingStatus(any()) } just Runs
+
+        val instance = createInstance(scope = this)
+        instance.callback = callback
+
+        val permissionRequestListener = mockk<(permissionRequest: (Activity) -> Unit) -> Unit>()
+
+        instance.startTracing(permissionRequestListener)
+
+        advanceUntilIdle()
+
+        verify { callback.onUpdateTracingStatus(true) }
+    }
 }

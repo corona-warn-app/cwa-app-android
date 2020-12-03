@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.resultavailable
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.asLiveData
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -27,12 +28,18 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
 
     init {
-        tekHistoryUpdater.tekUpdateListener = { teks, error ->
-            if (teks != null) {
+        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
                 clickEvent.postValue(SubmissionTestResultAvailableEvents.GoToTestResult)
-            } else {
+            }
+
+            override fun onPermissionDeclined() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(error: Throwable) {
                 Timber.e(error, "Failed to update TEKs.")
-                error?.report(
+                error.report(
                     exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
                     prefix = "SubmissionTestResultAvailableViewModel"
                 )

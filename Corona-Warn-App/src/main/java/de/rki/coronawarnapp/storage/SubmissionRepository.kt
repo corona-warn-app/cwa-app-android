@@ -124,7 +124,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     // TODO this should be more UI agnostic
-    suspend fun refreshUIState(refreshTestResult: Boolean): NetworkRequestWrapper<DeviceUIState, Throwable> {
+    private suspend fun refreshUIState(refreshTestResult: Boolean): NetworkRequestWrapper<DeviceUIState, Throwable> {
         var uiState = DeviceUIState.UNPAIRED
 
         if (LocalData.submissionWasSuccessful()) {

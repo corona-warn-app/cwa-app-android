@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.onboarding
 
 import android.app.Activity
 import android.content.Intent
+import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -19,15 +20,19 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     private val tracingPermissionHelper: TracingPermissionHelper
 ) : CWAViewModel() {
 
-    val countryList = interoperabilityRepository.countryList
+    val countryList = interoperabilityRepository.countryListFlow.asLiveData()
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
     val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
 
     init {
-        tracingPermissionHelper.statusListener = { isTracingEnabled: Boolean, error: Throwable? ->
-            if (error == null && isTracingEnabled) {
-                routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTest)
-            } else {
+        tracingPermissionHelper.callback = object : TracingPermissionHelper.Callback {
+            override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
+                if (isTracingEnabled) {
+                    routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTest)
+                }
+            }
+
+            override fun onError(error: Throwable) {
                 Timber.e(error, "Failed to activate tracing during onboarding.")
             }
         }

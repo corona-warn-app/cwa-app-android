@@ -57,6 +57,9 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                     (requireActivity() as OnboardingActivity).goBack()
             }
         }
+        vm.permissionRequestEvent.observe2(this) { permissionRequest ->
+            permissionRequest.invoke(requireActivity())
+        }
     }
 
     override fun onResume() {

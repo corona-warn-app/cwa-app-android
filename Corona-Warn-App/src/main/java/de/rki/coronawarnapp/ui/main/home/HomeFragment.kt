@@ -138,9 +138,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     private fun setupTestResultCard() {
         binding.apply {
-            val toSubmissionResult = {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
-            }
+
             mainTestUnregistered.apply {
                 val toSubmissionDispatcher = {
                     doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
@@ -149,17 +147,24 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionDispatcher() }
             }
 
-            mainTestDone.submissionStatusCardDone.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDoneFragment())
-            }
+            // Test is negative
             mainTestResult.apply {
+                val toSubmissionResult = {
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
+                }
                 submissionStatusCardContent.setOnClickListener { toSubmissionResult() }
                 submissionStatusCardContentButton.setOnClickListener { toSubmissionResult() }
             }
-
+            // Test is positive
             mainTestPositive.apply {
-                submissionStatusCardPositive.setOnClickListener { toSubmissionResult() }
-                submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
+                val toConsentScreen = {
+                    doNavigate(
+                        HomeFragmentDirections
+                            .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+                    )
+                }
+                submissionStatusCardPositive.setOnClickListener { toConsentScreen() }
+                submissionStatusCardPositiveButton.setOnClickListener { toConsentScreen() }
             }
 
             mainTestFailed.apply {

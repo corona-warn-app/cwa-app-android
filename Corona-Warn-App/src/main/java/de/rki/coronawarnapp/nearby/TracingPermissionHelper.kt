@@ -14,14 +14,14 @@ class TracingPermissionHelper @Inject constructor(
     @AppScope private val scope: CoroutineScope
 ) {
 
-    var statusListener: ((Boolean, Throwable?) -> Unit)? = null
+    var callback: Callback? = null
 
     fun startTracing(
         onUserPermissionRequired: (permissionRequest: (Activity) -> Unit) -> Unit
     ) {
         scope.launch {
             if (enfClient.isTracingEnabled.first()) {
-                statusListener?.invoke(true, null)
+                callback?.onUpdateTracingStatus(true)
             } else {
                 enableTracing(onUserPermissionRequired)
             }
@@ -33,8 +33,8 @@ class TracingPermissionHelper @Inject constructor(
     ) {
         enfClient.setTracing(
             true,
-            onSuccess = { statusListener?.invoke(true, null) },
-            onError = { statusListener?.invoke(false, it) },
+            onSuccess = { callback?.onUpdateTracingStatus(true) },
+            onError = { callback?.onError(it) },
             onPermissionRequired = { status ->
                 if (onUserPermissionRequired != null) {
                     val permissionRequestTrigger: (Activity) -> Unit = {
@@ -42,8 +42,7 @@ class TracingPermissionHelper @Inject constructor(
                     }
                     onUserPermissionRequired(permissionRequestTrigger)
                 } else {
-                    statusListener?.invoke(
-                        false,
+                    callback?.onError(
                         IllegalStateException("Permission were granted but we are still not allowed to enable tracing.")
                     )
                 }
@@ -69,7 +68,7 @@ class TracingPermissionHelper @Inject constructor(
         } else {
             Timber.tag(TAG).w("User declined permission (!= RESULT_OK): %s", data)
 
-            statusListener?.invoke(false, null)
+            callback?.onUpdateTracingStatus(false)
             UpdateResult.PERMISSION_DECLINED
         }
     }
@@ -78,6 +77,12 @@ class TracingPermissionHelper @Inject constructor(
         PERMISSION_AVAILABLE,
         PERMISSION_DECLINED,
         UNKNOWN_RESULT
+    }
+
+    interface Callback {
+        fun onUpdateTracingStatus(isTracingEnabled: Boolean)
+
+        fun onError(error: Throwable)
     }
 
     companion object {

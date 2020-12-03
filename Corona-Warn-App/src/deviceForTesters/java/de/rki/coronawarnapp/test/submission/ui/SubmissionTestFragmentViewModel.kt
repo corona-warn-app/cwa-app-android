@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -43,8 +44,18 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     init {
-        tekHistoryUpdater.tekUpdateListener = { teks, error ->
-            Timber.d(error, "Received tekUpdateListener callback: teks=%s", teks)
+        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                Timber.d("TEKs are available: %s", teks)
+            }
+
+            override fun onPermissionDeclined() {
+                Timber.d("Permission were declined.")
+            }
+
+            override fun onError(error: Throwable) {
+                errorEvents.postValue(error)
+            }
         }
     }
 

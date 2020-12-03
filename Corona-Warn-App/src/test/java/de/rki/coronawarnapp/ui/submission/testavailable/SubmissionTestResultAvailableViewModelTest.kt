@@ -33,7 +33,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
-        every { tekHistoryUpdater.tekUpdateListener = any() } just Runs
+        every { tekHistoryUpdater.callback = any() } just Runs
         every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission(any()) } just Runs
     }
 

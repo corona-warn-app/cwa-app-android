@@ -22,7 +22,7 @@ class TEKHistoryUpdater @Inject constructor(
     @AppScope private val scope: CoroutineScope
 ) {
 
-    var tekUpdateListener: (suspend (List<TemporaryExposureKey>?, error: Throwable?) -> Unit)? = null
+    var callback: Callback? = null
 
     fun updateTEKHistoryOrRequestPermission(
         onUserPermissionRequired: (permissionRequest: (Activity) -> Unit) -> Unit
@@ -51,23 +51,24 @@ class TEKHistoryUpdater @Inject constructor(
             Timber.tag(TAG).w("Not our request code ($requestCode): %s", data)
             return UpdateResult.UNKNOWN_RESULT
         }
-        if (resultCode != Activity.RESULT_OK) {
-            Timber.tag(TAG).w("Negative activity result (!= RESULT_OK): %s", data)
-            return UpdateResult.NO_PERMISSION
+        return if (resultCode == Activity.RESULT_OK) {
+            Timber.tag(TAG).w("Permission granted (== RESULT_OK): %s", data)
+            updateHistoryAndTriggerCallback()
+            UpdateResult.PERMISSION_AVAILABLE
+        } else {
+            Timber.tag(TAG).w("Permission declined (!= RESULT_OK): %s", data)
+            callback?.onPermissionDeclined()
+            UpdateResult.PERMISSION_UNAVAILABLE
         }
-
-        updateHistoryAndTriggerCallback()
-
-        return UpdateResult.PERMISSION_AVAILABLE
     }
 
     private fun updateHistoryAndTriggerCallback() {
         scope.launch {
             try {
                 val result = updateTEKHistory()
-                tekUpdateListener?.invoke(result, null)
+                callback?.onTEKAvailable(result)
             } catch (e: Exception) {
-                tekUpdateListener?.invoke(null, e)
+                callback?.onError(e)
             }
         }
     }
@@ -98,12 +99,18 @@ class TEKHistoryUpdater @Inject constructor(
 
     enum class UpdateResult {
         PERMISSION_AVAILABLE,
-        NO_PERMISSION,
+        PERMISSION_UNAVAILABLE,
         UNKNOWN_RESULT
     }
 
     companion object {
         private const val TAG = "TEKHistoryUpdater"
         const val TEK_PERMISSION_REQUESTCODE = 3011
+    }
+
+    interface Callback {
+        fun onTEKAvailable(teks: List<TemporaryExposureKey>)
+        fun onPermissionDeclined()
+        fun onError(error: Throwable)
     }
 }

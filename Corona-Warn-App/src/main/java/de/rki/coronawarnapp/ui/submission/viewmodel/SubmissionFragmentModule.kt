@@ -4,8 +4,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentModule
@@ -13,6 +11,8 @@ import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragme
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanModule
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableModule
+import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment
+import de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyModule
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarModule
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
@@ -25,8 +25,8 @@ import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragmen
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultModule
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentModule
-import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningFragment
-import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningModule
+import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragment
+import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentModule
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentModule
 
@@ -51,20 +51,14 @@ internal abstract class SubmissionFragmentModule {
     @ContributesAndroidInjector(modules = [SubmissionContactModule::class])
     abstract fun submissionContactScreen(): SubmissionContactFragment
 
-    @ContributesAndroidInjector(modules = [SubmissionDoneModule::class])
-    abstract fun submissionDoneScreen(): SubmissionDoneFragment
-
-    @ContributesAndroidInjector(modules = [SubmissionDoneNoConsentModule::class])
-    abstract fun submissionDoneNoConsentScreen(): SubmissionDoneNoConsentFragment
+    @ContributesAndroidInjector(modules = [SubmissionResultReadyModule::class])
+    abstract fun submissionDoneNoConsentScreen(): SubmissionResultReadyFragment
 
     @ContributesAndroidInjector(modules = [SubmissionIntroModule::class])
     abstract fun submissionIntroScreen(): SubmissionIntroFragment
 
     @ContributesAndroidInjector(modules = [SubmissionQRCodeScanModule::class])
     abstract fun submissionQRCodeScanScreen(): SubmissionQRCodeScanFragment
-
-    @ContributesAndroidInjector(modules = [SubmissionResultPositiveOtherWarningModule::class])
-    abstract fun submissionResultPositiveOtherWarningScreen(): SubmissionResultPositiveOtherWarningFragment
 
     @ContributesAndroidInjector(modules = [SubmissionSymptomIntroductionModule::class])
     abstract fun submissionSymptomIntroductionScreen(): SubmissionSymptomIntroductionFragment
@@ -86,4 +80,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTestResultNoConsentModule::class])
     abstract fun submissionTestResultNoConsentScreen(): SubmissionTestResultNoConsentFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionResultPositiveOtherWarningNoConsentModule::class])
+    abstract fun SubmissionResultPositiveOtherWarningNoConsentScreen(): SubmissionResultPositiveOtherWarningNoConsentFragment
 }

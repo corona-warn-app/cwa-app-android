@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -15,7 +14,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
-import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -78,61 +76,44 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        binding.apply {
-            submissionSymptomHeader.headerButtonBack.buttonIcon
-                .setOnClickListener { viewModel.onPreviousClicked() }
-
-            symptomButtonNext
-                .setOnClickListener { viewModel.onNextClicked() }
-
-            symptomChoiceSelection.targetButtonApply
-                .setOnClickListener { viewModel.onPositiveSymptomIndication() }
-
-            symptomChoiceSelection.targetButtonReject
-                .setOnClickListener { viewModel.onNegativeSymptomIndication() }
-
-            symptomChoiceSelection.targetButtonVerify
-                .setOnClickListener { viewModel.onNoInformationSymptomIndication() }
-        }
+        binding.submissionSymptomHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.onPreviousClicked() }
     }
 
     private fun updateButtons(symptomIndication: Symptoms.Indication?) {
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply)
-            .setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).backgroundTintList =
-            ColorStateList.valueOf(
-                formatBackgroundButtonStyleByState(
-                    symptomIndication,
-                    Symptoms.Indication.POSITIVE
+        binding.targetButtonApply.apply {
+            setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE))
+            backgroundTintList = ColorStateList.valueOf(
+                formatBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE)
+            )
+            setOnClickListener { viewModel.onPositiveSymptomIndication() }
+        }
+        binding.targetButtonReject.apply {
+            setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE))
+            backgroundTintList = ColorStateList.valueOf(
+                formatBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE)
+            )
+            setOnClickListener { viewModel.onNegativeSymptomIndication() }
+        }
+        binding.targetButtonVerify.apply {
+            setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION))
+            backgroundTintList =
+                ColorStateList.valueOf(
+                    formatBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION)
                 )
+
+            setOnClickListener { viewModel.onNoInformationSymptomIndication() }
+        }
+
+        binding.symptomButtonNext.apply {
+            isEnabled = symptomIndication != null
+            setText(
+                when (symptomIndication) {
+                    Symptoms.Indication.NEGATIVE -> R.string.submission_done_button_done
+                    Symptoms.Indication.NO_INFORMATION -> R.string.submission_done_button_done
+                    else -> R.string.submission_symptom_further_button
+                }
             )
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject)
-            .setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).backgroundTintList =
-            ColorStateList.valueOf(
-                formatBackgroundButtonStyleByState(
-                    symptomIndication,
-                    Symptoms.Indication.NEGATIVE
-                )
-            )
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify)
-            .setTextColor(
-                formatButtonStyleByState(
-                    symptomIndication,
-                    Symptoms.Indication.NO_INFORMATION
-                )
-            )
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).backgroundTintList =
-            ColorStateList.valueOf(
-                formatBackgroundButtonStyleByState(
-                    symptomIndication,
-                    Symptoms.Indication.NO_INFORMATION
-                )
-            )
-        binding
-            .symptomButtonNext.findViewById<Button>(R.id.symptom_button_next).isEnabled =
-            isEnableSymptomIntroButtonByState(
-                symptomIndication
-            )
+            setOnClickListener { viewModel.onNextClicked() }
+        }
     }
 }

@@ -39,10 +39,10 @@ class SubmissionSettings @Inject constructor(
         defaultValue = false
     )
 
-    val symptoms: FlowPreference<Symptoms> = FlowPreference(
+    val symptoms: FlowPreference<Symptoms?> = FlowPreference(
         prefs,
         key = "submission.symptoms.latest",
-        reader = FlowPreference.gsonReader(gson, Symptoms.NO_INFO_GIVEN),
+        reader = FlowPreference.gsonReader<Symptoms?>(gson, null),
         writer = FlowPreference.gsonWriter(gson)
     )
 

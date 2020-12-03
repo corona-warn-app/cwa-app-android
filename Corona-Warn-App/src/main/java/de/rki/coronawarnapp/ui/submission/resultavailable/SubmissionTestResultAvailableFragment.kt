@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
@@ -23,6 +24,11 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = showCloseDialog()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         vm.consent.observe2(this) {
             if (it) {
@@ -46,8 +52,10 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         vm.clickEvent.observe2(this) {
             when (it) {
                 is SubmissionTestResultAvailableEvents.GoBack -> showCloseDialog()
-                // TODO: Add navigation
-                // is SubmissionTestResultAvailableEvents.GoConsent -> doNavigate(TestResultAvailableFragmentDirections.actionTestResultAvailableToSubmissionYourConsent())
+
+//                is SubmissionTestResultAvailableEvents.GoConsent -> doNavigate(
+//
+//                )
                 is SubmissionTestResultAvailableEvents.GoToTestResult -> {
                     // FIXME: Advance to next screen
                 }
@@ -74,15 +82,17 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         }
 
         val closeDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            dialogTitle,
-            dialogBody,
-            R.string.submission_test_result_available_close_dialog_continue_button,
-            R.string.submission_test_result_available_close_dialog_cancel_button,
-            true, {
+            context = requireActivity(),
+            title = dialogTitle,
+            message = dialogBody,
+            positiveButton = R.string.submission_test_result_available_close_dialog_continue_button,
+            negativeButton = R.string.submission_test_result_available_close_dialog_cancel_button,
+            cancelable = true,
+            positiveButtonFunction = {
                 // TODO: Add navigation
                 // doNavigate(TestResultAvailableFragmentDirections.actionTestResultAvailableToMainFragment())
-            }, {
+            },
+            negativeButtonFunction = {
                 // Do nothing
             }
         )

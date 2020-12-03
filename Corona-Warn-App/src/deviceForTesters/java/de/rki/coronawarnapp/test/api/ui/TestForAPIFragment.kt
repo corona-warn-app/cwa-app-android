@@ -137,14 +137,24 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i), AutoInjec
             buttonApiSubmitKeys.setOnClickListener {
                 vm.launch {
                     try {
-                        tekHistoryUpdater.tekUpdateListener = { teks, error ->
-                            withContext(Dispatchers.Main) {
-                                if (teks != null) {
+                        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
+                            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                                launch(context = Dispatchers.Main) {
                                     myExposureKeysJSON = keysToJson(teks)
                                     myExposureKeys = teks
                                     qrPagerAdapter.notifyDataSetChanged()
-                                } else {
-                                    showToast(error!!.toString())
+                                }
+                            }
+
+                            override fun onPermissionDeclined() {
+                                launch(context = Dispatchers.Main) {
+                                    showToast("Permission declined")
+                                }
+                            }
+
+                            override fun onError(error: Throwable) {
+                                launch(context = Dispatchers.Main) {
+                                    showToast(error.toString())
                                 }
                             }
                         }

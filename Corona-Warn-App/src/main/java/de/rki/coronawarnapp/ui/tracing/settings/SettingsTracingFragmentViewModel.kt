@@ -51,10 +51,14 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<Event>()
 
     init {
-        tracingPermissionHelper.statusListener = { isTracingEnabled, error ->
-            if (error == null) {
-                BackgroundWorkScheduler.startWorkScheduler()
-            } else {
+        tracingPermissionHelper.callback = object : TracingPermissionHelper.Callback {
+            override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
+                if (isTracingEnabled) {
+                    BackgroundWorkScheduler.startWorkScheduler()
+                }
+            }
+
+            override fun onError(error: Throwable) {
                 Timber.w(error, "Failed to start tracing")
             }
         }

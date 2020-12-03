@@ -19,7 +19,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val symptomStart = submissionRepository.currentSymptoms.flow
-        .map { it.startOfSymptoms }
+        .map { it?.startOfSymptoms }
         .asLiveData(context = dispatcherProvider.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -49,7 +49,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     private fun updateSymptomStart(startOf: Symptoms.StartOf?) {
         submissionRepository.currentSymptoms.update {
-            it.copy(startOfSymptoms = startOf)
+            (it ?: Symptoms.NO_INFO_GIVEN).copy(startOfSymptoms = startOf)
         }
     }
 

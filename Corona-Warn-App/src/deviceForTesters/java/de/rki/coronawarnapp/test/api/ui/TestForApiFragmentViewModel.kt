@@ -27,11 +27,13 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
     val permissionRequiredEvent = SingleLiveEvent<(Activity) -> Unit>()
 
     init {
-        tracingPermissionHelper.statusListener = { isTracingEnabled, error ->
-            if (error != null) {
-                errorEvents.postValue(error)
-            } else {
+        tracingPermissionHelper.callback = object : TracingPermissionHelper.Callback {
+            override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
                 infoEvent.postValue("isTracingEnabled: $isTracingEnabled")
+            }
+
+            override fun onError(error: Throwable) {
+                errorEvents.postValue(error)
             }
         }
     }

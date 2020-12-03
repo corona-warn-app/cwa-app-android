@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -25,7 +26,8 @@ class SubmissionTask @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val tekHistoryCalculations: ExposureKeyHistoryCalculations,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val submissionSettings: SubmissionSettings
+    private val submissionSettings: SubmissionSettings,
+    private val testResultNotificationService: TestResultNotificationService
 ) : Task<DefaultProgress, Task.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -40,7 +42,7 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Using registrationToken=$registrationToken")
 
         val keys: List<TemporaryExposureKey> = tekHistoryStorage.tekData.first().flatMap { it.keys }
-        val symptoms: Symptoms = submissionSettings.symptoms.value
+        val symptoms: Symptoms = submissionSettings.symptoms.value ?: Symptoms.NO_INFO_GIVEN
 
         val transformedKeys = tekHistoryCalculations.transformToKeyHistoryInExternalFormat(
             keys,
@@ -68,6 +70,7 @@ class SubmissionTask @Inject constructor(
         BackgroundWorkScheduler.stopWorkScheduler()
         LocalData.numberOfSuccessfulSubmissions(1)
 
+        testResultNotificationService.cancelPositiveTestResultNotification()
 
         object : Task.Result {}
     } catch (error: Exception) {
