@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.resultavailable
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.asLiveData
+import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -22,19 +23,29 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val clickEvent: SingleLiveEvent<SubmissionTestResultAvailableEvents> = SingleLiveEvent()
+    val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    val consent = submissionRepository.hasGivenConsentToSubmission.asLiveData(dispatcherProvider.Default)
+    val consentFlow = submissionRepository.hasGivenConsentToSubmission
+    val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
+    val showCloseDialog = SingleLiveEvent<Unit>()
 
     init {
+        submissionRepository.refreshDeviceUIState(refreshTestResult = false)
+
         tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-                clickEvent.postValue(SubmissionTestResultAvailableEvents.GoToTestResult)
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
+                )
             }
 
             override fun onPermissionDeclined() {
-                TODO("Not yet implemented")
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                )
             }
 
             override fun onError(error: Throwable) {
@@ -48,21 +59,34 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun goBack() {
-        clickEvent.postValue(SubmissionTestResultAvailableEvents.GoBack)
+        showCloseDialog.postValue(Unit)
+    }
+
+    fun onCancelConfirmed() {
+        routeToScreen.postValue(
+            SubmissionTestResultAvailableFragmentDirections
+                .actionSubmissionTestResultAvailableFragmentToMainFragment()
+        )
     }
 
     fun goConsent() {
-        clickEvent.postValue(SubmissionTestResultAvailableEvents.GoConsent)
+        routeToScreen.postValue(
+            SubmissionTestResultAvailableFragmentDirections
+                .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment()
+        )
     }
 
     fun proceed() {
         launch {
-            if (submissionRepository.hasGivenConsentToSubmission.first()) {
+            if (consentFlow.first()) {
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
                     showPermissionRequest.postValue(permissionRequest)
                 }
             } else {
-                clickEvent.postValue(SubmissionTestResultAvailableEvents.GoToTestResult)
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                )
             }
         }
     }

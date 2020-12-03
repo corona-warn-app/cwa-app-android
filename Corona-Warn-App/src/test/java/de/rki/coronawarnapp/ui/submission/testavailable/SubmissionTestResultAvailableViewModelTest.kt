@@ -67,7 +67,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         viewModel.goBack()
-        viewModel.clickEvent.value shouldBe SubmissionTestResultAvailableEvents.GoBack
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableEvents.GoBack
     }
 
     @Test
@@ -75,7 +75,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         viewModel.goConsent()
-        viewModel.clickEvent.value shouldBe SubmissionTestResultAvailableEvents.GoConsent
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableEvents.GoConsent
     }
 
     @Test
@@ -94,6 +94,6 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         viewModel.proceed()
-        viewModel.clickEvent.value shouldBe SubmissionTestResultAvailableEvents.GoToTestResult
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableEvents.GoToTestResult
     }
 }

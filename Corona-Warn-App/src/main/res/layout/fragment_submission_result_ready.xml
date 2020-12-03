@@ -53,13 +53,13 @@
                     tools:ignore="ContentDescription" />
                 <TextView
                     android:id="@+id/submission_done_text"
-                    style="@style/headline5"
+                    style="@style/headline6"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="@string/submission_done_no_consent_subtitle"
+                    android:text="@string/submission_test_result_consent_given_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_done_hero_illustration" />

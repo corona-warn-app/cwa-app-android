@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -26,7 +27,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         super.onViewCreated(view, savedInstanceState)
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = showCloseDialog()
+            override fun handleOnBackPressed() = vm.goBack()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
@@ -45,21 +46,16 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
 
         binding.apply {
             submissionTestResultAvailableProceedButton.setOnClickListener { vm.proceed() }
-            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
             submissionTestResultAvailableConsentStatus.setOnClickListener { vm.goConsent() }
+            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
         }
 
-        vm.clickEvent.observe2(this) {
-            when (it) {
-                is SubmissionTestResultAvailableEvents.GoBack -> showCloseDialog()
+        vm.showCloseDialog.observe2(this) {
+            showCloseDialog()
+        }
 
-//                is SubmissionTestResultAvailableEvents.GoConsent -> doNavigate(
-//
-//                )
-                is SubmissionTestResultAvailableEvents.GoToTestResult -> {
-                    // FIXME: Advance to next screen
-                }
-            }
+        vm.routeToScreen.observe2(this) {
+            doNavigate(it)
         }
 
         vm.showPermissionRequest.observe2(this) { permissionRequest ->
@@ -88,13 +84,8 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             positiveButton = R.string.submission_test_result_available_close_dialog_continue_button,
             negativeButton = R.string.submission_test_result_available_close_dialog_cancel_button,
             cancelable = true,
-            positiveButtonFunction = {
-                // TODO: Add navigation
-                // doNavigate(TestResultAvailableFragmentDirections.actionTestResultAvailableToMainFragment())
-            },
-            negativeButtonFunction = {
-                // Do nothing
-            }
+            positiveButtonFunction = { vm.onCancelConfirmed() },
+            negativeButtonFunction = { }
         )
         DialogHelper.showDialog(closeDialogInstance)
     }
