@@ -1209,7 +1209,8 @@
     <string-array name="test_result_card_negative_further_info_bullet_points">
         <item>"Nadal nie czujesz się dobrze? Jeśli czujesz się bardzo słabo i/lub objawy się nasiliły, skontaktuj się z lekarzem rodzinnym."</item>
         <item>"Pozostań w domu, dopóki nie poczujesz się znowu dobrze. Zarażenie się koronawirusem (SARS-CoV-2) w stanie osłabienia przez inną infekcję może prowadzić do poważnej choroby."</item>
-        <item>"Nie idź do pracy, jeśli nie czujesz się dobrze, aby nie stwarzać zagrożenia dla innych osób. Jeśli objawy nasilą się, może być konieczne wykonanie kolejnego testu SARS-CoV-2."</item>
+        <item>"Nie idź do pracy, jeśli nie czujesz się dobrze, aby nie stwarzać zagrożenia dla innych osób."</item>
+        <item>"Jeśli objawy nasilą się, może być konieczne wykonanie kolejnego testu SARS-CoV-2."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
