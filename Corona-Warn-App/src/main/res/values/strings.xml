@@ -108,6 +108,10 @@
     <string name="notification_headline_share_positive_result">"You can help!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Please share your test result and warn others."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">""</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">""</string>
 
     <!-- ####################################
               App Auto Update
