@@ -1136,7 +1136,8 @@
     <string-array name="test_result_card_negative_further_info_bullet_points">
         <item>"Hâlâ kendinizi iyi hissetmiyor musunuz? Kendinizi kötü hissediyorsanız ve/veya belirtileriniz kötüleştiyse lütfen aile hekiminizle iletişime geçin."</item>
         <item>"Kendinizi yeniden iyi hissedene dek evde kalın. Başka bir enfeksiyon nedeniyle bağışıklığınız zayıflamışken koronavirüse (SARS-CoV-2) yakalanırsanız ciddi bir hastalıkla karşılaşabilirsiniz."</item>
-        <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin. Belirtileriniz kötüleşirse ilave SARS-CoV-2 testi yapılması gerekebilir."</item>
+        <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin."</item>
+        <item>"Belirtileriniz kötüleşirse ilave SARS-CoV-2 testi yapılması gerekebilir."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
