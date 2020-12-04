@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.protobuf.ByteString
@@ -33,7 +32,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -41,6 +39,7 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -61,11 +60,11 @@ import java.util.UUID
 import javax.inject.Inject
 
 @SuppressWarnings("TooManyFunctions", "LongMethod")
-class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
-    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
+class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var enfClient: ENFClient
+    @Inject lateinit var tekHistoryUpdater: TEKHistoryUpdater
 
     // TODO: This is ugly, remove when refactoring the fragment
     @Inject lateinit var appConfigProvider: AppConfigProvider
@@ -94,8 +93,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     private var otherExposureKey: AppleLegacyKeyExchange.Key? = null
     private var otherExposureKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
-    private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
-
     private lateinit var qrPager: ViewPager2
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
 
@@ -105,9 +102,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        internalExposureNotificationPermissionHelper =
-            InternalExposureNotificationPermissionHelper(this, this)
 
         qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
@@ -119,9 +113,15 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 "Google Play Services version: ${state.version}"
         }
 
+        vm.infoEvent.observe2(this) { showToast(it) }
+        vm.errorEvents.observe2(this) { showToast(it.toString()) }
+        vm.permissionRequiredEvent.observe2(this) { permissionRequest ->
+            permissionRequest.invoke(requireActivity())
+        }
+
         // Test action card
         binding.apply {
-            buttonApiTestStart.setOnClickListener { start() }
+            buttonApiTestStart.setOnClickListener { vm.requestTracingPermission() }
             buttonApiGetExposureKeys.setOnClickListener { getExposureKeys() }
 
             buttonApiScanQrCode.setOnClickListener {
@@ -137,7 +137,29 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             buttonApiSubmitKeys.setOnClickListener {
                 vm.launch {
                     try {
-                        internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+                        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
+                            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                                launch(context = Dispatchers.Main) {
+                                    myExposureKeysJSON = keysToJson(teks)
+                                    myExposureKeys = teks
+                                    qrPagerAdapter.notifyDataSetChanged()
+                                }
+                            }
+
+                            override fun onPermissionDeclined() {
+                                launch(context = Dispatchers.Main) {
+                                    showToast("Permission declined")
+                                }
+                            }
+
+                            override fun onError(error: Throwable) {
+                                launch(context = Dispatchers.Main) {
+                                    showToast(error.toString())
+                                }
+                            }
+                        }
+
+                        updateKeysDisplay()
 
                         // SubmitDiagnosisKeysTransaction.start("123")
                         withContext(Dispatchers.Main) {
@@ -221,13 +243,9 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        this.internalExposureNotificationPermissionHelper.onResolutionComplete(
-            requestCode,
-            resultCode
-        )
+        vm.handleActivityResult(requestCode, resultCode, data)
 
-        val result: IntentResult? =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents == null) {
                 showToast("Cancelled")
@@ -239,12 +257,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         }
     }
 
-    private fun start() {
-        this.internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
-    }
-
     private fun getExposureKeys() {
-        this.internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+        tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
+            permissionRequest(requireActivity())
+        }
     }
 
     private fun shareMyKeys() {
@@ -335,26 +351,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showSnackBar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-    }
-
-    override fun onFailure(exception: Exception?) {
-        showToast(exception?.localizedMessage ?: "Error during EN start")
-    }
-
-    override fun onStartPermissionGranted() {
-        showToast("Started EN Tracing")
-    }
-
-    override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
-        myExposureKeysJSON = keysToJson(keys)
-        myExposureKeys = keys
-        qrPagerAdapter.notifyDataSetChanged()
-
-        updateKeysDisplay()
     }
 
     private inner class QRPagerAdapter :

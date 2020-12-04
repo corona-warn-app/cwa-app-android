@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import org.joda.time.LocalDate
 
@@ -18,22 +19,43 @@ data class Symptoms(
         data class Date(val date: LocalDate) : StartOf()
 
         @Parcelize
-        object LastSevenDays : StartOf()
+        object LastSevenDays : StartOf() {
+            override fun equals(other: Any?): Boolean = other is LastSevenDays
+
+            override fun hashCode(): Int = System.identityHashCode(this)
+        }
 
         @Parcelize
-        object OneToTwoWeeksAgo : StartOf()
+        object OneToTwoWeeksAgo : StartOf() {
+            override fun equals(other: Any?): Boolean = other is OneToTwoWeeksAgo
+
+            override fun hashCode(): Int = System.identityHashCode(this)
+        }
 
         @Parcelize
-        object MoreThanTwoWeeks : StartOf()
+        object MoreThanTwoWeeks : StartOf() {
+            override fun equals(other: Any?): Boolean = other is MoreThanTwoWeeks
+
+            override fun hashCode(): Int = System.identityHashCode(this)
+        }
 
         @Parcelize
-        object NoInformation : StartOf()
+        object NoInformation : StartOf() {
+            override fun equals(other: Any?): Boolean = other is NoInformation
+
+            override fun hashCode(): Int = System.identityHashCode(this)
+        }
     }
 
     @Parcelize
     enum class Indication : Parcelable {
+        @SerializedName("POSITIVE")
         POSITIVE,
+
+        @SerializedName("NEGATIVE")
         NEGATIVE,
+
+        @SerializedName("NO_INFORMATION")
         NO_INFORMATION
     }
 

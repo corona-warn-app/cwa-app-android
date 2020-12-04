@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
@@ -25,9 +26,16 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showCancelDialog()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         viewModel.uiState.observe2(this) {
             binding.submissionTestResultSection
-                    .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
+                .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
         binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -38,7 +46,7 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
             showCancelDialog()
         }
         binding.submissionTestResultPositiveNoConsentButtonWarnOthers.setOnClickListener {
-            // TODO navigation
+            navigateToWarnOthers()
         }
     }
 
@@ -49,16 +57,12 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
 
     private fun showCancelDialog() {
         AlertDialog.Builder(requireContext()).apply {
-            setTitle(getString(R.string.submission_test_result_positive_no_consent_dialog_title))
-            setMessage(getString(R.string.submission_test_result_positive_no_consent_dialog_message))
-            setPositiveButton(
-                getString(R.string.submission_test_result_positive_no_consent_dialog_positive_button)
-            ) { _, _ ->
+            setTitle(R.string.submission_test_result_positive_no_consent_dialog_title)
+            setMessage(R.string.submission_test_result_positive_no_consent_dialog_message)
+            setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ ->
                 navigateToWarnOthers()
             }
-            setNegativeButton(
-                getString(R.string.submission_test_result_positive_no_consent_dialog_negative_button)
-            ) { _, _ ->
+            setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
                 navigateToHome()
             }
         }.show()
@@ -71,6 +75,9 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
     }
 
     private fun navigateToWarnOthers() {
-        // TODO
+        doNavigate(
+            SubmissionTestResultNoConsentFragmentDirections
+                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+        )
     }
 }

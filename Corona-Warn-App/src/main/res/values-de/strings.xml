@@ -104,6 +104,10 @@
     <string name="notification_headline_share_positive_result">"Helfen Sie mit!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Bitte warnen Sie andere und teilen Sie Ihr Testergebnis."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">"Ihr Testergebnis"</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">"Es gibt wichtige Neuigkeiten. Bitte öffnen Sie Ihre Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -1033,7 +1037,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Vielen Dank!"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
+    <string name="submission_done_body">"Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: contagious -->
@@ -1333,8 +1337,6 @@
     <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
     <!-- NOTR -->
     <string name="test_api_button_show_qr_code">"Show QR Code"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_submit_keys">"Submit keys to Server"</string>
     <!-- NOTR -->
     <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
     <!-- NOTR -->
