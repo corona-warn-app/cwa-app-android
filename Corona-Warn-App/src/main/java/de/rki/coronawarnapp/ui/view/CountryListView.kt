@@ -20,7 +20,7 @@ class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     private val grid: RecyclerView
     private val countryNames: TextView
 
-    var countries: List<Country> = emptyList()
+    var countries: List<Country> = defaultCountryList
         set(value) {
             field = value.also { countries ->
                 adapterCountryFlags.countryList = countries
@@ -41,7 +41,7 @@ class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     // Helper to allow for null in data binding
     fun setCountryList(countries: List<Country>?) {
-        this.countries = countries ?: emptyList()
+        this.countries = countries ?: defaultCountryList
     }
 
     companion object {
@@ -51,7 +51,7 @@ class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
 private class CountryFlagsAdapter : BaseAdapter<CountryFlagViewHolder>() {
 
-    var countryList: List<Country> = emptyList()
+    var countryList: List<Country> = defaultCountryList
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -76,3 +76,5 @@ private class CountryFlagsAdapter : BaseAdapter<CountryFlagViewHolder>() {
         }
     }
 }
+
+private val defaultCountryList = listOf(Country.DE)
