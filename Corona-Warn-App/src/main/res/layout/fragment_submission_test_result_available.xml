@@ -72,7 +72,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_consent_status" />
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_available_consent_status" />
 
                 <include layout="@layout/merge_guidelines_side" />
 
@@ -86,7 +86,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_normal"
-            android:text="@string/submission_done_button_done"
+            android:text="@string/submission_intro_button_next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

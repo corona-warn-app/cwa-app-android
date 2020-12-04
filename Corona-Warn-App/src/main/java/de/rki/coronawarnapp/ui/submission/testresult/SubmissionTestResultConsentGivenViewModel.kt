@@ -5,45 +5,30 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DeviceUIState
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combineTransform
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
-    private val submissionRepository: SubmissionRepository
-) : CWAViewModel() {
+    private val submissionRepository: SubmissionRepository,
+    dispatcherProvider: DispatcherProvider
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
-    private var wasRedeemedTokenErrorShown = false
-    private val tokenErrorMutex = Mutex()
+    val showUploadDialog = submissionRepository.isSubmissionRunning
+        .asLiveData(context = dispatcherProvider.Default)
 
-    val uiState: LiveData<TestResultUIState> = combineTransform(
+    val uiState: LiveData<TestResultUIState> = combine(
         submissionRepository.deviceUIStateFlow,
         submissionRepository.testResultReceivedDateFlow
     ) { deviceUiState, resultDate ->
-
-        tokenErrorMutex.withLock {
-            if (!wasRedeemedTokenErrorShown) {
-                deviceUiState.withSuccess {
-                    if (it == DeviceUIState.PAIRED_REDEEMED) {
-                        wasRedeemedTokenErrorShown = true
-                        showRedeemedTokenWarning.postValue(Unit)
-                    }
-                }
-            }
-        }
-
         TestResultUIState(
             deviceUiState = deviceUiState,
             testResultReceivedDate = resultDate
-        ).let { emit(it) }
+        )
     }.asLiveData(context = Dispatchers.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
@@ -60,8 +45,15 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     }
 
     fun cancelTestSubmission() {
-        Timber.d("Submission was cancelled.")
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
+        launch {
+            try {
+                submissionRepository.startSubmission()
+            } catch (e: Exception) {
+                Timber.e(e, "cancelTestSubmission() failed.")
+            } finally {
+                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
+            }
+        }
     }
 
     @AssistedInject.Factory

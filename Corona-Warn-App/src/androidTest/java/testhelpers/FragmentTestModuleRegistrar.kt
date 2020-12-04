@@ -41,7 +41,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         SubmissionSymptomCalendarFragmentTestModule::class,
         SubmissionContactTestModule::class,
         SubmissionDoneTestModule::class,
-        SubmissionQRScanFragmentModule::class,
+        SubmissionQRScanFragmentModule::class
     ]
 )
 class FragmentTestModuleRegistrar

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.warnothers
+package de.rki.coronawarnapp.ui.submission.resultready
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionResultPositiveOtherWarningModule {
+abstract class SubmissionResultReadyModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionResultPositiveOtherWarningViewModel::class)
-    abstract fun submissionResultPositveOtherWarningFragment(
-        factory: SubmissionResultPositiveOtherWarningViewModel.Factory
+    @CWAViewModelKey(SubmissionResultReadyViewModel::class)
+    abstract fun submissionDoneNoConsentFragment(
+        factory: SubmissionResultReadyViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

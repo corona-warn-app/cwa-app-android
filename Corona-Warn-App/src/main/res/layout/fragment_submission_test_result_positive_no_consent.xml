@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_layout"
@@ -53,12 +53,13 @@
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_subtitle"
-                    style="@style/headline6"
+                    style="@style/headline5"
                     android:accessibilityHeading="true"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/submission_test_result_positive_no_consent_subtitle"
+                    tools:text="Bitte helfen Sie mit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
@@ -83,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
+                    tools:text="Helfen Sie mit, Ihre Mitmenschen vor Ansteckungen zu schützen und teilen Sie Ihr Testergebnis."
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
                     app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_1"
                     app:layout_constraintEnd_toEndOf="parent"

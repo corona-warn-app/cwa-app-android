@@ -17,10 +17,11 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import testhelpers.gms.MockGMSTask
 
 @ExperimentalCoroutinesApi
-internal class DefaultENFVersionTest {
+internal class DefaultENFVersionTest : BaseTest() {
 
     @MockK lateinit var client: ExposureNotificationClient
 

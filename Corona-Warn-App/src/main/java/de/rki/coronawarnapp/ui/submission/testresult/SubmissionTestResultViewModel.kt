@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -31,6 +30,7 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
     val showTracingRequiredScreen = SingleLiveEvent<Unit>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
+    val consentGiven = submissionRepository.hasGivenConsentToSubmission.asLiveData()
 
     private var wasRedeemedTokenErrorShown = false
     private val tokenErrorMutex = Mutex()
@@ -81,9 +81,7 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     fun onContinueWithoutSymptoms() {
         Timber.d("onContinueWithoutSymptoms()")
         requireTracingOrShowError {
-            Symptoms.NO_INFO_GIVEN
-                .let { SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning(it) }
-                .let { routeToScreen.postValue(it) }
+            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning)
         }
     }
 
@@ -99,6 +97,7 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
         launch {
             Timber.d("deregisterTestFromDevice()")
             submissionRepository.deleteTestGUID()
+            submissionRepository.revokeConsentToSubmission()
             SubmissionRepository.deleteRegistrationToken()
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.initialTestResultReceivedTimestamp(0L)
@@ -109,6 +108,10 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
 
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
         submissionRepository.refreshDeviceUIState(refreshTestResult)
+    }
+
+    fun onConsentClicked() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToYourConsent)
     }
 
     @AssistedInject.Factory

@@ -1,13 +1,16 @@
 package de.rki.coronawarnapp.ui.submission.resultavailable
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -23,31 +26,46 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = vm.goBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         vm.consent.observe2(this) {
             if (it) {
                 binding.submissionTestResultAvailableText.setText(
-                    R.string.submission_test_result_available_text_consent_given)
+                    R.string.submission_test_result_available_text_consent_given
+                )
             } else {
                 binding.submissionTestResultAvailableText.setText(
-                    R.string.submission_test_result_available_text_consent_not_given)
+                    R.string.submission_test_result_available_text_consent_not_given
+                )
             }
             binding.submissionTestResultAvailableConsentStatus.consent = it
         }
 
         binding.apply {
             submissionTestResultAvailableProceedButton.setOnClickListener { vm.proceed() }
-            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
             submissionTestResultAvailableConsentStatus.setOnClickListener { vm.goConsent() }
+            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
         }
 
-        vm.clickEvent.observe2(this) {
-            when (it) {
-                is SubmissionTestResultAvailableEvents.GoBack -> showCloseDialog()
-                // TODO: Add navigation
-                // is SubmissionTestResultAvailableEvents.GoConsent -> doNavigate(TestResultAvailableFragmentDirections.actionTestResultAvailableToSubmissionYourConsent())
-                is SubmissionTestResultAvailableEvents.Proceed -> showProceedPopUp()
-            }
+        vm.showCloseDialog.observe2(this) {
+            showCloseDialog()
         }
+
+        vm.routeToScreen.observe2(this) {
+            doNavigate(it)
+        }
+
+        vm.showPermissionRequest.observe2(this) { permissionRequest ->
+            permissionRequest.invoke(requireActivity())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionTestResultAvailableContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun showCloseDialog() {
@@ -60,27 +78,19 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         }
 
         val closeDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            dialogTitle,
-            dialogBody,
-            R.string.submission_test_result_available_close_dialog_continue_button,
-            R.string.submission_test_result_available_close_dialog_cancel_button,
-            true, {
-                // TODO: Add navigation
-                // doNavigate(TestResultAvailableFragmentDirections.actionTestResultAvailableToMainFragment())
-            }, {
-                // Do nothing
-            }
+            context = requireActivity(),
+            title = dialogTitle,
+            message = dialogBody,
+            positiveButton = R.string.submission_test_result_available_close_dialog_continue_button,
+            negativeButton = R.string.submission_test_result_available_close_dialog_cancel_button,
+            cancelable = true,
+            positiveButtonFunction = { vm.onCancelConfirmed() },
+            negativeButtonFunction = { }
         )
         DialogHelper.showDialog(closeDialogInstance)
     }
 
-    private fun showProceedPopUp() {
-        // TODO: Show proceed pop up with further navigation
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.submissionTestResultAvailableContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        vm.handleActivityResult(requestCode, resultCode, data)
     }
 }
