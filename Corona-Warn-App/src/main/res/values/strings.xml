@@ -1218,6 +1218,7 @@
         <item>"Still feeling unwell? If you feel very poorly and/or your symptoms have worsened, please contact your general practitioner."</item>
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
+        <item>""</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
