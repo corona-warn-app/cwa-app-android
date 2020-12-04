@@ -1037,7 +1037,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Vielen Dank!"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
+    <string name="submission_done_body">"Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: contagious -->
