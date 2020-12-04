@@ -30,7 +30,7 @@
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">"By tapping on “Accept”, you consent to the following:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
-    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>The app will share your test result in order to warn other users of official coronavirus apps whom you have encountered. The warning will work in the countries mentioned above. If you provide additional information about the onset of your symptoms, this will also be shared.</b> BIn the next step, please share your test result (or more precisely: your random IDs from the last 14 days) by tapping on “Share”."</string>
+    <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>The app will share your test result in order to warn other users of official coronavirus apps whom you have encountered. The warning will work in the countries mentioned above. If you provide additional information about the onset of your symptoms, this will also be shared.</b>In the next step, please share your test result (or more precisely: your random IDs from the last 14 days) by tapping on “Share”."</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
     <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"If you have already warned other users, you can withdraw your consent by deleting the app."</string>
 </resources>
