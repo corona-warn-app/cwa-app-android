@@ -153,11 +153,10 @@ class TracingRepository @Inject constructor(
         val taskLastFinishedAt = try {
             taskController.tasks.first()
                 .filter { it.taskState.type == DownloadDiagnosisKeysTask::class }
-                .mapNotNull { it.taskState.finishedAt }
-                .sortedDescending()
-                .first()
+                .mapNotNull { if (it.taskState.finishedAt != null) it.taskState.finishedAt else it.taskState.startedAt }
+                .maxOrNull()!!
         } catch (e: NoSuchElementException) {
-            Timber.tag(TAG).v("download did not run recently - no task with a finishedAt date found")
+            Timber.tag(TAG).v("download did not run recently - no task with a date found")
             return true
         }
 
