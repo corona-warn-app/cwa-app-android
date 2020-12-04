@@ -29,17 +29,20 @@ class RiskLevelResultMigrator @Inject constructor(
 
     private fun lastTimeRiskLevelCalculation(): Instant? {
         prefs.getLong("preference_timestamp_risk_level_calculation", -1L).also {
+            Timber.tag(TAG).d("preference_timestamp_risk_level_calculation=$it")
             return if (it < 0) null else Instant.ofEpochMilli(it)
         }
     }
 
     private fun lastCalculatedRiskLevel(): RiskState? {
         val rawRiskLevel = prefs.getInt("preference_risk_level_score", -1)
+        Timber.tag(TAG).d("preference_risk_level_score=$rawRiskLevel")
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
     private fun lastSuccessfullyCalculatedRiskLevel(): RiskState? {
         val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", -1)
+        Timber.tag(TAG).d("preference_risk_level_score_successful=$rawRiskLevel")
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
@@ -58,9 +61,10 @@ class RiskLevelResultMigrator @Inject constructor(
             legacyResults.add(LegacyResult(riskState = it, calculatedAt = timeStamper.nowUTC))
         }
 
+        Timber.tag(TAG).d("legacyResults=$legacyResults")
         legacyResults
     } catch (e: Exception) {
-        Timber.e(e, "Failed to parse legacy risklevel data.")
+        Timber.tag(TAG).e(e, "Failed to parse legacy risklevel data.")
         emptyList()
     }
 
@@ -76,6 +80,7 @@ class RiskLevelResultMigrator @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "RiskLevelResultMigrator"
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun mapRiskLevelConstant(value: Int): RiskState = when (value) {
