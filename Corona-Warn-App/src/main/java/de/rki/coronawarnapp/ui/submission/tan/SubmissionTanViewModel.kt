@@ -65,6 +65,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
             } catch (err: Exception) {
                 registrationState.postValue(ApiRequestState.FAILED)
                 err.report(ExceptionCategory.INTERNAL)
+            } finally {
+                submissionRepository.refreshDeviceUIState(refreshTestResult = false)
             }
         }
     }

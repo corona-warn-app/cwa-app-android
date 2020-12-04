@@ -21,7 +21,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository
 ) :
     CWAViewModel() {
-    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
+    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
@@ -37,16 +37,22 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         }
     }
 
-    val registrationState = MutableLiveData(ApiRequestState.IDLE)
+    val registrationState = MutableLiveData(RegistrationState(ApiRequestState.IDLE))
     val registrationError = SingleLiveEvent<CwaWebException>()
+
+    data class RegistrationState(
+        val apiRequestState: ApiRequestState,
+        val testResult: TestResult? = null
+    )
 
     private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
-            registrationState.postValue(ApiRequestState.STARTED)
-            checkTestResult(submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!))
-            registrationState.postValue(ApiRequestState.SUCCESS)
+            registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
+            val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
+            checkTestResult(testResult)
+            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
         } catch (err: CwaWebException) {
-            registrationState.postValue(ApiRequestState.FAILED)
+            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
         } catch (err: TransactionException) {
             if (err.cause is CwaWebException) {
@@ -54,13 +60,13 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             } else {
                 err.report(ExceptionCategory.INTERNAL)
             }
-            registrationState.postValue(ApiRequestState.FAILED)
+            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
         } catch (err: InvalidQRCodeException) {
-            registrationState.postValue(ApiRequestState.FAILED)
+            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             deregisterTestFromDevice()
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
-            registrationState.postValue(ApiRequestState.FAILED)
+            registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             err.report(ExceptionCategory.INTERNAL)
         }
     }

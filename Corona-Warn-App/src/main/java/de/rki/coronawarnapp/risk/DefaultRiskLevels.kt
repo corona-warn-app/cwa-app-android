@@ -14,6 +14,7 @@ import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.max
 
 @Singleton
 class DefaultRiskLevels @Inject constructor() : RiskLevels {
@@ -37,7 +38,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             // Get total seconds at attenuation in exposure window
             val secondsAtAttenuation: Double = scanInstances
                 .filter { attenuationFilter.attenuationRange.inRange(it.minAttenuationDb) }
-                .fold(.0) { acc, scanInstance -> acc + scanInstance.secondsSinceLastScan }
+                .fold(.0) { acc, scanInstance -> acc + max(scanInstance.secondsSinceLastScan, 0) }
 
             val minutesAtAttenuation = secondsAtAttenuation / 60
             return attenuationFilter.dropIfMinutesInRange.inRange(minutesAtAttenuation)
@@ -86,7 +87,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
                     .filter { it.attenuationRange.inRange(scanInstance.minAttenuationDb) }
                     .map { it.weight }
                     .firstOrNull() ?: .0
-            seconds + scanInstance.secondsSinceLastScan * weight
+            seconds + max(scanInstance.secondsSinceLastScan, 0) * weight
         }
 
     private fun determineRiskLevel(

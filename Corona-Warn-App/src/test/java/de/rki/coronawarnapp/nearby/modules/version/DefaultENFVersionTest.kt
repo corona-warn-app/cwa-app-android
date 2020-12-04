@@ -17,10 +17,11 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import testhelpers.gms.MockGMSTask
 
 @ExperimentalCoroutinesApi
-internal class DefaultENFVersionTest {
+internal class DefaultENFVersionTest : BaseTest() {
 
     @MockK lateinit var client: ExposureNotificationClient
 
@@ -105,6 +106,56 @@ internal class DefaultENFVersionTest {
 
                 shouldThrow<ApiException> {
                     requireMinimumVersion(ENFVersion.V1_6)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `isAtLeast is true for newer version`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_7)
+
+        runBlockingTest {
+            createInstance().isAtLeast(ENFVersion.V1_6) shouldBe true
+        }
+    }
+
+    @Test
+    fun `isAtLeast is true for equal version`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_6)
+
+        runBlockingTest {
+            createInstance().isAtLeast(ENFVersion.V1_6) shouldBe true
+        }
+    }
+
+    @Test
+    fun `isAtLeast is false for older version`() {
+        every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_6)
+
+        runBlockingTest {
+            createInstance().isAtLeast(ENFVersion.V1_7) shouldBe false
+        }
+    }
+
+    @Test
+    fun `invalid input for isAtLeast throws IllegalArgumentException`() {
+        runBlockingTest {
+            shouldThrow<IllegalArgumentException> {
+                createInstance().isAtLeast(16)
+            }
+        }
+    }
+
+    @Test
+    fun `isAtLeast returns false when client not connected`() {
+        every { client.version } returns MockGMSTask.forError(ApiException(Status(API_NOT_CONNECTED)))
+
+        runBlockingTest {
+            createInstance().apply {
+                shouldNotThrowAny {
+                    isAtLeast(ENFVersion.V1_6) shouldBe false
+                    isAtLeast(ENFVersion.V1_7) shouldBe false
                 }
             }
         }

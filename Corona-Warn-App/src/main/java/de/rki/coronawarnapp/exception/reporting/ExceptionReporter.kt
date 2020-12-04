@@ -24,7 +24,7 @@ fun Throwable.report(exceptionCategory: ExceptionCategory) {
 fun Throwable.report(
     exceptionCategory: ExceptionCategory,
     prefix: String?,
-    suffix: String?
+    suffix: String? = null
 ) {
     if (CWADebug.isAUnitTest) return
 

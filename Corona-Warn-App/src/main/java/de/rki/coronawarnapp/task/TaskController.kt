@@ -123,24 +123,40 @@ class TaskController @Inject constructor(
 
     private suspend fun processMap() = internalTaskData.updateSafely {
         Timber.tag(TAG).d("Processing task data (count=%d)", size)
-        Timber.tag(TAG).v("Tasks before processing: %s", this.values)
 
-        // Procress all unprocessed finished tasks
-        procressFinishedTasks(this).let {
+        // Process all unprocessed finished tasks
+        processFinishedTasks(this).let {
             this.clear()
             this.putAll(it)
         }
 
         // Start new tasks
-        procressPendingTasks(this).let {
+        processPendingTasks(this).let {
             this.clear()
             this.putAll(it)
         }
 
-        Timber.tag(TAG).v("Tasks after processing: %s", this.values)
+        if (size > TASK_HISTORY_LIMIT) {
+            Timber.v("Enforcing history limits (%d), need to remove %d.", TASK_HISTORY_LIMIT, size - TASK_HISTORY_LIMIT)
+            values
+                .filter { it.isFinished }
+                .sortedBy { it.finishedAt }
+                .take(size - TASK_HISTORY_LIMIT)
+                .forEach {
+                    Timber.v("Removing from history: %s", get(it.id))
+                    remove(it.id)
+                }
+        }
+
+        Timber.tag(TAG).v(
+            "Tasks after processing (count=%d):\n%s",
+            size, values.sortedBy { it.finishedAt }.joinToString("\n") {
+                it.toLogString()
+            }
+        )
     }
 
-    private fun procressFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+    private fun processFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
         val workMap = data.toMutableMap()
         workMap.values
             .filter { it.job.isCompleted && it.executionState != TaskState.ExecutionState.FINISHED }
@@ -165,7 +181,7 @@ class TaskController @Inject constructor(
         return workMap
     }
 
-    private fun procressPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+    private suspend fun processPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
         val workMap = data.toMutableMap()
         workMap.values
             .filter { it.executionState == TaskState.ExecutionState.PENDING }
@@ -178,16 +194,27 @@ class TaskController @Inject constructor(
                         it.id != state.id
                 }
                 Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)
-                Timber.tag(TAG).v(
-                    "Sibling are:\n%s", siblingTasks.joinToString("\n")
-                )
+                if (siblingTasks.isNotEmpty()) {
+                    Timber.tag(TAG).v("Sibling are:\n%s", siblingTasks.joinToString("\n"))
+                }
+
+                Timber.tag(TAG).v("Checking preconditions for request: %s", state.config)
+                val arePreconditionsMet = state.config.preconditions.fold(true) { allPreConditionsMet, precondition ->
+                    allPreConditionsMet && precondition()
+                }
 
                 // Handle collision behavior for tasks of same type
                 when {
+                    !arePreconditionsMet -> {
+                        Timber.tag(TAG).d("Preconditions are not met, skipping: %s", state)
+                        workMap[state.id] = state.toSkippedState()
+                    }
                     siblingTasks.isEmpty() -> {
+                        Timber.tag(TAG).d("No siblings exists, running: %s", state)
                         workMap[state.id] = state.toRunningState()
                     }
                     state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
+                        Timber.tag(TAG).d("Siblings exists, skipping according to collision behavior: %s", state)
                         workMap[state.id] = state.toSkippedState()
                     }
                     state.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
@@ -237,5 +264,6 @@ class TaskController @Inject constructor(
 
     companion object {
         private const val TAG = "TaskController"
+        private const val TASK_HISTORY_LIMIT = 50
     }
 }

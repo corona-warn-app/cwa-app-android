@@ -10,8 +10,8 @@ import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 
 object ExposureSharingService {
@@ -24,10 +24,9 @@ object ExposureSharingService {
         callback: (Bitmap?) -> Unit?
     ) {
         try {
-            val tempExpKeys = InternalExposureNotificationClient
-                .asyncGetTemporaryExposureKeyHistory()
+            val tempExpKeys = AppInjector.component.enfClient.getTEKHistory()
 
-            val latest = tempExpKeys.maxBy { it.rollingStartIntervalNumber }
+            val latest = tempExpKeys.maxByOrNull { it.rollingStartIntervalNumber }
 
             val key = AppleLegacyKeyExchange.Key.newBuilder()
                 .setKeyData(ByteString.copyFrom(latest!!.keyData))

@@ -22,8 +22,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result),
-    AutoInject {
+@Suppress("LongMethod")
+class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTestResultViewModel by cwaViewModels { viewModelFactory }
@@ -74,8 +74,16 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.consentGiven.observe2(this) {
+            binding.consentStatus.consent = it
+        }
+
         viewModel.uiState.observe2(this) {
             binding.uiState = it
+            with(binding) {
+                submissionTestResultSection
+                    .setTestResultSection(uiState?.deviceUiState, uiState?.testResultReceivedDate)
+            }
             it.deviceUiState.withFailure {
                 if (it is CwaWebException) {
                     DialogHelper.showDialog(buildErrorDialog(it))
@@ -122,13 +130,16 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                 is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning ->
                     doNavigate(
                         SubmissionTestResultFragmentDirections
-                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment(
-                                it.symptoms
-                            )
+                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(
                         SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToYourConsent ->
+                    doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionYourConsentFragment()
                     )
             }
         }
@@ -147,8 +158,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
             viewModel.refreshDeviceUIState()
-            binding.submissionTestResultContent.submissionTestResultCard.testResultCard
-                .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
@@ -174,6 +184,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackPressed()
         }
+        binding.consentStatus.setOnClickListener { viewModel.onConsentClicked() }
     }
 
     private fun removeTestAfterConfirmation() {

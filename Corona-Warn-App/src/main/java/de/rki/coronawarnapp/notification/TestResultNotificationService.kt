@@ -39,7 +39,7 @@ class TestResultNotificationService @Inject constructor(
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)
                 .setComponentName(MainActivity::class.java)
-                .setDestination(R.id.submissionResultFragment)
+                .setDestination(R.id.submissionTestResultAvailableFragment)
                 .createPendingIntent()
 
             NotificationHelper.sendNotification(
