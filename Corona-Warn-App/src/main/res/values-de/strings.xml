@@ -104,6 +104,10 @@
     <string name="notification_headline_share_positive_result">"Helfen Sie mit!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Bitte warnen Sie andere und teilen Sie Ihr Testergebnis."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">"Ihr Testergebnis"</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">"Es gibt wichtige Neuigkeiten. Bitte öffnen Sie Ihre Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
