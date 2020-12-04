@@ -69,7 +69,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             internalProgress.send(Progress.KeyFilesDownloadStarted)
 
             val requestedCountries = arguments.requestedCountries
-            val keySyncResult = getAvailableKeyFiles(requestedCountries)
+            val keySyncResult = getAvailableKeyFiles(requestedCountries, arguments.ignoringConnectionType)
             throwIfCancelled()
 
             val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
@@ -161,14 +161,17 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
     }
 
-    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): KeyPackageSyncTool.Result {
+    private suspend fun getAvailableKeyFiles(
+        requestedCountries: List<String>?,
+        ignoringConnectionType: Boolean
+        ): KeyPackageSyncTool.Result {
         val wantedLocations = if (environmentSetup.useEuropeKeyPackageFiles) {
             listOf("EUR")
         } else {
             requestedCountries ?: appConfigProvider.getAppConfig().supportedCountries
         }.map { LocationCode(it) }
 
-        return keyPackageSyncTool.syncKeyFiles(wantedLocations)
+        return keyPackageSyncTool.syncKeyFiles(wantedLocations, ignoringConnectionType)
     }
 
     private fun throwIfCancelled() {
@@ -191,7 +194,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     }
 
     class Arguments(
-        val requestedCountries: List<String>? = null
+        val requestedCountries: List<String>? = null,
+        val ignoringConnectionType: Boolean = false
     ) : Task.Arguments
 
     data class Config(

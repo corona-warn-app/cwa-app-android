@@ -21,7 +21,8 @@ class KeyPackageSyncTool @Inject constructor(
 ) {
 
     suspend fun syncKeyFiles(
-        wantedLocations: List<LocationCode> = listOf(LocationCode("EUR"))
+        wantedLocations: List<LocationCode> = listOf(LocationCode("EUR")),
+        ignoringConnectionType: Boolean
     ): Result {
         cleanUpStaleLocation(wantedLocations)
 
@@ -29,7 +30,7 @@ class KeyPackageSyncTool @Inject constructor(
 
         val isMeteredConnection = networkStateProvider.networkState.first().isMeteredConnection
 
-        val hourSyncResult = if (!isMeteredConnection) {
+        val hourSyncResult = if (ignoringConnectionType || !isMeteredConnection) {
             Timber.tag(TAG).d("Running hour sync...")
             runHourSync(wantedLocations)
         } else {

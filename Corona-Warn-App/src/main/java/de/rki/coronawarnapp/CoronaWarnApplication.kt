@@ -14,17 +14,20 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.update.Updates
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -48,6 +51,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var configChangeDetector: ConfigChangeDetector
     @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @Inject lateinit var updates: Updates
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
@@ -81,6 +85,18 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         configChangeDetector.launch()
         riskLevelChangeDetector.launch()
+
+        if (updates.updatedFrom17){
+            Timber.i("app update from 1.7 detected")
+            // need to force enf data refresh - no matter if metered connection or not
+            taskController.submit(DefaultTaskRequest(
+                DownloadDiagnosisKeysTask::class,
+                DownloadDiagnosisKeysTask.Arguments(ignoringConnectionType = true)
+            ))
+        }
+
+        // remember version code of this execution for next time
+        updates.lastVersionCode = BuildConfig.VERSION_CODE
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
