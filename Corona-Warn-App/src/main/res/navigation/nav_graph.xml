@@ -230,7 +230,7 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_informationPrivacyFragment"
@@ -333,7 +333,7 @@
                 android:defaultValue="true"
                 app:argType="boolean" />
         </action>
-        <action
+         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
@@ -347,7 +347,7 @@
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_submissionSymptomIntroductionFragment"
@@ -428,7 +428,7 @@
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_homeFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
