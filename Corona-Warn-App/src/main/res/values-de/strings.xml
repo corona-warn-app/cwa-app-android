@@ -708,8 +708,6 @@
     <string name="information_technical_title">"Rechtliche Hinweise"</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"Eine Hand hält ein Smartphone mit viel Text, daneben ist eine Balkenwaage als Symbol für rechtliche Hinweise."</string>
-    <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_de.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Impressum"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
