@@ -129,7 +129,7 @@
     ###################################### -->
 
     <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
+    <string name="risk_card_body_contact">"Aktuell keine Risiko-Begegnungen"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s Begegnung mit niedrigem Risiko"</item>
