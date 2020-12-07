@@ -1,14 +1,14 @@
-package de.rki.coronawarnapp.util.update
+package de.rki.coronawarnapp.diagnosiskeys.storage
 
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import javax.inject.Inject
 
-class Updates @Inject constructor() {
+class DownloadDiagnosisKeysSettings @Inject constructor() {
 
     /**
      * true if, and only if, since last runtime the app was updated from 1.7 (or earlier) to a version >= 1.8.0
      */
-    val updatedFrom17: Boolean
+    val isUpdateToEnfV2: Boolean
         get() = lastVersionCode < VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE
 
     var lastVersionCode: Int
