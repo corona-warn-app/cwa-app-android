@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.di.AppContext
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -26,6 +27,7 @@ import javax.inject.Singleton
 class RiskLevelResultMigrator @Inject constructor(
     @EncryptedPreferences encryptedPreferences: Lazy<SharedPreferences>,
     private val timeStamper: TimeStamper,
+    @AppContext
     private val context: Context
 ) {
 
