@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-data class Location(
-    val locationName: String
-)
+import java.time.Instant
+
+interface Location {
+    val createdAt: Instant
+    val location: Location
+}

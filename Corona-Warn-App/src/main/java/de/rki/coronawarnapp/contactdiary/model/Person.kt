@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-data class Person(
-    val completeName: String
-)
+import java.time.Instant
+
+interface Person {
+    val createdAt: Instant
+    val person: Person
+}
