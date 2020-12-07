@@ -86,7 +86,9 @@ data class TracingCardState(
             ""
         }
         riskState == INCREASED_RISK && daysWithEncounters == 0 -> {
-            c.getString(R.string.risk_card_high_risk_no_encounters_body)
+            // LEGACY MIGRATION CASE FROM 1.7.x -> 1.8.x ('days with encounter' doesn't exit in 1.7.x)
+            // see RiskLevelResultMigrator.kt
+            ""
         }
         riskState == INCREASED_RISK -> {
             c.resources.getQuantityString(
@@ -96,6 +98,8 @@ data class TracingCardState(
             )
         }
         riskState == LOW_RISK && daysWithEncounters == 0 -> {
+            // caution! is 0 after migration from 1.7.x -> 1.8.x
+            // see RiskLevelResultMigrator.kt
             c.getString(R.string.risk_card_low_risk_no_encounters_body)
         }
         riskState == LOW_RISK -> {
@@ -126,10 +130,13 @@ data class TracingCardState(
      */
     fun getRiskContactLast(c: Context): String = when {
         isTracingOff() -> ""
-        riskState == INCREASED_RISK -> {
-            val formattedDate = lastEncounterAt?.toLocalDate()?.toString(DateTimeFormat.mediumDate())
-            c.getString(R.string.risk_card_high_risk_most_recent_body, formattedDate)
-        }
+        riskState == INCREASED_RISK && lastEncounterAt != null ->
+            // caution! lastEncounterAt is null after migration from 1.7.x -> 1.8.x
+            // see RiskLevelResultMigrator.kt
+            c.getString(
+                R.string.risk_card_high_risk_most_recent_body,
+                lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
+            )
         else -> ""
     }
 

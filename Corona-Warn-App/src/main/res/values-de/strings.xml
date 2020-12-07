@@ -171,8 +171,6 @@
         <item quantity="many">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
     </plurals>
 
-    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
-    <string name="risk_card_high_risk_no_encounters_body">Keine Risiko-Begegnungen</string>
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Begegnungen an %1$d Tag mit erhöhtem Risiko"</item>
