@@ -7,6 +7,8 @@ import dagger.Provides
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.TestResultAvailableNotification
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
@@ -96,4 +98,10 @@ class MockProvider {
 
     @Provides
     fun exposureSummaryRepository(): RiskLevelStorage = mockk()
+
+    @Provides
+    fun testResultAvailableNotification(): TestResultAvailableNotification = mockk()
+
+    @Provides
+    fun notificationHelper(): NotificationHelper = mockk()
 }

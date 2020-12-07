@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.notification.TestResultAvailableNotification
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -43,11 +44,13 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -65,6 +68,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i), AutoInjec
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var enfClient: ENFClient
     @Inject lateinit var tekHistoryUpdater: TEKHistoryUpdater
+    @Inject lateinit var testResultAvailableNotification: TestResultAvailableNotification
 
     // TODO: This is ugly, remove when refactoring the fragment
     @Inject lateinit var appConfigProvider: AppConfigProvider
@@ -219,6 +223,20 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i), AutoInjec
                     withContext(Dispatchers.Main) {
                         showToast(daysInRetention)
                     }
+                }
+            }
+
+            buttonSendSubmissionTestResultReadyNotificationPositive.setOnClickListener {
+                vm.launch {
+                    delay(2000)
+                    testResultAvailableNotification.showTestResultNotification(TestResult.POSITIVE)
+                }
+            }
+
+            buttonSendSubmissionTestResultReadyNotificationNegative.setOnClickListener {
+                vm.launch {
+                    delay(2000)
+                    testResultAvailableNotification.showTestResultNotification(TestResult.NEGATIVE)
                 }
             }
         }

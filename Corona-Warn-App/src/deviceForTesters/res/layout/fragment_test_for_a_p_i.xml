@@ -213,6 +213,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="Get Active Tracing Duration in Retention Period" />
+
+                <Button
+                    android:id="@+id/button_send_submission_test_result_ready_notification_positive"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Send submission positive result notification" />
+
+                <Button
+                    android:id="@+id/button_send_submission_test_result_ready_notification_negative"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Send submission negative result notification" />
             </LinearLayout>
 
             <de.rki.coronawarnapp.ui.calendar.CalendarView
