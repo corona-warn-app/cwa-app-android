@@ -83,13 +83,14 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
+            val updateToEnfV2 = settings.isUpdateToEnfV2
+            if (updateToEnfV2 || wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
                 Timber.tag(TAG).i("task aborted, because detection was performed recently")
                 return object : Task.Result {}
             }
 
-            if (settings.isUpdateToEnfV2 || hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+            if (updateToEnfV2 || hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
                 Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
                 return object : Task.Result {}
             }
