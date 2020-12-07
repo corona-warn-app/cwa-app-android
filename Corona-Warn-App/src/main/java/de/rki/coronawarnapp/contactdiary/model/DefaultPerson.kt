@@ -1,5 +1,3 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-data class DefaultPerson(
-    var completeName: String
-)
+data class DefaultPerson(override var person: Person) : Person

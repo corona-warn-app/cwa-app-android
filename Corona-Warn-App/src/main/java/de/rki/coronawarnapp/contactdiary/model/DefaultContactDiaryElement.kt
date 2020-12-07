@@ -4,6 +4,6 @@ import java.time.Instant
 
 data class DefaultContactDiaryElement(
     override val createdAt: Instant,
-    override val defaultPeople: List<DefaultPerson>,
-    override val defaultLocations: List<DefaultLocation>
+    override val people: List<Person>,
+    override val locations: List<Location>
 ) : ContactDiaryElement
