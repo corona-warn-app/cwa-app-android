@@ -9,9 +9,9 @@ interface ContactDiaryElement {
     val people: List<Person>
     val locations: List<Location>
 
-    val numberOfPersons: Int?
-        get() = people?.size
+    val numberOfPersons: Int
+        get() = people.size
 
-    val numberOfLocations: Int?
-        get() = locations?.size
+    val numberOfLocations: Int
+        get() = locations.size
 }
