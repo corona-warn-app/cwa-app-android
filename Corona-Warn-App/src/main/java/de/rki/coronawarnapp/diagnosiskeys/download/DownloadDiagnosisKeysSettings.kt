@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class KeyPackageSyncSettings @Inject constructor(
+class DownloadDiagnosisKeysSettings @Inject constructor(
     @AppContext private val context: Context,
     @BaseGson private val gson: Gson
 ) {
@@ -34,6 +34,16 @@ class KeyPackageSyncSettings @Inject constructor(
         writer = FlowPreference.gsonWriter(gson)
     )
 
+    /**
+     * true if, and only if, since last runtime the app was updated from 1.7 (or earlier) to a version >= 1.8.0
+     */
+    val isUpdateToEnfV2: Boolean
+        get() = lastVersionCode < VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE
+
+    var lastVersionCode: Int
+        get() = prefs.getInt(KEY_LAST_VERSION_CODE, -1)
+        set(value) = prefs.edit().putInt(KEY_LAST_VERSION_CODE, value).apply()
+
     @SuppressLint("ApplySharedPref")
     fun clear() {
         prefs.clearAndNotify()
@@ -45,4 +55,9 @@ class KeyPackageSyncSettings @Inject constructor(
         val successful: Boolean = false,
         val newData: Boolean = false
     )
+
+    companion object {
+        private const val KEY_LAST_VERSION_CODE = "download.task.last.versionCode"
+        private const val VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE = 1080000
+    }
 }
