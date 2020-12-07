@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
 import de.rki.coronawarnapp.task.Task
@@ -53,7 +51,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
              * in a background job. Also it acts as a failure catch in case the orchestration code did
              * not check in before.
              */
-            if (!InternalExposureNotificationClient.asyncIsEnabled()) {
+            if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
                 return object : Task.Result {}
             }
@@ -74,7 +72,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
             throwIfCancelled()
 
-            val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
             val now = timeStamper.nowUTC
 
             if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
@@ -82,14 +79,17 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            val updateToEnfV2 = settings.isUpdateToEnfV2
-            if (!updateToEnfV2 && wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
+            val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
+            val isUpdateToEnfV2 = settings.isUpdateToEnfV2
+
+            Timber.tag(TAG).d("isUpdateToEnfV2: %b", isUpdateToEnfV2)
+            if (!isUpdateToEnfV2 && wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
                 Timber.tag(TAG).i("task aborted, because detection was performed recently")
                 return object : Task.Result {}
             }
 
-            if (!updateToEnfV2 && hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+            if (!isUpdateToEnfV2 && hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
                 Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
                 return object : Task.Result {}
             }
@@ -104,9 +104,10 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 )
             )
 
-            Timber.tag(TAG).d("Attempting submission to ENF")
             // remember version code of this execution for next time
-            settings.lastVersionCode = BuildConfig.VERSION_CODE
+            settings.updateLastVersionCodeToCurrent()
+
+            Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
                 availableKeyFiles,
                 exposureConfig.diagnosisKeysDataMapping

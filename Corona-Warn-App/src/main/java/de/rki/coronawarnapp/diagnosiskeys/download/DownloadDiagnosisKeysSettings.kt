@@ -2,12 +2,15 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.core.content.edit
 import com.google.gson.Gson
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,15 +37,11 @@ class DownloadDiagnosisKeysSettings @Inject constructor(
         writer = FlowPreference.gsonWriter(gson)
     )
 
-    /**
-     * true if, and only if, since last runtime the app was updated from 1.7 (or earlier) to a version >= 1.8.0
-     */
-    val isUpdateToEnfV2: Boolean
-        get() = lastVersionCode < VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE
-
-    var lastVersionCode: Int
-        get() = prefs.getInt(KEY_LAST_VERSION_CODE, -1)
-        set(value) = prefs.edit().putInt(KEY_LAST_VERSION_CODE, value).apply()
+    var lastVersionCode: Long
+        get() = prefs.getLong(KEY_LAST_VERSION_CODE, -1L)
+        set(value) = prefs.edit {
+            putLong(KEY_LAST_VERSION_CODE, value)
+        }
 
     @SuppressLint("ApplySharedPref")
     fun clear() {
@@ -58,6 +57,18 @@ class DownloadDiagnosisKeysSettings @Inject constructor(
 
     companion object {
         private const val KEY_LAST_VERSION_CODE = "download.task.last.versionCode"
-        private const val VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE = 1080000
+        internal const val VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE = 1080000
+    }
+}
+
+/**
+ * true if, and only if, since last runtime the app was updated from 1.7 (or earlier) to a version >= 1.8.0
+ */
+val DownloadDiagnosisKeysSettings.isUpdateToEnfV2: Boolean
+    get() = lastVersionCode < DownloadDiagnosisKeysSettings.VERSION_CODE_FIRST_POSSIBLE_1_8_RELEASE
+
+fun DownloadDiagnosisKeysSettings.updateLastVersionCodeToCurrent() {
+    lastVersionCode = BuildConfigWrap.VERSION_CODE.also {
+        Timber.d("lastVersionCode updated to %d", it)
     }
 }
