@@ -15,6 +15,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * [SubmissionYourConsentFragment] allows the user to provide or revoke consent via a switch on the screen. This screen
+ * is accessed via the TestResultAvailableFragment flow. 
+ */
 class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your_consent), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
