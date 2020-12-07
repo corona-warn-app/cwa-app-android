@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.storage.legacy
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
@@ -7,8 +8,11 @@ import dagger.Lazy
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.di.AppContext
+import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,7 +26,9 @@ import javax.inject.Singleton
 @Singleton
 class RiskLevelResultMigrator @Inject constructor(
     @EncryptedPreferences encryptedPreferences: Lazy<SharedPreferences>,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    @AppContext
+    private val context: Context
 ) {
 
     private val prefs by lazy { encryptedPreferences.get() }
@@ -46,19 +52,43 @@ class RiskLevelResultMigrator @Inject constructor(
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
-    fun getLegacyResults(): List<RiskLevelResult> = try {
+    private suspend fun lastEncounterAt(): Instant? {
+        return try {
+            val daysSinceLastExposure =
+                AppDatabase.getInstance(context)
+                    .exposureSummaryDao()
+                    .getLatestExposureSummary()?.daysSinceLastExposure
+            if (daysSinceLastExposure == null) {
+                null
+            } else {
+                timeStamper.nowUTC.minus(Duration.standardDays(daysSinceLastExposure.toLong()))
+            }
+        } catch (exception: Exception) {
+            Timber.tag(TAG).w(exception, "failed to select exposure summary dao from enf v1")
+            null
+        }
+    }
+
+    suspend fun getLegacyResults(): List<RiskLevelResult> = try {
         val legacyResults = mutableListOf<RiskLevelResult>()
         lastCalculatedRiskLevel()?.let {
             legacyResults.add(
                 LegacyResult(
                     riskState = it,
-                    calculatedAt = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC
+                    calculatedAt = lastTimeRiskLevelCalculation() ?: timeStamper.nowUTC,
+                    lastEncounterAt = lastEncounterAt()
                 )
             )
         }
 
         lastSuccessfullyCalculatedRiskLevel()?.let {
-            legacyResults.add(LegacyResult(riskState = it, calculatedAt = timeStamper.nowUTC))
+            legacyResults.add(
+                LegacyResult(
+                    riskState = it,
+                    calculatedAt = timeStamper.nowUTC,
+                    lastEncounterAt = lastEncounterAt()
+                )
+            )
         }
 
         Timber.tag(TAG).d("legacyResults=$legacyResults")
@@ -70,13 +100,15 @@ class RiskLevelResultMigrator @Inject constructor(
 
     data class LegacyResult(
         override val riskState: RiskState,
-        override val calculatedAt: Instant
+        override val calculatedAt: Instant,
+        private val lastEncounterAt: Instant?
     ) : RiskLevelResult {
         override val failureReason: RiskLevelResult.FailureReason? = null
         override val aggregatedRiskResult: AggregatedRiskResult? = null
         override val exposureWindows: List<ExposureWindow>? = null
         override val matchedKeyCount: Int = 0
         override val daysWithEncounters: Int = 0
+        override val lastRiskEncounterAt: Instant? = lastEncounterAt
     }
 
     companion object {
