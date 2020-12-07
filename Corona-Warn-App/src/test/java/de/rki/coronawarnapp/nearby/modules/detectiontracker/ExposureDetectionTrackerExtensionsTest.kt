@@ -48,7 +48,7 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
         fakeCalculations.value = mapOf(
             tr1.identifier to tr1,
             tr2.identifier to tr2,
-            tr3.identifier to tr3,
+            tr3.identifier to tr3
         )
         runBlockingTest {
             tracker.lastSubmission(onlyFinished = false) shouldBe tr3
@@ -72,7 +72,7 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
         fakeCalculations.value = mapOf(
             tr1.identifier to tr1,
             tr2.identifier to tr2,
-            tr3.identifier to tr3,
+            tr3.identifier to tr3
         )
         runBlockingTest {
             tracker.latestSubmission(onlySuccessful = false).first() shouldBe tr3
