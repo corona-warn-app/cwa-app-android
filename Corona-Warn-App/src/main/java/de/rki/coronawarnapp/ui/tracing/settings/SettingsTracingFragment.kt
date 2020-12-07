@@ -45,15 +45,15 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         vm.tracingDetailsState.observe2(this) {
             binding.tracingDetails = it
         }
-        vm.tracingSettingsState.observe2(this) {
-            binding.settingsTracingState = it
+        vm.tracingSettingsState.observe2(this) { state ->
+            binding.settingsTracingState = state
 
             binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
-                when (it) {
+                when (state) {
                     TracingSettingsState.BluetoothDisabled,
                     TracingSettingsState.LocationDisabled -> setOnClickListener(null)
                     TracingSettingsState.TracingInActive,
-                    TracingSettingsState.TracingActive -> setOnClickListener { vm.startStopTracing() }
+                    TracingSettingsState.TracingActive -> setOnClickListener { onTracingToggled() }
                 }
             }
         }
@@ -88,10 +88,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         switch.setOnCheckedChangeListener { view, _ ->
             // Make sure that listener is called by user interaction
             if (view.isPressed) {
-                vm.startStopTracing()
-                // Focus on the body text after to announce the tracing status for accessibility reasons
-                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
-                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+                binding.settingsTracingSwitchRow.settingsSwitchRow.performClick()
             }
         }
         back.setOnClickListener {
@@ -106,6 +103,13 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         interoperability.setOnClickListener {
             navigateToInteroperability()
         }
+    }
+
+    private fun onTracingToggled() {
+        // Focus on the body text after to announce the tracing status for accessibility reasons
+        binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+            .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+        vm.onTracingToggled()
     }
 
     private fun navigateToInteroperability() {
@@ -138,7 +142,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             negativeButton = R.string.onboarding_button_cancel,
             cancelable = true,
             positiveButtonFunction = {
-                vm.startStopTracing()
+                vm.turnTracingOn()
             },
             negativeButtonFunction = {
                 // Declined

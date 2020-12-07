@@ -64,19 +64,27 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun startStopTracing() {
+    private suspend fun turnTracingOff() {
+        InternalExposureNotificationClient.asyncStop()
+        BackgroundWorkScheduler.stopWorkScheduler()
+    }
+
+    fun turnTracingOn() {
+        tracingPermissionHelper.startTracing { permissionRequest ->
+            events.postValue(Event.RequestPermissions(permissionRequest))
+        }
+    }
+
+    fun onTracingToggled() {
         // if tracing is enabled when listener is activated it should be disabled
         launch {
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    InternalExposureNotificationClient.asyncStop()
-                    BackgroundWorkScheduler.stopWorkScheduler()
+                    turnTracingOff()
                 } else {
                     // tracing was already activated
                     if (LocalData.initialTracingActivationTimestamp() != null) {
-                        tracingPermissionHelper.startTracing { permissionRequest ->
-                            events.postValue(Event.RequestPermissions(permissionRequest))
-                        }
+                        turnTracingOn()
                     } else {
                         // tracing was never activated
                         // ask for consent via dialog for initial tracing activation when tracing was not
