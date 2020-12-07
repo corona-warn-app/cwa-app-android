@@ -52,7 +52,7 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     }
 
     fun download() = launchWithSyncProgress {
-        keyPackageSyncTool.syncKeyFiles(ignoringConnectionType = false)
+        keyPackageSyncTool.syncKeyFiles()
     }
 
     fun clearDownloads() = launchWithSyncProgress { keyCacheRepository.clear() }
