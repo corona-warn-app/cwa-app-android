@@ -3,32 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
     android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        android:background="@color/colorHairline" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/flagGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:background="@color/colorHairline" />
-
     <TextView
         android:id="@+id/country_list_entry_label"
         style="@style/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginVertical="@dimen/spacing_tiny"
         tools:text="Deutschland, Frankreich" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:background="@color/colorHairline" />
 </LinearLayout>
