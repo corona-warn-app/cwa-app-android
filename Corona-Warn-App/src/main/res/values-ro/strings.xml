@@ -1209,7 +1209,8 @@
     <string-array name="test_result_card_negative_further_info_bullet_points">
         <item>"Încă vă simțiți rău? Dacă vă simțiți foarte rău și/sau simptomele dvs. s-au agravat, vă rugăm să contactați medicul dvs. de familie."</item>
         <item>"Rămâneți acasă până vă simțiți din nou bine. Dacă v-ați infecta cu coronavirus (SARS-CoV-2) în timp ce organismul dvs. este slăbit din cauza unei alte infecții, aceasta ar putea duce la o boală gravă."</item>
-        <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane. Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un test SARS-CoV-2 suplimentar."</item>
+        <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane. Dacă simptomele dvs."</item>
+        <item>"Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un test SARS-CoV-2 suplimentar."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
