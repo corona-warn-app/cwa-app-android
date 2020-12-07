@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.model
 import java.time.Instant
 
 data class DefaultContactDiaryElement(
-    val defaultPeople: List<DefaultPerson>,
-    val defaultLocation: List<DefaultLocation>,
-    val dateAddedEntry: Instant?
-)
+    override val createdAt: Instant,
+    override val defaultPeople: List<DefaultPerson>,
+    override val defaultLocations: List<DefaultLocation>
+) : ContactDiaryElement

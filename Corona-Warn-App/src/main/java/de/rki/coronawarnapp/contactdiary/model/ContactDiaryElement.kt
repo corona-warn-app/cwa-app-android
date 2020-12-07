@@ -6,12 +6,12 @@ interface ContactDiaryElement {
 
     val createdAt: Instant
 
-    val defaultPeople: List<DefaultPerson>
-    val defaultLocations: List<DefaultLocation>
+    val people: List<Person>
+    val locations: List<Location>
 
     val numberOfPersons: Int?
-        get() = defaultPeople?.size
+        get() = people?.size
 
     val numberOfLocations: Int?
-        get() = defaultLocations?.size
+        get() = locations?.size
 }
