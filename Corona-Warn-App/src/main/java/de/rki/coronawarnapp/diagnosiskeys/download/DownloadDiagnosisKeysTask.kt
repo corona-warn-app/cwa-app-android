@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
@@ -31,7 +33,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val environmentSetup: EnvironmentSetup,
     private val appConfigProvider: AppConfigProvider,
     private val keyPackageSyncTool: KeyPackageSyncTool,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val settings: DownloadDiagnosisKeysSettings
 ) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<Progress>()
@@ -86,7 +89,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+            if (settings.isUpdateToEnfV2 || hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
                 Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
                 return object : Task.Result {}
             }
@@ -102,6 +105,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             )
 
             Timber.tag(TAG).d("Attempting submission to ENF")
+            // remember version code of this execution for next time
+            settings.lastVersionCode = BuildConfig.VERSION_CODE
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
                 availableKeyFiles,
                 exposureConfig.diagnosisKeysDataMapping
@@ -161,7 +166,9 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
     }
 
-    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): KeyPackageSyncTool.Result {
+    private suspend fun getAvailableKeyFiles(
+        requestedCountries: List<String>?
+        ): KeyPackageSyncTool.Result {
         val wantedLocations = if (environmentSetup.useEuropeKeyPackageFiles) {
             listOf("EUR")
         } else {
