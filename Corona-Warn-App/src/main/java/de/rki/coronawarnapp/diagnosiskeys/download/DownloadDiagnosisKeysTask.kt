@@ -169,7 +169,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
     private suspend fun getAvailableKeyFiles(
         requestedCountries: List<String>?
-        ): KeyPackageSyncTool.Result {
+    ): KeyPackageSyncTool.Result {
         val wantedLocations = if (environmentSetup.useEuropeKeyPackageFiles) {
             listOf("EUR")
         } else {
