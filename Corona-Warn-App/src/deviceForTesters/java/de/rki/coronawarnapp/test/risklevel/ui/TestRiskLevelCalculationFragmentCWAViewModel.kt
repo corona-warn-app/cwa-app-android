@@ -10,7 +10,7 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
-import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
@@ -57,7 +57,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val testSettings: TestSettings,
     private val timeStamper: TimeStamper,
     private val exposureDetectionTracker: ExposureDetectionTracker,
-    private val keyPackageSyncSettings: KeyPackageSyncSettings,
+    private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -241,7 +241,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Clearing key cache")
         launch {
             keyCacheRepository.clear()
-            keyPackageSyncSettings.clear()
+            downloadDiagnosisKeysSettings.clear()
             exposureDetectionTracker.clear()
 
             dataResetEvent.postValue("Download & Submission related data reset.")
