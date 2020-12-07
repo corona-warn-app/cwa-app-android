@@ -102,7 +102,6 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 null
             )
         }
-
     }
 
     fun onTracingTurnedOff() {
