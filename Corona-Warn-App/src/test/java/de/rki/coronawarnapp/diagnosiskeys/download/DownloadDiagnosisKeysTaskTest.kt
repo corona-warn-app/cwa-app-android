@@ -18,6 +18,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var keyPackageSyncTool: KeyPackageSyncTool
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings
 
     @BeforeEach
     fun setup() {
@@ -34,6 +35,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         environmentSetup = environmentSetup,
         appConfigProvider = appConfigProvider,
         keyPackageSyncTool = keyPackageSyncTool,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        downloadDiagnosisKeysSettings
     )
 }

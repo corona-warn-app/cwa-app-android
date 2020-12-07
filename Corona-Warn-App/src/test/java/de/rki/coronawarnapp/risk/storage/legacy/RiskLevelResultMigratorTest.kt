@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.storage.legacy
 
+import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
@@ -18,6 +19,7 @@ import testhelpers.preferences.MockSharedPreferences
 class RiskLevelResultMigratorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var context: Context
     private val mockPreferences = MockSharedPreferences()
 
     @BeforeEach
@@ -34,7 +36,8 @@ class RiskLevelResultMigratorTest : BaseTest() {
 
     fun createInstance() = RiskLevelResultMigrator(
         timeStamper = timeStamper,
-        encryptedPreferences = { mockPreferences }
+        encryptedPreferences = { mockPreferences },
+        context = context
     )
 
     @Test
