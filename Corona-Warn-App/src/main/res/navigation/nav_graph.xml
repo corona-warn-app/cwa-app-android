@@ -253,7 +253,7 @@
         <action
             android:id="@+id/action_submissionResultFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultFragment_to_submissionSymptomIntroductionFragment"
@@ -300,7 +300,7 @@
         <action
             android:id="@+id/action_submissionIntroFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@+id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionIntroFragment_to_submissionDispatcherFragment"
@@ -373,7 +373,7 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -389,7 +389,7 @@
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -415,7 +415,7 @@
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
@@ -450,7 +450,7 @@
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionYourConsentFragment"
