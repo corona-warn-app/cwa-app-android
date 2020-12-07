@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/spacing_normal">
+        android:paddingBottom="@dimen/spacing_small">
 
         <ImageView
             android:id="@+id/bullet_point"

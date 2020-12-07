@@ -29,43 +29,173 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/submission_positive_other_warning_title}" />
 
-        <include
-            layout="@layout/include_submission_positive_other_warning_no_consent"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
-            app:countryData="@{uiState.countryList}"
+        <ScrollView
+            android:id="@+id/content_scrollcontainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_header"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/spacing_normal"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/submission_positive_other_warning_hero_illustration"
+                    bind:cwaContentDescription="@{@string/submission_positive_other_illustration_description}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_submission_illustration_other_warning"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/submission_positive_other_warning_headline"
+                    style="@style/headline5"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/submission_positive_other_warning_headline"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_hero_illustration" />
+
+                <TextView
+                    android:id="@+id/submission_positive_other_warning_text_first_part"
+                    style="@style/subtitle"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/submission_positive_other_warning_no_consent_body_first_part"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
+
+                <TextView
+                    android:id="@+id/submission_positive_other_warning_text_second_part"
+                    style="@style/subtitle"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/submission_positive_other_warning_no_consent_body_second_part"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_first_part" />
+
+
+                <de.rki.coronawarnapp.ui.view.CountryListView
+                    android:id="@+id/countryList"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_second_part" />
+
+                <include
+                    android:id="@+id/submission_positive_other_privacy"
+                    layout="@layout/include_privacy_card_no_consent"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@+id/countryList" />
+
+                <include
+                    android:id="@+id/submission_no_consent_main_first_point"
+                    layout="@layout/view_bullet_point_text"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:itemText="@{@string/submission_consent_main_first_point}"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_positive_other_privacy" />
+
+                <include
+                    android:id="@+id/submission_no_consent_main_second_point"
+                    layout="@layout/view_bullet_point_text"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:itemText="@{@string/submission_consent_main_third_point}"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_first_point" />
+
+                <include
+                    android:id="@+id/submission_no_consent_main_third_point"
+                    layout="@layout/view_bullet_point_text"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:itemText="@{@string/submission_consent_main_fourth_point}"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_second_point" />
+
+                <FrameLayout
+                    android:id="@+id/divider"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_third_point" />
+
+                <TextView
+                    android:id="@+id/submission_consent_main_bottom_body"
+                    style="@style/subtitle"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingVertical="@dimen/spacing_tiny"
+                    android:text="@string/submission_consent_main_bottom_body"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+                <FrameLayout
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/card_divider"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_consent_main_bottom_body" />
+
+                <include layout="@layout/merge_guidelines_side" />
+
+                <include layout="@layout/merge_guidelines_card" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/submission_positive_other_warning_no_consent_button_next"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:enabled="@{uiState != null &amp;&amp; uiState.isSubmitButtonEnabled()}"
             android:text="@string/submission_accept_button"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/guideline_action" />
-
-        <ProgressBar
-            android:id="@+id/submission_positive_other_warning_spinner"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:indeterminate="true"
-            gone="@{uiState == null || !uiState.isSubmitSpinnerVisible()}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_positive_other_warning_no_consent_button_next"
-            app:layout_constraintEnd_toEndOf="@+id/submission_positive_other_warning_no_consent_button_next"
-            app:layout_constraintStart_toStartOf="@+id/submission_positive_other_warning_no_consent_button_next"
-            app:layout_constraintTop_toTopOf="@+id/submission_positive_other_warning_no_consent_button_next" />
+            app:layout_constraintTop_toBottomOf="@id/content_scrollcontainer" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_action"

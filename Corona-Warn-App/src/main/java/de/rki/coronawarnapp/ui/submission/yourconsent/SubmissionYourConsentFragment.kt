@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,7 +42,10 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         vm.clickEvent.observe2(this) {
             when (it) {
                 is SubmissionYourConsentEvents.GoBack -> (activity as MainActivity).goBack()
-                // TODO: Navigation: is YourConsentEvents.GoLegal -> doNavigate(YourConsentFragmentDirections.actionSubmissionYourConsentFragmentToInformationPrivacyFragment())
+                is SubmissionYourConsentEvents.GoLegal -> doNavigate(
+                    SubmissionYourConsentFragmentDirections
+                        .actionSubmissionYourConsentFragmentToInformationPrivacyFragment()
+                )
             }
         }
 
@@ -52,7 +56,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
                 vm.switchConsent()
             }
             submissionYourConsentSwitch.settingsSwitchRow.setOnClickListener { vm.switchConsent() }
-            // TODO: Navigation: submissionYourConsentLegalDetailsCard.setOnClickListener { vm.goLegal() }
+            submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
         }
     }
 

@@ -1,13 +1,17 @@
 package de.rki.coronawarnapp.ui.submission.testavailable
 
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableEvents
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
+import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragmentDirections
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.AfterEach
@@ -23,16 +27,23 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
+        every { tekHistoryUpdater.callback = any() } just Runs
+        every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission(any()) } just Runs
+
+        // TODO Check specific behavior
+        every { submissionRepository.refreshDeviceUIState(any()) } just Runs
     }
 
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider,
+        tekHistoryUpdater = tekHistoryUpdater
     )
 
     @AfterEach
@@ -58,8 +69,9 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     fun `go back`() {
         val viewModel = createViewModel()
 
+        viewModel.showCloseDialog.value shouldBe null
         viewModel.goBack()
-        viewModel.clickEvent.value shouldBe SubmissionTestResultAvailableEvents.GoBack
+        viewModel.showCloseDialog.value shouldBe Unit
     }
 
     @Test
@@ -67,14 +79,27 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         viewModel.goConsent()
-        viewModel.clickEvent.value shouldBe SubmissionTestResultAvailableEvents.GoConsent
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment()
     }
 
     @Test
-    fun `go to next page`() {
+    fun `update TEK history if consent is given`() {
         val viewModel = createViewModel()
 
         viewModel.proceed()
-        viewModel.clickEvent.value shouldBe SubmissionTestResultAvailableEvents.Proceed
+        verify {
+            tekHistoryUpdater.updateTEKHistoryOrRequestPermission(any())
+        }
+    }
+
+    @Test
+    fun `go to test result without updating TEK history if NO consent is given`() {
+        every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
+        val viewModel = createViewModel()
+
+        viewModel.proceed()
+        viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
+            .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
     }
 }
