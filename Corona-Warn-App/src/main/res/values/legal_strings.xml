@@ -27,6 +27,8 @@
     <string name="submission_your_consent_agreement_share_test_results" translatable="false">"<b>If you have tested positive for coronavirus, the app will share your test result in order to warn other users whom you have encountered.</b>\n\n<b>The warning will reach users of the official coronavirus apps of the following participating countries:</b>"</string>
     <!-- YTXT: Body for your consent screen agreement share symptoms -->
     <string name="submission_your_consent_agreement_share_symptoms" translatable="false">"<b>If you provide additional information about the onset of your symptoms, this will also be shared.</b>\n\nYou can withdraw your consent by disabling “Warn others” above."</string>
+    <!-- YTXT: Body for your consent screen agreement share symptoms with additional hint for test result-->
+    <string name="submission_your_consent_agreement_share_symptoms_2" translatable="false"></string>
     <!-- YTXT: Body for keys submission no consent text first part-->
     <string name="submission_no_consent_your_consent_subsection_body_first_part" translatable="false">"By tapping on “Accept”, you consent to the following:"</string>
     <!-- YTXT: Body for keys submission no consent text second part-->
