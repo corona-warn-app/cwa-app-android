@@ -121,7 +121,6 @@ fun formatTestResultInvalidStepsVisible(uiState: NetworkRequestWrapper<DeviceUIS
         formatVisibility(it == DeviceUIState.PAIRED_ERROR || it == DeviceUIState.PAIRED_REDEEMED)
     }
 
-
 fun formatCountryIsoTagToLocalizedName(isoTag: String?): String {
     val country = if (isoTag != null) Locale("", isoTag).displayCountry else ""
     return country

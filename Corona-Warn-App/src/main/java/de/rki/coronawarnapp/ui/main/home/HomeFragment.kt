@@ -139,50 +139,44 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     }
 
     private fun setupTestResultCard(deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>) {
-        binding.apply {
+        binding.mainTestUnregistered.apply {
+            val navDirection = HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
+            submissionStatusCardUnregistered.setOnClickListener { doNavigate(navDirection) }
+            submissionStatusCardUnregisteredButton.setOnClickListener { doNavigate(navDirection) }
+        }
 
-            mainTestUnregistered.apply {
-                val toSubmissionDispatcher = {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher())
+        // Test is not positive (pending, negative, invalid)
+        binding.mainTestResult.apply {
+            val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful) {
+                when (deviceUiState.data) {
+                    DeviceUIState.PAIRED_NEGATIVE -> HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultNegativeFragment()
+                    DeviceUIState.PAIRED_ERROR,
+                    DeviceUIState.PAIRED_REDEEMED -> HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultInvalidFragment()
+                    else -> HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultPendingFragment()
                 }
-                submissionStatusCardUnregistered.setOnClickListener { toSubmissionDispatcher() }
-                submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionDispatcher() }
-            }
-            // Test is not positive (pending, negative, invalid)
-            mainTestResult.apply {
-                val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful) {
-                    when (deviceUiState.data) {
-                        DeviceUIState.PAIRED_NEGATIVE -> HomeFragmentDirections
-                            .actionMainFragmentToSubmissionTestResultNegativeFragment()
-                        DeviceUIState.PAIRED_ERROR,
-                        DeviceUIState.PAIRED_REDEEMED -> HomeFragmentDirections
-                            .actionMainFragmentToSubmissionTestResultInvalidFragment()
-                        else -> HomeFragmentDirections
-                            .actionMainFragmentToSubmissionTestResultPendingFragment()
-                    }
-                } else {
-                    HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment()
-                }
-
-                submissionStatusCardContent.setOnClickListener { doNavigate(navDirection) }
-                submissionStatusCardContentButton.setOnClickListener { doNavigate(navDirection) }
-            }
-            // Test is positive
-            mainTestPositive.apply {
-                val toConsentScreen = {
-                    doNavigate(
-                        HomeFragmentDirections
-                            .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
-                    )
-                }
-                submissionStatusCardPositive.setOnClickListener { toConsentScreen() }
-                submissionStatusCardPositiveButton.setOnClickListener { toConsentScreen() }
+            } else {
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment()
             }
 
-            mainTestFailed.apply {
-                setOnClickListener {
-                    vm.removeTestPushed()
-                }
+            submissionStatusCardContent.setOnClickListener { doNavigate(navDirection) }
+            submissionStatusCardContentButton.setOnClickListener { doNavigate(navDirection) }
+        }
+
+        // Test is positive
+        binding.mainTestPositive.apply {
+            val navDirection = HomeFragmentDirections
+                .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+
+            submissionStatusCardPositive.setOnClickListener { doNavigate(navDirection) }
+            submissionStatusCardPositiveButton.setOnClickListener { doNavigate(navDirection) }
+        }
+
+        binding.mainTestFailed.apply {
+            setOnClickListener {
+                vm.removeTestPushed()
             }
         }
     }
