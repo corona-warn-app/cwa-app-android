@@ -37,11 +37,11 @@ data class SubmissionCardState(
         return if (!testViewed) {
             deviceUiState.withSuccess(true) {
                 when (it) {
-                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> false
-                    else -> true
+                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
+                    else -> false
                 }
             }
-        } else return true
+        } else return false
     }
 
     fun isUnregisteredCardVisible(): Boolean = !isDeviceRegistered
