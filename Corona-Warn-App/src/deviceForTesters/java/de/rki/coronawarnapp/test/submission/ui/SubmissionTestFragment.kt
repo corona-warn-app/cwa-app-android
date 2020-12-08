@@ -55,7 +55,6 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             startActivity(share)
         }
 
-
         binding.apply {
             tekStorageUpdate.setOnClickListener { vm.updateStorage(requireActivity()) }
             tekStorageClear.setOnClickListener { vm.clearStorage() }
