@@ -1143,10 +1143,14 @@
     <string name="submission_status_card_title_positive">"Befund positiv"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Test nicht mehr gültig"</string>
+    <!-- XHED: Page title for the various submission status fetch ready -->
+    <string name="submission_status_card_title_ready">"Ihr Testergebnis liegt vor"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Fehlerhafter Test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Befund negativ"</string>
+    <!-- XHED: Subtitle for the submission status card: ready -->
+    <string name="submission_status_card_subtitle_ready">"Sie können Ihr Testergebnis nun abrufen"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Das Ergebnis wird aktualisiert"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
@@ -1161,12 +1165,16 @@
     <string name="submission_status_card_body_negative">"Sie wurden negativ auf SARS-CoV-2 getestet."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
+    <!-- YTXT: Body text for submission status fetch ready -->
+    <string name="submission_status_card_body_ready">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Nächste Schritte"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Test löschen"</string>
+    <!-- XBUT: submission status card fetch ready button -->
+    <string name="submission_status_card_button_ready">"Test löschen"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text for contagious card -->
