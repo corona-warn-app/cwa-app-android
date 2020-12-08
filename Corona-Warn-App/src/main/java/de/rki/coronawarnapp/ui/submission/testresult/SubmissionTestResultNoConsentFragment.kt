@@ -30,6 +30,8 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.onTestOpened()
+
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showCancelDialog()

@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.ui.main.home
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_ERROR
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_NEGATIVE
@@ -17,8 +19,11 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 
 data class SubmissionCardState(
     val deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>,
-    val isDeviceRegistered: Boolean
+    val isDeviceRegistered: Boolean,
+    val submissionRepository: SubmissionRepository
 ) {
+
+    private val testViewed = submissionRepository.hasViewedTestResult
 
     fun isRiskCardVisible(): Boolean =
         deviceUiState.withSuccess(true) {
@@ -27,6 +32,17 @@ data class SubmissionCardState(
                 else -> true
             }
         }
+
+    fun isTestResultReadyCardVisible(): Boolean {
+        return if (!testViewed) {
+            deviceUiState.withSuccess(true) {
+                when (it) {
+                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> false
+                    else -> true
+                }
+            }
+        } else return true
+    }
 
     fun isUnregisteredCardVisible(): Boolean = !isDeviceRegistered
 
@@ -58,13 +74,16 @@ data class SubmissionCardState(
             else -> false
         }
 
-    fun isContentCardVisible(): Boolean =
-        deviceUiState.withSuccess(false) {
-            when (it) {
-                PAIRED_ERROR, PAIRED_NEGATIVE, PAIRED_NO_RESULT -> true
-                else -> false
+    fun isContentCardVisible(): Boolean {
+        return if (testViewed) {
+            deviceUiState.withSuccess(false) {
+                when (it) {
+                    PAIRED_ERROR, PAIRED_NEGATIVE, PAIRED_NO_RESULT -> true
+                    else -> false
+                }
             }
-        }
+        } else return false
+    }
 
     fun getContentCardTitleText(c: Context): String =
         deviceUiState.withSuccess(R.string.submission_status_card_title_pending) {

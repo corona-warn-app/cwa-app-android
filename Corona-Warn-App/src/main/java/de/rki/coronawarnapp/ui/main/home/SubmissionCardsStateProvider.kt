@@ -21,7 +21,8 @@ class SubmissionCardsStateProvider @Inject constructor(
     ) { args ->
         SubmissionCardState(
             deviceUiState = args[0],
-            isDeviceRegistered = LocalData.registrationToken() != null
+            isDeviceRegistered = LocalData.registrationToken() != null,
+            submissionRepository
         )
     }
         .onStart { Timber.v("SubmissionCardState FLOW start") }
