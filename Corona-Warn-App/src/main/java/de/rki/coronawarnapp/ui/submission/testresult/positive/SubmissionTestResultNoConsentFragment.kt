@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresult
+package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -80,8 +80,7 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
 
     private fun navigateToWarnOthers() {
         doNavigate(
-            SubmissionTestResultNoConsentFragmentDirections
-                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+            SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
         )
     }
 }

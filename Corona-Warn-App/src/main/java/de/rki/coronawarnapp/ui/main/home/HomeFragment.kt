@@ -7,8 +7,10 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -47,11 +49,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
         vm.submissionCardState.observe2(this) {
             binding.submissionCard = it
+
+            setupTestResultCard(it.deviceUiState)
         }
 
         setupToolbar()
 
-        setupTestResultCard()
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
@@ -136,7 +139,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
     }
 
-    private fun setupTestResultCard() {
+    private fun setupTestResultCard(deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>) {
         binding.apply {
 
             mainTestUnregistered.apply {
@@ -146,14 +149,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardUnregistered.setOnClickListener { toSubmissionDispatcher() }
                 submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionDispatcher() }
             }
-
             // Test is negative
             mainTestResult.apply {
-                val toSubmissionResult = {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
+                val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful &&
+                    deviceUiState.data == DeviceUIState.PAIRED_NEGATIVE
+                ) {
+                    HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment()
+                } else {
+                    HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment()
                 }
-                submissionStatusCardContent.setOnClickListener { toSubmissionResult() }
-                submissionStatusCardContentButton.setOnClickListener { toSubmissionResult() }
+
+                submissionStatusCardContent.setOnClickListener { doNavigate(navDirection) }
+                submissionStatusCardContentButton.setOnClickListener { doNavigate(navDirection) }
             }
             // Test is positive
             mainTestPositive.apply {

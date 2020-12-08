@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresult
+package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import dagger.Binds
 import dagger.Module

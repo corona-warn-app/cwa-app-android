@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresult
+package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionTestResultModule {
+abstract class SubmissionTestResultNoConsentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionTestResultViewModel::class)
-    abstract fun submissionTestResultFragment(
-        factory: SubmissionTestResultViewModel.Factory
+    @CWAViewModelKey(SubmissionTestResultNoConsentViewModel::class)
+    abstract fun submissionTestResultNoConsentFragment(
+        factory: SubmissionTestResultNoConsentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

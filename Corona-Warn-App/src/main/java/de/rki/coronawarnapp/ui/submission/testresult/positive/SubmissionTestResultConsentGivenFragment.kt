@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresult
+package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -56,13 +56,11 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
-                        SubmissionTestResultConsentGivenFragmentDirections
-                            .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment()
+                        SubmissionTestResultConsentGivenFragmentDirections.actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(
-                        SubmissionTestResultConsentGivenFragmentDirections
-                            .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
+                        SubmissionTestResultConsentGivenFragmentDirections.actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
                     )
             }
         }
