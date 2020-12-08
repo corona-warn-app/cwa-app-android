@@ -39,19 +39,21 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     val shareTEKsEvent = SingleLiveEvent<TEKExport>()
 
-    val tekHistory: LiveData<List<TEKHistoryItem>> = tekHistoryStorage.tekData.map { items ->
-        items.flatMap { batch ->
-            batch.keys
-                .map { key ->
-                    TEKHistoryItem(
-                        obtainedAt = batch.obtainedAt,
-                        batchId = batch.batchId,
-                        key = key
-                    )
-                }
-                .sortedBy { it.obtainedAt }
+    val tekHistory: LiveData<List<TEKHistoryItem>> = tekHistoryStorage.tekData
+        .map { items ->
+            items.flatMap { batch ->
+                batch.keys
+                    .map { key ->
+                        TEKHistoryItem(
+                            obtainedAt = batch.obtainedAt,
+                            batchId = batch.batchId,
+                            key = key
+                        )
+                    }
+            }
         }
-    }.asLiveData(context = dispatcherProvider.Default)
+        .map { historyItems -> historyItems.sortedBy { it.obtainedAt } }
+        .asLiveData(context = dispatcherProvider.Default)
 
     init {
         tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
