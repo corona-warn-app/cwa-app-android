@@ -62,6 +62,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".contactdiary.ui.ContactDiaryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"

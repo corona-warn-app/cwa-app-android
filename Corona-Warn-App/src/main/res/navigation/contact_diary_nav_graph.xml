@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/contact_diary_nav_graph"></navigation>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_diary_nav_graph"
+    app:startDestination="@id/contactDiaryDayFragment">
+    <fragment
+        android:id="@+id/contactDiaryDayFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment"
+        android:label="ContactDiaryDayFragment">
+        <argument
+            android:name="selectedDay"
+            app:argType="long" />
+    </fragment>
+    <argument
+        android:name="selectedDay"
+        android:defaultValue="0L" />
+</navigation>
