@@ -64,14 +64,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tek_history"
             style="@style/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_margin="@dimen/spacing_tiny">
 
             <TextView
                 android:id="@+id/tek_history_title"
@@ -81,25 +80,55 @@
                 android:text="Stored TEK History"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tek_history_description"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="When the user grants permissions to access the TEKs, they are automatically cached for later submission. The currently cached keys are shown below."
+                app:layout_constraintTop_toBottomOf="@id/tek_history_title" />
+
             <Button
                 android:id="@+id/tek_storage_update"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:text="Update storage"
+                android:text="Get TEKS"
                 app:layout_constraintEnd_toStartOf="@+id/tek_storage_clear"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tek_history_title" />
+                app:layout_constraintTop_toBottomOf="@id/tek_history_description" />
 
             <Button
                 android:id="@+id/tek_storage_clear"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
                 android:text="Clear storage"
+                app:layout_constraintBottom_toBottomOf="@+id/tek_storage_update"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tek_storage_update"
-                app:layout_constraintTop_toBottomOf="@id/tek_history_title" />
+                app:layout_constraintTop_toTopOf="@+id/tek_storage_update" />
+
+            <Button
+                android:id="@+id/tek_storage_email"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Email TEKS"
+                app:layout_constraintEnd_toStartOf="@+id/tek_storage_clear"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tek_storage_update" />
+
+            <TextView
+                android:id="@+id/tek_storage_count"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                app:layout_constraintBottom_toBottomOf="@id/tek_storage_email"
+                app:layout_constraintEnd_toEndOf="@+id/tek_storage_clear"
+                app:layout_constraintStart_toEndOf="@id/tek_storage_email"
+                app:layout_constraintTop_toBottomOf="@id/tek_storage_update"
+                tools:text="99 TEKs" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tek_history_list"
@@ -107,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tek_storage_clear" />
+                app:layout_constraintTop_toBottomOf="@id/tek_storage_email" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
