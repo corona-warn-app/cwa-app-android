@@ -89,7 +89,7 @@ sealed class TracingSettingsState {
         override fun isTracingStatusTextVisible(): Boolean = false
     }
 
-    object TracingInActive : TracingSettingsState() {
+    object TracingInactive : TracingSettingsState() {
         override fun getTracingStatusImage(c: Context): Drawable? =
             c.getDrawable(R.drawable.ic_settings_illustration_tracing_off)
 
@@ -134,7 +134,7 @@ sealed class TracingSettingsState {
 
 fun GeneralTracingStatus.Status.toTracingSettingsState(): TracingSettingsState = when (this) {
     GeneralTracingStatus.Status.TRACING_ACTIVE -> TracingSettingsState.TracingActive
-    GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingSettingsState.TracingInActive
+    GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingSettingsState.TracingInactive
     GeneralTracingStatus.Status.BLUETOOTH_DISABLED -> TracingSettingsState.BluetoothDisabled
     GeneralTracingStatus.Status.LOCATION_DISABLED -> TracingSettingsState.LocationDisabled
 }
