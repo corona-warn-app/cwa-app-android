@@ -22,7 +22,7 @@
 
         <ScrollView
             android:id="@+id/submission_test_result_content"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/button_padding_top_bottom"
             android:accessibilityLiveRegion="assertive"

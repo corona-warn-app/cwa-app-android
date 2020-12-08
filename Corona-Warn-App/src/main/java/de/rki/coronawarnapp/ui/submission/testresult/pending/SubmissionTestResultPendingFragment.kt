@@ -66,8 +66,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
             submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
 
-            submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
-
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
 
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {

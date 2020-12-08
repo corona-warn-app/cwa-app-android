@@ -119,22 +119,6 @@ class FormatterSubmissionHelperTest {
         assertThat(result, `is`(iResult))
     }
 
-    private fun formatTestResultNegativeStepsVisibleBase(
-        oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?,
-        iResult: Int
-    ) {
-        val result = formatTestResultNegativeStepsVisible(uiState = oUiState)
-        assertThat(result, `is`(iResult))
-    }
-
-    private fun formatTestResultPositiveStepsVisibleBase(
-        oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?,
-        iResult: Int
-    ) {
-        val result = formatTestResultPositiveStepsVisible(uiState = oUiState)
-        assertThat(result, `is`(iResult))
-    }
-
     private fun formatTestResultInvalidStepsVisibleBase(
         oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?,
         iResult: Int
@@ -325,80 +309,6 @@ class FormatterSubmissionHelperTest {
             iResult = View.GONE
         )
         formatTestResultPendingStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
-            iResult = View.GONE
-        )
-    }
-
-    @Test
-    fun formatTestResultNegativeStepsVisible() {
-        formatTestResultNegativeStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
-            iResult = View.VISIBLE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
-            iResult = View.GONE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
-            iResult = View.GONE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-            iResult = View.GONE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
-            iResult = View.GONE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
-            iResult = View.GONE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = View.GONE
-        )
-        formatTestResultNegativeStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
-            iResult = View.GONE
-        )
-    }
-
-    @Test
-    fun formatTestResultPositiveStepsVisible() {
-        formatTestResultPositiveStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
-            iResult = View.GONE
-        )
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
-            iResult = View.GONE
-        )
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
-            iResult = View.GONE
-        )
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-            iResult = View.VISIBLE
-        )
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
-            iResult = View.VISIBLE
-        )
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
-            iResult = View.GONE
-        )
-        formatTestResultPositiveStepsVisibleBase(
-            oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = View.GONE
-        )
-        formatTestResultPositiveStepsVisibleBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
             iResult = View.GONE
         )

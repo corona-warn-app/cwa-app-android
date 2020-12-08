@@ -126,27 +126,11 @@ fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
 fun formatTestResultPendingStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
     uiState.withSuccess(View.GONE) { formatVisibility(it == DeviceUIState.PAIRED_NO_RESULT) }
 
-fun formatTestResultNegativeStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
-    uiState.withSuccess(View.GONE) { formatVisibility(it == DeviceUIState.PAIRED_NEGATIVE) }
-
-fun formatTestResultPositiveStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
-    uiState.withSuccess(View.GONE) {
-        formatVisibility(it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN)
-    }
-
 fun formatTestResultInvalidStepsVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
     uiState.withSuccess(View.GONE) {
         formatVisibility(it == DeviceUIState.PAIRED_ERROR || it == DeviceUIState.PAIRED_REDEEMED)
     }
 
-fun formatShowRiskStatusCard(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
-    uiState.withSuccess(View.GONE) {
-        formatVisibility(
-            it != DeviceUIState.PAIRED_POSITIVE &&
-                it != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
-                it != DeviceUIState.SUBMITTED_FINAL
-        )
-    }
 
 fun formatCountryIsoTagToLocalizedName(isoTag: String?): String {
     val country = if (isoTag != null) Locale("", isoTag).displayCountry else ""
