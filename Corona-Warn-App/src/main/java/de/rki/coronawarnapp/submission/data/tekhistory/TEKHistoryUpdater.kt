@@ -30,7 +30,7 @@ class TEKHistoryUpdater @Inject constructor(
         scope.launch {
             enfClient.getTEKHistoryOrRequestPermission(
                 onTEKHistoryAvailable = {
-                    updateHistoryAndTriggerCallback()
+                    updateHistoryAndTriggerCallback(it)
                 },
                 onPermissionRequired = { status ->
                     val permissionRequestTrigger: (Activity) -> Unit = {
@@ -62,10 +62,10 @@ class TEKHistoryUpdater @Inject constructor(
         }
     }
 
-    private fun updateHistoryAndTriggerCallback() {
+    private fun updateHistoryAndTriggerCallback(availableTEKs: List<TemporaryExposureKey>? = null) {
         scope.launch {
             try {
-                val result = updateTEKHistory()
+                val result = updateTEKHistory(availableTEKs)
                 callback?.onTEKAvailable(result)
             } catch (e: Exception) {
                 callback?.onError(e)
@@ -73,9 +73,9 @@ class TEKHistoryUpdater @Inject constructor(
         }
     }
 
-    private suspend fun updateTEKHistory(): List<TemporaryExposureKey> {
+    private suspend fun updateTEKHistory(availableTEKs: List<TemporaryExposureKey>? = null): List<TemporaryExposureKey> {
         val deferred = scope.async {
-            val teks = enfClient.getTEKHistory()
+            val teks = availableTEKs ?: enfClient.getTEKHistory()
             Timber.i("Permission are available, storing TEK history.")
 
             tekHistoryStorage.storeTEKData(
