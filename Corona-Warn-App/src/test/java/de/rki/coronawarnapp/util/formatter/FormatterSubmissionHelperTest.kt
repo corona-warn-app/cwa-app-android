@@ -74,22 +74,6 @@ class FormatterSubmissionHelperTest {
         every { context.getDrawable(R.drawable.ic_test_result_illustration_negative) } returns drawable
     }
 
-    private fun formatTestResultSpinnerVisibleBase(
-        oUiStateState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
-        iResult: Int
-    ) {
-        val result = formatTestResultSpinnerVisible(uiState = oUiStateState)
-        assertThat(result, `is`(iResult))
-    }
-
-    private fun formatTestResultVisibleBase(
-        oUiStateState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
-        iResult: Int
-    ) {
-        val result = formatTestResultVisible(uiState = oUiStateState)
-        assertThat(result, `is`(iResult))
-    }
-
     private fun formatTestResultStatusTextBase(
         oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
         iResult: String
@@ -149,39 +133,6 @@ class FormatterSubmissionHelperTest {
 
         val result = formatTestResult(uiState = oUiState)
         assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
-    }
-
-    @Test
-    fun formatTestResultSpinnerVisible() {
-        formatTestResultSpinnerVisibleBase(oUiStateState = null, iResult = View.VISIBLE)
-        formatTestResultSpinnerVisibleBase(
-            oUiStateState = NetworkRequestWrapper.RequestFailed(mockk()),
-            iResult = View.VISIBLE
-        )
-        formatTestResultSpinnerVisibleBase(
-            oUiStateState = NetworkRequestWrapper.RequestIdle,
-            iResult = View.VISIBLE
-        )
-        formatTestResultSpinnerVisibleBase(
-            oUiStateState = NetworkRequestWrapper.RequestStarted,
-            iResult = View.VISIBLE
-        )
-        formatTestResultSpinnerVisibleBase(
-            oUiStateState = NetworkRequestWrapper.RequestSuccessful(mockk()),
-            iResult = View.GONE
-        )
-    }
-
-    @Test
-    fun formatTestResultVisible() {
-        formatTestResultVisibleBase(oUiStateState = null, iResult = View.GONE)
-        formatTestResultVisibleBase(oUiStateState = NetworkRequestWrapper.RequestFailed(mockk()), iResult = View.GONE)
-        formatTestResultVisibleBase(oUiStateState = NetworkRequestWrapper.RequestIdle, iResult = View.GONE)
-        formatTestResultVisibleBase(oUiStateState = NetworkRequestWrapper.RequestStarted, iResult = View.GONE)
-        formatTestResultVisibleBase(
-            oUiStateState = NetworkRequestWrapper.RequestSuccessful(mockk()),
-            iResult = View.VISIBLE
-        )
     }
 
     @Test

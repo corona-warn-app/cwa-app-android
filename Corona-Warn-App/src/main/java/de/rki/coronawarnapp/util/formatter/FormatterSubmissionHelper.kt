@@ -43,16 +43,6 @@ fun formatCalendarBackgroundButtonStyleByState(
 ): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun formatTestResultSpinnerVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
-    uiState.withSuccess(View.VISIBLE) {
-        View.GONE
-    }
-
-fun formatTestResultVisible(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Int =
-    uiState.withSuccess(View.GONE) {
-        View.VISIBLE
-    }
-
 fun formatTestResultStatusText(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): String =
     uiState.withSuccess(R.string.test_result_card_status_invalid) {
         when (it) {

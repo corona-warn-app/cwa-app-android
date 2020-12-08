@@ -5,7 +5,6 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -66,6 +65,9 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment()
                     DeviceUIState.PAIRED_NEGATIVE -> SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
+                    DeviceUIState.PAIRED_REDEEMED,
+                    DeviceUIState.PAIRED_ERROR -> SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment()
                     else -> {
                         Timber.w("Unknown success state: %s", deviceState)
                         null
@@ -101,13 +103,9 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     }
 
     fun deregisterTestFromDevice() {
+        Timber.d("deregisterTestFromDevice()")
         launch {
-            Timber.tag(TAG).d("deregisterTestFromDevice()")
-            submissionRepository.deleteTestGUID()
-            submissionRepository.revokeConsentToSubmission()
-            SubmissionRepository.deleteRegistrationToken()
-            LocalData.isAllowedToSubmitDiagnosisKeys(false)
-            LocalData.initialTestResultReceivedTimestamp(0L)
+            submissionRepository.deregisterTestFromDevice()
 
             routeToScreen.postValue(
                 SubmissionTestResultPendingFragmentDirections

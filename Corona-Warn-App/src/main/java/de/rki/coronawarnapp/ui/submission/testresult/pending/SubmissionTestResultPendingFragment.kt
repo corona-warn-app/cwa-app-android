@@ -13,15 +13,16 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
+import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-@Suppress("LongMethod")
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
@@ -45,9 +46,15 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 }
             }
 
+            val hasResult = result.deviceUiState.withSuccess(false) { true }
+
             binding.apply {
-                uiState = result
                 submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
+
+                submissionTestResultSpinner.setInvisible(hasResult)
+
+                submissionTestResultContent.setInvisible(!hasResult)
+                buttonContainer.setInvisible(!hasResult)
             }
         }
 
@@ -65,8 +72,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
 
             submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
-
-            submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
 
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
                 pendingViewModel.onBackPressed()

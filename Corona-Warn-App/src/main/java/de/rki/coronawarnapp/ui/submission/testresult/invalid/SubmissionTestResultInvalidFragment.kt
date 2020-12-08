@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresult.negative
+package de.rki.coronawarnapp.ui.submission.testresult.invalid
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
+import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -17,12 +17,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submission_test_result_negative), AutoInject {
+class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submission_test_result_invalid), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SubmissionTestResultNegativeViewModel by cwaViewModels { viewModelFactory }
+    private val vm: SubmissionTestResultInvalidViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentSubmissionTestResultNegativeBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionTestResultInvalidBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +33,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.apply {
-            submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
+            submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.onBackPressed() }
         }
 

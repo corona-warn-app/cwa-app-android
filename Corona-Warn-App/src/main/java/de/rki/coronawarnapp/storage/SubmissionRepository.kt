@@ -200,6 +200,15 @@ class SubmissionRepository @Inject constructor(
     } catch (err: NoRegistrationTokenSetException) {
         DeviceUIState.UNPAIRED
     }
+
+    suspend fun deregisterTestFromDevice() {
+        Timber.i("deregisterTestFromDevice()")
+        deleteTestGUID()
+        revokeConsentToSubmission()
+        deleteRegistrationToken()
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.initialTestResultReceivedTimestamp(0L)
+    }
 }
 
 private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {

@@ -148,12 +148,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardUnregistered.setOnClickListener { toSubmissionDispatcher() }
                 submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionDispatcher() }
             }
-            // Test is negative
+            // Test is not positive (pending, negative, invalid)
             mainTestResult.apply {
-                val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful &&
-                    deviceUiState.data == DeviceUIState.PAIRED_NEGATIVE
-                ) {
-                    HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment()
+                val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful) {
+                    when (deviceUiState.data) {
+                        DeviceUIState.PAIRED_NEGATIVE -> HomeFragmentDirections
+                            .actionMainFragmentToSubmissionTestResultNegativeFragment()
+                        DeviceUIState.PAIRED_ERROR,
+                        DeviceUIState.PAIRED_REDEEMED -> HomeFragmentDirections
+                            .actionMainFragmentToSubmissionTestResultInvalidFragment()
+                        else -> HomeFragmentDirections
+                            .actionMainFragmentToSubmissionTestResultPendingFragment()
+                    }
                 } else {
                     HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment()
                 }
