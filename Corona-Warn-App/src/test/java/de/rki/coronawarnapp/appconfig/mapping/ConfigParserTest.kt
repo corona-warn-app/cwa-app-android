@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -15,12 +19,16 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.io.File
 
 class ConfigParserTest : BaseTest() {
     @MockK lateinit var cwaConfigMapper: CWAConfig.Mapper
     @MockK lateinit var keyDownloadConfigMapper: KeyDownloadConfig.Mapper
     @MockK lateinit var exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper
     @MockK lateinit var exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper
+
+    private val appConfig171 = File("src/test/resources/appconfig_1_7_1.bin")
+    private val appConfig180 = File("src/test/resources/appconfig_1_8_0.bin")
 
     @BeforeEach
     fun setup() {
@@ -30,6 +38,9 @@ class ConfigParserTest : BaseTest() {
         every { keyDownloadConfigMapper.map(any()) } returns mockk()
         every { exposureDetectionConfigMapper.map(any()) } returns mockk()
         every { exposureWindowRiskCalculationConfigMapper.map(any()) } returns mockk()
+
+        appConfig171.exists() shouldBe true
+        appConfig180.exists() shouldBe true
     }
 
     @AfterEach
@@ -54,6 +65,22 @@ class ConfigParserTest : BaseTest() {
                 exposureDetectionConfigMapper.map(any())
                 exposureWindowRiskCalculationConfigMapper.map(any())
             }
+        }
+    }
+
+    @Test
+    fun `parsing the 1_7_1 config throws exception`() {
+        // We don't want to use the 1.7.x config as fallback once we are on 1.8.x
+        // If parsing cached config data fails, we will fallback to the default config of 1.8.x
+        shouldThrow<InvalidProtocolBufferException> {
+            createInstance().parse(appConfig171.readBytes())
+        }
+    }
+
+    @Test
+    fun `parsing the 1_8_0 config does not throw an exception`() {
+        createInstance().parse(appConfig180.readBytes()).apply {
+            rawConfig shouldNotBe null
         }
     }
 
