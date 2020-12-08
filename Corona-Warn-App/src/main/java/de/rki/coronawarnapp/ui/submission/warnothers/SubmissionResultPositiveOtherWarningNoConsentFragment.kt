@@ -16,6 +16,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
+/**
+ * [SubmissionResultPositiveOtherWarningNoConsentFragment] the screen prompting the user to help by warning others of
+ * their positive status, pressing the accept button provides the consent that was previously not provided.
+ */
 class SubmissionResultPositiveOtherWarningNoConsentFragment :
     Fragment(R.layout.fragment_submission_no_consent_positive_other_warning), AutoInject {
 
