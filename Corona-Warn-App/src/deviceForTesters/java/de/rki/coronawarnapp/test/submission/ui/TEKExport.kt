@@ -34,4 +34,3 @@ fun TemporaryExposureKey.toExportedTEK(tekBatch: TEKHistoryStorage.TEKBatch) = E
     reportType = this.reportType,
     daysSinceOnsetOfSymptoms = this.daysSinceOnsetOfSymptoms
 )
-
