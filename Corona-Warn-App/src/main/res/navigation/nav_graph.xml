@@ -230,7 +230,7 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_informationPrivacyFragment"
@@ -239,7 +239,7 @@
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_submissionResultReadyFragment"
             app:destination="@id/submissionResultReadyFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
@@ -253,7 +253,7 @@
         <action
             android:id="@+id/action_submissionResultFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultFragment_to_submissionSymptomIntroductionFragment"
@@ -272,15 +272,8 @@
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
-            android:id="@+id/action_submissionTanFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_submissionTanFragment_to_submissionResultFragment"
-            app:destination="@id/submissionResultFragment"
-            app:popUpTo="@id/submissionResultFragment"
-            app:popUpToInclusive="true">
+            app:destination="@id/submissionResultFragment">
             <argument
                 android:name="skipInitialTestResultRefresh"
                 android:defaultValue="true"
@@ -300,7 +293,7 @@
         <action
             android:id="@+id/action_submissionIntroFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@+id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionIntroFragment_to_submissionDispatcherFragment"
@@ -321,23 +314,23 @@
         android:label="SubmissionQRCodeScanFragment">
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpTo="@id/submissionQRCodeScanFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
-            app:popUpTo="@id/submissionResultFragment">
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" >
             <argument
                 android:name="skipInitialTestResultRefresh"
                 android:defaultValue="true"
                 app:argType="boolean" />
         </action>
-        <action
+         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultReadyFragment"
@@ -347,13 +340,11 @@
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_submissionSymptomIntroductionFragment"
-            app:destination="@id/submissionSymptomIntroductionFragment"
-            app:popUpTo="@id/submissionSymptomIntroductionFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionContactFragment"
@@ -373,7 +364,7 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -389,7 +380,7 @@
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -415,7 +406,7 @@
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
@@ -428,7 +419,7 @@
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_homeFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
@@ -450,7 +441,7 @@
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionYourConsentFragment"
@@ -459,12 +450,12 @@
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultConsentGivenFragment"
             app:destination="@id/submissionTestResultConsentGivenFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
 
     </fragment>
 </navigation>
