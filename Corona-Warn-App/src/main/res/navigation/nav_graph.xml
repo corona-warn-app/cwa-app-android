@@ -293,19 +293,6 @@
             app:popUpToInclusive="false" />
     </fragment>
 
-    <fragment
-        android:id="@+id/submissionIntroFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment"
-        android:label="SubmissionIntroFragment">
-        <action
-            android:id="@+id/action_submissionIntroFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_submissionIntroFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment" />
-    </fragment>
     <activity
         android:id="@+id/launcherActivity"
         android:name="de.rki.coronawarnapp.ui.LauncherActivity"
