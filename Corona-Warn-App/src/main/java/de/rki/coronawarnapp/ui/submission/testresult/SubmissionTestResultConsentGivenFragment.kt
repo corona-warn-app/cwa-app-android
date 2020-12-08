@@ -18,6 +18,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * [SubmissionTestResultConsentGivenFragment], the test result screen that is shown to the user if they have provided
+ * consent.
+ */
 class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_submission_test_result_consent_given),
     AutoInject {
 

@@ -69,7 +69,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header_details"
                     app:showDivider="@{true}"
-                    app:status="@{settingsTracingState.isTracingSwitchChecked()}"
                     app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
