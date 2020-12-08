@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater.UpdateResult
-import de.rki.coronawarnapp.submission.data.tekhistory.internal.toPersistedTEK
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -30,7 +29,9 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val gson = baseGson.newBuilder().setPrettyPrinting().create()
+    private val exportJson = baseGson.newBuilder().apply {
+        setPrettyPrinting()
+    }.create()
 
     val errorEvents = SingleLiveEvent<Throwable>()
     private val internalToken = MutableStateFlow(LocalData.registrationToken())
@@ -48,7 +49,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
                         key = key
                     )
                 }
-                .sortedBy { it.key.rollingStartIntervalNumber }
+                .sortedBy { it.obtainedAt }
         }
     }.asLiveData(context = dispatcherProvider.Default)
 
@@ -92,11 +93,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun emailTEKs() {
         launch {
-            val tekBatches = tekHistoryStorage.tekData.first()
-            val teks = tekBatches.flatMap { it.keys }.map { it.toPersistedTEK() }
+            val exportedKeys = tekHistoryStorage.tekData.first().toExportedKeys()
 
             val tekExport = TEKExport(
-                exportText = gson.toJson(teks)
+                exportText = exportJson.toJson(exportedKeys)
             )
             shareTEKsEvent.postValue(tekExport)
         }
