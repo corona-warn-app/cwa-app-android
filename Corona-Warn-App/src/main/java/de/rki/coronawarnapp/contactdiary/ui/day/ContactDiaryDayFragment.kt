@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), AutoInject {
@@ -31,15 +30,15 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         }
     )
 
-    private val dateFormat by lazy {
-        DateTimeFormat.forPattern("EEEE, dd.MM.yy")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.contactDiaryDayViewPager.adapter =
             ContactDiaryDayFragmentsAdapter(this, viewModel.contactDiaryTabs)
+
+        TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
+            tab.text = viewModel.contactDiaryTabs[position].tabName
+        }.attach()
 
         binding.contactDiaryDayViewPager.registerOnPageChangeCallback {
             viewModel.updateCurrentTab(it)
@@ -49,16 +48,9 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             viewModel.onCreateButtonClicked()
         }
 
-        TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
-            tab.text = viewModel.contactDiaryTabs[position].tabName
-        }.attach()
-
-        viewModel.currentTab.observe2(this) {
+        viewModel.uiState.observe2(this) {
+            binding.contactDiaryDayHeader.title = it.dayText
             binding.contactDiaryDayFab.text = it.fabText
-        }
-
-        viewModel.displayedDay.observe2(this) {
-            binding.contactDiaryDayHeader.title = it.toString(dateFormat)
         }
     }
 }
