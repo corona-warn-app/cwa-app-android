@@ -21,6 +21,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * The [SubmissionSymptomIntroductionFragment], initial fragment displayed when the user starts the submission process
+ * providing symptoms, asking whether or not the user has experienced any of the common symptoms of COVID-19.
+ */
 class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submission_symptom_intro),
     AutoInject {
 

@@ -17,6 +17,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * The [SubmissionTestResultAvailableFragment] appears when the user's test result is available,
+ * providing the option to navigate to the consent screen where they can provide or revoke consent
+ */
 class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submission_test_result_available), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
