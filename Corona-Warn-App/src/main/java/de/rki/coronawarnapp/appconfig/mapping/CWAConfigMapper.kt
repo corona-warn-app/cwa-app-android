@@ -20,8 +20,9 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun AppConfig.ApplicationConfiguration.getMappedSupportedCountries(): List<String> =
-        when {
+    internal fun AppConfig.ApplicationConfiguration.getMappedSupportedCountries(): List<String> {
+        Timber.tag(TAG).d("supportedCountriesList=$supportedCountriesList")
+        return when {
             supportedCountriesList == null -> emptyList()
             supportedCountriesList.size == 1 && !VALID_CC.matches(supportedCountriesList.single()) -> {
                 Timber.w("Invalid country data, clearing. (%s)", supportedCountriesList)
@@ -29,6 +30,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             }
             else -> supportedCountriesList
         }
+    }
 
     data class CWAConfigContainer(
         override val appVersion: AppVersionConfig.ApplicationVersionConfiguration,
@@ -38,5 +40,6 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
 
     companion object {
         private val VALID_CC = "^([A-Z]{2,3})$".toRegex()
+        private const val TAG = "CWAConfigMapper"
     }
 }
