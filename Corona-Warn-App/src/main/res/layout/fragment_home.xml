@@ -160,17 +160,6 @@
                 app:layout_constraintTop_toBottomOf="@id/risk_card" />
 
             <include
-                android:id="@+id/main_test_unregistered"
-                layout="@layout/include_submission_status_card_unregistered"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                gone="@{submissionCard == null || !submissionCard.isUnregisteredCardVisible()}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@id/risk_card" />
-
-            <include
                 android:id="@+id/main_test_result"
                 layout="@layout/include_submission_status_card_content"
                 android:layout_width="@dimen/match_constraint"
@@ -231,7 +220,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="main_test_done, main_risk" />
+                app:constraint_referenced_ids="main_test_done" />
+
+            <include
+                android:id="@+id/contact_diary_card"
+                layout="@layout/contact_diary_homescreen_card_include"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/main_barrier" />
 
             <include
                 android:id="@+id/main_about"
@@ -242,7 +241,7 @@
                 gone="@{submissionCard == null }"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_barrier"
+                app:layout_constraintTop_toBottomOf="@+id/contact_diary_card"
                 app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
                 app:layout_constraintVertical_bias="0.0" />
 
