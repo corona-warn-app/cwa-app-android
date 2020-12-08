@@ -9,13 +9,16 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -34,7 +37,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     private var wasRedeemedTokenErrorShown = false
     private val tokenErrorMutex = Mutex()
 
-    val testResultFlow = combine(
+    private val testResultFlow = combine(
         submissionRepository.deviceUIStateFlow,
         submissionRepository.testResultReceivedDateFlow
     ) { deviceUiState, resultDate ->
@@ -55,7 +58,30 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
             testResultReceivedDate = resultDate
         )
     }
-    val uiState: LiveData<TestResultUIState> = testResultFlow.asLiveData(context = dispatcherProvider.Default)
+    val testState: LiveData<TestResultUIState> = testResultFlow
+        .onEach { testResultUIState ->
+            testResultUIState.deviceUiState.withSuccess { deviceState ->
+                when (deviceState) {
+                    DeviceUIState.PAIRED_POSITIVE -> SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment()
+                    DeviceUIState.PAIRED_NEGATIVE -> SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
+                    else -> {
+                        Timber.w("Unknown success state: %s", deviceState)
+                        null
+                    }
+                }?.let { routeToScreen.postValue(it) }
+            }
+        }
+        .filter {
+            val isPositiveTest = it.deviceUiState is NetworkRequestWrapper.RequestSuccessful &&
+                it.deviceUiState.data == DeviceUIState.PAIRED_POSITIVE
+            if (isPositiveTest) {
+                Timber.w("Filtering out positive test emission as we don't display this here.")
+            }
+            !isPositiveTest
+        }
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionRepository.deviceUIStateFlow
@@ -73,34 +99,6 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 .actionSubmissionResultFragmentToMainFragment()
         )
     }
-
-//    fun onContinuePressed() {
-//        Timber.tag(TAG).d("onContinuePressed()")
-//        requireTracingOrShowError {
-////            routeToScreen.postValue(
-////                SubmissionTestResultPendingFragmentDirections
-////                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-////            )
-//        }
-//    }
-//
-//    fun onContinueWithoutSymptoms() {
-//        Timber.tag(TAG).d("onContinueWithoutSymptoms()")
-//        requireTracingOrShowError {
-////            routeToScreen.postValue(
-////                SubmissionTestResultPendingFragmentDirections
-////                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-////            )
-//        }
-//    }
-//
-//    private fun requireTracingOrShowError(action: () -> Unit) = launch {
-//        if (enfClient.isTracingEnabled.first()) {
-//            action()
-//        } else {
-//            showTracingRequiredScreen.postValue(Unit)
-//        }
-//    }
 
     fun deregisterTestFromDevice() {
         launch {

@@ -268,8 +268,8 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_submissionTestResultPendingFragment_to_submissionConsentFragment"
-            app:destination="@id/submissionConsentFragment"
+            android:id="@+id/action_submissionTestResultPendingFragment_to_submissionTestResultAvailableFragment"
+            app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
 

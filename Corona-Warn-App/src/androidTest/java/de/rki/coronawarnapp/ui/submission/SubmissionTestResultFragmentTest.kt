@@ -32,7 +32,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { pendingViewModel.uiState } returns MutableLiveData()
+        every { pendingViewModel.testState } returns MutableLiveData()
 
         setupMockViewModel(object : SubmissionTestResultPendingViewModel.Factory {
             override fun create(): SubmissionTestResultPendingViewModel = pendingViewModel

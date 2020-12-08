@@ -31,37 +31,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     private var skipInitialTestResultRefresh = false
 
-    private fun navigateToMainScreen() =
-        doNavigate(
-            SubmissionTestResultPendingFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-        )
-
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -69,16 +38,16 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             binding.consentStatus.consent = it
         }
 
-        pendingViewModel.uiState.observe2(this) {
-            binding.uiState = it
-            with(binding) {
-                submissionTestResultSection
-                    .setTestResultSection(uiState?.deviceUiState, uiState?.testResultReceivedDate)
-            }
-            it.deviceUiState.withFailure {
+        pendingViewModel.testState.observe2(this) { result ->
+            result.deviceUiState.withFailure {
                 if (it is CwaWebException) {
                     DialogHelper.showDialog(buildErrorDialog(it))
                 }
+            }
+
+            binding.apply {
+                uiState = result
+                submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
             }
         }
 
@@ -99,26 +68,14 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
 
-//            submissionTestResultButtonPositiveContinue.setOnClickListener { pendingViewModel.onContinuePressed() }
-//
-//            submissionTestResultButtonPositiveContinueWithoutSymptoms.setOnClickListener { pendingViewModel.onContinueWithoutSymptoms() }
-
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
 
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { pendingViewModel.onBackPressed() }
+            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                pendingViewModel.onBackPressed()
+            }
 
             consentStatus.setOnClickListener { pendingViewModel.onConsentClicked() }
         }
-
-//        pendingViewModel.showTracingRequiredScreen.observe2(this) {
-//            val tracingRequiredDialog = DialogHelper.DialogInstance(
-//                requireActivity(),
-//                R.string.submission_test_result_dialog_tracing_required_title,
-//                R.string.submission_test_result_dialog_tracing_required_message,
-//                R.string.submission_test_result_dialog_tracing_required_button
-//            )
-//            DialogHelper.showDialog(tracingRequiredDialog)
-//        }
 
         pendingViewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
@@ -157,6 +114,37 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         )
         DialogHelper.showDialog(removeTestDialog).apply {
             getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
+    }
+
+    private fun navigateToMainScreen() =
+        doNavigate(
+            SubmissionTestResultPendingFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+        )
+
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
+        return when (exception) {
+            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
         }
     }
 }

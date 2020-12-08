@@ -80,7 +80,8 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
 
     private fun navigateToWarnOthers() {
         doNavigate(
-            SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
+            SubmissionTestResultNoConsentFragmentDirections
+                .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
         )
     }
 }

@@ -55,7 +55,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
         setupToolbar()
 
-
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
