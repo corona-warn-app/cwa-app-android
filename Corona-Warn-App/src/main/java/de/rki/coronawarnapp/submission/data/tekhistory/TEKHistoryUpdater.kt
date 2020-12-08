@@ -73,7 +73,9 @@ class TEKHistoryUpdater @Inject constructor(
         }
     }
 
-    private suspend fun updateTEKHistory(availableTEKs: List<TemporaryExposureKey>? = null): List<TemporaryExposureKey> {
+    private suspend fun updateTEKHistory(
+        availableTEKs: List<TemporaryExposureKey>? = null
+    ): List<TemporaryExposureKey> {
         val deferred = scope.async {
             val teks = availableTEKs ?: enfClient.getTEKHistory()
             Timber.i("Permission are available, storing TEK history.")
