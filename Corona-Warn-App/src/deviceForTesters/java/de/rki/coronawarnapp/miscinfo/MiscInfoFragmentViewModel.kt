@@ -57,7 +57,6 @@ class MiscInfoFragmentViewModel @AssistedInject constructor(
 
     val tracingDaysInRetention = flow {
         emit(TimeVariables.getActiveTracingDaysInRetentionPeriod())
-
     }.asLiveData(context = dispatcherProvider.Default)
 
     @AssistedInject.Factory
