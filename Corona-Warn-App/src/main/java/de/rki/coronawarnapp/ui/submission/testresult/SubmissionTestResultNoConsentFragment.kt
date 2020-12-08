@@ -16,6 +16,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * [SubmissionTestResultNoConsentFragment], the test result screen that is shown to the user if they have not provided
+ * consent
+ */
 class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submission_test_result_positive_no_consent),
     AutoInject {
 
