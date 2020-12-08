@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.api.ui
+package de.rki.coronawarnapp.util.debug
 
 import de.rki.coronawarnapp.util.CWADebug
 
