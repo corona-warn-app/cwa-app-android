@@ -12,7 +12,7 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 
 class ContactDiaryDayViewModel @AssistedInject constructor(
-    @Assisted private val selectedDay: Long,
+    @Assisted private val selectedDay: Long
 ) : CWAViewModel() {
     private val dateFormat by lazy {
         DateTimeFormat.forPattern("EEEE, dd.MM.yy")
@@ -48,4 +48,3 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
         fun create(selectedDay: Long): ContactDiaryDayViewModel
     }
 }
-
