@@ -429,6 +429,10 @@
         android:id="@+id/submissionYourConsentFragment"
         android:name="de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment"
         android:label="SubmissionYourConsentFragment">
+        <argument
+            android:name="isTestResultAvailable"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_submissionYourConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
