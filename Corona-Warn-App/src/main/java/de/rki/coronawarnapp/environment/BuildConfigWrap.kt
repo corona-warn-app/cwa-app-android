@@ -8,4 +8,6 @@ object BuildConfigWrap {
 
     val ENVIRONMENT_JSONDATA = BuildConfig.ENVIRONMENT_JSONDATA
     val ENVIRONMENT_TYPE_DEFAULT = BuildConfig.ENVIRONMENT_TYPE_DEFAULT
+
+    val VERSION_CODE: Long = BuildConfig.VERSION_CODE.toLong()
 }

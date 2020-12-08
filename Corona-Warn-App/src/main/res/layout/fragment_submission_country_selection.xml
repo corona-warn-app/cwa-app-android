@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:focusable="true"
-            tools:context=".ui.submission.fragment.SubmissionIntroFragment">
+            tools:context=".ui.submission.fragment.SubmissionCountrySelectionFragment">
 
             <include
                 android:id="@+id/submission_country_selection_header"

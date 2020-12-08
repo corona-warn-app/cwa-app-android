@@ -40,7 +40,7 @@ class AppConfigSource @Inject constructor(
                 localConfig
             }
             else -> {
-                Timber.tag(TAG).w("Remote & Local config available! Returning DEFAULT!")
+                Timber.tag(TAG).w("Remote & Local config unavailable! Returning DEFAULT!")
                 defaultAppConfigSource.getConfigData()
             }
         }

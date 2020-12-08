@@ -15,7 +15,7 @@ class KeyPackageSyncTool @Inject constructor(
     private val keyCache: KeyCacheRepository,
     private val dayPackageSyncTool: DayPackageSyncTool,
     private val hourPackageSyncTool: HourPackageSyncTool,
-    private val syncSettings: KeyPackageSyncSettings,
+    private val syncSettings: DownloadDiagnosisKeysSettings,
     private val timeStamper: TimeStamper,
     private val networkStateProvider: NetworkStateProvider
 ) {
@@ -77,7 +77,7 @@ class KeyPackageSyncTool @Inject constructor(
         Timber.tag(TAG).d("Synchronizing available days (lastDownload=%s).", lastDownload)
 
         syncSettings.lastDownloadDays.update {
-            KeyPackageSyncSettings.LastDownload(startedAt = timeStamper.nowUTC)
+            DownloadDiagnosisKeysSettings.LastDownload(startedAt = timeStamper.nowUTC)
         }
 
         val syncResult = dayPackageSyncTool.syncMissingDayPackages(
@@ -104,7 +104,7 @@ class KeyPackageSyncTool @Inject constructor(
         Timber.tag(TAG).d("Synchronizing available hours (lastDownload=%s).", lastDownload)
 
         syncSettings.lastDownloadHours.update {
-            KeyPackageSyncSettings.LastDownload(
+            DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = timeStamper.nowUTC
             )
         }

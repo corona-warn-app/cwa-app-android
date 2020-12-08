@@ -75,7 +75,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         every { database.exposureWindows() } returns exposureWindowTables
         every { database.clearAllTables() } just Runs
 
-        every { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
+        coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
 
         every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
         coEvery { riskResultTables.insertEntry(any()) } just Runs

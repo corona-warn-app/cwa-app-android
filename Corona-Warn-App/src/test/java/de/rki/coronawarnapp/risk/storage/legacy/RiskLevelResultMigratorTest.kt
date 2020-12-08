@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk.storage.legacy
 
+import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
@@ -8,6 +9,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -18,6 +20,7 @@ import testhelpers.preferences.MockSharedPreferences
 class RiskLevelResultMigratorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var context: Context
     private val mockPreferences = MockSharedPreferences()
 
     @BeforeEach
@@ -34,11 +37,12 @@ class RiskLevelResultMigratorTest : BaseTest() {
 
     fun createInstance() = RiskLevelResultMigrator(
         timeStamper = timeStamper,
-        encryptedPreferences = { mockPreferences }
+        encryptedPreferences = { mockPreferences },
+        context = context
     )
 
     @Test
-    fun `normal case with full values`() {
+    fun `normal case with full values`() = runBlocking {
         mockPreferences.edit {
             putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
             putInt("preference_risk_level_score_successful", MigrationRiskLevelConstants.LOW_LEVEL_RISK)
@@ -58,13 +62,13 @@ class RiskLevelResultMigratorTest : BaseTest() {
     }
 
     @Test
-    fun `empty list if no previous data was available`() {
+    fun `empty list if no previous data was available`() = runBlocking {
         mockPreferences.dataMapPeek.isEmpty() shouldBe true
         createInstance().getLegacyResults() shouldBe emptyList()
     }
 
     @Test
-    fun `if no timestamp is available we use the current time`() {
+    fun `if no timestamp is available we use the current time`() = runBlocking {
         mockPreferences.edit {
             putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
             putInt("preference_risk_level_score_successful", MigrationRiskLevelConstants.LOW_LEVEL_RISK)
@@ -83,7 +87,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
     }
 
     @Test
-    fun `last successful is null`() {
+    fun `last successful is null`() = runBlocking {
         mockPreferences.edit {
             putInt("preference_risk_level_score_successful", MigrationRiskLevelConstants.INCREASED_RISK)
         }
@@ -98,7 +102,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
     }
 
     @Test
-    fun `last successfully calculated is null`() {
+    fun `last successfully calculated is null`() = runBlocking {
         mockPreferences.edit {
             putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
             putLong("preference_timestamp_risk_level_calculation", 1234567890L)
@@ -114,7 +118,7 @@ class RiskLevelResultMigratorTest : BaseTest() {
     }
 
     @Test
-    fun `exceptions are handled gracefully`() {
+    fun `exceptions are handled gracefully`() = runBlocking {
         mockPreferences.edit {
             putInt("preference_risk_level_score", MigrationRiskLevelConstants.INCREASED_RISK)
         }
