@@ -935,27 +935,6 @@
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
     <string name="submission_tan_character_error">"Twój wpis zawiera nieprawidłowe znaki, Sprawdź swój wpis."</string>
 
-    <!-- Submission Intro -->
-    <!-- XHED: Page title for menu at the start of the submission process  -->
-    <string name="submission_intro_title">"Czy wykonano Ci test?"</string>
-    <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">"Sposób działania Corona-Warn-App"</string>
-    <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Skuteczność działania aplikacji zależy od pomocy osób, u których zdiagnozowano koronawirusa.\n\nZawsze zachowujesz anonimowość, ponieważ wymienianie są tylko zaszyfrowane, losowe identyfikatory. Możesz teraz postąpić w poniższy sposób:"</string>
-    <!-- XBUT: Submission introduction next button-->
-    <string name="submission_intro_button_next">"Dalej"</string>
-    <!-- XACT: Submission intro - illustration description, explanation image -->
-    <string name="submission_intro_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu, który będzie teraz ostrzegał innych użytkowników."</string>
-    <!-- YTXT: submission introduction bullet points -->
-    <string-array name="submission_intro_bullet_points">
-        <item>"Jeżeli w Twoim dokumencie testu znajduje się kod QR, możesz go zeskanować i zarejestrować test. Jak tylko wynik będzie dostępny, będziesz mieć możliwość sprawdzenia go w aplikacji."</item>
-        <item>"Jeśli zdiagnozowano u Ciebie koronawirusa, możesz ostrzec inne osoby."</item>
-        <item>"Jeżeli otrzymałeś(-aś) numer TAN dla diagnozy zakażenia, możesz użyć go do zarejestrowania testu."</item>
-        <item>"Jeśli nie masz numeru TAN, możesz poprosić o niego telefonicznie."</item>
-    </string-array>
-    <!-- XACT: Submission Intro page title -->
-    <string name="submission_intro_accessibility_title">"Czy wykonano Ci test? Sposób działania Corona-Warn-App"</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Pobierz wynik testu"</string>

@@ -939,27 +939,6 @@
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
     <string name="submission_tan_character_error">"Your entry contains invalid characters. Please check your entry."</string>
 
-    <!-- Submission Intro -->
-    <!-- XHED: Page title for menu at the start of the submission process  -->
-    <string name="submission_intro_title">"Have you been tested?"</string>
-    <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">"This is how the Corona-Warn-App works"</string>
-    <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who were diagnosed with coronavirus.\n\nSince only encrypted random IDs are exchanged, you will remain anonymous. You can now proceed as follows:"</string>
-    <!-- XBUT: Submission introduction next button-->
-    <string name="submission_intro_button_next">"Next"</string>
-    <!-- XACT: Submission intro - illustration description, explanation image -->
-    <string name="submission_intro_illustration_description">"An encrypted positive test diagnosis is transmitted to the system, which will now warn other users."</string>
-    <!-- YTXT: submission introduction bullet points -->
-    <string-array name="submission_intro_bullet_points">
-        <item>"If there is a QR code in your test document, you can scan this and register the test. As soon as the result is available, you can view it in the app."</item>
-        <item>"If you have been diagnosed with coronavirus, you can warn others."</item>
-        <item>"If you were given a TAN for a positive diagnosis, you can use this to register the test."</item>
-        <item>"If you do not have a TAN, you can request one by telephone."</item>
-    </string-array>
-    <!-- XACT: Submission Intro page title -->
-    <string name="submission_intro_accessibility_title">"Have you been tested? This is how the Corona-Warn-App works"</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Retrieve Test Result"</string>

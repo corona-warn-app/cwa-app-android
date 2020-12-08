@@ -935,27 +935,6 @@
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
     <string name="submission_tan_character_error">"Girişiniz geçersiz karakterler içeriyor. Lütfen girişinizi kontrol edin."</string>
 
-    <!-- Submission Intro -->
-    <!-- XHED: Page title for menu at the start of the submission process  -->
-    <string name="submission_intro_title">"Test yaptırdınız mı?"</string>
-    <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">"Corona-Warn-App bu şekilde çalışır"</string>
-    <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Uygulamanın düzgün çalışması için koronavirüs tanısı konan kişilerin desteğine güveniyoruz.\n\nYalnızca şifrelenmiş rastgele kimlikler gönderilip alındığından kimliğiniz gizli kalır. Şu şekilde devam edebilirsiniz:"</string>
-    <!-- XBUT: Submission introduction next button-->
-    <string name="submission_intro_button_next">"Sonraki"</string>
-    <!-- XACT: Submission intro - illustration description, explanation image -->
-    <string name="submission_intro_illustration_description">"Şifrelenmiş bir pozitif test tanısı sisteme aktarılır ve diğer kullanıcılar uyarılır."</string>
-    <!-- YTXT: submission introduction bullet points -->
-    <string-array name="submission_intro_bullet_points">
-        <item>"Test belgenizde bir QR kod varsa bu kodu tarayıp testi kaydedebilirsiniz. Sonuç çıkar çıkmaz sonucu uygulamada görüntüleyebilirsiniz."</item>
-        <item>"Size koronavirüs tanısı konduysa diğer insanları uyarabilirsiniz."</item>
-        <item>"Pozitif tanı için TAN verildiyse bunu kullanarak testi kaydedebilirsiniz."</item>
-        <item>"TAN verilmediyse telefonla talep edebilirsiniz."</item>
-    </string-array>
-    <!-- XACT: Submission Intro page title -->
-    <string name="submission_intro_accessibility_title">"Test yaptırdınız mı? Corona-Warn-App bu şekilde çalışır"</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Test Sonucunu Al"</string>
