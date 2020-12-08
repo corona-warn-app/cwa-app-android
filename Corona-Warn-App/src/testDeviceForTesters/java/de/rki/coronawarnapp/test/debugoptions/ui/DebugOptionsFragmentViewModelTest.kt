@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.debugoptions.ui
 import android.content.Context
 import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.test.api.ui.EnvironmentState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

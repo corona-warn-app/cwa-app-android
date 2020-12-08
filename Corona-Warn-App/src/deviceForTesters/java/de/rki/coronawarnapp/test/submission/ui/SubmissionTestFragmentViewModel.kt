@@ -5,16 +5,20 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import com.google.gson.Gson
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater.UpdateResult
+import de.rki.coronawarnapp.submission.data.tekhistory.internal.toPersistedTEK
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.util.UUID
@@ -22,12 +26,17 @@ import java.util.UUID
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val tekHistoryUpdater: TEKHistoryUpdater
+    private val tekHistoryUpdater: TEKHistoryUpdater,
+    @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    private val gson = baseGson.newBuilder().setPrettyPrinting().create()
 
     val errorEvents = SingleLiveEvent<Throwable>()
     private val internalToken = MutableStateFlow(LocalData.registrationToken())
     val currentTestId = internalToken.asLiveData()
+
+    val shareTEKsEvent = SingleLiveEvent<TEKExport>()
 
     val tekHistory: LiveData<List<TEKHistoryItem>> = tekHistoryStorage.tekData.map { items ->
         items.flatMap { batch ->
@@ -78,6 +87,18 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     fun clearStorage() {
         launch {
             tekHistoryStorage.clear()
+        }
+    }
+
+    fun emailTEKs() {
+        launch {
+            val tekBatches = tekHistoryStorage.tekData.first()
+            val teks = tekBatches.flatMap { it.keys }.map { it.toPersistedTEK() }
+
+            val tekExport = TEKExport(
+                exportText = gson.toJson(teks)
+            )
+            shareTEKsEvent.postValue(tekExport)
         }
     }
 
