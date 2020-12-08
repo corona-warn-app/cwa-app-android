@@ -940,6 +940,10 @@
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
     <string name="submission_tan_character_error">"Ihre Eingabe enthält ein ungültiges Zeichen. Bitte überprüfen Sie Ihre Eingabe."</string>
 
+    <!-- Submission Intro -->
+    <!-- XBUT: Submission introduction next button-->
+    <string name="submission_intro_button_next">"Weiter"</string>
+    
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Testergebnis abrufen"</string>
