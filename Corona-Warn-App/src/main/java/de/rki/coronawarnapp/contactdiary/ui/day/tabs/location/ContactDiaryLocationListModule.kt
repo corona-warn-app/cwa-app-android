@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.person
+package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ContactDiaryPersonListModule {
+abstract class ContactDiaryLocationListModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(ContactDiaryPersonListViewModel::class)
-    abstract fun contactDiaryPersonListFragment(
-        factory: ContactDiaryPersonListViewModel.Factory
+    @CWAViewModelKey(ContactDiaryLocationListViewModel::class)
+    abstract fun contactDiaryLocationListFragment(
+        factory: ContactDiaryLocationListViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

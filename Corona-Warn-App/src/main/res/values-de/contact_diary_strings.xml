@@ -4,8 +4,12 @@
                 Contact Diary
     ###################################### -->
 
+    <string name="contact_diary_day_person_tab_title">"Personen"</string>
+    <string name="contact_diary_day_person_fab_title">"Person"</string>
+    <string name="contact_diary_day_location_tab_title">"Orte"</string>
+    <string name="contact_diary_day_location_fab_title">"Ort"</string>
     <string name="contact_diary_location_list_no_items_title">"Noch keine Orte vorhanden"</string>
-    <string name="contact_diary_location_list_no_items_subtitle">"Legen Sie eine Person an und fügen Sie sie in Ihrem Kontakt-Tagebuch hinzu."</string>
+    <string name="contact_diary_location_list_no_items_subtitle">"Legen Sie einen Ort an und fügen Sie ihn in Ihrem Kontakt-Tagebuch hinzu."</string>
     <string name="contact_diary_person_list_no_items_title">"Noch keine Personen vorhanden"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Legen Sie eine Person an und fügen Sie sie in Ihrem Kontakt-Tagebuch hinzu."</string>
 </resources>

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.location
+package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted

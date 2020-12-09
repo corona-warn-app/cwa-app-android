@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.adapter
+package de.rki.coronawarnapp.contactdiary.ui.day.tabs
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

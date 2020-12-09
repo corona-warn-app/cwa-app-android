@@ -4,7 +4,7 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryRepository
-import de.rki.coronawarnapp.contactdiary.ui.day.adapter.ContactDiaryDayTab
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +27,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
 
     val uiState = currentTab.combine(displayedDay) { currentTab, day ->
         UIState(
-            fabText = currentTab.fabText,
+            fabTextResource = currentTab.fabTextResource,
             dayText = day.toString(dateFormat)
         )
     }.asLiveData()
@@ -47,7 +47,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     }
 
     data class UIState(
-        val fabText: String,
+        val fabTextResource: Int,
         val dayText: String
     )
 

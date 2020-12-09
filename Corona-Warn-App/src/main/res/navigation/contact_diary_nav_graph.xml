@@ -16,7 +16,7 @@
         android:defaultValue="0L" />
     <fragment
         android:id="@+id/contactDiaryPersonListFragment"
-        android:name="de.rki.coronawarnapp.contactdiary.ui.day.person.ContactDiaryPersonListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment"
         android:label="ContactDiaryPersonListFragment">
         <argument
             android:name="selectedDay"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPlaceListFragment"
-        android:name="de.rki.coronawarnapp.contactdiary.ui.day.location.ContactDiaryLocationListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment"
         android:label="ContactDiaryPlaceListFragment">
         <argument
             android:name="selectedDay"

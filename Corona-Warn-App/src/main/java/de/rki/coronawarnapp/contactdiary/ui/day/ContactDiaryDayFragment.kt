@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.day.adapter.ContactDiaryDayFragmentsAdapter
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayFragmentsAdapter
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -37,7 +37,8 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             ContactDiaryDayFragmentsAdapter(this, viewModel.contactDiaryTabs, navArgs.selectedDay)
 
         TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
-            tab.text = viewModel.contactDiaryTabs[position].tabName
+            val tabSource = viewModel.contactDiaryTabs[position]
+            tab.text = resources.getString(tabSource.tabNameResource)
         }.attach()
 
         binding.contactDiaryDayViewPager.registerOnPageChangeCallback {
@@ -50,7 +51,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
 
         viewModel.uiState.observe2(this) {
             binding.contactDiaryDayHeader.title = it.dayText
-            binding.contactDiaryDayFab.text = it.fabText
+            binding.contactDiaryDayFab.text = resources.getString(it.fabTextResource)
         }
     }
 }

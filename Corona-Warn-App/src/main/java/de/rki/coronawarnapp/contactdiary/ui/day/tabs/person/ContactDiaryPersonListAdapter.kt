@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.person
+package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R

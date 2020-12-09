@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.location
+package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
