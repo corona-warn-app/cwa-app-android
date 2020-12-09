@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.place
+package de.rki.coronawarnapp.contactdiary.ui.day.location
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 
-class ContactDiaryPlaceListViewModel @AssistedInject constructor(
+class ContactDiaryLocationListViewModel @AssistedInject constructor(
     @Assisted selectedDay: Long,
     contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel() {
@@ -19,7 +19,7 @@ class ContactDiaryPlaceListViewModel @AssistedInject constructor(
     val locations = dayElement.map { it.locations }.asLiveData()
 
     @AssistedInject.Factory
-    interface Factory : CWAViewModelFactory<ContactDiaryPlaceListViewModel> {
-        fun create(selectedDay: Long): ContactDiaryPlaceListViewModel
+    interface Factory : CWAViewModelFactory<ContactDiaryLocationListViewModel> {
+        fun create(selectedDay: Long): ContactDiaryLocationListViewModel
     }
 }

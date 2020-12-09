@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.adapter
 
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.contactdiary.ui.day.location.ContactDiaryLocationListFragment
+import de.rki.coronawarnapp.contactdiary.ui.day.location.ContactDiaryLocationListFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.day.person.ContactDiaryPersonListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.person.ContactDiaryPersonListFragmentArgs
-import de.rki.coronawarnapp.contactdiary.ui.day.place.ContactDiaryPlaceListFragment
-import de.rki.coronawarnapp.contactdiary.ui.day.place.ContactDiaryPlaceListFragmentArgs
 
 data class ContactDiaryDayTab(
     val tabName: String,
@@ -18,10 +18,10 @@ data class ContactDiaryDayTab(
                 arguments = ContactDiaryPersonListFragmentArgs(day).toBundle()
             }
         }
-        val PLACE_TAB = ContactDiaryDayTab("Places", "Place") { day ->
-            ContactDiaryPlaceListFragment().apply {
+        val LOCATION_TAB = ContactDiaryDayTab("Places", "Place") { day ->
+            ContactDiaryLocationListFragment().apply {
                 // Feels kind of hacky but i like the free typesafety for the args
-                arguments = ContactDiaryPlaceListFragmentArgs(day).toBundle()
+                arguments = ContactDiaryLocationListFragmentArgs(day).toBundle()
             }
         }
     }

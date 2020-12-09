@@ -9,7 +9,7 @@
         android:background="@color/colorSurface2">
 
         <ImageView
-            android:id="@+id/contact_diary_place_list_line_icon"
+            android:id="@+id/contact_diary_location_list_line_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="@dimen/spacing_small"
@@ -19,13 +19,13 @@
             tools:srcCompat="@drawable/ic_person" />
 
         <TextView
-            android:id="@+id/contact_diary_place_list_line_name"
+            android:id="@+id/contact_diary_location_list_line_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
             android:text="ahh yes soup"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_place_list_line_icon"
+            app:layout_constraintStart_toEndOf="@+id/contact_diary_location_list_line_icon"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

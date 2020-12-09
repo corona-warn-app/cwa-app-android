@@ -18,7 +18,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
         DateTimeFormat.forPattern("EEEE, dd.MM.yy")
     }
 
-    val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.PLACE_TAB)
+    val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.LOCATION_TAB)
 
     private val currentTab = MutableStateFlow(contactDiaryTabs[0])
     private val displayedDay = MutableStateFlow(Instant.ofEpochSecond(selectedDay))
