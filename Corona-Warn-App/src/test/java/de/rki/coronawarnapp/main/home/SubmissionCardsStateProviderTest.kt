@@ -35,6 +35,7 @@ class SubmissionCardsStateProviderTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         mockkObject(LocalData)
+        every { submissionRepository.hasViewedTestResult } returns true
     }
 
     @AfterEach
