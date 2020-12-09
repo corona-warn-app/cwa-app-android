@@ -33,7 +33,10 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val personListAdapter = ContactDiaryPersonListAdapter()
+        val personListAdapter = ContactDiaryPersonListAdapter {
+            viewModel.personSelectionChanged(it)
+        }
+
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
             layoutManager = LinearLayoutManager(requireContext())
