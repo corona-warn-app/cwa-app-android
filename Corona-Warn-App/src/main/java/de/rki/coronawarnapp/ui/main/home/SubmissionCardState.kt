@@ -82,6 +82,13 @@ data class SubmissionCardState(
                     else -> false
                 }
             }
+        } else if (!testViewed) {
+            deviceUiState.withSuccess(false) {
+                when (it) {
+                    PAIRED_NEGATIVE -> true
+                    else -> false
+                }
+            }
         } else return false
     }
 
