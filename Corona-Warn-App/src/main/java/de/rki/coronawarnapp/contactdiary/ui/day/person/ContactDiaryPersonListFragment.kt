@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -40,6 +41,8 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
 
         viewModel.persons.observe2(this) {
             personListAdapter.update(it)
+
+            binding.contactDiaryPersonListNoItemsGroup.setInvisible(it.isNotEmpty())
         }
     }
 }

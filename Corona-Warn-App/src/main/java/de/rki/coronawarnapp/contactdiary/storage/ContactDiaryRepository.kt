@@ -20,8 +20,8 @@ class ContactDiaryRepository @Inject constructor() {
         listOf(
             DefaultContactDiaryElement(
                 createdAt = fakeInstant,
-                people = listOf(DefaultPerson(fullName = "Test Person")),
-                locations = listOf(DefaultLocation(locationName = "Test Location"))
+                people = emptyList(),
+                locations = emptyList()
             )
         )
     )
@@ -29,13 +29,25 @@ class ContactDiaryRepository @Inject constructor() {
     // TODO use the actual day arugment in future
     fun filterForDay(day: Instant) = elements.flatMapConcat { it.asFlow() }.filter { it.createdAt.isEqual(fakeInstant) }
 
-    suspend fun deleteLocation() {
+    suspend fun addDummyPerson() {
+        val latestElement = elements.value[0]
+
+        val newElement = DefaultContactDiaryElement(
+            createdAt = latestElement.createdAt,
+            people = latestElement.people + listOf(DefaultPerson(fullName = "Someone")),
+            locations = latestElement.locations
+        )
+
+        elements.emit(listOf(newElement))
+    }
+
+    suspend fun addDummyLocation() {
         val latestElement = elements.value[0]
 
         val newElement = DefaultContactDiaryElement(
             createdAt = latestElement.createdAt,
             people = latestElement.people,
-            locations = listOf()
+            locations = latestElement.locations + listOf(DefaultLocation(locationName = "Somewhere"))
         )
 
         elements.emit(listOf(newElement))

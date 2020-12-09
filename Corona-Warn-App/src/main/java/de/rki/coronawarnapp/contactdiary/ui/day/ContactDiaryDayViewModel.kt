@@ -39,7 +39,10 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     fun onCreateButtonClicked() {
         //TODO replace with actual implementation
         launch {
-            contactDiaryRepository.deleteLocation()
+            when (currentTab.value) {
+                ContactDiaryDayTab.LOCATION_TAB -> contactDiaryRepository.addDummyLocation()
+                ContactDiaryDayTab.PERSON_TAB -> contactDiaryRepository.addDummyPerson()
+            }
         }
     }
 

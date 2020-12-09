@@ -6,4 +6,6 @@
 
     <string name="contact_diary_location_list_no_items_title"></string>
     <string name="contact_diary_location_list_no_items_subtitle"></string>
+    <string name="contact_diary_person_list_no_items_title"></string>
+    <string name="contact_diary_person_list_no_items_subtitle"></string>
 </resources>
