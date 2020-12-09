@@ -54,7 +54,8 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         createInstance().apply {
             state.first() shouldBe SubmissionCardState(
                 deviceUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-                isDeviceRegistered = true
+                isDeviceRegistered = true,
+                submissionRepository
             )
 
             verify {

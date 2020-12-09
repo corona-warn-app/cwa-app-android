@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -33,18 +34,19 @@ class SubmissionCardStateTest : BaseTest() {
 
     private fun instance(
         deviceUiState: DeviceUIState = mockk(),
+        submissionRepository: SubmissionRepository = mockk(),
         isDeviceRegistered: Boolean = true,
         uiStateState: ApiRequestState = ApiRequestState.SUCCESS
     ) =
         when (uiStateState) {
             ApiRequestState.SUCCESS ->
-                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered, submissionRepository)
             ApiRequestState.FAILED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered, submissionRepository)
             ApiRequestState.STARTED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered, submissionRepository)
             ApiRequestState.IDLE ->
-                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered, submissionRepository)
         }
 
     @Test
