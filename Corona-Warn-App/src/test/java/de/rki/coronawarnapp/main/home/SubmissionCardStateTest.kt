@@ -83,6 +83,21 @@ class SubmissionCardStateTest : BaseTest() {
     }
 
     @Test
+    fun `test result is available visibility`() {
+        every { submissionRepository.hasViewedTestResult } returns false
+
+        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
+            isTestResultReadyCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
+            isTestResultReadyCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
+            isTestResultReadyCardVisible() shouldBe true
+        }
+    }
+
+    @Test
     fun `unregistered card visibility`() {
         instance(isDeviceRegistered = true).apply {
             isUnregisteredCardVisible() shouldBe false
