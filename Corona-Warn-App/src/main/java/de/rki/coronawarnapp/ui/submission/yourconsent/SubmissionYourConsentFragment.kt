@@ -32,7 +32,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
 
         vm.consent.observe2(this) {
             binding.submissionYourConsentSwitch.status = it
-            binding.submissionYourConsentSwitch.settingsSwitchRowHeaderBody.setText(
+            binding.submissionYourConsentSwitch.statusText = getString(
                 if (it) {
                     R.string.submission_your_consent_switch_status_on
                 } else {
