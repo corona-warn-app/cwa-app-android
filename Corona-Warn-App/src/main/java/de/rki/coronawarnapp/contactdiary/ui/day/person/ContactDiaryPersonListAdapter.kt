@@ -27,7 +27,7 @@ class ContactDiaryPersonListAdapter : BaseAdapter<ContactDiaryPersonListAdapter.
     }
 
     class CachedPersonViewHolder(
-        parent: ViewGroup,
+        parent: ViewGroup
     ) : BaseAdapter.VH(R.layout.contact_diary_person_list_line, parent),
         BindableVH<Person, ContactDiaryPersonListLineBinding> {
         override val viewBinding = lazy { ContactDiaryPersonListLineBinding.bind(itemView) }

@@ -26,7 +26,7 @@ class ContactDiaryPlaceListAdapter : BaseAdapter<ContactDiaryPlaceListAdapter.Ca
     }
 
     class CachedPlaceViewHolder(
-        parent: ViewGroup,
+        parent: ViewGroup
     ) : BaseAdapter.VH(R.layout.contact_diary_place_list_line, parent),
         BindableVH<Location, ContactDiaryPlaceListLineBinding> {
         override val viewBinding = lazy { ContactDiaryPlaceListLineBinding.bind(itemView) }
