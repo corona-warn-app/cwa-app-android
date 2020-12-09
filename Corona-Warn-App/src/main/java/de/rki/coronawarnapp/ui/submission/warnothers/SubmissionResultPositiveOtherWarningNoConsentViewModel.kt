@@ -43,10 +43,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
             }
 
             override fun onPermissionDeclined() {
-                routeToScreen.postValue(
-                    SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToMainFragment()
-                )
+                // stay on screen
             }
 
             override fun onError(error: Throwable) {
