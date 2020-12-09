@@ -60,13 +60,17 @@ data class SubmissionCardState(
             else -> false
         }
 
-    fun isPositiveSubmissionCardVisible(): Boolean =
-        deviceUiState.withSuccess(false) {
-            when (it) {
-                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
-                else -> false
+    fun isPositiveSubmissionCardVisible(): Boolean {
+        return if(testViewed) {
+            deviceUiState.withSuccess(false)
+            {
+                when (it) {
+                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
+                    else -> false
+                }
             }
-        }
+        } else return false
+    }
 
     fun isSubmissionDoneCardVisible(): Boolean =
         when (deviceUiState) {

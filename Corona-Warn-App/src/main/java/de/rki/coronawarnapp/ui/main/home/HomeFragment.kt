@@ -177,10 +177,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             mainTestReady.apply {
                 val toTestResult = {
                     HomeFragmentDirections
-                        .actionMainFragmentToSubmissionResultReadyFragment()
+                        .actionMainFragmentToSubmissionTestResultAvailableFragment()
                 }
-                submissionStatusCardReady.setOnClickListener { toTestResult }
-                submissionStatusCardReadyButton.setOnClickListener { toTestResult }
+                submissionStatusCardReady.setOnClickListener { toTestResult() }
+                submissionStatusCardReadyButton.setOnClickListener { toTestResult() }
             }
         }
     }

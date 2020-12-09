@@ -47,8 +47,8 @@
             android:id="@+id/action_mainFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionResultReadyFragment"
-            app:destination="@id/submissionResultReadyFragment" />
+            android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
+            app:destination="@id/submissionTestResultAvailableFragment" />
     </fragment>
 
     <fragment
