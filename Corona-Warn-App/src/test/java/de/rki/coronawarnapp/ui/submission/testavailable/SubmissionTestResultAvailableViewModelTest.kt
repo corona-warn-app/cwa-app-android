@@ -80,7 +80,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.goConsent()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment()
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(true)
     }
 
     @Test

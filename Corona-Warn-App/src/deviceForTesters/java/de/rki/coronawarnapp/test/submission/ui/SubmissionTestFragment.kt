@@ -43,11 +43,22 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         }
         vm.tekHistory.observe2(this) { teks ->
             tekHistoryAdapter.update(teks)
+            binding.tekStorageCount.text = "${teks.size} TEKs"
+        }
+
+        vm.shareTEKsEvent.observe2(this) { tekExport ->
+            val share = Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, tekExport.exportText)
+            }, null)
+            startActivity(share)
         }
 
         binding.apply {
             tekStorageUpdate.setOnClickListener { vm.updateStorage(requireActivity()) }
             tekStorageClear.setOnClickListener { vm.clearStorage() }
+            tekStorageEmail.setOnClickListener { vm.emailTEKs() }
         }
     }
 
