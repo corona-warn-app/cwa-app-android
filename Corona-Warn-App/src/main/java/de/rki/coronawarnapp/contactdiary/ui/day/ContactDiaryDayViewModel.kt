@@ -37,7 +37,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     }
 
     fun onCreateButtonClicked() {
-        //TODO replace with actual implementation
+        // TODO replace with actual implementation
         launch {
             when (currentTab.value) {
                 ContactDiaryDayTab.LOCATION_TAB -> contactDiaryRepository.addDummyLocation()
