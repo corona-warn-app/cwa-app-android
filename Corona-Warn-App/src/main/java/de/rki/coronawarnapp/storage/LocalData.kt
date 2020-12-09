@@ -474,38 +474,6 @@ object LocalData {
 
     fun submissionWasSuccessful(): Boolean = numberOfSuccessfulSubmissions() >= 1
 
-    fun testGUID(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_test_guid),
-        null
-    )
-
-    fun testGUID(value: String?) {
-        getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_test_guid),
-                value
-            )
-        }
-    }
-
-    fun authCode(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_auth_code),
-        null
-    )
-
-    fun authCode(value: String?) {
-        getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_auth_code),
-                value
-            )
-        }
-    }
-
     fun isAllowedToSubmitDiagnosisKeys(isAllowedToSubmitDiagnosisKeys: Boolean) {
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
@@ -523,17 +491,6 @@ object LocalData {
             false
         )
     }
-
-    fun teletan(value: String?) = getSharedPreferenceInstance().edit(true) {
-        putString(
-            CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan),
-            value
-        )
-    }
-
-    fun teletan(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
-    )
 
     /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
