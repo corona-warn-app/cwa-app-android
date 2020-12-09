@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -40,6 +41,8 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
 
         viewModel.locations.observe2(this) {
             locationListAdapter.update(it)
+
+            binding.contactDiaryLocationListNoItemsGroup.setInvisible(it.isNotEmpty())
         }
     }
 }

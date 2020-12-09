@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Contact Diary
+    ###################################### -->
+
+    <string name="contact_diary_location_list_no_items_title"></string>
+    <string name="contact_diary_location_list_no_items_subtitle"></string>
+</resources>

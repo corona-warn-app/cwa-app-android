@@ -16,6 +16,51 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/contact_diary_location_list_no_items_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="contact_diary_location_list_no_items_image,contact_diary_location_list_no_items_title,contact_diary_location_list_no_items_subtitle" />
+
+        <ImageView
+            android:id="@+id/contact_diary_location_list_no_items_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/contact_diary_location_list_no_items_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/ic_illustration_no_locations" />
+
+        <TextView
+            android:id="@+id/contact_diary_location_list_no_items_title"
+            style="@style/subtitleMedium"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_huge"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/contact_diary_location_list_no_items_title"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/contact_diary_location_list_no_items_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_location_list_no_items_image" />
+
+        <TextView
+            android:id="@+id/contact_diary_location_list_no_items_subtitle"
+            style="@style/body2Medium"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_huge"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:text="@string/contact_diary_location_list_no_items_subtitle"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_location_list_no_items_title" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

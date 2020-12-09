@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.day.adapter.ContactDiaryDayTab
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -12,7 +13,8 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 
 class ContactDiaryDayViewModel @AssistedInject constructor(
-    @Assisted selectedDay: Long
+    @Assisted selectedDay: Long,
+    private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel() {
     private val dateFormat by lazy {
         DateTimeFormat.forPattern("EEEE, dd.MM.yy")
@@ -35,7 +37,10 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     }
 
     fun onCreateButtonClicked() {
-        TODO("Not yet implemented")
+        //TODO replace with actual implementation
+        launch {
+            contactDiaryRepository.deleteLocation()
+        }
     }
 
     data class UIState(

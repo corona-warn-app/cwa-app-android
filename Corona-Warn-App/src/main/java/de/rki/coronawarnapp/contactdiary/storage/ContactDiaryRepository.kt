@@ -28,4 +28,16 @@ class ContactDiaryRepository @Inject constructor() {
 
     // TODO use the actual day arugment in future
     fun filterForDay(day: Instant) = elements.flatMapConcat { it.asFlow() }.filter { it.createdAt.isEqual(fakeInstant) }
+
+    suspend fun deleteLocation() {
+        val latestElement = elements.value[0]
+
+        val newElement = DefaultContactDiaryElement(
+            createdAt = latestElement.createdAt,
+            people = latestElement.people,
+            locations = listOf()
+        )
+
+        elements.emit(listOf(newElement))
+    }
 }
