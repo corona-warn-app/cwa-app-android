@@ -176,8 +176,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
             mainTestReady.apply {
                 val toTestResult = {
-                    HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultAvailableFragment()
+                    doNavigate(HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultAvailableFragment())
                 }
                 submissionStatusCardReady.setOnClickListener { toTestResult() }
                 submissionStatusCardReadyButton.setOnClickListener { toTestResult() }
