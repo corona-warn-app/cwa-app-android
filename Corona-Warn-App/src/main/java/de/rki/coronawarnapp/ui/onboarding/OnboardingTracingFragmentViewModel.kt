@@ -13,15 +13,16 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class OnboardingTracingFragmentViewModel @AssistedInject constructor(
-    private val interopRepo: InteroperabilityRepository,
+    private val interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val countryList = interopRepo.countryList.asLiveData(context = dispatcherProvider.Default)
+    val countryList = interoperabilityRepository.countryList
+        .asLiveData(context = dispatcherProvider.Default)
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun saveInteroperabilityUsed() {
-        interopRepo.saveInteroperabilityUsed()
+        interoperabilityRepository.saveInteroperabilityUsed()
     }
 
     // Reset tracing state in onboarding

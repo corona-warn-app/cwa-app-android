@@ -19,17 +19,17 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 class InteroperabilityConfigurationFragmentViewModelTest {
 
-    @MockK lateinit var interopRepo: InteroperabilityRepository
+    @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
 
     @BeforeEach
     fun setupFreshViewModel() {
         MockKAnnotations.init(this)
 
-        every { interopRepo.countryList } returns flowOf(Country.values().toList())
+        every { interoperabilityRepository.countryList } returns flowOf(Country.values().toList())
     }
 
     private fun createViewModel() =
-        InteroperabilityConfigurationFragmentViewModel(interopRepo, TestDispatcherProvider)
+        InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository, TestDispatcherProvider)
 
     @Test
     fun `viewmodel returns interop repo countryList`() {
@@ -37,15 +37,15 @@ class InteroperabilityConfigurationFragmentViewModelTest {
 
         vm.countryList.getOrAwaitValue() shouldBe Country.values().toList()
 
-        verify { interopRepo.countryList }
+        verify { interoperabilityRepository.countryList }
     }
 
     @Test
     fun `forced countrylist refresh via app config`() {
         val vm = createViewModel()
-        coVerify(exactly = 0) { interopRepo.refreshCountries() }
+        coVerify(exactly = 0) { interoperabilityRepository.refreshCountries() }
         vm.refreshCountries()
-        coVerify(exactly = 1) { interopRepo.refreshCountries() }
+        coVerify(exactly = 1) { interoperabilityRepository.refreshCountries() }
     }
 
     @Test
