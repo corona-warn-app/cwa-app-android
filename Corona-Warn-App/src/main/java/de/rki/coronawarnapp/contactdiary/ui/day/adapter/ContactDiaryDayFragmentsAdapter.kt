@@ -5,9 +5,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ContactDiaryDayFragmentsAdapter(
     fragment: Fragment,
-    private val tabs: List<ContactDiaryDayTab>
+    private val tabs: List<ContactDiaryDayTab>,
+    private val day: Long
 ) : FragmentStateAdapter(fragment) {
     override fun getItemCount() = tabs.size
 
-    override fun createFragment(position: Int): Fragment = tabs[position].fragmentInstantiation()
+    override fun createFragment(position: Int): Fragment = tabs[position].fragmentInstantiation(day)
 }

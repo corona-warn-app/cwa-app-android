@@ -34,7 +34,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         super.onViewCreated(view, savedInstanceState)
 
         binding.contactDiaryDayViewPager.adapter =
-            ContactDiaryDayFragmentsAdapter(this, viewModel.contactDiaryTabs)
+            ContactDiaryDayFragmentsAdapter(this, viewModel.contactDiaryTabs, navArgs.selectedDay)
 
         TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
             tab.text = viewModel.contactDiaryTabs[position].tabName

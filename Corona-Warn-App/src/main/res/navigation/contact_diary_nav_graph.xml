@@ -14,4 +14,22 @@
     <argument
         android:name="selectedDay"
         android:defaultValue="0L" />
+    <fragment
+        android:id="@+id/contactDiaryPersonListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.person.ContactDiaryPersonListFragment"
+        android:label="ContactDiaryPersonListFragment">
+        <argument
+            android:name="selectedDay"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryPlaceListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.place.ContactDiaryPlaceListFragment"
+        android:label="ContactDiaryPlaceListFragment">
+        <argument
+            android:name="selectedDay"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
 </navigation>
