@@ -24,13 +24,16 @@ data class SubmissionCardState(
 
     private val testViewed = submissionRepository.hasViewedTestResult
 
-    fun isRiskCardVisible(): Boolean =
-        deviceUiState.withSuccess(true) {
-            when (it) {
-                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN, SUBMITTED_FINAL -> false
-                else -> true
+    fun isRiskCardVisible(): Boolean {
+        return if (!testViewed) return true else {
+            deviceUiState.withSuccess(true) {
+                when (it) {
+                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN, SUBMITTED_FINAL -> false
+                    else -> true
+                }
             }
         }
+    }
 
     fun isTestResultReadyCardVisible(): Boolean {
         return if (!testViewed) {
