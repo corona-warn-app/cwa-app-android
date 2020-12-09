@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
@@ -21,10 +22,12 @@ import testhelpers.BaseTest
 class SubmissionCardStateTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        every { submissionRepository.hasViewedTestResult } returns true
     }
 
     @AfterEach
@@ -34,9 +37,8 @@ class SubmissionCardStateTest : BaseTest() {
 
     private fun instance(
         deviceUiState: DeviceUIState = mockk(),
-        submissionRepository: SubmissionRepository = mockk(),
         isDeviceRegistered: Boolean = true,
-        uiStateState: ApiRequestState = ApiRequestState.SUCCESS
+        uiStateState: ApiRequestState = ApiRequestState.SUCCESS,
     ) =
         when (uiStateState) {
             ApiRequestState.SUCCESS ->
