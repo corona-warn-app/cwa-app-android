@@ -74,6 +74,8 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.onTestOpened()
+
         viewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
         }

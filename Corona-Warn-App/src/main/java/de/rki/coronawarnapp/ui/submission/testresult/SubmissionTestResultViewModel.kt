@@ -57,6 +57,10 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
         ).let { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
+    fun onTestOpened() {
+        submissionRepository.setViewedTestResult()
+    }
+
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionRepository.deviceUIStateFlow
             .first { request ->

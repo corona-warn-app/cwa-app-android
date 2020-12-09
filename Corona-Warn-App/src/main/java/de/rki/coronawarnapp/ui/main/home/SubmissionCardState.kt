@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.main.home
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.storage.SubmissionRepository
@@ -61,9 +60,8 @@ data class SubmissionCardState(
         }
 
     fun isPositiveSubmissionCardVisible(): Boolean {
-        return if(testViewed) {
-            deviceUiState.withSuccess(false)
-            {
+        return if (testViewed) {
+            deviceUiState.withSuccess(false) {
                 when (it) {
                     PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
                     else -> false
