@@ -200,7 +200,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     fun navigateToContactDiaryActivity() {
         ContactDiaryActivity.start(this)
-        finish()
     }
 
     /**
