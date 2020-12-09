@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
+import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -7,18 +8,20 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class OnboardingTracingFragmentViewModel @AssistedInject constructor(
-    private val interoperabilityRepository: InteroperabilityRepository
-) : CWAViewModel() {
+    private val interopRepo: InteroperabilityRepository,
+    dispatcherProvider: DispatcherProvider
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val countryList = interoperabilityRepository.countryList
+    val countryList = interopRepo.countryList.asLiveData(context = dispatcherProvider.Default)
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun saveInteroperabilityUsed() {
-        interoperabilityRepository.saveInteroperabilityUsed()
+        interopRepo.saveInteroperabilityUsed()
     }
 
     // Reset tracing state in onboarding
