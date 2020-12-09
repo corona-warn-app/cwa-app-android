@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.api.ui
+package de.rki.coronawarnapp.test.debugoptions.ui
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 
