@@ -8,6 +8,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.di.AppContext
@@ -19,7 +20,8 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 class TestForApiFragmentViewModel @AssistedInject constructor(
     @AppContext private val context: Context,
     private val taskController: TaskController,
-    private val tracingPermissionHelper: TracingPermissionHelper
+    private val tracingPermissionHelper: TracingPermissionHelper,
+    private val tekHistoryUpdater: TEKHistoryUpdater
 ) : CWAViewModel() {
 
     val errorEvents = SingleLiveEvent<Throwable>()

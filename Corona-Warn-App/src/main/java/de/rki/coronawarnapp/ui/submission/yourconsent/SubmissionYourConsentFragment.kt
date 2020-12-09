@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -24,6 +25,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SubmissionYourConsentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionYourConsentBinding by viewBindingLazy()
+    private val navArgs: SubmissionYourConsentFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +63,14 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
             }
             submissionYourConsentSwitch.settingsSwitchRow.setOnClickListener { vm.switchConsent() }
             submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
+
+            submissionYourConsentAgreementShareSymptomsText.setText(
+                if (navArgs.isTestResultAvailable) {
+                    R.string.submission_your_consent_agreement_share_symptoms_2
+                } else {
+                    R.string.submission_your_consent_agreement_share_symptoms
+                }
+            )
         }
     }
 

@@ -936,25 +936,8 @@
     <string name="submission_tan_character_error">"Intrarea dvs. conține caractere nevalabile. Vă rugăm să o verificați."</string>
 
     <!-- Submission Intro -->
-    <!-- XHED: Page title for menu at the start of the submission process  -->
-    <string name="submission_intro_title">"Ați fost testat?"</string>
-    <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">"Modul în care funcționează Corona-Warn-App"</string>
-    <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Pentru ca aplicația să funcționeze bine, ne bazăm pe susținerea persoanelor care au fost diagnosticate cu coronavirus.\n\nDeoarece sunt schimbate doar ID-uri aleatorii criptate, dvs. veți rămâne anonim. Puteți continua astfel:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Înainte"</string>
-    <!-- XACT: Submission intro - illustration description, explanation image -->
-    <string name="submission_intro_illustration_description">"Un diagnostic de test pozitiv criptat este transmis la sistem, iar acesta va avertiza apoi ceilalți utilizatori."</string>
-    <!-- YTXT: submission introduction bullet points -->
-    <string-array name="submission_intro_bullet_points">
-        <item>"Dacă există un cod QR în documentul dvs. de testare, îl puteți scana și înregistra testul. Imediat ce rezultatul este disponibil, îl puteți vedea în aplicație."</item>
-        <item>"Dacă ați fost diagnosticat cu coronavirus, îi puteți avertiza pe ceilalți."</item>
-        <item>"Dacă ați primit un cod TAN pentru un diagnostic pozitiv, îl puteți utiliza pentru a înregistra testul."</item>
-        <item>"Dacă nu aveți un cod TAN, îl puteți solicita telefonic."</item>
-    </string-array>
-    <!-- XACT: Submission Intro page title -->
-    <string name="submission_intro_accessibility_title">"Ați fost testat? Iată cum funcționează Corona-Warn-App"</string>
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
