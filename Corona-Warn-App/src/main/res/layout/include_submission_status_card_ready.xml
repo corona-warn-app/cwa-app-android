@@ -61,7 +61,7 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/card_padding"
             android:layout_marginBottom="@dimen/card_padding"
-            android:text="@string/submission_status_card_button_ready"
+            android:text="@string/submission_consent_call_test_result"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
