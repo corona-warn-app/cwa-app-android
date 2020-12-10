@@ -22,7 +22,6 @@ class LauncherActivityViewModel @AssistedInject constructor(
                 updateResult.isUpdateNeeded -> LauncherEvent.ShowUpdateDialog(updateResult.updateIntent!!)
                 LocalData.isOnboarded() -> LauncherEvent.GoToMainActivity
                 else -> LauncherEvent.GoToOnboarding
-
             }.let { events.postValue(it) }
         }
     }
