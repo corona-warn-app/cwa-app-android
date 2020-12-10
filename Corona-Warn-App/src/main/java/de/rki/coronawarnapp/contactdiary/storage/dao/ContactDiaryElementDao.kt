@@ -12,41 +12,33 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementPerso
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ContactDiaryElementDao {
+interface ContactDiaryElementDao{
 
     @Transaction
     @Query("SELECT * FROM ContactDiaryDateEntity")
-    fun allEntries(): Flow<ContactDiaryElementEntity>
+    fun allEntries(): Flow<List<ContactDiaryElementEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContactDiaryElementPersonXRef
-            (contactDiaryElementPersonXRef: ContactDiaryElementPersonXRef)
+    suspend fun insertContactDiaryElementPersonXRef(contactDiaryElementPersonXRef: ContactDiaryElementPersonXRef)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContactDiaryElementPersonXRefs
-            (contactDiaryElementPersonXRefs: List<ContactDiaryElementPersonXRef>)
+    suspend fun insertContactDiaryElementPersonXRefs(contactDiaryElementPersonXRefs: List<ContactDiaryElementPersonXRef>)
 
     @Delete
-    suspend fun deleteContactDiaryElementPersonXRef
-            (contactDiaryElementPersonXRef: ContactDiaryElementPersonXRef)
+    suspend fun deleteContactDiaryElementPersonXRef(contactDiaryElementPersonXRef: ContactDiaryElementPersonXRef)
 
     @Delete
-    suspend fun deleteContactDiaryElementPersonXRefs
-            (contactDiaryElementPersonXRefs: List<ContactDiaryElementPersonXRef>)
+    suspend fun deleteContactDiaryElementPersonXRefs(contactDiaryElementPersonXRefs: List<ContactDiaryElementPersonXRef>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContactDiaryElementLocationXRef
-            (contactDiaryElementLocationXRef: ContactDiaryElementLocationXRef)
+    suspend fun insertContactDiaryElementLocationXRef(contactDiaryElementLocationXRef: ContactDiaryElementLocationXRef)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContactDiaryElementLocationXRefs
-            (contactDiaryElementLocationXRefs: List<ContactDiaryElementLocationXRef>)
+    suspend fun insertContactDiaryElementLocationXRefs(contactDiaryElementLocationXRefs: List<ContactDiaryElementLocationXRef>)
 
     @Delete
-    suspend fun deleteContactDiaryElementLocationXRef
-            (contactDiaryElementLocationXRef: ContactDiaryElementLocationXRef)
+    suspend fun deleteContactDiaryElementLocationXRef(contactDiaryElementLocationXRef: ContactDiaryElementLocationXRef)
 
     @Delete
-    suspend fun deleteContactDiaryElementLocationXRefs
-            (contactDiaryElementLocationXRefs: List<ContactDiaryElementLocationXRef>)
+    suspend fun deleteContactDiaryElementLocationXRefs(contactDiaryElementLocationXRefs: List<ContactDiaryElementLocationXRef>)
 }

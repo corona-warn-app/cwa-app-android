@@ -6,10 +6,10 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryDateEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class ContactDiaryDateDao : BaseRoomDao<ContactDiaryDateEntity>() {
+abstract class ContactDiaryDateDao: BaseRoomDao<ContactDiaryDateEntity>() {
 
     @Query("SELECT * FROM ContactDiaryDateEntity")
-    abstract override fun allEntries(): Flow<ContactDiaryDateEntity>
+    abstract override fun allEntries(): Flow<List<ContactDiaryDateEntity>>
 
     @Query("DELETE FROM ContactDiaryDateEntity")
     abstract override suspend fun deleteAll()

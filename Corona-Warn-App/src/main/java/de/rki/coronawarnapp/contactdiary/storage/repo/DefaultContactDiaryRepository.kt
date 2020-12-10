@@ -27,15 +27,15 @@ class DefaultContactDiaryRepository @Inject constructor(
     private val contactDiaryPersonDao: ContactDiaryPersonDao
 ) : ContactDiaryRepository {
 
-    override val contactDiaryDates: Flow<LocalDate> = contactDiaryDateDao
+    override val contactDiaryDates: Flow<List<LocalDate>> = contactDiaryDateDao
         .allEntries()
-        .map { it.date }
+        .map { it.map { contactDiaryDateEntity -> contactDiaryDateEntity.date } }
 
-    override val contactDiaryElements: Flow<ContactDiaryElement> = contactDiaryElementDao.allEntries()
-    override val locations: Flow<ContactDiaryLocation> = contactDiaryLocationDao.allEntries()
-    override val people: Flow<ContactDiaryPerson> = contactDiaryPersonDao.allEntries()
+    override val contactDiaryElements: Flow<List<ContactDiaryElement>> = contactDiaryElementDao.allEntries()
+    override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao.allEntries()
+    override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao.allEntries()
 
-    // Date
+    //Date
     override suspend fun addDate(date: LocalDate) {
         Timber.d("Adding date $date")
         contactDiaryDateDao.insert(date.toContactDiaryDateEntity())
@@ -56,27 +56,23 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryDateDao.deleteAll()
     }
 
-    // ContactDiaryElement
-    private suspend fun ContactDiaryPerson.toContactDiaryElementPersonXRef(date: LocalDate):
-        ContactDiaryElementPersonXRef {
+    //ContactDiaryElement
+    private suspend fun ContactDiaryPerson.toContactDiaryElementPersonXRef(date: LocalDate): ContactDiaryElementPersonXRef {
         val personId = this.toContactDiaryPersonEntity().personId
         executeWhenIdNotDefault(personId)
         return ContactDiaryElementPersonXRef(date, personId)
     }
 
-    private suspend fun ContactDiaryLocation.toContactDiaryElementLocationXRef(date: LocalDate):
-        ContactDiaryElementLocationXRef {
+    private suspend fun ContactDiaryLocation.toContactDiaryElementLocationXRef(date: LocalDate): ContactDiaryElementLocationXRef {
         val locationId = this.toContactDiaryLocationEntity().locationId
         executeWhenIdNotDefault(locationId)
         return ContactDiaryElementLocationXRef(date, locationId)
     }
 
-    private suspend fun List<ContactDiaryPerson>.toContactDiaryElementPersonXRefs(date: LocalDate):
-        List<ContactDiaryElementPersonXRef> =
+    private suspend fun List<ContactDiaryPerson>.toContactDiaryElementPersonXRefs(date: LocalDate): List<ContactDiaryElementPersonXRef> =
         this.map { it.toContactDiaryElementPersonXRef(date) }
 
-    private suspend fun List<ContactDiaryLocation>.toContactDiaryElementLocationXRefs(date: LocalDate):
-        List<ContactDiaryElementLocationXRef> =
+    private suspend fun List<ContactDiaryLocation>.toContactDiaryElementLocationXRefs(date: LocalDate): List<ContactDiaryElementLocationXRef> =
         this.map { it.toContactDiaryElementLocationXRef(date) }
 
     override suspend fun addPersonToDate(contactDiaryPerson: ContactDiaryPerson, date: LocalDate) {
@@ -127,7 +123,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryElementDao.deleteContactDiaryElementLocationXRefs(contactDiaryElementLocationXRefs)
     }
 
-    // Location
+    //Location
     override suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation) {
         Timber.d("Adding location $contactDiaryLocation")
         contactDiaryLocationDao.insert(contactDiaryLocation.toContactDiaryLocationEntity())
@@ -165,7 +161,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryLocationDao.deleteAll()
     }
 
-    // Person
+    //Person
     override suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson) {
         Timber.d("Adding person $contactDiaryPerson")
         contactDiaryPersonDao.insert(contactDiaryPerson.toContactDiaryPersonEntity())
