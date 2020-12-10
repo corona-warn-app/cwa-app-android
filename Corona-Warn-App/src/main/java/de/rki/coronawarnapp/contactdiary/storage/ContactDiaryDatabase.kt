@@ -16,18 +16,10 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEnti
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.security.SecurityHelper
-import net.sqlcipher.database.SupportFactory
 import javax.inject.Inject
 
 @Database(
-    entities = [
-        ContactDiaryDateEntity::class,
-        ContactDiaryLocationEntity::class,
-        ContactDiaryPersonEntity::class,
-        ContactDiaryElementPersonXRef::class,
-        ContactDiaryElementLocationXRef::class
-    ],
+    entities = [ContactDiaryDateEntity::class, ContactDiaryLocationEntity::class, ContactDiaryPersonEntity::class, ContactDiaryElementPersonXRef::class, ContactDiaryElementLocationXRef::class],
     version = 1,
     exportSchema = true
 )
@@ -43,7 +35,6 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
         fun create(): ContactDiaryDatabase = Room
             .databaseBuilder(ctx, ContactDiaryDatabase::class.java, CONTACT_DIARY_DATABASE_NAME)
             .fallbackToDestructiveMigration()
-            .openHelperFactory(SupportFactory(SecurityHelper.getDBPassword()))
             .build()
     }
 
