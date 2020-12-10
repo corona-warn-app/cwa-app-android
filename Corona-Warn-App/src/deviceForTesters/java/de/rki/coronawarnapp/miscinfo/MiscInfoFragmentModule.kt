@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.api.ui
+package de.rki.coronawarnapp.miscinfo
 
 import dagger.Binds
 import dagger.Module
@@ -8,9 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class TestForApiFragmentModule {
+abstract class MiscInfoFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(TestForApiFragmentViewModel::class)
-    abstract fun testRiskLevelFragment(factory: TestForApiFragmentViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    @CWAViewModelKey(MiscInfoFragmentViewModel::class)
+    abstract fun testTaskControllerFragment(
+        factory: MiscInfoFragmentViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 }

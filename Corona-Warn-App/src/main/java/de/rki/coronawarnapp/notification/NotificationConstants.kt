@@ -19,6 +19,7 @@ object NotificationConstants {
 
     const val NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID = 110
     const val NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID = 120
+    const val TEST_RESULT_AVAILABLE_NOTIFICATION_ID = 130
 
     /**
      * Notification channel id String.xml path
