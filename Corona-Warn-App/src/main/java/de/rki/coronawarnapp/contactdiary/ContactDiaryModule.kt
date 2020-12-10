@@ -19,22 +19,18 @@ class ContactDiaryModule {
     fun contactDiaryDatabase(contactDiaryDatabaseFactory: ContactDiaryDatabase.Factory): ContactDiaryDatabase =
         contactDiaryDatabaseFactory.create()
 
-    @Singleton
     @Provides
     fun contactDiaryDateDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryDateDao =
         contactDiaryDatabase.contactDiaryDateDao()
 
-    @Singleton
     @Provides
     fun contactDiaryElementDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryElementDao =
         contactDiaryDatabase.contactDiaryElementDao()
 
-    @Singleton
     @Provides
     fun locationDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryLocationDao =
         contactDiaryDatabase.locationDao()
 
-    @Singleton
     @Provides
     fun personDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryPersonDao =
         contactDiaryDatabase.personDao()
