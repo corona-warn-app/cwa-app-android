@@ -1,45 +1,41 @@
 package de.rki.coronawarnapp.contactdiary.storage.repo
 
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
 interface ContactDiaryRepository {
 
-    //Flows
-    val contactDiaryDates: Flow<List<LocalDate>>
-    val contactDiaryElements: Flow<List<ContactDiaryElement>>
-    val locations: Flow<List<ContactDiaryLocation>>
-    val people: Flow<List<ContactDiaryPerson>>
-
-    //Date
-    suspend fun addDate(date: LocalDate)
-    suspend fun addDates(dates: List<LocalDate>)
-    suspend fun deleteDate(date: LocalDate)
-    suspend fun deleteAllDates()
-
-    //ContactDiaryElement
-    suspend fun addPersonToDate(contactDiaryPerson: ContactDiaryPerson, date: LocalDate)
-    suspend fun addPeopleToDate(contactDiaryPeople: List<ContactDiaryPerson>, date: LocalDate)
-    suspend fun addLocationToDate(contactDiaryLocation: ContactDiaryLocation, date: LocalDate)
-    suspend fun addLocationsToDate(contactDiaryLocations: List<ContactDiaryLocation>, date: LocalDate)
-    suspend fun removePersonFromDate(contactDiaryPerson: ContactDiaryPerson, date: LocalDate)
-    suspend fun removePeopleFromDate(contactDiaryPeople: List<ContactDiaryPerson>, date: LocalDate)
-    suspend fun removeLocationFromDate(contactDiaryLocation: ContactDiaryLocation, date: LocalDate)
-    suspend fun removeLocationsFromDate(contactDiaryLocations: List<ContactDiaryLocation>, date: LocalDate)
-
     //Location
+    val locations: Flow<List<ContactDiaryLocation>>
     suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation)
     suspend fun updateLocation(contactDiaryLocation: ContactDiaryLocation)
     suspend fun deleteLocation(contactDiaryLocation: ContactDiaryLocation)
     suspend fun deleteLocations(contactDiaryLocations: List<ContactDiaryLocation>)
     suspend fun deleteAllLocations()
 
+    //Location visit
+    val locationVisits: Flow<List<ContactDiaryLocationVisit>>
+    fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>>
+    suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
+    suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
+    suspend fun deleteAllLocationVisits()
+
     //Person
+    val people: Flow<List<ContactDiaryPerson>>
     suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun updatePerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun deletePerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun deletePeople(contactDiaryPeople: List<ContactDiaryPerson>)
     suspend fun deleteAllPeople()
+
+    //Person encounter
+    val personEncounters: Flow<List<ContactDiaryPersonEncounter>>
+    fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>>
+    suspend fun addPersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
+    suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
+    suspend fun deleteAllPersonEncounters()
 }
