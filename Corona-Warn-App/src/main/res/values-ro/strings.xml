@@ -34,11 +34,7 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_auth_code"><xliff:g id="preference">"preference_auth_code"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
     <!-- NOTR -->
@@ -47,8 +43,6 @@
     <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
@@ -103,6 +97,10 @@
     <string name="notification_headline_share_positive_result">"Puteți fi de ajutor!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Vă rugăm să partajați rezultatul testului dvs. pentru a-i avertiza pe ceilalți."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">"Rezultatul testului dvs."</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">"Există noutăți importante. Deschideți aplicația Corona-Warn."</string>
 
     <!-- ####################################
               App Auto Update
@@ -170,8 +168,6 @@
         <item quantity="many">"Expuneri cu risc redus în %1$d zile"</item>
     </plurals>
 
-    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
-    <string name="risk_card_high_risk_no_encounters_body">"Nicio expunere până acum"</string>
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Expuneri cu risc crescut într-o zi"</item>
@@ -219,7 +215,7 @@
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Să combatem împreună COVID-19"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"Cu cât aplicația este utilizată de mai multe persoane, cu atât mai repede putem întrerupe lanțul de infectare. Invitați-vă familia și prietenii să descarce aplicația."</string>
+    <string name="main_share_body">"Cu cât aplicația este utilizată de mai multe persoane, cu atât mai repede putem întrerupe lanțurile de infectare. Invitați-vă familia și prietenii să descarce aplicația."</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Trimiteți linkul de descărcare"</string>
     <!-- YMSG: Message when sharing is executed -->
@@ -276,7 +272,7 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"ID aleatoriu"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"ID-urile aleatorii sunt combinații de cifre și litere generate aleatoriu. Acestea sunt schimbate între smartphone-urile aflate în proximitate strânsă. ID-urile aleatorii nu pot fi asociate cu o persoană anume și sunt șterse automat după 14 zile. Persoanele diagnosticate cu coronavirus pot opta să trimită ID-urile aleatorii din ultimele 14 zile și altor utilizatori ai aplicației."</string>
+    <string name="main_overview_body_glossary_keys">"ID-urile aleatorii sunt combinații de cifre și litere generate aleatoriu. Acestea sunt schimbate între dispozitivele aflate în proximitate strânsă. ID-urile aleatorii nu pot fi asociate cu o persoană anume și sunt șterse automat după 14 zile. Persoanele diagnosticate cu coronavirus pot opta să trimită ID-urile aleatorii din ultimele 14 zile și altor utilizatori ai aplicației."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Un smartphone afișează conținut variat, numerotat de la 1 la 3."</string>
     <!-- XACT: App main page title -->
@@ -333,7 +329,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Înregistrarea în jurnal a expunerilor dvs. nu a putut fi actualizată timp de peste 24 de ore."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu coronavirus sau întâlnirile dvs. au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
+    <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu COVID-19 sau întâlnirile dvs. au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Riscul de infectare este calculat local pe smartphone-ul dvs., utilizând datele de înregistrare în jurnal a expunerilor. Calculul poate ține cont și de distanța și durata expunerii la persoane diagnosticate cu coronavirus, precum și de potențiala contagiozitate a acestora. Riscul dvs. de infectare nu poate fi observat sau transmis mai departe niciunei alte persoane."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
@@ -402,7 +398,7 @@
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Să combatem împreună COVID-19"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"Mai multă protecție pentru dvs. și pentru noi toți. Utilizând Corona-Warn-App putem întrerupe mai ușor lanțul de infectare."</string>
+    <string name="onboarding_subtitle">"Mai multă protecție pentru dvs. și pentru noi toți. Utilizând Corona-Warn-App putem întrerupe mai ușor lanțurile de infectare."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
     <string name="onboarding_body">"Transformați-vă smartphone-ul într-un sistem de avertizare împotriva coronavirusului. Obțineți un sumar al stării de risc și aflați dacă ați intrat în contact strâns cu persoane diagnosticate cu coronavirus în ultimele 14 zile."</string>
     <!-- YTXT: onboarding(together) - explain application -->
@@ -706,7 +702,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"O mână ține un smartphone pe al cărui ecran este afișat un corp mare de text. Lângă text este afișat un cântar care simbolizează mențiunile legale."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_en.html"</string>
+    <string name="information_technical_html_path" translatable="false">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Informații de contact"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
@@ -841,7 +837,7 @@
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Vă rugăm să îi ajutați pe ceilalți cu care v-ați întâlnit, avertizându-i!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Dacă ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Funcția de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Dacă ați fost diagnosticat cu coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației. Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Informații detaliate privind Prelucrarea datelor și Consimțământul dvs."</string>
     <!-- YTXT: Body for consent main section first point  -->
@@ -849,7 +845,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Puteți afla rezultatul testului dvs. chiar dacă nu alegeți să îl partajați. Dar dacă partajați rezultatul testului dvs., vă vom ajuta să îi protejați pe ceilalți împotriva infecției."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor ști cine a partajat rezultatele testelor respective."</string>
+    <string name="submission_consent_main_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
 
@@ -871,7 +867,7 @@
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Ștergere test"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
-    <string name="submission_test_result_negative_steps_negative_heading">"Rezultatul testului dvs."</string>
+    <string name="submission_test_result_negative_steps_negative_heading">"Diagnostic negativ"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"Rezultatul de laborator nu indică o confirmare a infecției cu coronavirusul SARS-CoV-2.\n\nȘtergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici dacă este necesar."</string>
     <!-- XBUT: negative test result : remove the test button -->
@@ -923,13 +919,13 @@
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
-    <string name="submission_tan_title">"Intrare TAN"</string>
+    <string name="submission_tan_title">"Introduceți TAN"</string>
     <!-- YTXT: Body text for the tan submission page -->
     <string name="submission_tan_body">"Introduceți codul TAN din 10 cifre pe care l-ați primit."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Înainte"</string>
     <!-- XACT: Submission Tan page title -->
-    <string name="submission_tan_accessibility_title">"Intrare TAN"</string>
+    <string name="submission_tan_accessibility_title">"Introduceți TAN"</string>
     <!-- YTXT: Error text for the tan submission page -->
     <string name="submission_tan_error">"TAN nevalabil. Verificați intrarea dvs."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
@@ -938,7 +934,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Înainte"</string>
-
+    
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Aflarea rezultatului testului"</string>
@@ -953,9 +949,9 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Înregistrați-vă testul scanând codul QR al documentului de testare."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Intrare TAN"</string>
+    <string name="submission_dispatcher_card_tan_code">"Introduceți TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Aveți un cod TAN? Continuați să introduceți codul dvs. TAN pentru a-i putea avertiza pe ceilalți. "</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Aveți un cod TAN? Atingeți aici pentru a introduce codul dvs. TAN pentru a-i putea avertiza pe ceilalți."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"Nu aveți un cod TAN încă?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -981,7 +977,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body_first_part">"Deoarece ați fost testat pozitiv la coronavirus, acum puteți să îi avertizați pe ceilalți prin intermediul aplicației."</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"Funcția de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
+    <string name="submission_positive_other_warning_no_consent_body_second_part">"Caracteristica de avertizare funcționează în câteva țări. Următoarele țări participă în prezent:"</string>
 
 
     <!-- Test result positive and no consent given -->
@@ -990,7 +986,7 @@
     <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_1"><b>"Partajați rezultatul testului dvs. și ajutați la protejarea celorlalți împotriva infecției."</b></string>
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_2">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor ști cine a partajat rezultatele testelor respective."</string>
+    <string name="submission_test_result_positive_no_consent_text_2">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile direcției dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
@@ -1004,7 +1000,7 @@
     <!-- XHED: Country selector headline for the submission country selection page -->
     <string name="submission_country_selector_headline">"Am vizitat următoarele țări"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Nu comentez"</string>
+    <string name="submission_country_no_selection_headline">"Nu răspund"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
     <string name="submission_country_selection_data_faq_body">"Intrarea dvs. este utilizată exclusiv pentru optimizarea volumului de date.\n\nLista conține toate țările participante în prezent și este actualizată permanent."</string>
     <!-- XBUT: submission country selection continue button -->
@@ -1014,7 +1010,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Vă mulţumim"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"Ați adus o contribuție valoroasă. Datorită sprijinului dvs., alte persoane pot fi acum avertizate și pot reacționa adecvat."</string>
+    <string name="submission_done_body">"Datorită sprijinului dvs., alte persoane pot fi acum avertizate și pot reacționa adecvat."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Rețineți:"</string>
     <!-- YTXT: text after submission: contagious -->
@@ -1074,7 +1070,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Nu"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Nu comentez"</string>
+    <string name="submission_symptom_no_information_button">"Nu răspund"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Înainte"</string>
 
@@ -1139,10 +1135,14 @@
     <string name="submission_status_card_title_positive">"Diagnostic pozitiv"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Testul nu mai este valid"</string>
+    <!-- XHED: Page title for the various submission status fetch ready -->
+    <string name="submission_status_card_title_ready">"Rezultatul testului dvs. este disponibil"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Test nevalid"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Diagnostic negativ"</string>
+    <!-- XHED: Subtitle for the submission status card: ready -->
+    <string name="submission_status_card_subtitle_ready">"Acum puteți afla rezultatul testului dvs."</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Rezultatul dvs. este în curs de actualizare"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
@@ -1157,12 +1157,16 @@
     <string name="submission_status_card_body_negative">"Ați fost diagnosticat negativ la SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Testul dvs. are o vechime de peste 21 de zile și, prin urmare, nu mai este relevant. Vă rugăm să ștergeți testul. Apoi puteți adăuga altul."</string>
+    <!-- YTXT: Body text for submission status fetch ready -->
+    <string name="submission_status_card_body_ready">"Dacă ați fost testat pozitiv la coronavirus, îi puteți avertiza pe ceilalți."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Pașii următori"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Afișare test"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Ștergere test"</string>
+    <!-- XBUT: submission status card fetch ready button -->
+    <string name="submission_status_card_button_ready">"Ștergere test"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Rețineți:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1192,7 +1196,7 @@
     <string-array name="test_result_card_negative_further_info_bullet_points">
         <item>"Încă vă simțiți rău? Dacă vă simțiți foarte rău și/sau simptomele dvs. s-au agravat, vă rugăm să contactați medicul dvs. de familie."</item>
         <item>"Rămâneți acasă până vă simțiți din nou bine. Dacă v-ați infecta cu coronavirus (SARS-CoV-2) în timp ce organismul dvs. este slăbit din cauza unei alte infecții, aceasta ar putea duce la o boală gravă."</item>
-        <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane. Dacă simptomele dvs."</item>
+        <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane."</item>
         <item>"Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un test SARS-CoV-2 suplimentar."</item>
     </string-array>
 
@@ -1217,7 +1221,7 @@
     <!-- XTXT: Close screen popup text for consent given -->
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Intrările dvs. nu vor fi salvate."</string>
     <!-- YTXT: Text for consent NOT given -->
-    <string name="submission_test_result_available_text_consent_not_given">"Ați ales să nu partajați rezultatele testului dvs. Ceilalți nu vor fi avertizați. \n\nLa pasul următor, aveți ocazia să vă răzgândiți și să partajați totuși rezultatul testului dvs., pentru a ajuta la oprirea răspândirii coronavirusului și a-i proteja pe ceilalți."</string>
+    <string name="submission_test_result_available_text_consent_not_given">"Ați ales să nu partajați rezultatul testului dvs. Ceilalți nu vor fi avertizați. \n\nLa pasul următor, aveți ocazia să vă răzgândiți și să partajați totuși rezultatul testului dvs., pentru a ajuta la oprirea răspândirii coronavirusului și a-i proteja pe ceilalți."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Important:\nSunteți pe punctul de a anula acest proces.\nÎncă nu i-ați avertizat pe ceilalți. Vă rugăm să finalizați procesul și să ajutați la protejarea celorlalți."</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
@@ -1408,7 +1412,7 @@
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">"Mai multe țări colaborează pentru a susține alarmele transnaționale printr-un server de schimb comun. De exemplu, contactele cu utilizatorii unei aplicații oficiale anticoronavirus din alte țări participante pot fi, de asemenea, luate în considerare pentru înregistrarea în jurnal a expunerilor."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"Pentru aceasta, aplicația descarcă o listă, care este actualizată zilnic, de ID-uri aleatorii ale tuturor utilizatorilor care și-au partajat rezultatele testelor pentru a-i avertiza pe ceilalți prin intermediul propriei aplicații. Apoi, această listă este comparată cu ID-urile aleatorii înregistrate de smartphone-ul dvs. Android. Descărcările listelor sunt, de obicei, gratuite pentru dvs. În mod specific, aceasta înseamnă că operatorii de rețele mobile nu percep costuri pentru datele utilizate de aplicație în acest context și nu aplică niciun fel de costuri de roaming pentru această opțiune în alte țări UE. Contactați operatorul rețelei mobile pentru mai multe informații."</string>
+    <string name="interoperability_configuration_second_section">"Pentru aceasta, aplicația descarcă o listă, care este actualizată zilnic, de ID-uri aleatorii ale tuturor utilizatorilor care și-au partajat rezultatele testelor pentru a-i avertiza pe ceilalți prin intermediul propriei aplicații. Apoi, această listă este comparată cu ID-urile aleatorii înregistrate de smartphone-ul dvs. Android. Descărcările listelor de ID-uri aleatorii sunt, de obicei, gratuite pentru dvs. În mod specific, aceasta înseamnă că operatorii de rețele mobile nu percep costuri pentru datele utilizate de aplicație în acest context și nu aplică niciun fel de costuri de roaming pentru această opțiune în alte țări UE. Contactați operatorul rețelei mobile pentru mai multe informații."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"Următoarele țări participă în prezent la înregistrarea în jurnal a expunerilor la nivel transnațional:"</string>
     <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
@@ -1436,7 +1440,7 @@
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">"Caracteristicile aplicației Corona-Warn au fost extinse. Multe țări s-au asociat pentru a susține avertizarea la nivel internațional, pe baza unui server de schimb operat în comun. Acum poate fi luată în considerare posibila expunere la utilizatori ai aplicațiilor oficiale anticoronavirus din alte țări participante când se calculează riscul dvs. de expunere."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"Pentru aceasta, aplicația descarcă o listă, care este actualizată zilnic, de ID-uri aleatorii ale tuturor utilizatorilor care și-au partajat rezultatele testelor pentru a-i avertiza pe ceilalți prin intermediul propriei aplicații. Apoi, această listă este comparată cu ID-urile aleatorii înregistrate de smartphone-ul dvs. Android."</string>
+    <string name="interoperability_onboarding_delta_randomid">"Pentru aceasta, aplicația descarcă liste, care sunt actualizate zilnic, de ID-uri aleatorii ale tuturor utilizatorilor care și-au partajat rezultatele testelor pentru a-i avertiza pe ceilalți prin intermediul propriei aplicații. Apoi, această listă este comparată cu ID-urile aleatorii înregistrate de smartphone-ul dvs. Android."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_free_download">"Descărcările listelor sunt, de obicei, gratuite pentru dvs. În mod specific, aceasta înseamnă că operatorii de rețele mobile nu percep costuri pentru datele utilizate de aplicație în acest context și nu aplică niciun fel de costuri de roaming pentru această opțiune în alte țări UE. Contactați operatorul rețelei mobile pentru mai multe informații."</string>
 
