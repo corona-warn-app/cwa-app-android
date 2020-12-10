@@ -31,7 +31,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     val showEnableTracingEvent = SingleLiveEvent<Unit>()
 
-    val countryList = interoperabilityRepository.countryListFlow.asLiveData()
+    val countryList = interoperabilityRepository.countryList
+        .asLiveData(context = dispatcherProvider.Default)
 
     init {
         tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {

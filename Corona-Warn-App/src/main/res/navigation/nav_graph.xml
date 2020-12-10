@@ -301,7 +301,7 @@
 
     <activity
         android:id="@+id/launcherActivity"
-        android:name="de.rki.coronawarnapp.ui.LauncherActivity"
+        android:name="de.rki.coronawarnapp.ui.launcher.LauncherActivity"
         android:label="LauncherActivity">
         <deepLink
             android:id="@+id/deepLink"
