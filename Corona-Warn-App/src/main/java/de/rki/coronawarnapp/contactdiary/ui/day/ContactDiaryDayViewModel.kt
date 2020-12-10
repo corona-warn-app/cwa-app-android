@@ -4,6 +4,7 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
+import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -20,10 +21,15 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
         DateTimeFormat.forPattern("EEEE, dd.MM.yy")
     }
 
+    private val activeInstant = Instant.ofEpochSecond(selectedDay)
+
     val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.LOCATION_TAB)
 
     private val currentTab = MutableStateFlow(contactDiaryTabs[0])
-    private val displayedDay = MutableStateFlow(Instant.ofEpochSecond(selectedDay))
+    private val displayedDay = MutableStateFlow(activeInstant)
+
+    val createPerson = SingleLiveEvent<Unit>()
+    val createLocation = SingleLiveEvent<Unit>()
 
     val uiState = currentTab.combine(displayedDay) { currentTab, day ->
         UIState(
@@ -37,11 +43,10 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     }
 
     fun onCreateButtonClicked() {
-        // TODO replace with actual implementation
         launch {
             when (currentTab.value) {
-                ContactDiaryDayTab.LOCATION_TAB -> TODO()
-                ContactDiaryDayTab.PERSON_TAB -> TODO()
+                ContactDiaryDayTab.LOCATION_TAB -> createLocation.postValue(null)
+                ContactDiaryDayTab.PERSON_TAB -> createPerson.postValue(null)
             }
         }
     }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/contact_diary_person_bottom_sheet_close_button"
+            layout="@layout/include_button_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            app:icon="@{@drawable/ic_close}"
+            app:iconDescription="@{@string/accessibility_close}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/contact_diary_person_bottom_sheet_title"
+            style="@style/headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:text="@string/contact_diary_person_bottom_sheet_title"
+            app:layout_constraintBottom_toBottomOf="@+id/contact_diary_person_bottom_sheet_close_button"
+            app:layout_constraintStart_toEndOf="@+id/contact_diary_person_bottom_sheet_close_button"
+            app:layout_constraintTop_toTopOf="@+id/contact_diary_person_bottom_sheet_close_button" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contact_diary_person_bottom_sheet_text_input_layout"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:hint="@string/contact_diary_person_bottom_sheet_text_input_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_person_bottom_sheet_close_button">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contact_diary_person_bottom_sheet_text_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/contact_diary_person_bottom_sheet_save_button"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/contact_diary_person_bottom_sheet_save_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_person_bottom_sheet_text_input_layout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

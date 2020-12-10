@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayFragmentsAda
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,17 +42,33 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             tab.text = resources.getString(tabSource.tabNameResource)
         }.attach()
 
-        binding.contactDiaryDayViewPager.registerOnPageChangeCallback {
-            viewModel.updateCurrentTab(it)
-        }
+        binding.apply {
+            contactDiaryDayViewPager.registerOnPageChangeCallback {
+                viewModel.updateCurrentTab(it)
+            }
 
-        binding.contactDiaryDayFab.setOnClickListener {
-            viewModel.onCreateButtonClicked()
+            contactDiaryDayFab.setOnClickListener {
+                viewModel.onCreateButtonClicked()
+            }
         }
 
         viewModel.uiState.observe2(this) {
             binding.contactDiaryDayHeader.title = it.dayText
             binding.contactDiaryDayFab.text = resources.getString(it.fabTextResource)
+        }
+
+        viewModel.createPerson.observe2(this) {
+            doNavigate(
+                ContactDiaryDayFragmentDirections
+                    .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment()
+            )
+        }
+
+        viewModel.createLocation.observe2(this) {
+            doNavigate(
+                ContactDiaryDayFragmentDirections
+                    .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment()
+            )
         }
     }
 }

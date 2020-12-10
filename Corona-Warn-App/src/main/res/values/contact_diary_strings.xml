@@ -12,4 +12,10 @@
     <string name="contact_diary_location_list_no_items_subtitle"></string>
     <string name="contact_diary_person_list_no_items_title"></string>
     <string name="contact_diary_person_list_no_items_subtitle"></string>
+    <string name="contact_diary_person_bottom_sheet_title"></string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint"></string>
+    <string name="contact_diary_person_bottom_sheet_save_button"></string>
+    <string name="contact_diary_location_bottom_sheet_title"></string>
+    <string name="contact_diary_location_bottom_sheet_text_input_hint"></string>
+    <string name="contact_diary_location_bottom_sheet_save_button"></string>
 </resources>

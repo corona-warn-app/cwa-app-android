@@ -10,6 +10,12 @@
         <argument
             android:name="selectedDay"
             app:argType="long" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryPersonBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryLocationBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryLocationBottomSheetDialogFragment" />
     </fragment>
     <argument
         android:name="selectedDay"
@@ -32,4 +38,12 @@
             android:defaultValue="0L"
             app:argType="long" />
     </fragment>
+    <dialog
+        android:id="@+id/contactDiaryPersonBottomSheetDialogFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.sheets.person.ContactDiaryPersonBottomSheetDialogFragment"
+        android:label="ContactDiaryPersonBottomSheetDialogFragment" />
+    <dialog
+        android:id="@+id/contactDiaryLocationBottomSheetDialogFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.sheets.location.ContactDiaryLocationBottomSheetDialogFragment"
+        android:label="ContactDiaryLocationBottomSheetDialogFragment" />
 </navigation>
