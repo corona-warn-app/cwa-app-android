@@ -16,10 +16,10 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -47,14 +47,14 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
             }
         }
 
-    val uiState = combineTransform(
+    val uiState = combine(
         currentSubmission,
-        interoperabilityRepository.countryListFlow
+        interoperabilityRepository.countryList
     ) { state, countries ->
         WarnOthersState(
             submitTaskState = state,
             countryList = countries
-        ).also { emit(it) }
+        )
     }.asLiveData(context = dispatcherProvider.Default)
 
     val submissionError = SingleLiveEvent<Throwable>()
