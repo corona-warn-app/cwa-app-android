@@ -39,7 +39,6 @@
                     android:id="@+id/contact_diary_onboarding_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.573"
@@ -50,27 +49,27 @@
 
                 <TextView
                     android:id="@+id/onboarding_headline"
-                    style="@style/headline4"
+                    style="@style/headline5"
                     android:layout_width="0dp"
-                    android:layout_height="81dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:accessibilityHeading="true"
                     android:focusable="true"
-                    android:text="Behalten Sie den Überblick."
+                    android:text="@string/contact_diary_information_card_title"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_illustration"
                     tools:text="Behalten Sie den Überblick." />
-
 
                 <TextView
                     android:id="@+id/contact_diary_onboarding_body"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="20dp"
                     android:focusable="true"
-                    android:text="Erstellen Sie eine Übersicht über Ihre Kontakte der letzten 14 Tage. So haben Sie bei Bedarf schnell eine vollständige Liste zur Hand."
+                    android:text="@string/contact_diary_onboarding_body"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
@@ -81,9 +80,9 @@
                     layout="@layout/include_contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="20dp"
                     android:focusable="true"
-                    app:body="@{@string/settings_tracing_illustration_description_active}"
+                    app:body="@{@string/contact_diary_onboarding_functionality_first_section}"
                     app:icon="@{@drawable/ic_contact_diary_person}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -96,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:focusable="true"
-                    app:body="@{@string/settings_tracing_illustration_description_active}"
+                    app:body="@{@string/contact_diary_onboarding_functionality_second_section}"
                     app:icon="@{@drawable/ic_contact_diary_location}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -110,7 +109,7 @@
                     android:layout_height="34dp"
                     android:layout_marginTop="10dp"
                     android:focusable="true"
-                    app:body="@{@string/settings_tracing_illustration_description_active}"
+                    app:body="@{@string/contact_diary_onboarding_functionality_third_section}"
                     app:icon="@{@drawable/ic_contact_diary_location}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -122,7 +121,7 @@
                     layout="@layout/include_contact_diary_privacy_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -147,11 +146,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:focusable="true"
-                    android:text="Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis."
+                    android:text="@string/contact_diary_onboarding_legal_information"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_divider_1"
-                    tools:text="Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis." />
+                    tools:text="@string/contact_diary_onboarding_legal_information" />
 
                 <View
                     android:id="@+id/contact_diary_onboarding_divider_2"
@@ -193,11 +192,11 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="15dp"
-            android:text="@string/contact_diary_onboarding_card_button_text"
+            android:text="@string/contact_diary_onboarding_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/contact_diary_onboarding_card_button_text"/>
+            tools:text="@string/contact_diary_onboarding_button_text"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

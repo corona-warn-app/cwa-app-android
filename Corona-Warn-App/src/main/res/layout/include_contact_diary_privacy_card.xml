@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_diary_privacy_card"
@@ -8,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/spacing_normal"
+
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -16,7 +18,7 @@
             android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:text="Das Kontakt-Tagebuch dient Ihnen als Gedächtnisstütze."
+            android:text="@string/contact_diary_onboarding_privacy_information_first_section_title"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +30,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="Die Nutzung dieser zusätzlichen Funktion der Corona-Warn-App ist freiwillig und nur Sie entscheiden, welche Personen, Orte und Begegnungen Sie erfassen. \n \n Falls Sie Corona-positiv getestet werden, ist es wichtig, dass Sie sich an Ihre letzten Kontakte erinnern können, um Ihre Mitmenschen vor Ansteckungen zu schützen. Dies gilt vor allem dann, wenn Sie das Gesundheitsamt um Mithilfe bei der Nachverfolgung Ihrer Kontakte bittet. Die schnelle und vollständige Information kann so helfen, weitere Ansteckungen zu vermeiden."
-
+            android:text="@string/contact_diary_onboarding_privacy_information_first_section_body"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,7 @@
             android:layout_marginTop="60dp"
             android:accessibilityHeading="true"
             android:focusable="true"
-            android:text="Sie behalten über alle erfassten Informationen die volle Kontrolle. "
+            android:text="@string/contact_diary_onboarding_privacy_information_second_section_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_text_1" />
@@ -54,7 +55,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="Auf die von Ihnen im Kontakt-Tagebuch erfassten Informationen hat weder das RKI noch eine andere Stelle Zugriff. Die Informationen sind nur in verschlüsselter Form in Ihrem Android-Smartphone gespeichert. Sie können erfasste Personen, Orte oder Begegnungen jederzeit wieder aus dem Kontakt-Tagebuch löschen. Alle Begegnungen werden nach 14 Tagen automatisch gelöscht. \n \n Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen."
+            android:text="@string/contact_diary_onboarding_privacy_information_second_section_body"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +69,7 @@
             android:layout_marginTop="60dp"
             android:accessibilityHeading="true"
             android:focusable="true"
-            android:text="Bitte wahren Sie die Privatsphäre Ihrer Mitmenschen."
+            android:text="@string/contact_diary_onboarding_privacy_information_third_section_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_text_2" />
@@ -79,7 +80,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="Die Informationen sollen Ihnen als Gedächtnisstütze dienen - sie sind nicht für Dritte bestimmt. Nur wenn das Gesundheitsamt Sie um Ihre Mithilfe bittet, ist die Weitergabe sachgerecht. Bitte prüfen Sie daher genau, mit wem und wie Sie die erfassten Informationen teilen. \n \n Private Personen oder Unternehmen dürfen von Ihnen nicht die Weitergabe oder Offenlegung der von Ihnen erfassten Informationen verlangen. Bitte respektieren auch Sie, wenn jemand nicht möchte, dass Sie die Begegnung erfassen."
+            android:text="@string/contact_diary_onboarding_privacy_information_third_section_body"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

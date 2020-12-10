@@ -11,7 +11,6 @@ class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor() : CW
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
-        //routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingPrivacy)
     }
 
 
