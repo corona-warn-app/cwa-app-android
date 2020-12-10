@@ -37,17 +37,18 @@ class SubmissionCardStateTest : BaseTest() {
     private fun instance(
         deviceUiState: DeviceUIState = mockk(),
         isDeviceRegistered: Boolean = true,
+        hasResultBeenSeen: Boolean = true,
         uiStateState: ApiRequestState = ApiRequestState.SUCCESS
     ) =
         when (uiStateState) {
             ApiRequestState.SUCCESS ->
-                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered, hasTestResultBeenSeen = true)
+                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered, hasResultBeenSeen)
             ApiRequestState.FAILED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered, hasTestResultBeenSeen = true)
+                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered, hasResultBeenSeen)
             ApiRequestState.STARTED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered, hasTestResultBeenSeen = true)
+                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered, hasResultBeenSeen)
             ApiRequestState.IDLE ->
-                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered, hasTestResultBeenSeen = true)
+                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered, hasResultBeenSeen)
         }
 
     @Test
@@ -205,7 +206,7 @@ class SubmissionCardStateTest : BaseTest() {
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_POSITIVE,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
