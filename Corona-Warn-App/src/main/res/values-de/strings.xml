@@ -1527,8 +1527,9 @@
     <string name="contact_diary_onboarding_privacy_information_third_section_title">Bitte wahren Sie die Privatsphäre Ihrer Mitmenschen.</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information third section -->
     <string name="contact_diary_onboarding_privacy_information_third_section_body">Die Informationen sollen Ihnen als Gedächtnisstütze dienen - sie sind nicht für Dritte bestimmt. Nur wenn das Gesundheitsamt Sie um Ihre Mithilfe bittet, ist die Weitergabe sachgerecht. Bitte prüfen Sie daher genau, mit wem und wie Sie die erfassten Informationen teilen.\n\nPrivate Personen oder Unternehmen dürfen von Ihnen nicht die Weitergabe oder Offenlegung der von Ihnen erfassten Informationen verlangen. Bitte respektieren auch Sie, wenn jemand nicht möchte, dass Sie die Begegnung erfassen.</string>
-
+    <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">Kontakt-Tagebuch</string>
+    <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_legal_information">Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis.</string>
 
 
