@@ -6,6 +6,7 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.Person
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,9 +14,10 @@ import kotlinx.coroutines.flow.collect
 import org.joda.time.Instant
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: Long,
     contactDiaryRepository: ContactDiaryRepository
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val dayElement = contactDiaryRepository.filterForDay(Instant.ofEpochMilli(selectedDay))
     private val selectablePersons = MutableStateFlow<List<SelectableItem<Person>>>(emptyList())
