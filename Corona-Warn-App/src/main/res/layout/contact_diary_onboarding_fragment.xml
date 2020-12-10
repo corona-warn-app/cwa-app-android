@@ -45,7 +45,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
-                    tools:src="@drawable/ic_contact_diary_init" />
+                    tools:src="@drawable/ic_contact_diary_illustration_onboarding" />
 
                 <TextView
                     android:id="@+id/onboarding_headline"
