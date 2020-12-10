@@ -48,6 +48,10 @@ class ConfigDataContainerTest : BaseTest() {
         config.isValid(Instant.EPOCH.plus(Duration.standardHours(1))) shouldBe false
         config.isValid(Instant.EPOCH.plus(Duration.standardHours(24))) shouldBe false
         config.isValid(Instant.EPOCH.plus(Duration.standardDays(14))) shouldBe false
+
+        config.isValid(Instant.EPOCH.minus(Duration.standardHours(1))) shouldBe false
+        config.isValid(Instant.EPOCH.minus(Duration.standardHours(24))) shouldBe false
+        config.isValid(Instant.EPOCH.minus(Duration.standardDays(14))) shouldBe false
     }
 
     @Test
