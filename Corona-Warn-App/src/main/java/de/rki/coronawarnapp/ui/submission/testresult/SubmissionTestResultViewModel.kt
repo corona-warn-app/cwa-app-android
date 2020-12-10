@@ -5,7 +5,6 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -100,11 +99,8 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
-            submissionRepository.deleteTestGUID()
-            submissionRepository.revokeConsentToSubmission()
-            SubmissionRepository.deleteRegistrationToken()
-            LocalData.isAllowedToSubmitDiagnosisKeys(false)
-            LocalData.initialTestResultReceivedTimestamp(0L)
+
+            submissionRepository.removeTestFromDevice()
 
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
