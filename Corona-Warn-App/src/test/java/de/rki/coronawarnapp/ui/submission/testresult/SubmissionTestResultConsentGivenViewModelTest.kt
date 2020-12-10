@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
