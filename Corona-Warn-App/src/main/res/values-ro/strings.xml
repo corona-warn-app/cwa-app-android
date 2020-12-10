@@ -702,7 +702,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"O mână ține un smartphone pe al cărui ecran este afișat un corp mare de text. Lângă text este afișat un cântar care simbolizează mențiunile legale."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_en.html"</string>
+    <string name="information_technical_html_path" translatable="false">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Informații de contact"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
