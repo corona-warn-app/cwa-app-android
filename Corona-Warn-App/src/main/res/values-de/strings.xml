@@ -1496,4 +1496,8 @@
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
     <string name="contact_diary_homescreen_card_button_text">Tagebuch Führen</string>
 
+    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
+    <string name="contact_diary_onboarding_card_button_text">Tagebuch Führen</string>
+
+
 </resources>
