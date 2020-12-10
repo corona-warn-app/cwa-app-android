@@ -5,14 +5,10 @@ import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 
 @Entity
-data class ContactDiaryLocationEntity(override var locationName: String) : ContactDiaryLocation {
-    @PrimaryKey(autoGenerate = true)
-    var locationId: Long = 0L
-}
+data class ContactDiaryLocationEntity(
+    @PrimaryKey(autoGenerate = true) override val locationId: Long = 0L,
+    override var locationName: String
+) : ContactDiaryLocation
 
-fun ContactDiaryLocation.toContactDiaryLocationEntity(locationId: Long = 0L): ContactDiaryLocationEntity =
-    when (this) {
-        is ContactDiaryLocationEntity -> this
-        else -> ContactDiaryLocationEntity(this.locationName)
-            .apply { this.locationId = locationId }
-    }
+fun ContactDiaryLocation.toContactDiaryLocationEntity(): ContactDiaryLocationEntity =
+    ContactDiaryLocationEntity(this.locationId, this.locationName)

@@ -3,17 +3,21 @@ package de.rki.coronawarnapp.contactdiary.storage.repo
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryDateDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryElementDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementLocationXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementPersonXRef
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryDateEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,8 +25,6 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultContactDiaryRepository @Inject constructor(
-    private val contactDiaryDateDao: ContactDiaryDateDao,
-    private val contactDiaryElementDao: ContactDiaryElementDao,
     private val contactDiaryLocationDao: ContactDiaryLocationDao,
     private val contactDiaryPersonDao: ContactDiaryPersonDao
 ) : ContactDiaryRepository {

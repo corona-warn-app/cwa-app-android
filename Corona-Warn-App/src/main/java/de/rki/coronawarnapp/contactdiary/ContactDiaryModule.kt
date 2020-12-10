@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.contactdiary
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryDateDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryElementDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -18,14 +16,6 @@ class ContactDiaryModule {
     @Provides
     fun contactDiaryDatabase(contactDiaryDatabaseFactory: ContactDiaryDatabase.Factory): ContactDiaryDatabase =
         contactDiaryDatabaseFactory.create()
-
-    @Provides
-    fun contactDiaryDateDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryDateDao =
-        contactDiaryDatabase.contactDiaryDateDao()
-
-    @Provides
-    fun contactDiaryElementDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryElementDao =
-        contactDiaryDatabase.contactDiaryElementDao()
 
     @Provides
     fun locationDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryLocationDao =

@@ -1,3 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-data class DefaultContactDiaryPerson(override var fullName: String) : ContactDiaryPerson
+data class DefaultContactDiaryPerson(
+    override val personId: Long = 0L,
+    override var fullName: String
+) : ContactDiaryPerson

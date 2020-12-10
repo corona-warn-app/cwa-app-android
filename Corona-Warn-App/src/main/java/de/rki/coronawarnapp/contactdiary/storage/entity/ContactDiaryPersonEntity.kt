@@ -5,13 +5,10 @@ import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 
 @Entity
-data class ContactDiaryPersonEntity(override var fullName: String) : ContactDiaryPerson {
-    @PrimaryKey(autoGenerate = true)
-    var personId: Long = 0L
-}
+data class ContactDiaryPersonEntity(
+    @PrimaryKey(autoGenerate = true) override val personId: Long = 0L,
+    override var fullName: String
+) : ContactDiaryPerson
 
-fun ContactDiaryPerson.toContactDiaryPersonEntity(personId: Long = 0L): ContactDiaryPersonEntity = when (this) {
-    is ContactDiaryPersonEntity -> this
-    else -> ContactDiaryPersonEntity(this.fullName)
-        .apply { this.personId = personId }
-}
+fun ContactDiaryPerson.toContactDiaryPersonEntity(): ContactDiaryPersonEntity =
+    ContactDiaryPersonEntity(this.personId, this.fullName)

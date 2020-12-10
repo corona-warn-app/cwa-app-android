@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.storage.repo
 
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import kotlinx.coroutines.flow.Flow
