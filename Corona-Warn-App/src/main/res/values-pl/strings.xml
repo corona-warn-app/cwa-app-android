@@ -34,11 +34,7 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_auth_code"><xliff:g id="preference">"preference_auth_code"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
     <!-- NOTR -->
@@ -47,8 +43,6 @@
     <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
@@ -103,6 +97,10 @@
     <string name="notification_headline_share_positive_result">"Możesz pomóc!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Udostępnij swój wynik testu i ostrzeż innych."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">"Twój wynik testu"</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">"Ważna wiadomość. Otwórz aplikację Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -170,8 +168,6 @@
         <item quantity="many">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
     </plurals>
 
-    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
-    <string name="risk_card_high_risk_no_encounters_body">"Brak narażenia do tej pory"</string>
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Narażenia w ciągu jednego dnia z podwyższonym ryzykiem"</item>
@@ -219,7 +215,7 @@
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Razem pokonajmy koronawirusa"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"Im więcej osób będzie korzystać z aplikacji, tym szybciej będziemy mogli przerwać łańcuch zakażeń. Zachęć rodzinę i znajomych do pobrania aplikacji."</string>
+    <string name="main_share_body">"Im więcej osób będzie korzystać z aplikacji, tym szybciej będziemy mogli przerwać łańcuchy zakażeń. Zachęć rodzinę i znajomych do pobrania aplikacji."</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Wyślij link do pobrania"</string>
     <!-- YMSG: Message when sharing is executed -->
@@ -276,7 +272,7 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Identyfikator losowy"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Losowe identyfikatory są kombinacją cyfr i liter generowanych losowo. Są one wymieniane pomiędzy smartfonami znajdującymi się w bliskiej odległości od siebie. Losowych identyfikatorów nie można przypisać do konkretnej osoby. Są one automatycznie usuwane po 14 dniach. Osoby, u których zdiagnozowano koronawirusa, mogą zdecydować się na udostępnienie swoich losowych identyfikatorów z ostatnich 14 dni innym użytkownikom aplikacji."</string>
+    <string name="main_overview_body_glossary_keys">"Losowe identyfikatory są kombinacją cyfr i liter generowanych losowo. Są one wymieniane pomiędzy urządzeniami znajdującymi się w bliskiej odległości od siebie. Losowych identyfikatorów nie można przypisać do konkretnej osoby. Są one automatycznie usuwane po 14 dniach. Osoby, u których zdiagnozowano koronawirusa, mogą zdecydować się na udostępnienie swoich losowych identyfikatorów z ostatnich 14 dni innym użytkownikom aplikacji."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Smartfon wyświetla różne treści oznaczone numerami od 1 do 3."</string>
     <!-- XACT: App main page title -->
@@ -333,7 +329,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Rejestrowanie narażenia nie mogło zostać zaktualizowane przez okres dłuższy niż 24 godziny."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano koronawirusa, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
+    <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano COVID-19, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Ryzyko zakażenia jest obliczane lokalnie na Twoim smartfonie na podstawie danych rejestrowania narażenia. Ta kalkulacja uwzględnia również dystans i czas trwania narażenia na kontakt z osobami, u których zdiagnozowano koronawirusa, a także ich potencjalną zakaźność. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
@@ -849,7 +845,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie będą wiedzieć, kto udostępnił swoje wyniki testów."</string>
+    <string name="submission_consent_main_third_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Aby wyrazić zgodę, musisz mieć ukończone 16 lat."</string>
 
@@ -871,7 +867,7 @@
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Usuń test"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
-    <string name="submission_test_result_negative_steps_negative_heading">"Twój wynik testu"</string>
+    <string name="submission_test_result_negative_steps_negative_heading">"Diagnoza: brak zakażenia"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"Wynik laboratoryjny nie potwierdza zakażenia koronawirusem SARS-CoV-2.\n\nUsuń test z aplikacji Corona-Warn-App, aby w razie potrzeby móc zapisać w niej kod nowego testu."</string>
     <!-- XBUT: negative test result : remove the test button -->
@@ -923,13 +919,13 @@
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
-    <string name="submission_tan_title">"Wpis TAN"</string>
+    <string name="submission_tan_title">"Wpisz TAN"</string>
     <!-- YTXT: Body text for the tan submission page -->
     <string name="submission_tan_body">"Wpisz 10-cyfrowy numer TAN, który otrzymałeś(-aś)."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Dalej"</string>
     <!-- XACT: Submission Tan page title -->
-    <string name="submission_tan_accessibility_title">"Wpis TAN"</string>
+    <string name="submission_tan_accessibility_title">"Wpisz TAN"</string>
     <!-- YTXT: Error text for the tan submission page -->
     <string name="submission_tan_error">"Nieprawidłowy TAN, sprawdź swój wpis."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
@@ -938,7 +934,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Dalej"</string>
-
+    
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Pobierz wynik testu"</string>
@@ -953,9 +949,9 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Zarejestruj test poprzez zeskanowanie kodu QR dokumentu testu."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Wpis TAN"</string>
+    <string name="submission_dispatcher_card_tan_code">"Wpisz TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Czy masz numer TAN? Wprowadź go, aby ostrzegać innych. "</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Czy masz numer TAN? Naciśnij tutaj, aby go wprowadzić i dzięki temu ostrzegać innych."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"Nie masz jeszcze numeru TAN?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -990,7 +986,7 @@
     <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_1"><b>"Udostępnij swój wynik testu i pomóż chronić innych przed infekcją."</b></string>
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_2">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie będą wiedzieć, kto udostępnił swoje wyniki testów."</string>
+    <string name="submission_test_result_positive_no_consent_text_2">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_3">"Postępuj zgodnie z poleceniami organu ds. zdrowia publicznego i zostań w domu, aby nie zarażać innych."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
@@ -1004,7 +1000,7 @@
     <!-- XHED: Country selector headline for the submission country selection page -->
     <string name="submission_country_selector_headline">"Byłem(-łam) w następujących krajach"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Bez komentarza"</string>
+    <string name="submission_country_no_selection_headline">"Brak odpowiedzi"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
     <string name="submission_country_selection_data_faq_body">"Twój wpis posłuży wyłącznie w celu optymalizacji wolumenu danych.\n\nNa liście znajdują się wszystkie kraje obecnie uczestniczące w projekcie i jest ona stale aktualizowana."</string>
     <!-- XBUT: submission country selection continue button -->
@@ -1014,7 +1010,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Dziękujemy"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"Twoja pomoc jest bardzo cenna. Pozwala na ostrzeganie innych osób i umożliwia im odpowiednie zareagowanie."</string>
+    <string name="submission_done_body">"Twoje wsparcie pozwala na ostrzeganie innych osób i daje im możliwość odpowiedniego zareagowania."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Uwaga:"</string>
     <!-- YTXT: text after submission: contagious -->
@@ -1074,7 +1070,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Nie"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Bez komentarza"</string>
+    <string name="submission_symptom_no_information_button">"Brak odpowiedzi"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Dalej"</string>
 
@@ -1139,10 +1135,14 @@
     <string name="submission_status_card_title_positive">"Diagnoza zakażenia"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Test stracił ważność"</string>
+    <!-- XHED: Page title for the various submission status fetch ready -->
+    <string name="submission_status_card_title_ready">"Twój wynik testu jest dostępny"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Nieprawidłowy test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Diagnoza: brak zakażenia"</string>
+    <!-- XHED: Subtitle for the submission status card: ready -->
+    <string name="submission_status_card_subtitle_ready">"Możesz teraz pobrać wynik testu"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Twój wynik jest aktualizowany"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
@@ -1157,12 +1157,16 @@
     <string name="submission_status_card_body_negative">"Nie zdiagnozowano u Ciebie zakażenia wirusem SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego."</string>
+    <!-- YTXT: Body text for submission status fetch ready -->
+    <string name="submission_status_card_body_ready">"Jeśli masz pozytywny wynik testu na obecność koronawirusa, możesz ostrzec innych."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Następne kroki"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Wyświetl test"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Usuń test"</string>
+    <!-- XBUT: submission status card fetch ready button -->
+    <string name="submission_status_card_button_ready">"Usuń test"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Uwaga:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1217,7 +1221,7 @@
     <!-- XTXT: Close screen popup text for consent given -->
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Twoje wpisy nie zostaną zapisane."</string>
     <!-- YTXT: Text for consent NOT given -->
-    <string name="submission_test_result_available_text_consent_not_given">"Zdecydowałeś(-aś) się nie udostępniać wyników testu. Inne osoby nie zostaną ostrzeżone. \n\nW kolejnym kroku możesz zmienić zdanie i udostępnić wynik testu, aby powstrzymać rozprzestrzenianie się koronawirusa i uchronić inne osoby przed zakażeniem."</string>
+    <string name="submission_test_result_available_text_consent_not_given">"Zdecydowałeś(-aś) się nie udostępniać wyniku testu. Inne osoby nie zostaną ostrzeżone. \n\nW kolejnym kroku możesz zmienić zdanie i udostępnić wynik testu, aby powstrzymać rozprzestrzenianie się koronawirusa i uchronić inne osoby przed zakażeniem."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Ważne:\nTen proces zostanie anulowany.\nNie ostrzegłeś(-aś) jeszcze innych osób. Ukończ proces i pomóż chronić innych."</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
@@ -1406,9 +1410,9 @@
     <!-- XHED: Header of interoperability information/configuration view -->
     <string name="interoperability_configuration_title">"Rejestrowanie narażenia w różnych krajach"</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_first_section">"Kilka krajów współpracuje ze sobą w zakresie aktywacji transgranicznych alertów wysyłanych poprzez wspólny serwer wymiany danych. Podczas rejestrowania narażenia można na przykład uwzględniać również kontakty z użytkownikami oficjalnej aplikacji koronawirusowej z innych uczestniczących krajów."</string>
+    <string name="interoperability_configuration_first_section">"Kilka krajów współpracuje ze sobą w zakresie aktywacji transgranicznych alertów wysyłanych poprzez wspólny serwer wymiany danych. Podczas rejestrowania narażenia można na przykład uwzględniać również kontakty z użytkownikami oficjalnej aplikacji koronawirusowej z innych współpracujących krajów."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"W tym celu aplikacja pobiera aktualizowaną codziennie listę losowych identyfikatorów wszystkich użytkowników, którzy udostępnili swoje wyniki testów za pośrednictwem swojej aplikacji, aby ostrzegać innych. Lista ta jest następnie porównywana z losowymi identyfikatorami zarejestrowanymi przez Twój smartfon z systemem Android. Pobieranie listy jest zazwyczaj bezpłatne. Oznacza to, że operatorzy sieci komórkowych nie pobierają opłat za transmisję danych używanych przez aplikację w tym celu ani też nie naliczają opłat roamingowych z tego tytułu w innych krajach UE. Aby uzyskać więcej informacji, skontaktuj się ze swoim operatorem sieci komórkowej."</string>
+    <string name="interoperability_configuration_second_section">"W tym celu aplikacja pobiera aktualizowane codziennie listy losowych identyfikatorów wszystkich użytkowników, którzy udostępnili swoje wyniki testów za pośrednictwem swojej aplikacji, aby ostrzegać innych. Lista taka jest następnie porównywana z losowymi identyfikatorami zarejestrowanymi przez Twój smartfon z systemem Android. Pobieranie list losowych identyfikatorów jest zazwyczaj bezpłatne. Oznacza to, że operatorzy sieci komórkowych nie pobierają opłat za transmisję danych używanych przez aplikację w tym celu ani też nie naliczają opłat roamingowych z tego tytułu w innych krajach UE. Aby uzyskać więcej informacji, skontaktuj się ze swoim operatorem sieci komórkowej."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"Następujące kraje uczestniczą obecnie w międzynarodowym rejestrowaniu narażenia:"</string>
     <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
@@ -1417,9 +1421,9 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Kilka krajów podjęło współpracę w zakresie aktywowania międzynarodowych ostrzeżeń. W rezultacie można teraz analizować potencjalne narażenie na kontakt z użytkownikami oficjalnych aplikacji koronawirusowych we wszystkich uczestniczących krajach."</string>
+    <string name="interoperability_onboarding_first_section">"Kilka krajów podjęło współpracę w zakresie aktywacji międzynarodowych ostrzeżeń. W rezultacie można teraz analizować potencjalne narażenie na kontakt z użytkownikami oficjalnych aplikacji koronawirusowych we wszystkich współpracujących krajach."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
-    <string name="interoperability_onboarding_second_section">"Gdy użytkownik prześle swój pozytywny wynik testu (a dokładniej losowy identyfikator) poprzez serwer wymiany danych obsługiwany wspólnie przez kraje uczestniczące, aby ostrzec inne osoby, o potencjalnym narażeniu zostaną ostrzeżeni użytkownicy oficjalnych aplikacji koronawirusowych we wszystkich tych krajach."</string>
+    <string name="interoperability_onboarding_second_section">"Gdy użytkownik prześle swój pozytywny wynik testu (a dokładniej losowy identyfikator) poprzez serwer wymiany danych obsługiwany wspólnie przez kraje współpracujące, aby ostrzec inne osoby, o potencjalnym narażeniu zostaną ostrzeżeni użytkownicy oficjalnych aplikacji koronawirusowych we wszystkich tych krajach."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_randomid_download_free">"Codzienne pobieranie list losowych identyfikatorów użytkowników, którzy udostępnili pozytywne wyniki testów, jest z reguły bezpłatne. Oznacza to, że operatorzy sieci komórkowych nie pobierają opłat za transmisję danych używanych przez aplikację w tym celu ani też nie naliczają opłat roamingowych z tego tytułu w innych krajach UE. Aby uzyskać więcej informacji, skontaktuj się ze swoim operatorem sieci komórkowej."</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
@@ -1434,9 +1438,9 @@
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">"Funkcje aplikacji Corona-Warn-App zostały rozszerzone. Wiele krajów połączyło siły w celu aktywacji międzynarodowych ostrzeżeń przy wykorzystaniu wspólnie obsługiwanego serwera wymiany danych. Podczas oceny ryzyka narażenia można teraz uwzględniać narażenie na kontakt z użytkownikami oficjalnych aplikacji koronawirusowych w innych krajach uczestniczących."</string>
+    <string name="interoperability_onboarding_delta_subtitle">"Funkcje aplikacji Corona-Warn-App zostały rozszerzone. Wiele krajów podjęło współpracę w zakresie aktywacji międzynarodowych ostrzeżeń przy wykorzystaniu wspólnie obsługiwanego serwera wymiany danych. Podczas oceny ryzyka narażenia można teraz uwzględniać narażenie na kontakt z użytkownikami oficjalnych aplikacji koronawirusowych w innych współpracujących krajach."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"W tym celu aplikacja pobiera aktualizowaną codziennie listę losowych identyfikatorów wszystkich użytkowników, którzy udostępnili swoje wyniki testów za pośrednictwem własnej aplikacji, aby ostrzegać innych. Lista ta jest następnie porównywana z losowymi identyfikatorami zarejestrowanymi przez Twój smartfonem z systemem Android."</string>
+    <string name="interoperability_onboarding_delta_randomid">"W tym celu aplikacja pobiera aktualizowane codziennie listy losowych identyfikatorów wszystkich użytkowników, którzy udostępnili swoje wyniki testów za pośrednictwem własnej aplikacji, aby ostrzegać innych. Lista taka jest następnie porównywana z losowymi identyfikatorami zarejestrowanymi przez Twój smartfonem z systemem Android."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_free_download">"Pobieranie listy jest z reguły bezpłatne. Oznacza to, że operatorzy sieci komórkowych nie pobierają opłat za transmisję danych używanych przez aplikację w tym celu ani też nie naliczają opłat roamingowych z tego tytułu w innych krajach UE. Aby uzyskać więcej informacji, skontaktuj się ze swoim operatorem sieci komórkowej."</string>
 

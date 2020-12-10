@@ -52,11 +52,11 @@ class TEKHistoryUpdater @Inject constructor(
             return UpdateResult.UNKNOWN_RESULT
         }
         return if (resultCode == Activity.RESULT_OK) {
-            Timber.tag(TAG).w("Permission granted (== RESULT_OK): %s", data)
+            Timber.tag(TAG).d("Permission granted (== RESULT_OK): %s", data)
             updateHistoryAndTriggerCallback()
             UpdateResult.PERMISSION_AVAILABLE
         } else {
-            Timber.tag(TAG).w("Permission declined (!= RESULT_OK): %s", data)
+            Timber.tag(TAG).i("Permission declined (!= RESULT_OK): %s", data)
             callback?.onPermissionDeclined()
             UpdateResult.PERMISSION_UNAVAILABLE
         }

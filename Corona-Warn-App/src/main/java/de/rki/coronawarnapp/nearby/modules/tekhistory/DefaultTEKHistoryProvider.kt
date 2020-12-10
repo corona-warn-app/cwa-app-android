@@ -18,25 +18,14 @@ class DefaultTEKHistoryProvider @Inject constructor(
     private val client: ExposureNotificationClient
 ) : TEKHistoryProvider {
 
-    override suspend fun isTEKAccessPermissionGranted(): Boolean {
-        return try {
-            getTEKHistory()
-            true
-        } catch (e: ApiException) {
-            if (e.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
-                false
-            } else {
-                throw e
-            }
-        }
-    }
-
     override suspend fun getTEKHistoryOrRequestPermission(
         onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
         onPermissionRequired: (Status) -> Unit
     ) {
+        Timber.d("getTEKHistoryOrRequestPermission(...)")
         try {
             onTEKHistoryAvailable(getTEKHistory())
+            Timber.d("onTEKHistoryAvailable() -> permission were already available")
         } catch (apiException: ApiException) {
             if (apiException.statusCode != ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
                 throw apiException
@@ -53,14 +42,14 @@ class DefaultTEKHistoryProvider @Inject constructor(
     }
 
     override suspend fun getTEKHistory(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
-        Timber.i("Retrieving temporary exposure keys.")
+        Timber.d("Retrieving temporary exposure keys.")
         client.temporaryExposureKeyHistory
             .addOnSuccessListener {
-                Timber.i("Temporary exposure keys were retrieved: %s", it.joinToString("\n"))
+                Timber.d("Temporary exposure keys were retrieved: %s", it.joinToString("\n"))
                 cont.resume(it)
             }
             .addOnFailureListener {
-                Timber.e(it, "Failed to retrieve temporary exposure keys.")
+                Timber.w(it, "Failed to retrieve temporary exposure keys.")
                 cont.resumeWithException(it)
             }
     }

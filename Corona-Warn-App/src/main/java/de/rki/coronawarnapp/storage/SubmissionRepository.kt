@@ -40,14 +40,6 @@ class SubmissionRepository @Inject constructor(
     private val taskController: TaskController,
     private val tekHistoryStorage: TEKHistoryStorage
 ) {
-
-    companion object {
-        fun deleteRegistrationToken() {
-            LocalData.registrationToken(null)
-            LocalData.devicePairingSuccessfulTimestamp(0L)
-        }
-    }
-
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
 
@@ -74,14 +66,6 @@ class SubmissionRepository @Inject constructor(
             Timber.e(it, "Submission failed.")
             it.report(ExceptionCategory.HTTP, prefix = "Submission failed.")
         }
-    }
-
-    fun setTeletan(teletan: String) {
-        LocalData.teletan(teletan)
-    }
-
-    fun deleteTestGUID() {
-        LocalData.testGUID(null)
     }
 
     // to be used by new submission flow screens
@@ -149,7 +133,6 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.teletan(null)
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
@@ -158,7 +141,6 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.testGUID(null)
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
@@ -199,6 +181,15 @@ class SubmissionRepository @Inject constructor(
         deriveUiState(testResult)
     } catch (err: NoRegistrationTokenSetException) {
         DeviceUIState.UNPAIRED
+    }
+
+    fun removeTestFromDevice() {
+        revokeConsentToSubmission()
+        LocalData.registrationToken(null)
+        LocalData.devicePairingSuccessfulTimestamp(0L)
+        LocalData.initialPollingForTestResultTimeStamp(0L)
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.isTestResultNotificationSent(false)
     }
 }
 
