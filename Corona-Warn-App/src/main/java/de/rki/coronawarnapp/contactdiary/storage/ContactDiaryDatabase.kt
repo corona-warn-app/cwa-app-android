@@ -6,7 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
@@ -24,7 +26,9 @@ import javax.inject.Inject
 abstract class ContactDiaryDatabase : RoomDatabase() {
 
     abstract fun locationDao(): ContactDiaryLocationDao
+    abstract fun locationVisitDao(): ContactDiaryLocationVisitDao
     abstract fun personDao(): ContactDiaryPersonDao
+    abstract fun personEncounterDao(): ContactDiaryPersonEncounterDao
 
     class Factory @Inject constructor(@AppContext private val ctx: Context) {
         fun create(): ContactDiaryDatabase = Room

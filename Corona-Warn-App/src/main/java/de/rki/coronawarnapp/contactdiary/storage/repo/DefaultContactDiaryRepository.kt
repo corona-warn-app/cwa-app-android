@@ -4,7 +4,9 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementLocationXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementPersonXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
@@ -26,7 +28,9 @@ import javax.inject.Singleton
 @Singleton
 class DefaultContactDiaryRepository @Inject constructor(
     private val contactDiaryLocationDao: ContactDiaryLocationDao,
-    private val contactDiaryPersonDao: ContactDiaryPersonDao
+    private val contactDiaryLocationVisitDao: ContactDiaryLocationVisitDao,
+    private val contactDiaryPersonDao: ContactDiaryPersonDao,
+    private val contactDiaryPersonEncounterDao: ContactDiaryPersonEncounterDao
 ) : ContactDiaryRepository {
 
     override val contactDiaryDates: Flow<List<LocalDate>> = contactDiaryDateDao
