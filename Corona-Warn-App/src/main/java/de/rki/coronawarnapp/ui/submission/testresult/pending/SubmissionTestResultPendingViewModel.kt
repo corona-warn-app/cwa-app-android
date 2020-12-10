@@ -105,7 +105,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     fun deregisterTestFromDevice() {
         Timber.d("deregisterTestFromDevice()")
         launch {
-            submissionRepository.deregisterTestFromDevice()
+            submissionRepository.removeTestFromDevice()
 
             routeToScreen.postValue(
                 SubmissionTestResultPendingFragmentDirections
