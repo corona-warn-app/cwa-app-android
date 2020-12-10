@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-import java.time.Instant
+import org.joda.time.LocalDate
 
 data class DefaultContactDiaryElement(
-    override val createdAt: Instant,
-    override val people: List<Person>,
-    override val locations: List<Location>
+    override val date: LocalDate,
+    override val people: MutableList<out Person>,
+    override val locations: MutableList<out Location>
 ) : ContactDiaryElement
