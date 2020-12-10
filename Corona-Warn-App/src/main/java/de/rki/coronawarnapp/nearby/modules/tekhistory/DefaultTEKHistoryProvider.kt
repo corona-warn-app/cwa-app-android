@@ -18,17 +18,6 @@ class DefaultTEKHistoryProvider @Inject constructor(
     private val client: ExposureNotificationClient
 ) : TEKHistoryProvider {
 
-    override suspend fun isTEKAccessPermissionGranted(): Boolean = try {
-        getTEKHistory()
-        true
-    } catch (e: ApiException) {
-        if (e.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
-            false
-        } else {
-            throw e
-        }
-    }
-
     override suspend fun getTEKHistoryOrRequestPermission(
         onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
         onPermissionRequired: (Status) -> Unit
