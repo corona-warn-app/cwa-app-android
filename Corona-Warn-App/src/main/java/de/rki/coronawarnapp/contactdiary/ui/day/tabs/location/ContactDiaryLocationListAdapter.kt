@@ -43,7 +43,7 @@ class ContactDiaryLocationListAdapter(
                 contactDiaryLocationListLineName.text = it.item.locationName
                 when (it.selected) {
                     true -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_selected)
-                    false -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_place)
+                    false -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_unselected)
                 }
             }
     }

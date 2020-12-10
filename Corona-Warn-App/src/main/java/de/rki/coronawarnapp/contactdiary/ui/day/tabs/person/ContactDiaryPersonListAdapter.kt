@@ -42,7 +42,7 @@ class ContactDiaryPersonListAdapter(
             contactDiaryPersonListLineName.text = it.item.fullName
             when (it.selected) {
                 true -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_selected)
-                false -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_person)
+                false -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_unselected)
             }
         }
     }
