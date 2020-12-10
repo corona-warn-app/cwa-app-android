@@ -64,13 +64,13 @@ class TestResultAvailableNotificationTest {
     @Test
     fun `check destination`() {
         val negative = createInstance().getNotificationDestination(TestResult.NEGATIVE)
-        negative shouldBe (R.id.submissionResultFragment)
+        negative shouldBe (R.id.submissionTestResultPendingFragment)
 
         val invalid = createInstance().getNotificationDestination(TestResult.INVALID)
-        invalid shouldBe (R.id.submissionResultFragment)
+        invalid shouldBe (R.id.submissionTestResultPendingFragment)
 
         val positive = createInstance().getNotificationDestination(TestResult.POSITIVE)
-        positive shouldBe (R.id.submissionTestResultAvailableFragment)
+        positive shouldBe (R.id.submissionTestResultPendingFragment)
     }
 
     @Test
