@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
@@ -64,13 +63,6 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
         viewModel.symptomIndication.observe2(this) {
             updateButtons(it)
         }
-
-        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.onPreviousClicked()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.submissionSymptomHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.onPreviousClicked() }
     }
