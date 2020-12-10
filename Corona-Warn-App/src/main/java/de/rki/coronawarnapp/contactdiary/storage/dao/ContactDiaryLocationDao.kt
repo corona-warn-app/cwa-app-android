@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryContactDiary
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class LocationDao : BaseRoomDao<ContactDiaryContactDiaryLocationEntity>() {
+abstract class ContactDiaryLocationDao : BaseRoomDao<ContactDiaryContactDiaryLocationEntity>() {
 
     @Query("SELECT * FROM ContactDiaryContactDiaryLocationEntity")
     abstract override fun allEntries(): Flow<ContactDiaryContactDiaryLocationEntity>

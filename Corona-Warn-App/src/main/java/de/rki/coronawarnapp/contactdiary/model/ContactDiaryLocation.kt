@@ -1,5 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-interface Location {
+interface ContactDiaryLocation {
     var locationName: String
 }

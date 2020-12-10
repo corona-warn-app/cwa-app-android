@@ -1,5 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-interface Person {
+interface ContactDiaryPerson {
     var fullName: String
 }

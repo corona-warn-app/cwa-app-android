@@ -1,3 +1,3 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-data class DefaultLocation(override var locationName: String) : Location
+data class DefaultLocation(override var locationName: String) : ContactDiaryLocation

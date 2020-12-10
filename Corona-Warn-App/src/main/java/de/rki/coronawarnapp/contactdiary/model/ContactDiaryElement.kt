@@ -6,12 +6,12 @@ interface ContactDiaryElement {
 
     val date: LocalDate
 
-    val people: MutableList<out Person>
-    val locations: MutableList<out Location>
+    val contactDiaryPeople: MutableList<out ContactDiaryPerson>
+    val contactDiaryLocations: MutableList<out ContactDiaryLocation>
 
     val numberOfPersons: Int
-        get() = people.size
+        get() = contactDiaryPeople.size
 
     val numberOfLocations: Int
-        get() = locations.size
+        get() = contactDiaryLocations.size
 }

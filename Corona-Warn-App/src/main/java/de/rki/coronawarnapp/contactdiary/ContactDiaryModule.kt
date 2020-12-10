@@ -5,8 +5,8 @@ import dagger.Provides
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryDateDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryElementDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.LocationDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.PersonDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import javax.inject.Singleton
 
 @Module
@@ -29,11 +29,11 @@ class ContactDiaryModule {
 
     @Singleton
     @Provides
-    fun locationDao(contactDiaryDatabase: ContactDiaryDatabase): LocationDao =
+    fun locationDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryLocationDao =
         contactDiaryDatabase.locationDao()
 
     @Singleton
     @Provides
-    fun personDao(contactDiaryDatabase: ContactDiaryDatabase): PersonDao =
+    fun personDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryPersonDao =
         contactDiaryDatabase.personDao()
 }
