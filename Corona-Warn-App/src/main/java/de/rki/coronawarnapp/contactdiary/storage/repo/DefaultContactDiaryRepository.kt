@@ -112,6 +112,7 @@ class DefaultContactDiaryRepository @Inject constructor(
 
     override suspend fun deleteAllLocationVisits() {
         Timber.d("Clearing contact diary location visit table")
+        contactDiaryLocationVisitDao.deleteAll()
     }
 
     // Person
