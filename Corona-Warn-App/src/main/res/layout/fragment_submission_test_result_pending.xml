@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_test_result_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:accessibilityLiveRegion="assertive"
+        android:contentDescription="@string/submission_test_result_headline">
+
+        <include
+            android:id="@+id/submission_test_result_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_test_result_headline}" />
+
+        <ProgressBar
+            android:id="@+id/submission_test_result_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <ScrollView
+            android:id="@+id/submission_test_result_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:accessibilityLiveRegion="assertive"
+            android:importantForAccessibility="yes"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/button_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_header"
+            tools:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_medium">
+
+                <de.rki.coronawarnapp.ui.view.TestResultSectionView
+                    android:id="@+id/submission_test_result_section"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:importantForAccessibility="yes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:test_result_section_headline="@string/test_result_card_headline" />
+
+                <TextView
+                    android:id="@+id/submission_test_result_subtitle"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_tiny"
+                    android:accessibilityHeading="true"
+                    android:text="@string/submission_test_result_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
+
+                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                    android:id="@+id/test_result_pending_steps_added"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle"
+                    app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
+                    app:step_entry_final="false"
+                    app:step_entry_icon="@drawable/ic_test_result_step_done" />
+
+                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                    android:id="@+id/test_result_pending_steps_waiting_result"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_added"
+                    app:simple_step_entry_text="@string/submission_test_result_pending_steps_waiting_body"
+                    app:simple_step_entry_title="@string/submission_test_result_pending_steps_waiting_heading"
+                    app:step_entry_final="true"
+                    app:step_entry_icon="@drawable/ic_test_result_step_waiting" />
+
+                <de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
+                    android:id="@+id/consent_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_waiting_result" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submission_test_result_content"
+            tools:visibility="visible">
+
+            <Button
+                android:id="@+id/submission_test_result_button_pending_refresh"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submission_test_result_pending_refresh_button" />
+
+            <Button
+                android:id="@+id/submission_test_result_button_pending_remove_test"
+                style="@style/buttonLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="@string/submission_test_result_pending_remove_test_button" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
