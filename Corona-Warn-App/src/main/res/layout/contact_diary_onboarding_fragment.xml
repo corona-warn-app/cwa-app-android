@@ -40,6 +40,7 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:focusable="true"
+                    android:src="@drawable/ic_contact_diary_illustration_onboarding"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.573"
                     app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +130,7 @@
 
 
                 <View
-                    android:id="@+id/contact_diary_onboarding_divider_1"
+                    android:id="@+id/contact_diary_onboarding_first_divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
@@ -149,11 +150,11 @@
                     android:text="@string/contact_diary_onboarding_legal_information"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_divider_1"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_first_divider"
                     tools:text="@string/contact_diary_onboarding_legal_information" />
 
                 <View
-                    android:id="@+id/contact_diary_onboarding_divider_2"
+                    android:id="@+id/contact_diary_onboarding_second_divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
