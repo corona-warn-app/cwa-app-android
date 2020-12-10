@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryElementDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.LocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.PersonDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementLocationXRef
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementPersonXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.LocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.PersonEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
@@ -18,7 +20,13 @@ import net.sqlcipher.database.SupportFactory
 import javax.inject.Inject
 
 @Database(
-    entities = [ContactDiaryElementEntity::class, LocationEntity::class, PersonEntity::class],
+    entities = [
+        ContactDiaryElementEntity::class,
+        LocationEntity::class,
+        PersonEntity::class,
+        ContactDiaryElementPersonXRef::class,
+        ContactDiaryElementLocationXRef::class
+    ],
     version = 1,
     exportSchema = true
 )

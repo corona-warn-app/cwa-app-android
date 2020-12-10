@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-import java.time.Instant
+import org.joda.time.LocalDate
 
 interface ContactDiaryElement {
 
-    val createdAt: Instant
+    val date: LocalDate
 
-    val people: List<Person>
-    val locations: List<Location>
+    val people: MutableList<out Person>
+    val locations: MutableList<out Location>
 
     val numberOfPersons: Int
         get() = people.size
