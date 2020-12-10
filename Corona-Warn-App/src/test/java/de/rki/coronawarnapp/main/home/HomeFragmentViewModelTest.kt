@@ -57,6 +57,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
         every { submissionCardsStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
         every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
+        every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
     }
 
     @AfterEach
