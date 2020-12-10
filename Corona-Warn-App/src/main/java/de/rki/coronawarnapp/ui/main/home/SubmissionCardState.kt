@@ -17,16 +17,30 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 
 data class SubmissionCardState(
     val deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>,
-    val isDeviceRegistered: Boolean
+    val isDeviceRegistered: Boolean,
+    val hasTestResultBeenSeen: Boolean
 ) {
 
     fun isRiskCardVisible(): Boolean =
         deviceUiState.withSuccess(true) {
             when (it) {
-                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN, SUBMITTED_FINAL -> false
+                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> !hasTestResultBeenSeen
+                SUBMITTED_FINAL -> false
                 else -> true
             }
         }
+
+    fun isTestResultReadyCardVisible(): Boolean {
+        if (isFetchingCardVisible()) return false
+
+        return deviceUiState.withSuccess(false) {
+            when (it) {
+                PAIRED_POSITIVE,
+                PAIRED_POSITIVE_TELETAN -> !hasTestResultBeenSeen
+                else -> false
+            }
+        }
+    }
 
     fun isUnregisteredCardVisible(): Boolean = !isDeviceRegistered
 
@@ -47,7 +61,7 @@ data class SubmissionCardState(
     fun isPositiveSubmissionCardVisible(): Boolean =
         deviceUiState.withSuccess(false) {
             when (it) {
-                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
+                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> !hasTestResultBeenSeen
                 else -> false
             }
         }

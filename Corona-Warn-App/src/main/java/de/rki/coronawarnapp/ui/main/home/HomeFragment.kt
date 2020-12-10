@@ -53,9 +53,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
             setupTestResultCard(it.deviceUiState)
         }
-        vm.hasTestBeenSeenState.observe2(this) {
-            binding.testSeen = it
-        }
 
         setupToolbar()
 
@@ -182,15 +179,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             setOnClickListener {
                 vm.removeTestPushed()
             }
+        }
+        binding.mainTestReady.apply {
+            val navDirections = HomeFragmentDirections
+                .actionMainFragmentToSubmissionTestResultAvailableFragment()
 
-            mainTestReady.apply {
-                val toTestResult = {
-                    doNavigate(HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultAvailableFragment())
-                }
-                submissionStatusCardReady.setOnClickListener { toTestResult() }
-                submissionStatusCardReadyButton.setOnClickListener { toTestResult() }
-            }
+            submissionStatusCardReady.setOnClickListener { doNavigate(navDirections) }
+            submissionStatusCardReadyButton.setOnClickListener { doNavigate(navDirections) }
         }
     }
 
