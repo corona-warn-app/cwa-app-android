@@ -11,16 +11,19 @@ import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
-    private val tracingPermissionHelper: TracingPermissionHelper
-) : CWAViewModel() {
+    private val tracingPermissionHelper: TracingPermissionHelper,
+    dispatcherProvider: DispatcherProvider
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val countryList = interoperabilityRepository.countryListFlow.asLiveData()
+    val countryList = interoperabilityRepository.countryList
+        .asLiveData(context = dispatcherProvider.Default)
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
     val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
 

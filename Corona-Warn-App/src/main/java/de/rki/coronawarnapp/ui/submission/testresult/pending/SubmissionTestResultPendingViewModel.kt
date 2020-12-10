@@ -1,40 +1,42 @@
-package de.rki.coronawarnapp.ui.submission.testresult
+package de.rki.coronawarnapp.ui.submission.testresult.pending
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 
-class SubmissionTestResultViewModel @AssistedInject constructor(
+class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val enfClient: ENFClient,
     private val testResultNotificationService: TestResultNotificationService,
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-    val showTracingRequiredScreen = SingleLiveEvent<Unit>()
+    val routeToScreen = SingleLiveEvent<NavDirections?>()
+
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val consentGiven = submissionRepository.hasGivenConsentToSubmission.asLiveData()
 
     private var wasRedeemedTokenErrorShown = false
     private val tokenErrorMutex = Mutex()
 
-    val uiState: LiveData<TestResultUIState> = combineTransform(
+    private val testResultFlow = combine(
         submissionRepository.deviceUIStateFlow,
         submissionRepository.testResultReceivedDateFlow
     ) { deviceUiState, resultDate ->
@@ -53,8 +55,35 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
         TestResultUIState(
             deviceUiState = deviceUiState,
             testResultReceivedDate = resultDate
-        ).let { emit(it) }
-    }.asLiveData(context = dispatcherProvider.Default)
+        )
+    }
+    val testState: LiveData<TestResultUIState> = testResultFlow
+        .onEach { testResultUIState ->
+            testResultUIState.deviceUiState.withSuccess { deviceState ->
+                when (deviceState) {
+                    DeviceUIState.PAIRED_POSITIVE -> SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment()
+                    DeviceUIState.PAIRED_NEGATIVE -> SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
+                    DeviceUIState.PAIRED_REDEEMED,
+                    DeviceUIState.PAIRED_ERROR -> SubmissionTestResultPendingFragmentDirections
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment()
+                    else -> {
+                        Timber.w("Unknown success state: %s", deviceState)
+                        null
+                    }
+                }?.let { routeToScreen.postValue(it) }
+            }
+        }
+        .filter {
+            val isPositiveTest = it.deviceUiState is NetworkRequestWrapper.RequestSuccessful &&
+                it.deviceUiState.data == DeviceUIState.PAIRED_POSITIVE
+            if (isPositiveTest) {
+                Timber.w("Filtering out positive test emission as we don't display this here.")
+            }
+            !isPositiveTest
+        }
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionRepository.deviceUIStateFlow
@@ -66,39 +95,12 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
     }
 
-    fun onBackPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
-    }
-
-    fun onContinuePressed() {
-        Timber.d("onContinuePressed()")
-        requireTracingOrShowError {
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
-        }
-    }
-
-    fun onContinueWithoutSymptoms() {
-        Timber.d("onContinueWithoutSymptoms()")
-        requireTracingOrShowError {
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning)
-        }
-    }
-
-    private fun requireTracingOrShowError(action: () -> Unit) = launch {
-        if (enfClient.isTracingEnabled.first()) {
-            action()
-        } else {
-            showTracingRequiredScreen.postValue(Unit)
-        }
-    }
-
     fun deregisterTestFromDevice() {
+        Timber.d("deregisterTestFromDevice()")
         launch {
-            Timber.d("deregisterTestFromDevice()")
-
             submissionRepository.removeTestFromDevice()
 
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
+            routeToScreen.postValue(null)
         }
     }
 
@@ -107,9 +109,16 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
     }
 
     fun onConsentClicked() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToYourConsent)
+        routeToScreen.postValue(
+            SubmissionTestResultPendingFragmentDirections
+                .actionSubmissionResultFragmentToSubmissionYourConsentFragment()
+        )
     }
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultViewModel>
+    interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultPendingViewModel>
+
+    companion object {
+        private const val TAG = "SubmissionTestResult:VM"
+    }
 }

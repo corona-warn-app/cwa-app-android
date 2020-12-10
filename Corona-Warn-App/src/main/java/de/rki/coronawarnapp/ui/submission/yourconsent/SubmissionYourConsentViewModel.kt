@@ -18,7 +18,8 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
 
     val clickEvent: SingleLiveEvent<SubmissionYourConsentEvents> = SingleLiveEvent()
     val consent = submissionRepository.hasGivenConsentToSubmission.asLiveData()
-    val countryList = interoperabilityRepository.countryListFlow.asLiveData()
+    val countryList = interoperabilityRepository.countryList
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun goBack() {
         clickEvent.postValue(SubmissionYourConsentEvents.GoBack)
