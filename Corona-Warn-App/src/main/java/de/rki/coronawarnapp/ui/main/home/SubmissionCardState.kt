@@ -66,6 +66,14 @@ data class SubmissionCardState(
             }
         }
 
+    fun isPositiveForReminder(): Boolean =
+        deviceUiState.withSuccess(false) {
+            when (it) {
+                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
+                else -> false
+            }
+        }
+
     fun isNegativeSubmissionCardVisible(): Boolean =
         deviceUiState.withSuccess(false) {
             when (it) {

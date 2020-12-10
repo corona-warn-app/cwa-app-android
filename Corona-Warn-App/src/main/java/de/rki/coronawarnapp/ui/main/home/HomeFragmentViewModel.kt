@@ -77,7 +77,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionCardsStateProvider.state
-            .first { it.isPositiveSubmissionCardVisible() }
+            .first { it.isPositiveForReminder() }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
     }
 
