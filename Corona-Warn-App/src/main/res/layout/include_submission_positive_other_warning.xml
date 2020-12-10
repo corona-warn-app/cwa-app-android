@@ -82,10 +82,8 @@
                 layout="@layout/include_16_years"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
-                app:body="@{@string/sixteen_description_text}"
-                app:headline="@{@string/sixteen_title_text}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/countryList" />
@@ -95,7 +93,7 @@
                 layout="@layout/include_privacy_card"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_small"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_positive_location_card_16_years" />
