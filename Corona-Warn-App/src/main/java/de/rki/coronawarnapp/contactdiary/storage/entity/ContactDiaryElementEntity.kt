@@ -11,12 +11,20 @@ data class ContactDiaryElementEntity(
     @Relation(
         parentColumn = "date",
         entityColumn = "personId",
-        associateBy = Junction(ContactDiaryElementPersonXRef::class)
+        associateBy = Junction(
+            value = ContactDiaryElementPersonXRef::class,
+            parentColumn = "fkDate",
+            entityColumn = "fkPersonId"
+        )
     ) override val contactDiaryPeople: MutableList<ContactDiaryPersonEntity> = mutableListOf(),
     @Relation(
         parentColumn = "date",
         entityColumn = "locationId",
-        associateBy = Junction(ContactDiaryElementLocationXRef::class)
+        associateBy = Junction(
+            value = ContactDiaryElementLocationXRef::class,
+            parentColumn = "fkDate",
+            entityColumn = "fkLocationId"
+        )
     ) override val contactDiaryLocations: MutableList<ContactDiaryLocationEntity> = mutableListOf()
 ) : ContactDiaryElement {
     override val date: LocalDate
