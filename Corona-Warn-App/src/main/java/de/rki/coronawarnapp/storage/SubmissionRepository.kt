@@ -83,6 +83,7 @@ class SubmissionRepository @Inject constructor(
 
     fun deleteTestGUID() {
         LocalData.testGUID(null)
+        submissionSettings.resetTestRelatedSettings()
     }
 
     // to be used by new submission flow screens
