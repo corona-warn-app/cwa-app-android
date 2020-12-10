@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryDateEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementLocationXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementPersonXRef
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryContactDiaryLocationEntity
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryContactDiaryPersonEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -23,8 +23,8 @@ import javax.inject.Inject
 @Database(
     entities = [
         ContactDiaryDateEntity::class,
-        ContactDiaryContactDiaryLocationEntity::class,
-        ContactDiaryContactDiaryPersonEntity::class,
+        ContactDiaryLocationEntity::class,
+        ContactDiaryPersonEntity::class,
         ContactDiaryElementPersonXRef::class,
         ContactDiaryElementLocationXRef::class
     ],
