@@ -192,6 +192,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     fun removeTestFromDevice() {
+        submissionSettings.resetTestRelatedSettings()
         revokeConsentToSubmission()
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)
