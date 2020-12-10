@@ -1176,7 +1176,7 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
-    <!-- Test Result Card -->w
+    <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr Befund:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
