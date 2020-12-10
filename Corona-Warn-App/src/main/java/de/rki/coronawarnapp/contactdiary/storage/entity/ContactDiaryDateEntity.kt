@@ -6,3 +6,5 @@ import org.joda.time.LocalDate
 
 @Entity
 data class ContactDiaryDateEntity(@PrimaryKey val date: LocalDate)
+
+fun LocalDate.toContactDiaryDateEntity(): ContactDiaryDateEntity = ContactDiaryDateEntity(this)

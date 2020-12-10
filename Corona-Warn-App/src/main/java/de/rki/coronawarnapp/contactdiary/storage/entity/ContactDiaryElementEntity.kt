@@ -22,3 +22,16 @@ data class ContactDiaryElementEntity(
     override val date: LocalDate
         get() = contactDiaryDateEntity.date
 }
+
+fun ContactDiaryElement.toContactDiaryElementEntity(): ContactDiaryElementEntity = when (this) {
+    is ContactDiaryElementEntity -> this
+    else -> ContactDiaryElementEntity(
+        contactDiaryDateEntity = this.date.toContactDiaryDateEntity(),
+        contactDiaryLocations = this.contactDiaryLocations
+            .map { it.toContactDiaryContactDiaryLocationEntity() }
+            .toMutableList(),
+        contactDiaryPeople = this.contactDiaryPeople
+            .map { it.toContactDiaryContactDiaryPersonEntity() }
+            .toMutableList()
+    )
+}
