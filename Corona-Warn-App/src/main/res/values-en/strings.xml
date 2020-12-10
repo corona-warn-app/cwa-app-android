@@ -702,7 +702,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a balance scale that symbolizes legal notices."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_en.html"</string>
+    <string name="information_technical_html_path" translatable="false">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Imprint"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
@@ -1117,7 +1117,7 @@
     <string name="submission_symptom_less_seven">"In the last 7 days"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
     <string name="submission_symptom_one_two_weeks">"1-2 weeks ago"</string>
-    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    >
     <string name="submission_symptom_more_two_weeks">"More than 2 weeks ago"</string>
     <!-- XBUT: symptom calendar screen verify button -->
     <string name="submission_symptom_verify">"No answer"</string>
