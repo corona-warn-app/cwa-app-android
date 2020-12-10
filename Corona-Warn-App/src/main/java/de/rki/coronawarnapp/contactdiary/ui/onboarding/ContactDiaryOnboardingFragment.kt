@@ -19,7 +19,7 @@ import javax.inject.Inject
 class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboarding_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: OnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: ContactDiaryOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOnboardingFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,6 +27,10 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
         binding.apply {
             contactDiaryOnboardingNextButton.setOnClickListener {
                 vm.onNextButtonClick()
+            }
+
+            contactDiaryOnboardingButtonBack.headerButtonBack.buttonIcon.setOnClickListener {
+                vm.onBackButtonPress()
             }
         }
 

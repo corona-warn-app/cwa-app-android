@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/contact_diary_nav_graph"></navigation>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_diary_nav_graph"
+    app:startDestination="@id/contactDiaryOnboardingFragment">
+    <fragment
+        android:id="@+id/contactDiaryOnboardingFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment"
+        android:label="ContactDiaryOnboardingFragment" />
+</navigation>

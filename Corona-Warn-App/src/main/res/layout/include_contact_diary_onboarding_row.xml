@@ -23,12 +23,12 @@
             android:id="@+id/contact_diary_row_icon"
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
+            android:layout_marginTop="4dp"
             android:importantForAccessibility="no"
             android:src="@{icon}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_contact_diary_person"/>
+            tools:src="@drawable/ic_contact_diary_person" />
 
         <TextView
             android:id="@+id/contact_diary_row_body"
@@ -38,7 +38,6 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:text="@{body}"
             android:textColor="@color/colorStableLight"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/contact_diary_row_icon"

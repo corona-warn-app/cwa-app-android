@@ -8,9 +8,13 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 
 class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
-    val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
+    val routeToScreen: SingleLiveEvent<ContactDiaryOnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
+    }
+
+    fun onBackButtonPress() {
+        routeToScreen.postValue(ContactDiaryOnboardingNavigationEvents.NavigateToMainActivity)
     }
 
 
