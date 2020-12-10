@@ -182,55 +182,64 @@ class SubmissionCardStateTest : BaseTest() {
     fun `submission positive result card visibility`() {
         instance(
             deviceUiState = DeviceUIState.PAIRED_NEGATIVE,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_REDEEMED,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_ERROR,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_NO_RESULT,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_POSITIVE,
             uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = false
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = false
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
         instance(
             deviceUiState = DeviceUIState.SUBMITTED_FINAL,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
         instance(
             deviceUiState = DeviceUIState.SUBMITTED_INITIAL,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
         instance(
             deviceUiState = DeviceUIState.UNPAIRED,
-            uiStateState = ApiRequestState.SUCCESS
+            uiStateState = ApiRequestState.SUCCESS,
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
