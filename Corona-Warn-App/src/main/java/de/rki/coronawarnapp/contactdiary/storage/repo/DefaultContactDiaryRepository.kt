@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.sortByNameAndIdASC
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
@@ -32,7 +33,9 @@ class DefaultContactDiaryRepository @Inject constructor(
 ) : ContactDiaryRepository {
 
     //Location
-    override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao.allEntries()
+    override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao
+        .allEntries()
+        .map { it.sortByNameAndIdASC() }
 
     override suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation) {
         Timber.d("Adding location $contactDiaryLocation")
@@ -72,21 +75,22 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     //Location visit
-    private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisit(): List<ContactDiaryLocationVisit> =
+    private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisitSortedList(): List<ContactDiaryLocationVisit> =
         this.map {
             val contactLocation = contactDiaryLocationDao.entityForId(id = it.fkLocationId)
             DefaultContactDiaryLocationVisit(id = it.id, date = it.date, contactDiaryLocation = contactLocation)
         }
+            .sortByNameAndIdASC()
 
     override val locationVisits: Flow<List<ContactDiaryLocationVisit>> =
         contactDiaryLocationVisitDao
             .allEntries()
-            .map { it.toContactDiaryLocationVisit() }
+            .map { it.toContactDiaryLocationVisitSortedList() }
 
     override fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>> =
         contactDiaryLocationVisitDao
             .entitiesForDate(date)
-            .map { it.toContactDiaryLocationVisit() }
+            .map { it.toContactDiaryLocationVisitSortedList() }
 
     override suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
         Timber.d("Adding location visit $contactDiaryLocationVisit")
@@ -109,7 +113,9 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     //Person
-    override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao.allEntries()
+    override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao
+        .allEntries()
+        .map { it.sortByNameAndIdASC() }
 
     override suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson) {
         Timber.d("Adding person $contactDiaryPerson")
@@ -149,21 +155,22 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     //Person encounter
-    private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterList(): List<ContactDiaryPersonEncounter> =
+    private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterSortedList(): List<ContactDiaryPersonEncounter> =
         this.map {
             val contactPerson = contactDiaryPersonDao.entityForId(it.id)
             DefaultContactDiaryPersonEncounter(id = it.id, date = it.date, contactDiaryPerson = contactPerson)
         }
+            .sortByNameAndIdASC()
 
     override val personEncounters: Flow<List<ContactDiaryPersonEncounter>> =
         contactDiaryPersonEncounterDao
             .allEntries()
-            .map { it.toContactDiaryPersonEncounterList() }
+            .map { it.toContactDiaryPersonEncounterSortedList() }
 
     override fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>> =
         contactDiaryPersonEncounterDao
             .entitiesForDate(date)
-            .map { it.toContactDiaryPersonEncounterList() }
+            .map { it.toContactDiaryPersonEncounterSortedList() }
 
     override suspend fun addPersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter) {
         Timber.d("Adding person encounter $contactDiaryPersonEncounter")

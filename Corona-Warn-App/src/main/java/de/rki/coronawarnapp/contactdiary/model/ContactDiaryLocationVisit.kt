@@ -7,3 +7,6 @@ interface ContactDiaryLocationVisit {
     val date: LocalDate
     val contactDiaryLocation: ContactDiaryLocation
 }
+
+fun List<ContactDiaryLocationVisit>.sortByNameAndIdASC(): List<ContactDiaryLocationVisit> =
+    this.sortedWith(compareBy({ it.contactDiaryLocation.locationName }, { it.contactDiaryLocation.locationId }))
