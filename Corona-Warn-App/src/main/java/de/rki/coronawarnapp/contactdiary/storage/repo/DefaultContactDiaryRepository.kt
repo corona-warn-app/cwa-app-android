@@ -32,7 +32,7 @@ class DefaultContactDiaryRepository @Inject constructor(
     private val contactDiaryPersonEncounterDao: ContactDiaryPersonEncounterDao
 ) : ContactDiaryRepository {
 
-    //Location
+    // Location
     override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao
         .allEntries()
         .map { it.sortByNameAndIdASC() }
@@ -74,7 +74,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryLocationDao.deleteAll()
     }
 
-    //Location visit
+    // Location visit
     private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisitSortedList(): List<ContactDiaryLocationVisit> =
         this.map {
             val contactLocation = contactDiaryLocationDao.entityForId(id = it.fkLocationId)
@@ -112,7 +112,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         Timber.d("Clearing contact diary location visit table")
     }
 
-    //Person
+    // Person
     override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao
         .allEntries()
         .map { it.sortByNameAndIdASC() }
@@ -154,7 +154,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryPersonDao.deleteAll()
     }
 
-    //Person encounter
+    // Person encounter
     private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterSortedList(): List<ContactDiaryPersonEncounter> =
         this.map {
             val contactPerson = contactDiaryPersonDao.entityForId(it.id)

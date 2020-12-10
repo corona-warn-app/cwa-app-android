@@ -9,7 +9,7 @@ import org.joda.time.LocalDate
 
 interface ContactDiaryRepository {
 
-    //Location
+    // Location
     val locations: Flow<List<ContactDiaryLocation>>
     suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation)
     suspend fun updateLocation(contactDiaryLocation: ContactDiaryLocation)
@@ -17,14 +17,14 @@ interface ContactDiaryRepository {
     suspend fun deleteLocations(contactDiaryLocations: List<ContactDiaryLocation>)
     suspend fun deleteAllLocations()
 
-    //Location visit
+    // Location visit
     val locationVisits: Flow<List<ContactDiaryLocationVisit>>
     fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>>
     suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
     suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
     suspend fun deleteAllLocationVisits()
 
-    //Person
+    // Person
     val people: Flow<List<ContactDiaryPerson>>
     suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun updatePerson(contactDiaryPerson: ContactDiaryPerson)
@@ -32,7 +32,7 @@ interface ContactDiaryRepository {
     suspend fun deletePeople(contactDiaryPeople: List<ContactDiaryPerson>)
     suspend fun deleteAllPeople()
 
-    //Person encounter
+    // Person encounter
     val personEncounters: Flow<List<ContactDiaryPersonEncounter>>
     fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>>
     suspend fun addPersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
