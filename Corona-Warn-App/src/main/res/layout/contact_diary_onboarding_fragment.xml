@@ -12,7 +12,7 @@
         <include
             android:id="@+id/contact_diary_onboarding_header"
             layout="@layout/include_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +22,8 @@
 
 
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="15dp"
             app:layout_constraintBottom_toTopOf="@+id/contact_diary_onboarding_next_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
 
                 <ImageView
                     android:id="@+id/contact_diary_onboarding_illustration"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
                 <TextView
                     android:id="@+id/onboarding_headline"
                     style="@style/headline5"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:accessibilityHeading="true"
@@ -65,7 +65,7 @@
                 <TextView
                     android:id="@+id/contact_diary_onboarding_body"
                     style="@style/subtitle"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:focusable="true"
@@ -105,7 +105,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_security"
                     layout="@layout/include_contact_diary_onboarding_row"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="34dp"
                     android:layout_marginTop="10dp"
                     android:focusable="true"
@@ -119,7 +119,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_privacy_card"
                     layout="@layout/include_contact_diary_privacy_card"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:focusable="true"
@@ -130,7 +130,7 @@
 
                 <View
                     android:id="@+id/contact_diary_onboarding_divider_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="?android:attr/listDivider"
@@ -142,7 +142,7 @@
                 <TextView
                     android:id="@+id/contact_diary_onboarding_legal_information"
                     style="@style/subtitle"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:focusable="true"
@@ -154,7 +154,7 @@
 
                 <View
                     android:id="@+id/contact_diary_onboarding_divider_2"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="20dp"
@@ -187,7 +187,7 @@
         <Button
             android:id="@+id/contact_diary_onboarding_next_button"
             style="@style/buttonPrimary"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
