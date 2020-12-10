@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
@@ -46,4 +47,7 @@ class AndroidModule {
     @Provides
     @Singleton
     fun encryptedPreferences(): SharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
+
+    @Provides
+    fun navDeepLinkBuilder(@AppContext context: Context): NavDeepLinkBuilder = NavDeepLinkBuilder(context)
 }
