@@ -18,7 +18,12 @@ import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 @Database(
-    entities = [ContactDiaryLocationEntity::class, ContactDiaryLocationVisitEntity::class, ContactDiaryPersonEntity::class, ContactDiaryPersonEncounterEntity::class],
+    entities = [
+        ContactDiaryLocationEntity::class,
+        ContactDiaryLocationVisitEntity::class,
+        ContactDiaryPersonEntity::class,
+        ContactDiaryPersonEncounterEntity::class
+    ],
     version = 1,
     exportSchema = true
 )

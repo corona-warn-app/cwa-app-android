@@ -2,30 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "663dd8136e83c462f9dff2a1656d66d5",
+    "identityHash": "575d7da9c827f50746c345bd42841f84",
     "entities": [
       {
-        "tableName": "ContactDiaryDateEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, PRIMARY KEY(`date`))",
-        "fields": [
-          {
-            "fieldPath": "date",
-            "columnName": "date",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "date"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "LocationEntity",
+        "tableName": "ContactDiaryLocationEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `locationName` TEXT NOT NULL)",
         "fields": [
           {
@@ -51,7 +31,39 @@
         "foreignKeys": []
       },
       {
-        "tableName": "PersonEntity",
+        "tableName": "ContactDiaryLocationVisitEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `date` TEXT NOT NULL, `fkLocationId` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fkLocationId",
+            "columnName": "fkLocationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ContactDiaryPersonEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`personId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fullName` TEXT NOT NULL)",
         "fields": [
           {
@@ -77,9 +89,15 @@
         "foreignKeys": []
       },
       {
-        "tableName": "ContactDiaryElementPersonXRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `personId` INTEGER NOT NULL, PRIMARY KEY(`date`, `personId`))",
+        "tableName": "ContactDiaryPersonEncounterEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `fkPersonId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "date",
             "columnName": "date",
@@ -87,45 +105,17 @@
             "notNull": true
           },
           {
-            "fieldPath": "personId",
-            "columnName": "personId",
+            "fieldPath": "fkPersonId",
+            "columnName": "fkPersonId",
             "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "date",
-            "personId"
+            "id"
           ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "ContactDiaryElementLocationXRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `locationId` INTEGER NOT NULL, PRIMARY KEY(`date`, `locationId`))",
-        "fields": [
-          {
-            "fieldPath": "date",
-            "columnName": "date",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "locationId",
-            "columnName": "locationId",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "date",
-            "locationId"
-          ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -134,7 +124,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '663dd8136e83c462f9dff2a1656d66d5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '575d7da9c827f50746c345bd42841f84')"
     ]
   }
 }

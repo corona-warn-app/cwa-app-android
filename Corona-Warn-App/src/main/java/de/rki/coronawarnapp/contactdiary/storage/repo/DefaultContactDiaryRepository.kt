@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package de.rki.coronawarnapp.contactdiary.storage.repo
 
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
@@ -75,7 +76,8 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Location visit
-    private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisitSortedList(): List<ContactDiaryLocationVisit> =
+    private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisitSortedList():
+        List<ContactDiaryLocationVisit> =
         this.map {
             val contactLocation = contactDiaryLocationDao.entityForId(id = it.fkLocationId)
             DefaultContactDiaryLocationVisit(id = it.id, date = it.date, contactDiaryLocation = contactLocation)
@@ -155,7 +157,8 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Person encounter
-    private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterSortedList(): List<ContactDiaryPersonEncounter> =
+    private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterSortedList():
+        List<ContactDiaryPersonEncounter> =
         this.map {
             val contactPerson = contactDiaryPersonDao.entityForId(it.id)
             DefaultContactDiaryPersonEncounter(id = it.id, date = it.date, contactDiaryPerson = contactPerson)
