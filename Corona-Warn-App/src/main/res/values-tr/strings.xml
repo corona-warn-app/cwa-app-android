@@ -705,8 +705,6 @@
     <string name="information_technical_title">"Yasal Bildirimler"</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında yasal bildirimleri belirten bir terazi bulunuyor."</string>
-    <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_tr.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Baskı"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
