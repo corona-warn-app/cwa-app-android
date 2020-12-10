@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
@@ -17,6 +16,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -58,11 +58,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = pendingViewModel.onBackPressed()
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
-
         skipInitialTestResultRefresh = arguments?.getBoolean("skipInitialTestResultRefresh") ?: false
 
         binding.apply {
@@ -74,7 +69,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
 
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                pendingViewModel.onBackPressed()
+                navigateToMainScreen()
             }
 
             consentStatus.setOnClickListener { pendingViewModel.onConsentClicked() }
@@ -91,7 +86,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             DialogHelper.showDialog(dialog)
         }
 
-        pendingViewModel.routeToScreen.observe2(this) { doNavigate(it) }
+        pendingViewModel.routeToScreen.observe2(this) {
+            it?.let { doNavigate(it) } ?: navigateToMainScreen()
+        }
 
         pendingViewModel.observeTestResultToSchedulePositiveTestResultReminder()
     }
@@ -120,10 +117,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
     }
 
-    private fun navigateToMainScreen() =
-        doNavigate(
-            SubmissionTestResultPendingFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-        )
+    private fun navigateToMainScreen() {
+        popBackStack()
+    }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {

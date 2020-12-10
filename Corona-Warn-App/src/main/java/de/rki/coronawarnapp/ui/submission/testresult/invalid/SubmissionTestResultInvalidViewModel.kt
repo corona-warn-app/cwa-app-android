@@ -18,7 +18,8 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val routeToScreen = SingleLiveEvent<NavDirections>()
+    val routeToScreen = SingleLiveEvent<NavDirections?>()
+
     val testResult: LiveData<TestResultUIState> = combine(
         submissionRepository.deviceUIStateFlow,
         submissionRepository.testResultReceivedDateFlow
@@ -29,22 +30,12 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
-    fun onBackPressed() {
-        routeToScreen.postValue(
-            SubmissionTestResultInvalidFragmentDirections
-                .actionSubmissionTestResultNegativeFragmentToHomeFragment()
-        )
-    }
-
     fun deregisterTestFromDevice() {
         Timber.d("deregisterTestFromDevice()")
         launch {
             submissionRepository.removeTestFromDevice()
 
-            routeToScreen.postValue(
-                SubmissionTestResultInvalidFragmentDirections
-                    .actionSubmissionTestResultNegativeFragmentToHomeFragment()
-            )
+            routeToScreen.postValue(null)
         }
     }
 

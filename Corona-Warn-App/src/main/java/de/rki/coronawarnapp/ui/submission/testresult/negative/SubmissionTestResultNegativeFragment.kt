@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
@@ -12,6 +11,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -27,21 +27,18 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = vm.onBackPressed()
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
-
         binding.apply {
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.onBackPressed() }
+            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
 
         vm.testResult.observe2(this) {
             binding.submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
-        vm.routeToScreen.observe2(this) { doNavigate(it) }
+        vm.routeToScreen.observe2(this) { navDirections ->
+            navDirections?.let { doNavigate(it) } ?: popBackStack()
+        }
     }
 
     override fun onResume() {

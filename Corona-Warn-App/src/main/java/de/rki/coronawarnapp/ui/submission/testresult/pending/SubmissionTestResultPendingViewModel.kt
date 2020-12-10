@@ -28,7 +28,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val routeToScreen = SingleLiveEvent<NavDirections>()
+    val routeToScreen = SingleLiveEvent<NavDirections?>()
 
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val consentGiven = submissionRepository.hasGivenConsentToSubmission.asLiveData()
@@ -95,22 +95,12 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
     }
 
-    fun onBackPressed() {
-        routeToScreen.postValue(
-            SubmissionTestResultPendingFragmentDirections
-                .actionSubmissionResultFragmentToMainFragment()
-        )
-    }
-
     fun deregisterTestFromDevice() {
         Timber.d("deregisterTestFromDevice()")
         launch {
             submissionRepository.removeTestFromDevice()
 
-            routeToScreen.postValue(
-                SubmissionTestResultPendingFragmentDirections
-                    .actionSubmissionResultFragmentToMainFragment()
-            )
+            routeToScreen.postValue(null)
         }
     }
 
