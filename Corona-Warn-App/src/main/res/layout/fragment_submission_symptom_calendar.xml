@@ -17,7 +17,7 @@
             layout="@layout/include_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
+            app:icon="@{@drawable/ic_close}"
             app:title="@{@string/submission_symptom_calendar_title}" />
 
         <ScrollView

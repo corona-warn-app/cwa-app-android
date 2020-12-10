@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
@@ -74,13 +73,6 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
 
             updateButtons(it)
         }
-
-        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.onCalendarPreviousClicked()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.submissionSymptomCalendarHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onCalendarPreviousClicked()
