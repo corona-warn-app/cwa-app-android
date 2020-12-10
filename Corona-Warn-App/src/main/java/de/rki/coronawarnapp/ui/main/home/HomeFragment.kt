@@ -49,6 +49,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         vm.submissionCardState.observe2(this) {
             binding.submissionCard = it
         }
+        vm.hasTestBeenSeenState.observe2(this) {
+            binding.testSeen = it
+        }
 
         setupToolbar()
 

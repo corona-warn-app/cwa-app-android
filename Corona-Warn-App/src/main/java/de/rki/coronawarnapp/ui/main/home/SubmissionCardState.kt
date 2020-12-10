@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_ERROR
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_NEGATIVE
@@ -18,33 +17,16 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 
 data class SubmissionCardState(
     val deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>,
-    val isDeviceRegistered: Boolean,
-    val submissionRepository: SubmissionRepository
+    val isDeviceRegistered: Boolean
 ) {
 
-    private val testViewed = submissionRepository.hasViewedTestResult
-
-    fun isRiskCardVisible(): Boolean {
-        return if (!testViewed) return true else {
-            deviceUiState.withSuccess(true) {
-                when (it) {
-                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN, SUBMITTED_FINAL -> false
-                    else -> true
-                }
+    fun isRiskCardVisible(): Boolean =
+        deviceUiState.withSuccess(true) {
+            when (it) {
+                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN, SUBMITTED_FINAL -> false
+                else -> true
             }
         }
-    }
-
-    fun isTestResultReadyCardVisible(): Boolean {
-        return if (!testViewed) {
-            deviceUiState.withSuccess(true) {
-                when (it) {
-                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
-                    else -> false
-                }
-            }
-        } else return false
-    }
 
     fun isUnregisteredCardVisible(): Boolean = !isDeviceRegistered
 
@@ -62,16 +44,21 @@ data class SubmissionCardState(
             else -> false
         }
 
-    fun isPositiveSubmissionCardVisible(): Boolean {
-        return if (testViewed) {
-            deviceUiState.withSuccess(false) {
-                when (it) {
-                    PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
-                    else -> false
-                }
+    fun isPositiveSubmissionCardVisible(): Boolean =
+        deviceUiState.withSuccess(false) {
+            when (it) {
+                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> true
+                else -> false
             }
-        } else return false
-    }
+        }
+
+    fun isNegativeSubmissionCardVisible(): Boolean =
+        deviceUiState.withSuccess(false) {
+            when (it) {
+                PAIRED_NEGATIVE -> true
+                else -> false
+            }
+        }
 
     fun isSubmissionDoneCardVisible(): Boolean =
         when (deviceUiState) {
@@ -79,23 +66,13 @@ data class SubmissionCardState(
             else -> false
         }
 
-    fun isContentCardVisible(): Boolean {
-        return if (testViewed) {
-            deviceUiState.withSuccess(false) {
-                when (it) {
-                    PAIRED_ERROR, PAIRED_NEGATIVE, PAIRED_NO_RESULT -> true
-                    else -> false
-                }
+    fun isContentCardVisible(): Boolean =
+        deviceUiState.withSuccess(false) {
+            when (it) {
+                PAIRED_ERROR, PAIRED_NEGATIVE, PAIRED_NO_RESULT -> true
+                else -> false
             }
-        } else if (!testViewed) {
-            deviceUiState.withSuccess(false) {
-                when (it) {
-                    PAIRED_NEGATIVE -> true
-                    else -> false
-                }
-            }
-        } else return false
-    }
+        }
 
     fun getContentCardTitleText(c: Context): String =
         deviceUiState.withSuccess(R.string.submission_status_card_title_pending) {

@@ -14,6 +14,9 @@
         <variable
             name="tracingHeader"
             type="de.rki.coronawarnapp.ui.main.home.TracingHeaderState" />
+        <variable
+            name="testSeen"
+            type="Boolean" />
     </data>
 
     <ScrollView
@@ -129,7 +132,7 @@
             <FrameLayout
                 android:id="@+id/risk_card"
                 style="@style/card"
-                gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
+                gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible() &amp;&amp; testSeen}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -165,7 +168,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                gone="@{submissionCard == null || !submissionCard.isTestResultReadyCardVisible()}"
+                gone="@{submissionCard == null || submissionCard.isUnregisteredCardVisible() || testSeen}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_unregistered" />
@@ -210,7 +213,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                gone="@{submissionCard == null || !submissionCard.isPositiveSubmissionCardVisible()}"
+                gone="@{submissionCard == null || !submissionCard.isPositiveSubmissionCardVisible() || !testSeen}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/main_test_failed" />

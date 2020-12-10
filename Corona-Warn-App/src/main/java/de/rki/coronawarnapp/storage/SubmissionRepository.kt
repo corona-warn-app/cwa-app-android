@@ -57,7 +57,7 @@ class SubmissionRepository @Inject constructor(
 
     // to be used by new submission flow screens
     val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow
-    val hasViewedTestResult = submissionSettings.hasViewedTestResult.value
+    val hasViewedTestResult = submissionSettings.hasViewedTestResult.flow
     val currentSymptoms = submissionSettings.symptoms
 
     private fun List<TaskInfo>.isSubmissionTaskRunning() = any {

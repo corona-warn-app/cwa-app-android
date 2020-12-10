@@ -50,6 +50,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
+    val hasTestBeenSeenState: LiveData<Boolean> = submissionRepository
+        .hasViewedTestResult.asLiveData(dispatcherProvider.Default)
+
     val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {
         SingleLiveEvent<HomeFragmentEvents>().apply {
             if (!LocalData.isInteroperabilityShownAtLeastOnce) {
