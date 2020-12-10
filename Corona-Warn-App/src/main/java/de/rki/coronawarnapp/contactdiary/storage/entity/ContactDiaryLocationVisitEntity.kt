@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.storage.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import org.joda.time.LocalDate
 
 @Entity
@@ -18,3 +19,6 @@ data class ContactDiaryLocationVisitEntity(
         deferred = true
     ) val fkLocationId: Long
 )
+
+fun ContactDiaryLocationVisit.toContactDiaryLocationVisitEntity(): ContactDiaryLocationVisitEntity =
+    ContactDiaryLocationVisitEntity(id = this.id, date = this.date, fkLocationId = this.contactDiaryLocation.locationId)

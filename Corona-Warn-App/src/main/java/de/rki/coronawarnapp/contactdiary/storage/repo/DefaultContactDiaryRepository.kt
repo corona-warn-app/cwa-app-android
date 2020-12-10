@@ -4,13 +4,20 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisitEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,11 +31,9 @@ class DefaultContactDiaryRepository @Inject constructor(
     private val contactDiaryPersonEncounterDao: ContactDiaryPersonEncounterDao
 ) : ContactDiaryRepository {
 
-    override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao.allEntries()
-    override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao.allEntries()
-
-
     //Location
+    override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao.allEntries()
+
     override suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation) {
         Timber.d("Adding location $contactDiaryLocation")
         contactDiaryLocationDao.insert(contactDiaryLocation.toContactDiaryLocationEntity())
@@ -67,26 +72,45 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     //Location visit
-    override val locationVisits: Flow<List<ContactDiaryLocationVisit>>
-        get() = TODO("Not yet implemented")
+    private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisit(): List<ContactDiaryLocationVisit> =
+        this.map {
+            val contactLocation = contactDiaryLocationDao.entityForId(id = it.fkLocationId)
+            DefaultContactDiaryLocationVisit(id = it.id, date = it.date, contactDiaryLocation = contactLocation)
+        }
 
-    override fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>> {
-        TODO("Not yet implemented")
-    }
+    override val locationVisits: Flow<List<ContactDiaryLocationVisit>> =
+        contactDiaryLocationVisitDao
+            .allEntries()
+            .map { it.toContactDiaryLocationVisit() }
+
+    override fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>> =
+        contactDiaryLocationVisitDao
+            .entitiesForDate(date)
+            .map { it.toContactDiaryLocationVisit() }
 
     override suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
-        TODO("Not yet implemented")
+        Timber.d("Adding location visit $contactDiaryLocationVisit")
+        executeWhenIdNotDefault(contactDiaryLocationVisit.id) {
+            val contactDiaryLocationVisitEntity = contactDiaryLocationVisit.toContactDiaryLocationVisitEntity()
+            contactDiaryLocationVisitDao.insert(contactDiaryLocationVisitEntity)
+        }
     }
 
     override suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
-        TODO("Not yet implemented")
+        Timber.d("Deleting location visit $contactDiaryLocationVisit")
+        executeWhenIdNotDefault(contactDiaryLocationVisit.id) {
+            val contactDiaryLocationVisitEntity = contactDiaryLocationVisit.toContactDiaryLocationVisitEntity()
+            contactDiaryLocationVisitDao.delete(contactDiaryLocationVisitEntity)
+        }
     }
 
     override suspend fun deleteAllLocationVisits() {
-        TODO("Not yet implemented")
+        Timber.d("Clearing contact diary location visit table")
     }
 
     //Person
+    override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao.allEntries()
+
     override suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson) {
         Timber.d("Adding person $contactDiaryPerson")
         contactDiaryPersonDao.insert(contactDiaryPerson.toContactDiaryPersonEntity())
@@ -125,23 +149,39 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     //Person encounter
-    override val personEncounters: Flow<List<ContactDiaryPersonEncounter>>
-        get() = TODO("Not yet implemented")
+    private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterList(): List<ContactDiaryPersonEncounter> =
+        this.map {
+            val contactPerson = contactDiaryPersonDao.entityForId(it.id)
+            DefaultContactDiaryPersonEncounter(id = it.id, date = it.date, contactDiaryPerson = contactPerson)
+        }
 
-    override fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>> {
-        TODO("Not yet implemented")
-    }
+    override val personEncounters: Flow<List<ContactDiaryPersonEncounter>> =
+        contactDiaryPersonEncounterDao
+            .allEntries()
+            .map { it.toContactDiaryPersonEncounterList() }
+
+    override fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>> =
+        contactDiaryPersonEncounterDao
+            .entitiesForDate(date)
+            .map { it.toContactDiaryPersonEncounterList() }
 
     override suspend fun addPersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter) {
-        TODO("Not yet implemented")
+        Timber.d("Adding person encounter $contactDiaryPersonEncounter")
+        val contactDiaryPersonEncounterEntity = contactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity()
+        contactDiaryPersonEncounterDao.insert(contactDiaryPersonEncounterEntity)
     }
 
     override suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter) {
-        TODO("Not yet implemented")
+        Timber.d("Deleting person encounter $contactDiaryPersonEncounter")
+        executeWhenIdNotDefault(contactDiaryPersonEncounter.id) {
+            val contactDiaryPersonEncounterEntity = contactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity()
+            contactDiaryPersonEncounterDao.delete(contactDiaryPersonEncounterEntity)
+        }
     }
 
     override suspend fun deleteAllPersonEncounters() {
-        TODO("Not yet implemented")
+        Timber.d("Clearing contact diary person encounter table")
+        contactDiaryPersonEncounterDao.deleteAll()
     }
 
     private suspend fun executeWhenIdNotDefault(id: Long, action: (suspend () -> Unit) = { }) {
