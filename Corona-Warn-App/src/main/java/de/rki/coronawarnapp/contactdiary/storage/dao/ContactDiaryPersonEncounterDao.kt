@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.contactdiary.storage.dao
 
+import androidx.room.Dao
 import androidx.room.Query
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
+@Dao
 abstract class ContactDiaryPersonEncounterDao : BaseRoomDao<ContactDiaryPersonEncounterEntity>() {
 
     @Query("SELECT * FROM ContactDiaryPersonEncounterEntity")
