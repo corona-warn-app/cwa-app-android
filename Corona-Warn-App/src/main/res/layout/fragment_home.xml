@@ -160,6 +160,17 @@
                 app:layout_constraintTop_toBottomOf="@id/risk_card" />
 
             <include
+                android:id="@+id/main_test_ready"
+                layout="@layout/include_submission_status_card_ready"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                gone="@{submissionCard == null || !submissionCard.isTestResultReadyCardVisible()}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/main_test_unregistered" />
+
+            <include
                 android:id="@+id/main_test_result"
                 layout="@layout/include_submission_status_card_content"
                 android:layout_width="@dimen/match_constraint"
@@ -169,7 +180,7 @@
                 app:submissionCard="@{submissionCard}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@id/main_test_unregistered" />
+                app:layout_constraintTop_toBottomOf="@id/main_test_ready" />
 
             <include
                 android:id="@+id/main_test_fetching"
@@ -220,7 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="main_test_done, main_risk" />
+                app:constraint_referenced_ids="main_test_done" />
 
             <include
                 android:id="@+id/main_about"

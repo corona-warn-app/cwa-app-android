@@ -36,6 +36,10 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     val showCancelDialog = SingleLiveEvent<Unit>()
 
+    fun onTestOpened() {
+        submissionRepository.setViewedTestResult()
+    }
+
     fun onContinuePressed() {
         Timber.d("Beginning symptom flow")
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)

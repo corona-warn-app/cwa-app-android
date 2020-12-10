@@ -45,6 +45,10 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
         ).let { emit(it) }
     }.asLiveData(context = Dispatchers.Default)
 
+    fun onTestOpened() {
+        submissionRepository.setViewedTestResult()
+    }
+
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultNoConsentViewModel>
 }

@@ -1156,10 +1156,10 @@
     <string name="submission_status_card_body_positive">"You have been diagnosed positive for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- YTXT: Body text for submission status fetch ready -->
     <string name="submission_status_card_body_ready">"If you have tested positive for coronavirus, you can warn others."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Next Steps"</string>
     <!-- XBUT: submission status card show results button -->

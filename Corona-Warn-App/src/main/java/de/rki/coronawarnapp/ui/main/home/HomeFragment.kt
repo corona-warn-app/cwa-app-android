@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.android.synthetic.main.include_submission_status_card_ready.*
 import javax.inject.Inject
 
 /**
@@ -178,6 +179,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             setOnClickListener {
                 vm.removeTestPushed()
             }
+        }
+        binding.mainTestReady.apply {
+            val navDirections = HomeFragmentDirections
+                .actionMainFragmentToSubmissionTestResultAvailableFragment()
+
+            submissionStatusCardReady.setOnClickListener { doNavigate(navDirections) }
+            submissionStatusCardReadyButton.setOnClickListener { doNavigate(navDirections) }
         }
     }
 

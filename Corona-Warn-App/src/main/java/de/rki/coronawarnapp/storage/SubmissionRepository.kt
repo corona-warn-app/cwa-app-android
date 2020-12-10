@@ -49,6 +49,7 @@ class SubmissionRepository @Inject constructor(
 
     // to be used by new submission flow screens
     val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow
+    val hasViewedTestResult = submissionSettings.hasViewedTestResult.flow
     val currentSymptoms = submissionSettings.symptoms
 
     private fun List<TaskInfo>.isSubmissionTaskRunning() = any {
@@ -79,6 +80,13 @@ class SubmissionRepository @Inject constructor(
     fun revokeConsentToSubmission() {
         submissionSettings.hasGivenConsent.update {
             false
+        }
+    }
+
+    // to be set to true once the user has opened and viewed their test result
+    fun setViewedTestResult() {
+        submissionSettings.hasViewedTestResult.update {
+            true
         }
     }
 
@@ -184,6 +192,8 @@ class SubmissionRepository @Inject constructor(
     }
 
     fun removeTestFromDevice() {
+        submissionSettings.hasViewedTestResult.update { false }
+        submissionSettings.hasGivenConsent.update { false }
         revokeConsentToSubmission()
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)

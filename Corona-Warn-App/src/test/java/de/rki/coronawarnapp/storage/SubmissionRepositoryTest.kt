@@ -72,6 +72,7 @@ class SubmissionRepositoryTest {
         every { LocalData.initialTestResultReceivedTimestamp() } returns 1L
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
+        every { submissionSettings.hasViewedTestResult } returns mockFlowPreference(false)
         every { submissionSettings.symptoms } returns mockFlowPreference(Symptoms.NO_INFO_GIVEN)
         every { submissionSettings.clear() } just Runs
 

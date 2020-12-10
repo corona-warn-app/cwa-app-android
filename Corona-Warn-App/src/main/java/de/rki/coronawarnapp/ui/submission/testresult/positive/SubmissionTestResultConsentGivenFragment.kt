@@ -36,6 +36,8 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
         super.onViewCreated(view, savedInstanceState)
         uploadDialog = SubmissionBlockingDialog(requireContext())
 
+        viewModel.onTestOpened()
+
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() = viewModel.onShowCancelDialog()
         }
