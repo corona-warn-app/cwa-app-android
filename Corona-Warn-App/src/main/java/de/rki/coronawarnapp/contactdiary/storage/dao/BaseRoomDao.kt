@@ -9,14 +9,17 @@ abstract class BaseRoomDao<T> : BaseDao<T> {
     abstract override suspend fun insert(entity: T)
 
     @Insert
-    abstract override suspend fun insertAll(entities: List<T>)
+    abstract override suspend fun insert(entities: List<T>)
 
     @Update
     abstract override suspend fun update(entity: T)
 
     @Update
-    abstract override suspend fun updateAll(entities: List<T>)
+    abstract override suspend fun update(entities: List<T>)
 
     @Delete
     abstract override suspend fun delete(entity: T)
+
+    @Delete
+    abstract override suspend fun delete(entities: List<T>)
 }
