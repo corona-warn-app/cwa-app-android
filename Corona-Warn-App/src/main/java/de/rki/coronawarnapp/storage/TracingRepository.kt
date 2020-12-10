@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import timber.log.Timber
-import java.util.NoSuchElementException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -153,9 +152,9 @@ class TracingRepository @Inject constructor(
         val taskLastFinishedAt = try {
             taskController.tasks.first()
                 .filter { it.taskState.type == DownloadDiagnosisKeysTask::class }
-                .mapNotNull { if (it.taskState.finishedAt != null) it.taskState.finishedAt else it.taskState.startedAt }
+                .mapNotNull { it.taskState.finishedAt ?: it.taskState.startedAt }
                 .maxOrNull()!!
-        } catch (e: NoSuchElementException) {
+        } catch (e: NullPointerException) {
             Timber.tag(TAG).v("download did not run recently - no task with a date found")
             return true
         }
