@@ -72,6 +72,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Onboarding" />
         <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
+        <activity
             android:name=".contactdiary.ui.ContactDiaryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
