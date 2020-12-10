@@ -1117,7 +1117,7 @@
     <string name="submission_symptom_less_seven">"In the last 7 days"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
     <string name="submission_symptom_one_two_weeks">"1-2 weeks ago"</string>
-    >
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"More than 2 weeks ago"</string>
     <!-- XBUT: symptom calendar screen verify button -->
     <string name="submission_symptom_verify">"No answer"</string>
