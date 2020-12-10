@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,49 +17,52 @@ class UpdateChecker @Inject constructor(
 ) {
 
     suspend fun checkForUpdate(): Result = try {
-        val isUpdateNeeded = checkIfUpdatesNeededFromServer()
-        Result(isUpdateNeeded = isUpdateNeeded, updateIntent = createUpdateIntent())
+        if (isUpdateNeeded()) {
+            Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
+        } else {
+            Result(isUpdateNeeded = false)
+        }
     } catch (exception: ApplicationConfigurationCorruptException) {
         Timber.e(
             "ApplicationConfigurationCorruptException caught:%s",
             exception.localizedMessage
         )
 
-        Result(isUpdateNeeded = true, updateIntent = createUpdateIntent())
+        Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
     } catch (exception: Exception) {
         Timber.tag(TAG).e("Exception caught:%s", exception.localizedMessage)
-        Result(isUpdateNeeded = false, updateIntent = null)
+        Result(isUpdateNeeded = false)
     }
 
-    private suspend fun checkIfUpdatesNeededFromServer(): Boolean {
+    private suspend fun isUpdateNeeded(): Boolean {
         val cwaAppConfig: CWAConfig = appConfigProvider.getAppConfig()
 
         val minVersionFromServer = cwaAppConfig.minVersionCode
 
+        val currentVersion = BuildConfigWrap.VERSION_CODE
+
         Timber.tag(TAG).d("minVersionFromServer:%s", minVersionFromServer)
-        Timber.tag(TAG).d("Current app version:%s", BuildConfig.VERSION_CODE)
+        Timber.tag(TAG).d("Current app version:%s", currentVersion)
 
         val needsImmediateUpdate = VersionComparator.isVersionOlder(
-            BuildConfig.VERSION_CODE.toLong(),
+            currentVersion,
             minVersionFromServer
         )
         Timber.tag(TAG).e("needs update:$needsImmediateUpdate")
         return needsImmediateUpdate
     }
 
-    private fun createUpdateIntent(): Intent {
+    private fun createUpdateAction(): () -> Intent = {
         val uriStringInPlayStore = STORE_PREFIX + BuildConfig.APPLICATION_ID
-        return Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(
-                uriStringInPlayStore
-            )
+        Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(uriStringInPlayStore)
             setPackage(COM_ANDROID_VENDING)
         }
     }
 
     data class Result(
         val isUpdateNeeded: Boolean,
-        val updateIntent: Intent?
+        val updateIntent: (() -> Intent)? = null
     )
 
     companion object {
