@@ -34,11 +34,7 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_auth_code"><xliff:g id="preference">"preference_auth_code"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
     <!-- NOTR -->
@@ -47,8 +43,6 @@
     <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
@@ -103,6 +97,10 @@
     <string name="notification_headline_share_positive_result">"Можете да помогнете!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Моля, споделете резултата от теста си и предупредете останалите потребители."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">"Резултатът от Вашия тест"</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">"Има важни новини. Моля, отворете Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -170,8 +168,6 @@
         <item quantity="many">"Брой дни с излагания с нисък риск - %1$d"</item>
     </plurals>
 
-    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
-    <string name="risk_card_high_risk_no_encounters_body">"До момента няма излагане на риск"</string>
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Брой дни с излагания на повишен риск: 1"</item>
@@ -219,7 +215,7 @@
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Да се преборим с коронавируса заедно"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"Колкото повече хора използват приложението, толкова по-бързо можем да прекъснем веригата на заразяване. Предложете на семейството и приятелите си да изтеглят приложението."</string>
+    <string name="main_share_body">"Колкото повече хора използват приложението, толкова по-бързо можем да прекъснем веригите на заразяване. Предложете на семейството и приятелите си да изтеглят приложението."</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Изпращане на линк за изтегляне"</string>
     <!-- YMSG: Message when sharing is executed -->
@@ -276,7 +272,7 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Случаен идентификатор"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Случайните идентификатори са произволно генерирани комбинации от цифри и букви, които смартфоните си разменят, когато са в близост един до друг. Идентифицирането на конкретни лица посредством проследяването им е невъзможно. Освен това те се изтриват автоматично след 14 дни. Лицата, диагностицирани с коронавирус, могат да споделят с останалите потребители на приложението своите случайни идентификатори, генерирани през последните 14 дни."</string>
+    <string name="main_overview_body_glossary_keys">"Случайните идентификатори са произволно генерирани комбинации от цифри и букви, които устройствата си разменят, когато са в близост едно до друго. Идентифицирането на конкретни лица посредством проследяването им е невъзможно. Освен това те се изтриват автоматично след 14 дни. Лицата, диагностицирани с коронавирус, могат да споделят с останалите потребители на приложението своите случайни идентификатори, генерирани през последните 14 дни."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Смартфон, показващ различни блокове съдържание с номера от 1 до 3."</string>
     <!-- XACT: App main page title -->
@@ -333,7 +329,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с коронавирус, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
+    <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с COVID-19, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Рискът от заразяване се изчислява локално на смартфона Ви въз основа на регистрираните данни за излагане. Изчислението включва също така разстоянието от и продължителността на всички контакти с лица, диагностицирани с коронавирус, както и възможността им да заразят околните. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
@@ -705,6 +701,8 @@
     <string name="information_technical_title">"Правна информация"</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"Ръка държи смартфон, на чийто екран се вижда голямо количество текст, а до нея има изображение на везна, която символизира правната информация."</string>
+    <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_technical_html_path" translatable="false">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"За издателя"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
@@ -847,7 +845,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте, но ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да знаят кой е споделил резултатите си от теста."</string>
+    <string name="submission_consent_main_third_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"За да дадете съгласието си, трябва да имате навършени 16 години."</string>
 
@@ -869,7 +867,7 @@
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
-    <string name="submission_test_result_negative_steps_negative_heading">"Резултатът от Вашия тест"</string>
+    <string name="submission_test_result_negative_steps_negative_heading">"Отрицателен резултат"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nМоля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
     <!-- XBUT: negative test result : remove the test button -->
@@ -921,13 +919,13 @@
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
-    <string name="submission_tan_title">"Въвеждане на ТАН код"</string>
+    <string name="submission_tan_title">"Въведете ТАН код"</string>
     <!-- YTXT: Body text for the tan submission page -->
     <string name="submission_tan_body">"Моля, въведете предоставения Ви 10-цифрен ТАН код."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Напред"</string>
     <!-- XACT: Submission Tan page title -->
-    <string name="submission_tan_accessibility_title">"Въвеждане на ТАН код"</string>
+    <string name="submission_tan_accessibility_title">"Въведете ТАН код"</string>
     <!-- YTXT: Error text for the tan submission page -->
     <string name="submission_tan_error">"Невалиден ТАН код. Моля, проверете въведените данни!"</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
@@ -936,7 +934,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Напред"</string>
-
+    
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Извличане на резултат от тест"</string>
@@ -951,9 +949,9 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Регистрирайте теста си, като сканирате QR кода на документа."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"Въвеждане на ТАН код"</string>
+    <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Имате TAN код? Въведете го, за да предупредите останалите. "</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Имате TAN код? Въведете го тук, за да предупредите останалите."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"Все още нямате TAN код?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -988,7 +986,7 @@
     <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_1"><b>"Споделете резултата от Вашия тест и помогнете на другите да се предпазят от заразяване."</b></string>
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_2">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да знаят кой е споделил резултатите си от теста."</string>
+    <string name="submission_test_result_positive_no_consent_text_2">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_3">"Моля, следвайте инструкциите на Вашия лекар и си останете вкъщи, за да не заразявате други хора."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
@@ -1012,7 +1010,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Благодарим Ви!"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"Вашият принос е много ценен! Благодарение на Вашата подкрепа ще бъдат предупредени други хора и те ще могат да реагират адекватно."</string>
+    <string name="submission_done_body">"Благодарение на Вашата подкрепа други хора ще бъдат предупредени и ще могат да реагират адекватно."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text after submission: contagious -->
@@ -1137,10 +1135,14 @@
     <string name="submission_status_card_title_positive">"Положителен резултат"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Тест с изтекла валидност"</string>
+    <!-- XHED: Page title for the various submission status fetch ready -->
+    <string name="submission_status_card_title_ready">"Резултатът от теста Ви е готов"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Невалиден тест"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Отрицателен резултат"</string>
+    <!-- XHED: Subtitle for the submission status card: ready -->
+    <string name="submission_status_card_subtitle_ready">"Вече можете да получите резултата от Вашия тест"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Резултатът Ви се актуализира"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
@@ -1155,12 +1157,16 @@
     <string name="submission_status_card_body_negative">"Потвърден е отрицателен резултат от теста Ви за SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Вашият тест е направен преди повече от 21 дни и вече не е валиден. Моля, изтрийте го, за да можете да добавите друг след това."</string>
+    <!-- YTXT: Body text for submission status fetch ready -->
+    <string name="submission_status_card_body_ready">"Ако резултатът от Вашия тест за коронавирус е положителен, можете да предупредите останалите."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Следващи стъпки"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Показване на тест"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Изтриване на тест"</string>
+    <!-- XBUT: submission status card fetch ready button -->
+    <string name="submission_status_card_button_ready">"Изтриване на тест"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1190,7 +1196,7 @@
     <string-array name="test_result_card_negative_further_info_bullet_points">
         <item>"Все още ли не се чувствате добре? Обадете се на личния си лекар, ако се чувствате много зле и/или симптомите Ви са се влошили."</item>
         <item>"Останете си вкъщи, докато се почувствате добре. Ако се заразите с коронавирус (SARS-CoV-2) в момент, когато организмът Ви е отслабен от друга инфекция, това може да доведе до сериозно заболяване."</item>
-        <item>"Не ходете на работа, ако не се чувствате добре, за да не излагате други хора на риск.</item>
+        <item>"Не ходете на работа, ако не се чувствате добре, за да не излагате други хора на риск."</item>
         <item>"Ако симптомите Ви се влошат, може да се наложи да направите нов тест за SARS-CoV-2."</item>
     </string-array>
 
@@ -1215,7 +1221,7 @@
     <!-- XTXT: Close screen popup text for consent given -->
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Въведените от Вас данни няма да бъдат запазени."</string>
     <!-- YTXT: Text for consent NOT given -->
-    <string name="submission_test_result_available_text_consent_not_given">"Избрали сте да не споделяте резултатите от теста си. Останалите няма да бъдат предупредени. \n\nВ следващата стъпка можете да промените решението си и да споделите резултата от теста си, за да помогнете да се спре разпространението на коронавируса и да предпазите останалите."</string>
+    <string name="submission_test_result_available_text_consent_not_given">"Избрали сте да не споделяте резултата от теста си. Останалите няма да бъдат предупредени. \n\nВ следващата стъпка можете да промените решението си и да споделите резултата от теста си, за да помогнете да се спре разпространението на коронавируса и да предпазите останалите."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Важно:\nНа път сте да отмените този процес.\nВсе още не сте предупредили останалите. Моля, завършете процеса, за да помогнете на останалите да се предпазят."</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
@@ -1406,7 +1412,7 @@
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">"Няколко държави обединиха усилия, за да можете да получавате международни предупреждения чрез съвместен сървър за обмен на данни. Така при определянето на риска от заразяване се вземат предвид и контактите Ви с потребители на официалните приложения за борба с коронавируса и в други държави."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"За тази цел приложението изтегля списък на всички споделени в приложението случайни идентификатори на потребители, който се актуализира ежедневно. След това този списък се сравнява със случайните идентификатори, записани от Вашия смартфон с Android. Изтеглянето на списъците обикновено е безплатно за Вас. Това означава, че мобилните оператори не таксуват използваните от приложението данни в този контекст и не начисляват за тях такси за роуминг в други държави от ЕС. За повече подробности се обърнете към своя мобилен оператор."</string>
+    <string name="interoperability_configuration_second_section">"За тази цел приложението изтегля списъци на всички споделени в приложението случайни идентификатори на потребители, който се актуализира ежедневно. След това този списък се сравнява със случайните идентификатори, записани от Вашия смартфон с Android. Изтеглянето на списъците обикновено е безплатно за Вас. Това означава, че мобилните оператори не таксуват използваните от приложението данни в този контекст и не начисляват за тях такси за роуминг в други държави от ЕС. За повече подробности се обърнете към своя мобилен оператор."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"В момента в международното регистриране на излаганията на риск от заразяване участват следните държави:"</string>
     <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
