@@ -35,7 +35,6 @@ class SubmissionCardsStateProviderTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         mockkObject(LocalData)
-        every { submissionRepository.hasViewedTestResult } returns true
     }
 
     @AfterEach
@@ -55,8 +54,7 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         createInstance().apply {
             state.first() shouldBe SubmissionCardState(
                 deviceUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-                isDeviceRegistered = true,
-                submissionRepository
+                isDeviceRegistered = true
             )
 
             verify {

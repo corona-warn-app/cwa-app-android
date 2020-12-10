@@ -27,7 +27,6 @@ class SubmissionCardStateTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { submissionRepository.hasViewedTestResult } returns true
     }
 
     @AfterEach
@@ -42,13 +41,13 @@ class SubmissionCardStateTest : BaseTest() {
     ) =
         when (uiStateState) {
             ApiRequestState.SUCCESS ->
-                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered, submissionRepository)
+                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered)
             ApiRequestState.FAILED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered, submissionRepository)
+                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered)
             ApiRequestState.STARTED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered, submissionRepository)
+                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered)
             ApiRequestState.IDLE ->
-                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered, submissionRepository)
+                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered)
         }
 
     @Test
@@ -79,21 +78,6 @@ class SubmissionCardStateTest : BaseTest() {
         }
         instance(deviceUiState = DeviceUIState.PAIRED_REDEEMED).apply {
             isRiskCardVisible() shouldBe true
-        }
-    }
-
-    @Test
-    fun `test result is available visibility`() {
-        every { submissionRepository.hasViewedTestResult } returns false
-
-        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
-            isTestResultReadyCardVisible() shouldBe false
-        }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
-            isTestResultReadyCardVisible() shouldBe true
-        }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
-            isTestResultReadyCardVisible() shouldBe true
         }
     }
 

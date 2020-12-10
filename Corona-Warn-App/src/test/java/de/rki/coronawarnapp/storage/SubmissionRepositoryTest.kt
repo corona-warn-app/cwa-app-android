@@ -73,7 +73,6 @@ class SubmissionRepositoryTest {
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
         every { submissionSettings.hasGivenConsent } returns mockFlowPreference(false)
-        every { submissionSettings.hasViewedTestResult } returns mockFlowPreference(false)
         every { submissionSettings.symptoms } returns mockFlowPreference(Symptoms.NO_INFO_GIVEN)
         every { submissionSettings.clear() } just Runs
 
