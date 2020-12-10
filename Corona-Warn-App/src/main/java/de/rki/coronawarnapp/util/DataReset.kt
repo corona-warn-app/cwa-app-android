@@ -73,7 +73,6 @@ class DataReset @Inject constructor(
         submissionRepository.reset()
         keyCacheRepository.clear()
         appConfigProvider.clear()
-        interoperabilityRepository.clear()
         exposureDetectionTracker.clear()
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
