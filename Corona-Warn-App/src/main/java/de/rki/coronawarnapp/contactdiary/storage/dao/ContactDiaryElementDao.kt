@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.storage.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementEntity
@@ -16,9 +17,9 @@ interface ContactDiaryElementDao {
     @Query("SELECT * FROM ContactDiaryDateEntity")
     fun allEntries(): Flow<ContactDiaryElementEntity>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertContactDiaryElementPersonXRef(contactDiaryElementPersonXRef: ContactDiaryElementPersonXRef)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertContactDiaryElementLocationXRef(contactDiaryElementLocationXRef: ContactDiaryElementLocationXRef)
 }
