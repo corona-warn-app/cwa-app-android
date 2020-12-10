@@ -270,7 +270,6 @@
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"The display of exposures in the Corona-Warn-App."</string>
-    <string name="main_overview_body_glossary_notification">"The display of exposures in the Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
     <!-- YTXT: App overview body for glossary keys -->
