@@ -5,4 +5,4 @@ import androidx.room.PrimaryKey
 import org.joda.time.LocalDate
 
 @Entity
-data class ContactDiaryDate(@PrimaryKey val date: LocalDate)
+data class ContactDiaryDateEntity(@PrimaryKey val date: LocalDate)

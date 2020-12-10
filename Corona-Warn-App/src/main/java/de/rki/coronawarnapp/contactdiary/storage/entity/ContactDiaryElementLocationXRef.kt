@@ -4,7 +4,7 @@ import androidx.room.Entity
 import org.joda.time.LocalDate
 
 @Entity(primaryKeys = ["date", "locationId"])
-class ContactDiaryElementLocationXRef(
+data class ContactDiaryElementLocationXRef(
     var date: LocalDate,
     var locationId: Long
 )

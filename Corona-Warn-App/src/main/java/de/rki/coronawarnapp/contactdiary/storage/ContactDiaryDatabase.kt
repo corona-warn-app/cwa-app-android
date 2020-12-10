@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryDateDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryElementDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.LocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.PersonDao
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryDateEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementLocationXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryElementPersonXRef
 import de.rki.coronawarnapp.contactdiary.storage.entity.LocationEntity
@@ -21,7 +22,7 @@ import javax.inject.Inject
 
 @Database(
     entities = [
-        ContactDiaryElementEntity::class,
+        ContactDiaryDateEntity::class,
         LocationEntity::class,
         PersonEntity::class,
         ContactDiaryElementPersonXRef::class,
@@ -33,6 +34,7 @@ import javax.inject.Inject
 @TypeConverters(CommonConverters::class)
 abstract class ContactDiaryDatabase : RoomDatabase() {
 
+    abstract fun contactDiaryDateDao(): ContactDiaryDateDao
     abstract fun contactDiaryElementDao(): ContactDiaryElementDao
     abstract fun locationDao(): LocationDao
     abstract fun personDao(): PersonDao

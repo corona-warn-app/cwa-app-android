@@ -7,10 +7,10 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement
 import org.joda.time.LocalDate
 
 data class ContactDiaryElementEntity(
-    @Embedded val contactDiaryDate: ContactDiaryDate,
+    @Embedded val contactDiaryDateEntity: ContactDiaryDateEntity,
     @Relation(
         parentColumn = "date",
-        entity = ContactDiaryDate::class,
+        entity = ContactDiaryDateEntity::class,
         entityColumn = "personId",
         associateBy = Junction(
             value = ContactDiaryElementPersonXRef::class,
@@ -21,7 +21,7 @@ data class ContactDiaryElementEntity(
     override val people: MutableList<PersonEntity> = mutableListOf(),
     @Relation(
         parentColumn = "date",
-        entity = ContactDiaryDate::class,
+        entity = ContactDiaryDateEntity::class,
         entityColumn = "locationId",
         associateBy = Junction(
             value = ContactDiaryElementLocationXRef::class,
@@ -32,5 +32,5 @@ data class ContactDiaryElementEntity(
     override val locations: MutableList<LocationEntity> = mutableListOf()
 ) : ContactDiaryElement {
     override val date: LocalDate
-        get() = contactDiaryDate.date
+        get() = contactDiaryDateEntity.date
 }
