@@ -37,17 +37,17 @@ class SubmissionCardStateTest : BaseTest() {
     private fun instance(
         deviceUiState: DeviceUIState = mockk(),
         isDeviceRegistered: Boolean = true,
-        uiStateState: ApiRequestState = ApiRequestState.SUCCESS,
+        uiStateState: ApiRequestState = ApiRequestState.SUCCESS
     ) =
         when (uiStateState) {
             ApiRequestState.SUCCESS ->
-                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered, hasTestResultBeenSeen = true)
             ApiRequestState.FAILED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered, hasTestResultBeenSeen = true)
             ApiRequestState.STARTED ->
-                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestStarted, isDeviceRegistered, hasTestResultBeenSeen = true)
             ApiRequestState.IDLE ->
-                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered)
+                SubmissionCardState(NetworkRequestWrapper.RequestIdle, isDeviceRegistered, hasTestResultBeenSeen = true)
         }
 
     @Test
