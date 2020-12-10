@@ -51,11 +51,6 @@ class SubmissionSettings @Inject constructor(
         writer = FlowPreference.gsonWriter(gson)
     )
 
-    fun resetTestRelatedSettings() {
-        hasViewedTestResult.update { false }
-        hasGivenConsent.update { false }
-    }
-
     fun clear() {
         prefs.clearAndNotify()
     }
