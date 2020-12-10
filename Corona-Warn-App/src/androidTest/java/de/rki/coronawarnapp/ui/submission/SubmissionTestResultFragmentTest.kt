@@ -10,9 +10,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultViewModel
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -25,17 +25,17 @@ import testhelpers.BaseUITest
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: SubmissionTestResultViewModel
+    @MockK lateinit var pendingViewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var uiState: TestResultUIState
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { viewModel.uiState } returns MutableLiveData()
+        every { pendingViewModel.testState } returns MutableLiveData()
 
-        setupMockViewModel(object : SubmissionTestResultViewModel.Factory {
-            override fun create(): SubmissionTestResultViewModel = viewModel
+        setupMockViewModel(object : SubmissionTestResultPendingViewModel.Factory {
+            override fun create(): SubmissionTestResultPendingViewModel = pendingViewModel
         })
     }
 
@@ -46,12 +46,12 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTestResultFragment>()
+        launchFragment<SubmissionTestResultPendingFragment>()
     }
 
     @Test
     fun testEventPendingRefreshClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
+        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_pending_refresh))
             .perform(ViewActions.scrollTo())
             .perform(ViewActions.click())
@@ -61,7 +61,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun testEventPendingRemoveClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
+        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_pending_remove_test))
             .perform(ViewActions.scrollTo())
             .perform(ViewActions.click())
@@ -71,7 +71,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun testEventInvalidRemoveClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
+        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_invalid_remove_test))
             .perform(ViewActions.scrollTo())
             .perform(ViewActions.click())
@@ -81,7 +81,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun testEventPositiveContinueWithSymptomsClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
+        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_positive_continue))
             .perform(ViewActions.scrollTo())
             .perform(ViewActions.click())
@@ -91,7 +91,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun testEventPositiveContinueWithoutSymptomsClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
+        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_positive_continue_without_symptoms))
             .perform(ViewActions.scrollTo())
             .perform(ViewActions.click())
@@ -101,7 +101,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun testEventNegativeRemoveClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
+        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_negative_remove_test))
             .perform(ViewActions.scrollTo())
             .perform(ViewActions.click())
@@ -113,5 +113,5 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 @Module
 abstract class SubmissionTestResultTestModule {
     @ContributesAndroidInjector
-    abstract fun submissionTestResultScreen(): SubmissionTestResultFragment
+    abstract fun submissionTestResultScreen(): SubmissionTestResultPendingFragment
 }

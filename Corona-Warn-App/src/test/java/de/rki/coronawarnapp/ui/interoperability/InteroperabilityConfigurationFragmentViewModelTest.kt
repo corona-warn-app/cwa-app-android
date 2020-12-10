@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.ui.interoperability
 
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.Country
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
@@ -25,28 +25,27 @@ class InteroperabilityConfigurationFragmentViewModelTest {
     fun setupFreshViewModel() {
         MockKAnnotations.init(this)
 
-        every { interoperabilityRepository.countryList } returns MutableLiveData(
-            Country.values().toList()
-        )
-        every { interoperabilityRepository.getAllCountries() } just Runs
+        every { interoperabilityRepository.countryList } returns flowOf(Country.values().toList())
     }
 
     private fun createViewModel() =
-        InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository)
+        InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository, TestDispatcherProvider)
 
     @Test
     fun `viewmodel returns interop repo countryList`() {
         val vm = createViewModel()
 
         vm.countryList.getOrAwaitValue() shouldBe Country.values().toList()
+
+        verify { interoperabilityRepository.countryList }
     }
 
     @Test
-    fun testFetchCountryList() {
+    fun `forced countrylist refresh via app config`() {
         val vm = createViewModel()
-        verify(exactly = 0) { interoperabilityRepository.getAllCountries() }
-        vm.getAllCountries()
-        verify(exactly = 1) { interoperabilityRepository.getAllCountries() }
+        coVerify(exactly = 0) { interoperabilityRepository.refreshCountries() }
+        vm.refreshCountries()
+        coVerify(exactly = 1) { interoperabilityRepository.refreshCountries() }
     }
 
     @Test

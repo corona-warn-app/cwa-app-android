@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.testresult
+package de.rki.coronawarnapp.ui.submission.testresult.pending
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionTestResultModule {
+abstract class SubmissionTestResultPendingModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionTestResultViewModel::class)
+    @CWAViewModelKey(SubmissionTestResultPendingViewModel::class)
     abstract fun submissionTestResultFragment(
-        factory: SubmissionTestResultViewModel.Factory
+        factory: SubmissionTestResultPendingViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.ui
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.ui.launcher.LauncherActivity
+import de.rki.coronawarnapp.ui.launcher.LauncherActivityModule
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.main.MainActivityModule
 import de.rki.coronawarnapp.ui.main.MainActivityTestModule
@@ -13,7 +15,7 @@ abstract class ActivityBinder {
     @ContributesAndroidInjector(modules = [MainActivityModule::class, MainActivityTestModule::class])
     abstract fun mainActivity(): MainActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [LauncherActivityModule::class])
     abstract fun launcherActivity(): LauncherActivity
 
     @ContributesAndroidInjector(modules = [OnboardingActivityModule::class])
