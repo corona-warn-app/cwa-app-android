@@ -35,11 +35,14 @@ class TestResultAvailableNotification @Inject constructor(
         )
     }
 
-    fun getNotificationDestination(testResult: TestResult): Int {
-        return if (testResult == TestResult.POSITIVE) {
-            R.id.submissionTestResultAvailableFragment
-        } else {
-            R.id.submissionResultFragment
-        }
-    }
+    /**
+     * The pending result fragment will forward to the correct screen
+     * Because we can't save the test result at the moment (legal),
+     * it needs to be reloaded each time.
+     * If we navigate directly to the positive/negative result screen,
+     * then we also need to add explicit test loading logic there.
+     * By letting the forwarding happen via the PendingResultFragment,
+     * we have a common location to retrieve the test result.
+     */
+    fun getNotificationDestination(testResult: TestResult): Int = R.id.submissionTestResultPendingFragment
 }
