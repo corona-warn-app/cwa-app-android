@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
 @Dao
-abstract class ContactDiaryLocationVisitDao : BaseRoomDao<ContactDiaryLocationVisitEntity, ContactDiaryLocationVisitWrapper>() {
+abstract class ContactDiaryLocationVisitDao :
+    BaseRoomDao<ContactDiaryLocationVisitEntity, ContactDiaryLocationVisitWrapper>() {
 
     @Transaction
     @Query("SELECT * FROM locationvisits")

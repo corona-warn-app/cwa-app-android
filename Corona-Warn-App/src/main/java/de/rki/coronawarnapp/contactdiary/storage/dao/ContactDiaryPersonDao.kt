@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.storage.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import kotlinx.coroutines.flow.Flow
