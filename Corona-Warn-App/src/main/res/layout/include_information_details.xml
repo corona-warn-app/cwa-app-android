@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -34,45 +33,40 @@
             android:id="@+id/information_details_header_illustration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            bind:cwaContentDescription="@{illustrationDescription}"
             android:focusable="true"
             android:src="@{illustration}"
-            tools:src="@drawable/ic_illustration_tracing_on"
-            tools:ignore="ContentDescription" />
+            bind:cwaContentDescription="@{illustrationDescription}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_information_illustration_terms" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/information_details_header_headline"
+            style="@style/headline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/guideline_start"
-            android:paddingEnd="@dimen/guideline_end">
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
+            android:focusable="true"
+            android:text="@{headline}"
+            android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
+            tools:text="@string/settings_title" />
 
-            <TextView
-                android:id="@+id/information_details_header_headline"
-                style="@style/headline5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:accessibilityHeading="true"
-                android:focusable="true"
-                android:text="@{headline}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
-                tools:text="@string/settings_title" />
-
-            <TextView
-                android:id="@+id/information_details_header_body"
-                style="@style/subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:focusable="true"
-                android:text="@{body}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
-                android:autoLink="all"
-                android:textColorLink="@color/colorTextTint"
-                tools:text="@string/settings_title" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/information_details_header_body"
+            style="@style/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:autoLink="all"
+            android:focusable="true"
+            android:text="@{body}"
+            android:textColorLink="@color/colorTextTint"
+            android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
+            tools:text="@string/settings_title" />
 
     </LinearLayout>
 
