@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
@@ -42,7 +41,11 @@ class SubmissionCardStateTest : BaseTest() {
     ) =
         when (uiStateState) {
             ApiRequestState.SUCCESS ->
-                SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(deviceUiState), isDeviceRegistered, hasResultBeenSeen)
+                SubmissionCardState(
+                    NetworkRequestWrapper.RequestSuccessful(deviceUiState),
+                    isDeviceRegistered,
+                    hasResultBeenSeen
+                )
             ApiRequestState.FAILED ->
                 SubmissionCardState(NetworkRequestWrapper.RequestFailed(mockk()), isDeviceRegistered, hasResultBeenSeen)
             ApiRequestState.STARTED ->

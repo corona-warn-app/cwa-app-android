@@ -29,7 +29,6 @@ class UpdateCheckerTest : BaseTest() {
         MockKAnnotations.init(this)
         mockkObject(BuildConfigWrap)
 
-
         coEvery { appConfigProvider.getAppConfig() } returns configData
     }
 
