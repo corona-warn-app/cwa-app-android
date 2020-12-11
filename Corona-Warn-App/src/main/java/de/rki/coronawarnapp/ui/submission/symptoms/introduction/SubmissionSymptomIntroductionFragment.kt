@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
@@ -37,17 +36,8 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
         super.onViewCreated(view, savedInstanceState)
         uploadDialog = SubmissionBlockingDialog(requireContext())
 
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToSymptomCalendar -> doNavigate(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
-                )
-                is SubmissionNavigationEvents.NavigateToMainActivity -> doNavigate(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToMainFragment()
-                )
-            }
+        viewModel.navigation.observe2(this) {
+            doNavigate(it)
         }
 
         viewModel.showCancelDialog.observe2(this) {

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.submission.Symptoms.Indication
 import de.rki.coronawarnapp.submission.Symptoms.StartOf
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
@@ -47,9 +48,17 @@ class TransmissionRiskVectorDeterminator @Inject constructor(
                 is StartOf.MoreThanTwoWeeks -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5)
                 is StartOf.NoInformation -> intArrayOf(5, 6, 8, 8, 8, 7, 5, 3, 2, 1, 1, 1, 1, 1, 1)
                 is StartOf.OneToTwoWeeksAgo -> intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
-                else -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+                else -> {
+                    IllegalStateException("Positive indication without startDate is not allowed: $symptoms")
+                        .reportProblem(
+                            tag = "TransmissionRiskVectorDeterminator",
+                            info = "Symptoms has an invalid state."
+                        )
+                    intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+                }
             }
             Indication.NEGATIVE -> intArrayOf(4, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
             Indication.NO_INFORMATION -> intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
-        })
+        }
+    )
 }
