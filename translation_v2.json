@@ -6,7 +6,8 @@
         {
           "startingFolderPath": "**/res/values-de/**",
           "sourceFilters": [
-            "strings.xml"
+            "strings.xml",
+            "contact_diary_strings.xml"
           ],
           "targetFolderPath": "../values-[langCode]"
         }
