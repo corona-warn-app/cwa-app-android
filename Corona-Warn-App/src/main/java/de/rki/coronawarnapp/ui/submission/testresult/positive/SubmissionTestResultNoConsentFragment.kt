@@ -67,7 +67,6 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
             setTitle(R.string.submission_test_result_positive_no_consent_dialog_title)
             setMessage(R.string.submission_test_result_positive_no_consent_dialog_message)
             setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ ->
-
             }
             setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
                 navigateToHome()
