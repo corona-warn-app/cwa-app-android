@@ -374,6 +374,9 @@
         android:id="@+id/submissionSymptomCalendarFragment"
         android:name="de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment"
         android:label="SubmissionSymptomCalendarFragment">
+        <argument
+            android:name="symptomIndication"
+            app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
