@@ -6,5 +6,13 @@
     <fragment
         android:id="@+id/contactDiaryOnboardingFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment"
-        android:label="ContactDiaryOnboardingFragment" />
+        android:label="ContactDiaryOnboardingFragment" >
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment"
+            app:destination="@id/contactDiaryInformationPrivacyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryInformationPrivacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="InformationPrivacyFragment" />
 </navigation>

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.onboarding
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.navigation.ActionOnlyNavDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
@@ -38,6 +39,11 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
             contactDiaryOnboardingButtonBack.headerButtonBack.buttonIcon.setOnClickListener {
                 vm.onBackButtonPress()
             }
+
+            contactDiaryOnboardingPrivacyInformation.setOnClickListener {
+                vm.onPrivacyButtonPress()
+
+            }
         }
 
         vm.routeToScreen.observe2(this) {
@@ -46,6 +52,11 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 ContactDiaryOnboardingNavigationEvents.NavigateToMainActivity -> {
                     (requireActivity() as ContactDiaryActivity).finish()
                 }
+
+                ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment -> {
+                    doNavigate(ActionOnlyNavDirections(R.id.action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment))
+                }
+
             }
         }
     }

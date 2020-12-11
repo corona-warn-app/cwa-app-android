@@ -17,6 +17,10 @@ class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor() : CW
         routeToScreen.postValue(ContactDiaryOnboardingNavigationEvents.NavigateToMainActivity)
     }
 
+    fun onPrivacyButtonPress() {
+        routeToScreen.postValue(ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment)
+    }
+
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOnboardingFragmentViewModel>

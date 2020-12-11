@@ -43,4 +43,11 @@ class ContactDiaryActivity : AppCompatActivity(), HasAndroidInjector {
             data
         )
     }
+
+    /**
+     * Function is called from back buttons in fragments.
+     */
+    fun goBack() {
+        onBackPressed()
+    }
 }

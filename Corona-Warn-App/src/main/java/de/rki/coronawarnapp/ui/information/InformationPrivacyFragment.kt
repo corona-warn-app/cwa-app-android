@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.FragmentInformationPrivacyBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -27,7 +28,14 @@ class InformationPrivacyFragment : Fragment(R.layout.fragment_information_privac
 
     private fun setButtonOnClickListener() {
         binding.informationPrivacyHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+
+            if (activity is (MainActivity)) {
+                (activity as MainActivity).goBack()
+
+            } else if (activity is (ContactDiaryActivity)) {
+                (activity as ContactDiaryActivity).goBack()
+            }
+
         }
     }
 }

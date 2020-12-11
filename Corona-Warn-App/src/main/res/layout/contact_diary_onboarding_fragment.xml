@@ -141,7 +141,7 @@
 
 
                 <TextView
-                    android:id="@+id/contact_diary_onboarding_legal_information"
+                    android:id="@+id/contact_diary_onboarding_privacy_information"
                     style="@style/subtitle"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     bind:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     bind:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    bind:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_legal_information" />
+                    bind:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_information" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
