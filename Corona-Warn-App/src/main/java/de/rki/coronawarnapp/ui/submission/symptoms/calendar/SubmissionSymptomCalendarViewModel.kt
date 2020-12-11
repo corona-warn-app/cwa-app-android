@@ -59,12 +59,9 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     fun onDone() {
         if (symptomStartInternal.value == null) {
-            try {
-                throw IllegalStateException("Can't finish symptom indication without symptomStart value.")
-            } catch (e: IllegalStateException) {
-                e.reportProblem(tag = TAG, "UI should not allow symptom submission without start date.")
+           IllegalStateException("Can't finish symptom indication without symptomStart value.")
+           .reportProblem(tag = TAG, "UI should not allow symptom submission without start date.")
                 return
-            }
         }
         Timber.tag(TAG).d("onDone() clicked on calender screen.")
         submissionRepository.currentSymptoms.update {
