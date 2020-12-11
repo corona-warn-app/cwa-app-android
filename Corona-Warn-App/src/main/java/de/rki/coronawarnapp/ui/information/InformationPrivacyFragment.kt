@@ -31,11 +31,9 @@ class InformationPrivacyFragment : Fragment(R.layout.fragment_information_privac
 
             if (activity is (MainActivity)) {
                 (activity as MainActivity).goBack()
-
             } else if (activity is (ContactDiaryActivity)) {
                 (activity as ContactDiaryActivity).goBack()
             }
-
         }
     }
 }

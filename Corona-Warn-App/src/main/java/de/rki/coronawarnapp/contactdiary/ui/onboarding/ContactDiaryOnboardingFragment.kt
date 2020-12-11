@@ -7,15 +7,7 @@ import androidx.navigation.ActionOnlyNavDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
-import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentDirections
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
-import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentDirections
-import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentViewModel
-import de.rki.coronawarnapp.ui.onboarding.OnboardingNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -42,7 +34,6 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
             contactDiaryOnboardingPrivacyInformation.setOnClickListener {
                 vm.onPrivacyButtonPress()
-
             }
         }
 
@@ -54,9 +45,12 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment -> {
-                    doNavigate(ActionOnlyNavDirections(R.id.action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment))
+                    doNavigate(
+                        ActionOnlyNavDirections(
+                            R.id.action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment
+                        )
+                    )
                 }
-
             }
         }
     }

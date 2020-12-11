@@ -23,6 +23,4 @@ abstract class ActivityBinder {
 
     @ContributesAndroidInjector(modules = [ContactDiaryModule::class])
     abstract fun contactDiaryActivity(): ContactDiaryActivity
-
-
 }

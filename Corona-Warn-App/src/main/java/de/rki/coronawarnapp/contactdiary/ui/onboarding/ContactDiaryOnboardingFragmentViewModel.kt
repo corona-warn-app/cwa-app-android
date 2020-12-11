@@ -2,15 +2,14 @@ package de.rki.coronawarnapp.contactdiary.ui.onboarding
 
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.ui.SingleLiveEvent
-import de.rki.coronawarnapp.ui.onboarding.OnboardingNavigationEvents
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-
 
 class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
     val routeToScreen: SingleLiveEvent<ContactDiaryOnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
+        TODO("handle this")
     }
 
     fun onBackButtonPress() {
@@ -20,7 +19,6 @@ class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor() : CW
     fun onPrivacyButtonPress() {
         routeToScreen.postValue(ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment)
     }
-
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOnboardingFragmentViewModel>
