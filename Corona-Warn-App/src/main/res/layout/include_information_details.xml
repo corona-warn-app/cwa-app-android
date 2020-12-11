@@ -44,11 +44,11 @@
 
         <TextView
             android:id="@+id/information_details_header_headline"
-            style="@style/headline5"
+            style="@style/headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:accessibilityHeading="true"
             android:focusable="true"
