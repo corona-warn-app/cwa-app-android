@@ -6,18 +6,22 @@ import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import org.joda.time.LocalDate
 
-@Entity
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = ContactDiaryPersonEntity::class,
+            parentColumns = ["personId"],
+            childColumns = ["fkPersonId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE,
+            deferred = true
+        )
+    ]
+)
 data class ContactDiaryPersonEncounterEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val date: LocalDate,
-    @ForeignKey(
-        entity = ContactDiaryPersonEntity::class,
-        parentColumns = ["personId"],
-        childColumns = ["fkPersonId"],
-        onDelete = ForeignKey.CASCADE,
-        onUpdate = ForeignKey.CASCADE,
-        deferred = true
-    ) val fkPersonId: Long
+    val fkPersonId: Long
 )
 
 fun ContactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity(): ContactDiaryPersonEncounterEntity =

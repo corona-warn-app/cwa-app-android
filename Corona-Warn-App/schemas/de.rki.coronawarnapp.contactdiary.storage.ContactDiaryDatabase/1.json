@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "575d7da9c827f50746c345bd42841f84",
+    "identityHash": "37690feaefe4a9bf71f6f8f7e2ca9518",
     "entities": [
       {
         "tableName": "ContactDiaryLocationEntity",
@@ -32,7 +32,7 @@
       },
       {
         "tableName": "ContactDiaryLocationVisitEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `date` TEXT NOT NULL, `fkLocationId` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `date` TEXT NOT NULL, `fkLocationId` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`fkLocationId`) REFERENCES `ContactDiaryLocationEntity`(`locationId`) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,7 +60,19 @@
           "autoGenerate": false
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "ContactDiaryLocationEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "fkLocationId"
+            ],
+            "referencedColumns": [
+              "locationId"
+            ]
+          }
+        ]
       },
       {
         "tableName": "ContactDiaryPersonEntity",
@@ -90,7 +102,7 @@
       },
       {
         "tableName": "ContactDiaryPersonEncounterEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `fkPersonId` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `fkPersonId` INTEGER NOT NULL, FOREIGN KEY(`fkPersonId`) REFERENCES `ContactDiaryPersonEntity`(`personId`) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
         "fields": [
           {
             "fieldPath": "id",
@@ -118,13 +130,25 @@
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "ContactDiaryPersonEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "fkPersonId"
+            ],
+            "referencedColumns": [
+              "personId"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '575d7da9c827f50746c345bd42841f84')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '37690feaefe4a9bf71f6f8f7e2ca9518')"
     ]
   }
 }
