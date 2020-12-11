@@ -1516,7 +1516,7 @@
     <string name="contact_diary_onboarding_functionality_third_section">Ihr Tagebuch ist nur für Sie bestimmt. Ihre Einträge werden nur auf Ihrem Smartphone gespeichert und nach 14 Tagen automatisch gelöscht.</string>
 
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title">Das Kontakt-Tagebuch dient Ihnen als Gedächtnisstütze.</string>
+    <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>Das Kontakt-Tagebuch dient Ihnen als Gedächtnisstütze.</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_body">Die Nutzung dieser zusätzlichen Funktion der Corona-Warn-App ist freiwillig und nur Sie entscheiden, welche Personen, Orte und Begegnungen Sie erfassen.\n\nFalls Sie Corona-positiv getestet werden, ist es wichtig, dass Sie sich an Ihre letzten Kontakte erinnern können, um Ihre Mitmenschen vor Ansteckungen zu schützen. Dies gilt vor allem dann, wenn Sie das Gesundheitsamt um Mithilfe bei der Nachverfolgung Ihrer Kontakte bittet. Die schnelle und vollständige Information kann so helfen, weitere Ansteckungen zu vermeiden.</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->

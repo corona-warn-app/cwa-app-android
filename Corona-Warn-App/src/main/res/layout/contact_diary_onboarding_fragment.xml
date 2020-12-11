@@ -65,7 +65,7 @@
 
                 <TextView
                     android:id="@+id/contact_diary_onboarding_body"
-                    style="@style/subtitle"
+                    style="@style/subtitleMedium"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -81,7 +81,7 @@
                     layout="@layout/include_contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="24dp"
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_first_section}"
                     app:icon="@{@drawable/ic_contact_diary_person}"
