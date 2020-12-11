@@ -44,15 +44,16 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
                 .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
-        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            showCancelDialog()
-        }
-
-        binding.submissionTestResultPositiveNoConsentButtonAbort.setOnClickListener {
-            showCancelDialog()
-        }
-        binding.submissionTestResultPositiveNoConsentButtonWarnOthers.setOnClickListener {
-            navigateToWarnOthers()
+        binding.apply {
+            submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                showCancelDialog()
+            }
+            submissionTestResultPositiveNoConsentButtonAbort.setOnClickListener {
+                showCancelDialog()
+            }
+            submissionTestResultPositiveNoConsentButtonWarnOthers.setOnClickListener {
+                navigateToWarnOthers()
+            }
         }
     }
 
