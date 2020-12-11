@@ -34,10 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
+            android:scaleType="centerCrop"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
             android:src="@{illustration}"
             bind:cwaContentDescription="@{illustrationDescription}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_information_illustration_terms" />
+            tools:src="@drawable/ic_submission_illustration_hotline" />
 
         <TextView
             android:id="@+id/information_details_header_headline"
