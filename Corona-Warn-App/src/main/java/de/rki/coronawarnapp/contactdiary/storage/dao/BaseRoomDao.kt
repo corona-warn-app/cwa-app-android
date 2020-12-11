@@ -4,7 +4,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Update
 
-abstract class BaseRoomDao<T> : BaseDao<T> {
+abstract class BaseRoomDao<T, U> : BaseDao<T, U> {
     @Insert
     abstract override suspend fun insert(entity: T)
 

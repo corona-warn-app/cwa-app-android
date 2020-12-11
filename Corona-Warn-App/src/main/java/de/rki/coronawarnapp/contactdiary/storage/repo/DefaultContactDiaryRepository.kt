@@ -1,22 +1,19 @@
-@file:Suppress("TooManyFunctions")
 package de.rki.coronawarnapp.contactdiary.storage.repo
 
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
-import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
-import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.sortByNameAndIdASC
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisitEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisitSortedList
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterSortedList
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -76,14 +73,6 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Location visit
-    private suspend fun List<ContactDiaryLocationVisitEntity>.toContactDiaryLocationVisitSortedList():
-        List<ContactDiaryLocationVisit> =
-        this.map {
-            val contactLocation = contactDiaryLocationDao.entityForId(id = it.fkLocationId)
-            DefaultContactDiaryLocationVisit(id = it.id, date = it.date, contactDiaryLocation = contactLocation)
-        }
-            .sortByNameAndIdASC()
-
     override val locationVisits: Flow<List<ContactDiaryLocationVisit>> =
         contactDiaryLocationVisitDao
             .allEntries()
@@ -158,14 +147,6 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Person encounter
-    private suspend fun List<ContactDiaryPersonEncounterEntity>.toContactDiaryPersonEncounterSortedList():
-        List<ContactDiaryPersonEncounter> =
-        this.map {
-            val contactPerson = contactDiaryPersonDao.entityForId(it.id)
-            DefaultContactDiaryPersonEncounter(id = it.id, date = it.date, contactDiaryPerson = contactPerson)
-        }
-            .sortByNameAndIdASC()
-
     override val personEncounters: Flow<List<ContactDiaryPersonEncounter>> =
         contactDiaryPersonEncounterDao
             .allEntries()

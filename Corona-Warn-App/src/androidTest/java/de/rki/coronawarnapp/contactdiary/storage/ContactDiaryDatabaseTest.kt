@@ -5,10 +5,13 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitWrapper
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterWrapper
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.joda.time.LocalDate
 import org.junit.After
@@ -19,14 +22,14 @@ import testhelpers.BaseTest
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryDatabaseTest : BaseTest() {
 
-    //TestData
+    // TestData
     private val date = LocalDate.now()
     private val person = ContactDiaryPersonEntity(personId = 1, fullName = "Peter")
     private val location = ContactDiaryLocationEntity(locationId = 2, locationName = "Rewe Wiesloch")
     private val personEncounter = ContactDiaryPersonEncounterEntity(id = 3, date = date, fkPersonId = person.personId)
     private val locationVisit = ContactDiaryLocationVisitEntity(id = 4, date = date, fkLocationId = location.locationId)
 
-    //DB
+    // DB
     private val contactDiaryDatabase: ContactDiaryDatabase =
         Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
@@ -39,6 +42,12 @@ class ContactDiaryDatabaseTest : BaseTest() {
     private val personEncounterDao = contactDiaryDatabase.personEncounterDao()
     private val locationVisitDao = contactDiaryDatabase.locationVisitDao()
 
+    private fun List<ContactDiaryPersonEncounterWrapper>.toContactDiaryPersonEncounterEntityList(): List<ContactDiaryPersonEncounterEntity> =
+        this.map { it.contactDiaryPersonEncounterEntity }
+
+    private fun List<ContactDiaryLocationVisitWrapper>.toContactDiaryLocationVisitEntityList(): List<ContactDiaryLocationVisitEntity> =
+        this.map { it.contactDiaryLocationVisitEntity }
+
     @After
     fun teardown() {
         contactDiaryDatabase.clearAllTables()
@@ -47,7 +56,9 @@ class ContactDiaryDatabaseTest : BaseTest() {
     @Test
     fun checkPersonEncounterDeletedWhenReferencedPersonDeleted() = runBlocking {
         val personFlow = personDao.allEntries()
-        val personEncounterFlow = personEncounterDao.allEntries()
+        val personEncounterFlow = personEncounterDao
+            .allEntries()
+            .map { it.toContactDiaryPersonEncounterEntityList() }
 
         personFlow.first() shouldBe emptyList()
         personEncounterFlow.first() shouldBe emptyList()
@@ -65,7 +76,9 @@ class ContactDiaryDatabaseTest : BaseTest() {
     @Test
     fun checkLocationVisitDeletedWhenReferencedLocationDeleted() = runBlocking {
         val locationFlow = locationDao.allEntries()
-        val locationVisitFlow = locationVisitDao.allEntries()
+        val locationVisitFlow = locationVisitDao
+            .allEntries()
+            .map { it.toContactDiaryLocationVisitEntityList() }
 
         locationFlow.first() shouldBe emptyList()
         locationVisitFlow.first() shouldBe emptyList()
@@ -94,8 +107,9 @@ class ContactDiaryDatabaseTest : BaseTest() {
             ContactDiaryLocationVisitEntity(id = 8, date = tomorrow, fkLocationId = location.locationId)
         val encounterList = listOf(personEncounter, personEncounterYesterday, personEncounterTomorrow)
         val visitList = listOf(locationVisit, locationVisitYesterday, locationVisitTomorrow)
-        val personEncounterFlow = personEncounterDao.allEntries()
+        val personEncounterFlow = personEncounterDao.allEntries().map { it.toContactDiaryPersonEncounterEntityList() }
         val locationVisitFlow = locationVisitDao.allEntries()
+            .map { it.toContactDiaryLocationVisitEntityList() }
 
         personDao.insert(person)
         personEncounterDao.insert(encounterList)
@@ -105,12 +119,12 @@ class ContactDiaryDatabaseTest : BaseTest() {
         personEncounterFlow.first() shouldBe encounterList
         locationVisitFlow.first() shouldBe visitList
 
-        personEncounterDao.entitiesForDate(yesterday).first() shouldBe listOf(personEncounterYesterday)
-        personEncounterDao.entitiesForDate(date).first() shouldBe listOf(personEncounter)
-        personEncounterDao.entitiesForDate(tomorrow).first() shouldBe listOf(personEncounterTomorrow)
+        personEncounterDao.entitiesForDate(yesterday).first().toContactDiaryPersonEncounterEntityList() shouldBe listOf(personEncounterYesterday)
+        personEncounterDao.entitiesForDate(date).first().toContactDiaryPersonEncounterEntityList() shouldBe listOf(personEncounter)
+        personEncounterDao.entitiesForDate(tomorrow).first().toContactDiaryPersonEncounterEntityList() shouldBe listOf(personEncounterTomorrow)
 
-        locationVisitDao.entitiesForDate(yesterday).first() shouldBe listOf(locationVisitYesterday)
-        locationVisitDao.entitiesForDate(date).first() shouldBe listOf(locationVisit)
-        locationVisitDao.entitiesForDate(tomorrow).first() shouldBe listOf(locationVisitTomorrow)
+        locationVisitDao.entitiesForDate(yesterday).first().toContactDiaryLocationVisitEntityList() shouldBe listOf(locationVisitYesterday)
+        locationVisitDao.entitiesForDate(date).first().toContactDiaryLocationVisitEntityList() shouldBe listOf(locationVisit)
+        locationVisitDao.entitiesForDate(tomorrow).first().toContactDiaryLocationVisitEntityList() shouldBe listOf(locationVisitTomorrow)
     }
 }
