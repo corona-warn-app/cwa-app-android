@@ -61,7 +61,7 @@ data class SubmissionCardState(
     fun isPositiveSubmissionCardVisible(): Boolean =
         deviceUiState.withSuccess(false) {
             when (it) {
-                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> !hasTestResultBeenSeen
+                PAIRED_POSITIVE, PAIRED_POSITIVE_TELETAN -> hasTestResultBeenSeen
                 else -> false
             }
         }
