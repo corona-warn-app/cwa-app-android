@@ -49,15 +49,12 @@ class TransmissionRiskVectorDeterminator @Inject constructor(
                 is StartOf.NoInformation -> intArrayOf(5, 6, 8, 8, 8, 7, 5, 3, 2, 1, 1, 1, 1, 1, 1)
                 is StartOf.OneToTwoWeeksAgo -> intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
                 else -> {
-                    try {
-                        throw IllegalStateException("Positive indication without startDate is not allowed: $symptoms")
-                    } catch (e: IllegalStateException) {
-                        e.reportProblem(
+                   IllegalStateException("Positive indication without startDate is not allowed: $symptoms")
+                   .reportProblem(
                             tag = "TransmissionRiskVectorDeterminator",
                             info = "Symptoms has an invalid state."
                         )
                         intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-                    }
                 }
             }
             Indication.NEGATIVE -> intArrayOf(4, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
