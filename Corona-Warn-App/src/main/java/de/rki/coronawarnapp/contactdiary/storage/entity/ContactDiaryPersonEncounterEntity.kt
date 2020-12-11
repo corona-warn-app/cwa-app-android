@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.contactdiary.storage.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import org.joda.time.LocalDate
 
 @Entity(
+    tableName = "personencounters",
     foreignKeys = [
         ForeignKey(
             entity = ContactDiaryPersonEntity::class,
@@ -16,12 +19,13 @@ import org.joda.time.LocalDate
             onUpdate = ForeignKey.CASCADE,
             deferred = true
         )
-    ]
+    ],
+    indices = [Index("fkPersonId")]
 )
 data class ContactDiaryPersonEncounterEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
-    val date: LocalDate,
-    val fkPersonId: Long
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
+    @ColumnInfo(name = "date") val date: LocalDate,
+    @ColumnInfo(name = "fkPersonId") val fkPersonId: Long
 )
 
 fun ContactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity(): ContactDiaryPersonEncounterEntity =
