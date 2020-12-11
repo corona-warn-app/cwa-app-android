@@ -19,7 +19,7 @@ import org.joda.time.LocalDate
     ]
 )
 data class ContactDiaryLocationVisitEntity(
-    @PrimaryKey val id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val date: LocalDate,
     val fkLocationId: Long
 )
