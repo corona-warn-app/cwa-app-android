@@ -211,14 +211,14 @@ class SubmissionCardStateTest : BaseTest() {
         instance(
             deviceUiState = DeviceUIState.PAIRED_POSITIVE,
             uiStateState = ApiRequestState.SUCCESS,
-            hasResultBeenSeen = false
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
         instance(
             deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
             uiStateState = ApiRequestState.SUCCESS,
-            hasResultBeenSeen = false
+            hasResultBeenSeen = true
         ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
