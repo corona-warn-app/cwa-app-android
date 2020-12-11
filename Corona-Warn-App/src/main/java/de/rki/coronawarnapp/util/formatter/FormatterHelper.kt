@@ -6,9 +6,9 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Spanned
 import android.view.View
-import androidx.core.text.HtmlCompat
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.html.HtmlParser
 
 /*Style*/
 /**
@@ -129,13 +129,8 @@ fun formatColorIcon(color: Int?): Int {
     return color ?: appContext.getColor(R.color.colorAccentTintIcon)
 }
 
-fun formatStringAsHTMLFromLocal(path: String): Spanned {
-    val appContext = CoronaWarnApplication.getAppContext()
-    val content = appContext.assets.open(path).bufferedReader().use { it.readText() }
-    return HtmlCompat.fromHtml(
-        content,
-        HtmlCompat.FROM_HTML_MODE_LEGACY
-    )
+fun parseHtmlFromAssets(context: Context, path: String): Spanned {
+    return HtmlParser(context.assets).parseByASsetPath(path)
 }
 
 /**
