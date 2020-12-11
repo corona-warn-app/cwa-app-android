@@ -16,9 +16,9 @@ class InteroperabilityRepository @Inject constructor(
 ) {
 
     val countryList = appConfigProvider.currentConfig
-        .map {
+        .map { configData ->
             try {
-                appConfigProvider.getAppConfig()
+                configData
                     .supportedCountries
                     .mapNotNull { rawCode ->
                         val countryCode = rawCode.toLowerCase(Locale.ROOT)
