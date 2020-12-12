@@ -28,12 +28,7 @@ class InformationPrivacyFragment : Fragment(R.layout.fragment_information_privac
 
     private fun setButtonOnClickListener() {
         binding.informationPrivacyHeader.headerButtonBack.buttonIcon.setOnClickListener {
-
-            if (activity is (MainActivity)) {
-                (activity as MainActivity).goBack()
-            } else if (activity is (ContactDiaryActivity)) {
-                (activity as ContactDiaryActivity).goBack()
-            }
+            activity?.onBackPressed()
         }
     }
 }
