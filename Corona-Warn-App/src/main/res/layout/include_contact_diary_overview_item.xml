@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="element"
+            type="de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_diary_overview_element_body"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:focusable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_overview_element_inner_body"
+            style="@style/cardGrey"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/contact_diary_overview_element_name"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:text="Donnerstag, 01.12.2020"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/contact_diary_overview_element_right_arrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/contact_diary_overview_element_right_arrow"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/spacing_tiny"
+                android:layout_marginEnd="20dp"
+                android:importantForAccessibility="no"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_contact_diary_right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

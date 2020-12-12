@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_subtitle"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/include_submission_country_item" />
+            tools:listitem="@layout/include_contact_diary_overview_item" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
