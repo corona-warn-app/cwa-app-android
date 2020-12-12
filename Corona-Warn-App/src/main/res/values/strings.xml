@@ -1531,7 +1531,11 @@
     <string name="contact_diary_title"/>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_legal_information"/>
-
-
+    <!-- XTXT: Header of the contact diary overview screen -->
+    <string name="contact_diary_overview_header"/>
+    <!-- XTXT: Title of the contact diary overview screen -->
+    <string name="contact_diary_overview_title"/>
+    <!-- XTXT: Subtitle of the contact diary overview screen -->
+    <string name="contact_diary_overview_subtitle"/>
 
 </resources>

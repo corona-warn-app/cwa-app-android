@@ -1531,9 +1531,12 @@
     <string name="contact_diary_title">Kontakt-Tagebuch</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_legal_information">Weitere Hinweise finden Sie in der Datenschutzerklärung.</string>
-
-
-
+    <!-- XTXT: Header of the contact diary overview screen -->
+    <string name="contact_diary_overview_header">Startseite</string>
+    <!-- XTXT: Title of the contact diary overview screen -->
+    <string name="contact_diary_overview_title">Kontakt-Tagebuch</string>
+    <!-- XTXT: Subtitle of the contact diary overview screen -->
+    <string name="contact_diary_overview_subtitle">Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind.</string>
 
 
 
