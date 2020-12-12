@@ -9,7 +9,7 @@ class ContactDiaryOnboardingFragmentViewModel @AssistedInject constructor() : CW
     val routeToScreen: SingleLiveEvent<ContactDiaryOnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
-        TODO("handle this")
+        routeToScreen.postValue(ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment)
     }
 
     fun onBackButtonPress() {

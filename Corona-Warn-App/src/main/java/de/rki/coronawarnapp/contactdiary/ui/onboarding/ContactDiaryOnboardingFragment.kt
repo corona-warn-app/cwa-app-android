@@ -51,6 +51,14 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                         )
                     )
                 }
+
+                ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
+                    doNavigate(
+                        ActionOnlyNavDirections(
+                            R.id.action_contactDiaryOnboardingFragment_to_contactDiaryOverviewFragment
+                        )
+                    )
+                }
             }
         }
     }
