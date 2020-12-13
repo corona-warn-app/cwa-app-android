@@ -35,6 +35,7 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:focusable="true"
                 android:text="Donnerstag, 01.12.2020"
                 app:layout_constraintBottom_toBottomOf="parent"
