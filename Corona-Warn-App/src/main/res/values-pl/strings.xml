@@ -702,7 +702,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"W ręce trzymany jest smartfon z dużą ilością tekstu na ekranie. Obok tekstu znajduje się waga symbolizująca informacje prawne."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path" translatable="false">"technical_en.html"</string>
+    <string name="information_technical_html_path" translatable="false">"technical.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Impressum"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
