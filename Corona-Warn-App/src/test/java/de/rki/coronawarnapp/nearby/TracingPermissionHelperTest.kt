@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby
 
-import android.app.Activity
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -26,7 +25,8 @@ class TracingPermissionHelperTest : BaseTest() {
         coEvery { enfClient.isTracingEnabled } returns flowOf(false)
     }
 
-    fun createInstance(scope: CoroutineScope) = TracingPermissionHelper(
+    fun createInstance(scope: CoroutineScope, callback: TracingPermissionHelper.Callback) = TracingPermissionHelper(
+        callback = callback,
         scope = scope,
         enfClient = enfClient
     )
@@ -43,12 +43,9 @@ class TracingPermissionHelperTest : BaseTest() {
         val callback = mockk<TracingPermissionHelper.Callback>()
         every { callback.onUpdateTracingStatus(any()) } just Runs
 
-        val instance = createInstance(scope = this)
-        instance.callback = callback
+        val instance = createInstance(scope = this, callback = callback)
 
-        val permissionRequestListener = mockk<(permissionRequest: (Activity) -> Unit) -> Unit>()
-
-        instance.startTracing(permissionRequestListener)
+        instance.startTracing()
 
         advanceUntilIdle()
 
