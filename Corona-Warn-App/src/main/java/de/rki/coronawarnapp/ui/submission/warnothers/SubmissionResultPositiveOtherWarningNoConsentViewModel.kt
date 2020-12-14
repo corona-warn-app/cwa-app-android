@@ -21,8 +21,8 @@ import timber.log.Timber
 class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
-    private val tekHistoryUpdater: TEKHistoryUpdater,
-    private val interoperabilityRepository: InteroperabilityRepository
+    tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
+    interoperabilityRepository: InteroperabilityRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -34,25 +34,33 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     val countryList = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
 
-    init {
-        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
-            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-                routeToScreen.postValue(
-                    SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
-                )
-            }
+    val showTracingConsentDialog = de.rki.coronawarnapp.ui.SingleLiveEvent<(Boolean) -> Unit>()
 
-            override fun onPermissionDeclined() {
-                // stay on screen
-            }
-
-            override fun onError(error: Throwable) {
-                Timber.e(error, "Couldn't access temporary exposure key history.")
-                error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
-            }
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
+        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+            routeToScreen.postValue(
+                SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
+                    .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
+            )
         }
-    }
+
+        override fun onTEKPermissionDeclined() {
+            // stay on screen
+        }
+
+        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+            showTracingConsentDialog.postValue(onConsentResult)
+        }
+
+        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+            showPermissionRequest.postValue(permissionRequest)
+        }
+
+        override fun onError(error: Throwable) {
+            Timber.e(error, "Couldn't access temporary exposure key history.")
+            error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
+        }
+    })
 
     fun onBackPressed() {
         routeToScreen.postValue(
@@ -64,9 +72,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     fun onConsentButtonClicked() {
         launch {
             if (enfClient.isTracingEnabled.first()) {
-                tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
-                    showPermissionRequest.postValue(permissionRequest)
-                }
+                tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 showEnableTracingEvent.postValue(Unit)
             }

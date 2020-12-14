@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState
 import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsStateProvider
@@ -33,7 +32,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     tracingDetailsStateProvider: TracingDetailsStateProvider,
     tracingStatus: GeneralTracingStatus,
     private val backgroundPrioritization: BackgroundPrioritization,
-    private val tracingPermissionHelper: TracingPermissionHelper
+    tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val tracingDetailsState: LiveData<TracingDetailsState> = tracingDetailsStateProvider.state
@@ -57,8 +56,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    init {
-        tracingPermissionHelper.callback = object : TracingPermissionHelper.Callback {
+    private val tracingPermissionHelper =
+        tracingPermissionHelperFactory.create(object : TracingPermissionHelper.Callback {
             override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
                 if (isTracingEnabled) {
                     // check if background processing is switched off,
@@ -71,29 +70,34 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 isTracingSwitchChecked.postValue(isTracingEnabled)
             }
 
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                events.postValue(Event.TracingConsentDialog { consentGiven ->
+                    if (!consentGiven) isTracingSwitchChecked.postValue(false)
+                    onConsentResult(consentGiven)
+                })
+            }
+
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                events.postValue(Event.RequestPermissions(permissionRequest))
+            }
+
             override fun onError(error: Throwable) {
                 Timber.w(error, "Failed to start tracing")
             }
-        }
-    }
-
-    private suspend fun turnTracingOff() {
-        InternalExposureNotificationClient.asyncStop()
-        BackgroundWorkScheduler.stopWorkScheduler()
-    }
-
-    fun requestTracingTurnedOn() {
-        tracingPermissionHelper.startTracing { permissionRequest ->
-            events.postValue(Event.RequestPermissions(permissionRequest))
-        }
-    }
+        })
 
     fun onTracingToggled(isChecked: Boolean) {
         try {
             if (isChecked) {
-                onTracingTurnedOn()
+                tracingPermissionHelper.startTracing()
             } else {
-                onTracingTurnedOff()
+                isTracingSwitchChecked.postValue(false)
+                launch {
+                    if (InternalExposureNotificationClient.asyncIsEnabled()) {
+                        InternalExposureNotificationClient.asyncStop()
+                        BackgroundWorkScheduler.stopWorkScheduler()
+                    }
+                }
             }
         } catch (exception: Exception) {
             exception.report(
@@ -104,34 +108,13 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun onTracingTurnedOff() {
-        isTracingSwitchChecked.postValue(false)
-        launch {
-            if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                turnTracingOff()
-            }
-        }
-    }
-
-    private fun onTracingTurnedOn() {
-        // tracing was already activated
-        if (LocalData.initialTracingActivationTimestamp() != null) {
-            requestTracingTurnedOn()
-        } else {
-            // tracing was never activated
-            // ask for consent via dialog for initial tracing activation when tracing was not
-            // activated during onboarding
-            events.postValue(Event.ShowConsentDialog)
-        }
-    }
-
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         tracingPermissionHelper.handleActivityResult(requestCode, resultCode, data)
     }
 
     sealed class Event {
         data class RequestPermissions(val permissionRequest: (Activity) -> Unit) : Event()
-        object ShowConsentDialog : Event()
+        data class TracingConsentDialog(val onConsentResult: (Boolean) -> Unit) : Event()
         object ManualCheckingDialog : Event()
     }
 

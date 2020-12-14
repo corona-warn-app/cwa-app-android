@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragmentViewModel.Event
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -26,7 +27,6 @@ import javax.inject.Inject
  *
  * @see SettingsViewModel
  * @see InternalExposureNotificationClient
- * @see InternalExposureNotificationPermissionHelper
  */
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
 
@@ -62,8 +62,13 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         vm.events.observe2(this) {
             when (it) {
                 is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
-                Event.ShowConsentDialog -> showConsentDialog()
                 Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
+                is Event.TracingConsentDialog -> {
+                    TracingConsentDialog(requireContext()).show(
+                        onConsentGiven = { it.onConsentResult(true) },
+                        onConsentDeclined = { it.onConsentResult(false) }
+                    )
+                }
             }
         }
 
@@ -132,24 +137,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             null,
             false, {
                 // close dialog
-            }
-        )
-        DialogHelper.showDialog(dialog)
-    }
-
-    private fun showConsentDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.onboarding_tracing_headline_consent,
-            message = R.string.onboarding_tracing_body_consent,
-            positiveButton = R.string.onboarding_button_enable,
-            negativeButton = R.string.onboarding_button_cancel,
-            cancelable = true,
-            positiveButtonFunction = {
-                vm.requestTracingTurnedOn()
-            },
-            negativeButtonFunction = {
-                vm.onTracingTurnedOff()
             }
         )
         DialogHelper.showDialog(dialog)
