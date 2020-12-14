@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
@@ -36,13 +37,17 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     }.asLiveData()
 
     fun locationSelectionChanged(item: SelectableItem<ContactDiaryLocation>) = launch {
-        if (item.selected) {
+        if (!item.selected) {
             contactDiaryRepository.addLocationVisit(
                 DefaultContactDiaryLocationVisit(
                     date = localDate,
                     contactDiaryLocation = item.item
                 )
             )
+        } else {
+            val visit = dayElement.first()
+                .find { it.contactDiaryLocation.locationId == item.item.locationId }
+            visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
         }
     }
 

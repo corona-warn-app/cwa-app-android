@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.sheets.person
 
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -14,8 +15,12 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
 
     val shouldClose = SingleLiveEvent<Unit>()
 
-    fun savePerson(personName: String) = launch {
-        contactDiaryRepository.addDummyPerson(personName)
+    fun savePerson(fullName: String) = launch {
+        contactDiaryRepository.addPerson(
+            ContactDiaryPersonEntity(
+                fullName = fullName
+            )
+        )
         shouldClose.postValue(null)
     }
 

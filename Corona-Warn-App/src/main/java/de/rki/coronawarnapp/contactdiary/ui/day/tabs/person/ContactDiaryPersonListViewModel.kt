@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
@@ -36,13 +37,17 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     }.asLiveData()
 
     fun personSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch {
-        if (item.selected) {
+        if (!item.selected) {
             contactDiaryRepository.addPersonEncounter(
                 DefaultContactDiaryPersonEncounter(
                     date = localDate,
                     contactDiaryPerson = item.item
                 )
             )
+        } else {
+            val visit = dayElement.first()
+                .find { it.contactDiaryPerson.personId == item.item.personId }
+            visit?.let { contactDiaryRepository.deletePersonEncounter(it) }
         }
     }
 
