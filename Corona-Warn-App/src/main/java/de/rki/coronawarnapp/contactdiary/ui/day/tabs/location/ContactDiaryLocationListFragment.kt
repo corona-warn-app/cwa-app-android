@@ -40,7 +40,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
             adapter = locationListAdapter
         }
 
-        viewModel.locations.observe2(this) {
+        viewModel.uiList.observe2(this) {
             locationListAdapter.update(it)
 
             binding.contactDiaryLocationListNoItemsGroup.setInvisible(it.isNotEmpty())

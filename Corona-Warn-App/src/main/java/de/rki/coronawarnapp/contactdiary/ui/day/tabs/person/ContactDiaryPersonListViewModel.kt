@@ -3,46 +3,47 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.model.Person
-import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import org.joda.time.Instant
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: Long,
-    contactDiaryRepository: ContactDiaryRepository
+    private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val dayElement = contactDiaryRepository.filterForDay(Instant.ofEpochMilli(selectedDay))
-    private val selectablePersons = MutableStateFlow<List<SelectableItem<Person>>>(emptyList())
+    private val localDate = Instant.ofEpochSecond(selectedDay).toLocalDate()
 
-    init {
-        launch {
-            dayElement.collect {
-                selectablePersons.emit(
-                    it.people.map { person -> SelectableItem(false, person) }
-                )
-            }
-        }
-    }
+    private val dayElement = contactDiaryRepository.personEncountersForDate(localDate)
+    private val selectablePersons = contactDiaryRepository.people
 
-    val persons = selectablePersons.asLiveData()
-
-    fun personSelectionChanged(item: SelectableItem<Person>) = launch {
-        val newPersons = selectablePersons.value.map {
-            if (it.stableId == item.stableId) {
-                SelectableItem(!item.selected, item.item)
+    val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
+        persons.map { contactDiaryPerson ->
+            if (dayElement.any { it.contactDiaryPerson.personId == contactDiaryPerson.personId }) {
+                SelectableItem(true, contactDiaryPerson)
             } else {
-                it
+                SelectableItem(false, contactDiaryPerson)
             }
         }
-        selectablePersons.emit(newPersons)
+    }.asLiveData()
+
+    fun personSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch {
+        if (item.selected) {
+            contactDiaryRepository.addPersonEncounter(
+                DefaultContactDiaryPersonEncounter(
+                    date = localDate,
+                    contactDiaryPerson = item.item
+                )
+            )
+        }
     }
 
     @AssistedInject.Factory

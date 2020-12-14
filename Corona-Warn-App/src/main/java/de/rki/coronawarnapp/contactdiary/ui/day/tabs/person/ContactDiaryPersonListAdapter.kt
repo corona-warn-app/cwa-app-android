@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.model.Person
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListLineBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
@@ -11,11 +11,11 @@ import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 
 class ContactDiaryPersonListAdapter(
-    private val onTappedCallback: (item: SelectableItem<Person>) -> Unit
+    private val onTappedCallback: (item: SelectableItem<ContactDiaryPerson>) -> Unit
 ) : BaseAdapter<ContactDiaryPersonListAdapter.CachedPersonViewHolder>(),
-    AsyncDiffUtilAdapter<SelectableItem<Person>> {
+    AsyncDiffUtilAdapter<SelectableItem<ContactDiaryPerson>> {
 
-    override val asyncDiffer: AsyncDiffer<SelectableItem<Person>> = AsyncDiffer(this)
+    override val asyncDiffer: AsyncDiffer<SelectableItem<ContactDiaryPerson>> = AsyncDiffer(this)
 
     override fun getItemCount(): Int = data.size
 
@@ -35,10 +35,10 @@ class ContactDiaryPersonListAdapter(
     class CachedPersonViewHolder(
         parent: ViewGroup
     ) : BaseAdapter.VH(R.layout.contact_diary_person_list_line, parent),
-        BindableVH<SelectableItem<Person>, ContactDiaryPersonListLineBinding> {
+        BindableVH<SelectableItem<ContactDiaryPerson>, ContactDiaryPersonListLineBinding> {
         override val viewBinding = lazy { ContactDiaryPersonListLineBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryPersonListLineBinding.(key: SelectableItem<Person>) -> Unit = {
+        override val onBindData: ContactDiaryPersonListLineBinding.(key: SelectableItem<ContactDiaryPerson>) -> Unit = {
             contactDiaryPersonListLineName.text = it.item.fullName
             when (it.selected) {
                 true -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_selected)

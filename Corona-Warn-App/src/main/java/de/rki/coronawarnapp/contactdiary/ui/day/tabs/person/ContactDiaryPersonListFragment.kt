@@ -40,7 +40,7 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
             adapter = personListAdapter
         }
 
-        viewModel.persons.observe2(this) {
+        viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
 
             binding.contactDiaryPersonListNoItemsGroup.setInvisible(it.isNotEmpty())

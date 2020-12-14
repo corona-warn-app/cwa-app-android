@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-interface ContactDiaryPerson {
+import de.rki.coronawarnapp.util.lists.HasStableId
+
+interface ContactDiaryPerson : HasStableId {
     val personId: Long
     var fullName: String
 }
