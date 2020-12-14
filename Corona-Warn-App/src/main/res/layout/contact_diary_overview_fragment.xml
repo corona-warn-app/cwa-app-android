@@ -9,8 +9,8 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/contact_diary_overview_button_back"
-            layout="@layout/include_header"
+            android:id="@+id/contact_diary_overview_header"
+            layout="@layout/include_contact_diary_overview_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
@@ -30,7 +30,7 @@
             android:text="@string/contact_diary_overview_title"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_button_back"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_header"
             tools:text="Kontakt-Tagebuch" />
 
 

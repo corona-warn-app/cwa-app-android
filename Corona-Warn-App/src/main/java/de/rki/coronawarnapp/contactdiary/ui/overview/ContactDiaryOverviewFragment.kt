@@ -18,8 +18,13 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
     private val vm: ContactDiaryOverviewViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOverviewFragmentBinding by viewBindingLazy()
 
+    @Inject lateinit var contactDiaryOverviewMenu: ContactDiaryOverviewMenu
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupToolbar()
+
         binding.apply {
         }
 
@@ -29,5 +34,13 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
     override fun onResume() {
         super.onResume()
+    }
+
+    private fun setupToolbar() {
+
+        binding.contactDiaryOverviewHeader.contactDiaryHeaderOptionsMenu.buttonIcon.apply {
+            contentDescription = getString(R.string.button_menu)
+            setOnClickListener { contactDiaryOverviewMenu.showMenuFor(it) }
+        }
     }
 }

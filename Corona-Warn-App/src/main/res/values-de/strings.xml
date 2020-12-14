@@ -1519,6 +1519,14 @@
     <!-- XTXT: Subtitle of the contact diary overview screen -->
     <string name="contact_diary_overview_subtitle">Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind.</string>
 
+    <!-- XTXT: Information Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_diary_information">Information</string>
+    <!-- XTXT: Export Entries Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_export_entries">Einträge exportieren</string>
+    <!-- XTXT: Edit Persons Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_diary_edit_persons">Personen bearbeiten</string>
+    <!-- XTXT: Edit Locations Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_diary_edit_locations">Orte bearbeiten</string>
 
 
 

@@ -10,7 +10,7 @@
 
 
         <include
-            android:id="@+id/contact_diary_onboarding_button_back"
+            android:id="@+id/contact_diary_onboarding_header"
             layout="@layout/include_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toTopOf="@+id/contact_diary_onboarding_next_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_button_back">
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

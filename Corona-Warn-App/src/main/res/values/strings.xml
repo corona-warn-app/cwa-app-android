@@ -1522,4 +1522,13 @@
     <!-- XTXT: Subtitle of the contact diary overview screen -->
     <string name="contact_diary_overview_subtitle"/>
 
+    <!-- XTXT: Information Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_diary_information"/>
+    <!-- XTXT: Export Entries Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_export_entries"/>
+    <!-- XTXT: Edit Persons Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_diary_edit_persons"/>
+    <!-- XTXT: Edit Locations Menu Entry for Contact Diary Overview Screen -->
+    <string name="menu_contact_diary_edit_locations"/>
+
 </resources>
