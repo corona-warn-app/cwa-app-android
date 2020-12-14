@@ -7,10 +7,12 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -32,7 +34,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var enfClient: ENFClient
 
-    val availableTEKs: List<TemporaryExposureKey> = listOf(mockk())
+    private val availableTEKs: List<TemporaryExposureKey> = listOf(mockk())
 
     @BeforeEach
     fun setup() {
@@ -78,13 +80,46 @@ class TEKHistoryUpdaterTest : BaseTest() {
     fun `if tracing is disabled then start tracing`() = runBlockingTest {
         coEvery { enfClient.isTracingEnabled } returns flowOf(false)
 
+        every { tracingPermissionHelperFactory.create(any()) } returns tracingPermissionHelper
+
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
         instance.updateTEKHistoryOrRequestPermission()
 
+
+
         verify {
             tracingPermissionHelper.startTracing()
+        }
+    }
+
+    @Test
+    fun `tracing callbacks are forwarded via tek updater callbacks`() = runBlockingTest {
+        coEvery { enfClient.isTracingEnabled } returns flowOf(false)
+
+        var tracingCallback: TracingPermissionHelper.Callback? = null
+        every { tracingPermissionHelperFactory.create(any()) } answers {
+            tracingCallback = arg(0)
+            tracingPermissionHelper
+        }
+
+        val tekUpdaterCallback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
+        val instance = createInstance(scope = this, callback = tekUpdaterCallback)
+
+        instance.updateTEKHistoryOrRequestPermission()
+        tracingCallback shouldNotBe null
+
+        val consentRequest: (Boolean) -> Unit = { }
+        tracingCallback!!.onTracingConsentRequired(consentRequest)
+
+        val permissionRequest: (Activity) -> Unit = { }
+        tracingCallback!!.onPermissionRequired(permissionRequest)
+
+        verify {
+            tracingPermissionHelper.startTracing()
+            tekUpdaterCallback.onTracingConsentRequired(consentRequest)
+            tekUpdaterCallback.onPermissionRequired(permissionRequest)
         }
     }
 
@@ -168,12 +203,13 @@ class TEKHistoryUpdaterTest : BaseTest() {
             data = testIntent
         ) shouldBe true
 
-        verifySequence {
+        coVerifySequence {
             tracingPermissionHelper.handleActivityResult(
                 requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
                 resultCode = Activity.RESULT_OK,
                 data = testIntent
             )
+            enfClient.getTEKHistory()
             callback.onTEKAvailable(availableTEKs)
         }
     }

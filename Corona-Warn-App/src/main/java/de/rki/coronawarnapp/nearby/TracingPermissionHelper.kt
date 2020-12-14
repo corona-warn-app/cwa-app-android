@@ -70,7 +70,9 @@ class TracingPermissionHelper @AssistedInject constructor(
     }
 
     private fun isConsentGiven(): Boolean {
-        return LocalData.initialTracingActivationTimestamp() != null
+        val firstTracingActivationAt = LocalData.initialTracingActivationTimestamp()
+        Timber.tag(TAG).v("isConsentGiven(): First tracing activationat: %d", firstTracingActivationAt)
+        return firstTracingActivationAt != null
     }
 
     interface Callback {
