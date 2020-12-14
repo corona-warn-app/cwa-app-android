@@ -15,12 +15,12 @@ import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsent
 import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 import testhelpers.BaseUITest
 
 @RunWith(AndroidJUnit4::class)
@@ -49,7 +49,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
 
-        val mockNavController = mock(NavController::class.java)
+        val mockNavController = mockk<NavController>()
         val scenario = launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>()
 
         scenario.onFragment { fragment ->
@@ -57,7 +57,9 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         }
         // Verify that performing a click prompts the correct Navigation action
         onView(ViewMatchers.withId(R.id.submission_test_result_button_consent_given_continue)).perform(ViewActions.click())
-        verify(mockNavController).navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
+        verify {
+            mockNavController.navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
+        }
     }
 }
 
