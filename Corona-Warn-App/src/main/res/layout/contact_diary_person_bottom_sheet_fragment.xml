@@ -34,6 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
+            app:counterEnabled="true"
+            app:counterMaxLength="250"
             android:hint="@string/contact_diary_person_bottom_sheet_text_input_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

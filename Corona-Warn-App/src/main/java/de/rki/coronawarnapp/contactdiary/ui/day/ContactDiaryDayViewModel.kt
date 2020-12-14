@@ -10,23 +10,23 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
 class ContactDiaryDayViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    @Assisted selectedDay: Long
+    @Assisted selectedDay: String
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val dateFormat by lazy {
         DateTimeFormat.forPattern("EEEE, dd.MM.yy")
     }
 
-    private val activeInstant = Instant.ofEpochSecond(selectedDay)
+    private val activeDay = LocalDate.parse(selectedDay)
 
     val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.LOCATION_TAB)
 
     private val currentTab = MutableStateFlow(contactDiaryTabs[0])
-    private val displayedDay = MutableStateFlow(activeInstant)
+    private val displayedDay = MutableStateFlow(activeDay)
 
     val createPerson = SingleLiveEvent<Unit>()
     val createLocation = SingleLiveEvent<Unit>()
@@ -58,6 +58,6 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryDayViewModel> {
-        fun create(selectedDay: Long): ContactDiaryDayViewModel
+        fun create(selectedDay: String): ContactDiaryDayViewModel
     }
 }

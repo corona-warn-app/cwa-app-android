@@ -35,6 +35,8 @@
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
             android:hint="@string/contact_diary_location_bottom_sheet_text_input_hint"
+            app:counterEnabled="true"
+            app:counterMaxLength="250"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_location_bottom_sheet_close_button">

@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonLi
 data class ContactDiaryDayTab(
     val tabNameResource: Int,
     val fabTextResource: Int,
-    val fragmentInstantiation: (day: Long) -> Fragment
+    val fragmentInstantiation: (day: String) -> Fragment
 ) {
     companion object {
         val PERSON_TAB = ContactDiaryDayTab(

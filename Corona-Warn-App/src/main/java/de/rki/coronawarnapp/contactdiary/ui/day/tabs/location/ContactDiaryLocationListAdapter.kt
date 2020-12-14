@@ -38,7 +38,9 @@ class ContactDiaryLocationListAdapter(
         BindableVH<SelectableItem<ContactDiaryLocation>, ContactDiaryLocationListLineBinding> {
         override val viewBinding = lazy { ContactDiaryLocationListLineBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryLocationListLineBinding.(key: SelectableItem<ContactDiaryLocation>) -> Unit =
+        override val onBindData: ContactDiaryLocationListLineBinding.(
+            key: SelectableItem<ContactDiaryLocation>
+        ) -> Unit =
             {
                 contactDiaryLocationListLineName.text = it.item.locationName
                 when (it.selected) {

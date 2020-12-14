@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -38,6 +39,11 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
 
         binding.contactDiaryLocationListRecyclerView.apply {
             adapter = locationListAdapter
+            addItemDecoration(
+                MarginRecyclerViewDecoration(
+                    resources.getDimensionPixelSize(R.dimen.spacing_tiny)
+                )
+            )
         }
 
         viewModel.uiList.observe2(this) {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonBottomSheetFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -21,8 +22,7 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = ContactDiaryPersonBottomSheetFragmentBinding.inflate(inflater)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,13 +33,20 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
         }
 
         binding.contactDiaryPersonBottomSheetSaveButton.setOnClickListener {
-            viewModel.savePerson(
-                binding.contactDiaryPersonBottomSheetTextInputEditText.text.toString()
-            )
+            viewModel.savePerson()
+        }
+
+        binding.contactDiaryPersonBottomSheetTextInputEditText.doAfterTextChanged {
+            viewModel.textChanged(it.toString())
         }
 
         viewModel.shouldClose.observe2(this) {
             dismiss()
+        }
+
+        viewModel.isValid.observe2(this) {
+            binding.contactDiaryPersonBottomSheetTextInputLayout.isErrorEnabled = it
+            binding.contactDiaryPersonBottomSheetSaveButton.isEnabled = it
         }
     }
 
