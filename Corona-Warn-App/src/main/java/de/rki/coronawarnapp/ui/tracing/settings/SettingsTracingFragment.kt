@@ -5,17 +5,17 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragmentViewModel.Event
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -27,7 +27,6 @@ import javax.inject.Inject
  *
  * @see SettingsViewModel
  * @see InternalExposureNotificationClient
- * @see InternalExposureNotificationPermissionHelper
  */
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
 
@@ -45,15 +44,17 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         vm.tracingDetailsState.observe2(this) {
             binding.tracingDetails = it
         }
-        vm.tracingSettingsState.observe2(this) {
-            binding.settingsTracingState = it
+        vm.tracingSettingsState.observe2(this) { state ->
+            binding.settingsTracingState = state
 
             binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
-                when (it) {
+                when (state) {
                     TracingSettingsState.BluetoothDisabled,
                     TracingSettingsState.LocationDisabled -> setOnClickListener(null)
-                    TracingSettingsState.TracingInActive,
-                    TracingSettingsState.TracingActive -> setOnClickListener { vm.startStopTracing() }
+                    TracingSettingsState.TracingInactive,
+                    TracingSettingsState.TracingActive -> setOnClickListener {
+                        binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.performClick()
+                    }
                 }
             }
         }
@@ -61,9 +62,18 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         vm.events.observe2(this) {
             when (it) {
                 is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
-                Event.ShowConsentDialog -> showConsentDialog()
                 Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
+                is Event.TracingConsentDialog -> {
+                    TracingConsentDialog(requireContext()).show(
+                        onConsentGiven = { it.onConsentResult(true) },
+                        onConsentDeclined = { it.onConsentResult(false) }
+                    )
+                }
             }
+        }
+
+        vm.isTracingSwitchChecked.observe2(this) { checked ->
+            binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.isChecked = checked
         }
 
         setButtonOnClickListener()
@@ -84,14 +94,11 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
+        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
 
-        switch.setOnCheckedChangeListener { view, _ ->
-            // Make sure that listener is called by user interaction
-            if (view.isPressed) {
-                vm.startStopTracing()
-                // Focus on the body text after to announce the tracing status for accessibility reasons
-                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
-                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            if (switch.isPressed || row.isPressed) {
+                onTracingToggled(isChecked)
             }
         }
         back.setOnClickListener {
@@ -108,11 +115,17 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         }
     }
 
+    private fun onTracingToggled(isChecked: Boolean) {
+        // Focus on the body text after to announce the tracing status for accessibility reasons
+        binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+            .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+        vm.onTracingToggled(isChecked)
+    }
+
     private fun navigateToInteroperability() {
-        findNavController()
-            .doNavigate(
-                SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
-            )
+        doNavigate(
+            SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
+        )
     }
 
     private fun showManualCheckingRequiredDialog() {
@@ -124,24 +137,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             null,
             false, {
                 // close dialog
-            }
-        )
-        DialogHelper.showDialog(dialog)
-    }
-
-    private fun showConsentDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.onboarding_tracing_headline_consent,
-            message = R.string.onboarding_tracing_body_consent,
-            positiveButton = R.string.onboarding_button_enable,
-            negativeButton = R.string.onboarding_button_cancel,
-            cancelable = true,
-            positiveButtonFunction = {
-                vm.startStopTracing()
-            },
-            negativeButtonFunction = {
-                // Declined
             }
         )
         DialogHelper.showDialog(dialog)

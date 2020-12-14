@@ -35,7 +35,7 @@ class TEKHistoryStorage @Inject constructor(
             try {
                 tekHistoryTables.insertEntry(newEntry)
             } catch (e: SQLiteConstraintException) {
-                Timber.i(e, "TEK is already stored: %s", id)
+                Timber.i("TEK is already stored: %s", it)
             }
         }
     }

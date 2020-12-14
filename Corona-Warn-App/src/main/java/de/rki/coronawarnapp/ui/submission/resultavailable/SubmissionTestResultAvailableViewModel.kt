@@ -19,8 +19,8 @@ import timber.log.Timber
 
 class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val tekHistoryUpdater: TEKHistoryUpdater,
-    private val submissionRepository: SubmissionRepository
+    tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
+    submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -29,33 +29,42 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
+    val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
+
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
+        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+            routeToScreen.postValue(
+                SubmissionTestResultAvailableFragmentDirections
+                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
+            )
+        }
+
+        override fun onTEKPermissionDeclined() {
+            routeToScreen.postValue(
+                SubmissionTestResultAvailableFragmentDirections
+                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+            )
+        }
+
+        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+            showTracingConsentDialog.postValue(onConsentResult)
+        }
+
+        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+            showPermissionRequest.postValue(permissionRequest)
+        }
+
+        override fun onError(error: Throwable) {
+            Timber.e(error, "Failed to update TEKs.")
+            error.report(
+                exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
+                prefix = "SubmissionTestResultAvailableViewModel"
+            )
+        }
+    })
 
     init {
         submissionRepository.refreshDeviceUIState(refreshTestResult = false)
-
-        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
-            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-                routeToScreen.postValue(
-                    SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
-                )
-            }
-
-            override fun onPermissionDeclined() {
-                routeToScreen.postValue(
-                    SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
-                )
-            }
-
-            override fun onError(error: Throwable) {
-                Timber.e(error, "Failed to update TEKs.")
-                error.report(
-                    exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
-                    prefix = "SubmissionTestResultAvailableViewModel"
-                )
-            }
-        }
     }
 
     fun goBack() {
@@ -72,16 +81,16 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     fun goConsent() {
         routeToScreen.postValue(
             SubmissionTestResultAvailableFragmentDirections
-                .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment()
+                .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
+                    isTestResultAvailable = true
+                )
         )
     }
 
     fun proceed() {
         launch {
             if (consentFlow.first()) {
-                tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
-                    showPermissionRequest.postValue(permissionRequest)
-                }
+                tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections

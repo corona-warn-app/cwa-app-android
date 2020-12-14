@@ -28,13 +28,15 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
+    @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(true)
-        every { tekHistoryUpdater.callback = any() } just Runs
-        every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission(any()) } just Runs
+
+        every { tekHistoryUpdaterFactory.create(any()) } returns tekHistoryUpdater
+        every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() } just Runs
 
         // TODO Check specific behavior
         every { submissionRepository.refreshDeviceUIState(any()) } just Runs
@@ -43,7 +45,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(
         submissionRepository = submissionRepository,
         dispatcherProvider = TestDispatcherProvider,
-        tekHistoryUpdater = tekHistoryUpdater
+        tekHistoryUpdaterFactory = tekHistoryUpdaterFactory
     )
 
     @AfterEach
@@ -80,7 +82,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.goConsent()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
-            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment()
+            .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(true)
     }
 
     @Test
@@ -89,7 +91,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.proceed()
         verify {
-            tekHistoryUpdater.updateTEKHistoryOrRequestPermission(any())
+            tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
         }
     }
 

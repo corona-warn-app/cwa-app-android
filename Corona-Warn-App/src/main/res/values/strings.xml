@@ -35,11 +35,7 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_auth_code"><xliff:g id="preference">"preference_auth_code"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
     <!-- NOTR -->
@@ -48,8 +44,6 @@
     <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
@@ -105,9 +99,9 @@
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Please share your test result and warn others."</string>
     <!-- XHED: Notification title - test result is ready -->
-    <string name="notification_headline_test_result_ready">""</string>
+    <string name="notification_headline_test_result_ready">"Your Test Result"</string>
     <!-- XTXT: Notification body - test result is ready -->
-    <string name="notification_body_test_result_ready">""</string>
+    <string name="notification_body_test_result_ready">"There is important news. Please open your Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -175,8 +169,6 @@
         <item quantity="many">"Exposures with low risk on %1$d days"</item>
     </plurals>
 
-    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
-    <string name="risk_card_high_risk_no_encounters_body">"No exposure up to now"</string>
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Exposures on one day with increased risk"</item>
@@ -224,7 +216,7 @@
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Let\'s fight coronavirus together"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"The more people who use the app, the faster we can break the infection chain. Please invite your family and friends to download the app."</string>
+    <string name="main_share_body">"The more people who use the app, the faster we can break chains of infection. Please invite your family and friends to download the app."</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Send Download Link"</string>
     <!-- YMSG: Message when sharing is executed -->
@@ -281,7 +273,7 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exchanged between smartphones in close proximity. Random IDs cannot be traced to a specific person and are automatically deleted after 14 days. Persons diagnosed with coronavirus can opt to share their random IDs of up to the last 14 days with other app users."</string>
+    <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exchanged between devices in close proximity. Random IDs cannot be traced to a specific person and are automatically deleted after 14 days. Persons diagnosed with coronavirus can opt to share their random IDs of up to the last 14 days with other app users."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"A smartphone displays various content, numbered 1 to 3."</string>
     <!-- XACT: App main page title -->
@@ -338,7 +330,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
+    <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"The risk of infection is calculated locally on your smartphone, using exposure logging data. The calculation also takes into account distance and duration of any exposure to persons diagnosed with coronavirus, as well as their potential infectiousness. Your risk of infection cannot be seen by or passed on to anyone else."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
@@ -407,7 +399,7 @@
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Let\'s fight coronavirus together"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
-    <string name="onboarding_subtitle">"More protection for you and for us all. By using the Corona-Warn-App we can break infection chains much quicker."</string>
+    <string name="onboarding_subtitle">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
     <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
     <!-- YTXT: onboarding(together) - explain application -->
@@ -456,7 +448,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Allow prioritized background activity"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your smartphone\'s battery life.\n\nIf you do not allow this setting, we recommend you to open the App manually at least once every 24 hours."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the app to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your smartphone\'s battery life.\n\nIf you do not allow this setting, we recommend you to open the app manually at least once every 24 hours."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Allow"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -464,7 +456,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Prioritized background activity disabled"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you have to open the App manually at least once every 24 hours to update your risk status.\n\nYou can enable prioritized background activity in your settings any time."</string>
+    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you have to open the app manually at least once every 24 hours to update your risk status.\n\nYou can enable prioritized background activity in your settings any time."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
@@ -640,7 +632,7 @@
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Update Risk Status Automatically"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"If you activate prioritized background activity, the App can determine your risk status at any time. This disables battery life optimization for the Corona-Warn-App only."</string>
+    <string name="settings_background_priority_body">"If you activate prioritized background activity, the app can determine your risk status at any time. This disables battery life optimization for the Corona-Warn-App only."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
@@ -710,8 +702,8 @@
     <string name="information_technical_title">"Legal Notices"</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a balance scale that symbolizes legal notices."</string>
-    <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_en.html"</string>
+    <!-- XTXT: Path to the full blown legal html, currently not translated -->
+    <string name="information_technical_html_path" translatable="false">"technical.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Imprint"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
@@ -846,7 +838,7 @@
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. The warning function works in several countries. The following countries are currently participating:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"If you have been diagnosed with coronavirus, you can warn others through the app. The warning feature works in several countries. The following countries are currently participating:"</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Detailed Information on Data Processing and Your Consent"</string>
     <!-- YTXT: Body for consent main section first point  -->
@@ -854,7 +846,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Your identity will remain secret. Other users will not know who shared their test results."</string>
+    <string name="submission_consent_main_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
 
@@ -876,7 +868,7 @@
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Delete Test"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
-    <string name="submission_test_result_negative_steps_negative_heading">"Your Test Result"</string>
+    <string name="submission_test_result_negative_steps_negative_heading">"Negative Diagnosis"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"The laboratory result indicates no verification that you have the SARS-CoV-2 coronavirus.\n\nPlease delete the test from the Corona-Warn-App, so that you can save a new test code here if necessary."</string>
     <!-- XBUT: negative test result : remove the test button -->
@@ -927,38 +919,21 @@
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
-    <string name="submission_tan_title">"TAN entry"</string>
+    <string name="submission_tan_title">"Enter TAN"</string>
     <!-- YTXT: Body text for the tan submission page -->
     <string name="submission_tan_body">"Please enter the 10-digit TAN that you were given."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Next"</string>
     <!-- XACT: Submission Tan page title -->
-    <string name="submission_tan_accessibility_title">"TAN entry"</string>
+    <string name="submission_tan_accessibility_title">"Enter TAN"</string>
     <!-- YTXT: Error text for the tan submission page -->
     <string name="submission_tan_error">"Invalid TAN. Please check your entry."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
     <string name="submission_tan_character_error">"Your entry contains invalid characters. Please check your entry."</string>
 
     <!-- Submission Intro -->
-    <!-- XHED: Page title for menu at the start of the submission process  -->
-    <string name="submission_intro_title">"Have you been tested?"</string>
-    <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">"This is how the Corona-Warn-App works"</string>
-    <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who were diagnosed with coronavirus.\n\nSince only encrypted random IDs are exchanged, you will remain anonymous. You can now proceed as follows:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
-    <!-- XACT: Submission intro - illustration description, explanation image -->
-    <string name="submission_intro_illustration_description">"An encrypted positive test diagnosis is transmitted to the system, which will now warn other users."</string>
-    <!-- YTXT: submission introduction bullet points -->
-    <string-array name="submission_intro_bullet_points">
-        <item>"If there is a QR code in your test document, you can scan this and register the test. As soon as the result is available, you can view it in the app."</item>
-        <item>"If you have been diagnosed with coronavirus, you can warn others."</item>
-        <item>"If you were given a TAN for a positive diagnosis, you can use this to register the test."</item>
-        <item>"If you do not have a TAN, you can request one by telephone."</item>
-    </string-array>
-    <!-- XACT: Submission Intro page title -->
-    <string name="submission_intro_accessibility_title">"Have you been tested? This is how the Corona-Warn-App works"</string>
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
@@ -974,9 +949,10 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Register your test by scanning the QR code of your test document."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"TAN Entry"</string>
+    <string name="submission_dispatcher_card_tan_code">"Enter TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN? Continue to enter your TAN, so you can warn others. "</string>
+    <string name="submission_dispatcher_tan_code_card_text">"Do you have a TAN? Tap here to enter your TAN so you can warn others. "</string>
+    <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"No TAN yet?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -1002,7 +978,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body_first_part">"Because you tested positive for coronavirus, you can now warn others through the app."</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"The warning function works in several countries. The following countries are currently participating:"</string>
+    <string name="submission_positive_other_warning_no_consent_body_second_part">"The warning feature works in several countries. The following countries are currently participating:"</string>
 
 
     <!-- Test result positive and no consent given -->
@@ -1011,7 +987,7 @@
     <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_1"><b>"Share your test result and help protect others against infection."</b></string>
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_2">"Your identity will remain secret. Other users will not know who shared their test results."</string>
+    <string name="submission_test_result_positive_no_consent_text_2">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_3">"Please be sure to follow the instructions from your public health authority and stay home, so you don’t infect others."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
@@ -1025,7 +1001,7 @@
     <!-- XHED: Country selector headline for the submission country selection page -->
     <string name="submission_country_selector_headline">"I have visited the following countries"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"No statement"</string>
+    <string name="submission_country_no_selection_headline">"No answer"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
     <string name="submission_country_selection_data_faq_body">"Your entry is used solely for optimizing the data volume.\n\nThe list contains all currently participating countries and is continuously updated."</string>
     <!-- XBUT: submission country selection continue button -->
@@ -1035,7 +1011,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Thank you"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"You have made a valuable contribution. Thanks to your support, other people can now be warned and can react appropriately."</string>
+    <string name="submission_done_body">"Thanks to your support, other people can now be warned and respond appropriately."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Please note:"</string>
     <!-- YTXT: text after submission: contagious -->
@@ -1078,7 +1054,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Have you experienced one or more of the following symptoms in the last few days?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"You can indicate whether and when you noticed any corona symptoms, to allow the App to calculate more accurately the risk of infection to other app users. This step is voluntary. If you do not want to provide information about your symptoms, select “No answer”."</string>
+    <string name="submission_symptom_initial_explanation">"You can indicate whether and when you noticed any coronavirus symptoms, to allow the app to calculate more accurately the risk of infection to other app users. This step is voluntary. If you do not want to provide information about your symptoms, select “No answer”."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Increased temperature or fever"</item>
@@ -1095,7 +1071,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"No"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"No statement"</string>
+    <string name="submission_symptom_no_information_button">"No answer"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Next"</string>
 
@@ -1133,7 +1109,7 @@
 
     <!-- Submission Symptom Calendar -->
     <!-- XHED: Page title for calendar page in submission symptom flow -->
-    <string name="submission_symptom_calendar_title">"Start of Symptoms"</string>
+    <string name="submission_symptom_calendar_title">"Onset of Symptoms"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
     <string name="submission_symptom_calendar_headline">"When did you first notice the symptoms?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
@@ -1160,10 +1136,14 @@
     <string name="submission_status_card_title_positive">"Positive Diagnosis"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Test is no longer valid"</string>
+    <!-- XHED: Page title for the various submission status fetch ready -->
+    <string name="submission_status_card_title_ready">"Your Test Result Is Available"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Invalid test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Negative Diagnosis"</string>
+    <!-- XHED: Subtitle for the submission status card: ready -->
+    <string name="submission_status_card_subtitle_ready">"You can now retrieve your test result"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"You result is being updated"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
@@ -1176,6 +1156,8 @@
     <string name="submission_status_card_body_positive">"You have been diagnosed positive for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
+    <!-- YTXT: Body text for submission status fetch ready -->
+    <string name="submission_status_card_body_ready">"If you have tested positive for coronavirus, you can warn others."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- XBUT: submission status card unregistered button -->
@@ -1184,6 +1166,8 @@
     <string name="submission_status_card_button_show_results">"Display Test"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Delete Test"</string>
+    <!-- XBUT: submission status card fetch ready button -->
+    <string name="submission_status_card_button_ready">"Delete Test"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Please note:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1238,7 +1222,7 @@
     <!-- XTXT: Close screen popup text for consent given -->
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Your entries will not be saved."</string>
     <!-- YTXT: Text for consent NOT given -->
-    <string name="submission_test_result_available_text_consent_not_given">"You have chosen to not share your test results. Others will not be warned. \n\nIn the next step, you have the opportunity to change your mind and share your test result after all, to help stop the spread of coronavirus and protect others."</string>
+    <string name="submission_test_result_available_text_consent_not_given">"You have chosen not to share your test result. Others will not be warned. \n\nIn the next step, you have the opportunity to change your mind and share your test result after all, to help stop the spread of coronavirus and protect others."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Important:\nYou are about to cancel this process.\nYou have not warned others yet. Please complete the process and help to protect others."</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
@@ -1431,7 +1415,7 @@
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">"Several countries are working together to enable transnational alerts via a joint exchange server. For example, contacts with users of an official coronavirus app from other participating countries can also be taken into account for exposure logging."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"To do this, the app downloads a list, which is updated daily, of the random IDs of all users who have shared their test results to warn others via their own app. This list is then compared with the random IDs recorded by your Android smartphone. The list downloads are usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
+    <string name="interoperability_configuration_second_section">"To do this, the app downloads lists, which are updated daily, of the random IDs of all users who have shared their test results to warn others via their own app. This list is then compared with the random IDs recorded by your Android smartphone. The downloads of the lists of random IDs are usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"The following countries currently participate in transnational exposure logging:"</string>
     <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
@@ -1440,9 +1424,9 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Transnational\nExposure Logging"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Several countries have teamed up to enable transnational warnings. In other words, your potential exposure to users of the official corona apps in all participating countries can now be taken into account."</string>
+    <string name="interoperability_onboarding_first_section">"Several countries have teamed up to enable transnational warnings. In other words, your potential exposure to users of the official coronavirus apps in all participating countries can now be taken into account."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
-    <string name="interoperability_onboarding_second_section">"When a user submits their positive test result (more specifically: their random IDs) to warn others through the exchange server jointly operated by the participating countries, all users of the official corona apps in all these countries can be warned of their potential exposure."</string>
+    <string name="interoperability_onboarding_second_section">"When a user submits their positive test result (more specifically: their random IDs) to warn others through the exchange server jointly operated by the participating countries, all users of the official coronavirus apps in all these countries can be warned of their potential exposure."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_randomid_download_free">"The daily downloads of lists of random IDs from users who have shared positive test results are usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
@@ -1457,9 +1441,9 @@
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Transnational\nExposure Logging"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">"The features of the Corona-Warn-App have been enhanced. Many countries have joined up to enable international warnings, based on a jointly-operated exchange server. Exposure to users of official corona apps in other participating countries can now be taken into account when calculating your exposure risk."</string>
+    <string name="interoperability_onboarding_delta_subtitle">"The features of the Corona-Warn-App have been enhanced. Many countries have joined up to enable international warnings, based on a jointly-operated exchange server. Exposure to users of official coronavirus apps in other participating countries can now be taken into account when calculating your exposure risk."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"To do this, the app downloads a list, which is updated daily, of the random IDs of all users who have shared their test results to warn others via their own app. This list is then compared with the random IDs recorded by your Android smartphone."</string>
+    <string name="interoperability_onboarding_delta_randomid">"To do this, the app downloads lists, which are updated daily, of the random IDs of all users who have shared their test results to warn others via their own app. This list is then compared with the random IDs recorded by your Android smartphone."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_free_download">"The list downloads are usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
 

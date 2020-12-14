@@ -50,7 +50,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { database.exposureWindows() } returns exposureWindowTables
         every { database.clearAllTables() } just Runs
 
-        every { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
+        coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
 
         every { riskResultTables.allEntries() } returns emptyFlow()
         coEvery { riskResultTables.insertEntry(any()) } just Runs
@@ -124,7 +124,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `if no risk level results are available we try to get legacy results`() {
-        every { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
+        coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
         every { riskResultTables.allEntries() } returns flowOf(emptyList())
         every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
 
@@ -132,7 +132,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val instance = createInstance()
             instance.riskLevelResults.first().size shouldBe 2
 
-            verify { riskLevelResultMigrator.getLegacyResults() }
+            coVerify { riskLevelResultMigrator.getLegacyResults() }
         }
     }
 

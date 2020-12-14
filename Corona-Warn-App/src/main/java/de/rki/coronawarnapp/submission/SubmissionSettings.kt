@@ -39,6 +39,11 @@ class SubmissionSettings @Inject constructor(
         defaultValue = false
     )
 
+    val hasViewedTestResult = prefs.createFlowPreference(
+        key = "key_submission_result_viewed",
+        defaultValue = false
+    )
+
     val symptoms: FlowPreference<Symptoms?> = FlowPreference(
         prefs,
         key = "submission.symptoms.latest",
