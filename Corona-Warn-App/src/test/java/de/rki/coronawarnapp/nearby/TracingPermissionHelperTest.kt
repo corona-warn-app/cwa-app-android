@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.nearby
 
+import android.app.Activity
 import com.google.android.gms.common.api.Status
 import de.rki.coronawarnapp.storage.LocalData
+import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -12,6 +15,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
+import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -172,6 +176,54 @@ class TracingPermissionHelperTest : BaseTest() {
                 onPermissionRequired = any()
             )
             callback.onError(error)
+        }
+    }
+
+    @Test
+    fun `unknown activity results are not consumed`() = runBlockingTest {
+        val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.handleActivityResult(9999, Activity.RESULT_OK, mockk()) shouldBe false
+
+        verify { callback wasNot Called }
+    }
+
+    @Test
+    fun `positive activity results lead to new setTracing call`() = runBlockingTest {
+        val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.handleActivityResult(
+            TracingPermissionHelper.TRACING_PERMISSION_REQUESTCODE,
+            Activity.RESULT_OK,
+            mockk()
+        ) shouldBe true
+
+        coVerifySequence {
+            enfClient.setTracing(
+                enable = true,
+                onSuccess = any(),
+                onError = any(),
+                onPermissionRequired = any()
+            )
+            callback wasNot Called
+        }
+    }
+
+    @Test
+    fun `negative activity results lead permission to direct callback`() = runBlockingTest {
+        val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.handleActivityResult(
+            TracingPermissionHelper.TRACING_PERMISSION_REQUESTCODE,
+            Activity.RESULT_CANCELED,
+            mockk()
+        ) shouldBe true
+
+        coVerifySequence {
+            callback.onUpdateTracingStatus(false)
         }
     }
 }

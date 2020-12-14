@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.nearby
 
 import android.app.Activity
 import android.content.Intent
+import androidx.annotation.VisibleForTesting
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
@@ -84,7 +85,9 @@ class TracingPermissionHelper @AssistedInject constructor(
 
     companion object {
         private const val TAG = "TracingPermissionHelper"
-        const val TRACING_PERMISSION_REQUESTCODE = 3010
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val TRACING_PERMISSION_REQUESTCODE = 3010
     }
 
     @AssistedInject.Factory
