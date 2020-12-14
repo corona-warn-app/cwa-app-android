@@ -2,91 +2,91 @@ package de.rki.coronawarnapp.nearby
 
 import android.app.Activity
 import android.content.Intent
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
-class TracingPermissionHelper @Inject constructor(
+class TracingPermissionHelper @AssistedInject constructor(
+    @Assisted private val callback: Callback,
     private val enfClient: ENFClient,
     @AppScope private val scope: CoroutineScope
 ) {
 
-    var callback: Callback? = null
-
-    fun startTracing(
-        onUserPermissionRequired: (permissionRequest: (Activity) -> Unit) -> Unit
-    ) {
+    fun startTracing() {
         scope.launch {
             if (enfClient.isTracingEnabled.first()) {
-                callback?.onUpdateTracingStatus(true)
+                callback.onUpdateTracingStatus(true)
             } else {
-                enableTracing(onUserPermissionRequired)
+                if (isConsentGiven()) {
+                    enableTracing()
+                } else {
+                    callback.onTracingConsentRequired { given: Boolean ->
+                        Timber.tag(TAG).d("Consent result: $given")
+                        if (given) enableTracing()
+                    }
+                }
             }
         }
     }
 
-    private fun enableTracing(
-        onUserPermissionRequired: ((permissionRequest: (Activity) -> Unit) -> Unit)?
-    ) {
+    private fun enableTracing() {
         enfClient.setTracing(
             true,
-            onSuccess = { callback?.onUpdateTracingStatus(true) },
-            onError = { callback?.onError(it) },
+            onSuccess = { callback.onUpdateTracingStatus(true) },
+            onError = { callback.onError(it) },
             onPermissionRequired = { status ->
-                if (onUserPermissionRequired != null) {
-                    val permissionRequestTrigger: (Activity) -> Unit = {
-                        status.startResolutionForResult(it, TRACING_PERMISSION_REQUESTCODE)
-                    }
-                    onUserPermissionRequired(permissionRequestTrigger)
-                } else {
-                    callback?.onError(
-                        IllegalStateException("Permission were granted but we are still not allowed to enable tracing.")
-                    )
+                Timber.tag(TAG).d("Permission is required, starting user resolution.")
+                val permissionRequestTrigger: (Activity) -> Unit = {
+                    status.startResolutionForResult(it, TRACING_PERMISSION_REQUESTCODE)
                 }
+                callback.onPermissionRequired(permissionRequestTrigger)
             }
         )
     }
 
-    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): UpdateResult {
+    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         Timber.v(
             "handleActivityResult(requesutCode=%d, resultCode=%d, data=%s)",
             requestCode, resultCode, data
         )
         if (requestCode != TRACING_PERMISSION_REQUESTCODE) {
             Timber.tag(TAG).w("Not our request code ($requestCode): %s", data)
-            return UpdateResult.UNKNOWN_RESULT
+            return false
         }
 
-        return if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             Timber.tag(TAG).w("User granted permission (== RESULT_OK): %s", data)
-
-            enableTracing(null)
-            UpdateResult.PERMISSION_AVAILABLE
+            enableTracing()
         } else {
             Timber.tag(TAG).w("User declined permission (!= RESULT_OK): %s", data)
-
-            callback?.onUpdateTracingStatus(false)
-            UpdateResult.PERMISSION_DECLINED
+            callback.onUpdateTracingStatus(false)
         }
+        return true
     }
 
-    enum class UpdateResult {
-        PERMISSION_AVAILABLE,
-        PERMISSION_DECLINED,
-        UNKNOWN_RESULT
+    private fun isConsentGiven(): Boolean {
+        return LocalData.initialTracingActivationTimestamp() != null
     }
 
     interface Callback {
         fun onUpdateTracingStatus(isTracingEnabled: Boolean)
-
+        fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit)
+        fun onPermissionRequired(permissionRequest: (Activity) -> Unit)
         fun onError(error: Throwable)
     }
 
     companion object {
         private const val TAG = "TracingPermissionHelper"
         const val TRACING_PERMISSION_REQUESTCODE = 3010
+    }
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(callback: Callback): TracingPermissionHelper
     }
 }
