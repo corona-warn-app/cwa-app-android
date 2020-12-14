@@ -22,11 +22,13 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
+    private val currentSymptoms = mockFlowPreference<Symptoms?>(null)
 
     @BeforeEach
     fun setUp() {
@@ -34,6 +36,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         every { submissionRepository.isSubmissionRunning } returns flowOf(false)
         coEvery { submissionRepository.startSubmission() } just Runs
+        every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
     @AfterEach
@@ -79,6 +82,10 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             onNextClicked()
             navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
                 .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+            currentSymptoms.value shouldBe Symptoms(
+                startOfSymptoms = null,
+                symptomIndication = Symptoms.Indication.NEGATIVE
+            )
         }
 
         coVerify { submissionRepository.startSubmission() }
@@ -99,6 +106,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     @Test
     fun `submission by abort does not write any symptom data`() {
         createViewModel().onCancelConfirmed()
+
+        currentSymptoms.value shouldBe null
 
         coVerifySequence {
             submissionRepository.isSubmissionRunning
