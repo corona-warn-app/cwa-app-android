@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.data.tekhistory
 
 import android.app.Activity
 import android.content.Intent
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -148,6 +149,8 @@ class TEKHistoryUpdater @AssistedInject constructor(
 
     companion object {
         private const val TAG = "TEKHistoryUpdater"
-        private const val TEK_PERMISSION_REQUEST = 3011
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val TEK_PERMISSION_REQUEST = 3011
     }
 }
