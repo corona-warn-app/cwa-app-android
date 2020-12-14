@@ -44,15 +44,16 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
                 .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
-        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            showCancelDialog()
-        }
-
-        binding.submissionTestResultPositiveNoConsentButtonAbort.setOnClickListener {
-            showCancelDialog()
-        }
-        binding.submissionTestResultPositiveNoConsentButtonWarnOthers.setOnClickListener {
-            navigateToWarnOthers()
+        binding.apply {
+            submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                showCancelDialog()
+            }
+            submissionTestResultPositiveNoConsentButtonAbort.setOnClickListener {
+                showCancelDialog()
+            }
+            submissionTestResultPositiveNoConsentButtonWarnOthers.setOnClickListener {
+                navigateToWarnOthers()
+            }
         }
     }
 
@@ -65,10 +66,9 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
         AlertDialog.Builder(requireContext()).apply {
             setTitle(R.string.submission_test_result_positive_no_consent_dialog_title)
             setMessage(R.string.submission_test_result_positive_no_consent_dialog_message)
-            setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ ->
-                navigateToWarnOthers()
+            setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ ->
             }
-            setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
+            setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
                 navigateToHome()
             }
         }.show()
