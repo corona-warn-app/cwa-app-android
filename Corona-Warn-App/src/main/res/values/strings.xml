@@ -1514,6 +1514,10 @@
     <string name="contact_diary_onboarding_functionality_second_section"/>
     <!-- XTXT: Contact diary onboarding screen third functionality -->
     <string name="contact_diary_onboarding_functionality_third_section"/>
+    <!-- XTXT: Contact diary onboarding screen fourth functionality -->
+    <string name="contact_diary_onboarding_functionality_fourth_section"/>
+    <!-- XTXT: Contact diary onboarding screen fifth functionality -->
+    <string name="contact_diary_onboarding_functionality_fifth_section"/>
 
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_title"/>

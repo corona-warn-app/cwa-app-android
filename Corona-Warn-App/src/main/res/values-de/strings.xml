@@ -1513,8 +1513,11 @@
     <!-- XTXT: Contact diary onboarding screen second functionality -->
     <string name="contact_diary_onboarding_functionality_second_section">Tragen Sie ein, an welchen Orten Sie anderen begegnet sind.</string>
     <!-- XTXT: Contact diary onboarding screen third functionality -->
-    <string name="contact_diary_onboarding_functionality_third_section">Ihr Tagebuch ist nur für Sie bestimmt. Ihre Einträge werden nur auf Ihrem Smartphone gespeichert.\n\nSie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht.\n\nSie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen.</string>
-
+    <string name="contact_diary_onboarding_functionality_third_section">Ihr Tagebuch ist nur für Sie bestimmt. Ihre Einträge werden nur auf Ihrem Smartphone gespeichert.</string>
+    <!-- XTXT: Contact diary onboarding screen fourth functionality -->
+    <string name="contact_diary_onboarding_functionality_fourth_section">Sie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht.</string>
+    <!-- XTXT: Contact diary onboarding screen fifth functionality -->
+    <string name="contact_diary_onboarding_functionality_fifth_section">Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen.</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>Sie behalten über alle erfassten Informationen die volle Kontrolle.</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
