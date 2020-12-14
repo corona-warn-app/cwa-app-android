@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -87,6 +88,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
                     showRemoveTestDialog()
                 }
+                HomeFragmentEvents.GoToContactDiary -> {
+                    (requireActivity() as MainActivity).navigateToContactDiaryActivity()
+                }
             }
         }
 
@@ -97,6 +101,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
+
+        binding.contactDiaryCard.contactDiaryCardHomescreenButton.setOnClickListener {
+            vm.moveToContactDiary()
+        }
     }
 
     override fun onResume() {
