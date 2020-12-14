@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -39,7 +38,6 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
 
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
-            layoutManager = LinearLayoutManager(requireContext())
         }
 
         viewModel.persons.observe2(this) {
