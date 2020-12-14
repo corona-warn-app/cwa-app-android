@@ -3,13 +3,8 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryElement
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
-import de.rki.coronawarnapp.databinding.IncludeSubmissionCountryItemBinding
-import de.rki.coronawarnapp.ui.submission.SubmissionCountry
-
-
 
 class ContactDiaryOverviewAdapter(private val onElementSelectionListener: (DefaultContactDiaryElement) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
@@ -45,7 +40,6 @@ class ContactDiaryOverviewAdapter(private val onElementSelectionListener: (Defau
         ) {
             viewDataBinding.element = element
             viewDataBinding.executePendingBindings()
-
         }
     }
 }

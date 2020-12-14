@@ -21,11 +21,9 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-
         }
 
         vm.routeToScreen.observe2(this) {
-
         }
     }
 
