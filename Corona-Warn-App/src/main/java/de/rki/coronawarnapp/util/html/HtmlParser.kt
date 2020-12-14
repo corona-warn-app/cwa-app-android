@@ -13,8 +13,8 @@ class HtmlParser @Inject constructor(
     private val assets: AssetManager
 ) {
 
-    fun parseByASsetPath(path: String): Spanned = assets.open(path).bufferedReader().use {
-        Timber.v("parseByPath($path)")
+    fun parseByAssetPath(path: String): Spanned = assets.open(path).bufferedReader().use {
+        Timber.v("parseByAssetPath($path)")
         parse(it.readText())
     }
 

@@ -130,7 +130,7 @@ fun formatColorIcon(color: Int?): Int {
 }
 
 fun parseHtmlFromAssets(context: Context, path: String): Spanned {
-    return HtmlParser(context.assets).parseByASsetPath(path)
+    return HtmlParser(context.assets).parseByAssetPath(path)
 }
 
 /**
