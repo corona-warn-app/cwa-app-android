@@ -37,7 +37,15 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             )
                     )
                 }
-                Symptoms.Indication.NEGATIVE -> doSubmit()
+                Symptoms.Indication.NEGATIVE -> {
+                    submissionRepository.currentSymptoms.update {
+                        Symptoms(
+                            startOfSymptoms = null,
+                            symptomIndication = Symptoms.Indication.NEGATIVE
+                        )
+                    }
+                    doSubmit()
+                }
                 Symptoms.Indication.NO_INFORMATION -> showCancelDialog.postValue(Unit)
             }
         }
