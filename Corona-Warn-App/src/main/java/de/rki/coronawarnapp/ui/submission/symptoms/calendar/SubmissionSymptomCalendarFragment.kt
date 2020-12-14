@@ -3,15 +3,13 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToMainActivity
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
@@ -25,12 +23,14 @@ import javax.inject.Inject
 class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_symptom_calendar),
     AutoInject {
 
+    private val navArgs by navArgs<SubmissionSymptomCalendarFragmentArgs>()
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionSymptomCalendarViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionSymptomCalendarViewModel.Factory
-            factory.create()
+            factory.create(navArgs.symptomIndication)
         }
     )
 
@@ -55,15 +55,7 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
         }
 
         viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is NavigateToResultPositiveOtherWarning -> doNavigate(
-                    SubmissionSymptomCalendarFragmentDirections
-                        .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment()
-                )
-                is NavigateToMainActivity -> doNavigate(
-                    SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
-                )
-            }
+            doNavigate(it)
         }
 
         viewModel.symptomStart.observe2(this) {
@@ -74,13 +66,6 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
 
             updateButtons(it)
         }
-
-        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.onCalendarPreviousClicked()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.submissionSymptomCalendarHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onCalendarPreviousClicked()

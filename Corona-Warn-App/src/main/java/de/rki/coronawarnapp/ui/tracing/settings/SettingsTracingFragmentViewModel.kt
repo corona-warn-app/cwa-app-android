@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.tracing.settings
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState
 import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsStateProvider
@@ -32,7 +32,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     tracingDetailsStateProvider: TracingDetailsStateProvider,
     tracingStatus: GeneralTracingStatus,
     private val backgroundPrioritization: BackgroundPrioritization,
-    private val tracingPermissionHelper: TracingPermissionHelper
+    tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val tracingDetailsState: LiveData<TracingDetailsState> = tracingDetailsStateProvider.state
@@ -50,52 +50,61 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<Event>()
 
-    init {
-        tracingPermissionHelper.callback = object : TracingPermissionHelper.Callback {
+    val isTracingSwitchChecked = MediatorLiveData<Boolean>().apply {
+        addSource(tracingSettingsState) {
+            value = it.isTracingSwitchChecked()
+        }
+    }
+
+    private val tracingPermissionHelper =
+        tracingPermissionHelperFactory.create(object : TracingPermissionHelper.Callback {
             override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
                 if (isTracingEnabled) {
+                    // check if background processing is switched off,
+                    // if it is, show the manual calculation dialog explanation before turning on.
+                    if (!backgroundPrioritization.isBackgroundActivityPrioritized) {
+                        events.postValue(Event.ManualCheckingDialog)
+                    }
                     BackgroundWorkScheduler.startWorkScheduler()
                 }
+                isTracingSwitchChecked.postValue(isTracingEnabled)
+            }
+
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                events.postValue(Event.TracingConsentDialog { consentGiven ->
+                    if (!consentGiven) isTracingSwitchChecked.postValue(false)
+                    onConsentResult(consentGiven)
+                })
+            }
+
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                events.postValue(Event.RequestPermissions(permissionRequest))
             }
 
             override fun onError(error: Throwable) {
                 Timber.w(error, "Failed to start tracing")
             }
-        }
-    }
+        })
 
-    fun startStopTracing() {
-        // if tracing is enabled when listener is activated it should be disabled
-        launch {
-            try {
-                if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    InternalExposureNotificationClient.asyncStop()
-                    BackgroundWorkScheduler.stopWorkScheduler()
-                } else {
-                    // tracing was already activated
-                    if (LocalData.initialTracingActivationTimestamp() != null) {
-                        tracingPermissionHelper.startTracing { permissionRequest ->
-                            events.postValue(Event.RequestPermissions(permissionRequest))
-                        }
-                    } else {
-                        // tracing was never activated
-                        // ask for consent via dialog for initial tracing activation when tracing was not
-                        // activated during onboarding
-                        events.postValue(Event.ShowConsentDialog)
-                        // check if background processing is switched off,
-                        // if it is, show the manual calculation dialog explanation before turning on.
-                        if (!backgroundPrioritization.isBackgroundActivityPrioritized) {
-                            events.postValue(Event.ManualCheckingDialog)
-                        }
+    fun onTracingToggled(isChecked: Boolean) {
+        try {
+            if (isChecked) {
+                tracingPermissionHelper.startTracing()
+            } else {
+                isTracingSwitchChecked.postValue(false)
+                launch {
+                    if (InternalExposureNotificationClient.asyncIsEnabled()) {
+                        InternalExposureNotificationClient.asyncStop()
+                        BackgroundWorkScheduler.stopWorkScheduler()
                     }
                 }
-            } catch (exception: Exception) {
-                exception.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    SettingsTracingFragment.TAG,
-                    null
-                )
             }
+        } catch (exception: Exception) {
+            exception.report(
+                ExceptionCategory.EXPOSURENOTIFICATION,
+                SettingsTracingFragment.TAG,
+                null
+            )
         }
     }
 
@@ -105,7 +114,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
 
     sealed class Event {
         data class RequestPermissions(val permissionRequest: (Activity) -> Unit) : Event()
-        object ShowConsentDialog : Event()
+        data class TracingConsentDialog(val onConsentResult: (Boolean) -> Unit) : Event()
         object ManualCheckingDialog : Event()
     }
 

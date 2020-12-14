@@ -4,10 +4,10 @@ import android.content.Context
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
-import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironmentState
-import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
+import de.rki.coronawarnapp.test.debugoptions.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.debug.LoggerState.Companion.toLoggerState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.smartLiveData

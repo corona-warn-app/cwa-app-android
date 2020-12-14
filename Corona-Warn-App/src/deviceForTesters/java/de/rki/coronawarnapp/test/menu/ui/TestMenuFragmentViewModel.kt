@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.test.menu.ui
 
 import androidx.lifecycle.MutableLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.test.api.ui.TestForAPIFragment
+import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
@@ -20,12 +20,12 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
         listOf(
             DebugOptionsFragment.MENU_ITEM,
             AppConfigTestFragment.MENU_ITEM,
-            TestForAPIFragment.MENU_ITEM,
             TestRiskLevelCalculationFragment.MENU_ITEM,
             KeyDownloadTestFragment.MENU_ITEM,
             TestTaskControllerFragment.MENU_ITEM,
             SubmissionTestFragment.MENU_ITEM,
-            SettingsCrashReportFragment.MENU_ITEM
+            SettingsCrashReportFragment.MENU_ITEM,
+            MiscInfoFragment.MENU_ITEM
         ).let { MutableLiveData(it) }
     }
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()

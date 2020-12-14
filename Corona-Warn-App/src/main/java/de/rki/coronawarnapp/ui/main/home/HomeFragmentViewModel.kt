@@ -77,7 +77,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionCardsStateProvider.state
-            .first { it.isPositiveSubmissionCardVisible() }
+            .first { it.isPositiveForReminder() }
             .also { testResultNotificationService.schedulePositiveTestResultReminder() }
     }
 
@@ -123,10 +123,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun deregisterWarningAccepted() {
-        submissionRepository.deleteTestGUID()
-        SubmissionRepository.deleteRegistrationToken()
-        LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.initialTestResultReceivedTimestamp(0L)
+        submissionRepository.removeTestFromDevice()
         submissionRepository.refreshDeviceUIState()
     }
 

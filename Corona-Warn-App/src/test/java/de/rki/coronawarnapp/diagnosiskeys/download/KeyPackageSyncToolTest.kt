@@ -35,19 +35,19 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     @MockK lateinit var keyCache: KeyCacheRepository
     @MockK lateinit var dayPackageSyncTool: DayPackageSyncTool
     @MockK lateinit var hourPackageSyncTool: HourPackageSyncTool
-    @MockK lateinit var syncSettings: KeyPackageSyncSettings
+    @MockK lateinit var syncSettings: DownloadDiagnosisKeysSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var networkStateProvider: NetworkStateProvider
     @MockK lateinit var networkState: NetworkStateProvider.State
-    private val lastDownloadDays: FlowPreference<KeyPackageSyncSettings.LastDownload?> = mockFlowPreference(
-        KeyPackageSyncSettings.LastDownload(
+    private val lastDownloadDays: FlowPreference<DownloadDiagnosisKeysSettings.LastDownload?> = mockFlowPreference(
+        DownloadDiagnosisKeysSettings.LastDownload(
             startedAt = Instant.EPOCH,
             finishedAt = Instant.EPOCH,
             successful = true
         )
     )
-    private val lastDownloadHours: FlowPreference<KeyPackageSyncSettings.LastDownload?> = mockFlowPreference(
-        KeyPackageSyncSettings.LastDownload(
+    private val lastDownloadHours: FlowPreference<DownloadDiagnosisKeysSettings.LastDownload?> = mockFlowPreference(
+        DownloadDiagnosisKeysSettings.LastDownload(
             startedAt = Instant.EPOCH,
             finishedAt = Instant.EPOCH,
             successful = true
@@ -202,14 +202,14 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     @Test
     fun `failed last download causes force sync`() = runBlockingTest {
         lastDownloadDays.update {
-            KeyPackageSyncSettings.LastDownload(
+            DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
                 finishedAt = Instant.EPOCH,
                 successful = false
             )
         }
         lastDownloadHours.update {
-            KeyPackageSyncSettings.LastDownload(
+            DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
                 finishedAt = Instant.EPOCH,
                 successful = false

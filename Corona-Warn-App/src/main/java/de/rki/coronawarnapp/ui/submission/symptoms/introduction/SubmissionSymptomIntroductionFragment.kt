@@ -3,14 +3,12 @@ package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
@@ -21,6 +19,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * The [SubmissionSymptomIntroductionFragment], initial fragment displayed when the user starts the submission process
+ * providing symptoms, asking whether or not the user has experienced any of the common symptoms of COVID-19.
+ */
 class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submission_symptom_intro),
     AutoInject {
 
@@ -34,17 +36,8 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
         super.onViewCreated(view, savedInstanceState)
         uploadDialog = SubmissionBlockingDialog(requireContext())
 
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToSymptomCalendar -> doNavigate(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
-                )
-                is SubmissionNavigationEvents.NavigateToMainActivity -> doNavigate(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToMainFragment()
-                )
-            }
+        viewModel.navigation.observe2(this) {
+            doNavigate(it)
         }
 
         viewModel.showCancelDialog.observe2(this) {
@@ -60,13 +53,6 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
         viewModel.symptomIndication.observe2(this) {
             updateButtons(it)
         }
-
-        val backCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.onPreviousClicked()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.submissionSymptomHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.onPreviousClicked() }
     }

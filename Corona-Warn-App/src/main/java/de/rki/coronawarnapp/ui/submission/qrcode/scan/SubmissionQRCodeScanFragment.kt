@@ -91,7 +91,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 } else {
                     doNavigate(
                         SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
                     )
                 }
             }

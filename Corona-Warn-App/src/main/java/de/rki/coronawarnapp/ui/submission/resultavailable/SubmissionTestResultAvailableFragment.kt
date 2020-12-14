@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
+import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -17,6 +18,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
+/**
+ * The [SubmissionTestResultAvailableFragment] appears when the user's test result is available,
+ * providing the option to navigate to the consent screen where they can provide or revoke consent
+ */
 class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submission_test_result_available), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
@@ -60,6 +65,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
 
         vm.showPermissionRequest.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
+        }
+        vm.showTracingConsentDialog.observe2(this) { onConsentResult ->
+            TracingConsentDialog(requireContext()).show(
+                onConsentGiven = { onConsentResult(true) },
+                onConsentDeclined = { onConsentResult(false) }
+            )
         }
     }
 
