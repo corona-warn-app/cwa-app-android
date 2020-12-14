@@ -3,14 +3,13 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryElement
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
 
-class ContactDiaryOverviewAdapter(private val onElementSelectionListener: (DefaultContactDiaryElement) -> Unit) :
+class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
-    private var _elements = emptyList<DefaultContactDiaryElement>()
+    private var _elements = emptyList<ListItem>()
 
-    fun setElements(elements: List<DefaultContactDiaryElement>) {
+    fun setItems(elements: List<ListItem>) {
         _elements = elements
         notifyDataSetChanged()
     }
@@ -29,16 +28,15 @@ class ContactDiaryOverviewAdapter(private val onElementSelectionListener: (Defau
     override fun getItemCount() = _elements.size
 
     override fun onBindViewHolder(holder: OverviewElementHolder, position: Int) {
-        holder.bind(_elements[position], onElementSelectionListener)
+        holder.bind(_elements[position], onItemSelectionListener)
     }
 
     class OverviewElementHolder(private val viewDataBinding: IncludeContactDiaryOverviewItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         fun bind(
-            element: DefaultContactDiaryElement,
-            onElementSelectionListener: (DefaultContactDiaryElement) -> Unit
+            item: ListItem,
+            onElementSelectionListener: (ListItem) -> Unit
         ) {
-            viewDataBinding.element = element
             viewDataBinding.executePendingBindings()
         }
     }
