@@ -87,8 +87,6 @@ class TEKHistoryUpdaterTest : BaseTest() {
 
         instance.updateTEKHistoryOrRequestPermission()
 
-
-
         verify {
             tracingPermissionHelper.startTracing()
         }

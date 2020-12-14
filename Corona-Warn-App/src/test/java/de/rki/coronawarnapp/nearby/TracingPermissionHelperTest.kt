@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.nearby
 
+import com.google.android.gms.common.api.Status
 import de.rki.coronawarnapp.storage.LocalData
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -97,7 +98,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `request is forwarded if tracing is disabled`() = runBlockingTest {
+    fun `if tracing is not yet enabled we forward to the enf client`() = runBlockingTest {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)
 
@@ -111,6 +112,66 @@ class TracingPermissionHelperTest : BaseTest() {
                 onError = any(),
                 onPermissionRequired = any()
             )
+        }
+    }
+
+    @Test
+    fun `permission request is forwarded from enf client`() = runBlockingTest {
+        val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
+
+        val onPermissionRequiredCallback = slot<(Status) -> Unit>()
+        coEvery {
+            enfClient.setTracing(
+                enable = true,
+                onSuccess = any(),
+                onError = any(),
+                onPermissionRequired = capture(onPermissionRequiredCallback)
+            )
+        } just Runs
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.startTracing()
+        onPermissionRequiredCallback.captured.invoke(mockk())
+
+        coVerifySequence {
+            enfClient.isTracingEnabled
+            enfClient.setTracing(
+                enable = true,
+                onSuccess = any(),
+                onError = any(),
+                onPermissionRequired = onPermissionRequiredCallback.captured
+            )
+            callback.onPermissionRequired(any())
+        }
+    }
+
+    @Test
+    fun `errors from the enf client are forwarded`() = runBlockingTest {
+        val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
+        val onErrorCallback = slot<(Throwable) -> Unit>()
+        coEvery {
+            enfClient.setTracing(
+                enable = true,
+                onSuccess = any(),
+                onError = capture(onErrorCallback),
+                onPermissionRequired = any()
+            )
+        } just Runs
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.startTracing()
+        val error = IllegalStateException()
+        onErrorCallback.captured.invoke(error)
+
+        coVerifySequence {
+            enfClient.isTracingEnabled
+            enfClient.setTracing(
+                enable = true,
+                onSuccess = any(),
+                onError = onErrorCallback.captured,
+                onPermissionRequired = any()
+            )
+            callback.onError(error)
         }
     }
 }
