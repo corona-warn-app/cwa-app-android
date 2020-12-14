@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ContactDiaryOnboardingFragmentModul {
+abstract class ContactDiaryOnboardingFragmentModule {
 
     @Binds
     @IntoMap
