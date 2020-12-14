@@ -1523,10 +1523,6 @@
     <string name="contact_diary_onboarding_privacy_information_second_section_title"/>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body"/>
-    <!-- XTXT: Title for the contact diary onboarding privacy information third section title -->
-    <string name="contact_diary_onboarding_privacy_information_third_section_title"/>
-    <!-- XTXT: Body for the contact diary onboarding privacy information third section -->
-    <string name="contact_diary_onboarding_privacy_information_third_section_body"/>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title"/>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
