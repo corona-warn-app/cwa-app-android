@@ -9,10 +9,11 @@ import java.util.Locale
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
-    private var _elements = emptyList<ListItem>()
+    private val elements: MutableList<ListItem> = mutableListOf()
 
     fun setItems(elements: List<ListItem>) {
-        _elements = elements
+        this.elements.clear()
+        this.elements += elements
         notifyDataSetChanged()
     }
 
@@ -27,10 +28,10 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         )
     }
 
-    override fun getItemCount() = _elements.size
+    override fun getItemCount() = elements.size
 
     override fun onBindViewHolder(holder: OverviewElementHolder, position: Int) {
-        holder.bind(_elements[position], onItemSelectionListener)
+        holder.bind(elements[position], onItemSelectionListener)
     }
 
     class OverviewElementHolder(private val viewDataBinding: IncludeContactDiaryOverviewItemBinding) :
