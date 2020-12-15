@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayFragmentsAdapter
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -34,27 +35,29 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.contactDiaryDayViewPager.adapter =
-            ContactDiaryDayFragmentsAdapter(this, viewModel.contactDiaryTabs, navArgs.selectedDay)
+        val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.LOCATION_TAB)
+
+        val adapter = ContactDiaryDayFragmentsAdapter(this, contactDiaryTabs, navArgs.selectedDay)
+
+        binding.contactDiaryDayViewPager.adapter = adapter
 
         TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
-            val tabSource = viewModel.contactDiaryTabs[position]
-            tab.text = resources.getString(tabSource.tabNameResource)
+            val tabSource = adapter.tabs[position]
+            tab.setText(tabSource.tabNameResource)
         }.attach()
 
         binding.apply {
             contactDiaryDayViewPager.registerOnPageChangeCallback {
-                viewModel.updateCurrentTab(it)
+                binding.contactDiaryDayFab.setText(adapter.tabs[it].fabTextResource)
             }
 
             contactDiaryDayFab.setOnClickListener {
-                viewModel.onCreateButtonClicked()
+                viewModel.onCreateButtonClicked(adapter.tabs[contactDiaryDayTabLayout.selectedTabPosition])
             }
         }
 
         viewModel.uiState.observe2(this) {
             binding.contactDiaryDayHeader.title = it.dayText
-            binding.contactDiaryDayFab.text = resources.getString(it.fabTextResource)
         }
 
         viewModel.createPerson.observe2(this) {

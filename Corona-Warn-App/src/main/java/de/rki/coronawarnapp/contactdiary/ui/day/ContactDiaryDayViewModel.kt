@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
@@ -21,38 +21,23 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
         DateTimeFormat.forPattern("EEEE, dd.MM.yy")
     }
 
-    private val activeDay = LocalDate.parse(selectedDay)
-
-    val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.LOCATION_TAB)
-
-    private val currentTab = MutableStateFlow(contactDiaryTabs[0])
-    private val displayedDay = MutableStateFlow(activeDay)
+    private val displayedDay = MutableStateFlow(LocalDate.parse(selectedDay))
 
     val createPerson = SingleLiveEvent<Unit>()
     val createLocation = SingleLiveEvent<Unit>()
 
-    val uiState = currentTab.combine(displayedDay) { currentTab, day ->
-        UIState(
-            fabTextResource = currentTab.fabTextResource,
-            dayText = day.toString(dateFormat)
-        )
+    val uiState = displayedDay.map { day ->
+        UIState(dayText = day.toString(dateFormat))
     }.asLiveData()
 
-    fun updateCurrentTab(position: Int) {
-        currentTab.value = contactDiaryTabs[position]
-    }
-
-    fun onCreateButtonClicked() {
-        launch {
-            when (currentTab.value) {
-                ContactDiaryDayTab.LOCATION_TAB -> createLocation.postValue(null)
-                ContactDiaryDayTab.PERSON_TAB -> createPerson.postValue(null)
-            }
+    fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
+        when (activeTab) {
+            ContactDiaryDayTab.LOCATION_TAB -> createLocation.postValue(null)
+            ContactDiaryDayTab.PERSON_TAB -> createPerson.postValue(null)
         }
     }
 
     data class UIState(
-        val fabTextResource: Int,
         val dayText: String
     )
 
