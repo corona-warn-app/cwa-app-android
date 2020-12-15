@@ -13,9 +13,6 @@ class ContactDiaryOverviewMenu @Inject constructor(
 ) {
     private val context: Context = contactDiaryOverviewFragment.requireContext()
 
-    private val navController: NavController
-        get() = contactDiaryOverviewFragment.findNavController()
-
     fun showMenuFor(view: View) = PopupMenu(context, view).apply {
         inflate(R.menu.menu_contact_diary_overview)
         setOnMenuItemClickListener {

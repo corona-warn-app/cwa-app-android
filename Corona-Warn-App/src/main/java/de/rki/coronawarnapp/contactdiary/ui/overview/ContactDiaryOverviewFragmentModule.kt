@@ -10,14 +10,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
 abstract class ContactDiaryOverviewFragmentModule {
-
     @Binds
     @IntoMap
     @CWAViewModelKey(ContactDiaryOverviewViewModel::class)
     abstract fun contactDiaryOverviewFragmentVM(
         factory: ContactDiaryOverviewViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
-
-    @ContributesAndroidInjector
-    abstract fun contactDiaryOverviewFragmentVM(): ContactDiaryOverviewFragment
 }
