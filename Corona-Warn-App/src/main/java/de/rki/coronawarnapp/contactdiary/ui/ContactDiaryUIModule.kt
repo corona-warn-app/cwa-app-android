@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonLi
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListModule
 
 @Module
-abstract class ContactDiaryModule {
+abstract class ContactDiaryUIModule {
     @ContributesAndroidInjector(modules = [ContactDiaryDayModule::class])
     abstract fun contactDiaryDayFragment(): ContactDiaryDayFragment
 

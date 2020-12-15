@@ -1,8 +1,7 @@
-package de.rki.coronawarnapp.contactdiary
+package de.rki.coronawarnapp.contactdiary.storage
 
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
@@ -12,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryReposit
 import javax.inject.Singleton
 
 @Module
-class ContactDiaryModule {
+class ContactDiaryStorageModule {
 
     @Singleton
     @Provides
