@@ -76,6 +76,11 @@
             android:exported="false"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
+        <activity
+            android:name="de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Main" />
     </application>
 
 </manifest>

@@ -17,4 +17,13 @@
     <string name="contact_diary_location_bottom_sheet_title">"Ort"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Bezeichnung"</string>
     <string name="contact_diary_location_bottom_sheet_save_button">"Speichern"</string>
+    <string name="contact_diary_edit_locations_title">Orte bearbeiten</string>
+    <string name="contact_diary_edit_persons_title">Personen bearbeiten</string>
+    <string name="contact_diary_remove_all_button">Alle entfernen</string>
+    <string name="contact_diary_delete_button_positive">Entfernen</string>
+    <string name="contact_diary_delete_button_negative">Abbrechen</string>
+    <string name="contact_diary_delete_locations_title">Wollen Sie wirklich alle Orte entfernen?</string>
+    <string name="contact_diary_delete_persons_title">Wollen Sie wirklich alle Personen entfernen?</string>
+    <string name="contact_diary_delete_locations_message">Wenn Sie einen Ort entfernen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht.</string>
+    <string name="contact_diary_delete_persons_message">Wenn Sie eine Person entfernen, werden alle Einträge für diese Person aus dem Tagebuch gelöscht.</string>
 </resources>
