@@ -45,10 +45,10 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
-            if (item.drawableAndStrings.isNotEmpty()) {
+            if (item.data.isNotEmpty()) {
                 viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.VISIBLE
                 val inflater = LayoutInflater.from(itemView.context)
-                item.drawableAndStrings.forEach {
+                item.data.forEach {
                     val nestedBinding = IncludeContactDiaryOverviewNestedItemBinding.inflate(inflater)
                     nestedBinding.contactDiaryOverviewElementName.text = it.text
                     nestedBinding.contactDiaryOverviewElementImage.setImageResource(it.drawableId)

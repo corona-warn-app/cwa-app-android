@@ -5,10 +5,10 @@ import org.joda.time.LocalDate
 data class ListItem(
     val date: LocalDate
 ) {
-    val drawableAndStrings: MutableList<DrawableAndString> = mutableListOf()
-}
+    val data: MutableList<Data> = mutableListOf()
 
-data class DrawableAndString(
-    val drawableId: Int,
-    val text: String
-)
+    data class Data(
+        val drawableId: Int,
+        val text: String
+    )
+}

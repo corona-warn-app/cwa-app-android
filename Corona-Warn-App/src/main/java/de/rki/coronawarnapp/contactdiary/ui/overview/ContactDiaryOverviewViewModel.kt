@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DrawableAndString
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -44,34 +43,34 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .map {
                 ListItem(it)
                     .apply {
-                        drawableAndStrings.addPersonEncountersForDate(personEncounterList, date)
-                        drawableAndStrings.addLocationVisitsForDate(locationVisitList, date)
+                        data.addPersonEncountersForDate(personEncounterList, date)
+                        data.addLocationVisitsForDate(locationVisitList, date)
                     }
             }
     }
 
-    private fun MutableList<DrawableAndString>.addPersonEncountersForDate(
+    private fun MutableList<ListItem.Data>.addPersonEncountersForDate(
         personEncounterList: List<ContactDiaryPersonEncounter>,
         date: LocalDate
     ) {
         this += personEncounterList
             .filter { personEncounter -> personEncounter.date == date }
             .map { personEncounter ->
-                DrawableAndString(
+                ListItem.Data(
                     R.drawable.ic_contact_diary_person,
                     personEncounter.contactDiaryPerson.fullName
                 )
             }
     }
 
-    private fun MutableList<DrawableAndString>.addLocationVisitsForDate(
+    private fun MutableList<ListItem.Data>.addLocationVisitsForDate(
         locationVisitList: List<ContactDiaryLocationVisit>,
         date: LocalDate
     ) {
         this += locationVisitList
             .filter { locationVisit -> locationVisit.date == date }
             .map { locationVisit ->
-                DrawableAndString(
+                ListItem.Data(
                     R.drawable.ic_contact_diary_location,
                     locationVisit.contactDiaryLocation.locationName
                 )
