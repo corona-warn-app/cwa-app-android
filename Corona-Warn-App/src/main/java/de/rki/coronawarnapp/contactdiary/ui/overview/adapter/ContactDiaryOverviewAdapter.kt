@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
+import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewNestedItemBinding
 import java.util.Locale
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
@@ -40,6 +42,21 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         ) {
             viewDataBinding.contactDiaryOverviewElementName.text =
                 item.date.toString("EEEE, dd.MM.yyyy", Locale.getDefault())
+
+            viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
+
+            if (item.drawableAndStrings.isNotEmpty()) {
+                viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.VISIBLE
+                val inflater = LayoutInflater.from(itemView.context)
+                item.drawableAndStrings.forEach {
+                    val nestedBinding = IncludeContactDiaryOverviewNestedItemBinding.inflate(inflater)
+                    nestedBinding.contactDiaryOverviewElementName.text = it.text
+                    nestedBinding.contactDiaryOverviewElementImage.setImageResource(it.drawableId)
+                    viewDataBinding.contactDiaryOverviewElementContainer.addView(nestedBinding.root)
+                }
+            } else {
+                viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.INVISIBLE
+            }
         }
     }
 }

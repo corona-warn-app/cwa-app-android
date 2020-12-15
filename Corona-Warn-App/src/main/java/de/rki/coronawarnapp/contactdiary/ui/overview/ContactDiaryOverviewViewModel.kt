@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DrawableAndString
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -35,19 +37,42 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         locationVisitList: List<ContactDiaryLocationVisit>,
         personEncounterList: List<ContactDiaryPersonEncounter>
     ): List<ListItem> {
-        Timber.v(
-            "createListItemList(dateList=$dateList, " +
-            "locationVisitList=$locationVisitList, " +
-            "personEncounterList=$personEncounterList)")
+        Timber.v("createListItemList(dateList=$dateList, locationVisitList=$locationVisitList, personEncounterList=$personEncounterList)")
         return dateList
             .map {
                 ListItem(it)
                     .apply {
-                        locations += locationVisitList.filter { locationVisit -> locationVisit.date == it }
-                            .map { locationVisit -> locationVisit.contactDiaryLocation }
-                        persons += personEncounterList.filter { personEncounter -> personEncounter.date == it }
-                            .map { personEncounter -> personEncounter.contactDiaryPerson }
+                        drawableAndStrings.addPersonEncountersForDate(personEncounterList, date)
+                        drawableAndStrings.addLocationVisitsForDate(locationVisitList, date)
                     }
+            }
+    }
+
+    private fun MutableList<DrawableAndString>.addPersonEncountersForDate(
+        personEncounterList: List<ContactDiaryPersonEncounter>,
+        date: LocalDate
+    ) {
+        this += personEncounterList
+            .filter { personEncounter -> personEncounter.date == date }
+            .map { personEncounter ->
+                DrawableAndString(
+                    R.drawable.ic_contact_diary_person,
+                    personEncounter.contactDiaryPerson.fullName
+                )
+            }
+    }
+
+    private fun MutableList<DrawableAndString>.addLocationVisitsForDate(
+        locationVisitList: List<ContactDiaryLocationVisit>,
+        date: LocalDate
+    ) {
+        this += locationVisitList
+            .filter { locationVisit -> locationVisit.date == date }
+            .map { locationVisit ->
+                DrawableAndString(
+                    R.drawable.ic_contact_diary_location,
+                    locationVisit.contactDiaryLocation.locationName
+                )
             }
     }
 

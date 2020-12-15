@@ -2,15 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--
-    <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
-        <variable
-            name="element"
-            type="de.rki.coronawarnapp.contactdiary.model.ContactDiaryElement" />
-    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_diary_overview_element_nested_body"
@@ -24,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/contact_diary_overview_element_right_arrow"
+            android:id="@+id/contact_diary_overview_element_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_tiny"
