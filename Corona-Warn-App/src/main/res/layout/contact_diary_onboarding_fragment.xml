@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <include
             android:id="@+id/contact_diary_onboarding_button_back"
             layout="@layout/include_header"
@@ -19,7 +18,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/contact_diary_title}" />
-
 
         <ScrollView
             android:layout_width="@dimen/match_constraint"
@@ -33,7 +31,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <ImageView
                     android:id="@+id/contact_diary_onboarding_illustration"
@@ -121,7 +118,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_fourth_section}"
-                    app:icon="@{@drawable/ic_contact_diary_lock}"
+                    app:icon="@{@drawable/ic_contact_diary_edit}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_third_section" />
@@ -135,7 +132,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_fifth_section}"
-                    app:icon="@{@drawable/ic_contact_diary_lock}"
+                    app:icon="@{@drawable/ic_contact_diary_file}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_fourth_section" />
@@ -181,7 +178,6 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_marginBottom="@dimen/spacing_small"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintBottom_toBottomOf="parent"
                     bind:layout_constraintEnd_toStartOf="@+id/guideline_end"
@@ -202,11 +198,9 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/guideline_end" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
-
 
         <Button
             android:id="@+id/contact_diary_onboarding_next_button"
@@ -221,7 +215,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/contact_diary_onboarding_button_text"/>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

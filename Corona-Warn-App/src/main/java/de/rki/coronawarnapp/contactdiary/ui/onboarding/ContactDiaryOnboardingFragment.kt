@@ -54,8 +54,4 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
 }

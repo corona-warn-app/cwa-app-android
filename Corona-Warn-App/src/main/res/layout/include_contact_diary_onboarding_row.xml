@@ -38,7 +38,6 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:text="@{body}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/contact_diary_row_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/lorem_ipsum"

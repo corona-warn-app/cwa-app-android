@@ -1500,10 +1500,8 @@
     <string name="contact_diary_homescreen_card_body" />
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
     <string name="contact_diary_homescreen_card_button_text" />
-
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
     <string name="contact_diary_onboarding_button_text"/>
-
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title"/>
     <!-- XTXT: Contact diary onboarding screen -->
@@ -1518,20 +1516,22 @@
     <string name="contact_diary_onboarding_functionality_fourth_section"/>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section"/>
-
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_title"/>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body"/>
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_one"/>
+    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_two"/>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
     <string name="contact_diary_onboarding_privacy_information_second_section_title"/>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body"/>
-    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_one"/>
+    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_two"/>
     <string name="contact_diary_title"/>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_legal_information"/>
-
-
+    <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_privacy_information_title"/>
 
 </resources>
