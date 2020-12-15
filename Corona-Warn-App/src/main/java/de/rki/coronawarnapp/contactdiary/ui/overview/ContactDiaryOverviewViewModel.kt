@@ -21,7 +21,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
 
-    private val dates = flowOf((0..13).map { LocalDate.now().minusDays(it) })
+    private val dates = flowOf((0 until DAY_COUNT).map { LocalDate.now().minusDays(it) })
 
     val listItems = combine(
         dates,
@@ -89,4 +89,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>
+
+    companion object {
+        const val DAY_COUNT = 14
+    }
 }
