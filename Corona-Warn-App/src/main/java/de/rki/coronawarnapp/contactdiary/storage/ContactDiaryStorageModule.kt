@@ -12,7 +12,6 @@ import javax.inject.Singleton
 
 @Module
 class ContactDiaryStorageModule {
-
     @Singleton
     @Provides
     fun contactDiaryDatabase(contactDiaryDatabaseFactory: ContactDiaryDatabase.Factory): ContactDiaryDatabase =
