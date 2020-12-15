@@ -27,7 +27,8 @@ class RiskLevelChangeDetector @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
-    private val foregroundState: ForegroundState
+    private val foregroundState: ForegroundState,
+    private val notificationHelper: NotificationHelper
 ) {
 
     fun launch() {
@@ -65,7 +66,7 @@ class RiskLevelChangeDetector @Inject constructor(
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
-                NotificationHelper.sendNotification(
+                notificationHelper.sendNotification(
                     content = context.getString(R.string.notification_body),
                     notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
                 )

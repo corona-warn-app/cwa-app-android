@@ -53,7 +53,7 @@
             android:enabled="true"/>
 
         <activity
-            android:name=".ui.LauncherActivity"
+            android:name=".ui.launcher.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>

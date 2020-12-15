@@ -5,12 +5,10 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.TestResultAvailableNotification
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
@@ -27,7 +25,9 @@ import timber.log.Timber
 class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val submissionService: SubmissionService
+    private val submissionService: SubmissionService,
+    private val testResultAvailableNotification: TestResultAvailableNotification,
+    private val notificationHelper: NotificationHelper
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -84,7 +84,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      * @see LocalData.initialPollingForTestResultTimeStamp
      * @see TestResult
      */
-    private fun initiateNotification(testResult: TestResult) {
+    private suspend fun initiateNotification(testResult: TestResult) {
         if (LocalData.isTestResultNotificationSent() || LocalData.submissionWasSuccessful()) {
             Timber.tag(TAG).d("$id: Notification already sent or there was a successful submission")
             return
@@ -93,11 +93,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
         ) {
-            NotificationHelper.sendNotificationIfAppIsNotInForeground(
-                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
-                NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID
-            )
-            NotificationHelper.cancelCurrentNotification(NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
+            testResultAvailableNotification.showTestResultNotification(testResult)
+
+            notificationHelper.cancelCurrentNotification(
+                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
 
             Timber.tag(TAG).d("$id: Test Result available - notification issued & risk level notification canceled")
             LocalData.isTestResultNotificationSent(true)

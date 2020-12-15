@@ -11,7 +11,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
-        android:label="MainFragment"
+        android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
@@ -29,8 +29,17 @@
             android:id="@+id/action_mainFragment_to_mainSharingFragment"
             app:destination="@id/mainSharingFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionResultFragment"
-            app:destination="@id/submissionResultFragment" />
+            android:id="@+id/action_mainFragment_to_submissionTestResultPendingFragment"
+            app:destination="@id/submissionTestResultPendingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultNegativeFragment"
+            app:destination="@id/submissionTestResultNegativeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultInvalidFragment"
+            app:destination="@id/submissionTestResultInvalidFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
         <action
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
@@ -44,8 +53,8 @@
             android:id="@+id/action_mainFragment_to_test_nav_graph"
             app:destination="@id/test_nav_graph" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
+            android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
+            app:destination="@id/submissionTestResultAvailableFragment" />
     </fragment>
 
     <fragment
@@ -230,7 +239,7 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_informationPrivacyFragment"
@@ -239,31 +248,36 @@
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_submissionResultReadyFragment"
             app:destination="@id/submissionResultReadyFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
-        android:id="@+id/submissionResultFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment"
-        android:label="fragment_submission_result"
-        tools:layout="@layout/fragment_submission_test_result">
+        android:id="@+id/submissionTestResultPendingFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment"
+        android:label="SubmissionTestResultPendingFragment"
+        tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
             android:name="skipInitialTestResultRefresh"
             android:defaultValue="false"
             app:argType="boolean" />
         <action
-            android:id="@+id/action_submissionResultFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_submissionResultFragment_to_submissionSymptomIntroductionFragment"
-            app:destination="@id/submissionSymptomIntroductionFragment" />
-        <action
-            android:id="@+id/action_submissionResultFragment_to_submissionResultPositiveOtherWarningFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
-        <action
             android:id="@+id/action_submissionResultFragment_to_submissionYourConsentFragment"
             app:destination="@id/submissionYourConsentFragment" />
+        <action
+            android:id="@+id/action_submissionTestResultPendingFragment_to_submissionTestResultNegativeFragment"
+            app:destination="@id/submissionTestResultNegativeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_submissionTestResultPendingFragment_to_submissionTestResultInvalidFragment"
+            app:destination="@id/submissionTestResultInvalidFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_submissionTestResultPendingFragment_to_submissionTestResultAvailableFragment"
+            app:destination="@id/submissionTestResultAvailableFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+
     </fragment>
 
     <fragment
@@ -272,15 +286,10 @@
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
-            android:id="@+id/action_submissionTanFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_submissionTanFragment_to_submissionResultFragment"
-            app:destination="@id/submissionResultFragment"
-            app:popUpTo="@id/submissionResultFragment"
-            app:popUpToInclusive="true">
+            android:id="@+id/action_submissionTanFragment_to_submissionTestResultPendingFragment"
+            app:destination="@id/submissionTestResultPendingFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false">
             <argument
                 android:name="skipInitialTestResultRefresh"
                 android:defaultValue="true"
@@ -293,22 +302,9 @@
             app:popUpToInclusive="false" />
     </fragment>
 
-    <fragment
-        android:id="@+id/submissionIntroFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment"
-        android:label="SubmissionIntroFragment">
-        <action
-            android:id="@+id/action_submissionIntroFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_submissionIntroFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment" />
-    </fragment>
     <activity
         android:id="@+id/launcherActivity"
-        android:name="de.rki.coronawarnapp.ui.LauncherActivity"
+        android:name="de.rki.coronawarnapp.ui.launcher.LauncherActivity"
         android:label="LauncherActivity">
         <deepLink
             android:id="@+id/deepLink"
@@ -321,13 +317,13 @@
         android:label="SubmissionQRCodeScanFragment">
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpTo="@id/submissionQRCodeScanFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionResultFragment"
-            app:destination="@id/submissionResultFragment"
-            app:popUpTo="@id/submissionResultFragment">
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultPendingFragment"
+            app:destination="@id/submissionTestResultPendingFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false">
             <argument
                 android:name="skipInitialTestResultRefresh"
                 android:defaultValue="true"
@@ -337,7 +333,7 @@
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultReadyFragment"
@@ -347,13 +343,11 @@
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_submissionSymptomIntroductionFragment"
-            app:destination="@id/submissionSymptomIntroductionFragment"
-            app:popUpTo="@id/submissionSymptomIntroductionFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionContactFragment"
@@ -373,13 +367,16 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
         android:name="de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment"
         android:label="SubmissionSymptomCalendarFragment">
+        <argument
+            android:name="symptomIndication"
+            app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
@@ -389,13 +386,14 @@
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/submissionConsentFragment"
         android:name="de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment"
-        android:label="SubmissionConsentFragment">
+        android:label="SubmissionConsentFragment"
+        tools:layout="@layout/fragment_submission_consent">
         <action
             android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeScanFragment"
             app:destination="@id/submissionQRCodeScanFragment" />
@@ -410,12 +408,12 @@
 
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment"
         android:label="SubmissionTestResultConsentFragment">
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
@@ -423,12 +421,12 @@
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultNoConsentFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment"
         android:label="SubmissionTestResultNoConsentFragment">
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_homeFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
@@ -437,7 +435,12 @@
     <fragment
         android:id="@+id/submissionYourConsentFragment"
         android:name="de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment"
-        android:label="SubmissionYourConsentFragment">
+        android:label="SubmissionYourConsentFragment"
+        tools:layout="@layout/fragment_submission_your_consent">
+        <argument
+            android:name="isTestResultAvailable"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_submissionYourConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
@@ -450,7 +453,7 @@
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionYourConsentFragment"
@@ -459,12 +462,21 @@
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultConsentGivenFragment"
             app:destination="@id/submissionTestResultConsentGivenFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
 
     </fragment>
+    <fragment
+        android:id="@+id/submissionTestResultNegativeFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment"
+        android:label="SubmissionTestResultNegativeFragment" />
+    <fragment
+        android:id="@+id/submissionTestResultInvalidFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.invalid.SubmissionTestResultInvalidFragment"
+        android:label="SubmissionTestResultInvalidFragment"
+        tools:layout="@layout/fragment_submission_test_result_invalid" />
 </navigation>

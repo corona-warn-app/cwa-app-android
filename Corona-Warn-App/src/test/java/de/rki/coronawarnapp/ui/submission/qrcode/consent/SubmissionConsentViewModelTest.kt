@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -30,9 +31,13 @@ class SubmissionConsentViewModelTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { interoperabilityRepository.countryListFlow } returns MutableStateFlow(countryList)
+        every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
         every { submissionRepository.giveConsentToSubmission() } just Runs
-        viewModel = SubmissionConsentViewModel(submissionRepository, interoperabilityRepository)
+        viewModel = SubmissionConsentViewModel(
+            submissionRepository,
+            interoperabilityRepository,
+            dispatcherProvider = TestDispatcherProvider
+        )
     }
 
     @Test

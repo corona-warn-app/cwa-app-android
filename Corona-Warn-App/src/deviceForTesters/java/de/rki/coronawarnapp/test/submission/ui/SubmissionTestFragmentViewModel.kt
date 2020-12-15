@@ -5,16 +5,18 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import com.google.gson.Gson
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater.UpdateResult
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.util.UUID
@@ -22,42 +24,60 @@ import java.util.UUID
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val tekHistoryUpdater: TEKHistoryUpdater
+    tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
+    @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    private val exportJson = baseGson.newBuilder().apply {
+        setPrettyPrinting()
+    }.create()
+
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
+        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+            Timber.d("TEKs are available: %s", teks)
+        }
+
+        override fun onTEKPermissionDeclined() {
+            Timber.d("Permission were declined.")
+        }
+
+        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+            showTracingConsentDialog.postValue(onConsentResult)
+        }
+
+        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+            permissionRequestEvent.postValue(permissionRequest)
+        }
+
+        override fun onError(error: Throwable) {
+            errorEvents.postValue(error)
+        }
+    })
 
     val errorEvents = SingleLiveEvent<Throwable>()
     private val internalToken = MutableStateFlow(LocalData.registrationToken())
     val currentTestId = internalToken.asLiveData()
 
-    val tekHistory: LiveData<List<TEKHistoryItem>> = tekHistoryStorage.tekData.map { items ->
-        items.flatMap { batch ->
-            batch.keys
-                .map { key ->
-                    TEKHistoryItem(
-                        obtainedAt = batch.obtainedAt,
-                        batchId = batch.batchId,
-                        key = key
-                    )
-                }
-                .sortedBy { it.key.rollingStartIntervalNumber }
-        }
-    }.asLiveData(context = dispatcherProvider.Default)
+    val shareTEKsEvent = SingleLiveEvent<TEKExport>()
 
-    init {
-        tekHistoryUpdater.callback = object : TEKHistoryUpdater.Callback {
-            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-                Timber.d("TEKs are available: %s", teks)
-            }
+    val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
+    val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
-            override fun onPermissionDeclined() {
-                Timber.d("Permission were declined.")
-            }
-
-            override fun onError(error: Throwable) {
-                errorEvents.postValue(error)
+    val tekHistory: LiveData<List<TEKHistoryItem>> = tekHistoryStorage.tekData
+        .map { items ->
+            items.flatMap { batch ->
+                batch.keys
+                    .map { key ->
+                        TEKHistoryItem(
+                            obtainedAt = batch.obtainedAt,
+                            batchId = batch.batchId,
+                            key = key
+                        )
+                    }
             }
         }
-    }
+        .map { historyItems -> historyItems.sortedBy { it.obtainedAt } }
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun scrambleRegistrationToken() {
         LocalData.registrationToken(UUID.randomUUID().toString())
@@ -69,10 +89,8 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         internalToken.value = LocalData.registrationToken()
     }
 
-    fun updateStorage(activity: Activity) {
-        tekHistoryUpdater.updateTEKHistoryOrRequestPermission { permissionRequest ->
-            permissionRequest.invoke(activity)
-        }
+    fun updateStorage() {
+        tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
     }
 
     fun clearStorage() {
@@ -81,22 +99,21 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        val result = tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
-        Timber.d("tekHistoryUpdater.handleActivityResult(): %s", result)
+    fun emailTEKs() {
+        launch {
+            val exportedKeys = tekHistoryStorage.tekData.first().toExportedKeys()
 
-        if (result == UpdateResult.PERMISSION_AVAILABLE) {
-            launch {
-                try {
-                    tekHistoryUpdater.updateHistoryOrThrow()
-                } catch (e: Exception) {
-                    Timber.e(e, "updateHistoryOrThrow() threw :O")
-                    errorEvents.postValue(e)
-                }
-            }
+            val tekExport = TEKExport(
+                exportText = exportJson.toJson(exportedKeys)
+            )
+            shareTEKsEvent.postValue(tekExport)
         }
+    }
 
-        return result != UpdateResult.UNKNOWN_RESULT
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+        return tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data).also {
+            Timber.d("tekHistoryUpdater.handleActivityResult(): %s", it)
+        }
     }
 
     @AssistedInject.Factory

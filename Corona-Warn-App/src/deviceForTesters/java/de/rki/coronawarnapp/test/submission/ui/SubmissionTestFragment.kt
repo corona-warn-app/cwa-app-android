@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
@@ -43,11 +44,31 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         }
         vm.tekHistory.observe2(this) { teks ->
             tekHistoryAdapter.update(teks)
+            binding.tekStorageCount.text = "${teks.size} TEKs"
+        }
+
+        vm.shareTEKsEvent.observe2(this) { tekExport ->
+            val share = Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, tekExport.exportText)
+            }, null)
+            startActivity(share)
         }
 
         binding.apply {
-            tekStorageUpdate.setOnClickListener { vm.updateStorage(requireActivity()) }
+            tekStorageUpdate.setOnClickListener { vm.updateStorage() }
             tekStorageClear.setOnClickListener { vm.clearStorage() }
+            tekStorageEmail.setOnClickListener { vm.emailTEKs() }
+        }
+        vm.permissionRequestEvent.observe2(this) { permissionRequest ->
+            permissionRequest.invoke(requireActivity())
+        }
+        vm.showTracingConsentDialog.observe2(this) { consentResult ->
+            TracingConsentDialog(requireContext()).show(
+                onConsentGiven = { consentResult(true) },
+                onConsentDeclined = { consentResult(false) }
+            )
         }
     }
 

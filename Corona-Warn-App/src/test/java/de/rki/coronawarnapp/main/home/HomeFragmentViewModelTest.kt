@@ -57,6 +57,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
         every { submissionCardsStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
         every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
+        every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
     }
 
     @AfterEach
@@ -131,7 +132,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive QR code result`() {
-        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE), true)
+        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE), true, true)
         every { submissionCardsStateProvider.state } returns flowOf(state)
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 
@@ -145,7 +146,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive TeleTan code result`() {
-        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN), true)
+        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN), true, true)
         every { submissionCardsStateProvider.state } returns flowOf(state)
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 

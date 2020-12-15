@@ -14,14 +14,16 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.app.NotificationManagerCompat
+import dagger.Reusable
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.di.AppContext
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Singleton class for notification handling
@@ -30,23 +32,22 @@ import timber.log.Timber
  *
  * @see NotificationConstants
  */
-object NotificationHelper {
+@Reusable
+class NotificationHelper @Inject constructor(
+    @AppContext private val context: Context
+) {
 
     /**
      * Notification channel id
      *
      * @see NotificationConstants.NOTIFICATION_CHANNEL_ID
      */
-    private val channelId =
-        CoronaWarnApplication.getAppContext()
-            .getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)
+    private val channelId = context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)
 
     /**
      * Notification manager
      */
-    private val notificationManager =
-        CoronaWarnApplication.getAppContext()
-            .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     /**
      * Notification channel audio attributes
@@ -70,7 +71,7 @@ object NotificationHelper {
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelName =
-                CoronaWarnApplication.getAppContext().getString(NotificationConstants.CHANNEL_NAME)
+                context.getString(NotificationConstants.CHANNEL_NAME)
 
             val notificationRingtone =
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -79,7 +80,7 @@ object NotificationHelper {
                 NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
 
             channel.description =
-                CoronaWarnApplication.getAppContext()
+                context
                     .getString(NotificationConstants.CHANNEL_DESCRIPTION)
             channel.setSound(notificationRingtone, audioAttributes)
             notificationManager.createNotificationChannel(channel)
@@ -89,13 +90,13 @@ object NotificationHelper {
     fun cancelFutureNotifications(notificationId: Int) {
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
         val manager =
-            CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
         Timber.v("Canceled future notifications with id: %s", notificationId)
     }
 
     fun cancelCurrentNotification(notificationId: Int) {
-        NotificationManagerCompat.from(CoronaWarnApplication.getAppContext()).cancel(notificationId)
+        NotificationManagerCompat.from(context).cancel(notificationId)
         Timber.v("Canceled notifications with id: %s", notificationId)
     }
 
@@ -106,7 +107,7 @@ object NotificationHelper {
     ) {
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
         val manager =
-            CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
     }
 
@@ -115,9 +116,9 @@ object NotificationHelper {
         flag: Int = FLAG_CANCEL_CURRENT
     ) =
         PendingIntent.getBroadcast(
-            CoronaWarnApplication.getAppContext(),
+            context,
             notificationId,
-            Intent(CoronaWarnApplication.getAppContext(), NotificationReceiver::class.java).apply {
+            Intent(context, NotificationReceiver::class.java).apply {
                 putExtra(NOTIFICATION_ID, notificationId)
             },
             flag)
@@ -141,7 +142,7 @@ object NotificationHelper {
         expandableLongText: Boolean = false,
         pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ): Notification? {
-        val builder = NotificationCompat.Builder(CoronaWarnApplication.getAppContext(), channelId)
+        val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setVisibility(visibility)
@@ -182,9 +183,9 @@ object NotificationHelper {
      */
     private fun createPendingIntentToMainActivity() =
         PendingIntent.getActivity(
-            CoronaWarnApplication.getAppContext(),
+            context,
             0,
-            Intent(CoronaWarnApplication.getAppContext(), MainActivity::class.java),
+            Intent(context, MainActivity::class.java),
             0
         )
 
@@ -199,7 +200,7 @@ object NotificationHelper {
      * @param pendingIntent: PendingIntent
      */
     fun sendNotification(
-        title: String = CoronaWarnApplication.getAppContext().getString(R.string.notification_name),
+        title: String = context.getString(R.string.notification_name),
         content: String,
         notificationId: NotificationId,
         expandableLongText: Boolean = false,
@@ -208,27 +209,8 @@ object NotificationHelper {
         Timber.d("Sending notification with id: %s | title: %s | content: %s", notificationId, title, content)
         val notification =
             buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
-        with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
+        with(NotificationManagerCompat.from(context)) {
             notify(notificationId, notification)
-        }
-    }
-
-    /**
-     * Send notification
-     * Build and send notification with content and visibility.
-     * Notification is only sent if app is not in foreground.
-     *
-     * @param content: String
-     * @param notificationId: NotificationId
-     */
-    fun sendNotificationIfAppIsNotInForeground(content: String, notificationId: NotificationId) {
-        if (!CoronaWarnApplication.isAppInForeground) {
-            sendNotification(
-                content = content,
-                notificationId = notificationId,
-                expandableLongText = true)
-        } else {
-            Timber.d("App is in foreground - not sending the notification with id: %s", notificationId)
         }
     }
 
