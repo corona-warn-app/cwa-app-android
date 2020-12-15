@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -54,24 +55,28 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             contactDiaryDayFab.setOnClickListener {
                 viewModel.onCreateButtonClicked(adapter.tabs[contactDiaryDayTabLayout.selectedTabPosition])
             }
+
+            contactDiaryDayHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                viewModel.onBackPressed()
+            }
         }
 
         viewModel.uiState.observe2(this) {
             binding.contactDiaryDayHeader.title = it.dayText
         }
 
-        viewModel.createPerson.observe2(this) {
-            doNavigate(
-                ContactDiaryDayFragmentDirections
-                    .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment()
-            )
-        }
-
-        viewModel.createLocation.observe2(this) {
-            doNavigate(
-                ContactDiaryDayFragmentDirections
-                    .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment()
-            )
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                ContactDiaryDayNavigationEvents.NavigateToOverviewFragment -> popBackStack()
+                ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet -> doNavigate(
+                    ContactDiaryDayFragmentDirections
+                        .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment()
+                )
+                ContactDiaryDayNavigationEvents.NavigateToAddLocationBottomSheet -> doNavigate(
+                    ContactDiaryDayFragmentDirections
+                        .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment()
+                )
+            }
         }
     }
 }

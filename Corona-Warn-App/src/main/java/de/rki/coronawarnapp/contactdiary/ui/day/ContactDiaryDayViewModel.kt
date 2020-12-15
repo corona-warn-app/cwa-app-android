@@ -23,8 +23,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
 
     private val displayedDay = MutableStateFlow(LocalDate.parse(selectedDay))
 
-    val createPerson = SingleLiveEvent<Unit>()
-    val createLocation = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<ContactDiaryDayNavigationEvents> = SingleLiveEvent()
 
     val uiState = displayedDay.map { day ->
         UIState(dayText = day.toString(dateFormat))
@@ -32,9 +31,15 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
         when (activeTab) {
-            ContactDiaryDayTab.LOCATION_TAB -> createLocation.postValue(null)
-            ContactDiaryDayTab.PERSON_TAB -> createPerson.postValue(null)
+            ContactDiaryDayTab.LOCATION_TAB -> routeToScreen
+                .postValue(ContactDiaryDayNavigationEvents.NavigateToAddLocationBottomSheet)
+            ContactDiaryDayTab.PERSON_TAB -> routeToScreen
+                .postValue(ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet)
         }
+    }
+
+    fun onBackPressed() {
+        routeToScreen.postValue(ContactDiaryDayNavigationEvents.NavigateToOverviewFragment)
     }
 
     data class UIState(
