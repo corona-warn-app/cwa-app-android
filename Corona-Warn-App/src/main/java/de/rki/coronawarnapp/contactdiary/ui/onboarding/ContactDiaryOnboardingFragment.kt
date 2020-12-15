@@ -28,7 +28,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 vm.onNextButtonClick()
             }
 
-            contactDiaryOnboardingHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            contactDiaryOnboardingButtonBack.headerButtonBack.buttonIcon.setOnClickListener {
                 vm.onBackButtonPress()
             }
 
