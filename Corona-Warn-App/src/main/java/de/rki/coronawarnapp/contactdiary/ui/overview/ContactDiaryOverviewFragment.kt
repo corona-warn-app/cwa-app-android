@@ -45,7 +45,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         vm.routeToScreen.observe2(this) {
             when (it) {
                 ContactDiaryOverviewNavigationEvents.NavigateToMainActivity -> {
-                    (requireActivity() as ContactDiaryActivity).finish()
+                    requireActivity().finish()
                 }
 
                 is ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment -> {

@@ -20,18 +20,10 @@ class ContactDiaryOverviewMenu @Inject constructor(
         inflate(R.menu.menu_contact_diary_overview)
         setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
-                R.id.menu_contact_diary_information -> {
-                    true
-                }
-                R.id.menu_contact_diary_export_entries -> {
-                    true
-                }
-                R.id.menu_contact_diary_edit_persons -> {
-                    true
-                }
-                R.id.menu_contact_diary_edit_locations -> {
-                    true
-                }
+                R.id.menu_contact_diary_information -> { true }
+                R.id.menu_contact_diary_export_entries -> { true }
+                R.id.menu_contact_diary_edit_persons -> { true }
+                R.id.menu_contact_diary_edit_locations -> { true }
                 else -> contactDiaryOverviewFragment.onOptionsItemSelected(it)
             }
         }
