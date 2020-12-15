@@ -22,6 +22,7 @@
         <TextView
             android:id="@+id/onboarding_headline"
             style="@style/headline6"
+            android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:accessibilityHeading="true"
@@ -55,6 +56,8 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_mega_tiny"
             android:background="@color/colorSurface1"
+            android:scrollbars="vertical"
+            android:scrollbarSize="@dimen/spacing_mega_tiny"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
