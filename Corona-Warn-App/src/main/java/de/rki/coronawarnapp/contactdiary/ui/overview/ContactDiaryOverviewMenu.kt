@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 import android.content.Context
 import android.view.View
 import android.widget.PopupMenu
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import javax.inject.Inject
 
