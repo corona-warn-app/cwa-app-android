@@ -35,7 +35,7 @@
         <TextView
             android:id="@+id/contact_diary_header_title"
             style="@style/headline6"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/guideline_body_title"
             android:accessibilityHeading="true"

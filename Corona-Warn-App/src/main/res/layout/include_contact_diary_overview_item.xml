@@ -40,7 +40,7 @@
         <View
             android:id="@+id/contact_diary_overview_element_divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/card_divider"
             android:background="?android:attr/listDivider"
             android:layout_marginTop="@dimen/contact_diary_list_item"
             app:layout_constraintTop_toTopOf="parent"/>
