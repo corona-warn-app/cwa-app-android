@@ -36,9 +36,11 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         locationVisitList: List<ContactDiaryLocationVisit>,
         personEncounterList: List<ContactDiaryPersonEncounter>
     ): List<ListItem> {
-        Timber.v("createListItemList(dateList=$dateList, " +
-            "locationVisitList=$locationVisitList, " +
-            "personEncounterList=$personEncounterList)")
+        Timber.v(
+            "createListItemList(dateList=$dateList, " +
+                "locationVisitList=$locationVisitList, " +
+                "personEncounterList=$personEncounterList)"
+        )
         return dateList
             .map {
                 ListItem(it)
@@ -79,6 +81,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     fun onBackButtonPress() {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToMainActivity)
+    }
+
+    fun onItemPress(listItem: ListItem) {
+        routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
 
     @AssistedInject.Factory

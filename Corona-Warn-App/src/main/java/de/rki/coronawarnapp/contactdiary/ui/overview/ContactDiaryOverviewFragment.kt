@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
@@ -25,6 +26,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = ContactDiaryOverviewAdapter {
+            vm.onItemPress(it)
         }
 
         setupToolbar()
@@ -43,9 +45,17 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
         vm.routeToScreen.observe2(this) {
             when (it) {
-
                 ContactDiaryOverviewNavigationEvents.NavigateToMainActivity -> {
                     (requireActivity() as ContactDiaryActivity).finish()
+                }
+
+                is ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment -> {
+                    // TODO(Really navigate to ContactDiaryDayFragment once it is merged)
+                    Toast.makeText(
+                        requireContext(),
+                        "Navigate to ContactDiaryDayFragment with date ${it.localDateString}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
