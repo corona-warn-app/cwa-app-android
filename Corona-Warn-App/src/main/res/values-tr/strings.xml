@@ -34,11 +34,7 @@
     <!-- NOTR -->
     <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_auth_code"><xliff:g id="preference">"preference_auth_code"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
     <!-- NOTR -->
@@ -47,8 +43,6 @@
     <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
@@ -103,6 +97,10 @@
     <string name="notification_headline_share_positive_result">"Yardımcı olabilirsiniz!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Lütfen test sonucunuzu paylaşın ve diğer kullanıcıları uyarın."</string>
+    <!-- XHED: Notification title - test result is ready -->
+    <string name="notification_headline_test_result_ready">"Test Sonucunuz"</string>
+    <!-- XTXT: Notification body - test result is ready -->
+    <string name="notification_body_test_result_ready">"Önemli haberler var. Lütfen Corona-Warn-App\'inizi açın."</string>
 
     <!-- ####################################
               App Auto Update
@@ -170,8 +168,6 @@
         <item quantity="many">"%1$d gün için düşük riskli maruz kalmalar"</item>
     </plurals>
 
-    <!-- XTXT: risk card - High risk state - No days with high risk encounters -->
-    <string name="risk_card_high_risk_no_encounters_body">"Şu ana dek hiçbir maruz kalma yok"</string>
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Bir gün için artmış riskli maruz kalmalar"</item>
@@ -219,7 +215,7 @@
     <!-- XHED: Share app link page subtitle -->
     <string name="main_share_headline">"Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- YTXT: Share app link page body -->
-    <string name="main_share_body">"Uygulamayı ne kadar çok kişi kullanırsa enfeksiyon zincirini o kadar kısa süre içinde kırabiliriz. Lütfen ailenizi ve arkadaşlarınızı uygulamayı indirmeye davet edin."</string>
+    <string name="main_share_body">"Uygulamayı ne kadar çok kişi kullanırsa enfeksiyon zincirlerini o kadar kısa süre içinde kırabiliriz. Lütfen ailenizi ve arkadaşlarınızı uygulamayı indirmeye davet edin."</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"İndirme Bağlantısı Gönder"</string>
     <!-- YMSG: Message when sharing is executed -->
@@ -276,7 +272,7 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Rastgele Kimlik"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Rastgele Kimlikler, rastgele oluşturulan rakam ve harf kombinasyonlarıdır. Yakın mesafedeki akıllı telefonlar arasında değiştirilir. Rastgele Kimlikler belirli bir kişiyi izlemek üzere kullanılamaz ve 14 günün sonunda otomatik olarak silinir. Koronavirüs tanısı konan kişiler son 14 güne kadar rastgele kimliklerinin uygulamanın diğer kullanıcıları ile paylaşılmasını seçebilir."</string>
+    <string name="main_overview_body_glossary_keys">"Rastgele Kimlikler, rastgele oluşturulan rakam ve harf kombinasyonlarıdır. Yakın mesafedeki cihazlar arasında değiştirilir. Rastgele Kimlikler belirli bir kişiyi izlemek üzere kullanılamaz ve 14 günün sonunda otomatik olarak silinir. Koronavirüs tanısı konan kişiler son 14 güne kadar rastgele kimliklerinin uygulamanın diğer kullanıcıları ile paylaşılmasını seçebilir."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Bir akıllı telefon, 1 ila 3 olarak numaralandırılmış farklı içerikleri gösterir."</string>
     <!-- XACT: App main page title -->
@@ -333,7 +329,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Daha sonra koronavirüs tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
+    <string name="risk_details_information_body_low_risk">"Daha sonra COVID-19 tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Enfeksiyon riskiniz, maruz kalma günlüğünün verileri kullanılarak yerel olarak akıllı telefonunuzda hesaplanır. Hesaplamada koronavirüs tanısı konan kişilere maruz kalma mesafesi ve süresinin yanında potansiyel enfeksiyon bulaştırma durumu da göz önünde bulundurulur. Enfeksiyon riskiniz bir başkası tarafından görüntülenemez ya da bir başkasına aktarılamaz."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
@@ -451,7 +447,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Önceliklendirilmiş arka plan aktivitesine izin ver"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Uygulamanın sürekli olarak arka planda risk durumunuzu belirlemesine izin vermek için önceliklendirilmiş arka plan aktivitesine izin verin (önerilir). Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır. Bu işlem sonunda akıllı telefonunuzun pil ömründe kayda değer bir azalma yaşanması beklenmemektedir.\n\nBu ayara izin vermek istemiyorsanız en fazla 24 saatlik aralıklarla Uygulamayı manüel olarak açmanızı öneririz."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Uygulamanın sürekli olarak arka planda risk durumunuzu belirlemesine izin vermek için önceliklendirilmiş arka plan aktivitesine izin verin (önerilir). Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır. Bu işlem sonunda akıllı telefonunuzun pil ömründe kayda değer bir azalma yaşanması beklenmemektedir.\n\nBu ayara izin vermek istemiyorsanız en fazla 24 saatlik aralıklarla uygulamayı manüel olarak açmanızı öneririz."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"İzin Ver"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -459,7 +455,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Önceliklendirilmiş arka plan aktivitesi devre dışı"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Önceliklendirilmiş arka plan aktivitesi devre dışı bırakıldığında risk durumunuzu güncellemek için Uygulamayı en fazla 24 saatlik aralıklarla manüel olarak açmanız gerekir.\n\nÖnceliklendirilmiş arka plan aktivitesini dilediğiniz zaman ayarlarınızdan etkinleştirebilirsiniz."</string>
+    <string name="onboarding_manual_required_dialog_body">"Önceliklendirilmiş arka plan aktivitesi devre dışı bırakıldığında risk durumunuzu güncellemek için uygulamayı en fazla 24 saatlik aralıklarla manüel olarak açmanız gerekir.\n\nÖnceliklendirilmiş arka plan aktivitesini dilediğiniz zaman ayarlarınızdan etkinleştirebilirsiniz."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"Tamam"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
@@ -525,7 +521,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Konum hizmetleri devre dışı bırakıldı"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Uygulamanın, enfekte olan bir kullanıcı ile karşılaşmanızın ardından risk altında olup olmadığınızı belirleyebilmesi için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. Maruz kalma günlüğü özelliği uluslararası olarak çalışır; yani, kullanıcılara ilişkin tüm olası maruz kalmalar da diğer resmi koronavirüs uygulamalarıyla tespit edilir.\n\nMaruz kalma günlüğü özelliği, Android akıllı telefonunuzun Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Uygulama her gün, virüs testi pozitif olan ve uygulamaları aracılığıyla bu bilgileri (özellikle rastgele kimliklerini) gönüllü olarak paylaşan tüm kullanıcıların rastgele kimliklerini içeren bir liste ile birlikte bu kullanıcıların semptomlarının başlangıcına ilişkin gönüllü olarak verilen tüm bilgileri indirir. Ardından bu liste, sizin de enfekte olma olasılığınızı hesaplamak ve gereken durumlarda sizi uyarmak için Android akıllı telefonunuzun kaydetttiği ve karşılaştığınız diğer kullanıcıların rastgele kimliklerle karşılaştırılır. Düğmeyi kullanarak dilediğiniz zaman maruz kalma günlüğünü devre dışı bırakabilirsiniz.\n\nUygulama hiçbir durumda adınız, adresiniz veya konumunuz gibi kişisel verileri toplamaz ve bu bilgileri diğer kullanıcılara aktarmaz. Rastgele kimlikleri kullanarak kişilerin kimlikleri hakkında sonuçlar çıkarılamaz."</string>
+    <string name="settings_tracing_body_text">"Uygulamanın, enfekte olan bir kullanıcı ile karşılaşmanızın ardından risk altında olup olmadığınızı belirleyebilmesi için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. Maruz kalma günlüğü özelliği uluslararası olarak çalışır; yani, kullanıcılara ilişkin tüm olası maruz kalmalar da diğer resmi koronavirüs uygulamalarıyla tespit edilir.\n\nMaruz kalma günlüğü özelliği, Android akıllı telefonunuzun Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Uygulama her gün, virüs testi pozitif olan ve uygulamaları aracılığıyla bu bilgileri (özellikle rastgele kimliklerini) gönüllü olarak paylaşan tüm kullanıcıların rastgele kimliklerini içeren bir liste ile birlikte bu kullanıcıların belirtilerinin başlangıcına ilişkin gönüllü olarak verilen tüm bilgileri indirir. Ardından bu liste, sizin de enfekte olma olasılığınızı hesaplamak ve gereken durumlarda sizi uyarmak için Android akıllı telefonunuzun kaydetttiği ve karşılaştığınız diğer kullanıcıların rastgele kimliklerle karşılaştırılır. Düğmeyi kullanarak dilediğiniz zaman maruz kalma günlüğünü devre dışı bırakabilirsiniz.\n\nUygulama hiçbir durumda adınız, adresiniz veya konumunuz gibi kişisel verileri toplamaz ve bu bilgileri diğer kullanıcılara aktarmaz. Rastgele kimlikleri kullanarak kişilerin kimlikleri hakkında sonuçlar çıkarılamaz."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Etkin"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -635,7 +631,7 @@
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Risk Durumunu Otomatik Olarak Güncelle"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz Uygulama risk durumunuzu sürekli olarak belirleyebilir. Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır."</string>
+    <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz uygulama risk durumunuzu sürekli olarak belirleyebilir. Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
@@ -706,7 +702,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında yasal bildirimleri belirten bir terazi bulunuyor."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
-    <string name="information_technical_html_path">"technical_tr.html"</string>
+    <string name="information_technical_html_path" translatable="false">"technical_tr.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Baskı"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
@@ -841,7 +837,7 @@
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Lütfen karşılaştığınız diğer kullanıcıları uyararak onlara yardımcı olun!"</string>
     <!-- YTXT: Body for consent help by warning others -->
-    <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Uyarı işlevi birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
+    <string name="submission_consent_help_by_warning_others_body">"Koronavirüs tanısı aldıysanız uygulama üzerinden diğer kullanıcıları uyarabilirsiniz. Uyarı özelliği birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
     <!-- YTXT: Body for consent main section first point  -->
@@ -849,7 +845,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Paylaşmamayı seçseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını bilmeyecektir."</string>
+    <string name="submission_consent_main_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Onay vermek için 16 yaşın üzerinde olmanız gerekir."</string>
 
@@ -871,7 +867,7 @@
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Testi Sil"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
-    <string name="submission_test_result_negative_steps_negative_heading">"Test Sonucunuz"</string>
+    <string name="submission_test_result_negative_steps_negative_heading">"Negatif Tanı"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"Laboratuvar sonucuna göre SARS-CoV-2 koronavirüs olduğunuza dair bir doğrulama yok.\n\nGerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
     <!-- XBUT: negative test result : remove the test button -->
@@ -879,13 +875,13 @@
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Diğer Kullanıcıları Uyarın"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Rastgele kimliklerinizi paylaşın ve diğer kullanıcıları uyarın.\nHerhangi bir koronavirüs semptomunu ne zaman ilk kez fark ettiğinizi de belirterek diğer kullanıcıların enfeksiyon riskini daha doğru şekilde belirlemeye yardımcı olun."</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"Rastgele kimliklerinizi paylaşın ve diğer kullanıcıları uyarın.\nHerhangi bir koronavirüs belirtisini ne zaman ilk kez fark ettiğinizi de belirterek diğer kullanıcıların enfeksiyon riskini daha doğru şekilde belirlemeye yardımcı olun."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Sonraki"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
-    <string name="submission_test_result_positive_continue_button_with_symptoms">"Semptomları Gir"</string>
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Belirtileri Gir"</string>
     <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Semptomları Girme"</string>
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Belirtileri Girme"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Test Sonucunuz"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -923,39 +919,22 @@
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
-    <string name="submission_tan_title">"TAN girişi"</string>
+    <string name="submission_tan_title">"TAN gir"</string>
     <!-- YTXT: Body text for the tan submission page -->
     <string name="submission_tan_body">"Lütfen size verilen 10 haneli TAN\'yi girin."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Sonraki"</string>
     <!-- XACT: Submission Tan page title -->
-    <string name="submission_tan_accessibility_title">"TAN girişi"</string>
+    <string name="submission_tan_accessibility_title">"TAN gir"</string>
     <!-- YTXT: Error text for the tan submission page -->
     <string name="submission_tan_error">"TAN geçersiz. Lütfen girişinizi kontrol edin."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
     <string name="submission_tan_character_error">"Girişiniz geçersiz karakterler içeriyor. Lütfen girişinizi kontrol edin."</string>
 
     <!-- Submission Intro -->
-    <!-- XHED: Page title for menu at the start of the submission process  -->
-    <string name="submission_intro_title">"Test yaptırdınız mı?"</string>
-    <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">"Corona-Warn-App bu şekilde çalışır"</string>
-    <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Uygulamanın düzgün çalışması için koronavirüs tanısı konan kişilerin desteğine güveniyoruz.\n\nYalnızca şifrelenmiş rastgele kimlikler gönderilip alındığından kimliğiniz gizli kalır. Şu şekilde devam edebilirsiniz:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Sonraki"</string>
-    <!-- XACT: Submission intro - illustration description, explanation image -->
-    <string name="submission_intro_illustration_description">"Şifrelenmiş bir pozitif test tanısı sisteme aktarılır ve diğer kullanıcılar uyarılır."</string>
-    <!-- YTXT: submission introduction bullet points -->
-    <string-array name="submission_intro_bullet_points">
-        <item>"Test belgenizde bir QR kod varsa bu kodu tarayıp testi kaydedebilirsiniz. Sonuç çıkar çıkmaz sonucu uygulamada görüntüleyebilirsiniz."</item>
-        <item>"Size koronavirüs tanısı konduysa diğer insanları uyarabilirsiniz."</item>
-        <item>"Pozitif tanı için TAN verildiyse bunu kullanarak testi kaydedebilirsiniz."</item>
-        <item>"TAN verilmediyse telefonla talep edebilirsiniz."</item>
-    </string-array>
-    <!-- XACT: Submission Intro page title -->
-    <string name="submission_intro_accessibility_title">"Test yaptırdınız mı? Corona-Warn-App bu şekilde çalışır"</string>
-
+    
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Test Sonucunu Al"</string>
@@ -970,9 +949,9 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Test belgenizin QR kodunu tarayarak testinizi kaydedin."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
-    <string name="submission_dispatcher_card_tan_code">"TAN Girişi"</string>
+    <string name="submission_dispatcher_card_tan_code">"TAN gir"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"TAN\'niz var mı? Diğer kullanıcıları uyarabilmek için TAN\'nizi girmek üzere devam edin. "</string>
+    <string name="submission_dispatcher_tan_code_card_text">"TAN\'niz var mı? Diğer kullanıcıları uyarabilmek için TAN\'nizi girmek üzere buraya dokunun."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"TAN yok mu?"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -986,7 +965,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Lütfen hepimize yardımcı olun!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Dilerseniz diğer kullanıcıların olası enfeksiyonlar konusunda uyarılmasını sağlayabilirsiniz.\n\nBunun için son 14 güne ait rastgele kimliklerinizi ve isteğe bağlı olarak koronavirüs semptomlarını ne zaman ilk kez fark ettiğinizi katılımcı ülkeler tarafından ortak olarak işletilen sunucuya aktarabilirsiniz. Rastgele kimlikleriniz ve tüm ek bilgiler, bu sunucudan ilgili resmi koronavirüs uygulamalarının kullanıcılarına dağıtılacaktır. Bu sayede, temasta bulunduğunuz diğer tüm kullanıcılar olası enfeksiyon konusunda uyarılabilir.\n\nYalnızca rastgele kimlikleriniz ve semptomlarınızın başlangıcına ilişkin verdiğiniz isteğe bağlı bilgiler aktarılacaktır. Adınız, adresiniz veya konumunuz gibi hiçbir kişisel veri açıklanmayacaktır."</string>
+    <string name="submission_positive_other_warning_body">"Dilerseniz diğer kullanıcıların olası enfeksiyonlar konusunda uyarılmasını sağlayabilirsiniz.\n\nBunun için son 14 güne ait rastgele kimliklerinizi ve isteğe bağlı olarak koronavirüs belirtilerini ne zaman ilk kez fark ettiğinizi katılımcı ülkeler tarafından ortak olarak işletilen sunucuya aktarabilirsiniz. Rastgele kimlikleriniz ve tüm ek bilgiler, bu sunucudan ilgili resmi koronavirüs uygulamalarının kullanıcılarına dağıtılacaktır. Bu sayede, temasta bulunduğunuz diğer tüm kullanıcılar olası enfeksiyon konusunda uyarılabilir.\n\nYalnızca rastgele kimlikleriniz ve belirtilerinizin başlangıcına ilişkin verdiğiniz isteğe bağlı bilgiler aktarılacaktır. Adınız, adresiniz veya konumunuz gibi hiçbir kişisel veri açıklanmayacaktır."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -998,7 +977,7 @@
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_no_consent_body_first_part">"Koronavirüs testinizin sonucu pozitif olduğu için şimdi diğer kullanıcıları uygulama üzerinden uyarabilirsiniz."</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_no_consent_body_second_part">"Uyarı işlevi birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
+    <string name="submission_positive_other_warning_no_consent_body_second_part">"Uyarı özelliği birden fazla ülkede etkindir. Şu anda aşağıdaki ülkeler katılmaktadır:"</string>
 
 
     <!-- Test result positive and no consent given -->
@@ -1007,7 +986,7 @@
     <!-- XTXT: First bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_1"><b>"Test sonucunuzu paylaşın ve diğer kullanıcıların enfeksiyondan korunmasına yardımcı olun."</b></string>
     <!-- XTXT: Second bullet point when test result is positive and consent is requested for key sharing-->
-    <string name="submission_test_result_positive_no_consent_text_2">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını bilmeyecektir."</string>
+    <string name="submission_test_result_positive_no_consent_text_2">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- XTXT: Third bullet point when test result is positive and consent is requested for key sharing-->
     <string name="submission_test_result_positive_no_consent_text_3">"Başka insanların enfeksiyona yakalanmaması için lütfen kamu sağlığı yetkilinizin talimatlarına uyun ve evde kalın."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
@@ -1021,7 +1000,7 @@
     <!-- XHED: Country selector headline for the submission country selection page -->
     <string name="submission_country_selector_headline">"Şu ülkelere gittim:"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Beyan yok"</string>
+    <string name="submission_country_no_selection_headline">"Bilgi yok"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
     <string name="submission_country_selection_data_faq_body">"Girişiniz yalnızca veri hacmini optimize etmek için kullanılır.\n\nListe tüm güncel katılımcı ülkeleri içerir ve sürekli olarak güncellenir."</string>
     <!-- XBUT: submission country selection continue button -->
@@ -1031,7 +1010,7 @@
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Teşekkür ederiz"</string>
     <!-- YTXT: Body text for completed submission page -->
-    <string name="submission_done_body">"Değerli bir katkı sundunuz. Desteğiniz için teşekkür ederiz. Artık diğer kullanıcılar konu hakkında uyarılabilir ve buna uygun şekilde hareket edebilir."</string>
+    <string name="submission_done_body">"Desteğiniz sayesinde artık diğer kullanıcılar uyarılabilir ve buna uygun şekilde hareket edebilir."</string>
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Lütfen unutmayın:"</string>
     <!-- YTXT: text after submission: contagious -->
@@ -1062,7 +1041,7 @@
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body">"Uyarıların daha doğru olmasını sağlamaya yardımcı olabilirsiniz. Bunun için sonraki adımda belirtilerinizin ilk kez ne zaman görülmeye başladığını belirtin. Bu adımı dilediğiniz zaman iptal edebilirsiniz."</string>
     <!-- XBUT: submission continue with symptom recording button -->
-    <string name="submission_done_no_consent_continue_with_symptom_recording">"Semptomları Gir"</string>
+    <string name="submission_done_no_consent_continue_with_symptom_recording">"Belirtileri Gir"</string>
     <!-- XBUT: submission continue break flow button-->
     <string name="submission_done_no_consent_break_flow">"Çıkış"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
@@ -1074,7 +1053,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Son birkaç günde aşağıdaki belirtilerden birini veya daha fazlasını yaşadınız mı?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Uygulamanın, diğer kullanıcılar açısından enfeksiyon riskini daha doğru bir biçimde hesaplayabilmesi için herhangi bir korona belirtisi fark edip etmediğinizi ve ne zaman fark ettiğinizi belirtebilirsiniz. Bu adım gönüllülük esasına dayanır. Belirtilerinizle ilgili bilgi vermek istemiyorsanız \"Bilgi yok\" seçeneğini belirlemeniz yeterlidir."</string>
+    <string name="submission_symptom_initial_explanation">"Uygulamanın, diğer kullanıcılar açısından enfeksiyon riskini daha doğru bir biçimde hesaplayabilmesi için herhangi bir koronavirüs belirtisi fark edip etmediğinizi ve ne zaman fark ettiğinizi belirtebilirsiniz. Bu adım gönüllülük esasına dayanır. Belirtilerinizle ilgili bilgi vermek istemiyorsanız \"Bilgi yok\" seçeneğini belirlemeniz yeterlidir."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Artan vücut sıcaklığı veya ateş"</item>
@@ -1091,7 +1070,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Hayır"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Beyan yok"</string>
+    <string name="submission_symptom_no_information_button">"Bilgi yok"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Sonraki"</string>
 
@@ -1129,7 +1108,7 @@
 
     <!-- Submission Symptom Calendar -->
     <!-- XHED: Page title for calendar page in submission symptom flow -->
-    <string name="submission_symptom_calendar_title">"Belirtilerin başlangıcı"</string>
+    <string name="submission_symptom_calendar_title">"Belirtilerin Başlangıcı"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
     <string name="submission_symptom_calendar_headline">"Belirtileri ilk kez ne zaman fark ettiniz?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
@@ -1156,10 +1135,14 @@
     <string name="submission_status_card_title_positive">"Pozitif Tanı"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Test artık geçerli değil"</string>
+    <!-- XHED: Page title for the various submission status fetch ready -->
+    <string name="submission_status_card_title_ready">"Test Sonucunuz Çıktı"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Geçersiz test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Negatif Tanı"</string>
+    <!-- XHED: Subtitle for the submission status card: ready -->
+    <string name="submission_status_card_subtitle_ready">"Şimdi test sonucunuzu alabilirsiniz"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Sonucunuz güncelleniyor"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
@@ -1174,12 +1157,16 @@
     <string name="submission_status_card_body_negative">"SARS-CoV-2 için negatif tanı aldınız."</string>
     <!-- YTXT: Body text for submission status fetch failed -->
     <string name="submission_status_card_body_failed">"Testiniz 21 günden eski ve bu nedenle artık geçerli değil. Lütfen testi silin. Ardından başka bir test ekleyebilirsiniz."</string>
+    <!-- YTXT: Body text for submission status fetch ready -->
+    <string name="submission_status_card_body_ready">"Koronavirüs testinizin sonucu pozitifse diğer kullanıcıları uyarabilirsiniz."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Sonraki Adımlar"</string>
     <!-- XBUT: submission status card show results button -->
-    <string name="submission_status_card_button_show_results">"Testi Görüntüle"</string>
+    <string name="submission_status_card_button_show_results">"Testi Göster"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Testi Sil"</string>
+    <!-- XBUT: submission status card fetch ready button -->
+    <string name="submission_status_card_button_ready">"Testi Sil"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Lütfen unutmayın:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1234,7 +1221,7 @@
     <!-- XTXT: Close screen popup text for consent given -->
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Girişleriniz kaydedilmeyecektir."</string>
     <!-- YTXT: Text for consent NOT given -->
-    <string name="submission_test_result_available_text_consent_not_given">"Test sonuçlarınızı paylaşmamayı seçtiniz. Diğer kullanıcılar uyarılmayacak. \n\nSonraki adımda dilerseniz fikrinizi değiştirip test sonucunuzu paylaşarak koronavirüsün yayılmasını durdurmaya ve diğer kullanıcıların korunmasına yardımcı olabilirsiniz."</string>
+    <string name="submission_test_result_available_text_consent_not_given">"Test sonucunuzu paylaşmamayı seçtiniz. Diğer kullanıcılar uyarılmayacak. \n\nSonraki adımda dilerseniz fikrinizi değiştirip test sonucunuzu paylaşarak koronavirüsün yayılmasını durdurmaya ve diğer kullanıcıların korunmasına yardımcı olabilirsiniz."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
     <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Önemli:\nBu işlemi iptal etmek üzeresiniz.\nHenüz diğer kullanıcıları uyarmadınız. Lütfen bu işlemi tamamlayın ve diğer kullanıcıların korunmasına yardımcı olun."</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
@@ -1425,7 +1412,7 @@
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">"Bazı ülkeler, ortak bir exchange sunucusu üzerinden uluslararası uyarıları etkinleştirmek üzere birlikte çalışma yürütmektedir. Örneğin, diğer katılımcı ülkelerin resmi koronavirüs uygulamasının kullanıcıları ile temaslar da maruz kalma günlüğünde hesaba katılabilir."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"Bunun için uygulama kendi uygulamalarından diğer kullanıcıları uyarmak için test sonuçlarını paylaşan tüm kullanıcıların rastgele kimliklerinden oluşan ve günlük olarak güncellenen bir listeyi indirir. Ardından bu liste Android akıllı telefonunuzun kaydettiği rastgele kimliklerle karşılaştırılır. Liste indirmeleri genellikle ücretsizdir. Buna göre, mobil ağ operatörleri uygulamanın bu bağlamda kullandığı veriler için ücret almaz ve bu doğrultuda, diğer AB ülkelerindeki kullanımlar için dolaşım ücreti almaz. Daha fazla bilgi için lütfen mobil ağ operatörünüzle iletişime geçin."</string>
+    <string name="interoperability_configuration_second_section">"Bunun için uygulama kendi uygulamalarından diğer kullanıcıları uyarmak için test sonuçlarını paylaşan tüm kullanıcıların rastgele kimliklerinden oluşan ve günlük olarak güncellenen listeleri indirir. Ardından bu liste Android akıllı telefonunuzun kaydettiği rastgele kimliklerle karşılaştırılır. Rastgele kimlik listelerinin indirmeleri genellikle ücretsizdir. Buna göre, mobil ağ operatörleri uygulamanın bu bağlamda kullandığı veriler için ücret almaz ve bu doğrultuda, diğer AB ülkelerindeki kullanımlar için dolaşım ücreti almaz. Daha fazla bilgi için lütfen mobil ağ operatörünüzle iletişime geçin."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"Aşağıdaki ülkeler, uluslararası maruz kalma günlüğüne katılmaktadır:"</string>
     <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
@@ -1434,9 +1421,9 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Ülkeler Arası\nMaruz Kalma Günlüğü"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Bazı ülkeler uluslararası uyarıları etkinleştirmek üzere iş birliği yapmaktadır. Diğer bir ifadeyle, tüm katılımcı ülkelerdeki resmi korona uygulamalarının kullanıcılarına maruz kalma olasılığınız da artık hesaba katılabilir."</string>
+    <string name="interoperability_onboarding_first_section">"Bazı ülkeler uluslararası uyarıları etkinleştirmek üzere iş birliği yapmaktadır. Diğer bir ifadeyle, tüm katılımcı ülkelerdeki resmi koronavirüs uygulamalarının kullanıcılarına maruz kalma olasılığınız da artık hesaba katılabilir."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
-    <string name="interoperability_onboarding_second_section">"Bir kullanıcı, diğer kullanıcıları uyarmak için uygulama üzerinden pozitif test sonucunu (daha doğru bir ifadeyle rastgele kimliklerini) katılımcı ülkeler tarafından ortak olarak işletilen exchange sunucusuna gönderdiğinde tüm bu ülkelerdeki resmi korona uygulamalarının tüm kullanıcıları maruz kalma olasılığı konusunda uyarılabilir."</string>
+    <string name="interoperability_onboarding_second_section">"Bir kullanıcı, diğer kullanıcıları uyarmak için uygulama üzerinden pozitif test sonucunu (daha doğru bir ifadeyle rastgele kimliklerini) katılımcı ülkeler tarafından ortak olarak işletilen exchange sunucusuna gönderdiğinde tüm bu ülkelerdeki resmi koronavirüs uygulamalarının tüm kullanıcıları maruz kalma olasılığı konusunda uyarılabilir."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_randomid_download_free">"Pozitif test sonuçlarını paylaşan kullanıcıların rastgele kimliklerini içeren listelerin günlük olarak indirilmesi için ücret alınmaz. Buna göre, mobil ağ operatörleri uygulamanın bu bağlamda kullandığı veriler için ücret almaz ve bu doğrultuda, diğer AB ülkelerindeki kullanımlar için dolaşım ücreti almaz. Daha fazla bilgi için lütfen mobil ağ operatörünüzle iletişime geçin."</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
@@ -1451,9 +1438,9 @@
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Ülkeler Arası\nMaruz Kalma Günlüğü"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">"Corona-Warn-App\'in özellikleri genişletildi. Çok sayıda ülke, ortak olarak işletilen bir exchange sunucusu bazında uluslararası uyarıları etkinleştirmek üzere iş birliği yapmıştır. Maruz kalma riskiniz hesaplanırken diğer katılımcı ülkelerdeki resmi korona uygulamalarının kullanıcılarına maruz kalıp kalmadığınız da artık hesaba katılabilir."</string>
+    <string name="interoperability_onboarding_delta_subtitle">"Corona-Warn-App\'in özellikleri genişletildi. Çok sayıda ülke, ortak olarak işletilen bir exchange sunucusu bazında uluslararası uyarıları etkinleştirmek üzere iş birliği yapmıştır. Maruz kalma riskiniz hesaplanırken diğer katılımcı ülkelerdeki resmi koronavirüs uygulamalarının kullanıcılarına maruz kalıp kalmadığınız da artık hesaba katılabilir."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"Bunun için uygulama, diğer kullanıcıları uyarmak üzere test sonuçlarını kendi uygulamaları üzerinden paylaşan tüm kullanıcıların rastgele kimliklerinden oluşan ve günlük olarak güncellenen bir listeyi indirir. Ardından bu liste Android akıllı telefonunuzun kaydettiği rastgele kimliklerle karşılaştırılır."</string>
+    <string name="interoperability_onboarding_delta_randomid">"Bunun için uygulama, diğer kullanıcıları uyarmak üzere test sonuçlarını kendi uygulamaları üzerinden paylaşan tüm kullanıcıların rastgele kimliklerinden oluşan ve günlük olarak güncellenen listeleri indirir. Ardından bu liste Android akıllı telefonunuzun kaydettiği rastgele kimliklerle karşılaştırılır."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_free_download">"Liste indirmeleri genellikle ücretsizdir. Buna göre, mobil ağ operatörleri uygulamanın bu bağlamda kullandığı veriler için ücret almaz ve bu doğrultuda, diğer AB ülkelerindeki kullanımlar için dolaşım ücreti almaz. Daha fazla bilgi için lütfen mobil ağ operatörünüzle iletişime geçin."</string>
 

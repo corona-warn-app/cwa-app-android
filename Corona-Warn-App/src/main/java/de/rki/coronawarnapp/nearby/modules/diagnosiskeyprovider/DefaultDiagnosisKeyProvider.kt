@@ -59,6 +59,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
             provideDiagnosisKeysTask
                 .addOnSuccessListener { cont.resume(true) }
                 .addOnFailureListener {
+                    Timber.w("Key submission failed because ${it.message}")
                     val wrappedException =
                         when (it is ApiException &&
                             it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT) {

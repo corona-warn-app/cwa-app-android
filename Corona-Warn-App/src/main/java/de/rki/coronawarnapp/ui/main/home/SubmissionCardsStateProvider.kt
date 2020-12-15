@@ -17,11 +17,13 @@ class SubmissionCardsStateProvider @Inject constructor(
 ) {
 
     val state: Flow<SubmissionCardState> = combine(
-        submissionRepository.deviceUIStateFlow
-    ) { args ->
+        submissionRepository.deviceUIStateFlow,
+        submissionRepository.hasViewedTestResult
+    ) { uiState, hasTestBeenSeen ->
         SubmissionCardState(
-            deviceUiState = args[0],
-            isDeviceRegistered = LocalData.registrationToken() != null
+            deviceUiState = uiState,
+            isDeviceRegistered = LocalData.registrationToken() != null,
+            hasTestResultBeenSeen = hasTestBeenSeen
         )
     }
         .onStart { Timber.v("SubmissionCardState FLOW start") }

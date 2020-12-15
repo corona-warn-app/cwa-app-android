@@ -23,7 +23,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
-import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncSettings
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -50,7 +50,7 @@ class DataReset @Inject constructor(
     private val interoperabilityRepository: InteroperabilityRepository,
     private val submissionRepository: SubmissionRepository,
     private val exposureDetectionTracker: ExposureDetectionTracker,
-    private val keyPackageSyncSettings: KeyPackageSyncSettings,
+    private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryDatabase: ContactDiaryDatabase
 ) {
@@ -75,9 +75,8 @@ class DataReset @Inject constructor(
         submissionRepository.reset()
         keyCacheRepository.clear()
         appConfigProvider.clear()
-        interoperabilityRepository.clear()
         exposureDetectionTracker.clear()
-        keyPackageSyncSettings.clear()
+        downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
 
         // Clear contact diary database

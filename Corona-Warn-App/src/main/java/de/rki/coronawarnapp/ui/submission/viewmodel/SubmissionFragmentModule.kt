@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentModule
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
@@ -19,12 +18,16 @@ import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSympto
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionModule
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanModule
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenFragment
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultConsentGivenModule
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultModule
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentFragment
-import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultNoConsentModule
+import de.rki.coronawarnapp.ui.submission.testresult.invalid.SubmissionTestResultInvalidFragment
+import de.rki.coronawarnapp.ui.submission.testresult.invalid.SubmissionTestResultInvalidModule
+import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
+import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeModule
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
+import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingModule
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenModule
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentModule
 import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentModule
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment
@@ -46,17 +49,20 @@ internal abstract class SubmissionFragmentModule {
     @ContributesAndroidInjector(modules = [SubmissionDispatcherModule::class])
     abstract fun submissionDispatcherScreen(): SubmissionDispatcherFragment
 
-    @ContributesAndroidInjector(modules = [SubmissionTestResultModule::class])
-    abstract fun submissionTestResultScreen(): SubmissionTestResultFragment
+    @ContributesAndroidInjector(modules = [SubmissionTestResultPendingModule::class])
+    abstract fun submissionTestResultPendingScreen(): SubmissionTestResultPendingFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionTestResultNegativeModule::class])
+    abstract fun submissionTestResultNegativeScreen(): SubmissionTestResultNegativeFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionTestResultInvalidModule::class])
+    abstract fun submissionTestResultInvalidScreen(): SubmissionTestResultInvalidFragment
 
     @ContributesAndroidInjector(modules = [SubmissionContactModule::class])
     abstract fun submissionContactScreen(): SubmissionContactFragment
 
     @ContributesAndroidInjector(modules = [SubmissionResultReadyModule::class])
     abstract fun submissionDoneNoConsentScreen(): SubmissionResultReadyFragment
-
-    @ContributesAndroidInjector(modules = [SubmissionIntroModule::class])
-    abstract fun submissionIntroScreen(): SubmissionIntroFragment
 
     @ContributesAndroidInjector(modules = [SubmissionQRCodeScanModule::class])
     abstract fun submissionQRCodeScanScreen(): SubmissionQRCodeScanFragment

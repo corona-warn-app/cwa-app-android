@@ -40,14 +40,6 @@ class SubmissionRepository @Inject constructor(
     private val taskController: TaskController,
     private val tekHistoryStorage: TEKHistoryStorage
 ) {
-
-    companion object {
-        fun deleteRegistrationToken() {
-            LocalData.registrationToken(null)
-            LocalData.devicePairingSuccessfulTimestamp(0L)
-        }
-    }
-
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
 
@@ -57,6 +49,7 @@ class SubmissionRepository @Inject constructor(
 
     // to be used by new submission flow screens
     val hasGivenConsentToSubmission = submissionSettings.hasGivenConsent.flow
+    val hasViewedTestResult = submissionSettings.hasViewedTestResult.flow
     val currentSymptoms = submissionSettings.symptoms
 
     private fun List<TaskInfo>.isSubmissionTaskRunning() = any {
@@ -76,14 +69,6 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    fun setTeletan(teletan: String) {
-        LocalData.teletan(teletan)
-    }
-
-    fun deleteTestGUID() {
-        LocalData.testGUID(null)
-    }
-
     // to be used by new submission flow screens
     fun giveConsentToSubmission() {
         submissionSettings.hasGivenConsent.update {
@@ -95,6 +80,13 @@ class SubmissionRepository @Inject constructor(
     fun revokeConsentToSubmission() {
         submissionSettings.hasGivenConsent.update {
             false
+        }
+    }
+
+    // to be set to true once the user has opened and viewed their test result
+    fun setViewedTestResult() {
+        submissionSettings.hasViewedTestResult.update {
+            true
         }
     }
 
@@ -149,7 +141,6 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.teletan(null)
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
@@ -158,7 +149,6 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.testGUID(null)
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
@@ -199,6 +189,17 @@ class SubmissionRepository @Inject constructor(
         deriveUiState(testResult)
     } catch (err: NoRegistrationTokenSetException) {
         DeviceUIState.UNPAIRED
+    }
+
+    fun removeTestFromDevice() {
+        submissionSettings.hasViewedTestResult.update { false }
+        submissionSettings.hasGivenConsent.update { false }
+        revokeConsentToSubmission()
+        LocalData.registrationToken(null)
+        LocalData.devicePairingSuccessfulTimestamp(0L)
+        LocalData.initialPollingForTestResultTimeStamp(0L)
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.isTestResultNotificationSent(false)
     }
 }
 

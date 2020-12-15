@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
+import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -16,6 +17,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
+/**
+ * [SubmissionResultPositiveOtherWarningNoConsentFragment] the screen prompting the user to help by warning others of
+ * their positive status, pressing the accept button provides the consent that was previously not provided.
+ */
 class SubmissionResultPositiveOtherWarningNoConsentFragment :
     Fragment(R.layout.fragment_submission_no_consent_positive_other_warning), AutoInject {
 
@@ -64,6 +69,13 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
 
         viewModel.countryList.observe2(this) {
             binding.countryList.countries = it
+        }
+
+        viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
+            TracingConsentDialog(requireContext()).show(
+                onConsentGiven = { onConsentResult(true) },
+                onConsentDeclined = { onConsentResult(false) }
+            )
         }
     }
 
