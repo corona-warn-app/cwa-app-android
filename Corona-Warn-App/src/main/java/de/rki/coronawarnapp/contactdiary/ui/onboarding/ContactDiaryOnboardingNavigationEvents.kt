@@ -4,4 +4,5 @@ sealed class ContactDiaryOnboardingNavigationEvents {
 
     object NavigateToMainActivity : ContactDiaryOnboardingNavigationEvents()
     object NavigateToPrivacyFragment : ContactDiaryOnboardingNavigationEvents()
+    object NavigateToOverviewFragment : ContactDiaryOnboardingNavigationEvents()
 }

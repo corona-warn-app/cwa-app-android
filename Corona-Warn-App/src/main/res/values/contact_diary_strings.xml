@@ -59,4 +59,19 @@
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title"/>
 
+    <!-- XTXT: Menu information entry for contact diary overview screen -->
+    <string name="menu_contact_diary_information"/>
+    <!-- XTXT: Menu export entry for contact diary overview screen -->
+    <string name="menu_contact_export_entries"/>
+    <!-- XTXT: Menu edit persons entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_persons"/>
+    <!-- XTXT: Menu edit locations entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_locations"/>
+    <!-- XTXT: Title for contact diary overview screen -->
+    <string name="contact_diary_overview_title"/>
+    <!-- XTXT: Subtitle for contact diary overview screen -->
+    <string name="contact_diary_overview_subtitle"/>
+    <!-- XTXT: Header for contact diary overview screen -->
+    <string name="contact_diary_overview_header"/>
+
 </resources>
