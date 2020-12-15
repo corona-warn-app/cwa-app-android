@@ -152,7 +152,7 @@
                 <View
                     android:id="@+id/contact_diary_onboarding_first_divider"
                     android:layout_width="@dimen/match_constraint"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
@@ -176,7 +176,7 @@
                 <View
                     android:id="@+id/contact_diary_onboarding_second_divider"
                     android:layout_width="@dimen/match_constraint"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintBottom_toBottomOf="parent"
