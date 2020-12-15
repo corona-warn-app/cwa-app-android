@@ -37,7 +37,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         locationVisitList: List<ContactDiaryLocationVisit>,
         personEncounterList: List<ContactDiaryPersonEncounter>
     ): List<ListItem> {
-        Timber.v("createListItemList(dateList=$dateList, locationVisitList=$locationVisitList, personEncounterList=$personEncounterList)")
+        Timber.v("createListItemList(dateList=$dateList, " +
+            "locationVisitList=$locationVisitList, " +
+            "personEncounterList=$personEncounterList)")
         return dateList
             .map {
                 ListItem(it)

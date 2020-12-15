@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 import org.joda.time.LocalDate
 
 data class ListItem(
-    val date: LocalDate,
+    val date: LocalDate
 ) {
     val drawableAndStrings: MutableList<DrawableAndString> = mutableListOf()
 }
