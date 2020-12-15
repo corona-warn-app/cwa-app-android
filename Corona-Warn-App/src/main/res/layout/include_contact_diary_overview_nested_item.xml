@@ -38,7 +38,7 @@
             android:text="Andrea Steinhauer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_right_arrow"
+            app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
             app:layout_constraintTop_toTopOf="parent" />
 
 

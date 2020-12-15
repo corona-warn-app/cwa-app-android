@@ -45,6 +45,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
+            viewDataBinding.contactDiaryOverviewElementContainer.removeAllViews()
             if (item.data.isNotEmpty()) {
                 viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.VISIBLE
                 val inflater = LayoutInflater.from(itemView.context)

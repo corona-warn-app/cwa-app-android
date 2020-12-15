@@ -51,10 +51,6 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun setupToolbar() {
 
         binding.contactDiaryOverviewHeader.contactDiaryHeaderOptionsMenu.buttonIcon.apply {
