@@ -70,6 +70,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
+        binding.contactDiaryCard.apply {
+            contactDiaryCardHomescreenButton.setOnClickListener { vm.moveToContactDiary() }
+            contactDiaryHomescreenCard.setOnClickListener { vm.moveToContactDiary() }
+        }
+
         vm.popupEvents.observe2(this) {
             when (it) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
@@ -104,10 +109,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
-
-        binding.contactDiaryCard.contactDiaryCardHomescreenButton.setOnClickListener {
-            vm.moveToContactDiary()
-        }
     }
 
     override fun onResume() {
