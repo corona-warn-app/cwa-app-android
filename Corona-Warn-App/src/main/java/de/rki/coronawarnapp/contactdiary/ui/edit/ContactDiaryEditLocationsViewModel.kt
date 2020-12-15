@@ -36,6 +36,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
     fun onDeleteAllConfirmedClick() {
         launch {
+            contactDiaryRepository.deleteAllLocationVisits()
             contactDiaryRepository.deleteAllLocations()
         }
     }

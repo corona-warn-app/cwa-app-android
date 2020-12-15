@@ -2,7 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contact_diary_nav_graph"
-    app:startDestination="@id/contactDiaryEditLocationsFragment">
+    app:startDestination="@id/contactDiaryOnboardingFragment">
+    <fragment
+        android:id="@+id/contactDiaryOnboardingFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment"
+        android:label="ContactDiaryOnboardingFragment" >
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment"
+            app:destination="@id/contactDiaryInformationPrivacyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryInformationPrivacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="InformationPrivacyFragment" />
     <fragment
         android:id="@+id/contactDiaryEditLocationsFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"

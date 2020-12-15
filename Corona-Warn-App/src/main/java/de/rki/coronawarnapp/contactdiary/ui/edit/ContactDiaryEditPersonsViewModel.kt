@@ -20,9 +20,8 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
-        value = false
         addSource(personsLiveData) {
-            !it.isNullOrEmpty()
+            value = !it.isNullOrEmpty()
         }
     }
 
@@ -32,6 +31,7 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
 
     fun onDeleteAllConfirmedClick() {
         launch {
+            contactDiaryRepository.deleteAllPersonEncounters()
             contactDiaryRepository.deleteAllPeople()
         }
     }
