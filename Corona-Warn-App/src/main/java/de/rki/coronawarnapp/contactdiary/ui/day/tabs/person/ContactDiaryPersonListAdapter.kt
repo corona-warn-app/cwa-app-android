@@ -38,7 +38,9 @@ class ContactDiaryPersonListAdapter(
         BindableVH<SelectableItem<ContactDiaryPerson>, ContactDiaryPersonListLineBinding> {
         override val viewBinding = lazy { ContactDiaryPersonListLineBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryPersonListLineBinding.(key: SelectableItem<ContactDiaryPerson>) -> Unit = {
+        override val onBindData: ContactDiaryPersonListLineBinding.(
+            key: SelectableItem<ContactDiaryPerson>
+        ) -> Unit = {
             contactDiaryPersonListLineName.text = it.item.fullName
             when (it.selected) {
                 true -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_selected)

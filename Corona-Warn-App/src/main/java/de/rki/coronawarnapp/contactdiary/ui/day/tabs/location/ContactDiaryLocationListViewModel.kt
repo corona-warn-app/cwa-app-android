@@ -7,20 +7,20 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.combine
-import org.joda.time.Instant
+import kotlinx.coroutines.flow.first
+import org.joda.time.LocalDate
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    @Assisted selectedDay: Long,
+    @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val localDate = Instant.ofEpochSecond(selectedDay).toLocalDate()
+    private val localDate = LocalDate.parse(selectedDay)
 
     private val dayElement = contactDiaryRepository.locationVisitsForDate(localDate)
     private val selectableLocations = contactDiaryRepository.locations
@@ -36,18 +36,22 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     }.asLiveData()
 
     fun locationSelectionChanged(item: SelectableItem<ContactDiaryLocation>) = launch {
-        if (item.selected) {
+        if (!item.selected) {
             contactDiaryRepository.addLocationVisit(
                 DefaultContactDiaryLocationVisit(
                     date = localDate,
                     contactDiaryLocation = item.item
                 )
             )
+        } else {
+            val visit = dayElement.first()
+                .find { it.contactDiaryLocation.locationId == item.item.locationId }
+            visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
         }
     }
 
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryLocationListViewModel> {
-        fun create(selectedDay: Long): ContactDiaryLocationListViewModel
+        fun create(selectedDay: String): ContactDiaryLocationListViewModel
     }
 }

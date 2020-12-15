@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class ContactDiaryDayFragmentsAdapter(
     fragment: Fragment,
     private val tabs: List<ContactDiaryDayTab>,
-    private val day: Long
+    private val day: String
 ) : FragmentStateAdapter(fragment) {
     override fun getItemCount() = tabs.size
 
