@@ -56,12 +56,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         setupToolbar()
+        setupRiskCard()
+        setupDiaryCard()
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
-
-        setupRiskCard()
 
         binding.mainAbout.mainCard.apply {
             setOnClickListener {
@@ -104,10 +104,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
-
-        binding.contactDiaryCard.contactDiaryCardHomescreenButton.setOnClickListener {
-            vm.moveToContactDiary()
-        }
     }
 
     override fun onResume() {
@@ -208,6 +204,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun setupDiaryCard() {
+        binding.contactDiaryCard.apply {
+            contactDiaryCardHomescreenButton.setOnClickListener { vm.moveToContactDiary() }
+            contactDiaryHomescreenCard.setOnClickListener { vm.moveToContactDiary() }
         }
     }
 
