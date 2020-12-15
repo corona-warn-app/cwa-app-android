@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -26,9 +27,19 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         setupToolbar()
 
         binding.apply {
+
+            contactDiaryOverviewHeader.contactDiaryHeaderButtonBack.buttonIcon.setOnClickListener {
+                vm.onBackButtonPress()
+            }
         }
 
         vm.routeToScreen.observe2(this) {
+            when (it) {
+
+                ContactDiaryOverviewNavigationEvents.NavigateToMainActivity -> {
+                    (requireActivity() as ContactDiaryActivity).finish()
+                }
+            }
         }
     }
 

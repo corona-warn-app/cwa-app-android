@@ -11,4 +11,8 @@ class ContactDiaryOverviewViewModel @com.squareup.inject.assisted.AssistedInject
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>
+
+    fun onBackButtonPress() {
+        routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToMainActivity)
+    }
 }
