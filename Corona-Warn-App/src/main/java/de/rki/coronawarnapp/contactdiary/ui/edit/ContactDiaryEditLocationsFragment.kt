@@ -1,9 +1,14 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
@@ -12,6 +17,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -23,12 +29,23 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBindingLazy()
 
+    private val locationList : MutableList<ContactDiaryLocation> = mutableListOf()
+    private val listAdapter = ListAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
+        setupRecyclerView()
+
+        binding.toolbar.setNavigationOnClickListener {
+            popBackStack()
+        }
+
         viewModel.locationsLiveData.observe2(this) {
-            setupRecyclerView(it)
+            locationList.clear()
+            locationList.addAll(it)
+            listAdapter.notifyDataSetChanged()
         }
 
         viewModel.navigationEvent.observe2(this) {
@@ -36,7 +53,8 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
             when(it) {
                 ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllConfirmationDialog)
                 is ShowLocationDetailSheet -> {
-                    // TODO
+                    // todo
+                    viewModel.delete(it.location)
                 }
             }
         }
@@ -45,6 +63,13 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     override fun onResume() {
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.locationsRecyclerView) {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(this.context)
+        }
     }
 
     private val deleteAllConfirmationDialog by lazy {
@@ -60,8 +85,28 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         )
     }
 
-    private fun setupRecyclerView(locations: List<ContactDiaryLocation>) {
-        // TODO
-    }
+    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
+        inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+            val nameTextView = itemView.findViewById<TextView>(R.id.name)
+            val itemContainerView = itemView.findViewById<View>(R.id.item_container)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAdapter.ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.contact_diary_edit_list_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(viewHolder: ListAdapter.ViewHolder, position: Int) {
+            val location = locationList[position]
+            viewHolder.nameTextView.text = location.locationName
+            viewHolder.itemContainerView.setOnClickListener {
+                viewModel.onEditLocationClick(location)
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return locationList.size
+        }
+    }
 }

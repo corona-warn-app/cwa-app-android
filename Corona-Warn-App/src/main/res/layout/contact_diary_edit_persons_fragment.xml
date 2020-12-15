@@ -15,10 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/include_header"
-            android:id="@+id/header"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:title="@string/contact_diary_edit_persons_title"
-            app:icon="@drawable/ic_close"
+            app:navigationIcon="@drawable/ic_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -32,7 +37,7 @@
             android:scrollbars="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toTopOf="@id/delete_button"/>
 
         <Button
@@ -43,6 +48,7 @@
             android:text="@string/contact_diary_remove_all_button"
             android:textAllCaps="true"
             android:onClick="@{ () -> viewModel.onDeleteAllPersonsClick()}"
+            android:enabled="@{viewModel.isButtonEnabled()}"
             android:layout_margin="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,9 +6,11 @@
     <fragment
         android:id="@+id/contactDiaryEditLocationsFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"
-        android:label="ContactDiaryEditLocationsFragment" />
+        android:label="ContactDiaryEditLocationsFragment">
+    </fragment>
     <fragment
         android:id="@+id/contactDiaryEditPersonsFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsFragment"
         android:label="ContactDiaryEditPersonsFragment" />
+
 </navigation>

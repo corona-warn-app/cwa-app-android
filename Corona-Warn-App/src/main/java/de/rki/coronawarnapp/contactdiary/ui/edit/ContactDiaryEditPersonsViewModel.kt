@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -17,6 +19,13 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
+    val isButtonEnabled = MediatorLiveData<Boolean>().apply {
+        value = false
+        addSource(personsLiveData) {
+            !it.isNullOrEmpty()
+        }
+    }
+
     fun onDeleteAllPersonsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)
     }
@@ -27,8 +36,8 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
         }
     }
 
-    fun onEditLocationClick(id: Int) {
-        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(id))
+    fun onEditPersonClick(person: ContactDiaryPerson) {
+        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person))
     }
 
     @AssistedInject.Factory
@@ -36,6 +45,6 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
 
     sealed class NavigationEvent {
         object ShowDeletionConfirmationDialog: NavigationEvent()
-        data class ShowPersonDetailSheet(val id: Int): NavigationEvent()
+        data class ShowPersonDetailSheet(val person: ContactDiaryPerson): NavigationEvent()
     }
 }

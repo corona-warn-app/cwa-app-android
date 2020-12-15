@@ -1,9 +1,14 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
@@ -12,6 +17,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -23,12 +29,23 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditPersonsFragmentBinding by viewBindingLazy()
 
+    private val personList : MutableList<ContactDiaryPerson> = mutableListOf()
+    private val listAdapter = ListAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
+        setupRecyclerView()
+
+        binding.toolbar.setNavigationOnClickListener {
+            popBackStack()
+        }
+
         viewModel.personsLiveData.observe2(this) {
-            setupRecyclerView(it)
+            personList.clear()
+            personList.addAll(it)
+            listAdapter.notifyDataSetChanged()
         }
 
         viewModel.navigationEvent.observe2(this) {
@@ -36,7 +53,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
             when(it) {
                 ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllConfirmationDialog)
                 is ShowPersonDetailSheet -> {
-                    // TODO
+                    // TODO navigation
                 }
             }
         }
@@ -45,6 +62,13 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     override fun onResume() {
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.personsRecyclerView) {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(this.context)
+        }
     }
 
     private val deleteAllConfirmationDialog by lazy {
@@ -60,8 +84,28 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         )
     }
 
-    private fun setupRecyclerView(locations: List<ContactDiaryPerson>) {
-        // TODO
-    }
+    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
+        inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+            val nameTextView = itemView.findViewById<TextView>(R.id.name)
+            val itemContainerView = itemView.findViewById<View>(R.id.item_container)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAdapter.ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.contact_diary_edit_list_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(viewHolder: ListAdapter.ViewHolder, position: Int) {
+            val person = personList[position]
+            viewHolder.nameTextView.text = person.fullName
+            viewHolder.itemContainerView.setOnClickListener {
+                viewModel.onEditPersonClick(person)
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return personList.size
+        }
+    }
 }
