@@ -56,23 +56,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         setupToolbar()
+        setupRiskCard()
+        setupDiaryCard()
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
-
-        setupRiskCard()
 
         binding.mainAbout.mainCard.apply {
             setOnClickListener {
                 ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
             }
             contentDescription = getString(R.string.hint_external_webpage)
-        }
-
-        binding.contactDiaryCard.apply {
-            contactDiaryCardHomescreenButton.setOnClickListener { vm.moveToContactDiary() }
-            contactDiaryHomescreenCard.setOnClickListener { vm.moveToContactDiary() }
         }
 
         vm.popupEvents.observe2(this) {
@@ -209,6 +204,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun setupDiaryCard() {
+        binding.contactDiaryCard.apply {
+            contactDiaryCardHomescreenButton.setOnClickListener { vm.moveToContactDiary() }
+            contactDiaryHomescreenCard.setOnClickListener { vm.moveToContactDiary() }
         }
     }
 
