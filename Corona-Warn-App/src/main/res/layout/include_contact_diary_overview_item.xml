@@ -13,10 +13,10 @@
 
         <TextView
             android:id="@+id/contact_diary_overview_element_name"
-            style="@style/headline6"
+            style="@style/contactDiaryListItem"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_small"
             android:focusable="true"
             android:text="Donnerstag, 01.12.2020"
             app:layout_constraintBottom_toTopOf="@id/contact_diary_overview_element_divider"
@@ -29,7 +29,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_tiny"
-            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:importantForAccessibility="no"
             android:scaleType="centerInside"
             android:src="@drawable/ic_contact_diary_right_arrow"
