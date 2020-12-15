@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
-import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewNestedItemBinding
 import java.util.Locale
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
@@ -36,6 +35,12 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
     class OverviewElementHolder(private val viewDataBinding: IncludeContactDiaryOverviewItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
+        private val nestedItemAdapter = ContactDiaryOverviewNestedAdapter()
+
+        init {
+            viewDataBinding.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
+        }
+
         fun bind(
             item: ListItem,
             onElementSelectionListener: (ListItem) -> Unit
@@ -45,19 +50,13 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
-            viewDataBinding.contactDiaryOverviewElementContainer.removeAllViews()
             if (item.data.isNotEmpty()) {
                 viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.VISIBLE
-                val inflater = LayoutInflater.from(itemView.context)
-                item.data.forEach {
-                    val nestedBinding = IncludeContactDiaryOverviewNestedItemBinding.inflate(inflater)
-                    nestedBinding.contactDiaryOverviewElementName.text = it.text
-                    nestedBinding.contactDiaryOverviewElementImage.setImageResource(it.drawableId)
-                    viewDataBinding.contactDiaryOverviewElementContainer.addView(nestedBinding.root)
-                }
             } else {
                 viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.INVISIBLE
             }
+
+            nestedItemAdapter.setItems(item.data)
         }
     }
 }

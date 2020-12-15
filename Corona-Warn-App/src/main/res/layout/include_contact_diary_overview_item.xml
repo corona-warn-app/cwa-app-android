@@ -45,16 +45,14 @@
             android:layout_marginTop="75dp"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/contact_diary_overview_element_container"
-            android:orientation="vertical"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contact_diary_overview_nested_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
