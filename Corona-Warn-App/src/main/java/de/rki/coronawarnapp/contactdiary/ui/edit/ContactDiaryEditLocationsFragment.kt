@@ -34,7 +34,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         viewModel.navigationEvent.observe2(this) {
 
             when(it) {
-                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAll)
+                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllConfirmationDialog)
                 is ShowLocationDetailSheet -> {
                     // TODO
                 }
@@ -47,16 +47,18 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private val deleteAll = DialogHelper.DialogInstance(
-        requireActivity(),
-        R.string.contact_diary_delete_locations_title,
-        R.string.contact_diary_delete_locations_message,
-        R.string.contact_diary_delete_button_positive,
-        R.string.contact_diary_delete_button_negative,
-        positiveButtonFunction = {
-            viewModel.onDeleteAllConfirmedClick()
-        }
-    )
+    private val deleteAllConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.contact_diary_delete_locations_title,
+            R.string.contact_diary_delete_locations_message,
+            R.string.contact_diary_delete_button_positive,
+            R.string.contact_diary_delete_button_negative,
+            positiveButtonFunction = {
+                viewModel.onDeleteAllConfirmedClick()
+            }
+        )
+    }
 
     private fun setupRecyclerView(locations: List<ContactDiaryLocation>) {
         // TODO
