@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
+import java.util.Locale
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
@@ -37,7 +38,8 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
             item: ListItem,
             onElementSelectionListener: (ListItem) -> Unit
         ) {
-            viewDataBinding.executePendingBindings()
+            viewDataBinding.contactDiaryOverviewElementName.text =
+                item.date.toString("EEEE, dd.MM.yyyy", Locale.getDefault())
         }
     }
 }

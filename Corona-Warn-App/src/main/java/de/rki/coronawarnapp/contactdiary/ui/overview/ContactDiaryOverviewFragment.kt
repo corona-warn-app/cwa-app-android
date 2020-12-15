@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -23,14 +24,21 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val adapter = ContactDiaryOverviewAdapter {
+        }
 
         setupToolbar()
 
         binding.apply {
+            contactDiaryOverviewRecyclerview.adapter = adapter
 
             contactDiaryOverviewHeader.contactDiaryHeaderButtonBack.buttonIcon.setOnClickListener {
                 vm.onBackButtonPress()
             }
+        }
+
+        vm.listItems.observe2(this) {
+            adapter.setItems(it)
         }
 
         vm.routeToScreen.observe2(this) {
