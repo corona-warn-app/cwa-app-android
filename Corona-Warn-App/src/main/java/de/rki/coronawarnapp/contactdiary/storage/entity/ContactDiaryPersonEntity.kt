@@ -9,7 +9,10 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 data class ContactDiaryPersonEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "personId") override val personId: Long = 0L,
     @ColumnInfo(name = "fullName") override var fullName: String
-) : ContactDiaryPerson
+) : ContactDiaryPerson {
+    override val stableId: Long
+        get() = personId
+}
 
 fun ContactDiaryPerson.toContactDiaryPersonEntity(): ContactDiaryPersonEntity =
     ContactDiaryPersonEntity(this.personId, this.fullName)
