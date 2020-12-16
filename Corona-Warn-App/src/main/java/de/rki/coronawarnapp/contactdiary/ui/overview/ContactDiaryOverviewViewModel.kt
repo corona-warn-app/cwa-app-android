@@ -18,7 +18,6 @@ import timber.log.Timber
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
     contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel() {
-
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
 
     private val dates = flowOf((0 until DAY_COUNT).map { LocalDate.now().minusDays(it) })

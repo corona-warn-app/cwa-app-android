@@ -5,9 +5,48 @@
     android:id="@+id/contact_diary_nav_graph"
     app:startDestination="@id/contactDiaryOnboardingFragment">
     <fragment
+        android:id="@+id/contactDiaryDayFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment"
+        android:label="ContactDiaryDayFragment">
+        <argument
+            android:name="selectedDay"
+            android:defaultValue="2020-03-25"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryPersonBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryLocationBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryLocationBottomSheetDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryPersonListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment"
+        android:label="ContactDiaryPersonListFragment">
+        <argument
+            android:name="selectedDay"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryPlaceListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment"
+        android:label="ContactDiaryPlaceListFragment">
+        <argument
+            android:name="selectedDay"
+            app:argType="string" />
+    </fragment>
+    <dialog
+        android:id="@+id/contactDiaryPersonBottomSheetDialogFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.sheets.person.ContactDiaryPersonBottomSheetDialogFragment"
+        android:label="ContactDiaryPersonBottomSheetDialogFragment" />
+    <dialog
+        android:id="@+id/contactDiaryLocationBottomSheetDialogFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.sheets.location.ContactDiaryLocationBottomSheetDialogFragment"
+        android:label="ContactDiaryLocationBottomSheetDialogFragment" />
+    <fragment
         android:id="@+id/contactDiaryOnboardingFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment"
-        android:label="ContactDiaryOnboardingFragment" >
+        android:label="ContactDiaryOnboardingFragment">
         <action
             android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment"
             app:destination="@id/contactDiaryInformationPrivacyFragment" />
@@ -23,7 +62,10 @@
         android:id="@+id/contactDiaryOverviewFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment"
         android:label="contact_diary_overview_fragment"
-        tools:layout="@layout/contact_diary_overview_fragment" >
+        tools:layout="@layout/contact_diary_overview_fragment">
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryDayFragment"
+            app:destination="@id/contactDiaryDayFragment" />
         <action
             android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryEditLocationsFragment"
             app:destination="@id/contactDiaryEditLocationsFragment" />
