@@ -19,83 +19,83 @@
     <string name="contact_diary_location_bottom_sheet_save_button">"Speichern"</string>
 
     <!-- XHED: Title for the contact diary card displayed in the homescreen -->
-    <string name="contact_diary_homescreen_card_header">Kontakt-Tagebuch</string>
+    <string name="contact_diary_homescreen_card_header">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
-    <string name="contact_diary_homescreen_card_body">Merken Sie sich, wo Sie waren und wen Sie getroffen haben.</string>
+    <string name="contact_diary_homescreen_card_body">"Merken Sie sich, wo Sie waren und wen Sie getroffen haben."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">Tagebuch Führen</string>
+    <string name="contact_diary_homescreen_card_button_text">"Tagebuch Führen"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">Tagebuch Führen</string>
+    <string name="contact_diary_onboarding_button_text">"Tagebuch Führen"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
-    <string name="contact_diary_information_card_title">Behalten Sie den Überblick.</string>
+    <string name="contact_diary_information_card_title">"Behalten Sie den Überblick."</string>
     <!-- XTXT: Contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_body">Erstellen Sie eine Übersicht über Ihre Kontakte der letzten 14 Tage. So haben Sie bei Bedarf schnell eine vollständige Liste zur Hand.</string>
+    <string name="contact_diary_onboarding_body">"Erstellen Sie eine Übersicht über Ihre Kontakte der letzten 14 Tage. So haben Sie bei Bedarf schnell eine vollständige Liste zur Hand."</string>
     <!-- XTXT: Contact diary onboarding screen first functionality -->
-    <string name="contact_diary_onboarding_functionality_first_section">Tragen Sie ein, mit wem Sie sich getroffen haben.</string>
+    <string name="contact_diary_onboarding_functionality_first_section">"Tragen Sie ein, mit wem Sie sich getroffen haben."</string>
     <!-- XTXT: Contact diary onboarding screen second functionality -->
-    <string name="contact_diary_onboarding_functionality_second_section">Tragen Sie ein, an welchen Orten Sie anderen begegnet sind.</string>
+    <string name="contact_diary_onboarding_functionality_second_section">"Tragen Sie ein, an welchen Orten Sie anderen begegnet sind."</string>
     <!-- XTXT: Contact diary onboarding screen third functionality -->
-    <string name="contact_diary_onboarding_functionality_third_section">Ihr Tagebuch ist nur für Sie bestimmt. Ihre Einträge werden nur auf Ihrem Smartphone gespeichert.</string>
+    <string name="contact_diary_onboarding_functionality_third_section">"Ihr Tagebuch ist nur für Sie bestimmt. Ihre Einträge werden nur auf Ihrem Smartphone gespeichert."</string>
     <!-- XTXT: Contact diary onboarding screen fourth functionality -->
-    <string name="contact_diary_onboarding_functionality_fourth_section">Sie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht.</string>
+    <string name="contact_diary_onboarding_functionality_fourth_section">"Sie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
-    <string name="contact_diary_onboarding_functionality_fifth_section">Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen.</string>
+    <string name="contact_diary_onboarding_functionality_fifth_section">"Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
-    <string name="contact_diary_title">Kontakt-Tagebuch</string>
+    <string name="contact_diary_title">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_legal_information">Weitere Hinweise finden Sie in der Datenschutzerklärung.</string>
+    <string name="contact_diary_onboarding_legal_information">"Weitere Hinweise finden Sie in der Datenschutzerklärung."</string>
 
 
     <!-- XTXT: Menu information entry for contact diary overview screen -->
-    <string name="menu_contact_diary_information">Information</string>
+    <string name="menu_contact_diary_information">"Information"</string>
     <!-- XTXT: Menu export entry for contact diary overview screen -->
-    <string name="menu_contact_export_entries">Einträge exportieren</string>
+    <string name="menu_contact_export_entries">"Einträge exportieren"</string>
     <!-- XTXT: Menu edit persons entry for contact diary overview screen -->
-    <string name="menu_contact_diary_edit_persons">Personen bearbeiten</string>
+    <string name="menu_contact_diary_edit_persons">"Personen bearbeiten"</string>
     <!-- XTXT: Menu edit locations entry for contact diary overview screen -->
-    <string name="menu_contact_diary_edit_locations">Orte bearbeiten</string>
+    <string name="menu_contact_diary_edit_locations">"Orte bearbeiten"</string>
     <!-- XTXT: Title for contact diary overview screen -->
-    <string name="contact_diary_overview_title">Kontakt-Tagebuch</string>
+    <string name="contact_diary_overview_title">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind.</string>
+    <string name="contact_diary_overview_subtitle">"Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind."</string>
     <!-- XTXT: Header for contact diary overview screen -->
-    <string name="contact_diary_overview_header">Startseite</string>
+    <string name="contact_diary_overview_header">"Startseite"</string>
 
     <!-- XTXT: content description of contact journal image on home screen -->
-    <string name="contact_diary_homescreen_card_image_content_description">Ein zugeklapptes Buch mit Lesezeichen</string>
+    <string name="contact_diary_homescreen_card_image_content_description">"Ein zugeklapptes Buch mit Lesezeichen"</string>
     <!-- XTXT: content description of contact journal header image on onboarding screen -->
-    <string name="contact_diary_onboarding_image_content_description">Mehrere Menschen schauen im Freien auf ihre Handys</string>
+    <string name="contact_diary_onboarding_image_content_description">"Mehrere Menschen schauen im Freien auf ihre Handys"</string>
     <!-- XTXT: content description of contact journal background image on edit persons screen -->
-    <string name="contact_diary_edit_persons_image_content_description">Die Silhouette einer Frau, die über eine Wiese läuft</string>
+    <string name="contact_diary_edit_persons_image_content_description">"Die Silhouette einer Frau, die über eine Wiese läuft"</string>
     <!-- XTXT: content description of contact journal background image on edit locations screen -->
-    <string name="contact_diary_edit_locations_image_content_description">Eine Standortmarkierung markiert ein Gebäude</string>
+    <string name="contact_diary_edit_locations_image_content_description">"Eine Standortmarkierung markiert ein Gebäude"</string>
 
 
     <!-- XHED: Title for the contact diary edit locations -->
-    <string name="contact_diary_edit_locations_title">Orte bearbeiten</string>
+    <string name="contact_diary_edit_locations_title">"Orte bearbeiten"</string>
     <!-- XHED: Title for the contact diary edit persons -->
-    <string name="contact_diary_edit_persons_title">Personen bearbeiten</string>
+    <string name="contact_diary_edit_persons_title">"Personen bearbeiten"</string>
     <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
-    <string name="contact_diary_remove_all_button">Alle entfernen</string>
+    <string name="contact_diary_remove_all_button">"Alle entfernen"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
-    <string name="contact_diary_delete_button_positive">Entfernen</string>
+    <string name="contact_diary_delete_button_positive">"Entfernen"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
-    <string name="contact_diary_delete_button_negative">Abbrechen</string>
+    <string name="contact_diary_delete_button_negative">"Abbrechen"</string>
     <!-- XHED: Title for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_title">Wollen Sie wirklich alle Orte entfernen?</string>
+    <string name="contact_diary_delete_locations_title">"Wollen Sie wirklich alle Orte entfernen?"</string>
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_title">Wollen Sie wirklich alle Personen entfernen?</string>
+    <string name="contact_diary_delete_persons_title">"Wollen Sie wirklich alle Personen entfernen?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">Wenn Sie einen Ort entfernen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht.</string>
+    <string name="contact_diary_delete_locations_message">"Wenn Sie einen Ort entfernen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">Wenn Sie eine Person entfernen, werden alle Einträge für diese Person aus dem Tagebuch gelöscht.</string>
+    <string name="contact_diary_delete_persons_message">"Wenn Sie eine Person entfernen, werden alle Einträge für diese Person aus dem Tagebuch gelöscht."</string>
     <!-- XACT: edit icon description for screen readers -->
-    <string name="contact_diary_edit_icon_content_description">Eintrag bearbeiten</string>
+    <string name="contact_diary_edit_icon_content_description">"Eintrag bearbeiten"</string>
     <!-- XACT: edit icon description for screen readers -->
-    <string name="contact_diary_delete_icon_content_description">Eintrag löschen</string>
+    <string name="contact_diary_delete_icon_content_description">"Eintrag löschen"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
-    <string name="contact_diary_delete_location_title">Wollen Sie wirklich diesen Ort entfernen?</string>
+    <string name="contact_diary_delete_location_title">"Wollen Sie wirklich diesen Ort entfernen?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
-    <string name="contact_diary_delete_person_title">Wollen Sie wirklich diese Person entfernen?</string>
+    <string name="contact_diary_delete_person_title">"Wollen Sie wirklich diese Person entfernen?"</string>
 </resources>
