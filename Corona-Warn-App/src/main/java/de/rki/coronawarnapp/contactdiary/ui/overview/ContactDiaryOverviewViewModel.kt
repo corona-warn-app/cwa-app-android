@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
+import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.R
@@ -95,7 +96,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
 
-    fun onExportPress() {
+    fun onExportPress(ctx: Context) {
         Timber.d("Exporting person and location entries")
         launch {
             val locationVisits = locationVisitsFlow
@@ -107,9 +108,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 .groupBy({ it.date }, { it.contactDiaryPerson.fullName })
 
             val sb = StringBuilder()
-                .appendLine("Kontakte und besuchte Orte vom ${dates.last().toFormattedString()} " +
-                    "bis ${dates.first().toFormattedString()}")
-                // TODO(Export to Strings)
+                .appendLine(ctx.getString(R.string.contact_diary_export_intro_one, dates.last().toFormattedString(), dates.first().toFormattedString()))
+                .appendLine(ctx.getString(R.string.contact_diary_export_intro_two))
                 .appendLine()
 
             for (date in dates) {
