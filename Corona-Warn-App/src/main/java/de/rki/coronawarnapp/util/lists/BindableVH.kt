@@ -8,5 +8,5 @@ interface BindableVH<ItemT, ViewBindingT : ViewBinding> {
 
     val onBindData: ViewBindingT.(item: ItemT) -> Unit
 
-    fun bind(item: ItemT) = with(viewBinding.value) { onBindData(item) }
+    fun bind(item: ItemT, payloads: MutableList<Any> = mutableListOf()) = with(viewBinding.value) { onBindData(item) }
 }

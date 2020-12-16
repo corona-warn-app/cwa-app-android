@@ -18,15 +18,24 @@ abstract class BaseAdapter<T : BaseAdapter.VH> : RecyclerView.Adapter<T>() {
 
     @CallSuper
     final override fun onBindViewHolder(holder: T, position: Int) {
-        onBindBaseVH(holder, position)
+        onBindBaseVH(holder, position, mutableListOf())
     }
 
-    abstract fun onBindBaseVH(holder: T, position: Int)
+    @CallSuper
+    final override fun onBindViewHolder(holder: T, position: Int, payloads: MutableList<Any>) {
+        onBindBaseVH(holder, position, payloads)
+    }
 
-    abstract class VH(@LayoutRes layoutRes: Int, parent: ViewGroup) : RecyclerView.ViewHolder(
+    abstract fun onBindBaseVH(holder: T, position: Int, payloads: MutableList<Any> = mutableListOf())
+
+    abstract class VH(@LayoutRes layoutRes: Int, private val parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
     ) {
 
-        val context: Context = parent.context
+        val context: Context
+            get() = parent.context
+
+        val layoutInflater: LayoutInflater
+            get() = LayoutInflater.from(context)
     }
 }

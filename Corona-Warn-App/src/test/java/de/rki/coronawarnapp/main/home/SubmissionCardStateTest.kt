@@ -3,11 +3,10 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
+import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionCardState
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK

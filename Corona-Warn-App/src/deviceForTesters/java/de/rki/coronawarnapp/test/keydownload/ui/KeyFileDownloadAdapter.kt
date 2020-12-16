@@ -28,7 +28,7 @@ class KeyFileDownloadAdapter(
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedKeyViewHolder = CachedKeyViewHolder(parent)
 
-    override fun onBindBaseVH(holder: CachedKeyViewHolder, position: Int) {
+    override fun onBindBaseVH(holder: CachedKeyViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnLongClickListener {
             deleteAction(item)

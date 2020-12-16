@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
-import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
+import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionCardState
+import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionStateProvider
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.kotest.matchers.shouldBe
@@ -44,7 +44,7 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance() = SubmissionCardsStateProvider(submissionRepository)
+    private fun createInstance() = SubmissionStateProvider(submissionRepository)
 
     @Test
     fun `state is combined correctly`() = runBlockingTest {

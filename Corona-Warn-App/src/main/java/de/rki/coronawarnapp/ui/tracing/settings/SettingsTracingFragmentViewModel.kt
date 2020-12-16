@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
-import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState
-import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsStateProvider
+import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsItemProvider
+import de.rki.coronawarnapp.ui.tracing.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -23,20 +23,24 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
 import timber.log.Timber
 
 class SettingsTracingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    tracingDetailsStateProvider: TracingDetailsStateProvider,
+    tracingDetailsItemProvider: TracingDetailsItemProvider,
     tracingStatus: GeneralTracingStatus,
     private val backgroundPrioritization: BackgroundPrioritization,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val tracingDetailsState: LiveData<TracingDetailsState> = tracingDetailsStateProvider.state
-        .onEach { Timber.v("tracingDetailsState onEach") }
+    val logginPeriod: LiveData<PeriodLoggedBox.Item> = tracingDetailsItemProvider.state
+        .mapNotNull { items ->
+            items.firstOrNull { it is PeriodLoggedBox.Item } as? PeriodLoggedBox.Item
+        }
+        .onEach { Timber.v("logginPeriod onEach") }
         .asLiveData(dispatcherProvider.Main)
 
     val tracingSettingsState: LiveData<TracingSettingsState> = tracingStatus.generalStatus

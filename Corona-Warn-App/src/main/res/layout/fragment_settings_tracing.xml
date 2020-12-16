@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="tracingDetails"
-            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
+            name="loggedPeriod"
+            type="de.rki.coronawarnapp.ui.tracing.details.items.periodlogged.PeriodLoggedBox.Item" />
 
         <variable
             name="settingsTracingState"
@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_tracing_container"
         android:layout_width="match_parent"
-        invisible="@{tracingDetails == null || settingsTracingState== null}"
+        invisible="@{loggedPeriod == null || settingsTracingState== null}"
         android:layout_height="match_parent"
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">
@@ -130,7 +130,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tracingDetails="@{tracingDetails}" />
+                        app:loggedPeriod="@{loggedPeriod}" />
 
                     <include layout="@layout/merge_guidelines_card" />
 

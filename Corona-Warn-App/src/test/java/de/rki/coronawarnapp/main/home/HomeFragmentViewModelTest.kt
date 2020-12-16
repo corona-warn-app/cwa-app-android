@@ -7,9 +7,9 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
-import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
+import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionCardState
+import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionStateProvider
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -45,7 +45,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var settingsViewModel: SettingsViewModel
     @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
-    @MockK lateinit var submissionCardsStateProvider: SubmissionCardsStateProvider
+    @MockK lateinit var submissionStateProvider: SubmissionStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
@@ -55,7 +55,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
-        every { submissionCardsStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
+        every { submissionStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
         every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
         every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
     }
@@ -71,7 +71,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         settingsViewModel = settingsViewModel,
         tracingStatus = generalTracingStatus,
         tracingCardStateProvider = tracingCardStateProvider,
-        submissionCardsStateProvider = submissionCardsStateProvider,
+        submissionCardsStateProvider = submissionStateProvider,
         tracingRepository = tracingRepository,
         testResultNotificationService = testResultNotificationService,
         submissionRepository = submissionRepository
@@ -123,17 +123,17 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `submission card state is forwarded`() {
-        every { submissionCardsStateProvider.state } returns flowOf(mockk())
+        every { submissionStateProvider.state } returns flowOf(mockk())
         createInstance().apply {
             this.submissionCardState.observeForTesting { }
-            verify { submissionCardsStateProvider.state }
+            verify { submissionStateProvider.state }
         }
     }
 
     @Test
     fun `positive test result notification is triggered on positive QR code result`() {
         val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE), true, true)
-        every { submissionCardsStateProvider.state } returns flowOf(state)
+        every { submissionStateProvider.state } returns flowOf(state)
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 
         runBlocking {
@@ -147,7 +147,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @Test
     fun `positive test result notification is triggered on positive TeleTan code result`() {
         val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN), true, true)
-        every { submissionCardsStateProvider.state } returns flowOf(state)
+        every { submissionStateProvider.state } returns flowOf(state)
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 
         runBlocking {

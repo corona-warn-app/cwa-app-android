@@ -41,8 +41,8 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.tracingDetailsState.observe2(this) {
-            binding.tracingDetails = it
+        vm.logginPeriod.observe2(this) {
+            binding.loggedPeriod = it
         }
         vm.tracingSettingsState.observe2(this) { state ->
             binding.settingsTracingState = state

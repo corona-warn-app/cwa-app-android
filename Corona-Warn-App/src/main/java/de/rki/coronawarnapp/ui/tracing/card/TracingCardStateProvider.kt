@@ -1,12 +1,20 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
-import dagger.Reusable
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.tracing.ui.states.IncreasedRisk
+import de.rki.coronawarnapp.tracing.ui.states.LowRisk
+import de.rki.coronawarnapp.tracing.ui.states.TracingDisabled
+import de.rki.coronawarnapp.tracing.ui.states.TracingFailed
+import de.rki.coronawarnapp.tracing.ui.states.TracingInProgress
+import de.rki.coronawarnapp.tracing.ui.states.TracingState
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.combine
@@ -15,10 +23,9 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
-import javax.inject.Inject
 
-@Reusable
-class TracingCardStateProvider @Inject constructor(
+class TracingCardStateProvider @AssistedInject constructor(
+    @Assisted private val isDetailsMode: Boolean,
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
@@ -26,7 +33,7 @@ class TracingCardStateProvider @Inject constructor(
     exposureDetectionTracker: ExposureDetectionTracker
 ) {
 
-    val state: Flow<TracingCardState> = combine(
+    val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.v("tracingStatus: $it")
         },
@@ -45,7 +52,7 @@ class TracingCardStateProvider @Inject constructor(
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.v("isAutoModeEnabled: $it")
         }
-    ) { status,
+    ) { tracingStatus,
         tracingProgress,
         riskLevelResults,
         activeTracingDaysInRetentionPeriod,
@@ -57,21 +64,47 @@ class TracingCardStateProvider @Inject constructor(
             latestSuccessfulCalc
         ) = riskLevelResults.tryLatestResultsWithDefaults()
 
-        val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
-
-        TracingCardState(
-            tracingStatus = status,
-            riskState = latestCalc.riskState,
-            tracingProgress = tracingProgress,
-            lastSuccessfulRiskState = latestSuccessfulCalc.riskState,
-            lastExposureDetectionTime = latestSubmission?.startedAt,
-            daysWithEncounters = latestCalc.daysWithEncounters,
-            lastEncounterAt = latestCalc.lastRiskEncounterAt,
-            activeTracingDays = activeTracingDaysInRetentionPeriod,
-            isManualKeyRetrievalEnabled = isRestartButtonEnabled
-        )
+        return@combine when {
+            tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(
+                isInDetailsMode = isDetailsMode,
+                riskState = latestSuccessfulCalc.riskState,
+                lastExposureDetectionTime = latestSubmission?.startedAt,
+            )
+            tracingProgress != TracingProgress.Idle -> TracingInProgress(
+                isInDetailsMode = isDetailsMode,
+                riskState = latestSuccessfulCalc.riskState,
+                tracingProgress = tracingProgress
+            )
+            latestCalc.riskState == RiskState.LOW_RISK -> LowRisk(
+                isInDetailsMode = isDetailsMode,
+                riskState = latestCalc.riskState,
+                lastExposureDetectionTime = latestSubmission?.startedAt,
+                daysWithEncounters = latestCalc.daysWithEncounters,
+                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
+                allowManualUpdate = !isBackgroundJobEnabled
+            )
+            latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
+                isInDetailsMode = isDetailsMode,
+                riskState = latestCalc.riskState,
+                lastExposureDetectionTime = latestSubmission?.startedAt,
+                lastEncounterAt = latestCalc.lastRiskEncounterAt,
+                daysWithEncounters = latestCalc.daysWithEncounters,
+                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
+                allowManualUpdate = !isBackgroundJobEnabled
+            )
+            else -> TracingFailed(
+                isInDetailsMode = isDetailsMode,
+                riskState = latestSuccessfulCalc.riskState,
+                lastExposureDetectionTime = latestSubmission?.startedAt,
+            )
+        }
     }
         .onStart { Timber.v("TracingCardState FLOW start") }
         .onEach { Timber.d("TracingCardState FLOW emission: %s", it) }
         .onCompletion { Timber.v("TracingCardState FLOW completed.") }
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(isDetailsMode: Boolean): TracingCardStateProvider
+    }
 }

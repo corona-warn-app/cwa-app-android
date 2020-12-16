@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="tracingHeader"
+            type="de.rki.coronawarnapp.ui.main.home.TracingHeaderState" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/main_title"
+        android:orientation="vertical"
+        tools:context=".ui.main.MainActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_main"
+            android:layout_margin="@dimen/spacing_small"
+            android:elevation="16dp">
+
+            <ImageView
+                android:id="@+id/main_header_logo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_main_header"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/main_header_share"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:cwaContentDescription="@{@string/accessibility_logo}"
+                tools:ignore="ContentDescription" />
+
+            <include
+                android:id="@+id/main_header_share"
+                layout="@layout/include_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:icon="@{@drawable/ic_main_share}"
+                app:iconDescription="@{@string/button_share}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/main_header_options_menu"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/main_header_options_menu"
+                layout="@layout/include_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:icon="@{@drawable/ic_main_settings}"
+                app:iconDescription="@{@string/button_menu}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_tracing"
+            style="@style/buttonTracing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/main_tracing_headline"
+                style="@style/bodyButton"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:contentDescription="@{tracingHeader.getTracingContentDescription(context)}"
+                android:focusable="false"
+                android:text="@{tracingHeader.getTracingDescription(context)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/main_tracing_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/settings_tracing_status_active" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/main_tracing_icon"
+                android:layout_width="@dimen/icon_size_main_card"
+                android:layout_height="@dimen/icon_size_main_card"
+                android:importantForAccessibility="no"
+                app:animation="@{tracingHeader.getTracingAnimation(context)}"
+                app:animation_tint="@{tracingHeader.getTracingTint(context)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/main_tracing_divider"
+            layout="@layout/include_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</layout>

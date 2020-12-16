@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import de.rki.coronawarnapp.R
@@ -14,6 +13,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.lists.HasStableId
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 
@@ -29,18 +29,10 @@ data class TracingCardState(
     val lastExposureDetectionTime: Instant?,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val showDetails: Boolean = false
-) : BaseTracingState() {
+) : BaseTracingState(), HasStableId {
 
-    /**
-     * Formats the risk card icon color depending on risk level
-     * This special handling is required due to light / dark mode differences and switches
-     * between colored / light / dark background
-     */
-    fun getStableIconColor(c: Context): Int = when {
-        isTracingOff() -> R.color.colorTextSemanticNeutral
-        riskState == INCREASED_RISK || riskState == LOW_RISK -> R.color.colorStableLight
-        else -> R.color.colorTextSemanticNeutral
-    }.let { c.getColor(it) }
+    override val stableId: Long
+        get() = 1L
 
     /**
      * Formats the risk card text display depending on risk level
@@ -55,27 +47,6 @@ data class TracingCardState(
             CALCULATION_FAILED -> c.getString(R.string.risk_card_check_failed_no_internet_body)
             else -> ""
         }
-    }
-
-    /**
-     * Formats the risk card text display of last persisted risk level
-     * only in the special case where tracing is turned off and
-     * the persisted risk level is of importance
-     */
-    fun getSavedRiskBody(c: Context): String {
-        val stateToDisplay = when {
-            riskState == CALCULATION_FAILED -> lastSuccessfulRiskState
-            isTracingOff() -> riskState
-            else -> null
-        }
-        return when (stateToDisplay) {
-            INCREASED_RISK -> R.string.risk_card_increased_risk_headline
-            LOW_RISK -> R.string.risk_card_low_risk_headline
-            else -> null
-        }?.let {
-            val argumentValue = c.getString(it)
-            c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
-        } ?: ""
     }
 
     /**
@@ -172,52 +143,6 @@ data class TracingCardState(
         )
 
     /**
-     * /**
-     * Formats the risk card text display of the last time diagnosis keys were
-     * successfully fetched from the server
-    */
-     */
-    fun getTimeFetched(c: Context): String {
-        if (isTracingOff()) {
-            return if (lastExposureDetectionTime != null) {
-                c.getString(
-                    R.string.risk_card_body_time_fetched,
-                    formatRelativeDateTimeString(c, lastExposureDetectionTime)
-                )
-            } else {
-                c.getString(R.string.risk_card_body_not_yet_fetched)
-            }
-        }
-        return when (riskState) {
-            LOW_RISK, INCREASED_RISK -> {
-                if (lastExposureDetectionTime != null) {
-                    c.getString(
-                        R.string.risk_card_body_time_fetched,
-                        formatRelativeDateTimeString(c, lastExposureDetectionTime)
-                    )
-                } else {
-                    c.getString(R.string.risk_card_body_not_yet_fetched)
-                }
-            }
-            CALCULATION_FAILED -> {
-                when (lastSuccessfulRiskState) {
-                    LOW_RISK, INCREASED_RISK -> {
-                        if (lastExposureDetectionTime != null) {
-                            c.getString(
-                                R.string.risk_card_body_time_fetched,
-                                formatRelativeDateTimeString(c, lastExposureDetectionTime)
-                            )
-                        } else {
-                            c.getString(R.string.risk_card_body_not_yet_fetched)
-                        }
-                    }
-                    else -> ""
-                }
-            }
-        }
-    }
-
-    /**
      * Formats the risk card divider color depending on risk level
      * This special handling is required due to light / dark mode differences and switches
      * between colored / light / dark background
@@ -255,30 +180,8 @@ data class TracingCardState(
         }.let { c.getString(it) }
     }
 
-    fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
-        TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
-        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_headline
-        TracingProgress.Idle -> null
-    }?.let { c.getString(it) } ?: ""
-
-    fun getProgressCardBody(c: Context): String = when (tracingProgress) {
-        TracingProgress.Downloading -> R.string.risk_card_progress_download_body
-        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_body
-        TracingProgress.Idle -> null
-    }?.let { c.getString(it) } ?: ""
 
     fun isTracingInProgress(): Boolean = tracingProgress != TracingProgress.Idle
-
-    fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList {
-        if (isTracingOff()) {
-            return c.getColorStateList(R.color.card_no_calculation)
-        }
-        return when (riskState) {
-            INCREASED_RISK -> R.color.card_increased
-            LOW_RISK -> R.color.card_low
-            CALCULATION_FAILED -> R.color.card_no_calculation
-        }.let { c.getColorStateList(it) }
-    }
 
     fun getUpdateButtonColor(c: Context): Int = when (riskState) {
         INCREASED_RISK, LOW_RISK -> R.color.colorStableLight

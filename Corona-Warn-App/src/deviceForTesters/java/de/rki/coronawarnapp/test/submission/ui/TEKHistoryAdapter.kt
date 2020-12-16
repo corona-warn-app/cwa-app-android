@@ -23,7 +23,7 @@ class TEKHistoryAdapter : BaseAdapter<TEKHistoryAdapter.VH>(), AsyncDiffUtilAdap
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): VH = VH(parent)
 
-    override fun onBindBaseVH(holder: VH, position: Int) {
+    override fun onBindBaseVH(holder: VH, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.bind(item)
     }
