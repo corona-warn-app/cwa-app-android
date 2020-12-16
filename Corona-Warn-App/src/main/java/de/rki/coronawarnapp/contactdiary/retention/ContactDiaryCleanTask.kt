@@ -55,7 +55,7 @@ class ContactDiaryCleanTask @Inject constructor(
     }
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<ContactDiaryCleanTask>,
+        private val taskByDagger: Provider<ContactDiaryCleanTask>
     ) : TaskFactory<DefaultProgress, Task.Result> {
 
         override suspend fun createConfig(): TaskFactory.Config = Config()

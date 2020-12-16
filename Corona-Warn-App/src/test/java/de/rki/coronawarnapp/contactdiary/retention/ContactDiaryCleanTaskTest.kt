@@ -15,10 +15,9 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.IOException
 
-class ContactDiaryCleanTaskTest: BaseTest() {
+class ContactDiaryCleanTaskTest : BaseTest() {
 
     @MockK lateinit var retentionCalculation: ContactDiaryDataRetentionCalculation
-
 
     @BeforeEach
     fun setup() {
@@ -52,7 +51,7 @@ class ContactDiaryCleanTaskTest: BaseTest() {
     fun `location visits fails`() = runBlockingTest {
         coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws IOException()
 
-       val result = createInstance().run(mockk())
+        val result = createInstance().run(mockk())
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
         coVerify(exactly = 0) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }

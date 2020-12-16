@@ -71,13 +71,13 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         val list: List<ContactDiaryLocationVisit> = testDates.map { createContactDiaryLocationVisit(Instant.parse(it)) }
 
         every { contactDiaryRepository.locationVisits } returns flowOf(list)
-        coEvery {contactDiaryRepository.deleteLocationVisits(any())} just runs
+        coEvery { contactDiaryRepository.deleteLocationVisits(any()) } just runs
 
         val instance = createInstance()
         instance.filterContactDiaryLocationVisits(list).size shouldBe 1
 
         instance.clearObsoleteContactDiaryLocationVisits()
-        coVerify(exactly = 1) { contactDiaryRepository.deleteLocationVisits(any())}
+        coVerify(exactly = 1) { contactDiaryRepository.deleteLocationVisits(any()) }
     }
 
     private fun createContactDiaryLocationVisit(date: Instant): ContactDiaryLocationVisit {
@@ -91,12 +91,12 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         val list: List<ContactDiaryPersonEncounter> = testDates.map { createContactDiaryPersonEncounter(Instant.parse(it)) }
 
         every { contactDiaryRepository.personEncounters } returns flowOf(list)
-        coEvery {contactDiaryRepository.deletePersonEncounters(any())} just runs
+        coEvery { contactDiaryRepository.deletePersonEncounters(any()) } just runs
 
         val instance = createInstance()
         instance.filterContactDiaryPersonEncounters(list).size shouldBe 1
         instance.clearObsoleteContactDiaryPersonEncounters()
-        coVerify(exactly = 1) { contactDiaryRepository.deletePersonEncounters(any())}
+        coVerify(exactly = 1) { contactDiaryRepository.deletePersonEncounters(any()) }
     }
 
     private fun createContactDiaryPersonEncounter(date: Instant): ContactDiaryPersonEncounter {
@@ -104,5 +104,4 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         every { personEncounter.date } returns LocalDate(date)
         return personEncounter
     }
-
 }
