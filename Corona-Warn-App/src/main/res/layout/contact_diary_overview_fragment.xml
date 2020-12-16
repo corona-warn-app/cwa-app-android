@@ -55,7 +55,6 @@
             android:layout_marginHorizontal="@dimen/spacing_mega_tiny"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_mega_tiny"
-            android:background="@color/colorSurface1"
             android:scrollbars="vertical"
             android:scrollbarSize="@dimen/spacing_mega_tiny"
             app:layout_constraintBottom_toBottomOf="parent"

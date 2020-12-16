@@ -353,4 +353,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="contact_diary_card">
+        <item name="android:background">@drawable/contact_diary_card</item>
+    </style>
+
 </resources>
