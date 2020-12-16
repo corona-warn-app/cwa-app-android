@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import org.joda.time.LocalDate
+import java.lang.StringBuilder
 import kotlin.random.Random
 
 class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
@@ -28,12 +29,12 @@ class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
     val personEncounters = repository.personEncounters.asLiveData(context = dispatcherProvider.Default)
 
     fun getFancyLocationVisitString(list: List<ContactDiaryLocationVisit>): String {
-        val sortedList = list.sortedWith(compareBy({ it.date }))
-        var fancy = ""
+        val sortedList = list.sortedBy { it.date }
+        val builder = StringBuilder()
         for (entry in sortedList) {
-            fancy += "[${entry.date.dayOfMonth}]"
+            builder.append("[${entry.date.dayOfMonth}]")
         }
-        return fancy
+        return builder.toString()
     }
 
     fun getLocationVisitStatusString(list: List<ContactDiaryLocationVisit>): String {
@@ -42,12 +43,12 @@ class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
     }
 
     fun getFancyPersonEncounterString(list: List<ContactDiaryPersonEncounter>): String {
-        val sortedList = list.sortedWith(compareBy({ it.date }))
-        var fancy = ""
+        val sortedList = list.sortedBy { it.date }
+        val builder = StringBuilder()
         for (entry in sortedList) {
-            fancy += "[${entry.date.dayOfMonth}]"
+            builder.append("[${entry.date.dayOfMonth}]")
         }
-        return fancy
+        return builder.toString()
     }
 
     fun getPersonEncounterStatusString(list: List<ContactDiaryPersonEncounter>): String {
@@ -101,7 +102,7 @@ class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
     }
 
     private fun getDate(outdated: Boolean): LocalDate {
-        val date = LocalDate(timeStamper.nowUTC)
+        val date = LocalDate.now()
         return if (outdated) {
             date.minusDays(Random.nextInt(17, 25))
         } else {
