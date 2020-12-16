@@ -72,4 +72,27 @@
     <string name="contact_diary_overview_subtitle"/>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header"/>
+
+    <!-- XHED: Title for the contact diary edit locations -->
+    <string name="contact_diary_edit_locations_title">Orte bearbeiten</string>
+    <!-- XHED: Title for the contact diary edit persons -->
+    <string name="contact_diary_edit_persons_title">Personen bearbeiten</string>
+    <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
+    <string name="contact_diary_remove_all_button">Alle entfernen</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_positive">Entfernen</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_negative">Abbrechen</string>
+    <!-- XHED: Title for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_title">Wollen Sie wirklich alle Orte entfernen?</string>
+    <!-- XHED: Title for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_title">Wollen Sie wirklich alle Personen entfernen?</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_message">Wenn Sie einen Ort entfernen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht.</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_message">Wenn Sie eine Person entfernen, werden alle Einträge für diese Person aus dem Tagebuch gelöscht.</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_edit_icon_content_description">Eintrag bearbeiten</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_delete_icon_content_description">Eintrag löschen</string>
 </resources>
