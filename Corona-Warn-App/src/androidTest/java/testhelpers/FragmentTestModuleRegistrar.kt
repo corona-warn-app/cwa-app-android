@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionDispatcherTestModule
-import de.rki.coronawarnapp.ui.submission.SubmissionIntroTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionQRScanFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
@@ -28,7 +27,6 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         OnboardingTestFragmentModule::class,
         OnboardingTracingFragmentTestModule::class,
         // Submission
-        SubmissionIntroTestModule::class,
         SubmissionDispatcherTestModule::class,
         SubmissionTanTestModule::class,
         SubmissionTestResultTestModule::class,
