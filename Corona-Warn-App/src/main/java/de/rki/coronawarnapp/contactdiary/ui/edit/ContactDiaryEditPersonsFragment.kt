@@ -51,7 +51,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         viewModel.navigationEvent.observe2(this) {
 
             when(it) {
-                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllConfirmationDialog)
+                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllPersonsConfirmationDialog)
                 is ShowPersonDetailSheet -> {
                     // TODO navigation
                 }
@@ -71,7 +71,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         }
     }
 
-    private val deleteAllConfirmationDialog by lazy {
+    private val deleteAllPersonsConfirmationDialog by lazy {
         DialogHelper.DialogInstance(
             requireActivity(),
             R.string.contact_diary_delete_persons_title,

@@ -51,7 +51,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         viewModel.navigationEvent.observe2(this) {
 
             when(it) {
-                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllConfirmationDialog)
+                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllLocationsConfirmationDialog)
                 is ShowLocationDetailSheet -> {
                     // todo
                     viewModel.delete(it.location)
@@ -72,7 +72,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         }
     }
 
-    private val deleteAllConfirmationDialog by lazy {
+    private val deleteAllLocationsConfirmationDialog by lazy {
         DialogHelper.DialogInstance(
             requireActivity(),
             R.string.contact_diary_delete_locations_title,
