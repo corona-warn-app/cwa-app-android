@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
@@ -65,10 +64,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     }
 
     private fun setupRecyclerView() {
-        with(binding.personsRecyclerView) {
-            adapter = listAdapter
-            layoutManager = LinearLayoutManager(this.context)
-        }
+        binding.personsRecyclerView.adapter = listAdapter
     }
 
     private val deleteAllPersonsConfirmationDialog by lazy {

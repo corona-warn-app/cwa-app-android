@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
@@ -65,10 +64,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     }
 
     private fun setupRecyclerView() {
-        with(binding.locationsRecyclerView) {
-            adapter = listAdapter
-            layoutManager = LinearLayoutManager(this.context)
-        }
+        binding.locationsRecyclerView.adapter = listAdapter
     }
 
     private val deleteAllLocationsConfirmationDialog by lazy {

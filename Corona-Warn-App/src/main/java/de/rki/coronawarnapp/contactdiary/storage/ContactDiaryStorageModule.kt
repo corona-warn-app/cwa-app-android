@@ -8,9 +8,11 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
+import javax.inject.Singleton
 
 @Module
 class ContactDiaryStorageModule {
+    @Singleton
     @Provides
     fun contactDiaryDatabase(contactDiaryDatabaseFactory: ContactDiaryDatabase.Factory): ContactDiaryDatabase =
         contactDiaryDatabaseFactory.create()
@@ -31,6 +33,7 @@ class ContactDiaryStorageModule {
     fun personEncounterDao(contactDiaryDatabase: ContactDiaryDatabase): ContactDiaryPersonEncounterDao =
         contactDiaryDatabase.personEncounterDao()
 
+    @Singleton
     @Provides
     fun contactDiaryRepo(defaultContactDiaryRepository: DefaultContactDiaryRepository): ContactDiaryRepository =
         defaultContactDiaryRepository
