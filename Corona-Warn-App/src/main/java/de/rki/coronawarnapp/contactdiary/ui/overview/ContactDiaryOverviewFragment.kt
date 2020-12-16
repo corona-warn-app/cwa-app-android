@@ -68,6 +68,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
             val shareIntent = ShareCompat.IntentBuilder
                 .from(activity)
                 .setType("text/plain")
+                .setSubject(getString(R.string.contact_diary_export_subject))
                 .setText(exportString)
                 .createChooserIntent()
 
