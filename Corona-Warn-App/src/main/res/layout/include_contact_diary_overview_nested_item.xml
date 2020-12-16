@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_diary_overview_element_nested_body"
-        style="@style/cardGrey"
+        style="@style/contactDiaryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -18,8 +18,10 @@
             android:id="@+id/contact_diary_overview_element_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_tiny"
             android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+
             android:importantForAccessibility="no"
             android:scaleType="centerInside"
             android:src="@drawable/ic_contact_diary_person_item"
@@ -29,11 +31,15 @@
 
         <TextView
             android:id="@+id/contact_diary_overview_element_name"
-            style="@style/headline5"
+            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_tiny"
             android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="true"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:text="Andrea Steinhauer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

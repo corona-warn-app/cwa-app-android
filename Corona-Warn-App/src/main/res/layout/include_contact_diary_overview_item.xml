@@ -4,7 +4,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_diary_overview_element_body"
-        style="@style/cardGrey"
+        style="@style/contactDiaryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_mega_tiny"
