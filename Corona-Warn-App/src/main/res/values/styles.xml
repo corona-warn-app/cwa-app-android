@@ -16,12 +16,13 @@
         <item name="colorPrimary">@color/colorBrandSecondary</item>
         <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="alertDialogTheme">@style/dialog</item>
+        <item name="alertDialogTheme">@style/diaryDialog</item>
     </style>
 
     <style name="MaterialAppTheme.NoActionBar" parent="MaterialAppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="dialogTheme">@style/diaryDialog</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -58,6 +59,15 @@
     <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="diaryButtonPositive" parent="Widget.MaterialComponents.Button.TextButton" />
+    <style name="diaryButtonNegative" parent="Widget.MaterialComponents.Button.TextButton" />
+
+    <!--    Contact Diary Dialog-->
+    <style name="diaryDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/diaryButtonPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/diaryButtonNegative</item>
     </style>
 
     <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
