@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.contactdiary.ui.onboarding
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.ActionOnlyNavDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
@@ -46,24 +45,18 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment -> {
                     doNavigate(
-                        ActionOnlyNavDirections(
-                            R.id.action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment
-                        )
+                        ContactDiaryOnboardingFragmentDirections
+                            .actionContactDiaryOnboardingFragmentToContactDiaryInformationPrivacyFragment()
                     )
                 }
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
                     doNavigate(
-                        ActionOnlyNavDirections(
-                            R.id.action_contactDiaryOnboardingFragment_to_contactDiaryOverviewFragment
-                        )
+                        ContactDiaryOnboardingFragmentDirections
+                            .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
                     )
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 }

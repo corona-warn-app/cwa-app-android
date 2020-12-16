@@ -9,7 +9,10 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 data class ContactDiaryLocationEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "locationId") override val locationId: Long = 0L,
     @ColumnInfo(name = "locationName") override var locationName: String
-) : ContactDiaryLocation
+) : ContactDiaryLocation {
+    override val stableId: Long
+        get() = locationId
+}
 
 fun ContactDiaryLocation.toContactDiaryLocationEntity(): ContactDiaryLocationEntity =
     ContactDiaryLocationEntity(this.locationId, this.locationName)
