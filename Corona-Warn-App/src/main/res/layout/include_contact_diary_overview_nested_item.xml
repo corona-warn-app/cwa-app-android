@@ -33,7 +33,6 @@
                 android:importantForAccessibility="no"
                 android:scaleType="centerInside"
                 android:layout_marginStart="@dimen/spacing_small"
-
                 android:src="@drawable/ic_contact_diary_person_item"
                 app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_overview_element_name"
                 app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_element_name"
