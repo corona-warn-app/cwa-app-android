@@ -43,6 +43,8 @@
     <string name="contact_diary_onboarding_functionality_fifth_section">Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen.</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">Kontakt-Tagebuch</string>
+    <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_legal_information">Weitere Hinweise finden Sie in der Datenschutzerklärung.</string>
 
 
     <!-- XTXT: Menu information entry for contact diary overview screen -->
