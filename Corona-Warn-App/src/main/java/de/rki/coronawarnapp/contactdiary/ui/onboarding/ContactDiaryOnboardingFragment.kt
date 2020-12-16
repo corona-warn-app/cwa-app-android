@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.ActionOnlyNavDirections
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
@@ -25,14 +26,15 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             contactDiaryOnboardingNextButton.setOnClickListener {
+
                 vm.onNextButtonClick()
             }
 
-            contactDiaryOnboardingButtonBack.headerButtonBack.buttonIcon.setOnClickListener {
+            contactDiaryOnboardingHeader.headerButtonBack.buttonIcon.setOnClickListener {
                 vm.onBackButtonPress()
             }
 
-            contactDiaryOnboardingPrivacyInformation.setOnClickListener {
+            contactDiaryOnboardingPrivacyInformationContainer.setOnClickListener {
                 vm.onPrivacyButtonPress()
             }
         }

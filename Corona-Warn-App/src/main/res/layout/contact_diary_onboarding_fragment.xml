@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/contact_diary_onboarding_button_back"
+            android:id="@+id/contact_diary_onboarding_header"
             layout="@layout/include_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toTopOf="@+id/contact_diary_onboarding_next_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_button_back">
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -159,30 +159,39 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_card" />
 
-
-                <TextView
-                    android:id="@+id/contact_diary_onboarding_privacy_information"
-                    style="@style/subtitle"
-                    android:layout_width="@dimen/match_constraint"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/contact_diary_onboarding_privacy_information_container"
+                    style="@style/row"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:focusable="true"
-                    android:text="@string/contact_diary_onboarding_legal_information"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_first_divider"
-                    tools:text="@string/contact_diary_onboarding_legal_information" />
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_first_divider">
+
+                    <TextView
+                        android:id="@+id/contact_diary_onboarding_privacy_information"
+                        style="@style/subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/contact_diary_onboarding_legal_information"
+                        tools:text="@string/contact_diary_onboarding_legal_information" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <View
                     android:id="@+id/contact_diary_onboarding_second_divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="@dimen/card_divider"
-                    android:layout_marginTop="@dimen/spacing_small"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintBottom_toBottomOf="parent"
                     bind:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     bind:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    bind:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_information" />
+                    bind:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_information_container" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
