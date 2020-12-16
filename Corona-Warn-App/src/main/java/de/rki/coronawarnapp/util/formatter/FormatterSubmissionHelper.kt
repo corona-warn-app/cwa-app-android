@@ -23,7 +23,7 @@ fun formatButtonStyleByState(
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state, R.color.colorTextSixteen, R.color.colorTextPrimary1)
+    formatColor(currentState == state, R.color.colorStableLight, R.color.colorTextPrimary1)
 
 fun formatBackgroundButtonStyleByState(
     currentState: Symptoms.Indication?,
