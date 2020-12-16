@@ -19,21 +19,9 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/submission_done_title"
-            app:layout_constraintEnd_toStartOf="@+id/submission_done_card_icon"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            android:id="@+id/submission_done_card_icon"
-            layout="@layout/include_button_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_normal"
-            app:icon="@{@drawable/ic_forward}"
-            app:iconDescription="@{@string/accessibility_next}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_done_card_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/submission_done_card_title" />
 
         <ImageView
             android:id="@+id/submission_done_card_illustration"
@@ -42,7 +30,7 @@
             android:layout_marginTop="@dimen/spacing_tiny"
             android:contentDescription="@string/submission_done_illustration_description"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_submission_illustration_thanks"
+            android:src="@drawable/ic_illustration_together"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/submission_done_card_title" />

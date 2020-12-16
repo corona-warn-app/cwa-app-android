@@ -2,17 +2,16 @@ package de.rki.coronawarnapp.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
+import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
-import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeStamper
@@ -27,8 +26,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import timber.log.Timber
-import java.util.Date
-import java.util.NoSuchElementException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,24 +43,21 @@ class TracingRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val taskController: TaskController,
     enfClient: ENFClient,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val exposureDetectionTracker: ExposureDetectionTracker
 ) {
-
-    val lastTimeDiagnosisKeysFetched: Flow<Date?> = LocalData.lastTimeDiagnosisKeysFromServerFetchFlow()
 
     private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
     val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
 
-    private val internalIsRefreshing =
-        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() || it.isRiskLevelTaskRunning() }
-
     val tracingProgress: Flow<TracingProgress> = combine(
-        internalIsRefreshing,
-        enfClient.isPerformingExposureDetection()
-    ) { isDownloading, isCalculating ->
+        taskController.tasks.map { it.isDownloadDiagnosisKeysTaskRunning() },
+        enfClient.isPerformingExposureDetection(),
+        taskController.tasks.map { it.isRiskLevelTaskRunning() }
+    ) { isDownloading, isExposureDetecting, isRiskLeveling ->
         when {
             isDownloading -> TracingProgress.Downloading
-            isCalculating -> TracingProgress.ENFIsCalculating
+            isExposureDetecting || isRiskLeveling -> TracingProgress.ENFIsCalculating
             else -> TracingProgress.Idle
         }
     }
@@ -82,8 +76,6 @@ class TracingRepository @Inject constructor(
      * Regardless of whether the transactions where successful or not the
      * lastTimeDiagnosisKeysFetchedDate is updated. But the the value will only be updated after a
      * successful go through from the RetrievelDiagnosisKeysTransaction.
-     *
-     * @see RiskLevelRepository
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
@@ -99,7 +91,6 @@ class TracingRepository @Inject constructor(
                     RiskLevelTask::class, originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
-            TimerHelper.startManualKeyRetrievalTimer()
         }
     }
 
@@ -129,15 +120,15 @@ class TracingRepository @Inject constructor(
         // model the keys are only fetched on button press of the user
         val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
 
-        val wasNotYetFetched = LocalData.lastTimeDiagnosisKeysFromServerFetch() == null
-
         Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
         Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
-        Timber.tag(TAG).v("Was not yet fetched from server $wasNotYetFetched")
 
         if (isNetworkEnabled && isBackgroundJobEnabled) {
             scope.launch {
-                if (wasNotYetFetched || downloadDiagnosisKeysTaskDidNotRunRecently()) {
+                val lastSubmission = exposureDetectionTracker.lastSubmission(onlyFinished = false)
+                Timber.tag(TAG).v("Last submission was %s", lastSubmission)
+
+                if (lastSubmission == null || downloadDiagnosisKeysTaskDidNotRunRecently()) {
                     Timber.tag(TAG).v("Start the fetching and submitting of the diagnosis keys")
 
                     taskController.submitBlocking(
@@ -147,7 +138,6 @@ class TracingRepository @Inject constructor(
                             originTag = "TracingRepository.refreshRisklevel()"
                         )
                     )
-                    TimerHelper.checkManualKeyRetrievalTimer()
 
                     taskController.submit(
                         DefaultTaskRequest(RiskLevelTask::class, originTag = "TracingRepository.refreshRiskLevel()")
@@ -162,11 +152,10 @@ class TracingRepository @Inject constructor(
         val taskLastFinishedAt = try {
             taskController.tasks.first()
                 .filter { it.taskState.type == DownloadDiagnosisKeysTask::class }
-                .mapNotNull { it.taskState.finishedAt }
-                .sortedDescending()
-                .first()
-        } catch (e: NoSuchElementException) {
-            Timber.tag(TAG).v("download did not run recently - no task with a finishedAt date found")
+                .mapNotNull { it.taskState.finishedAt ?: it.taskState.startedAt }
+                .maxOrNull()!!
+        } catch (e: NullPointerException) {
+            Timber.tag(TAG).v("download did not run recently - no task with a date found")
             return true
         }
 
@@ -174,37 +163,6 @@ class TracingRepository @Inject constructor(
             Timber.tag(TAG)
                 .v("download did not run recently: %s (last=%s, now=%s)", it, taskLastFinishedAt, currentDate)
         }
-    }
-
-    /**
-     * Exposure summary
-     * Refresh the following variables in TracingRepository
-     * - daysSinceLastExposure
-     * - matchedKeysCount
-     *
-     * @see TracingRepository
-     */
-    fun refreshExposureSummary() {
-        scope.launch {
-            try {
-                val token = LocalData.googleApiToken()
-                if (token != null) {
-                    ExposureSummaryRepository.getExposureSummaryRepository()
-                        .getLatestExposureSummary(token)
-                }
-                Timber.tag(TAG).v("retrieved latest exposure summary from db")
-            } catch (e: Exception) {
-                e.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
-            }
-        }
-    }
-
-    fun refreshLastSuccessfullyCalculatedScore() {
-        RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
     }
 
     companion object {

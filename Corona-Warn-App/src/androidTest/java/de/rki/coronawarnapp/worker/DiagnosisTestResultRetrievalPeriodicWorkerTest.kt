@@ -8,12 +8,14 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.testing.TestDriver
 import androidx.work.testing.WorkManagerTestInitHelper
+import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
@@ -35,7 +37,8 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
     private lateinit var context: Context
     private lateinit var workManager: WorkManager
     private lateinit var request: WorkRequest
-    private lateinit var request2: WorkRequest
+    @MockK lateinit var playbook: Playbook
+    private val submissionService = SubmissionService(playbook)
     // small delay because WorkManager does not run work instantly when delay is off
     private val delay = 500L
 
@@ -44,7 +47,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
         LocalData.registrationToken("test token")
         LocalData.isTestResultNotificationSent(false)
         mockkObject(LocalData)
-        mockkObject(SubmissionService)
         mockkObject(BackgroundWorkScheduler)
 
         // do not init Test WorkManager instance again between tests
@@ -118,7 +120,6 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
     @Test
     fun testDiagnosisTestResultRetrievalPeriodicWorkerRetryAndFail() {
         val past = Date().time - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() - 1).daysToMilliseconds()
-        coEvery { SubmissionService.asyncRequestTestResult() } throws Exception("test exception")
         every { LocalData.initialPollingForTestResultTimeStamp() } returns past
 
         BackgroundWorkScheduler.startWorkScheduler()
@@ -159,7 +160,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
         past: Long,
         isCancelTest: Boolean = false
     ) {
-        coEvery { SubmissionService.asyncRequestTestResult() } returns result
+        coEvery { submissionService.asyncRequestTestResult(any()) } returns result
         every { LocalData.initialPollingForTestResultTimeStamp() } returns past
 
         BackgroundWorkScheduler.startWorkScheduler()

@@ -1,12 +1,12 @@
-@file:Suppress("DEPRECATION")
-
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
-import de.rki.coronawarnapp.util.GoogleAPIVersion
+import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -17,100 +17,57 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultDiagnosisKeyProvider @Inject constructor(
-    private val googleAPIVersion: GoogleAPIVersion,
+    private val enfVersion: ENFVersion,
     private val submissionQuota: SubmissionQuota,
-    private val enfClient: ExposureNotificationClient
+    private val enfClient: ExposureNotificationClient,
+    private val diagnosisKeysDataMapper: DiagnosisKeysDataMapper
 ) : DiagnosisKeyProvider {
 
     override suspend fun provideDiagnosisKeys(
         keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
-        token: String
+        newDiagnosisKeysDataMapping: DiagnosisKeysDataMapping
     ): Boolean {
-        return try {
-            if (keyFiles.isEmpty()) {
-                Timber.d("No key files submitted, returning early.")
-                return true
-            }
+        diagnosisKeysDataMapper.updateDiagnosisKeysDataMapping(newDiagnosisKeysDataMapping)
 
-            val usedConfiguration = if (configuration == null) {
-                Timber.w("Passed configuration was NULL, creating fallback.")
-                ExposureConfiguration.ExposureConfigurationBuilder().build()
-            } else {
-                configuration
-            }
-
-            if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
-                provideKeys(keyFiles, usedConfiguration, token)
-            } else {
-                provideKeysLegacy(keyFiles, usedConfiguration, token)
-            }
-        } catch (e: Exception) {
-            Timber.e(
-                e, "Error during provideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
-                keyFiles, configuration, token
-            )
-            throw e
+        if (keyFiles.isEmpty()) {
+            Timber.d("No key files submitted, returning early.")
+            return true
         }
-    }
 
-    private suspend fun provideKeys(
-        files: Collection<File>,
-        configuration: ExposureConfiguration,
-        token: String
-    ): Boolean {
-        Timber.d("Using non-legacy key provision.")
+        // Check version of ENF, WindowMode since v1.5, but version check since v1.6
+        // Will throw if requirement is not satisfied
+        enfVersion.requireMinimumVersion(ENFVersion.V1_6)
 
         if (!submissionQuota.consumeQuota(1)) {
-            Timber.w("Not enough quota available.")
-            // TODO Currently only logging, we'll be more strict in a future release
-            // return false
+            Timber.e("No key files submitted because not enough quota available.")
+            // Needs discussion until armed, concerns: Hiding other underlying issues.
+//            return false
         }
 
-        performSubmission(files, configuration, token)
-        return true
-    }
-
-    /**
-     * We use Batch Size 1 and thus submit multiple times to the API.
-     * This means that instead of directly submitting all files at once, we have to split up
-     * our file list as this equals a different batch for Google every time.
-     */
-    private suspend fun provideKeysLegacy(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration,
-        token: String
-    ): Boolean {
-        Timber.d("Using LEGACY key provision.")
-
-        if (!submissionQuota.consumeQuota(keyFiles.size)) {
-            Timber.w("Not enough quota available.")
-            // TODO What about proceeding with partial submission?
-            // TODO Currently only logging, we'll be more strict in a future release
-            // return false
+        val keyFilesList = keyFiles.toList()
+        val provideDiagnosisKeysTask = if (enfVersion.isAtLeast(ENFVersion.V1_7)) {
+            Timber.i("Provide diagnosis keys with DiagnosisKeyFileProvider")
+            val diagnosisKeyFileProvider = DiagnosisKeyFileProvider(keyFilesList)
+            enfClient.provideDiagnosisKeys(diagnosisKeyFileProvider)
+        } else {
+            Timber.i("Provide diagnosis keys as list")
+            enfClient.provideDiagnosisKeys(keyFilesList)
         }
 
-        keyFiles.forEach { performSubmission(listOf(it), configuration, token) }
-        return true
-    }
-
-    private suspend fun performSubmission(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration,
-        token: String
-    ): Void = suspendCoroutine { cont ->
-        Timber.d("Performing key submission.")
-        enfClient
-            .provideDiagnosisKeys(keyFiles.toList(), configuration, token)
-            .addOnSuccessListener { cont.resume(it) }
-            .addOnFailureListener {
-                val wrappedException = when {
-                    it is ApiException && it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT -> {
-                        QuotaExceededException(cause = it)
-                    }
-                    else -> it
+        return suspendCoroutine { cont ->
+            Timber.d("Performing key submission.")
+            provideDiagnosisKeysTask
+                .addOnSuccessListener { cont.resume(true) }
+                .addOnFailureListener {
+                    Timber.w("Key submission failed because ${it.message}")
+                    val wrappedException =
+                        when (it is ApiException &&
+                            it.statusCode == ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT) {
+                            true -> QuotaExceededException(cause = it)
+                            false -> it
+                        }
+                    cont.resumeWithException(wrappedException)
                 }
-                cont.resumeWithException(wrappedException)
-            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.test.debugoptions.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.Formatter
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -31,24 +32,14 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Debug card
-        binding.backgroundNotificationsToggle.apply {
-            setOnClickListener { vm.setBackgroundNotifications(isChecked) }
-        }
-        vm.backgroundNotificationsToggleEvent.observe2(this@DebugOptionsFragment) {
-            showSnackBar("Background Notifications are activated: $it")
-        }
-        vm.debugOptionsState.observe2(this) { state ->
-            binding.apply {
-                backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-            }
-        }
         binding.testLogfileToggle.apply {
             setOnClickListener { vm.setLoggerEnabled(isChecked) }
         }
         vm.loggerState.observe2(this) { state ->
             binding.apply {
                 testLogfileToggle.isChecked = state.isLogging
+                val logSize = Formatter.formatShortFileSize(requireContext(), state.logsize)
+                testLogfileToggle.text = "Logfile enabled ($logSize)"
                 testLogfileShare.setGone(!state.isLogging)
             }
         }

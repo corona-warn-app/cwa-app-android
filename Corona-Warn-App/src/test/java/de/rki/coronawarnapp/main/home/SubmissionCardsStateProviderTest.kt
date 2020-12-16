@@ -29,12 +29,14 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionCardsStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
+    @MockK lateinit var submissionRepository: SubmissionRepository
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        mockkObject(SubmissionRepository)
         mockkObject(LocalData)
+
+        every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
     }
 
     @AfterEach
@@ -42,11 +44,11 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance() = SubmissionCardsStateProvider()
+    private fun createInstance() = SubmissionCardsStateProvider(submissionRepository)
 
     @Test
     fun `state is combined correctly`() = runBlockingTest {
-        every { SubmissionRepository.deviceUIStateFlow } returns flow {
+        every { submissionRepository.deviceUIStateFlow } returns flow {
             emit(NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>(DeviceUIState.PAIRED_POSITIVE))
         }
         every { LocalData.registrationToken() } returns "token"
@@ -54,11 +56,12 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         createInstance().apply {
             state.first() shouldBe SubmissionCardState(
                 deviceUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-                isDeviceRegistered = true
+                isDeviceRegistered = true,
+                hasTestResultBeenSeen = true
             )
 
             verify {
-                SubmissionRepository.deviceUIStateFlow
+                submissionRepository.deviceUIStateFlow
                 LocalData.registrationToken()
             }
         }

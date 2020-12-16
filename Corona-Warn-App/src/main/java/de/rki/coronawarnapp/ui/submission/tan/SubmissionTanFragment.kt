@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.include_submission_tan.*
 import javax.inject.Inject
 
 /**
- * Fragment for TAN entry
+ * [SubmissionTanFragment] for submission via TAN entry
  */
 class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoInject {
 
@@ -66,8 +66,9 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             }
 
             if (ApiRequestState.SUCCESS == it) {
+                // TODO What about negative tests and consent?
                 doNavigate(
-                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
+                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment()
                 )
             }
         }

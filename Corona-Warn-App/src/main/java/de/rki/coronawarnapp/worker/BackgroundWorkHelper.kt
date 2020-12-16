@@ -2,9 +2,6 @@ package de.rki.coronawarnapp.worker
 
 import androidx.work.Constraints
 import androidx.work.NetworkType
-import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.storage.LocalData
-import timber.log.Timber
 import kotlin.random.Random
 
 /**
@@ -57,18 +54,4 @@ object BackgroundWorkHelper {
             .Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-
-    /**
-     * Send debug notification to check background jobs execution
-     *
-     * @param title: String
-     * @param content: String
-     *
-     * @see LocalData.backgroundNotification()
-     */
-    fun sendDebugNotification(title: String, content: String) {
-        Timber.d("sendDebugNotification(title=%s, content=%s)", title, content)
-        if (!LocalData.backgroundNotification()) return
-        NotificationHelper.sendNotification(title, content, Random.nextInt(), true)
-    }
 }

@@ -1,0 +1,1105 @@
+{
+  "__comment__": "JSON has been generated from YAML, see README",
+  "defaultRiskCalculationConfiguration": {
+    "minutesAtAttenuationFilters": [
+      {
+        "attenuationRange": {
+          "min": 0,
+          "max": 73,
+          "maxExclusive": true
+        },
+        "dropIfMinutesInRange": {
+          "min": 0,
+          "max": 10,
+          "maxExclusive": true
+        }
+      }
+    ],
+    "trlFilters": [
+      {
+        "dropIfTrlInRange": {
+          "min": 1,
+          "max": 2
+        }
+      }
+    ],
+    "minutesAtAttenuationWeights": [
+      {
+        "attenuationRange": {
+          "min": 0,
+          "max": 55,
+          "maxExclusive": true
+        },
+        "weight": 1
+      },
+      {
+        "attenuationRange": {
+          "min": 55,
+          "max": 63,
+          "maxExclusive": true
+        },
+        "weight": 0.5
+      }
+    ],
+    "normalizedTimePerEWToRiskLevelMapping": [
+      {
+        "normalizedTimeRange": {
+          "min": 0,
+          "max": 15,
+          "maxExclusive": true
+        },
+        "riskLevel": 1
+      },
+      {
+        "normalizedTimeRange": {
+          "min": 15,
+          "max": 9999
+        },
+        "riskLevel": 2
+      }
+    ],
+    "normalizedTimePerDayToRiskLevelMapping": [
+      {
+        "normalizedTimeRange": {
+          "min": 0,
+          "max": 15,
+          "maxExclusive": true
+        },
+        "riskLevel": 1
+      },
+      {
+        "normalizedTimeRange": {
+          "min": 15,
+          "max": 9999
+        },
+        "riskLevel": 2
+      }
+    ],
+    "trlEncoding": {
+      "infectiousnessOffsetStandard": 1,
+      "infectiousnessOffsetHigh": 2,
+      "reportTypeOffsetRecursive": 0,
+      "reportTypeOffsetSelfReport": 2,
+      "reportTypeOffsetConfirmedClinicalDiagnosis": 4,
+      "reportTypeOffsetConfirmedTest": 6
+    },
+    "transmissionRiskLevelMultiplier": 0.2
+  },
+  "testCases": [
+    {
+      "description": "drop Exposure Windows that do not match minutesAtAttenuationFilters (< 10 minutes)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 299
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "keep Exposure Windows that match minutesAtAttenuationFilters (>= 10 minutes)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "drop Exposure Windows that do not match minutesAtAttenuationFilters (>= 73 dB)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 73,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 73,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "keep Exposure Windows that match minutesAtAttenuationFilters (< 73 dB)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 72,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 72,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "drop Exposure Windows that do not match trlFilters (<= 2)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 4,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "keep Exposure Windows that match trlFilters (> 2)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "identify Exposure Window as Low Risk based on normalizedTime (< 15)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 299
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "identify Exposure Window as High Risk based on normalizedTime (>= 15)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
+    },
+    {
+      "description": "identify the most recent date with Low Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 3,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 2,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 4,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 3,
+      "expAgeOfMostRecentDateWithLowRisk": 2,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 3,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "count Exposure Windows with same Date/TRL/CallibrationConfidence only once towards distinct encounters with Low Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "count Exposure Windows with same Date/TRL but different CallibrationConfidence separately towards distinct encounters with Low Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 1,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 2,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "count Exposure Windows with same Date/CallibrationConfidence but different TRL separately towards distinct encounters with Low Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 2,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "count Exposure Windows with same TRL/CallibrationConfidence but different Date separately towards distinct encounters with Low Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 2,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 2,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 2,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "determine High Risk in total if there are sufficient Exposure Windows with a Low Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
+    },
+    {
+      "description": "identify the most recent date with High Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 3,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        },
+        {
+          "ageInDays": 2,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        },
+        {
+          "ageInDays": 4,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 2,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 3,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 3
+    },
+    {
+      "description": "count Exposure Windows with same Date/TRL/CallibrationConfidence only once towards distinct encounters with High Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
+    },
+    {
+      "description": "count Exposure Windows with same Date/TRL but different CallibrationConfidence separately towards distinct encounters with High Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 1,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 2,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
+    },
+    {
+      "description": "count Exposure Windows with same Date/CallibrationConfidence but different TRL separately towards distinct encounters with High Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 2,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
+    },
+    {
+      "description": "count Exposure Windows with same TRL/CallibrationConfidence but different Date separately towards distinct encounters with High Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        },
+        {
+          "ageInDays": 2,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 2,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 2
+    },
+    {
+      "description": "determine High Risk in total if there is at least one Exposure Window with High Risk",
+      "exposureWindows": [
+        {
+          "ageInDays": 2,
+          "reportType": 3,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 420
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": 2,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 1
+    },
+    {
+      "description": "handle empty set of Exposure Windows",
+      "exposureWindows": [],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "handle empty set of Scan Instances (should never happen)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 0,
+          "scanInstances": []
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "handle a typicalAttenuation: of zero (should never happen)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 0,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "handle secondsSinceLastScan of zero (should never happen)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 0
+            },
+            {
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 70,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
+      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expNumberOfDaysWithLowRisk": 1,
+      "expNumberOfDaysWithHighRisk": 0
+    },
+    {
+      "description": "ignores negative secondsSinceLastScan (can happen when time-travelling, not officially supported)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 1,
+          "infectiousness": 1,
+          "calibrationConfidence": 0,
+          "scanInstances": [
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": -86160
+            },
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 25,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1
+    }
+  ]
+}

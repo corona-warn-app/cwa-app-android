@@ -1,113 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
-    </data>
-
-    <ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/submission_symptom_container"
+        <include
+            android:id="@+id/submission_symptom_header"
+            layout="@layout/include_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:focusable="true"
-            tools:context=".ui.submission.fragment.SubmissionIntroFragment">
+            app:icon="@{@drawable/ic_close}"
+            app:title="@{@string/submission_symptom_title}" />
 
-            <include
-                android:id="@+id/submission_symptom_header"
-                layout="@layout/include_header"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                app:icon="@{@drawable/ic_back}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_symptom_title}" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/submission_symptom_initial_headline"
-                style="@style/headline5"
-                android:layout_width="@dimen/match_constraint"
+            <LinearLayout
+                android:id="@+id/submission_symptom_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:accessibilityHeading="true"
-                android:text="@string/submission_symptom_initial_headline"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_header" />
-
-            <de.rki.coronawarnapp.ui.view.BulletPointList
-                android:id="@+id/further_info_text"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:fillViewport="true"
                 android:focusable="true"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:entries="@array/submission_symptom_symptom_bullets"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_initial_headline" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/submission_symptom_intro_explanation"
-                style="@style/subtitleMedium"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/submission_symptom_initial_explanation"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/further_info_text" />
+                <TextView
+                    android:id="@+id/submission_symptom_initial_headline"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:text="@string/submission_symptom_initial_headline" />
 
-            <include
-                android:id="@+id/symptom_choice_selection"
-                layout="@layout/include_submission_target_selection"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_intro_explanation" />
+                <de.rki.coronawarnapp.ui.view.BulletPointList
+                    android:id="@+id/further_info_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:entries="@array/submission_symptom_symptom_bullets" />
 
-            <Button
-                android:id="@+id/symptom_button_next"
-                style="@style/buttonPrimary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_small"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@string/submission_symptom_further_button"
-                app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/symptom_choice_selection"/>
+                <TextView
+                    android:id="@+id/submission_symptom_intro_explanation"
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/submission_symptom_initial_explanation" />
 
-            <include layout="@layout/merge_guidelines_side" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/guideline_top" />
+                <Button
+                    android:id="@+id/target_button_apply"
+                    style="@style/selectionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:enabled="true"
+                    android:text="@string/submission_symptom_positive_button" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/spacing_small" />
+                <Button
+                    android:id="@+id/target_button_reject"
+                    style="@style/selectionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:enabled="true"
+                    android:text="@string/submission_symptom_negative_button" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/target_button_verify"
+                    style="@style/selectionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:enabled="true"
+                    android:text="@string/submission_symptom_no_information_button" />
 
-    </ScrollView>
+                <Button
+                    android:id="@+id/symptom_button_next"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:text="@string/submission_symptom_further_button" />
 
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
 </layout>

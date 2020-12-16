@@ -49,10 +49,10 @@ class AppConfigStorage @Inject constructor(
             return@withLock try {
                 InternalConfigData(
                     rawData = legacyConfigFile.readBytes(),
-                    serverTime = timeStamper.nowUTC,
+                    serverTime = Instant.ofEpochMilli(legacyConfigFile.lastModified()),
                     localOffset = Duration.ZERO,
                     etag = "legacy.migration",
-                    cacheValidity = Duration.standardMinutes(5)
+                    cacheValidity = Duration.standardSeconds(0)
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Legacy config exits but couldn't be read.")
@@ -61,8 +61,9 @@ class AppConfigStorage @Inject constructor(
         }
 
         return@withLock try {
-            gson.fromJson<InternalConfigData>(configFile).also {
+            gson.fromJson<InternalConfigData>(configFile)?.also {
                 requireNotNull(it.rawData)
+                Timber.v("Loaded stored config, serverTime=%s", it.serverTime)
             }
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load config.")
@@ -80,6 +81,12 @@ class AppConfigStorage @Inject constructor(
             Timber.v("Overwriting %d from %s", configFile.length(), configFile.lastModified())
         }
 
+        if (legacyConfigFile.exists()) {
+            if (legacyConfigFile.delete()) {
+                Timber.i("Legacy config file deleted, superseeded.")
+            }
+        }
+
         if (value == null) {
             if (configFile.delete()) Timber.d("Config file was deleted (value=null).")
             return
@@ -87,12 +94,6 @@ class AppConfigStorage @Inject constructor(
 
         try {
             gson.toJson(value, configFile)
-
-            if (legacyConfigFile.exists()) {
-                if (legacyConfigFile.delete()) {
-                    Timber.i("Legacy config file deleted, superseeded.")
-                }
-            }
         } catch (e: Exception) {
             // We'll not rethrow as we could still keep working just with the remote config,
             // but we will notify the user.

@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -76,16 +77,23 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             goBack()
         }
 
-        viewModel.registrationState.observe2(this) {
-            binding.submissionQrCodeScanSpinner.visibility = when (it) {
+        viewModel.registrationState.observe2(this) { state ->
+            binding.submissionQrCodeScanSpinner.visibility = when (state.apiRequestState) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
-            if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
-                    SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
-                )
+            if (ApiRequestState.SUCCESS == state.apiRequestState) {
+                if (state.testResult == TestResult.POSITIVE) {
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
+                    )
+                } else {
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
+                    )
+                }
             }
         }
 
@@ -97,7 +105,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                is SubmissionNavigationEvents.NavigateToConsent ->
                     goBack()
             }
         }

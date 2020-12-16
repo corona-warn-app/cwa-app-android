@@ -2,16 +2,20 @@ package de.rki.coronawarnapp.submission
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
-import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,7 +24,10 @@ import javax.inject.Provider
 class SubmissionTask @Inject constructor(
     private val playbook: Playbook,
     private val appConfigProvider: AppConfigProvider,
-    private val exposureKeyHistoryCalculations: ExposureKeyHistoryCalculations
+    private val tekHistoryCalculations: ExposureKeyHistoryCalculations,
+    private val tekHistoryStorage: TEKHistoryStorage,
+    private val submissionSettings: SubmissionSettings,
+    private val testResultNotificationService: TestResultNotificationService
 ) : Task<DefaultProgress, Task.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -29,19 +36,41 @@ class SubmissionTask @Inject constructor(
     private var isCanceled = false
 
     override suspend fun run(arguments: Task.Arguments) = try {
-        Timber.d("Running with arguments=%s", arguments)
-        arguments as Arguments
+        Timber.tag(TAG).d("Running with arguments=%s", arguments)
 
-        Playbook.SubmissionData(
-            arguments.registrationToken,
-            arguments.getHistory(),
+        val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+        Timber.tag(TAG).d("Using registrationToken=$registrationToken")
+
+        val keys: List<TemporaryExposureKey> = tekHistoryStorage.tekData.first().flatMap { it.keys }
+        val symptoms: Symptoms = submissionSettings.symptoms.value ?: Symptoms.NO_INFO_GIVEN
+
+        val transformedKeys = tekHistoryCalculations.transformToKeyHistoryInExternalFormat(
+            keys,
+            symptoms
+        )
+        Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
+
+        val submissionData = Playbook.SubmissionData(
+            registrationToken,
+            transformedKeys,
             true,
             getSupportedCountries()
         )
-            .also { checkCancel() }
-            .let { playbook.submit(it) }
 
-        SubmissionService.submissionSuccessful()
+        checkCancel()
+
+        Timber.tag(TAG).d("Submitting %s", submissionData)
+        playbook.submit(submissionData)
+
+        Timber.tag(TAG).d("Submission successful, deleting submission data.")
+        tekHistoryStorage.clear()
+        submissionSettings.symptoms.update { null }
+
+        // TODO re-evaluate the necessity of this behavior
+        BackgroundWorkScheduler.stopWorkScheduler()
+        LocalData.numberOfSuccessfulSubmissions(1)
+
+        testResultNotificationService.cancelPositiveTestResultNotification()
 
         object : Task.Result {}
     } catch (error: Exception) {
@@ -51,12 +80,6 @@ class SubmissionTask @Inject constructor(
         Timber.i("Finished (isCanceled=$isCanceled).")
         internalProgress.close()
     }
-
-    private fun Arguments.getHistory(): List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey> =
-        exposureKeyHistoryCalculations.transformToKeyHistoryInExternalFormat(
-            keys,
-            symptoms
-        )
 
     private suspend fun getSupportedCountries(): List<String> {
         val countries = appConfigProvider.getAppConfig().supportedCountries
@@ -77,12 +100,6 @@ class SubmissionTask @Inject constructor(
         Timber.w("cancel() called.")
         isCanceled = true
     }
-
-    class Arguments(
-        val registrationToken: String,
-        val keys: List<TemporaryExposureKey>,
-        val symptoms: Symptoms
-    ) : Task.Arguments
 
     data class Config(
         override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min

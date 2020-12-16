@@ -86,6 +86,10 @@ class SubmissionQuota @Inject constructor(
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val DEFAULT_QUOTA = 20
+        /**
+         * This quota should be 6 when using ExposureWindow
+         * See: https://developers.google.com/android/exposure-notifications/release-notes
+         */
+        internal const val DEFAULT_QUOTA = 6
     }
 }

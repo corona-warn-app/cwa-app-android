@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.task
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.example.QueueingTask
 import de.rki.coronawarnapp.task.testtasks.SkippingTask
+import de.rki.coronawarnapp.task.testtasks.precondition.PreconditionTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask2
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTaskArguments
@@ -54,6 +55,7 @@ class TaskControllerTest : BaseIOTest() {
     private val timeoutFactory2 = spyk(TimeoutTask2.Factory(Provider { TimeoutTask2() }))
     private val queueingFactory = spyk(QueueingTask.Factory(Provider { QueueingTask() }))
     private val skippingFactory = spyk(SkippingTask.Factory(Provider { SkippingTask() }))
+    private val preconditionFactory = spyk(PreconditionTask.Factory(Provider { PreconditionTask() }))
 
     @BeforeEach
     fun setup() {
@@ -63,6 +65,7 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap[SkippingTask::class.java] = skippingFactory
         taskFactoryMap[TimeoutTask::class.java] = timeoutFactory
         taskFactoryMap[TimeoutTask2::class.java] = timeoutFactory2
+        taskFactoryMap[PreconditionTask::class.java] = preconditionFactory
 
         every { timeStamper.nowUTC } answers {
             Instant.now()
@@ -341,6 +344,43 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
+    fun `tasks with preconditions that are not met are skipped`() = runBlockingTest {
+        val instance = createInstance(scope = this)
+
+        val request = DefaultTaskRequest(type = PreconditionTask::class)
+        preconditionFactory.arePreconditionsMet = false
+        instance.submit(request)
+
+        advanceUntilIdle()
+
+        val request2 = DefaultTaskRequest(type = PreconditionTask::class)
+        preconditionFactory.arePreconditionsMet = true
+        instance.submit(request2)
+
+        this.advanceUntilIdle()
+
+        val infoFinished = instance.tasks.first { emission ->
+            emission.any { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
+        }
+        infoFinished.size shouldBe 2
+
+        infoFinished.single { it.taskState.request == request }.apply {
+            taskState.type shouldBe PreconditionTask::class
+            taskState.isSkipped shouldBe true
+            taskState.result shouldBe null
+            taskState.error shouldBe null
+        }
+        infoFinished.single { it.taskState.request == request2 }.apply {
+            taskState.type shouldBe PreconditionTask::class
+            taskState.isSkipped shouldBe false
+            taskState.result shouldNotBe null
+            taskState.error shouldBe null
+        }
+
+        instance.close()
+    }
+
+    @Test
     fun `collision behavior only affects task of same type`() = runBlockingTest {
         val arguments = QueueingTask.Arguments(path = File(testDir, UUID.randomUUID().toString()))
         arguments.path.exists() shouldBe false
@@ -535,6 +575,46 @@ class TaskControllerTest : BaseIOTest() {
             taskState.isSuccessful shouldBe true
             taskState.error shouldBe null
             taskState.result shouldNotBe null
+        }
+
+        instance.close()
+    }
+
+    @Test
+    fun `old tasks are pruned from history`() = runBlockingTest {
+        val instance = createInstance(scope = this)
+
+        val expectedFiles = mutableListOf<File>()
+
+        repeat(100) {
+            val arguments = QueueingTask.Arguments(
+                delay = 5,
+                values = listOf("TestText"),
+                path = File(testDir, UUID.randomUUID().toString())
+            )
+            expectedFiles.add(arguments.path)
+
+            val request = DefaultTaskRequest(type = QueueingTask::class, arguments = arguments)
+            instance.submit(request)
+            delay(5)
+        }
+
+        this.advanceUntilIdle()
+
+        expectedFiles.forEach {
+            it.exists() shouldBe true
+        }
+
+        val taskHistory = instance.tasks.first()
+        taskHistory.size shouldBe 50
+        expectedFiles.size shouldBe 100
+
+        val sortedHistory = taskHistory.sortedBy { it.taskState.startedAt }.apply {
+            first().taskState.startedAt!!.isBefore(last().taskState.startedAt) shouldBe true
+        }
+
+        expectedFiles.subList(50, 100) shouldBe sortedHistory.map {
+            (it.taskState.request.arguments as QueueingTask.Arguments).path
         }
 
         instance.close()

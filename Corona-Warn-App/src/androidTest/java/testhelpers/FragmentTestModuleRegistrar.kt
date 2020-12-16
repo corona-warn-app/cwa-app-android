@@ -13,11 +13,11 @@ import de.rki.coronawarnapp.ui.submission.SubmissionDispatcherTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionDoneTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionIntroTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionOtherWarningTestModule
-import de.rki.coronawarnapp.ui.submission.SubmissionQRInfoFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionQRScanFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
+import de.rki.coronawarnapp.ui.submission.SubmissionTestResultConsentGivenTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
 
 @Module(
@@ -35,12 +35,12 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         SubmissionDispatcherTestModule::class,
         SubmissionTanTestModule::class,
         SubmissionTestResultTestModule::class,
+        SubmissionTestResultConsentGivenTestModule::class,
         SubmissionOtherWarningTestModule::class,
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionSymptomCalendarFragmentTestModule::class,
         SubmissionContactTestModule::class,
         SubmissionDoneTestModule::class,
-        SubmissionQRInfoFragmentModule::class,
         SubmissionQRScanFragmentModule::class
     ]
 )

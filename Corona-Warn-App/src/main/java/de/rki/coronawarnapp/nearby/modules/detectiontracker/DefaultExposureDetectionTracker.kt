@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import org.joda.time.Duration
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.min
@@ -63,7 +64,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                         }
                     }
 
-                    delay(TIMEOUT_CHECK_INTERVALL.millis)
+                    delay(TIMEOUT_CHECK_INTERVAL.millis)
                 }
             }.launchIn(scope + dispatcherProvider.Default)
         }
@@ -87,40 +88,24 @@ class DefaultExposureDetectionTracker @Inject constructor(
             mutate {
                 this[identifier] = TrackedExposureDetection(
                     identifier = identifier,
-                    startedAt = timeStamper.nowUTC
+                    startedAt = timeStamper.nowUTC,
+                    enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
             }
         }
     }
 
-    override fun finishExposureDetection(identifier: String, result: Result) {
+    override fun finishExposureDetection(identifier: String?, result: Result) {
         Timber.i("finishExposureDetection(token=%s, result=%s)", identifier, result)
         detectionStates.updateSafely {
             mutate {
-                val existing = this[identifier]
-                if (existing != null) {
-                    if (existing.result == Result.TIMEOUT) {
-                        Timber.w("Detection is late, already hit timeout, still updating.")
-                    } else if (existing.result != null) {
-                        Timber.e("Duplicate callback. Result is already set for detection!")
-                    }
-                    this[identifier] = existing.copy(
-                        result = result,
-                        finishedAt = timeStamper.nowUTC
-                    )
+                if (identifier == null) {
+                    val id = this.findUnfinishedOrCreateIdentifier()
+                    finishDetection(id, result)
                 } else {
-                    Timber.e(
-                        "Unknown detection finished (token=%s, result=%s)",
-                        identifier,
-                        result
-                    )
-                    this[identifier] = TrackedExposureDetection(
-                        identifier = identifier,
-                        result = result,
-                        startedAt = timeStamper.nowUTC,
-                        finishedAt = timeStamper.nowUTC
-                    )
+                    finishDetection(identifier, result)
                 }
+
                 val toKeep = entries
                     .sortedByDescending { it.value.startedAt } // Keep newest
                     .subList(0, min(entries.size, MAX_ENTRY_SIZE))
@@ -134,6 +119,49 @@ class DefaultExposureDetectionTracker @Inject constructor(
         }
     }
 
+    private fun Map<String, TrackedExposureDetection>.findUnfinishedOrCreateIdentifier(): String {
+        val newestUnfinishedDetection = this
+            .map { it.value }
+            .filter { it.finishedAt == null }
+            .maxByOrNull { it.startedAt.millis }
+
+        return if (newestUnfinishedDetection != null) {
+            Timber.d("findUnfinishedOrCreateIdentifier(): Found unfinished detection, return identifier")
+            newestUnfinishedDetection.identifier
+        } else {
+            Timber.d("findUnfinishedOrCreateIdentifier(): No unfinished detection found, create identifier")
+            UUID.randomUUID().toString()
+        }
+    }
+
+    private fun MutableMap<String, TrackedExposureDetection>.finishDetection(identifier: String, result: Result) {
+        Timber.i("finishDetection(token=%s, result=%s)", identifier, result)
+        val existing = this[identifier]
+        if (existing != null) {
+            if (existing.result == Result.TIMEOUT) {
+                Timber.w("Detection is late, already hit timeout, still updating.")
+            } else if (existing.result != null) {
+                Timber.e("Duplicate callback. Result is already set for detection!")
+            }
+            this[identifier] = existing.copy(
+                result = result,
+                finishedAt = timeStamper.nowUTC
+            )
+        } else {
+            Timber.e(
+                "Unknown detection finished (token=%s, result=%s)",
+                identifier,
+                result
+            )
+            this[identifier] = TrackedExposureDetection(
+                identifier = identifier,
+                result = result,
+                startedAt = timeStamper.nowUTC,
+                finishedAt = timeStamper.nowUTC
+            )
+        }
+    }
+
     override fun clear() {
         Timber.i("clear()")
         detectionStates.updateSafely {
@@ -144,6 +172,6 @@ class DefaultExposureDetectionTracker @Inject constructor(
     companion object {
         private const val TAG = "DefaultExposureDetectionTracker"
         private const val MAX_ENTRY_SIZE = 5
-        private val TIMEOUT_CHECK_INTERVALL = Duration.standardMinutes(3)
+        private val TIMEOUT_CHECK_INTERVAL = Duration.standardMinutes(3)
     }
 }

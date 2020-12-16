@@ -21,51 +21,38 @@ class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     /**
-     * Work execution
-     *
-     * @return Result
-     *
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
      */
     override suspend fun doWork(): Result {
-        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
-
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyPeriodic Executing: Start", "KeyPeriodic started. Run attempt: $runAttemptCount"
-        )
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         var result = Result.success()
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
-            Timber.w(
+            Timber.tag(TAG).w(
                 e, "$id: Error during BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()."
             )
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                Timber.w(e, "$id: Retry attempts exceeded.")
-
-                BackgroundWorkHelper.sendDebugNotification(
-                    "KeyPeriodic Executing: Failure",
-                    "KeyPeriodic failed with $runAttemptCount attempts"
-                )
+                Timber.tag(TAG).w(e, "$id: Retry attempts exceeded.")
 
                 return Result.failure()
             } else {
-                Timber.d(e, "$id: Retrying.")
+                Timber.tag(TAG).d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyPeriodic Executing: End", "KeyPeriodic result: $result "
-        )
-
-        Timber.d("$id: doWork() finished with %s", result)
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
         return result
     }
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<DiagnosisKeyRetrievalPeriodicWorker>
+
+    companion object {
+        private val TAG = DiagnosisKeyRetrievalPeriodicWorker::class.java.simpleName
+    }
 }

@@ -2,8 +2,11 @@ package de.rki.coronawarnapp.ui.tracing.common
 
 import android.content.Context
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevelConstants
-import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
+import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -11,26 +14,14 @@ import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
-import io.mockk.verifySequence
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import java.util.Date
 
 class BaseTracingStateTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
-
-    val constants = listOf(
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.LOW_LEVEL_RISK,
-        RiskLevelConstants.INCREASED_RISK,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
-        RiskLevelConstants.UNDETERMINED
-    )
 
     @BeforeEach
     fun setup() {
@@ -43,126 +34,82 @@ class BaseTracingStateTest : BaseTest() {
     }
 
     private fun createInstance(
-        tracingStatus: GeneralTracingStatus.Status = mockk(),
-        riskLevelScore: Int = 0,
+        tracingStatus: Status = mockk(),
+        riskState: RiskState = LOW_RISK,
         tracingProgress: TracingProgress = TracingProgress.Idle,
-        riskLevelLastSuccessfulCalculation: Int = 0,
-        matchedKeyCount: Int = 0,
-        daysSinceLastExposure: Int = 0,
-        activeTracingDaysInRetentionPeriod: Long = 0,
-        lastTimeDiagnosisKeysFetched: Date? = mockk(),
-        isBackgroundJobEnabled: Boolean = false,
         isManualKeyRetrievalEnabled: Boolean = false,
-        manualKeyRetrievalTime: Long = 0L,
         showDetails: Boolean = false
     ) = object : BaseTracingState() {
-        override val tracingStatus: GeneralTracingStatus.Status = tracingStatus
-        override val riskLevelScore: Int = riskLevelScore
+        override val tracingStatus: Status = tracingStatus
+        override val riskState: RiskState = riskState
         override val tracingProgress: TracingProgress = tracingProgress
-        override val lastRiskLevelScoreCalculated: Int = riskLevelLastSuccessfulCalculation
-        override val matchedKeyCount: Int = matchedKeyCount
-        override val daysSinceLastExposure: Int = daysSinceLastExposure
-        override val activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod
-        override val lastTimeDiagnosisKeysFetched: Date? = lastTimeDiagnosisKeysFetched
-        override val isBackgroundJobEnabled: Boolean = isBackgroundJobEnabled
         override val showDetails: Boolean = showDetails
         override val isManualKeyRetrievalEnabled: Boolean = isManualKeyRetrievalEnabled
-        override val manualKeyRetrievalTime: Long = manualKeyRetrievalTime
     }
 
     @Test
     fun `risk color`() {
-        createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
+        createInstance(riskState = INCREASED_RISK).apply {
             getRiskColor(context)
             verify { context.getColor(R.color.colorSemanticHighRisk) }
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            getRiskColor(context)
-            verify { context.getColor(R.color.colorSemanticUnknownRisk) }
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            getRiskColor(context)
-            verify { context.getColor(R.color.colorSemanticUnknownRisk) }
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getRiskColor(context)
             verify { context.getColor(R.color.colorSemanticLowRisk) }
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
+        createInstance(riskState = CALCULATION_FAILED).apply {
             getRiskColor(context)
-            verify { context.getColor(R.color.colorSemanticNeutralRisk) }
+            verify { context.getColor(R.color.colorSemanticUnknownRisk) }
         }
     }
 
     @Test
     fun `risk tracing off level`() {
-        createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            isTracingOffRiskLevel() shouldBe true
+        createInstance(riskState = CALCULATION_FAILED, tracingStatus = Status.TRACING_INACTIVE).apply {
+            isTracingOff() shouldBe true
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            isTracingOffRiskLevel() shouldBe true
+        createInstance(riskState = CALCULATION_FAILED).apply {
+            isTracingOff() shouldBe false
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isTracingOffRiskLevel() shouldBe false
+        createInstance(riskState = LOW_RISK).apply {
+            isTracingOff() shouldBe false
         }
-        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            isTracingOffRiskLevel() shouldBe false
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            isTracingOffRiskLevel() shouldBe false
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            isTracingOffRiskLevel() shouldBe false
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            isTracingOffRiskLevel() shouldBe false
+        createInstance(riskState = INCREASED_RISK).apply {
+            isTracingOff() shouldBe false
         }
     }
 
     @Test
     fun `text color`() {
-        createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
+
+        createInstance(riskState = CALCULATION_FAILED).apply {
             getStableTextColor(context)
+            verify { context.getColor(R.color.colorTextPrimary1) }
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
+        createInstance(riskState = LOW_RISK).apply {
             getStableTextColor(context)
+            verify { context.getColor(R.color.colorTextPrimary1InvertedStable) }
         }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
+        createInstance(riskState = INCREASED_RISK).apply {
             getStableTextColor(context)
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            getStableTextColor(context)
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            getStableTextColor(context)
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            getStableTextColor(context)
-        }
-        createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            getStableTextColor(context)
+            verify { context.getColor(R.color.colorTextPrimary1InvertedStable) }
         }
 
-        verifySequence {
-            context.getColor(R.color.colorTextPrimary1)
-            context.getColor(R.color.colorTextPrimary1)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
-            context.getColor(R.color.colorStableLight)
+        createInstance(riskState = INCREASED_RISK, tracingStatus = Status.TRACING_INACTIVE).apply {
+            getStableTextColor(context)
+            verify { context.getColor(R.color.colorTextPrimary1) }
         }
     }
 
     @Test
     fun `update button text`() {
-        createInstance(manualKeyRetrievalTime = 0).apply {
+        createInstance(riskState = CALCULATION_FAILED).apply {
+            getUpdateButtonText(context)
+            verify { context.getString(R.string.risk_card_check_failed_no_internet_restart_button) }
+        }
+        createInstance().apply {
             getUpdateButtonText(context)
             verify { context.getString(R.string.risk_card_button_update) }
-        }
-        createInstance(manualKeyRetrievalTime = 1).apply {
-            getUpdateButtonText(context)
-            verify { context.getString(R.string.risk_card_button_cooldown) }
         }
     }
 

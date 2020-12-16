@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -19,7 +18,8 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTanViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel() {
 
     private val currentTan = MutableStateFlow(Tan(""))
@@ -46,13 +46,11 @@ class SubmissionTanViewModel @AssistedInject constructor(
             Timber.w("Tried to set invalid teletan: %s", teletan)
             return
         }
-        Timber.d("Storing teletan $teletan")
-        SubmissionRepository.setTeletan(teletan.value)
 
         launch {
             try {
                 registrationState.postValue(ApiRequestState.STARTED)
-                SubmissionService.asyncRegisterDeviceViaTAN(teletan.value)
+                submissionRepository.asyncRegisterDeviceViaTAN(teletan.value)
                 registrationState.postValue(ApiRequestState.SUCCESS)
             } catch (err: CwaWebException) {
                 registrationState.postValue(ApiRequestState.FAILED)
@@ -67,6 +65,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
             } catch (err: Exception) {
                 registrationState.postValue(ApiRequestState.FAILED)
                 err.report(ExceptionCategory.INTERNAL)
+            } finally {
+                submissionRepository.refreshDeviceUIState(refreshTestResult = false)
             }
         }
     }

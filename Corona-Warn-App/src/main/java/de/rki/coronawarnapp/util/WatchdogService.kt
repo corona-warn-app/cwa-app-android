@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -35,19 +34,19 @@ class WatchdogService @Inject constructor(
     fun launch() {
         // Only do this if the background jobs are enabled
         if (!ConnectivityHelper.autoModeEnabled(context)) {
-            Timber.d("Background jobs are not enabled, aborting.")
+            Timber.tag(TAG).d("Background jobs are not enabled, aborting.")
             return
         }
 
-        Timber.v("Acquiring wakelocks for watchdog routine.")
+        Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing
             val wifiLock = createWifiLock()
-            BackgroundWorkHelper.sendDebugNotification(
-                "Automatic mode is on", "Check if we have downloaded keys already today"
-            )
+
+            Timber.tag(TAG).d("Automatic mode is on, check if we have downloaded keys already today")
+
             val state = taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
@@ -56,12 +55,7 @@ class WatchdogService @Inject constructor(
                 )
             )
             if (state.isFailed) {
-                BackgroundWorkHelper.sendDebugNotification(
-                    "RetrieveDiagnosisKeysTransaction failed",
-                    (state.error?.localizedMessage
-                        ?: "Unknown exception occurred in onCreate") + "\n\n" + (state.error?.cause
-                        ?: "Cause is unknown").toString()
-                )
+                Timber.tag(TAG).e(state.error, "RetrieveDiagnosisKeysTransaction failed")
                 // retry the key retrieval in case of an error with a scheduled work
                 BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
             }
@@ -84,6 +78,7 @@ class WatchdogService @Inject constructor(
         .apply { acquire() }
 
     companion object {
+        private const val TAG = "WatchdogService"
         private const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
     }
 }

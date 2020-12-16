@@ -5,20 +5,20 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
-import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.include_submission_status_card_ready.*
 import javax.inject.Inject
 
 /**
@@ -38,7 +38,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
-    @Inject lateinit var networkStateProvider: NetworkStateProvider
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,11 +50,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
         vm.submissionCardState.observe2(this) {
             binding.submissionCard = it
+
+            setupTestResultCard(it.deviceUiState)
         }
 
         setupToolbar()
-
-        setupTestResultCard()
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
@@ -100,7 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             }
         }
 
-        lifecycleScope.launch { vm.observeTestResultToSchedulePositiveTestResultReminder() }
+        vm.observeTestResultToSchedulePositiveTestResultReminder()
     }
 
     override fun onResume() {
@@ -133,7 +132,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
                 vm.refreshDiagnosisKeys()
-                vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
             }
             riskCardButtonEnableTracing.setOnClickListener {
                 doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
@@ -141,37 +139,53 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
     }
 
-    private fun setupTestResultCard() {
-        binding.apply {
-            val toSubmissionResult = {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
-            }
-            mainTestUnregistered.apply {
-                val toSubmissionIntro = {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionIntroFragment())
+    private fun setupTestResultCard(deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>) {
+        binding.mainTestUnregistered.apply {
+            val navDirection = HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
+            submissionStatusCardUnregistered.setOnClickListener { doNavigate(navDirection) }
+            submissionStatusCardUnregisteredButton.setOnClickListener { doNavigate(navDirection) }
+        }
+
+        // Test is not positive (pending, negative, invalid)
+        binding.mainTestResult.apply {
+            val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful) {
+                when (deviceUiState.data) {
+                    DeviceUIState.PAIRED_NEGATIVE -> HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultNegativeFragment()
+                    DeviceUIState.PAIRED_ERROR,
+                    DeviceUIState.PAIRED_REDEEMED -> HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultInvalidFragment()
+                    else -> HomeFragmentDirections
+                        .actionMainFragmentToSubmissionTestResultPendingFragment()
                 }
-                submissionStatusCardUnregistered.setOnClickListener { toSubmissionIntro() }
-                submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionIntro() }
+            } else {
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment()
             }
 
-            mainTestDone.submissionStatusCardDone.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDoneFragment())
-            }
-            mainTestResult.apply {
-                submissionStatusCardContent.setOnClickListener { toSubmissionResult() }
-                submissionStatusCardContentButton.setOnClickListener { toSubmissionResult() }
-            }
+            submissionStatusCardContent.setOnClickListener { doNavigate(navDirection) }
+            submissionStatusCardContentButton.setOnClickListener { doNavigate(navDirection) }
+        }
 
-            mainTestPositive.apply {
-                submissionStatusCardPositive.setOnClickListener { toSubmissionResult() }
-                submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
-            }
+        // Test is positive
+        binding.mainTestPositive.apply {
+            val navDirection = HomeFragmentDirections
+                .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
 
-            mainTestFailed.apply {
-                setOnClickListener {
-                    vm.removeTestPushed()
-                }
+            submissionStatusCardPositive.setOnClickListener { doNavigate(navDirection) }
+            submissionStatusCardPositiveButton.setOnClickListener { doNavigate(navDirection) }
+        }
+
+        binding.mainTestFailed.apply {
+            setOnClickListener {
+                vm.removeTestPushed()
             }
+        }
+        binding.mainTestReady.apply {
+            val navDirections = HomeFragmentDirections
+                .actionMainFragmentToSubmissionTestResultAvailableFragment()
+
+            submissionStatusCardReady.setOnClickListener { doNavigate(navDirections) }
+            submissionStatusCardReadyButton.setOnClickListener { doNavigate(navDirections) }
         }
     }
 

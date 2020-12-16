@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.SubmissionTaskModule
 import de.rki.coronawarnapp.task.TaskController
@@ -88,8 +87,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val errorResetTool: EncryptionErrorResetTool
 
     val playbook: Playbook
-
-    val interoperabilityRepository: InteroperabilityRepository
 
     val taskController: TaskController
 

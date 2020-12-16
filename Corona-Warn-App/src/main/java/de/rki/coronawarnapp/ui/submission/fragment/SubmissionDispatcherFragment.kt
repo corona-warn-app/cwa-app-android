@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -42,10 +41,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                is SubmissionNavigationEvents.NavigateToConsent ->
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
+                            .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
                     )
             }
         }
@@ -60,34 +59,14 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackPressed()
         }
-        binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
-            checkForDataPrivacyPermission()
+        binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
+            viewModel.onQRCodePressed()
         }
-        binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
+        binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             viewModel.onTanPressed()
         }
-        binding.submissionDispatcherContent.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
+        binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
             viewModel.onTeleTanPressed()
         }
-    }
-
-    private fun checkForDataPrivacyPermission() {
-        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_dispatcher_qr_privacy_dialog_headline,
-            R.string.submission_dispatcher_qr_privacy_dialog_body,
-            R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
-            R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
-            true,
-            {
-                privacyPermissionIsGranted()
-            }
-        )
-
-        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
-    }
-
-    private fun privacyPermissionIsGranted() {
-        viewModel.onQRScanPressed()
     }
 }

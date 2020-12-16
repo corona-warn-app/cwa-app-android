@@ -6,7 +6,11 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
+import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.notification.TestResultAvailableNotification
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import io.github.classgraph.ClassGraph
@@ -87,4 +91,17 @@ class MockProvider {
 
     @Provides
     fun taskController(): TaskController = mockk()
+
+    // For ExposureStateUpdateWorker
+    @Provides
+    fun enfClient(): ENFClient = mockk()
+
+    @Provides
+    fun exposureSummaryRepository(): RiskLevelStorage = mockk()
+
+    @Provides
+    fun testResultAvailableNotification(): TestResultAvailableNotification = mockk()
+
+    @Provides
+    fun notificationHelper(): NotificationHelper = mockk()
 }

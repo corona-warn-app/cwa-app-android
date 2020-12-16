@@ -1,59 +1,95 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
 import androidx.lifecycle.asLiveData
+import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
-    val symptomIndication = symptomIndicationInternal
-        .asLiveData(context = dispatcherProvider.Default)
+    val symptomIndication = symptomIndicationInternal.asLiveData(context = dispatcherProvider.Default)
 
-    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
+    val navigation = SingleLiveEvent<NavDirections>()
+
+    val showCancelDialog = SingleLiveEvent<Unit>()
+    val showUploadDialog = submissionRepository.isSubmissionRunning
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun onNextClicked() {
         launch {
-            when (symptomIndicationInternal.first()) {
-                Symptoms.Indication.POSITIVE -> SubmissionNavigationEvents.NavigateToSymptomCalendar(
-                    Symptoms.Indication.POSITIVE
-                )
-                Symptoms.Indication.NEGATIVE -> SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning(
-                    symptoms = Symptoms(
-                        startOfSymptoms = null,
-                        symptomIndication = Symptoms.Indication.NEGATIVE
+            when (symptomIndicationInternal.value) {
+                Symptoms.Indication.POSITIVE -> {
+                    navigation.postValue(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
+                                symptomIndication = Symptoms.Indication.POSITIVE
+                            )
                     )
-                )
-                else -> SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning(
-                    symptoms = Symptoms.NO_INFO_GIVEN
-                )
-            }.let { routeToScreen.postValue(it) }
+                }
+                Symptoms.Indication.NEGATIVE -> {
+                    submissionRepository.currentSymptoms.update {
+                        Symptoms(
+                            startOfSymptoms = null,
+                            symptomIndication = Symptoms.Indication.NEGATIVE
+                        )
+                    }
+                    doSubmit()
+                }
+                Symptoms.Indication.NO_INFORMATION -> showCancelDialog.postValue(Unit)
+            }
         }
     }
 
     fun onPreviousClicked() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
+        showCancelDialog.postValue(Unit)
     }
 
     fun onPositiveSymptomIndication() {
-        symptomIndicationInternal.value = Symptoms.Indication.POSITIVE
+        updateSymptomIndication(Symptoms.Indication.POSITIVE)
     }
 
     fun onNegativeSymptomIndication() {
-        symptomIndicationInternal.value = Symptoms.Indication.NEGATIVE
+        updateSymptomIndication(Symptoms.Indication.NEGATIVE)
     }
 
     fun onNoInformationSymptomIndication() {
-        symptomIndicationInternal.value = Symptoms.Indication.NO_INFORMATION
+        updateSymptomIndication(Symptoms.Indication.NO_INFORMATION)
+    }
+
+    private fun updateSymptomIndication(indication: Symptoms.Indication) {
+        Timber.d("updateSymptomIndication(indication=$indication)")
+        symptomIndicationInternal.value = indication
+    }
+
+    fun onCancelConfirmed() {
+        Timber.d("Symptom submission was cancelled.")
+        doSubmit()
+    }
+
+    private fun doSubmit() {
+        launch {
+            try {
+                submissionRepository.startSubmission()
+            } catch (e: Exception) {
+                Timber.e(e, "doSubmit() failed.")
+            } finally {
+                navigation.postValue(
+                    SubmissionSymptomIntroductionFragmentDirections
+                        .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+                )
+            }
+        }
     }
 
     @AssistedInject.Factory

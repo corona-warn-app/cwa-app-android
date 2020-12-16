@@ -5,28 +5,21 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragmentViewModel.Event
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -34,10 +27,8 @@ import javax.inject.Inject
  *
  * @see SettingsViewModel
  * @see InternalExposureNotificationClient
- * @see InternalExposureNotificationPermissionHelper
  */
-class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
-    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
+class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsTracingFragmentViewModel by cwaViewModels(
@@ -47,25 +38,42 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
 
     private val binding: FragmentSettingsTracingBinding by viewBindingLazy()
 
-    private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         vm.tracingDetailsState.observe2(this) {
             binding.tracingDetails = it
         }
-        vm.tracingSettingsState.observe2(this) {
-            binding.settingsTracingState = it
+        vm.tracingSettingsState.observe2(this) { state ->
+            binding.settingsTracingState = state
 
             binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
-                when (it) {
+                when (state) {
                     TracingSettingsState.BluetoothDisabled,
                     TracingSettingsState.LocationDisabled -> setOnClickListener(null)
-                    TracingSettingsState.TracingInActive,
-                    TracingSettingsState.TracingActive -> setOnClickListener { startStopTracing() }
+                    TracingSettingsState.TracingInactive,
+                    TracingSettingsState.TracingActive -> setOnClickListener {
+                        binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.performClick()
+                    }
                 }
             }
+        }
+
+        vm.events.observe2(this) {
+            when (it) {
+                is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
+                Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
+                is Event.TracingConsentDialog -> {
+                    TracingConsentDialog(requireContext()).show(
+                        onConsentGiven = { it.onConsentResult(true) },
+                        onConsentDeclined = { it.onConsentResult(false) }
+                    )
+                }
+            }
+        }
+
+        vm.isTracingSwitchChecked.observe2(this) { checked ->
+            binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.isChecked = checked
         }
 
         setButtonOnClickListener()
@@ -77,18 +85,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        internalExposureNotificationPermissionHelper.onResolutionComplete(
-            requestCode,
-            resultCode
-        )
-    }
-
-    override fun onStartPermissionGranted() {
-        BackgroundWorkScheduler.startWorkScheduler()
-    }
-
-    override fun onFailure(exception: Exception?) {
-        Timber.w(exception, "onPermissionFaliure")
+        vm.handleActivityResult(requestCode, resultCode, data)
     }
 
     private fun setButtonOnClickListener() {
@@ -97,17 +94,11 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
+        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
 
-        internalExposureNotificationPermissionHelper =
-            InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { view, _ ->
-
-            // Make sure that listener is called by user interaction
-            if (view.isPressed) {
-                startStopTracing()
-                // Focus on the body text after to announce the tracing status for accessibility reasons
-                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
-                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            if (switch.isPressed || row.isPressed) {
+                onTracingToggled(isChecked)
             }
         }
         back.setOnClickListener {
@@ -124,44 +115,17 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         }
     }
 
-    private fun navigateToInteroperability() {
-        findNavController()
-            .doNavigate(
-                SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
-            )
+    private fun onTracingToggled(isChecked: Boolean) {
+        // Focus on the body text after to announce the tracing status for accessibility reasons
+        binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+            .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+        vm.onTracingToggled(isChecked)
     }
 
-    private fun startStopTracing() {
-        // if tracing is enabled when listener is activated it should be disabled
-        lifecycleScope.launch {
-            try {
-                if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    InternalExposureNotificationClient.asyncStop()
-                    BackgroundWorkScheduler.stopWorkScheduler()
-                } else {
-                    // tracing was already activated
-                    if (LocalData.initialTracingActivationTimestamp() != null) {
-                        internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
-                    } else {
-                        // tracing was never activated
-                        // ask for consent via dialog for initial tracing activation when tracing was not
-                        // activated during onboarding
-                        showConsentDialog()
-                        // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
-                        val activity = requireActivity() as MainActivity
-                        if (!activity.backgroundPrioritization.isBackgroundActivityPrioritized) {
-                            showManualCheckingRequiredDialog()
-                        }
-                    }
-                }
-            } catch (exception: Exception) {
-                exception.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
-            }
-        }
+    private fun navigateToInteroperability() {
+        doNavigate(
+            SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
+        )
     }
 
     private fun showManualCheckingRequiredDialog() {
@@ -178,22 +142,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         DialogHelper.showDialog(dialog)
     }
 
-    private fun showConsentDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.onboarding_tracing_headline_consent,
-            R.string.onboarding_tracing_body_consent,
-            R.string.onboarding_button_enable,
-            R.string.onboarding_button_cancel,
-            true, {
-                internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
-            }, {
-                // Declined
-            })
-        DialogHelper.showDialog(dialog)
-    }
-
     companion object {
-        private val TAG: String? = SettingsTracingFragment::class.simpleName
+        internal val TAG: String? = SettingsTracingFragment::class.simpleName
     }
 }

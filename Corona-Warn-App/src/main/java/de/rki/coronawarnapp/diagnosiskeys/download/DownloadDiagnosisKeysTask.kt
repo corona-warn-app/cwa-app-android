@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -23,7 +22,6 @@ import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -32,7 +30,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val environmentSetup: EnvironmentSetup,
     private val appConfigProvider: AppConfigProvider,
     private val keyPackageSyncTool: KeyPackageSyncTool,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val settings: DownloadDiagnosisKeysSettings
 ) : Task<DownloadDiagnosisKeysTask.Progress, Task.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<Progress>()
@@ -52,7 +51,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
              * in a background job. Also it acts as a failure catch in case the orchestration code did
              * not check in before.
              */
-            if (!InternalExposureNotificationClient.asyncIsEnabled()) {
+            if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
                 return object : Task.Result {}
             }
@@ -64,7 +63,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             throwIfCancelled()
 
             // RETRIEVE RISK SCORE PARAMETERS
-            val exposureConfig: ExposureDetectionConfig = appConfigProvider.getAppConfig()
+            val exposureConfig: ConfigData = appConfigProvider.getAppConfig()
 
             internalProgress.send(Progress.ApiSubmissionStarted)
             internalProgress.send(Progress.KeyFilesDownloadStarted)
@@ -73,7 +72,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
             throwIfCancelled()
 
-            val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
             val now = timeStamper.nowUTC
 
             if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
@@ -81,13 +79,17 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
-            if (wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
+            val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
+            val isUpdateToEnfV2 = settings.isUpdateToEnfV2
+
+            Timber.tag(TAG).d("isUpdateToEnfV2: %b", isUpdateToEnfV2)
+            if (!isUpdateToEnfV2 && wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {
                 // At most one detection every 6h
                 Timber.tag(TAG).i("task aborted, because detection was performed recently")
                 return object : Task.Result {}
             }
 
-            if (hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
+            if (!isUpdateToEnfV2 && hasRecentDetectionAndNoNewFiles(now, keySyncResult, trackedExposureDetections)) {
                 Timber.tag(TAG).i("task aborted, last check was within 24h, and there are no new files")
                 return object : Task.Result {}
             }
@@ -102,21 +104,15 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 )
             )
 
-            val token = retrieveToken(rollbackItems)
-            Timber.tag(TAG).d("Attempting submission to ENF with token $token")
+            // remember version code of this execution for next time
+            settings.updateLastVersionCodeToCurrent()
 
+            Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                keyFiles = availableKeyFiles,
-                configuration = exposureConfig.exposureDetectionConfiguration,
-                token = token
+                availableKeyFiles,
+                exposureConfig.diagnosisKeysDataMapping
             )
-            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
-
-            // EXPOSUREAPP-3878 write timestamp immediately after submission,
-            // so that progress observers can rely on a clean app state
-            if (isSubmissionSuccessful) {
-                saveTimestamp(currentDate, rollbackItems)
-            }
+            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
             internalProgress.send(Progress.ApiSubmissionFinished)
 
@@ -162,29 +158,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
     }
 
-    private fun saveTimestamp(
-        currentDate: Date,
-        rollbackItems: MutableList<RollbackItem>
-    ) {
-        val lastFetchDateForRollback = LocalData.lastTimeDiagnosisKeysFromServerFetch()
-        rollbackItems.add {
-            LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback)
-        }
-        Timber.tag(TAG).d("dateUpdate(currentDate=%s)", currentDate)
-        LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
-    }
-
-    private fun retrieveToken(rollbackItems: MutableList<RollbackItem>): String {
-        val googleAPITokenForRollback = LocalData.googleApiToken()
-        rollbackItems.add {
-            LocalData.googleApiToken(googleAPITokenForRollback)
-        }
-        return UUID.randomUUID().toString().also {
-            Timber.tag(TAG).d("Generating and storing new token: $it")
-            LocalData.googleApiToken(it)
-        }
-    }
-
     private fun rollback(rollbackItems: MutableList<RollbackItem>) {
         try {
             Timber.tag(TAG).d("Initiate Rollback")
@@ -194,7 +167,9 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         }
     }
 
-    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): KeyPackageSyncTool.Result {
+    private suspend fun getAvailableKeyFiles(
+        requestedCountries: List<String>?
+    ): KeyPackageSyncTool.Result {
         val wantedLocations = if (environmentSetup.useEuropeKeyPackageFiles) {
             listOf("EUR")
         } else {

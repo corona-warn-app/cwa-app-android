@@ -24,17 +24,8 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
     private val taskController: TaskController
 ) : CoroutineWorker(context, workerParams) {
 
-    /**
-     * Work execution
-     *
-     * @return Result
-     */
     override suspend fun doWork(): Result {
-        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
-
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount "
-        )
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         var result = Result.success()
         taskController.submitBlocking(
@@ -44,31 +35,26 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
                 originTag = "DiagnosisKeyRetrievalOneTimeWorker"
             )
         ).error?.also { error: Throwable ->
-            Timber.w(error, "$id: Error when submitting DownloadDiagnosisKeysTask.")
+            Timber.tag(TAG).w(error, "$id: Error when submitting DownloadDiagnosisKeysTask.")
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                Timber.w(error, "$id: Retry attempts exceeded.")
-
-                BackgroundWorkHelper.sendDebugNotification(
-                    "KeyOneTime Executing: Failure",
-                    "KeyOneTime failed with $runAttemptCount attempts"
-                )
+                Timber.tag(TAG).w(error, "$id: Retry attempts exceeded.")
 
                 return Result.failure()
             } else {
-                Timber.d(error, "$id: Retrying.")
+                Timber.tag(TAG).d(error, "$id: Retrying.")
                 result = Result.retry()
             }
         }
 
-        BackgroundWorkHelper.sendDebugNotification(
-            "KeyOneTime Executing: End", "KeyOneTime result: $result "
-        )
-
-        Timber.d("$id: doWork() finished with %s", result)
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
         return result
     }
 
     @AssistedInject.Factory
     interface Factory : InjectedWorkerFactory<DiagnosisKeyRetrievalOneTimeWorker>
+
+    companion object {
+        private val TAG = DiagnosisKeyRetrievalOneTimeWorker::class.java.simpleName
+    }
 }

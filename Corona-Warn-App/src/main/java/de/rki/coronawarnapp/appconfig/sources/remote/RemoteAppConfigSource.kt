@@ -19,7 +19,7 @@ class RemoteAppConfigSource @Inject constructor(
 ) {
 
     suspend fun getConfigData(): ConfigData? = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).v("retrieveConfig()")
+        Timber.tag(TAG).v("getConfigData()")
 
         val configDownload = try {
             server.downloadAppConfig()

@@ -29,7 +29,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
     @MockK lateinit var configData: ConfigData
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
-    private val configFile = File(testDir, "default_app_config.bin")
+    private val configFile = File(testDir, "default_app_config_android.bin")
 
     @BeforeEach
     fun setup() {
@@ -37,7 +37,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
         every { context.assets } returns assetManager
 
-        every { assetManager.open("default_app_config.bin") } answers { configFile.inputStream() }
+        every { assetManager.open("default_app_config_android.bin") } answers { configFile.inputStream() }
 
         coEvery { configParser.parse(any()) } returns configData
 

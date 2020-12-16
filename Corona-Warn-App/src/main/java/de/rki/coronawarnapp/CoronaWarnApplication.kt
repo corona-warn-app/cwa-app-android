@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -24,7 +25,6 @@ import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,7 +46,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var configChangeDetector: ConfigChangeDetector
+    @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @Inject lateinit var notificationHelper: NotificationHelper
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
@@ -61,17 +63,13 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
 
-        NotificationHelper.createNotificationChannel()
+        notificationHelper.createNotificationChannel()
 
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
-        // notification to test the WakeUpService from Google when the app was force stopped
-        BackgroundWorkHelper.sendDebugNotification(
-            "Application onCreate", "App was woken up"
-        )
         watchdogService.launch()
 
         foregroundState.isInForeground
@@ -83,6 +81,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         }
 
         configChangeDetector.launch()
+        riskLevelChangeDetector.launch()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

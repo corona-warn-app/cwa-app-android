@@ -12,14 +12,18 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class SubmissionCardsStateProvider @Inject constructor() {
+class SubmissionCardsStateProvider @Inject constructor(
+    submissionRepository: SubmissionRepository
+) {
 
     val state: Flow<SubmissionCardState> = combine(
-        SubmissionRepository.deviceUIStateFlow
-    ) { args ->
+        submissionRepository.deviceUIStateFlow,
+        submissionRepository.hasViewedTestResult
+    ) { uiState, hasTestBeenSeen ->
         SubmissionCardState(
-            deviceUiState = args[0],
-            isDeviceRegistered = LocalData.registrationToken() != null
+            deviceUiState = uiState,
+            isDeviceRegistered = LocalData.registrationToken() != null,
+            hasTestResultBeenSeen = hasTestBeenSeen
         )
     }
         .onStart { Timber.v("SubmissionCardState FLOW start") }

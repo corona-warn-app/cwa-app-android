@@ -1,53 +1,52 @@
-@file:Suppress("DEPRECATION")
-
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import de.rki.coronawarnapp.util.GoogleAPIVersion
+import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
+import de.rki.coronawarnapp.nearby.modules.version.OutdatedENFVersionException
+import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 import testhelpers.gms.MockGMSTask
 import java.io.File
 
 class DefaultDiagnosisKeyProviderTest : BaseTest() {
-    @MockK
-    lateinit var googleENFClient: ExposureNotificationClient
+    @MockK lateinit var googleENFClient: ExposureNotificationClient
+    @MockK lateinit var enfVersion: ENFVersion
+    @MockK lateinit var submissionQuota: SubmissionQuota
+    @MockK lateinit var diagnosisKeysDataMapper: DiagnosisKeysDataMapper
 
-    @MockK
-    lateinit var googleAPIVersion: GoogleAPIVersion
-
-    @MockK
-    lateinit var submissionQuota: SubmissionQuota
-
-    @MockK
-    lateinit var exampleConfiguration: ExposureConfiguration
     private val exampleKeyFiles = listOf(File("file1"), File("file2"))
-    private val exampleToken = "123e4567-e89b-12d3-a456-426655440000"
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
+        coEvery { diagnosisKeysDataMapper.updateDiagnosisKeysDataMapping(any()) } just Runs
+
         coEvery { submissionQuota.consumeQuota(any()) } returns true
 
-        coEvery {
-            googleENFClient.provideDiagnosisKeys(
-                any(),
-                any(),
-                any()
-            )
-        } returns MockGMSTask.forValue(null)
+        coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+        coEvery { googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>()) } returns MockGMSTask.forValue(null)
+
+        coEvery { enfVersion.requireMinimumVersion(any()) } returns Unit
     }
 
     @AfterEach
@@ -56,141 +55,83 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     private fun createProvider() = DefaultDiagnosisKeyProvider(
-        googleAPIVersion = googleAPIVersion,
+        enfVersion = enfVersion,
         submissionQuota = submissionQuota,
-        enfClient = googleENFClient
+        enfClient = googleENFClient,
+        diagnosisKeysDataMapper = diagnosisKeysDataMapper
     )
 
     @Test
-    fun `legacy key provision is used on older ENF versions`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
+    fun `provide diagnosis keys with outdated ENF versions`() {
+        coEvery { enfVersion.requireMinimumVersion(any()) } throws OutdatedENFVersionException(
+            current = 9000,
+            required = 5000
+        )
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+        assertThrows<OutdatedENFVersionException> {
+            runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe false
         }
 
-        coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
-            )
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0]), exampleConfiguration, exampleToken
-            )
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1]), exampleConfiguration, exampleToken
-            )
-            submissionQuota.consumeQuota(2)
+        coVerify {
+            googleENFClient wasNot Called
+            submissionQuota wasNot Called
         }
     }
 
     @Test
-    fun `normal key provision is used on newer ENF versions`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+    fun `key provision is used with DiagnosisKeyFileProvider on ENF versions from 1_7 upwards`() {
+        coEvery { enfVersion.isAtLeast(any()) } returns true
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
-        }
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
 
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any(), any(), any())
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
-            )
+        coVerifySequence {
             submissionQuota.consumeQuota(1)
+            googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>())
         }
     }
 
     @Test
-    fun `passing an a null configuration leads to constructing a fallback from defaults`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
-
-        val provider = createProvider()
-        val fallback = ExposureConfiguration.ExposureConfigurationBuilder().build()
-
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, null, exampleToken)
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any(), any(), any())
-            googleENFClient.provideDiagnosisKeys(exampleKeyFiles, fallback, exampleToken)
-        }
-    }
-
-    @Test
-    fun `passing an a null configuration leads to constructing a fallback from defaults, legacy`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
-
-        val provider = createProvider()
-        val fallback = ExposureConfiguration.ExposureConfigurationBuilder().build()
-
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, null, exampleToken)
-        }
-
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0]), fallback, exampleToken
-            )
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1]), fallback, exampleToken
-            )
-            submissionQuota.consumeQuota(2)
-        }
-    }
-
-    @Test
-    fun `quota is consumed silenently`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
-        coEvery { submissionQuota.consumeQuota(any()) } returns false
+    fun `key provision is used with key list on ENF versions 1_6`() {
+        coEvery { enfVersion.isAtLeast(any()) } returns false
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
-        }
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
 
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(any(), any(), any())
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
-            )
+        coVerifySequence {
             submissionQuota.consumeQuota(1)
+            googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
         }
     }
 
     @Test
-    fun `quota is consumed silently, legacy`() {
-        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
+    fun `quota is just monitored`() {
         coEvery { submissionQuota.consumeQuota(any()) } returns false
+        coEvery { enfVersion.isAtLeast(any()) } returns true
 
         val provider = createProvider()
 
-        runBlocking {
-            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
-        }
+        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
 
-        coVerify(exactly = 0) {
-            googleENFClient.provideDiagnosisKeys(
-                exampleKeyFiles, exampleConfiguration, exampleToken
-            )
+        coVerifySequence {
+            submissionQuota.consumeQuota(1)
+            googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>())
         }
+    }
 
-        coVerify(exactly = 1) {
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[0]), exampleConfiguration, exampleToken
-            )
-            googleENFClient.provideDiagnosisKeys(
-                listOf(exampleKeyFiles[1]), exampleConfiguration, exampleToken
-            )
-            submissionQuota.consumeQuota(2)
+    @Test
+    fun `provide empty key list`() {
+        val provider = createProvider()
+
+        runBlocking { provider.provideDiagnosisKeys(emptyList(), mockk()) } shouldBe true
+
+        coVerify {
+            googleENFClient wasNot Called
+            submissionQuota wasNot Called
         }
     }
 }

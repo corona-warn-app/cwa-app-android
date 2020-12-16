@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterInformationHelper" />
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_container"
@@ -34,16 +29,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/information_header">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:orientation="vertical">
 
                 <include
                     android:id="@+id/information_about"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +48,7 @@
                 <include
                     android:id="@+id/information_help"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:icon="@{@drawable/ic_link}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +59,7 @@
                 <include
                     android:id="@+id/information_terms"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +69,7 @@
                 <include
                     android:id="@+id/information_privacy"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +79,7 @@
                 <include
                     android:id="@+id/information_technical"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +89,7 @@
                 <include
                     android:id="@+id/information_contact"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +99,7 @@
                 <include
                     android:id="@+id/information_legal"
                     layout="@layout/include_row"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -113,23 +109,29 @@
                 <TextView
                     android:id="@+id/information_version"
                     style="@style/body2Medium"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:focusable="true"
-                    android:text="@{FormatterInformationHelper.formatVersion()}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_body"
-                    app:layout_constraintTop_toBottomOf="@+id/information_legal" />
+                    tools:text="v1.8.0-RC1"
+                    android:layout_marginStart="@dimen/guideline_body_title_padding" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_body"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/information_enf_version"
+                    style="@style/body2Medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:paddingBottom="@dimen/spacing_tiny"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_body_title_padding" />
+                    android:focusable="true"
+                    android:background="?selectableItemBackground"
+                    tools:text="16000000"
+                    android:layout_marginStart="@dimen/guideline_body_title_padding" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
 
         </ScrollView>
 

@@ -10,13 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -30,7 +28,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -102,17 +99,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onResume() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
-        settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.autoModeEnabled(this))
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
-        doBackgroundNoiseCheck()
+        vm.doBackgroundNoiseCheck()
         deadmanScheduler.schedulePeriodic()
-    }
-
-    private fun doBackgroundNoiseCheck() {
-        lifecycleScope.launch {
-            BackgroundNoise.getInstance().foregroundScheduleCheck()
-        }
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {
