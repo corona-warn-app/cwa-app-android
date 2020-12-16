@@ -36,7 +36,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val contactDiaryTabs = listOf(ContactDiaryDayTab.PERSON_TAB, ContactDiaryDayTab.LOCATION_TAB)
+        val contactDiaryTabs = listOf(ContactDiaryDayTab.PersonTab, ContactDiaryDayTab.LocationTab)
 
         val adapter = ContactDiaryDayFragmentsAdapter(this, contactDiaryTabs, navArgs.selectedDay)
 
