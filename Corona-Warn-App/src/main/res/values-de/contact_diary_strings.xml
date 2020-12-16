@@ -75,6 +75,16 @@
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">Startseite</string>
 
+    <!-- XTXT: content description of contact journal image on home screen -->
+    <string name="contact_diary_homescreen_card_image_content_description">Ein zugeklapptes Buch mit Lesezeichen</string>
+    <!-- XTXT: content description of contact journal header image on onboarding screen -->
+    <string name="contact_diary_onboarding_image_content_description">Mehrere Menschen schauen im Freien auf ihre Handys</string>
+    <!-- XTXT: content description of contact journal background image on edit persons screen -->
+    <string name="contact_diary_edit_persons_image_content_description">Die Silhouette einer Frau, die über eine Wiese läuft</string>
+    <!-- XTXT: content description of contact journal background image on edit locations screen -->
+    <string name="contact_diary_edit_locations_image_content_description">Eine Standortmarkierung markiert ein Gebäude</string>
+
+
     <!-- XHED: Title for the contact diary edit locations -->
     <string name="contact_diary_edit_locations_title">Orte bearbeiten</string>
     <!-- XHED: Title for the contact diary edit persons -->
