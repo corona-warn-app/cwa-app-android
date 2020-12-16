@@ -61,13 +61,15 @@
         <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
     </style>
 
-    <style name="diaryButtonPositive" parent="Widget.MaterialComponents.Button.TextButton" />
+    <style name="diaryDialogButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccentTintButton</item>
+    </style>
     <style name="diaryButtonNegative" parent="Widget.MaterialComponents.Button.TextButton" />
 
     <!--    Contact Diary Dialog-->
     <style name="diaryDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="buttonBarPositiveButtonStyle">@style/diaryButtonPositive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/diaryButtonNegative</item>
+        <item name="buttonBarPositiveButtonStyle">@style/diaryDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/diaryDialogButton</item>
     </style>
 
     <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
