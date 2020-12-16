@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryDataRetentionCalculation
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -21,7 +20,6 @@ import kotlin.random.Random
 class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val repository: DefaultContactDiaryRepository,
-    private val timeStamper: TimeStamper,
     private val retentionCalculation: ContactDiaryDataRetentionCalculation
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
