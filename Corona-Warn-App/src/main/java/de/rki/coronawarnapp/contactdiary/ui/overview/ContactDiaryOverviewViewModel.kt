@@ -8,24 +8,33 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import timber.log.Timber
+import java.util.Locale
 
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     contactDiaryRepository: ContactDiaryRepository
-) : CWAViewModel() {
-    val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val dates = flowOf((0 until DAY_COUNT).map { LocalDate.now().minusDays(it) })
+    val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
+    val exportLocationsAndPersons: SingleLiveEvent<String> = SingleLiveEvent()
+
+    private val dates = (0 until DAY_COUNT).map { LocalDate.now().minusDays(it) }
+
+    private val locationVisitsFlow = contactDiaryRepository.locationVisits
+    private val personEncountersFlow = contactDiaryRepository.personEncounters
 
     val listItems = combine(
-        dates,
-        contactDiaryRepository.locationVisits,
-        contactDiaryRepository.personEncounters
+        flowOf(dates),
+        locationVisitsFlow,
+        personEncountersFlow
     ) { dateList, locationVisitList, personEncounterList ->
         createListItemList(dateList, locationVisitList, personEncounterList)
     }.asLiveData()
@@ -85,6 +94,40 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     fun onItemPress(listItem: ListItem) {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
+
+    fun onExportPress() {
+        Timber.d("Exporting person and location entries")
+        launch {
+            val locationVisits = locationVisitsFlow
+                .first()
+                .groupBy({ it.date }, { it.contactDiaryLocation.locationName })
+
+            val personEncounters = personEncountersFlow
+                .first()
+                .groupBy({ it.date }, { it.contactDiaryPerson.fullName })
+
+            val sb = StringBuilder()
+                .appendLine("Kontakte und besuchte Orte vom ${dates.last().toFormattedString()} bis ${dates.first().toFormattedString()}")
+                // TODO(Export to Strings)
+                .appendLine()
+
+            for (date in dates) {
+                val dateString = date.toFormattedString()
+
+                // According to tech spec persons first and then locations
+                personEncounters[date]?.addToStringBuilder(sb, dateString)
+                locationVisits[date]?.addToStringBuilder(sb, dateString)
+            }
+
+            exportLocationsAndPersons.postValue(sb.toString())
+        }
+    }
+
+    private fun List<String>.addToStringBuilder(sb: StringBuilder, dateString: String) = sorted()
+        .forEach { sb.appendLine("$dateString $it") }
+
+    // According to tech spec german locale only
+    private fun LocalDate.toFormattedString(): String = toString("dd.MM.yyyy", Locale.GERMAN)
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>

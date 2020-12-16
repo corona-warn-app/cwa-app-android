@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
@@ -12,6 +13,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fragment), AutoInject {
@@ -53,6 +55,24 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                             .actionContactDiaryOverviewFragmentToContactDiaryDayFragment(it.localDateString)
                     )
                 }
+            }
+        }
+        vm.exportLocationsAndPersons.observe2(this) {
+            exportLocationsAndPersons(it)
+        }
+    }
+
+    private fun exportLocationsAndPersons(exportString: String) {
+        Timber.d("exportLocationsAndPersons(exportString=$exportString)")
+        activity?.let { activity ->
+            val shareIntent = ShareCompat.IntentBuilder
+                .from(activity)
+                .setType("text/plain")
+                .setText(exportString)
+                .createChooserIntent()
+
+            if (shareIntent.resolveActivity(activity.packageManager) != null) {
+                startActivity(shareIntent)
             }
         }
     }
