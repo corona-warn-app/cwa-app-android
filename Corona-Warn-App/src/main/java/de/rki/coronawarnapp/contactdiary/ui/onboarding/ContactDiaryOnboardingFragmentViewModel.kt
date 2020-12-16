@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.ui.onboarding
 
-import androidx.navigation.fragment.findNavController
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.ui.SingleLiveEvent
-import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.information.InformationFragmentDirections
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
