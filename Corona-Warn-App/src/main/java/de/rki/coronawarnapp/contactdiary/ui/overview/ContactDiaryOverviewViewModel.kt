@@ -86,10 +86,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
 
-    fun onExportPress() {
-        Timber.d("Exporting")
-    }
-
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>
 
