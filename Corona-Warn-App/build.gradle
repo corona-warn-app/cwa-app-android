@@ -318,7 +318,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.work:work-runtime-ktx:2.5.0-beta01'
+    implementation 'androidx.work:work-runtime-ktx:2.5.0-beta02'
 
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
@@ -387,7 +387,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation 'androidx.test.ext:truth:1.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.work:work-testing:2.5.0-beta01'
+    androidTestImplementation 'androidx.work:work-testing:2.5.0-beta02'
     androidTestImplementation "io.mockk:mockk-android:1.10.2"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
 
