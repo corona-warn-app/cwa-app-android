@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.sheets.location
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -29,7 +29,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
 
     fun saveLocation() = launch {
         contactDiaryRepository.addLocation(
-            ContactDiaryLocationEntity(
+            DefaultContactDiaryLocation(
                 locationName = text.value.take(MAX_LOCATION_NAME_LENGTH)
             )
         )

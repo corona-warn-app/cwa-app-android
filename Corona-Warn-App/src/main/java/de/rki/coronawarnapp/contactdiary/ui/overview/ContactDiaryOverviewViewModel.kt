@@ -68,7 +68,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .filter { personEncounter -> personEncounter.date == date }
             .map { personEncounter ->
                 ListItem.Data(
-                    R.drawable.ic_contact_diary_person,
+                    R.drawable.ic_contact_diary_person_item,
                     personEncounter.contactDiaryPerson.fullName
                 )
             }
@@ -82,7 +82,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .filter { locationVisit -> locationVisit.date == date }
             .map { locationVisit ->
                 ListItem.Data(
-                    R.drawable.ic_contact_diary_location,
+                    R.drawable.ic_contact_diary_location_item,
                     locationVisit.contactDiaryLocation.locationName
                 )
             }
