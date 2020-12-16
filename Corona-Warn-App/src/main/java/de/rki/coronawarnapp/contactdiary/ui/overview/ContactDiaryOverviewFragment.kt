@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -48,12 +48,10 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                 }
 
                 is ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment -> {
-                    // TODO(Really navigate to ContactDiaryDayFragment once it is merged)
-                    Toast.makeText(
-                        requireContext(),
-                        "Navigate to ContactDiaryDayFragment with date ${it.localDateString}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    doNavigate(
+                        ContactDiaryOverviewFragmentDirections
+                            .actionContactDiaryOverviewFragmentToContactDiaryDayFragment(it.localDateString)
+                    )
                 }
             }
         }

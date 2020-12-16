@@ -22,7 +22,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     contactDiaryRepository: ContactDiaryRepository,
     taskController: TaskController
 ) : CWAViewModel() {
-
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
 
     private val dates = flowOf((0 until DAY_COUNT).map { LocalDate.now().minusDays(it) })

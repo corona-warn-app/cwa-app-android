@@ -86,10 +86,8 @@ class DefaultContactDiaryRepository @Inject constructor(
 
     override suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
         Timber.d("Adding location visit $contactDiaryLocationVisit")
-        executeWhenIdNotDefault(contactDiaryLocationVisit.id) {
-            val contactDiaryLocationVisitEntity = contactDiaryLocationVisit.toContactDiaryLocationVisitEntity()
-            contactDiaryLocationVisitDao.insert(contactDiaryLocationVisitEntity)
-        }
+        val contactDiaryLocationVisitEntity = contactDiaryLocationVisit.toContactDiaryLocationVisitEntity()
+        contactDiaryLocationVisitDao.insert(contactDiaryLocationVisitEntity)
     }
 
     override suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {

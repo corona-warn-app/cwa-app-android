@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.contactdiary.ContactDiaryModule
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTaskModule
+import de.rki.coronawarnapp.contactdiary.ContactDiaryRootModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -73,6 +74,7 @@ import javax.inject.Singleton
         WorkerBinder::class,
         ContactDiaryModule::class,
         ContactDiaryCleanTaskModule::class
+        ContactDiaryRootModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
