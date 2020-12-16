@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.ui.onboarding
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.navigation.ActionOnlyNavDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
@@ -51,7 +51,19 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                         )
                     )
                 }
+
+                ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
+                    doNavigate(
+                        ActionOnlyNavDirections(
+                            R.id.action_contactDiaryOnboardingFragment_to_contactDiaryOverviewFragment
+                        )
+                    )
+                }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }

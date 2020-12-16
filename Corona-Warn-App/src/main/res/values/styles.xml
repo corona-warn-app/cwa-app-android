@@ -318,4 +318,13 @@
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:letterSpacing">2</item>
     </style>
+
+    <!-- ####################################
+        Contact Diary
+    ###################################### -->
+    <style name="contactDiaryListItem" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
