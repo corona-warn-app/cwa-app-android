@@ -107,7 +107,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 .groupBy({ it.date }, { it.contactDiaryPerson.fullName })
 
             val sb = StringBuilder()
-                .appendLine("Kontakte und besuchte Orte vom ${dates.last().toFormattedString()} bis ${dates.first().toFormattedString()}")
+                .appendLine("Kontakte und besuchte Orte vom ${dates.last().toFormattedString()} " +
+                    "bis ${dates.first().toFormattedString()}")
                 // TODO(Export to Strings)
                 .appendLine()
 

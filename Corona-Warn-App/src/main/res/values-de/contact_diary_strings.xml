@@ -98,4 +98,11 @@
     <string name="contact_diary_delete_location_title">Wollen Sie wirklich diesen Ort entfernen?</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">Wollen Sie wirklich diese Person entfernen?</string>
+
+    <!-- XHED: Title for the contact journal export email subject -->
+    <string name="contact_diary_export_subject">"Mein Kontakt-Tagebuch"</string>
+    <!-- XTXT: Intro text  for the contact journal email export part one-->
+    <string name="contact_diary_export_intro_one">"Kontakte der letzten 14 Tage (%1$s - %2$s)"</string>
+    <!-- XTXT: Intro text  for the contact journal email export part two-->
+    <string name="contact_diary_export_intro_two">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
 </resources>
