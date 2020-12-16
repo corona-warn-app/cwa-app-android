@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
