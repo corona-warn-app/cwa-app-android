@@ -5,8 +5,11 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -16,7 +19,8 @@ import org.joda.time.LocalDate
 import timber.log.Timber
 
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
-    contactDiaryRepository: ContactDiaryRepository
+    contactDiaryRepository: ContactDiaryRepository,
+    taskController: TaskController
 ) : CWAViewModel() {
 
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
@@ -30,6 +34,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     ) { dateList, locationVisitList, personEncounterList ->
         createListItemList(dateList, locationVisitList, personEncounterList)
     }.asLiveData()
+
+    init {
+        taskController.submit(
+            DefaultTaskRequest(
+                ContactDiaryCleanTask::class,
+                originTag = "ContactDiaryOverviewViewModelInit"
+            )
+        )
+    }
 
     private fun createListItemList(
         dateList: List<LocalDate>,
