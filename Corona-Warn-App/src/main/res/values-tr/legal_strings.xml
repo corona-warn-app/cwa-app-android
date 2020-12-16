@@ -34,7 +34,7 @@
     <string name="submission_no_consent_your_consent_subsection_body_second_part" translatable="false">"<b>Uygulama, karşılaştığınız resmi Korona uygulamaları kullanıcıları uyarmak üzere onlara test sonucunuzu paylaşır. Uyarı, yukarıda sözü geçen ülkelerde çalışır. Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b> Lütfen bir sonraki adımda “Paylaş”a tıklayarak test sonucunuzu (daha doğrusu: Son 14 güne ait rastgele kimlik no\'larınız) paylaşın."</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
     <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"Uyarı gerçekleştikten sonra, Uygulamayı silerek verdiğiniz rıza beyanını da geri alabilirsiniz."</string>
-    
+
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_privacy_information_title"/>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
