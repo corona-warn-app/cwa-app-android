@@ -35,7 +35,7 @@ fun formatCalendarButtonStyleByState(
     currentState: Symptoms.StartOf?,
     state: Symptoms.StartOf?
 ): Int =
-    formatColor(currentState == state, R.color.colorTextSixteen, R.color.colorTextPrimary1)
+    formatColor(currentState == state, R.color.colorStableLight, R.color.colorTextPrimary1)
 
 fun formatCalendarBackgroundButtonStyleByState(
     currentState: Symptoms.StartOf?,
