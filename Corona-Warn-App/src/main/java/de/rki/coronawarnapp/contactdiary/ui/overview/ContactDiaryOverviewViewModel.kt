@@ -108,7 +108,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 .groupBy({ it.date }, { it.contactDiaryPerson.fullName })
 
             val sb = StringBuilder()
-                .appendLine(ctx.getString(R.string.contact_diary_export_intro_one, dates.last().toFormattedString(), dates.first().toFormattedString()))
+                .appendLine(ctx.getString(R.string.contact_diary_export_intro_one,
+                    dates.last().toFormattedString(),
+                    dates.first().toFormattedString()))
                 .appendLine(ctx.getString(R.string.contact_diary_export_intro_two))
                 .appendLine()
 
