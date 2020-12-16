@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.ui
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryModule
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.ui.launcher.LauncherActivityModule
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -22,7 +20,4 @@ abstract class ActivityBinder {
 
     @ContributesAndroidInjector(modules = [OnboardingActivityModule::class])
     abstract fun onboardingActivity(): OnboardingActivity
-
-    @ContributesAndroidInjector(modules = [ContactDiaryModule::class])
-    abstract fun contactDiaryActivity(): ContactDiaryActivity
 }

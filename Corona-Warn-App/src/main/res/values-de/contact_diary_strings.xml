@@ -41,24 +41,11 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">Sie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht.</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen.</string>
-    <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>Sie behalten über alle erfassten Informationen die volle Kontrolle.</b></string>
-    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_one">Die Nutzung dieser zusätzlichen Funktion der Corona-Warn-App ist freiwillig und nur Sie entscheiden welche Personen und Orte Sie eintragen.</string>
-    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_two">Auf die von Ihnen im Kontakt-Tagebuch erfassten Informationen hat weder das RKI noch eine andere Stelle Zugriff. Die Informationen sind nur in verschlüsselter Form in Ihrem Android-Smartphone gespeichert.</string>
-    <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_title"><b>Bitte wahren Sie die Privatsphäre Ihrer Mitmenschen.</b></string>
-    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_one">Bitte prüfen Sie genau, mit wem und auf welche Weise Sie die in Ihrem Kontakt-Tagebuch erfassten Informationen teilen. Die Informationen sollen Ihnen als Gedächtnisstütze dienen - sie sind nicht für Dritte bestimmt. Wenn das Gesundheitsamt Sie im Rahmen der Kontaktnachverfolgung um Ihre Mithilfe bittet, ist die Weitergabe von Einträgen sachgerecht.</string>
-    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_two">Private Personen oder Unternehmen dürfen von Ihnen nicht die Weitergabe der von Ihnen erfassten Informationen verlangen. Bitte respektieren Sie, wenn jemand nicht im Kontakt-Tagebuch erfasst werden möchte.</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">Kontakt-Tagebuch</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_legal_information">Weitere Hinweise finden Sie in der Datenschutzerklärung.</string>
-    <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_privacy_information_title">Datenschutz und Datensicherheit</string>
+
 
     <!-- XTXT: Menu information entry for contact diary overview screen -->
     <string name="menu_contact_diary_information">Information</string>
@@ -74,6 +61,16 @@
     <string name="contact_diary_overview_subtitle">Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind.</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">Startseite</string>
+
+    <!-- XTXT: content description of contact journal image on home screen -->
+    <string name="contact_diary_homescreen_card_image_content_description">Ein zugeklapptes Buch mit Lesezeichen</string>
+    <!-- XTXT: content description of contact journal header image on onboarding screen -->
+    <string name="contact_diary_onboarding_image_content_description">Mehrere Menschen schauen im Freien auf ihre Handys</string>
+    <!-- XTXT: content description of contact journal background image on edit persons screen -->
+    <string name="contact_diary_edit_persons_image_content_description">Die Silhouette einer Frau, die über eine Wiese läuft</string>
+    <!-- XTXT: content description of contact journal background image on edit locations screen -->
+    <string name="contact_diary_edit_locations_image_content_description">Eine Standortmarkierung markiert ein Gebäude</string>
+
 
     <!-- XHED: Title for the contact diary edit locations -->
     <string name="contact_diary_edit_locations_title">Orte bearbeiten</string>
@@ -97,4 +94,8 @@
     <string name="contact_diary_edit_icon_content_description">Eintrag bearbeiten</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_delete_icon_content_description">Eintrag löschen</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
+    <string name="contact_diary_delete_location_title">Wollen Sie wirklich diesen Ort entfernen?</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
+    <string name="contact_diary_delete_person_title">Wollen Sie wirklich diese Person entfernen?</string>
 </resources>

@@ -3,21 +3,20 @@
     <!-- ####################################
                 Contact Diary
     ###################################### -->
-    <string name="contact_diary_day_person_tab_title">"Personen"</string>
-    <string name="contact_diary_day_person_fab_title">"Person"</string>
-    <string name="contact_diary_day_location_tab_title">"Orte"</string>
-    <string name="contact_diary_day_location_fab_title">"Ort"</string>
-    <string name="contact_diary_location_list_no_items_title">"Noch keine Orte vorhanden"</string>
-    <string name="contact_diary_location_list_no_items_subtitle">"Legen Sie einen Ort an und fügen Sie ihn in Ihrem Kontakt-Tagebuch hinzu."</string>
-    <string name="contact_diary_person_list_no_items_title">"Noch keine Personen vorhanden"</string>
-    <string name="contact_diary_person_list_no_items_subtitle">"Legen Sie eine Person an und fügen Sie sie in Ihrem Kontakt-Tagebuch hinzu."</string>
-    <string name="contact_diary_person_bottom_sheet_title">"Person"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Vorname, Nachname"</string>
-    <string name="contact_diary_person_bottom_sheet_save_button">"Speichern"</string>
-    <string name="contact_diary_location_bottom_sheet_title">"Ort"</string>
-    <string name="contact_diary_location_bottom_sheet_text_input_hint">"Bezeichnung"</string>
-    <string name="contact_diary_location_bottom_sheet_save_button">"Speichern"</string>
-
+    <string name="contact_diary_day_person_tab_title"></string>
+    <string name="contact_diary_day_person_fab_title"></string>
+    <string name="contact_diary_day_location_tab_title"></string>
+    <string name="contact_diary_day_location_fab_title"></string>
+    <string name="contact_diary_location_list_no_items_title"></string>
+    <string name="contact_diary_location_list_no_items_subtitle"></string>
+    <string name="contact_diary_person_list_no_items_title"></string>
+    <string name="contact_diary_person_list_no_items_subtitle"></string>
+    <string name="contact_diary_person_bottom_sheet_title"></string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint"></string>
+    <string name="contact_diary_person_bottom_sheet_save_button"></string>
+    <string name="contact_diary_location_bottom_sheet_title"></string>
+    <string name="contact_diary_location_bottom_sheet_text_input_hint"></string>
+    <string name="contact_diary_location_bottom_sheet_save_button"></string>
     <!-- XHED: Title for the contact diary card displayed in the homescreen -->
     <string name="contact_diary_homescreen_card_header" />
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
@@ -41,23 +40,11 @@
     <string name="contact_diary_onboarding_functionality_fourth_section"/>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section"/>
-    <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title"/>
-    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_one"/>
-    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_two"/>
-    <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_title"/>
-    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_one"/>
-    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_two"/>
+    <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title"/>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
     <string name="contact_diary_onboarding_legal_information"/>
-    <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_privacy_information_title"/>
+
 
     <!-- XTXT: Menu information entry for contact diary overview screen -->
     <string name="menu_contact_diary_information"/>
@@ -73,6 +60,15 @@
     <string name="contact_diary_overview_subtitle"/>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header"/>
+
+    <!-- XTXT: content description of contact journal image on home screen -->
+    <string name="contact_diary_homescreen_card_image_content_description">Ein zugeklapptes Buch mit Lesezeichen</string>
+    <!-- XTXT: content description of contact journal header image on onboarding screen -->
+    <string name="contact_diary_onboarding_image_content_description">Mehrere Menschen schauen im Freien auf ihre Handys</string>
+    <!-- XTXT: content description of contact journal background image on edit persons screen -->
+    <string name="contact_diary_edit_persons_image_content_description">Die Silhouette einer Frau, die über eine Wiese läuft</string>
+    <!-- XTXT: content description of contact journal background image on edit locations screen -->
+    <string name="contact_diary_edit_locations_image_content_description">Eine Standortmarkierung markiert ein Gebäude</string>
 
     <!-- XHED: Title for the contact diary edit locations -->
     <string name="contact_diary_edit_locations_title">Orte bearbeiten</string>
@@ -96,4 +92,8 @@
     <string name="contact_diary_edit_icon_content_description">Eintrag bearbeiten</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_delete_icon_content_description">Eintrag löschen</string>
+    <!-- XHED: Title for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_title">Wollen Sie wirklich diesen Ort entfernen?</string>
+    <!-- XHED: Title for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_title">Wollen Sie wirklich diese Person entfernen?</string>
 </resources>

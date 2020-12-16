@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 import android.content.Context
 import android.view.View
 import android.widget.PopupMenu
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import javax.inject.Inject
 
@@ -12,9 +10,6 @@ class ContactDiaryOverviewMenu @Inject constructor(
     private val contactDiaryOverviewFragment: ContactDiaryOverviewFragment
 ) {
     private val context: Context = contactDiaryOverviewFragment.requireContext()
-
-    private val navController: NavController
-        get() = contactDiaryOverviewFragment.findNavController()
 
     fun showMenuFor(view: View) = PopupMenu(context, view).apply {
         inflate(R.menu.menu_contact_diary_overview)

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-interface ContactDiaryLocation {
+import de.rki.coronawarnapp.util.lists.HasStableId
+
+interface ContactDiaryLocation : HasStableId {
     val locationId: Long
     var locationName: String
 }
