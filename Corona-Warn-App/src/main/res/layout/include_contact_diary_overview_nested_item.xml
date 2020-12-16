@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_diary_overview_element_nested_body"
-        style="@style/contact_diary_card"
+        style="@style/contactDiaryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
