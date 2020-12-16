@@ -54,7 +54,6 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                 ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllLocationsConfirmationDialog)
                 is ShowLocationDetailSheet -> {
                     // todo
-                    viewModel.delete(it.location)
                 }
             }
         }

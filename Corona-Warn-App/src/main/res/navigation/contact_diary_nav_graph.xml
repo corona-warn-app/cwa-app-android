@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/contact_diary_nav_graph"
     app:startDestination="@id/contactDiaryOnboardingFragment">
     <fragment
@@ -10,11 +11,26 @@
         <action
             android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment"
             app:destination="@id/contactDiaryInformationPrivacyFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryOverviewFragment"
+            app:destination="@id/contactDiaryOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryInformationPrivacyFragment"
         android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
         android:label="InformationPrivacyFragment" />
+    <fragment
+        android:id="@+id/contactDiaryOverviewFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment"
+        android:label="contact_diary_overview_fragment"
+        tools:layout="@layout/contact_diary_overview_fragment" >
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryEditLocationsFragment"
+            app:destination="@id/contactDiaryEditLocationsFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryEditPersonsFragment"
+            app:destination="@id/contactDiaryEditPersonsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/contactDiaryEditLocationsFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"
