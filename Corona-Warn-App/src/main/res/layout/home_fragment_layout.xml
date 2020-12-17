@@ -84,6 +84,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
+            tools:listitem="@layout/home_submission_status_card_unregistered"
+            tools:itemCount="3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
