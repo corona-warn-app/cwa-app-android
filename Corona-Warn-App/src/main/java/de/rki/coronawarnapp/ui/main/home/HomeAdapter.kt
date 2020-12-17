@@ -57,6 +57,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
     override fun getItemCount(): Int = data.size
 
     abstract class HomeItemVH<Item : HomeItem, VB : ViewBinding>(
-        @LayoutRes layoutRes: Int, parent: ViewGroup
+        @LayoutRes layoutRes: Int,
+        parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
 }

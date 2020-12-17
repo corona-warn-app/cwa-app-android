@@ -51,6 +51,7 @@ class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH
     override fun getItemCount(): Int = data.size
 
     abstract class DetailsItemVH<Item : DetailsItem, VB : ViewBinding>(
-        @LayoutRes layoutRes: Int, parent: ViewGroup
+        @LayoutRes layoutRes: Int,
+        parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
 }

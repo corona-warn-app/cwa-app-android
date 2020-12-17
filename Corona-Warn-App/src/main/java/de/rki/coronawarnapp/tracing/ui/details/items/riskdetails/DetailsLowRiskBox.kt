@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskB
 import de.rki.coronawarnapp.util.convertToHyperlink
 
 class DetailsLowRiskBox(
-    parent: ViewGroup, @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
+    parent: ViewGroup,
+    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingDetailsItemRiskdetailsLowViewBinding>(
     containerLayout,
     parent

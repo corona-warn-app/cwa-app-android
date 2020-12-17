@@ -9,7 +9,8 @@ import de.rki.coronawarnapp.tracing.ui.homecards.IncreasedRiskCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
 class IncreasedRiskCard(
-    parent: ViewGroup, @LayoutRes containerLayout: Int = R.layout.home_card_container_layout
+    parent: ViewGroup,
+    @LayoutRes containerLayout: Int = R.layout.home_card_container_layout
 ) : HomeAdapter.HomeItemVH<Item, TracingContentIncreasedViewBinding>(containerLayout, parent) {
 
     override val viewBinding = lazy {

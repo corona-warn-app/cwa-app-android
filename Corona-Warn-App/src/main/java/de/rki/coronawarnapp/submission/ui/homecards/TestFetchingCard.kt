@@ -18,9 +18,7 @@ class TestFetchingCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSub
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardFetchingBinding.(item: Item) -> Unit = { item ->
-
-    }
+    override val onBindData: HomeSubmissionStatusCardFetchingBinding.(item: Item) -> Unit = { _ -> }
 
     data class Item(
         val state: FetchingResult

@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox.Item
 
 class BehaviorIncreasedRiskBox(
-    parent: ViewGroup, @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
+    parent: ViewGroup,
+    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingDetailsItemBehaviorIncreasedViewBinding>(containerLayout, parent) {
 
     override val viewBinding = lazy {
@@ -19,9 +20,7 @@ class BehaviorIncreasedRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemBehaviorIncreasedViewBinding.(item: Item) -> Unit = { item ->
-
-    }
+    override val onBindData: TracingDetailsItemBehaviorIncreasedViewBinding.(item: Item) -> Unit = { _ -> }
 
     object Item : BehaviorItem
 }

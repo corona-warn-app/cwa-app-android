@@ -14,9 +14,7 @@ class TestSubmissionDoneCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, H
         HomeSubmissionStatusCardDoneBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeSubmissionStatusCardDoneBinding.(item: Item) -> Unit = { item ->
-
-    }
+    override val onBindData: HomeSubmissionStatusCardDoneBinding.(item: Item) -> Unit = { _ -> }
 
     data class Item(
         val state: SubmissionDone

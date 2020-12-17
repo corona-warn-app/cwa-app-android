@@ -62,7 +62,7 @@ class TracingStateProvider @AssistedInject constructor(
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingDisabled(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestSuccessfulCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt,
+                lastExposureDetectionTime = latestSubmission?.startedAt
             )
             tracingProgress != TracingProgress.Idle -> TracingInProgress(
                 isInDetailsMode = isDetailsMode,
@@ -89,7 +89,7 @@ class TracingStateProvider @AssistedInject constructor(
             else -> TracingFailed(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestSuccessfulCalc.riskState,
-                lastExposureDetectionTime = latestSubmission?.startedAt,
+                lastExposureDetectionTime = latestSubmission?.startedAt
             )
         }
     }

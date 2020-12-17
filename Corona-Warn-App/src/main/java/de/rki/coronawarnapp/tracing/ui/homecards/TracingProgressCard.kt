@@ -26,6 +26,6 @@ class TracingProgressCard(
 
     data class Item(
         val state: TracingInProgress,
-        val onCardClick: (Item) -> Unit,
+        val onCardClick: (Item) -> Unit
     ) : TracingStateItem
 }

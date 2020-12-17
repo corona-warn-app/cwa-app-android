@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox.Item
 
 class DetailsFailedCalculationBox(
-    parent: ViewGroup, @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
+    parent: ViewGroup,
+    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingDetailsItemRiskdetailsFailedViewBinding>(
     containerLayout,
     parent
@@ -22,9 +23,7 @@ class DetailsFailedCalculationBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemRiskdetailsFailedViewBinding.(item: Item) -> Unit = { item ->
-
-    }
+    override val onBindData: TracingDetailsItemRiskdetailsFailedViewBinding.(item: Item) -> Unit = { _ -> }
 
     object Item : RiskDetailsStateItem
 }

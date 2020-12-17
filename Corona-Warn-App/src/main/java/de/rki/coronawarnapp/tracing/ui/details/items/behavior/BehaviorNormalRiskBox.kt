@@ -11,7 +11,8 @@ import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox.Item
 
 class BehaviorNormalRiskBox(
-    parent: ViewGroup, @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
+    parent: ViewGroup,
+    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingDetailsItemBehaviorNormalViewBinding>(containerLayout, parent) {
 
     override val viewBinding = lazy {

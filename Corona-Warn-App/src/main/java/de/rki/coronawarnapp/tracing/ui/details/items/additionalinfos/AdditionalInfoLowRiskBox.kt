@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox.Item
 
 class AdditionalInfoLowRiskBox(
-    parent: ViewGroup, @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
+    parent: ViewGroup,
+    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingDetailsItemAdditionalInformationViewBinding>(
     containerLayout,
     parent
@@ -22,9 +23,7 @@ class AdditionalInfoLowRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemAdditionalInformationViewBinding.(item: Item) -> Unit = { item ->
-
-    }
+    override val onBindData: TracingDetailsItemAdditionalInformationViewBinding.(item: Item) -> Unit = { _ -> }
 
     object Item : AdditionalInformationItem
 }

@@ -160,7 +160,7 @@ data class TracingFailed(
 data class TracingDisabled(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
-    val lastExposureDetectionTime: Instant?,
+    val lastExposureDetectionTime: Instant?
 ) : TracingState() {
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
