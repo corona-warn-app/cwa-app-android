@@ -46,7 +46,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar()
+        homeMenu.setupMenu(binding.toolbar)
 
         vm.tracingHeaderState.observe2(this) {
             binding.tracingHeader = it
@@ -126,20 +126,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         DialogHelper.showDialog(removeTestDialog).apply {
             getButton(AlertDialog.BUTTON_POSITIVE)
                 .setTextColor(context.getColor(R.color.colorTextSemanticRed))
-        }
-    }
-
-    private fun setupToolbar() {
-        binding.mainHeaderShare.buttonIcon.apply {
-            contentDescription = getString(R.string.button_share)
-            setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToMainSharingFragment())
-            }
-        }
-
-        binding.mainHeaderOptionsMenu.buttonIcon.apply {
-            contentDescription = getString(R.string.button_menu)
-            setOnClickListener { homeMenu.showMenuFor(it) }
         }
     }
 
