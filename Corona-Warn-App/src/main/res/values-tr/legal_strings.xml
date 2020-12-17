@@ -19,7 +19,7 @@
     <!-- YTXT: Body for consent sub section your consent subtext first point  -->
     <string name="submission_consent_your_consent_subsection_first_point" translatable="false">"<b>Uygulama, test sonucunuzu çağırır.</b>Daha sonra fikrinizi değiştirirseniz, söz konusu testi Uygulamadan kaldırabilirsiniz."</string>
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
-    <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>•	Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır. Bu, yukarıda belirtilen ülkelerdeki resmi Korona uygulamalarının kullanıcıları için geçerlidir. Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
+    <string name="submission_consent_your_consent_subsection_second_point" translatable="false">"<b>Korona testiniz pozitif çıkmışsa, Uygulama karşılaştığınız kullanıcıları uyarmak üzere test sonucunuzu paylaşır. Bu, yukarıda belirtilen ülkelerdeki resmi Korona uygulamalarının kullanıcıları için geçerlidir. Ayrıca semptomlarınızın başlangıcı hakkında bilgi verirseniz, bu veri de paylaşılacaktır.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
     <string name="submission_consent_your_consent_subsection_third_point" translatable="false">"Verdiğiniz rıza beyanını istediğiniz zaman geri alabilirsiniz. Bunun ayarını, “Testi Göster” altında bulabilirsiniz. Paylaşmadan önce, rıza beyanınıza ilişkin yeniden bilgilendirilecek ve test sonucunuzu yayınlamaya izin vermeniz istenecektir."</string>
     <!-- YTXT: Body for your consent screen agreement share test results -->
