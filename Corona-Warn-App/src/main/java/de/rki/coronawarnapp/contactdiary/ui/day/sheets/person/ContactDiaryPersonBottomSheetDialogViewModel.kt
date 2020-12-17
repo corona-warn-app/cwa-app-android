@@ -40,7 +40,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
 
     fun updatePerson(person: ContactDiaryPersonEntity) = launch {
         contactDiaryRepository.updatePerson(
-            ContactDiaryPersonEntity(
+            DefaultContactDiaryPerson(
                 person.personId,
                 fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
             )

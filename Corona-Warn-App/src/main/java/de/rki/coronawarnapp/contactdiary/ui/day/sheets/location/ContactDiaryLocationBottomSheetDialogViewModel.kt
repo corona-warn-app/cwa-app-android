@@ -40,7 +40,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
 
     fun updateLocation(location: ContactDiaryLocationEntity) = launch {
         contactDiaryRepository.updateLocation(
-            ContactDiaryLocationEntity(
+            DefaultContactDiaryLocation(
                 location.locationId,
                 locationName = text.value.take(MAX_LOCATION_NAME_LENGTH)
             )
