@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.tracing.card
+package de.rki.coronawarnapp.tracing.ui.states
 
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -6,16 +6,10 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.TracingProgress
-import de.rki.coronawarnapp.tracing.ui.states.IncreasedRisk
-import de.rki.coronawarnapp.tracing.ui.states.LowRisk
-import de.rki.coronawarnapp.tracing.ui.states.TracingDisabled
-import de.rki.coronawarnapp.tracing.ui.states.TracingFailed
-import de.rki.coronawarnapp.tracing.ui.states.TracingInProgress
-import de.rki.coronawarnapp.tracing.ui.states.TracingState
-import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
-class TracingCardStateProvider @AssistedInject constructor(
+class TracingStateProvider @AssistedInject constructor(
     @Assisted private val isDetailsMode: Boolean,
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
@@ -105,6 +99,6 @@ class TracingCardStateProvider @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(isDetailsMode: Boolean): TracingCardStateProvider
+        fun create(isDetailsMode: Boolean): TracingStateProvider
     }
 }

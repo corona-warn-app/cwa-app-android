@@ -4,6 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import io.kotest.matchers.longs.shouldBeInRange
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk

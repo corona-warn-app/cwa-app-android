@@ -19,12 +19,12 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
-import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext

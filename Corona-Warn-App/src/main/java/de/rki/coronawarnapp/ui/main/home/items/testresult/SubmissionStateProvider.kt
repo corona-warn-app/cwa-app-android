@@ -55,6 +55,8 @@ class SubmissionStateProvider @Inject constructor(
         val hasTestResultBeenSeen: Boolean
     ) {
 
+        fun isUnregistered(): Boolean = !isDeviceRegistered
+
         fun isTestResultReady(): Boolean = deviceUiState.withSuccess(false) {
             when (it) {
                 DeviceUIState.PAIRED_POSITIVE,
@@ -62,8 +64,6 @@ class SubmissionStateProvider @Inject constructor(
                 else -> false
             }
         }
-
-        fun isUnregistered(): Boolean = !isDeviceRegistered
 
         fun isFetching(): Boolean =
             isDeviceRegistered && when (deviceUiState) {

@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.tracing.ui.states.LowRisk
 import de.rki.coronawarnapp.tracing.ui.states.TracingDisabled
 import de.rki.coronawarnapp.tracing.ui.states.TracingFailed
 import de.rki.coronawarnapp.tracing.ui.states.TracingInProgress
+import de.rki.coronawarnapp.tracing.ui.states.TracingStateProvider
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
@@ -44,8 +45,6 @@ import de.rki.coronawarnapp.ui.main.home.items.tracing.LowRiskCard
 import de.rki.coronawarnapp.ui.main.home.items.tracing.TracingDisabledCard
 import de.rki.coronawarnapp.ui.main.home.items.tracing.TracingFailedCard
 import de.rki.coronawarnapp.ui.main.home.items.tracing.TracingProgressCard
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
-import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -62,18 +61,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
-    tracingCardStateProviderFactory: TracingCardStateProvider.Factory,
+    tracingStateProviderFactory: TracingStateProvider.Factory,
     submissionStateProvider: SubmissionStateProvider,
-    val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository,
     private val testResultNotificationService: TestResultNotificationService,
     private val submissionRepository: SubmissionRepository
-) : CWAViewModel(
-    dispatcherProvider = dispatcherProvider,
-    childViewModels = listOf(settingsViewModel)
-) {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val tracingCardStateProvider by lazy { tracingCardStateProviderFactory.create(isDetailsMode = false) }
+    private val tracingCardStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()

@@ -6,13 +6,12 @@ import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
+import de.rki.coronawarnapp.tracing.ui.states.LowRisk
+import de.rki.coronawarnapp.tracing.ui.states.TracingStateProvider
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
-import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionCardState
+import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionDone
 import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionStateProvider
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
-import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
@@ -20,6 +19,7 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -43,8 +43,8 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var generalTracingStatus: GeneralTracingStatus
     @MockK lateinit var context: Context
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
-    @MockK lateinit var settingsViewModel: SettingsViewModel
-    @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
+    @MockK lateinit var tracingStateProvider: TracingStateProvider
+    @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var submissionStateProvider: SubmissionStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
@@ -55,9 +55,13 @@ class HomeFragmentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
-        every { submissionStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
-        every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
-        every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
+
+        every { tracingStateProviderFactory.create(isDetailsMode = false) } returns tracingStateProvider
+        every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
+
+        every { submissionStateProvider.state } returns flowOf(SubmissionDone)
+
+        every { submissionRepository.hasViewedTestResult } returns flowOf(true)
     }
 
     @AfterEach
@@ -68,13 +72,12 @@ class HomeFragmentViewModelTest : BaseTest() {
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
         dispatcherProvider = TestDispatcherProvider,
         errorResetTool = errorResetTool,
-        settingsViewModel = settingsViewModel,
         tracingStatus = generalTracingStatus,
-        tracingCardStateProvider = tracingCardStateProvider,
-        submissionCardsStateProvider = submissionStateProvider,
         tracingRepository = tracingRepository,
         testResultNotificationService = testResultNotificationService,
-        submissionRepository = submissionRepository
+        submissionRepository = submissionRepository,
+        submissionStateProvider = submissionStateProvider,
+        tracingStateProviderFactory = tracingStateProviderFactory
     )
 
     @Test
@@ -113,27 +116,21 @@ class HomeFragmentViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `tracing card status is forwarded`() {
-        every { tracingCardStateProvider.state } returns flowOf(mockk())
+    fun `simple home item generation`() {
         createInstance().apply {
-            this.tracingCardState.observeForTesting { }
-            verify { tracingCardStateProvider.state }
-        }
-    }
-
-    @Test
-    fun `submission card state is forwarded`() {
-        every { submissionStateProvider.state } returns flowOf(mockk())
-        createInstance().apply {
-            this.submissionCardState.observeForTesting { }
-            verify { submissionStateProvider.state }
+            this.homeItems.observeForTesting { }
+            coVerify {
+                tracingStateProvider.state
+                submissionStateProvider.state
+            }
         }
     }
 
     @Test
     fun `positive test result notification is triggered on positive QR code result`() {
-        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE), true, true)
-        every { submissionStateProvider.state } returns flowOf(state)
+        every { submissionRepository.deviceUIStateFlow } returns flowOf(
+            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
+        )
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 
         runBlocking {
@@ -146,8 +143,9 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `positive test result notification is triggered on positive TeleTan code result`() {
-        val state = SubmissionCardState(NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN), true, true)
-        every { submissionStateProvider.state } returns flowOf(state)
+        every { submissionRepository.deviceUIStateFlow } returns flowOf(
+            NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
+        )
         every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
 
         runBlocking {

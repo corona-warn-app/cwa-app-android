@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.states.IncreasedRisk
@@ -12,8 +13,7 @@ import de.rki.coronawarnapp.tracing.ui.states.LowRisk
 import de.rki.coronawarnapp.tracing.ui.states.TracingDisabled
 import de.rki.coronawarnapp.tracing.ui.states.TracingFailed
 import de.rki.coronawarnapp.tracing.ui.states.TracingInProgress
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
-import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
+import de.rki.coronawarnapp.tracing.ui.states.TracingStateProvider
 import de.rki.coronawarnapp.ui.tracing.details.items.DetailsItem
 import de.rki.coronawarnapp.ui.tracing.details.items.risk.IncreasedRiskBox
 import de.rki.coronawarnapp.ui.tracing.details.items.risk.LowRiskBox
@@ -39,11 +39,11 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     backgroundModeStatus: BackgroundModeStatus,
     riskLevelStorage: RiskLevelStorage,
     tracingDetailsItemProvider: TracingDetailsItemProvider,
-    tracingCardStateProviderFactory: TracingCardStateProvider.Factory,
+    tracingStateProviderFactory: TracingStateProvider.Factory,
     private val tracingRepository: TracingRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val tracingCardStateProvider by lazy { tracingCardStateProviderFactory.create(isDetailsMode = true) }
+    private val tracingCardStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = true) }
 
     private val tracingCardItems = tracingCardStateProvider.state.map { tracingState ->
         when (tracingState) {

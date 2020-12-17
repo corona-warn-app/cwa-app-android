@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.ui.tracing.details
 import dagger.Reusable
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
-import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.ui.tracing.details.items.DetailsItem
 import de.rki.coronawarnapp.ui.tracing.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.ui.tracing.details.items.behavior.BehaviorIncreasedRiskBox

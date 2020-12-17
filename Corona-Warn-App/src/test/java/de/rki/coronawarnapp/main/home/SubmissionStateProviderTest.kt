@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionCardState
+import de.rki.coronawarnapp.ui.main.home.items.testresult.NoTest
 import de.rki.coronawarnapp.ui.main.home.items.testresult.SubmissionStateProvider
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
@@ -13,7 +13,7 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import io.mockk.verify
+import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
@@ -26,7 +26,7 @@ import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
-class SubmissionCardsStateProviderTest : BaseTest() {
+class SubmissionStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var submissionRepository: SubmissionRepository
@@ -37,6 +37,10 @@ class SubmissionCardsStateProviderTest : BaseTest() {
         mockkObject(LocalData)
 
         every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
+        every { submissionRepository.deviceUIStateFlow } returns flow {
+            emit(NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>(DeviceUIState.PAIRED_POSITIVE))
+        }
+        every { LocalData.registrationToken() } returns null
     }
 
     @AfterEach
@@ -47,21 +51,13 @@ class SubmissionCardsStateProviderTest : BaseTest() {
     private fun createInstance() = SubmissionStateProvider(submissionRepository)
 
     @Test
-    fun `state is combined correctly`() = runBlockingTest {
-        every { submissionRepository.deviceUIStateFlow } returns flow {
-            emit(NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>(DeviceUIState.PAIRED_POSITIVE))
-        }
-        every { LocalData.registrationToken() } returns "token"
-
+    fun `state determination, unregistered test`() = runBlockingTest {
         createInstance().apply {
-            state.first() shouldBe SubmissionCardState(
-                deviceUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-                isDeviceRegistered = true,
-                hasTestResultBeenSeen = true
-            )
+            state.first() shouldBe NoTest
 
-            verify {
+            verifySequence {
                 submissionRepository.deviceUIStateFlow
+                submissionRepository.hasViewedTestResult
                 LocalData.registrationToken()
             }
         }
