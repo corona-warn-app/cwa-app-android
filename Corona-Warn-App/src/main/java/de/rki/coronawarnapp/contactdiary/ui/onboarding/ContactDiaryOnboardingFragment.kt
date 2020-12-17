@@ -56,9 +56,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
-
                     onboardingComplete()
-
                     doNavigate(
                         ContactDiaryOnboardingFragmentDirections
                             .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()

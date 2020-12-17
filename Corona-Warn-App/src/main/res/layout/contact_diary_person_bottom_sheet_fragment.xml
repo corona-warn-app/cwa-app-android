@@ -28,6 +28,19 @@
             app:layout_constraintStart_toEndOf="@+id/contact_diary_person_bottom_sheet_close_button"
             app:layout_constraintTop_toTopOf="@+id/contact_diary_person_bottom_sheet_close_button" />
 
+        <ImageView
+            android:id="@+id/contact_diary_person_bottom_sheet_delete_button"
+            android:layout_width="@dimen/circle_icon_big"
+            android:layout_height="@dimen/circle_icon_big"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:padding="@dimen/circle_icon_big_padding"
+            android:src="@drawable/ic_baseline_delete"
+            android:contentDescription="@string/contact_diary_delete_icon_content_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/buttonIcon" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contact_diary_person_bottom_sheet_text_input_layout"
             android:layout_width="@dimen/match_constraint"
@@ -44,7 +57,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/contact_diary_person_bottom_sheet_text_input_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

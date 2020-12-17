@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import org.joda.time.LocalDate
-import java.lang.StringBuilder
 import kotlin.random.Random
 
 class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
