@@ -21,9 +21,9 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
-    val isButtonEnabled = contactDiaryRepository.locations.map { it.isNullOrEmpty() }.asLiveData()
+    val isButtonEnabled = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }.asLiveData()
 
-    val isListVisible = contactDiaryRepository.locations.map { it.isNullOrEmpty() }.asLiveData()
+    val isListVisible = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }.asLiveData()
 
     fun onDeleteAllLocationsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)

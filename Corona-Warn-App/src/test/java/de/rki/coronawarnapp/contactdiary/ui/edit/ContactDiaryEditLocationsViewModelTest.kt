@@ -23,9 +23,9 @@ class ContactDiaryEditLocationsViewModelTest {
 
     lateinit var viewModel: ContactDiaryEditLocationsViewModel
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
-    private val location = object: ContactDiaryLocation {
+    private val location = object : ContactDiaryLocation {
         override val locationId = 1L
-        override var locationName= "Supermarket"
+        override var locationName = "Supermarket"
         override val stableId = 1L
     }
     private val locationList = listOf(location)
@@ -87,7 +87,7 @@ class ContactDiaryEditLocationsViewModelTest {
     fun testLocations() {
         every { contactDiaryRepository.locations } returns MutableStateFlow(locationList)
         viewModel = ContactDiaryEditLocationsViewModel(contactDiaryRepository, TestDispatcherProvider)
-        viewModel.locationsLiveData.observeForever {  }
+        viewModel.locationsLiveData.observeForever { }
         viewModel.locationsLiveData.value shouldBe locationList
     }
 }

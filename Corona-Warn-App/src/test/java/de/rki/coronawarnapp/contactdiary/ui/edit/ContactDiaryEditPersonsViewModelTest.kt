@@ -88,7 +88,7 @@ class ContactDiaryEditPersonsViewModelTest {
     fun testLocations() {
         every { contactDiaryRepository.people } returns MutableStateFlow(personList)
         viewModel = ContactDiaryEditPersonsViewModel(contactDiaryRepository, TestDispatcherProvider)
-        viewModel.personsLiveData.observeForever {  }
+        viewModel.personsLiveData.observeForever { }
         viewModel.personsLiveData.value shouldBe personList
     }
 }

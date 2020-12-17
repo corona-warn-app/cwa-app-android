@@ -21,9 +21,9 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
-    val isButtonEnabled = contactDiaryRepository.people.map { it.isNullOrEmpty() }.asLiveData()
+    val isButtonEnabled = contactDiaryRepository.people.map { !it.isNullOrEmpty() }.asLiveData()
 
-    val isListVisible = contactDiaryRepository.people.map { it.isNullOrEmpty() }.asLiveData()
+    val isListVisible = contactDiaryRepository.people.map { !it.isNullOrEmpty() }.asLiveData()
 
     fun onDeleteAllPersonsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)
