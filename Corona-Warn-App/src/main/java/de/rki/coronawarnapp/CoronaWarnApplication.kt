@@ -13,6 +13,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
+import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
@@ -48,6 +49,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var configChangeDetector: ConfigChangeDetector
     @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var notificationHelper: NotificationHelper
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -78,6 +80,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         if (LocalData.onboardingCompletedTimestamp() != null) {
             deadmanNotificationScheduler.schedulePeriodic()
+            contactDiaryWorkScheduler.schedulePeriodic()
         }
 
         configChangeDetector.launch()

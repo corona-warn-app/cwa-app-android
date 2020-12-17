@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.task
 
+import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.example.QueueingTask
 import de.rki.coronawarnapp.task.testtasks.SkippingTask
+import de.rki.coronawarnapp.task.testtasks.alerterror.AlertErrorTask
 import de.rki.coronawarnapp.task.testtasks.precondition.PreconditionTask
+import de.rki.coronawarnapp.task.testtasks.silenterror.SilentErrorTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask2
 import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTaskArguments
@@ -16,12 +20,16 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
@@ -56,6 +64,8 @@ class TaskControllerTest : BaseIOTest() {
     private val queueingFactory = spyk(QueueingTask.Factory(Provider { QueueingTask() }))
     private val skippingFactory = spyk(SkippingTask.Factory(Provider { SkippingTask() }))
     private val preconditionFactory = spyk(PreconditionTask.Factory(Provider { PreconditionTask() }))
+    private val silentErrorFactory = spyk(SilentErrorTask.Factory(Provider { SilentErrorTask() }))
+    private val alertErrorFactory = spyk(AlertErrorTask.Factory(Provider { AlertErrorTask() }))
 
     @BeforeEach
     fun setup() {
@@ -66,6 +76,8 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap[TimeoutTask::class.java] = timeoutFactory
         taskFactoryMap[TimeoutTask2::class.java] = timeoutFactory2
         taskFactoryMap[PreconditionTask::class.java] = preconditionFactory
+        taskFactoryMap[SilentErrorTask::class.java] = silentErrorFactory
+        taskFactoryMap[AlertErrorTask::class.java] = alertErrorFactory
 
         every { timeStamper.nowUTC } answers {
             Instant.now()
@@ -615,6 +627,64 @@ class TaskControllerTest : BaseIOTest() {
 
         expectedFiles.subList(50, 100) shouldBe sortedHistory.map {
             (it.taskState.request.arguments as QueueingTask.Arguments).path
+        }
+
+        instance.close()
+    }
+
+    @Test
+    fun `silent error handling`() = runBlockingTest {
+
+        val error: Throwable = spyk(Throwable())
+
+        mockkStatic("de.rki.coronawarnapp.exception.reporting.ExceptionReporterKt")
+        mockkStatic("de.rki.coronawarnapp.bugreporting.BugReporterKt")
+
+        every { error.report(any(), any(), any()) } just Runs
+        every { error.reportProblem(any()) } just Runs
+
+        val instance = createInstance(scope = this)
+
+        val request = DefaultTaskRequest(type = SilentErrorTask::class, arguments = SilentErrorTask.Arguments(error = error))
+        instance.submit(request)
+
+        val infoFinished = instance.tasks
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+            .single()
+
+        infoFinished.apply {
+            taskState.error shouldNotBe null
+            verify(exactly = 0) { any<Throwable>().report(any()) }
+            verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+        }
+
+        instance.close()
+    }
+
+    @Test
+    fun `alert error handling`() = runBlockingTest {
+
+        val error: Throwable = spyk(Throwable())
+
+        mockkStatic("de.rki.coronawarnapp.exception.reporting.ExceptionReporterKt")
+        mockkStatic("de.rki.coronawarnapp.bugreporting.BugReporterKt")
+
+        every { error.report(any(), any(), any()) } just Runs
+        every { error.reportProblem(any()) } just Runs
+
+        val instance = createInstance(scope = this)
+
+        val request = DefaultTaskRequest(type = AlertErrorTask::class, arguments = AlertErrorTask.Arguments(error = error))
+        instance.submit(request)
+
+        val infoFinished = instance.tasks
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+            .single()
+
+        infoFinished.apply {
+            taskState.error shouldNotBe null
+            verify(exactly = 1) { any<Throwable>().report(any()) }
+            verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
         }
 
         instance.close()

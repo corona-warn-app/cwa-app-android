@@ -4,7 +4,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_overview_element_nested_body"
+        android:id="@+id/contact_diary_overview_element_nested_container"
         style="@style/contactDiaryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,38 +14,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/contact_diary_overview_element_image"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_overview_element_nested_body"
+            style="@style/contactDiaryCard"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:layout_marginBottom="@dimen/spacing_tiny"
-
-            android:importantForAccessibility="no"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_contact_diary_person_item"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/contact_diary_overview_element_name"
-            style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_tiny"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="true"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:text="Andrea Steinhauer"
+            android:layout_marginVertical="@dimen/spacing_tiny"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/contact_diary_overview_element_image"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/match_constraint"
+                android:importantForAccessibility="no"
+                android:scaleType="centerInside"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:src="@drawable/ic_contact_diary_person_item"
+                app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_overview_element_name"
+                app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_element_name"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/contact_diary_overview_element_name"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:maxLines="3"
+                android:text="Andrea Steinhauer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
