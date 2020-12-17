@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardPendingBinding
 import de.rki.coronawarnapp.submission.ui.homecards.TestPendingCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class TestPendingCard(
     parent: ViewGroup
@@ -17,13 +18,16 @@ class TestPendingCard(
     override val onBindData: HomeSubmissionStatusCardPendingBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        itemView.setOnClickListener { item.onClickAction(item) }
-        showTestAction.setOnClickListener { item.onClickAction(item) }
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        itemView.setOnClickListener { curItem.onClickAction(item) }
+        showTestAction.setOnClickListener { itemView.performClick() }
     }
 
     data class Item(
         val state: TestPending,
         val onClickAction: (Item) -> Unit
-    ) : TestResultItem
+    ) : TestResultItem, HasPayloadDiffer {
+        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+    }
 }

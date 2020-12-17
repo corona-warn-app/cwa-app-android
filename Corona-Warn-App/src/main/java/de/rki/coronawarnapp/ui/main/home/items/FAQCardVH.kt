@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeFaqCardLayoutBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.FAQCardVH.Item
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class FAQCardVH(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLayoutBinding>(
     R.layout.home_card_container_layout, parent
@@ -17,11 +18,17 @@ class FAQCardVH(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLay
     override val onBindData: HomeFaqCardLayoutBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        itemView.setOnClickListener { item.onClickAction(item) }
+    ) -> Unit = { item, payloads ->
+
+        itemView.setOnClickListener {
+            val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+            curItem.onClickAction(item)
+        }
     }
 
-    data class Item(val onClickAction: (Item) -> Unit) : HomeItem {
+    data class Item(val onClickAction: (Item) -> Unit) : HomeItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
+
+        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }
