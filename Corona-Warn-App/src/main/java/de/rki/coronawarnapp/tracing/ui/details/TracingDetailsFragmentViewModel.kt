@@ -43,9 +43,9 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     private val tracingRepository: TracingRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val tracingCardStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = true) }
+    private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = true) }
 
-    private val tracingCardItems = tracingCardStateProvider.state.map { tracingState ->
+    private val tracingCardItems = tracingStateProvider.state.map { tracingState ->
         when (tracingState) {
             is TracingInProgress -> TracingProgressBox.Item(state = tracingState)
             is TracingDisabled -> TracingDisabledBox.Item(state = tracingState)
@@ -85,9 +85,9 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
             isManualKeyRetrievalEnabled = isRestartButtonEnabled
         )
     }
-        .onStart { Timber.v("TracingDetailsState2 FLOW start") }
-        .onEach { Timber.d("TracingDetailsState2 FLOW emission: %s", it) }
-        .onCompletion { Timber.v("TracingDetailsState2 FLOW completed.") }
+        .onStart { Timber.v("TracingDetailsState FLOW start") }
+        .onEach { Timber.d("TracingDetailsState FLOW emission: %s", it) }
+        .onCompletion { Timber.v("TracingDetailsState FLOW completed.") }
         .asLiveData(Dispatchers.Default)
 
     fun refreshData() {
