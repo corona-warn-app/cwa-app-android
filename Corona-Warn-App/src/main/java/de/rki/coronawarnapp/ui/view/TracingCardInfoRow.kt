@@ -25,32 +25,24 @@ class TracingCardInfoRow @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.tracing_card_info_row_layout, this, true)
 
         context.withStyledAttributes(attrs, R.styleable.TracingCardInfoRow) {
-            icon.apply {
-                setImageResource(getResourceId(R.styleable.TracingCardInfoRow_android_icon, 0))
-                ImageViewCompat.setImageTintList(
-                    this,
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            getResourceId(R.styleable.TracingCardInfoRow_compatIconTint, 0)
-                        )
-                    )
-                )
+            getResourceId(R.styleable.TracingCardInfoRow_android_icon, 0).let {
+                if (it != 0) icon.setImageResource(it)
             }
-            body.apply {
-                getResourceId(R.styleable.TracingCardInfoRow_android_text, 0).let {
-                    if (it != 0) {
-                        setText(it)
-                    } else {
-                        text = getString(R.styleable.TracingCardInfoRow_android_text)
-                    }
-                }
-                setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        getResourceId(R.styleable.TracingCardInfoRow_android_textColor, 0)
+            getResourceId(R.styleable.TracingCardInfoRow_compatIconTint, 0).let {
+                if (it != 0) {
+                    ImageViewCompat.setImageTintList(
+                        icon,
+                        ColorStateList.valueOf(ContextCompat.getColor(context, it))
                     )
-                )
+                }
+            }
+
+            getResourceId(R.styleable.TracingCardInfoRow_android_text, 0).let {
+                body.text = if (it != 0) resources.getString(it)
+                else getString(R.styleable.TracingCardInfoRow_android_text)
+            }
+            getResourceId(R.styleable.TracingCardInfoRow_android_textColor, 0).let {
+                if (it != 0) body.setTextColor(ContextCompat.getColor(context, it))
             }
         }
     }

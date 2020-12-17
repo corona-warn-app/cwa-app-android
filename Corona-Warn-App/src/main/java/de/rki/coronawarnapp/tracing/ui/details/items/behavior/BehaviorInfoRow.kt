@@ -29,31 +29,20 @@ class BehaviorInfoRow @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.tracing_details_item_behavior_row_view, this, true)
 
         context.withStyledAttributes(attrs, R.styleable.TracingDetailsBehaviorRow) {
-            icon.apply {
-                setImageResource(getResourceId(R.styleable.TracingDetailsBehaviorRow_android_icon, 0))
-                setForegroundTint(
-                    ContextCompat.getColor(
-                        context,
-                        getResourceId(R.styleable.TracingDetailsBehaviorRow_android_foregroundTint, 0)
-                    )
-                )
+            getResourceId(R.styleable.TracingDetailsBehaviorRow_android_icon, 0).let {
+                if (it != 0) icon.setImageResource(it)
             }
-            iconBackground.apply {
-                setBackgroundTint(
-                    ContextCompat.getColor(
-                        context,
-                        getResourceId(R.styleable.TracingDetailsBehaviorRow_android_backgroundTint, 0)
-                    )
-                )
+            getResourceId(R.styleable.TracingDetailsBehaviorRow_android_foregroundTint, 0).let {
+                if (it != 0) setForegroundTint(ContextCompat.getColor(context, it))
             }
-            body.apply {
-                getResourceId(R.styleable.TracingDetailsBehaviorRow_android_text, 0).let {
-                    if (it != 0) {
-                        setText(it)
-                    } else {
-                        text = getString(R.styleable.TracingDetailsBehaviorRow_android_text)
-                    }
-                }
+
+            getResourceId(R.styleable.TracingDetailsBehaviorRow_android_backgroundTint, 0).let {
+                if (it != 0) setBackgroundTint(ContextCompat.getColor(context, it))
+            }
+
+            getResourceId(R.styleable.TracingDetailsBehaviorRow_android_text, 0).let {
+                body.text = if (it != 0) resources.getString(it)
+                else getString(R.styleable.TracingDetailsBehaviorRow_android_text)
             }
         }
     }
