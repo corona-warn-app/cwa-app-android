@@ -23,6 +23,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Suppress("TooManyFunctions")
 class DefaultContactDiaryRepository @Inject constructor(
     private val contactDiaryLocationDao: ContactDiaryLocationDao,
     private val contactDiaryLocationVisitDao: ContactDiaryLocationVisitDao,
@@ -97,6 +98,17 @@ class DefaultContactDiaryRepository @Inject constructor(
         }
     }
 
+    override suspend fun deleteLocationVisits(contactDiaryLocationVisits: List<ContactDiaryLocationVisit>) {
+        Timber.d("Deleting location visits $contactDiaryLocationVisits")
+        val contactDiaryLocationVisitsEntities = contactDiaryLocationVisits
+            .map {
+                val contactDiaryLocationVisitsEntity = it.toContactDiaryLocationVisitEntity()
+                executeWhenIdNotDefault(contactDiaryLocationVisitsEntity.id)
+                return@map contactDiaryLocationVisitsEntity
+            }
+        contactDiaryLocationVisitDao.delete(contactDiaryLocationVisitsEntities)
+    }
+
     override suspend fun deleteAllLocationVisits() {
         Timber.d("Clearing contact diary location visit table")
         contactDiaryLocationVisitDao.deleteAll()
@@ -167,6 +179,17 @@ class DefaultContactDiaryRepository @Inject constructor(
             val contactDiaryPersonEncounterEntity = contactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity()
             contactDiaryPersonEncounterDao.delete(contactDiaryPersonEncounterEntity)
         }
+    }
+
+    override suspend fun deletePersonEncounters(contactDiaryPersonEncounters: List<ContactDiaryPersonEncounter>) {
+        Timber.d("Deleting person encounter $contactDiaryPersonEncounters")
+        val contactDiaryPersonEncounterEntities = contactDiaryPersonEncounters
+            .map {
+                val contactDiaryPersonEncounterEntity = it.toContactDiaryPersonEncounterEntity()
+                executeWhenIdNotDefault(contactDiaryPersonEncounterEntity.id)
+                return@map contactDiaryPersonEncounterEntity
+            }
+        contactDiaryPersonEncounterDao.delete(contactDiaryPersonEncounterEntities)
     }
 
     override suspend fun deleteAllPersonEncounters() {

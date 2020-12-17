@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_miscInfoFragment"
             app:destination="@id/miscInfoFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_contactDiaryTestFragment"
+            app:destination="@id/test_contact_diary_fragment" />
     </fragment>
 
     <fragment
@@ -92,5 +95,10 @@
         android:id="@+id/miscInfoFragment"
         android:name="de.rki.coronawarnapp.miscinfo.MiscInfoFragment"
         android:label="MiscInfoFragment" />
+    <fragment
+        android:id="@+id/test_contact_diary_fragment"
+        android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment"
+        android:label="ContactDiaryTestFragment"
+        tools:layout="@layout/fragment_test_contact_diary" />
 
 </navigation>
