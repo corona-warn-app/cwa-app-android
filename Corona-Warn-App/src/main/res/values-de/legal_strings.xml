@@ -36,7 +36,7 @@
     <string name="submission_no_consent_your_consent_subsection_body_third_part">"Sie können Ihr Einverständnis nach bereits erfolgter Warnung zurücknehmen, indem Sie die App löschen."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_privacy_information_title">Datenschutz und Datensicherheit</string>
+    <string name="contact_diary_onboarding_privacy_information_title">Hinweise zur Datenverarbeitung</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>Sie behalten über alle erfassten Informationen die volle Kontrolle.</b></string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->

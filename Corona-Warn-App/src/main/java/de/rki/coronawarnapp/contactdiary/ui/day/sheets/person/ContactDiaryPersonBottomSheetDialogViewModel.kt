@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.sheets.person
 
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -29,7 +29,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
 
     fun savePerson() = launch {
         contactDiaryRepository.addPerson(
-            ContactDiaryPersonEntity(
+            DefaultContactDiaryPerson(
                 fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
             )
         )
