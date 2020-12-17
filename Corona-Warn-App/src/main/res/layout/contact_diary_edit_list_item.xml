@@ -11,7 +11,7 @@
     <TextView
         style="@style/subtitle"
         android:id="@+id/name"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:ellipsize="end"

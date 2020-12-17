@@ -9,4 +9,3 @@ interface ContactDiaryPerson : HasStableId {
 
 fun List<ContactDiaryPerson>.sortByNameAndIdASC(): List<ContactDiaryPerson> =
     this.sortedWith(compareBy({ it.fullName }, { it.personId }))
-
