@@ -191,8 +191,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         submissionStateProvider.state
     ) { tracingItem, submissionItem, submissionState ->
         mutableListOf<HomeItem>().apply {
-            if (submissionState !is SubmissionDone) {
-                add(tracingItem)
+            when (submissionState) {
+                TestPositive,
+                SubmissionDone -> {
+                    // Don't show risk card
+                }
+                else -> add(tracingItem)
             }
 
             add(submissionItem)
