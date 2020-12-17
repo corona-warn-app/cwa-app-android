@@ -10,10 +10,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/risk_card_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorSurface1"
+        android:background="@color/colorSurface1"
         android:padding="@dimen/card_padding">
 
         <TextView

@@ -11,11 +11,17 @@ import de.rki.coronawarnapp.util.ui.setGone
 
 class TracingDisabledBox(
     parent: ViewGroup,
-    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout
+    @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_elevated_layout
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingContentDisabledViewBinding>(containerLayout, parent) {
 
     override val viewBinding = lazy {
-        TracingContentDisabledViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.box_container), true)
+        TracingContentDisabledViewBinding.inflate(
+            layoutInflater,
+            itemView.findViewById(R.id.box_container),
+            true
+        ).also {
+            it.root.elevation = resources.getDimension(R.dimen.elevation_strong)
+        }
     }
 
     override val onBindData: TracingContentDisabledViewBinding.(

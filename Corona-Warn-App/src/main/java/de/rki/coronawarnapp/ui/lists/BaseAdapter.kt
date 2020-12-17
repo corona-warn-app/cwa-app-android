@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.lists
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
@@ -34,6 +35,9 @@ abstract class BaseAdapter<T : BaseAdapter.VH> : RecyclerView.Adapter<T>() {
 
         val context: Context
             get() = parent.context
+
+        val resources: Resources
+            get() = context.resources
 
         val layoutInflater: LayoutInflater
             get() = LayoutInflater.from(context)
