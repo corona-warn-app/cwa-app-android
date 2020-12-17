@@ -129,7 +129,6 @@
     <style name="card">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/card_light</item>
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
