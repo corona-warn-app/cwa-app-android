@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.submission.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.sync.Mutex
@@ -52,8 +53,9 @@ class DataReset @Inject constructor(
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
-    private val contactDiaryDatabase: ContactDiaryDatabase
-) {
+    private val contactDiaryDatabase: ContactDiaryDatabase,
+    private var contactDiarySettings: ContactDiarySettings
+    ) {
 
     private val mutex = Mutex()
 
@@ -78,6 +80,7 @@ class DataReset @Inject constructor(
         exposureDetectionTracker.clear()
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
+        contactDiarySettings.clear()
 
         // Clear contact diary database
         contactDiaryDatabase.clearAllTables()
