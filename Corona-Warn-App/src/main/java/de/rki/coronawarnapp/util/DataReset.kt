@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -48,14 +47,13 @@ class DataReset @Inject constructor(
     @AppContext private val context: Context,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
-    private val interoperabilityRepository: InteroperabilityRepository,
     private val submissionRepository: SubmissionRepository,
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryDatabase: ContactDiaryDatabase,
     private var contactDiarySettings: ContactDiarySettings
-    ) {
+) {
 
     private val mutex = Mutex()
 
