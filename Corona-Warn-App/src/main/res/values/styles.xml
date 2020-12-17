@@ -197,7 +197,7 @@
         <item name="android:background">@drawable/card</item>
     </style>
 
-    <style name="boxGrey" parent="cardNoPadding">
+    <style name="cardGrey" parent="cardNoPadding">
         <item name="android:tint">@color/card_dark</item>
         <item name="android:elevation">0dp</item>
         <item name="android:backgroundTint">@color/colorSurface2</item>

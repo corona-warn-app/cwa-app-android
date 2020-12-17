@@ -17,7 +17,8 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
-import de.rki.coronawarnapp.ui.main.home.items.FAQCardVH
+import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
+import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
@@ -36,7 +37,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         modules.addAll(listOf(
             StableIdMod(data),
             DataBinderMod<HomeItem, HomeItemVH<HomeItem, ViewBinding>>(data),
-            TypedVHCreatorMod({ data[it] is FAQCardVH.Item }) { FAQCardVH(it) },
+            TypedVHCreatorMod({ data[it] is FAQCard.Item }) { FAQCard(it) },
             TypedVHCreatorMod({ data[it] is IncreasedRiskCard.Item }) { IncreasedRiskCard(it) },
             TypedVHCreatorMod({ data[it] is LowRiskCard.Item }) { LowRiskCard(it) },
             TypedVHCreatorMod({ data[it] is TracingFailedCard.Item }) { TracingFailedCard(it) },
@@ -50,7 +51,8 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is TestNegativeCard.Item }) { TestNegativeCard(it) },
             TypedVHCreatorMod({ data[it] is TestReadyCard.Item }) { TestReadyCard(it) },
             TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
-            TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) }
+            TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
+            TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) }
         ))
     }
 

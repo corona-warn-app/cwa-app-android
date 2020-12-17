@@ -45,7 +45,8 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.items.FAQCardVH
+import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
+import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -201,7 +202,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
             add(submissionItem)
 
-            add(FAQCardVH.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
+            add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
+
+            add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }
     }
         .distinctUntilChanged()

@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeFaqCardLayoutBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
-import de.rki.coronawarnapp.ui.main.home.items.FAQCardVH.Item
+import de.rki.coronawarnapp.ui.main.home.items.FAQCard.Item
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class FAQCardVH(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLayoutBinding>(
+class FAQCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLayoutBinding>(
     R.layout.home_card_container_layout, parent
 ) {
 
