@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.contactdiary.ui.edit
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
-import de.rki.coronawarnapp.contactdiary.model.toEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -37,7 +37,7 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     }
 
     fun onEditPersonClick(person: ContactDiaryPerson) {
-        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person.toEntity()))
+        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person.toContactDiaryPersonEntity()))
     }
 
     @AssistedInject.Factory

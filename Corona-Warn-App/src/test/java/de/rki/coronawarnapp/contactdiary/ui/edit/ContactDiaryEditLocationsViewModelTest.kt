@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
-import de.rki.coronawarnapp.contactdiary.model.toEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -64,7 +64,7 @@ class ContactDiaryEditLocationsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditLocationClick(location)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet(location.toEntity())
+            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity())
     }
 
     @Test

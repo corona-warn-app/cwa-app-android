@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.contactdiary.ui.edit
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
-import de.rki.coronawarnapp.contactdiary.model.toEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -37,7 +37,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     }
 
     fun onEditLocationClick(location: ContactDiaryLocation) {
-        navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location.toEntity()))
+        navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity()))
     }
 
     @AssistedInject.Factory
