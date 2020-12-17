@@ -42,7 +42,7 @@ class SubmissionStateProvider @Inject constructor(
             eval.isResultNegative() -> TestNegative
             eval.isSubmissionDone() -> SubmissionDone
             eval.isPending() -> TestPending
-            else -> throw IllegalStateException()
+            else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException() else TestPending
         }
     }
         .onStart { Timber.v("SubmissionStateProvider FLOW start") }
