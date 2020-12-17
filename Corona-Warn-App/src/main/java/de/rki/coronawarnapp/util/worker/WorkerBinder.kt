@@ -4,7 +4,7 @@ import androidx.work.ListenableWorker
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanWorker
+import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
@@ -75,8 +75,8 @@ abstract class WorkerBinder {
 
     @Binds
     @IntoMap
-    @WorkerKey(ContactDiaryCleanWorker::class)
+    @WorkerKey(ContactDiaryRetentionWorker::class)
     abstract fun contactDiaryCleanWorker(
-        factory: ContactDiaryCleanWorker.Factory
+        factory: ContactDiaryRetentionWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

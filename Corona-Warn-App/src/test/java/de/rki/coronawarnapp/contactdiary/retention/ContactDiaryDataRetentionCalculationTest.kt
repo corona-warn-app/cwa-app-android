@@ -47,7 +47,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance() = ContactDiaryDataRetentionCalculation(
+    private fun createInstance() = ContactDiaryRetentionCalculation(
         timeStamper = timeStamper,
         repository = contactDiaryRepository
     )

@@ -12,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class ContactDiaryDataRetentionCalculation @Inject constructor(
+class ContactDiaryRetentionCalculation @Inject constructor(
     private val timeStamper: TimeStamper,
     private val repository: DefaultContactDiaryRepository
 ) {

@@ -14,7 +14,7 @@ import timber.log.Timber
 /**
  * Periodic background contact diary clean worker
  */
-class ContactDiaryCleanWorker @AssistedInject constructor(
+class ContactDiaryRetentionWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val taskController: TaskController
@@ -42,9 +42,9 @@ class ContactDiaryCleanWorker @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : InjectedWorkerFactory<ContactDiaryCleanWorker>
+    interface Factory : InjectedWorkerFactory<ContactDiaryRetentionWorker>
 
     companion object {
-        private val TAG = ContactDiaryCleanWorker::class.java.simpleName
+        private val TAG = ContactDiaryRetentionWorker::class.java.simpleName
     }
 }

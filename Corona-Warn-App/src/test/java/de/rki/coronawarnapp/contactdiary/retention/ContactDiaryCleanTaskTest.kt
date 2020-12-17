@@ -12,12 +12,12 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
-import java.io.IOException
 
 class ContactDiaryCleanTaskTest : BaseTest() {
 
-    @MockK lateinit var retentionCalculation: ContactDiaryDataRetentionCalculation
+    @MockK lateinit var retentionCalculation: ContactDiaryRetentionCalculation
 
     @BeforeEach
     fun setup() {
@@ -49,9 +49,9 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
     @Test
     fun `location visits fails`() = runBlockingTest {
-        coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws IOException()
+        coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws Exception()
 
-        val result = createInstance().run(mockk())
+        val result = assertThrows<Exception> { createInstance().run(mockk()) }
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
         coVerify(exactly = 0) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }
@@ -60,9 +60,9 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
     @Test
     fun `person encounters fails`() = runBlockingTest {
-        coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } throws IOException()
+        coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } throws Exception()
 
-        val result = createInstance().run(mockk())
+        val result = assertThrows<Exception> { createInstance().run(mockk()) }
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }
@@ -71,10 +71,10 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
     @Test
     fun `everything fails =(`() = runBlockingTest {
-        coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws IOException()
-        coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } throws IOException()
+        coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws Exception()
+        coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } throws Exception()
 
-        val result = createInstance().run(mockk())
+        val result = assertThrows<Exception> { createInstance().run(mockk()) }
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
         coVerify(exactly = 0) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }

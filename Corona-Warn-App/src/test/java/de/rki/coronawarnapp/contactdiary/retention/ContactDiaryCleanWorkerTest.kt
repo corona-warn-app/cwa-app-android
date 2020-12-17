@@ -28,7 +28,7 @@ class ContactDiaryCleanWorkerTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createWorker() = ContactDiaryCleanWorker(
+    private fun createWorker() = ContactDiaryRetentionWorker(
         context = context,
         workerParams = workerParams,
         taskController = taskController

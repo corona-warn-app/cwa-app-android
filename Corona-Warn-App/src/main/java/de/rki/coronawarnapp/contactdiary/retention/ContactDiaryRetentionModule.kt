@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 
 @Module
-abstract class ContactDiaryCleanTaskModule {
+abstract class ContactDiaryRetentionModule {
 
     @Binds
     @IntoMap

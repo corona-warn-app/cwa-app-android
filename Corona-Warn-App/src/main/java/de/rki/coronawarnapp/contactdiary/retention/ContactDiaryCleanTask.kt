@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ContactDiaryCleanTask @Inject constructor(
-    private val retentionCalculation: ContactDiaryDataRetentionCalculation
+    private val retentionCalculation: ContactDiaryRetentionCalculation
 ) : Task<DefaultProgress, Task.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -42,8 +42,6 @@ class ContactDiaryCleanTask @Inject constructor(
         Timber.w("cancel() called.")
         isCanceled = true
     }
-
-    data class Result(val deletedEntries: Int) : Task.Result
 
     class Config : TaskFactory.Config {
         override val executionTimeout: Duration = Duration.standardMinutes(9)
