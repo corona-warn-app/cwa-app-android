@@ -4,6 +4,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.model.toEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -25,6 +27,12 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
         }
     }
 
+    val isListVisible = MediatorLiveData<Boolean>().apply {
+        addSource(personsLiveData) {
+            value = !it.isNullOrEmpty()
+        }
+    }
+
     fun onDeleteAllPersonsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)
     }
@@ -37,7 +45,7 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     }
 
     fun onEditPersonClick(person: ContactDiaryPerson) {
-        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person))
+        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person.toEntity()))
     }
 
     @AssistedInject.Factory
@@ -45,6 +53,6 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
 
     sealed class NavigationEvent {
         object ShowDeletionConfirmationDialog: NavigationEvent()
-        data class ShowPersonDetailSheet(val person: ContactDiaryPerson): NavigationEvent()
+        data class ShowPersonDetailSheet(val person: ContactDiaryPersonEntity): NavigationEvent()
     }
 }

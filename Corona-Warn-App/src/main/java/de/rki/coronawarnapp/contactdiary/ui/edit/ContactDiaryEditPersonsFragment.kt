@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewMode
 import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -52,7 +53,9 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
             when(it) {
                 ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllPersonsConfirmationDialog)
                 is ShowPersonDetailSheet -> {
-                    // TODO navigation
+                    doNavigate(
+                        ContactDiaryEditPersonsFragmentDirections
+                            .actionContactDiaryEditPersonsFragmentToContactDiaryPersonBottomSheetDialogFragment(it.person))
                 }
             }
         }

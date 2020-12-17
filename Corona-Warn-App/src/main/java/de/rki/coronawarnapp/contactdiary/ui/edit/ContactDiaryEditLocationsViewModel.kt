@@ -4,6 +4,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
+import de.rki.coronawarnapp.contactdiary.model.toEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -25,6 +27,12 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
         }
     }
 
+    val isListVisible = MediatorLiveData<Boolean>().apply {
+        addSource(locationsLiveData) {
+            value = !it.isNullOrEmpty()
+        }
+    }
+
     fun onDeleteAllLocationsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)
     }
@@ -38,7 +46,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
 
     fun onEditLocationClick(location: ContactDiaryLocation) {
-        navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location))
+        navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location.toEntity()))
     }
 
     @AssistedInject.Factory
@@ -46,6 +54,6 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
     sealed class NavigationEvent {
         object ShowDeletionConfirmationDialog: NavigationEvent()
-        data class ShowLocationDetailSheet(val location: ContactDiaryLocation): NavigationEvent()
+        data class ShowLocationDetailSheet(val location: ContactDiaryLocationEntity): NavigationEvent()
     }
 }

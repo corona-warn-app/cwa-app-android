@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.util.lists.HasStableId
 
 interface ContactDiaryLocation : HasStableId {
@@ -9,3 +10,7 @@ interface ContactDiaryLocation : HasStableId {
 
 fun List<ContactDiaryLocation>.sortByNameAndIdASC(): List<ContactDiaryLocation> =
     this.sortedWith(compareBy({ it.locationName }, { it.locationId }))
+
+fun ContactDiaryLocation.toEntity() = ContactDiaryLocationEntity(
+    locationId, locationName
+)

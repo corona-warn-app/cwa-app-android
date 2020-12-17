@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
@@ -27,12 +28,31 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
         text.value = locationName
     }
 
-    fun savePerson() = launch {
+    fun addPerson() = launch {
         contactDiaryRepository.addPerson(
             ContactDiaryPersonEntity(
                 fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
             )
         )
+        shouldClose.postValue(null)
+    }
+
+    fun updatePerson(person: ContactDiaryPersonEntity) = launch {
+        contactDiaryRepository.updatePerson(
+            ContactDiaryPersonEntity(
+                person.personId,
+                fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
+            )
+        )
+        shouldClose.postValue(null)
+    }
+
+    fun deletePerson(person: ContactDiaryPersonEntity) = launch {
+        contactDiaryRepository.personEncounters.firstOrNull()?.forEach {
+            if (it.contactDiaryPerson.personId == person.personId)
+                contactDiaryRepository.deletePersonEncounter(it)
+        }
+        contactDiaryRepository.deletePerson(person)
         shouldClose.postValue(null)
     }
 

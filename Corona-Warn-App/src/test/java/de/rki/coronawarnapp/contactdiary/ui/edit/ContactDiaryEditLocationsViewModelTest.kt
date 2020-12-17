@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
-import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
+import de.rki.coronawarnapp.contactdiary.model.toEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -22,7 +23,11 @@ class ContactDiaryEditLocationsViewModelTest {
 
     lateinit var viewModel: ContactDiaryEditLocationsViewModel
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
-    private val location = DefaultContactDiaryLocation(1, "Supermarket")
+    private val location = object: ContactDiaryLocation {
+        override val locationId = 1L
+        override var locationName= "Supermarket"
+        override val stableId = 1L
+    }
     private val locationList = listOf(location)
 
     @BeforeEach
@@ -59,7 +64,7 @@ class ContactDiaryEditLocationsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditLocationClick(location)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet(location)
+            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet(location.toEntity())
     }
 
     @Test

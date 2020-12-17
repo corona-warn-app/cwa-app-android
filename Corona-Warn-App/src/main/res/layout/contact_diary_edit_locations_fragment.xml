@@ -26,6 +26,39 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/contact_diary_location_list_no_items_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gone="@{viewModel.isListVisible()}"
+            app:constraint_referenced_ids="contact_diary_location_list_no_items_image,contact_diary_location_list_no_items_title" />
+
+        <ImageView
+            android:id="@+id/contact_diary_location_list_no_items_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/contact_diary_location_list_no_items_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/ic_illustration_no_locations"
+            android:contentDescription="@string/contact_diary_edit_locations_image_content_description"/>
+
+        <TextView
+            android:id="@+id/contact_diary_location_list_no_items_title"
+            style="@style/subtitleMedium"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_huge"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/contact_diary_location_list_no_items_title"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_location_list_no_items_image"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/locations_recycler_view"
             android:layout_width="0dp"

@@ -44,7 +44,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         Timber.d("Updating location $contactDiaryLocation")
         val contactDiaryContactDiaryLocationEntity = contactDiaryLocation.toContactDiaryLocationEntity()
         executeWhenIdNotDefault(contactDiaryContactDiaryLocationEntity.locationId) {
-            contactDiaryLocationDao.insert(contactDiaryContactDiaryLocationEntity)
+            contactDiaryLocationDao.update(contactDiaryContactDiaryLocationEntity)
         }
     }
 

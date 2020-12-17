@@ -32,7 +32,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_illustration_no_people" />
+            app:srcCompat="@drawable/ic_illustration_no_people"
+            android:contentDescription="@string/contact_diary_edit_persons_image_content_description"/>
 
         <TextView
             android:id="@+id/contact_diary_person_list_no_items_title"
