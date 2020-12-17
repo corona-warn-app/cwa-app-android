@@ -137,4 +137,7 @@
     <dimen name="calendar_layout_stroke">2dp</dimen>
     <dimen name="calendar_day_size">40dp</dimen>
     <dimen name="calendar_day_spacing">4dp</dimen>
+
+    <!-- Contact Diary -->
+    <dimen name="contact_diary_list_item">65dp</dimen>
 </resources>

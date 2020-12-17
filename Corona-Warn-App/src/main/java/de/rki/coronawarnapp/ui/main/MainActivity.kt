@@ -14,6 +14,8 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
 
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
+    @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
 
     /**
      * Register connection callback.
@@ -103,6 +106,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         checkShouldDisplayBackgroundWarning()
         vm.doBackgroundNoiseCheck()
         deadmanScheduler.schedulePeriodic()
+        contactDiaryWorkScheduler.schedulePeriodic()
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {
@@ -195,6 +199,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     fun goBack() {
         onBackPressed()
+    }
+
+    fun navigateToContactDiaryActivity() {
+        ContactDiaryActivity.start(this)
     }
 
     /**
