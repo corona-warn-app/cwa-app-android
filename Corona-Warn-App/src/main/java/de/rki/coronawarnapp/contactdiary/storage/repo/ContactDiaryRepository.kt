@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
+@Suppress("TooManyFunctions")
 interface ContactDiaryRepository {
 
     // Location
@@ -22,6 +23,7 @@ interface ContactDiaryRepository {
     fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>>
     suspend fun addLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
     suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit)
+    suspend fun deleteLocationVisits(contactDiaryLocationVisits: List<ContactDiaryLocationVisit>)
     suspend fun deleteAllLocationVisits()
 
     // Person
@@ -37,5 +39,6 @@ interface ContactDiaryRepository {
     fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>>
     suspend fun addPersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
     suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
+    suspend fun deletePersonEncounters(contactDiaryPersonEncounters: List<ContactDiaryPersonEncounter>)
     suspend fun deleteAllPersonEncounters()
 }
