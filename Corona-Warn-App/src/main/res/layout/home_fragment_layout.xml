@@ -20,10 +20,10 @@
 
         <Toolbar
             android:id="@+id/toolbar"
-            android:theme="@style/CWAToolbar"
-            app:popupTheme="@style/CWAToolbar.Menu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/CWAToolbar"
+            app:popupTheme="@style/CWAToolbar.Menu">
             <ImageView
                 android:id="@+id/main_header_logo"
                 android:layout_width="wrap_content"
@@ -47,13 +47,13 @@
 
                 <Toolbar
                     android:id="@+id/main_tracing"
-                    android:theme="@style/CWAToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:elevation="8dp"
                     android:focusable="true"
                     android:foreground="?selectableItemBackground"
-                    android:clickable="true"
+                    android:theme="@style/CWAToolbar"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
 
                     <TextView
@@ -84,11 +84,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
-            tools:listitem="@layout/home_submission_status_card_unregistered"
-            tools:itemCount="3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:itemCount="3"
+                tools:listitem="@layout/home_submission_status_card_unregistered" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
