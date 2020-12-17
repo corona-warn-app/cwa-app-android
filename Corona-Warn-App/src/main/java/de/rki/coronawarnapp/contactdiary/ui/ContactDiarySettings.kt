@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.contactdiary.ui
 
 import android.content.Context
 import de.rki.coronawarnapp.util.di.AppContext
