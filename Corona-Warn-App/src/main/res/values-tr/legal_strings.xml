@@ -36,17 +36,17 @@
     <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"Uyarı gerçekleştikten sonra, Uygulamayı silerek verdiğiniz rıza beyanını da geri alabilirsiniz."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_privacy_information_title"/>
+    <string name="contact_diary_onboarding_privacy_information_title">"Veri işlemeye ilişkin notlar"</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_title"/>
+    <string name="contact_diary_onboarding_privacy_information_first_section_title">"Kaydedilen tüm bilgiler üzerinde tam kontrole sahip olursunuz"</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_one"/>
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_one">"Corona-Warn-App’ın bu ek işlevinin kullanımı isteğe bağlıdır ve hangi kişi ve yerleri kaydedeceğinize yalnızca siz karar verirsiniz."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
-    <string name="contact_diary_onboarding_privacy_information_first_section_body_two"/>
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_two">"Ne RKI ne de başka herhangi bir kurum, temas günlüğüne girdiğiniz bilgilere erişebilir. Bu bilgiler, yalnızca Android akıllı telefonunuzda şifrelenmiş halde saklanır."</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_title"/>
+    <string name="contact_diary_onboarding_privacy_information_second_section_title">"Lütfen çevrenizdeki kişilerin gizliliğini koruyun"</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_one"/>
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_one">"Lütfen temas günlüğünüzde kayıtlı olan verileri, kiminle ve nasıl paylaştığınızı tam olarak kontrol edin. Bu bilgiler, hatırlatma amaçlıdır - üçüncü taraflara yönelik değildir. Sağlık kurumu, temaslı takibi ile ilgili olarak sizden yardımınızı rica ederse, kayıtlarınızın aktarımı usule uygundur."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
-    <string name="contact_diary_onboarding_privacy_information_second_section_body_two"/>
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_two">"Özel kişiler veya şirketler, topladığınız verileri başkalarına aktarmanızı talep edemez. Birisi temas günlüğüne kaydedilmek istemiyorsa, lütfen onun bu isteğine saygı gösterin."</string>
 </resources>

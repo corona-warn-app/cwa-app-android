@@ -25,14 +25,15 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             contactDiaryOnboardingNextButton.setOnClickListener {
+
                 vm.onNextButtonClick()
             }
 
-            contactDiaryOnboardingButtonBack.headerButtonBack.buttonIcon.setOnClickListener {
+            contactDiaryOnboardingHeader.headerButtonBack.buttonIcon.setOnClickListener {
                 vm.onBackButtonPress()
             }
 
-            contactDiaryOnboardingPrivacyInformation.setOnClickListener {
+            contactDiaryOnboardingPrivacyInformationContainer.setOnClickListener {
                 vm.onPrivacyButtonPress()
             }
         }

@@ -37,7 +37,7 @@
     <string name="submission_no_consent_your_consent_subsection_body_third_part" translatable="false">"If you have already warned other users, you can withdraw your consent by deleting the app."</string>
 
     <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_privacy_information_title" translatable="false">"Data Privacy and Data Security"</string>
+    <string name="contact_diary_onboarding_privacy_information_title" translatable="false">"Information on data processing"</string>
     <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
     <string name="contact_diary_onboarding_privacy_information_first_section_title" translatable="false">"You will retain full control over all of the information you record"</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
