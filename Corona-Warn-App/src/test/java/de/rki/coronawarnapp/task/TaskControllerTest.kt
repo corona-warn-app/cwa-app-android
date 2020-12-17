@@ -635,13 +635,13 @@ class TaskControllerTest : BaseIOTest() {
     @Test
     fun `silent error handling`() = runBlockingTest {
 
-        val error:Throwable = spyk(Throwable())
+        val error: Throwable = spyk(Throwable())
 
         mockkStatic("de.rki.coronawarnapp.exception.reporting.ExceptionReporterKt")
         mockkStatic("de.rki.coronawarnapp.bugreporting.BugReporterKt")
 
         every { error.report(any(), any(), any()) } just Runs
-        every { error.reportProblem(any())} just Runs
+        every { error.reportProblem(any()) } just Runs
 
         val instance = createInstance(scope = this)
 
@@ -664,13 +664,13 @@ class TaskControllerTest : BaseIOTest() {
     @Test
     fun `alert error handling`() = runBlockingTest {
 
-        val error:Throwable = spyk(Throwable())
+        val error: Throwable = spyk(Throwable())
 
         mockkStatic("de.rki.coronawarnapp.exception.reporting.ExceptionReporterKt")
         mockkStatic("de.rki.coronawarnapp.bugreporting.BugReporterKt")
 
         every { error.report(any(), any(), any()) } just Runs
-        every { error.reportProblem(any())} just Runs
+        every { error.reportProblem(any()) } just Runs
 
         val instance = createInstance(scope = this)
 

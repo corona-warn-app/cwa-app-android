@@ -14,7 +14,7 @@ interface TaskFactory<
         val executionTimeout: Duration
 
         val collisionBehavior: CollisionBehavior
-        
+
         val errorHandling: ErrorHandling
             get() = ErrorHandling.ALERT
 
