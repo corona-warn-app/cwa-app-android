@@ -70,7 +70,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val tracingCardStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
+    private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
@@ -102,7 +102,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    private val tracingCardItems = tracingCardStateProvider.state.map { tracingState ->
+    private val tracingCardItems = tracingStateProvider.state.map { tracingState ->
         when (tracingState) {
             is TracingInProgress -> TracingProgressCard.Item(
                 state = tracingState,
@@ -246,7 +246,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         LocalData.tracingExplanationDialogWasShown(true)
     }
 
-    fun refreshDiagnosisKeys() {
+    private fun refreshDiagnosisKeys() {
         tracingRepository.refreshDiagnosisKeys()
     }
 
