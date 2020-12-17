@@ -54,8 +54,6 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
 
-                    completeContactDiaryOnboarding()
-
                     doNavigate(
                         ContactDiaryOnboardingFragmentDirections
                             .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
@@ -63,10 +61,5 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
             }
         }
-    }
-
-    fun completeContactDiaryOnboarding() {
-        LocalData.isContactDiaryOnboarded(true)
-        LocalData.onboardingContactDiaryCompletedTimestamp(System.currentTimeMillis())
     }
 }

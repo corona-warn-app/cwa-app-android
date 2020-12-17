@@ -2,15 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
-           Preference Keys
-    ###################################### -->
-
-    <!-- NOTR -->
-    <string name="preference_onboarding_contact_diary_completed"><xliff:g id="preference">"preference_onboarding_contact_diary_completed"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_onboarding_contact_diary_completed_timestamp"><xliff:g id="preference">"preference_onboarding_contact_diary_completed_timestamp"</xliff:g></string>
-
-    <!-- ####################################
                 Contact Diary
     ###################################### -->
     <string name="contact_diary_day_person_tab_title">"Personen"</string>
