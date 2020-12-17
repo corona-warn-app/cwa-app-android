@@ -14,7 +14,10 @@ class FAQCardVH(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLay
         HomeFaqCardLayoutBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: HomeFaqCardLayoutBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: HomeFaqCardLayoutBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         itemView.setOnClickListener { item.onClickAction(item) }
     }
 

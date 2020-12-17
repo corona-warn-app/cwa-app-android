@@ -20,7 +20,10 @@ class BehaviorIncreasedRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemBehaviorIncreasedViewBinding.(item: Item) -> Unit = { _ -> }
+    override val onBindData: TracingDetailsItemBehaviorIncreasedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { _, _ -> }
 
     object Item : BehaviorItem
 }

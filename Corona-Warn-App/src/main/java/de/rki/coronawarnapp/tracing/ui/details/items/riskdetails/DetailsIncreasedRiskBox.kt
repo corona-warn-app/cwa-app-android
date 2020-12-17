@@ -25,7 +25,10 @@ class DetailsIncreasedRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemRiskdetailsIncreasedViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingDetailsItemRiskdetailsIncreasedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         info = item
     }
 

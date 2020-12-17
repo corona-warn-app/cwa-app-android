@@ -23,7 +23,10 @@ class DetailsFailedCalculationBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemRiskdetailsFailedViewBinding.(item: Item) -> Unit = { _ -> }
+    override val onBindData: TracingDetailsItemRiskdetailsFailedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { _, _ -> }
 
     object Item : RiskDetailsStateItem
 }

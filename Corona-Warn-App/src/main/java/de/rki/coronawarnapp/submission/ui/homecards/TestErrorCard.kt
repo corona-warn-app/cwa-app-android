@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardErrorBinding
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
-class TestErrorCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardErrorBinding>(
-    R.layout.home_card_container_layout, parent
-) {
+class TestErrorCard(
+    parent: ViewGroup
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardErrorBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
         HomeSubmissionStatusCardErrorBinding.inflate(
@@ -18,7 +18,10 @@ class TestErrorCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSubmis
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardErrorBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: HomeSubmissionStatusCardErrorBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         itemView.setOnClickListener { item.onDeleteTest(item) }
         showTestAction.setOnClickListener { itemView.performClick() }
     }

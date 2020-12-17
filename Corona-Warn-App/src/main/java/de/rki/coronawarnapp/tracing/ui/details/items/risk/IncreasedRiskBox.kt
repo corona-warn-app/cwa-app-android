@@ -17,7 +17,10 @@ class IncreasedRiskBox(
         TracingContentIncreasedViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.box_container), true)
     }
 
-    override val onBindData: TracingContentIncreasedViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentIncreasedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
     }
 

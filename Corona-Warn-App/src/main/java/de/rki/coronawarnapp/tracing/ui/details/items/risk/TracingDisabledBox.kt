@@ -18,7 +18,10 @@ class TracingDisabledBox(
         TracingContentDisabledViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.box_container), true)
     }
 
-    override val onBindData: TracingContentDisabledViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentDisabledViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
         enableTracingAction.setGone(item.state.isInDetailsMode)
         detailsIcon.setGone(item.state.isInDetailsMode)

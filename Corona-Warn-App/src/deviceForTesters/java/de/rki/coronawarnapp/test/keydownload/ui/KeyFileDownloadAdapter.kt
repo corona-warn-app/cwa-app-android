@@ -45,7 +45,10 @@ class KeyFileDownloadAdapter(
 
         override val viewBinding = lazy { FragmentTestKeydownloadAdapterLineBinding.bind(itemView) }
 
-        override val onBindData: FragmentTestKeydownloadAdapterLineBinding.(key: CachedKeyListItem) -> Unit = { item ->
+        override val onBindData: FragmentTestKeydownloadAdapterLineBinding.(
+            key: CachedKeyListItem,
+            payloads: List<Any>
+        ) -> Unit = { item, _ ->
             locationInfo.text = item.info.location.identifier
 
             val shortSize = Formatter.formatShortFileSize(context, item.fileSize)

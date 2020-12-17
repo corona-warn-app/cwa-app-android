@@ -23,7 +23,10 @@ class BehaviorNormalRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemBehaviorNormalViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingDetailsItemBehaviorNormalViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item
     }
 

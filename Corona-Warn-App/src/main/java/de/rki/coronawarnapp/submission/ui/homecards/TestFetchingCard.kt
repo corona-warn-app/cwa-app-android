@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardFetchingBinding
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
-class TestFetchingCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardFetchingBinding>(
-    R.layout.home_card_container_layout, parent
-) {
+class TestFetchingCard(
+    parent: ViewGroup
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardFetchingBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
         HomeSubmissionStatusCardFetchingBinding.inflate(
@@ -18,7 +18,10 @@ class TestFetchingCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSub
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardFetchingBinding.(item: Item) -> Unit = { _ -> }
+    override val onBindData: HomeSubmissionStatusCardFetchingBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { _, _ -> }
 
     data class Item(
         val state: FetchingResult

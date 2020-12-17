@@ -23,7 +23,10 @@ class AdditionalInfoLowRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemAdditionalInformationViewBinding.(item: Item) -> Unit = { _ -> }
+    override val onBindData: TracingDetailsItemAdditionalInformationViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { _, _ -> }
 
     object Item : AdditionalInformationItem
 }

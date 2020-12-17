@@ -24,7 +24,10 @@ class PeriodLoggedBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemPeriodloggedViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingDetailsItemPeriodloggedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         loggedPeriod = item
     }
 

@@ -17,7 +17,10 @@ class LowRiskCard(
         TracingContentLowViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: TracingContentLowViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentLowViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
         itemView.setOnClickListener { item.onCardClick(item) }
         updateAction.setOnClickListener { item.onUpdateClick(item) }

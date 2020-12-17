@@ -72,7 +72,10 @@ private class CountryFlagsAdapter : BaseAdapter<CountryFlagViewHolder>() {
             ViewCountryListEntryFlagItemBinding.bind(itemView)
         }
 
-        override val onBindData: ViewCountryListEntryFlagItemBinding.(key: Country) -> Unit = { item ->
+        override val onBindData: ViewCountryListEntryFlagItemBinding.(
+            key: Country,
+            payloads: List<Any>
+        ) -> Unit = { item, _ ->
             countryListEntryImage.setImageResource(item.iconRes)
         }
     }

@@ -30,7 +30,7 @@ import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<HomeItem> {
 
-    override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(this)
+    override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
     init {
         modules.addAll(listOf(

@@ -18,7 +18,10 @@ class TracingFailedBox(
         TracingContentFailedViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.box_container), true)
     }
 
-    override val onBindData: TracingContentFailedViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentFailedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
         riskCardButtonUpdate.setGone(item.state.isInDetailsMode)
         riskCardHeaderIcon.setGone(item.state.isInDetailsMode)

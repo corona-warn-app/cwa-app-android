@@ -17,7 +17,10 @@ class IncreasedRiskCard(
         TracingContentIncreasedViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: TracingContentIncreasedViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentIncreasedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
         itemView.setOnClickListener { item.onCardClick(item) }
         updateAction.setOnClickListener { item.onUpdateClick(item) }

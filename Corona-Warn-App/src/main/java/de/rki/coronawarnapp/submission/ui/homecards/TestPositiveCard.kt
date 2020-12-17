@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardPositiveBinding
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
-class TestPositiveCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardPositiveBinding>(
-    R.layout.home_card_container_layout, parent
-) {
+class TestPositiveCard(
+    parent: ViewGroup
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardPositiveBinding>(R.layout.home_card_container_layout, parent) {
 
     override val viewBinding = lazy {
         HomeSubmissionStatusCardPositiveBinding.inflate(
@@ -18,7 +18,10 @@ class TestPositiveCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeSub
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardPositiveBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: HomeSubmissionStatusCardPositiveBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         itemView.setOnClickListener { item.onClickAction(item) }
         submissionStatusCardPositiveButton.setOnClickListener { item.onClickAction(item) }
     }

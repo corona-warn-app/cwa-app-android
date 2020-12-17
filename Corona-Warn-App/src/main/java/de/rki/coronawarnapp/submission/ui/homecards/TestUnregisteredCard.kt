@@ -6,10 +6,12 @@ import de.rki.coronawarnapp.databinding.HomeSubmissionStatusCardUnregisteredBind
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
-class TestUnregisteredCard(parent: ViewGroup) :
-    HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardUnregisteredBinding>(
-        R.layout.home_card_container_layout, parent
-    ) {
+class TestUnregisteredCard(
+    parent: ViewGroup
+) : HomeAdapter.HomeItemVH<Item, HomeSubmissionStatusCardUnregisteredBinding>(
+    R.layout.home_card_container_layout,
+    parent
+) {
 
     override val viewBinding = lazy {
         HomeSubmissionStatusCardUnregisteredBinding.inflate(
@@ -19,7 +21,10 @@ class TestUnregisteredCard(parent: ViewGroup) :
         )
     }
 
-    override val onBindData: HomeSubmissionStatusCardUnregisteredBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: HomeSubmissionStatusCardUnregisteredBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         itemView.setOnClickListener { item.onClickAction(item) }
         nextStepsAction.setOnClickListener { item.onClickAction(item) }
     }

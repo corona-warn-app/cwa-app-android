@@ -19,13 +19,13 @@ class TracingProgressCard(
         TracingContentProgressViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: TracingContentProgressViewBinding.(item: Item) -> Unit = { item ->
-        itemView.backgroundTintMode = PorterDuff.Mode.SRC_OVER
-        itemView.backgroundTintList = ColorStateList.valueOf(item.state.getContainerColor(context))
-        state = item.state
-
-        itemView.setOnClickListener { item.onCardClick(item) }
-    }
+    override val onBindData: TracingContentProgressViewBinding.(item: Item, payloads: List<Any>) -> Unit =
+        { item, payloads ->
+            itemView.backgroundTintMode = PorterDuff.Mode.SRC_OVER
+            itemView.backgroundTintList = ColorStateList.valueOf(item.state.getContainerColor(context))
+            state = item.state
+            itemView.setOnClickListener { item.onCardClick(item) }
+        }
 
     data class Item(
         val state: TracingInProgress,

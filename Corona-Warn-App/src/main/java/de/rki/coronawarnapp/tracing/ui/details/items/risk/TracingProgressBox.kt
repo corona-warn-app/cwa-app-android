@@ -17,7 +17,10 @@ class TracingProgressBox(
         TracingContentProgressViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.box_container), true)
     }
 
-    override val onBindData: TracingContentProgressViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentProgressViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         itemView.setBackgroundColor(item.state.getContainerColor(context))
         state = item.state
     }

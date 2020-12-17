@@ -17,7 +17,10 @@ class TracingFailedCard(
         TracingContentFailedViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: TracingContentFailedViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentFailedViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
 
         itemView.setOnClickListener { item.onCardClick(item) }

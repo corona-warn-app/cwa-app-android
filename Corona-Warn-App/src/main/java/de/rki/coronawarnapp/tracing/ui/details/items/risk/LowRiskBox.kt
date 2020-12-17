@@ -18,7 +18,10 @@ class LowRiskBox(
         TracingContentLowViewBinding.inflate(layoutInflater, itemView.findViewById(R.id.box_container), true)
     }
 
-    override val onBindData: TracingContentLowViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingContentLowViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         state = item.state
         updateAction.setGone(item.state.isInDetailsMode)
         detailsIcon.setGone(item.state.isInDetailsMode)

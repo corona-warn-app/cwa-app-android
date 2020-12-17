@@ -27,7 +27,10 @@ class DetailsLowRiskBox(
         )
     }
 
-    override val onBindData: TracingDetailsItemRiskdetailsLowViewBinding.(item: Item) -> Unit = { item ->
+    override val onBindData: TracingDetailsItemRiskdetailsLowViewBinding.(
+        item: Item,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
         info = item
         riskDetailsInformationLowriskBodyUrl.convertToHyperlink(
             context.getString(R.string.risk_details_explanation_faq_link)
