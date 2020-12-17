@@ -29,7 +29,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBindingLazy()
 
-    private val locationList : MutableList<ContactDiaryLocation> = mutableListOf()
+    private val locationList: MutableList<ContactDiaryLocation> = mutableListOf()
     private val listAdapter = ListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,8 +50,8 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
 
         viewModel.navigationEvent.observe2(this) {
 
-            when(it) {
-                ShowDeletionConfirmationDialog ->  DialogHelper.showDialog(deleteAllLocationsConfirmationDialog)
+            when (it) {
+                ShowDeletionConfirmationDialog -> DialogHelper.showDialog(deleteAllLocationsConfirmationDialog)
                 is ShowLocationDetailSheet -> {
                     doNavigate(
                         ContactDiaryEditLocationsFragmentDirections

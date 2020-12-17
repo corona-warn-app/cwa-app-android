@@ -49,7 +49,6 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
             binding.contactDiaryLocationBottomSheetSaveButton.setOnClickListener {
                 viewModel.addLocation()
             }
-
         }
 
         binding.contactDiaryLocationBottomSheetCloseButton.buttonIcon.setOnClickListener {
@@ -61,7 +60,7 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
         }
 
         binding.contactDiaryLocationBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
-            return@setOnEditorActionListener when(actionId) {
+            return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     false
                 }

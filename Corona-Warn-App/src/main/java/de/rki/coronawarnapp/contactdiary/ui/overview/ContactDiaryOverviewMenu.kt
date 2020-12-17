@@ -15,8 +15,8 @@ class ContactDiaryOverviewMenu @Inject constructor(
     private val contactDiaryOverviewFragment: ContactDiaryOverviewFragment
 ) {
     private val context: Context = contactDiaryOverviewFragment.requireContext()
-    private val navController : NavController
-        get () = contactDiaryOverviewFragment.findNavController()
+    private val navController: NavController
+        get() = contactDiaryOverviewFragment.findNavController()
     private val vm: ContactDiaryOverviewViewModel by contactDiaryOverviewFragment.cwaViewModels {
         contactDiaryOverviewFragment.viewModelFactory }
     // TODO(Move this to ContactDiaryOverviewFragment)

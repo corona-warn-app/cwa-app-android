@@ -27,8 +27,6 @@ abstract class ContactDiaryEditModule {
         factory: ContactDiaryEditPersonsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 
-
     @ContributesAndroidInjector
     abstract fun contactDiaryEditPersonsFragment(): ContactDiaryEditPersonsFragment
-
 }

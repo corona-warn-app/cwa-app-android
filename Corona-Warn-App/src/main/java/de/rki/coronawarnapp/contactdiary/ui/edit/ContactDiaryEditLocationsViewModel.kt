@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     private val contactDiaryRepository: ContactDiaryRepository,
     dispatcherProvider: DispatcherProvider
-) : CWAViewModel(dispatcherProvider = dispatcherProvider){
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val locationsLiveData = contactDiaryRepository.locations.asLiveData()
 
@@ -44,7 +44,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryEditLocationsViewModel>
 
     sealed class NavigationEvent {
-        object ShowDeletionConfirmationDialog: NavigationEvent()
-        data class ShowLocationDetailSheet(val location: ContactDiaryLocationEntity): NavigationEvent()
+        object ShowDeletionConfirmationDialog : NavigationEvent()
+        data class ShowLocationDetailSheet(val location: ContactDiaryLocationEntity) : NavigationEvent()
     }
 }
