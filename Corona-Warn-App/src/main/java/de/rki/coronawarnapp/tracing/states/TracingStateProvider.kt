@@ -93,9 +93,9 @@ class TracingStateProvider @AssistedInject constructor(
             )
         }
     }
-        .onStart { Timber.v("TracingCardState FLOW start") }
-        .onEach { Timber.d("TracingCardState FLOW emission: %s", it) }
-        .onCompletion { Timber.v("TracingCardState FLOW completed.") }
+        .onStart { Timber.v("TracingStateProvider FLOW start") }
+        .onEach { Timber.d("TracingStateProvider FLOW emission: %s", it) }
+        .onCompletion { Timber.v("TracingStateProvider FLOW completed.") }
 
     @AssistedInject.Factory
     interface Factory {

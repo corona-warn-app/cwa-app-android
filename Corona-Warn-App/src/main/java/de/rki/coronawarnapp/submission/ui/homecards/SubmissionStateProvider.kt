@@ -4,6 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -44,11 +45,11 @@ class SubmissionStateProvider @Inject constructor(
             else -> throw IllegalStateException()
         }
     }
-        .onStart { Timber.v("SubmissionCardState FLOW start") }
-        .onEach { Timber.w("SubmissionCardState FLOW emission: %s", it) }
-        .onCompletion { Timber.v("SubmissionCardState FLOW completed.") }
+        .onStart { Timber.v("SubmissionStateProvider FLOW start") }
+        .onEach { Timber.w("SubmissionStateProvider FLOW emission: %s", it) }
+        .onCompletion { Timber.v("SubmissionStateProvider FLOW completed.") }
 
-    // TODO Refactor this to be easier to understand
+    // TODO Refactor this to be easier to understand, probably remove the "withSuccess" logic.
     private data class Evaluation(
         val deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>,
         val isDeviceRegistered: Boolean,
