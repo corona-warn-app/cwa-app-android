@@ -11,6 +11,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.submission.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppInjector
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class ContactDiaryActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    @Inject lateinit var settings: ContactDiarySettings
     @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
