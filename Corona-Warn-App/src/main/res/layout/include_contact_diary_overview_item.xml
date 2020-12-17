@@ -50,8 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            android:paddingTop="@dimen/spacing_tiny"
-            android:paddingBottom="@dimen/spacing_tiny"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider"/>
