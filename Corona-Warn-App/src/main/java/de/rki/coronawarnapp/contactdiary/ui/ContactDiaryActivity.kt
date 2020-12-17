@@ -43,11 +43,10 @@ class ContactDiaryActivity : AppCompatActivity(), HasAndroidInjector {
         val navInflater = navController.navInflater
         val graph = navInflater.inflate(R.navigation.contact_diary_nav_graph)
 
-        // TODO: Get data from shared prefs (ContactDiarySettings.class)
-        if (false) {
-            graph.startDestination = R.id.contactDiaryOnboardingFragment
-        } else {
+        if (settings.isOnboarded.value) {
             graph.startDestination = R.id.contactDiaryOverviewFragment
+        } else {
+            graph.startDestination = R.id.contactDiaryOnboardingFragment
         }
 
         navController.graph = graph

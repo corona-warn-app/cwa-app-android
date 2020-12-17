@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
+import de.rki.coronawarnapp.submission.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -17,6 +18,9 @@ import javax.inject.Inject
 class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboarding_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
+    @Inject lateinit var settings: ContactDiarySettings
+
     private val vm: ContactDiaryOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOnboardingFragmentBinding by viewBindingLazy()
 
@@ -53,6 +57,8 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
 
+                    onboardingComplete()
+
                     doNavigate(
                         ContactDiaryOnboardingFragmentDirections
                             .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
@@ -60,5 +66,9 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
             }
         }
+    }
+
+    fun onboardingComplete() {
+        settings.isOnboarded.update { true }
     }
 }
