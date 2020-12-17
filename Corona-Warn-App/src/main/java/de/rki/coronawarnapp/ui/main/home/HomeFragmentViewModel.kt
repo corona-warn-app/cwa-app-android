@@ -118,6 +118,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
     }
 
+    fun moveToContactDiary() {
+        popupEvents.postValue(HomeFragmentEvents.GoToContactDiary)
+    }
+
     fun deregisterWarningAccepted() {
         submissionRepository.removeTestFromDevice()
         submissionRepository.refreshDeviceUIState()

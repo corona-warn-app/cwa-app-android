@@ -34,4 +34,19 @@
     <string name="submission_no_consent_your_consent_subsection_body_second_part">"<b>Die App teilt Ihr Testergebnis, um Nutzer von offiziellen Corona-Apps, denen Sie begegnet sind, zu warnen. Die Warnung funktioniert in den oben genannten Ländern. Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</b> Bitte geben Sie Ihr Testergebnis (genauer gesagt: Ihre Zufalls-IDs der letzten 14 Tage) im nächsten Schritt frei, indem Sie „Teilen“ antippen."</string>
     <!-- YTXT: Body for keys submission no consent text third part-->
     <string name="submission_no_consent_your_consent_subsection_body_third_part">"Sie können Ihr Einverständnis nach bereits erfolgter Warnung zurücknehmen, indem Sie die App löschen."</string>
+
+    <!-- XTXT: Title for legal information of the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_privacy_information_title">Hinweise zur Datenverarbeitung</string>
+    <!-- XTXT: Title for the contact diary onboarding privacy information first section -->
+    <string name="contact_diary_onboarding_privacy_information_first_section_title"><b>Sie behalten über alle erfassten Informationen die volle Kontrolle.</b></string>
+    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_one">Die Nutzung dieser zusätzlichen Funktion der Corona-Warn-App ist freiwillig und nur Sie entscheiden welche Personen und Orte Sie eintragen.</string>
+    <!-- XTXT: Body for the contact diary onboarding privacy information first section -->
+    <string name="contact_diary_onboarding_privacy_information_first_section_body_two">Auf die von Ihnen im Kontakt-Tagebuch erfassten Informationen hat weder das RKI noch eine andere Stelle Zugriff. Die Informationen sind nur in verschlüsselter Form in Ihrem Android-Smartphone gespeichert.</string>
+    <!-- XTXT: Title for the contact diary onboarding privacy information second section title -->
+    <string name="contact_diary_onboarding_privacy_information_second_section_title"><b>Bitte wahren Sie die Privatsphäre Ihrer Mitmenschen.</b></string>
+    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_one">Bitte prüfen Sie genau, mit wem und auf welche Weise Sie die in Ihrem Kontakt-Tagebuch erfassten Informationen teilen. Die Informationen sollen Ihnen als Gedächtnisstütze dienen - sie sind nicht für Dritte bestimmt. Wenn das Gesundheitsamt Sie im Rahmen der Kontaktnachverfolgung um Ihre Mithilfe bittet, ist die Weitergabe von Einträgen sachgerecht.</string>
+    <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
+    <string name="contact_diary_onboarding_privacy_information_second_section_body_two">Private Personen oder Unternehmen dürfen von Ihnen nicht die Weitergabe der von Ihnen erfassten Informationen verlangen. Bitte respektieren Sie, wenn jemand nicht im Kontakt-Tagebuch erfasst werden möchte.</string>
 </resources>

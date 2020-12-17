@@ -15,12 +15,20 @@ interface TaskFactory<
 
         val collisionBehavior: CollisionBehavior
 
+        val errorHandling: ErrorHandling
+            get() = ErrorHandling.ALERT
+
         val preconditions: List<suspend () -> Boolean>
             get() = emptyList()
 
         enum class CollisionBehavior {
             ENQUEUE,
             SKIP_IF_SIBLING_RUNNING
+        }
+
+        enum class ErrorHandling {
+            SILENT,
+            ALERT
         }
     }
 
