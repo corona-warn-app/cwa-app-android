@@ -6,7 +6,7 @@
     <data>
         <variable
             name="state"
-            type="de.rki.coronawarnapp.tracing.ui.states.IncreasedRisk" />
+            type="de.rki.coronawarnapp.tracing.states.IncreasedRisk" />
     </data>
 
 

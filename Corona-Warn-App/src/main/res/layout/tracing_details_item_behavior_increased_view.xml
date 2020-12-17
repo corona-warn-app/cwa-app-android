@@ -30,7 +30,7 @@
             app:layout_constraintTop_toBottomOf="@+id/risk_details_behavior_headline" />
 
 
-        <de.rki.coronawarnapp.ui.tracing.details.items.behavior.BehaviorInfoRow
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -39,7 +39,7 @@
             android:icon="@drawable/ic_risk_details_home"
             android:text="@string/risk_details_behavior_body_stay_home" />
 
-        <de.rki.coronawarnapp.ui.tracing.details.items.behavior.BehaviorInfoRow
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorSemanticHighRisk"
@@ -47,7 +47,7 @@
             android:icon="@drawable/ic_risk_details_distance"
             android:text="@string/risk_details_behavior_body_stay_away" />
 
-        <de.rki.coronawarnapp.ui.tracing.details.items.behavior.BehaviorInfoRow
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorSemanticHighRisk"

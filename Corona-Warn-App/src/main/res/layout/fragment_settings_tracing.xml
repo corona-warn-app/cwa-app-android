@@ -7,11 +7,11 @@
 
         <variable
             name="loggedPeriod"
-            type="de.rki.coronawarnapp.ui.tracing.details.items.periodlogged.PeriodLoggedBox.Item" />
+            type="de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox.Item" />
 
         <variable
             name="settingsTracingState"
-            type="de.rki.coronawarnapp.ui.tracing.settings.TracingSettingsState" />
+            type="de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
 import de.rki.coronawarnapp.ui.settings.SettingsResetModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionFragmentModule
-import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="tracingHeader"
-            type="de.rki.coronawarnapp.ui.main.home.TracingHeaderState" />
+            type="de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState" />
     </data>
 
     <LinearLayout

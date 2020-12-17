@@ -7,7 +7,7 @@
     <data>
         <variable
             name="tracingDetailsState"
-            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
+            type="de.rki.coronawarnapp.tracing.ui.details.TracingDetailsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

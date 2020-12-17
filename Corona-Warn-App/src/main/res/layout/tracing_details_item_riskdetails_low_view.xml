@@ -6,7 +6,7 @@
     <data>
         <variable
             name="info"
-            type="de.rki.coronawarnapp.ui.tracing.details.items.riskdetails.DetailsLowRiskBox.Item" />
+            type="de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
