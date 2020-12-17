@@ -62,6 +62,11 @@
         <action
             android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment"
             app:destination="@id/contactDiaryInformationPrivacyFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryOverviewFragment"
+            app:destination="@id/contactDiaryOverviewFragment"
+            app:popUpTo="@id/contact_diary_nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/contactDiaryInformationPrivacyFragment"
