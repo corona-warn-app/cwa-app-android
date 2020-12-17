@@ -33,7 +33,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(this)
 
     init {
-                modules.addAll(listOf(
+        modules.addAll(listOf(
             StableIdMod(data),
             DataBinderMod<HomeItem, HomeItemVH<HomeItem, ViewBinding>>(data),
             TypedVHCreatorMod({ data[it] is FAQCardVH.Item }) { FAQCardVH(it) },
