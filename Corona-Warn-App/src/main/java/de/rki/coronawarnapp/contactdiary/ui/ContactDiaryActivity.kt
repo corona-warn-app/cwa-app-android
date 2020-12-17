@@ -11,7 +11,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.submission.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppInjector
 import javax.inject.Inject
 

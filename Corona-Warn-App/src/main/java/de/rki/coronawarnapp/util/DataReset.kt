@@ -23,6 +23,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -30,7 +31,6 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.sync.Mutex
