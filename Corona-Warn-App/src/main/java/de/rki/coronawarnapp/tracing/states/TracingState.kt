@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.tracing.states
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.text.format.DateUtils
+import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -160,7 +160,7 @@ data class TracingFailed(
 data class TracingDisabled(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
-    val lastExposureDetectionTime: Instant?
+    val lastExposureDetectionTime: Instant?,
 ) : TracingState() {
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
@@ -219,9 +219,10 @@ data class TracingInProgress(
         else -> R.color.colorTextPrimary1
     }.let { c.getColor(it) }
 
-    fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList = when (riskState) {
+    @ColorInt
+    fun getContainerColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         RiskState.CALCULATION_FAILED -> R.color.colorSemanticUnknownRisk
-    }.let { ColorStateList.valueOf(c.getColor(it)) }
+    }.let { c.getColor(it) }
 }

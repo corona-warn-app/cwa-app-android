@@ -18,8 +18,8 @@ class TracingProgressBox(
     }
 
     override val onBindData: TracingContentProgressViewBinding.(item: Item) -> Unit = { item ->
+        itemView.setBackgroundColor(item.state.getContainerColor(context))
         state = item.state
-        itemView.backgroundTintList = item.state.getRiskInfoContainerBackgroundTint(context)
     }
 
     data class Item(

@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.tracing.ui.homecards
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
@@ -18,7 +20,8 @@ class TracingProgressCard(
     }
 
     override val onBindData: TracingContentProgressViewBinding.(item: Item) -> Unit = { item ->
-        itemView.backgroundTintList = item.state.getRiskInfoContainerBackgroundTint(context)
+        itemView.backgroundTintMode = PorterDuff.Mode.SRC_OVER
+        itemView.backgroundTintList = ColorStateList.valueOf(item.state.getContainerColor(context))
         state = item.state
 
         itemView.setOnClickListener { item.onCardClick(item) }
