@@ -42,18 +42,18 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/Theme.AppCompat.DayNight">
+                android:theme="@style/CWAToolbar"
+                android:layout_height="wrap_content">
 
                 <Toolbar
-                    android:id="@+id/main_tracing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
                     android:elevation="8dp"
+                    android:theme="@style/CWAToolbar"
+                    android:id="@+id/main_tracing"
+                    android:clickable="true"
                     android:focusable="true"
                     android:foreground="?selectableItemBackground"
-                    android:theme="@style/CWAToolbar"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
 
                     <TextView
