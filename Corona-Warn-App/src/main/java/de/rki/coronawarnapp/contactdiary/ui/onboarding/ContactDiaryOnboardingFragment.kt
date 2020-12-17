@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -52,6 +53,9 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
+
+                    completeContactDiaryOnboarding()
+
                     doNavigate(
                         ContactDiaryOnboardingFragmentDirections
                             .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
@@ -59,5 +63,10 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
             }
         }
+    }
+
+    fun completeContactDiaryOnboarding() {
+        LocalData.isContactDiaryOnboarded(true)
+        LocalData.onboardingContactDiaryCompletedTimestamp(System.currentTimeMillis())
     }
 }
