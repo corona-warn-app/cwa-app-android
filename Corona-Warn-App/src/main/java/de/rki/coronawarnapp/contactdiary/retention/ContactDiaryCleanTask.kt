@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.retention
 
-import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
@@ -33,9 +32,7 @@ class ContactDiaryCleanTask @Inject constructor(
         object : Task.Result {}
     } catch (error: Exception) {
         Timber.tag(TAG).e(error)
-        // We do not need to show any error pop-up message to the user, so if any error would appear - log and forget
-        error.reportProblem(TAG, error.message)
-        object : Task.Result {}
+        throw error
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
         internalProgress.close()
