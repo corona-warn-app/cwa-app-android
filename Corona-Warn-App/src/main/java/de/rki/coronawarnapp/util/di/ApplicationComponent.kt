@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
-import de.rki.coronawarnapp.contactdiary.ContactDiaryModule
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTaskModule
 import de.rki.coronawarnapp.contactdiary.ContactDiaryRootModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
@@ -72,8 +71,7 @@ import javax.inject.Singleton
         BugReportingModule::class,
         SerializationModule::class,
         WorkerBinder::class,
-        ContactDiaryModule::class,
-        ContactDiaryCleanTaskModule::class
+        ContactDiaryCleanTaskModule::class,
         ContactDiaryRootModule::class
     ]
 )
