@@ -55,7 +55,10 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                 is ShowLocationDetailSheet -> {
                     doNavigate(
                         ContactDiaryEditLocationsFragmentDirections
-                            .actionContactDiaryEditLocationsFragmentToContactDiaryLocationBottomSheetDialogFragment(it.location))
+                            .actionContactDiaryEditLocationsFragmentToContactDiaryLocationBottomSheetDialogFragment(
+                                it.location
+                            )
+                    )
                 }
             }
         }

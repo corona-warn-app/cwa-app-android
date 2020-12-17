@@ -55,7 +55,10 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
                 is ShowPersonDetailSheet -> {
                     doNavigate(
                         ContactDiaryEditPersonsFragmentDirections
-                            .actionContactDiaryEditPersonsFragmentToContactDiaryPersonBottomSheetDialogFragment(it.person))
+                            .actionContactDiaryEditPersonsFragmentToContactDiaryPersonBottomSheetDialogFragment(
+                                it.person
+                            )
+                    )
                 }
             }
         }
