@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
-import java.util.Locale
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
