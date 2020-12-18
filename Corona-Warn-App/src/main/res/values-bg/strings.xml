@@ -98,9 +98,9 @@
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Моля, споделете резултата от теста си и предупредете останалите потребители."</string>
     <!-- XHED: Notification title - test result is ready -->
-    <string name="notification_headline_test_result_ready">"Резултатът от Вашия тест"</string>
+    <string name="notification_headline_test_result_ready">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body - test result is ready -->
-    <string name="notification_body_test_result_ready">"Има важни новини. Моля, отворете Corona-Warn-App."</string>
+    <string name="notification_body_test_result_ready">"Имате нови съобщения от приложението Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -157,7 +157,7 @@
     <string name="risk_card_check_failed_no_internet_restart_button">"Рестартиране"</string>
 
     <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
-    <string name="risk_card_low_risk_no_encounters_body">"До момента няма излагане на риск"</string>
+    <string name="risk_card_low_risk_no_encounters_body">"Няма излагане на риск"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Брой дни с излагания на нисък риск: 1"</item>
@@ -219,7 +219,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Изпращане на линк за изтегляне"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Да се преборим с коронавируса заедно"<xliff:g id="line_break">"\n"</xliff:g>"Аз ще участвам, а ти?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Да се преборим с коронавируса заедно"<xliff:g id="line_break">"\n"</xliff:g>"Аз ще участвам, а ти?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"Https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"Човек споделя приложението Corona-Warn-App с четирима души."</string>
 
@@ -752,7 +752,7 @@
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"ТАН кодът е невалиден"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
-    <string name="submission_error_dialog_web_test_paired_body_tan">"ТАН кодът е невалиден или вече е използван. За повече информация се обадете на номера, посочен под “Заявяване на ТАН код”."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan">"ТАН кодът е невалиден или вече е използван. За повече информация се обадете на номера, показан под “Заявка за ТАН код”"</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Назад"</string>
 
@@ -859,7 +859,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено осигуряване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под “Заявка за ТАН код”, за да получите TAN. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1020,7 +1020,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Периодът, в който трябва да сте под карантина, е 14 дни. Наблюдавайте своите симптоми и тяхното развитие."</item>
-        <item>"Службата за обществено здравеопазване (Gesundheitsamt) ще изиска от Вас да съставите списък на Вашите контактни лица. Той трябва да включва всички лица, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 15 минути през последните два дни, преди да развиете симптоми."</item>
+        <item>"Службата за обществено здравеопазване ще изиска от Вас да съставите списък на хората, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 15 минути през последните два дни, преди да развиете симптоми. Може да използвате Вашия дневник на контактите – просто експортирайте записите и след това ги разпечатайте или ги изпратете по имейл."</item>
         <item>"Моля, обърнете особено внимание на хората, които няма да бъдат уведомени директно чрез приложението, тъй като нямат смартфон или не са инсталирали приложението."</item>
         <item>"Може все още да сте носител на заразата дори ако вече не проявявате симптоми и отново се чувствате добре."</item>
     </string-array>
