@@ -2,14 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
@@ -30,7 +22,6 @@
             android:id="@+id/contact_diary_person_list_no_items_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:gone="@{viewModel.isListVisible()}"
             app:constraint_referenced_ids="contact_diary_person_list_no_items_image,contact_diary_person_list_no_items_title" />
 
         <ImageView
@@ -82,8 +73,6 @@
             android:layout_height="wrap_content"
             android:text="@string/contact_diary_remove_all_button"
             android:textAllCaps="true"
-            android:onClick="@{ () -> viewModel.onDeleteAllPersonsClick()}"
-            android:enabled="@{viewModel.isButtonEnabled()}"
             android:layout_margin="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
