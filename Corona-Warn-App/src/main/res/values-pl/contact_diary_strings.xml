@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Contact Diary
+    ###################################### -->
+    <string name="contact_diary_day_person_tab_title">"Osoby"</string>
+    <string name="contact_diary_day_person_fab_title">"Osoba"</string>
+    <string name="contact_diary_day_location_tab_title">"Miejsca"</string>
+    <string name="contact_diary_day_location_fab_title">"Miejsce"</string>
+    <string name="contact_diary_location_list_no_items_title">"Nie zdefiniowano jeszcze żadnych miejsc"</string>
+    <string name="contact_diary_location_list_no_items_subtitle">"Utwórz miejsce i dodaj je do dziennika kontaktów."</string>
+    <string name="contact_diary_person_list_no_items_title">"Nie zdefiniowano jeszcze żadnych osób"</string>
+    <string name="contact_diary_person_list_no_items_subtitle">"Utwórz osobę i dodaj ją do dziennika kontaktów."</string>
+    <string name="contact_diary_person_bottom_sheet_title">"Osoba"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Imię, nazwisko"</string>
+    <string name="contact_diary_person_bottom_sheet_save_button">"Zapisz"</string>
+    <string name="contact_diary_location_bottom_sheet_title">"Miejsce"</string>
+    <string name="contact_diary_location_bottom_sheet_text_input_hint">"Opis"</string>
+    <string name="contact_diary_location_bottom_sheet_save_button">"Zapisz"</string>
+
+    <!-- XHED: Title for the contact diary card displayed in the homescreen -->
+    <string name="contact_diary_homescreen_card_header">"Dziennik kontaktów"</string>
+    <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
+    <string name="contact_diary_homescreen_card_body">"Rejestruj odwiedzane miejsca i spotykane osoby."</string>
+    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
+    <string name="contact_diary_homescreen_card_button_text">"Zarządzaj dziennikiem"</string>
+    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
+    <string name="contact_diary_onboarding_button_text">"Zarządzaj dziennikiem"</string>
+
+    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_information_card_title">"Rejestruj swoje kontakty."</string>
+    <!-- XTXT: Contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_body">"Utwórz przegląd swoich kontaktów z ostatnich 14 dni, aby w razie potrzeby mieć szybki dostęp do kompletnej listy."</string>
+    <!-- XTXT: Contact diary onboarding screen first functionality -->
+    <string name="contact_diary_onboarding_functionality_first_section">"Wpisz dane spotkanych osób."</string>
+    <!-- XTXT: Contact diary onboarding screen second functionality -->
+    <string name="contact_diary_onboarding_functionality_second_section">"Wpisz dane miejsc, w których spotkałeś(-aś) inne osoby."</string>
+    <!-- XTXT: Contact diary onboarding screen third functionality -->
+    <string name="contact_diary_onboarding_functionality_third_section">"Jesteś jedyną osobą, która ma dostęp do wpisów w Twoim dzienniku. Twoje wpisy będą zapisywane tylko na Twoim smartfonie."</string>
+    <!-- XTXT: Contact diary onboarding screen fourth functionality -->
+    <string name="contact_diary_onboarding_functionality_fourth_section">"Możesz w dowolnym momencie usunąć wpisy dotyczące osób i miejsc ze swojego dziennika. Wpisy w dzienniku będą automatycznie usuwane po 16 dniach."</string>
+    <!-- XTXT: Contact diary onboarding screen fifth functionality -->
+    <string name="contact_diary_onboarding_functionality_fifth_section">"Możesz wyeksportować swój dziennik kontaktów w formacie zwykłego tekstu, a następnie wydrukować wpisy, edytować je lub w razie potrzeby przekazać do organu ds. zdrowia publicznego."</string>
+    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_title">"Dziennik kontaktów"</string>
+    <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_legal_information">"Więcej informacji znajduje się w oświadczeniu o ochronie prywatności."</string>
+
+
+    <!-- XTXT: Menu information entry for contact diary overview screen -->
+    <string name="menu_contact_diary_information">"Informacje"</string>
+    <!-- XTXT: Menu export entry for contact diary overview screen -->
+    <string name="menu_contact_export_entries">"Eksportuj wpisy"</string>
+    <!-- XTXT: Menu edit persons entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_persons">"Edytuj osoby"</string>
+    <!-- XTXT: Menu edit locations entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_locations">"Edytuj miejsca"</string>
+    <!-- XTXT: Title for contact diary overview screen -->
+    <string name="contact_diary_overview_title">"Dziennik kontaktów"</string>
+    <!-- XTXT: Subtitle for contact diary overview screen -->
+    <string name="contact_diary_overview_subtitle">"Zapisuj dane spotykanych osób i odwiedzanych miejsc."</string>
+    <!-- XTXT: Header for contact diary overview screen -->
+    <string name="contact_diary_overview_header">"Strona startowa"</string>
+
+    <!-- XTXT: content description of contact journal image on home screen -->
+    <string name="contact_diary_homescreen_card_image_content_description">"Zamknięta książka z zakładką"</string>
+    <!-- XTXT: content description of contact journal header image on onboarding screen -->
+    <string name="contact_diary_onboarding_image_content_description">"Kilka osób na dworze patrzy na ekrany swoich smartfonów."</string>
+    <!-- XTXT: content description of contact journal background image on edit persons screen -->
+    <string name="contact_diary_edit_persons_image_content_description">"Sylwetka kobiety idącej po łące."</string>
+    <!-- XTXT: content description of contact journal background image on edit locations screen -->
+    <string name="contact_diary_edit_locations_image_content_description">"Budynek jest oznaczony flagą lokalizacji."</string>
+
+
+    <!-- XHED: Title for the contact diary edit locations -->
+    <string name="contact_diary_edit_locations_title">"Edytuj miejsca"</string>
+    <!-- XHED: Title for the contact diary edit persons -->
+    <string name="contact_diary_edit_persons_title">"Edytuj osoby"</string>
+    <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
+    <string name="contact_diary_remove_all_button">"Usuń wszystko"</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_positive">"Usuń"</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_negative">"Anuluj"</string>
+    <!-- XHED: Title for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_title">"Czy na pewno chcesz usunąć wszystkie miejsca?"</string>
+    <!-- XHED: Title for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_title">"Czy na pewno chcesz usunąć wszystkie osoby?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_message">"Jeśli usuniesz miejsce, wszystkie wpisy dotyczące tego miejsca zostaną usunięte z Twojego dziennika."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_message">"Jeśli usuniesz osobę, wszystkie wpisy dotyczące tej osoby zostaną usunięte z Twojego dziennika."</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_edit_icon_content_description">"Edytuj wpis"</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_delete_icon_content_description">"Usuń wpis"</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
+    <string name="contact_diary_delete_location_title">"Czy na pewno chcesz usunąć to miejsce?"</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
+    <string name="contact_diary_delete_person_title">"Czy na pewno chcesz usunąć tę osobę?"</string>
+</resources>
