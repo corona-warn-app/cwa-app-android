@@ -47,7 +47,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
             onElementSelectionListener: (ListItem) -> Unit
         ) {
             viewDataBinding.contactDiaryOverviewElementName.text =
-                item.date.toString("EEEE, dd.MM.yyyy", Locale.getDefault())
+                item.date.toString("EEEE, dd.MM.yy", Locale.getDefault())
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
