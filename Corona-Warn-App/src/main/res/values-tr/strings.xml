@@ -98,9 +98,9 @@
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Lütfen test sonucunuzu paylaşın ve diğer kullanıcıları uyarın."</string>
     <!-- XHED: Notification title - test result is ready -->
-    <string name="notification_headline_test_result_ready">"Test Sonucunuz"</string>
+    <string name="notification_headline_test_result_ready">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body - test result is ready -->
-    <string name="notification_body_test_result_ready">"Önemli haberler var. Lütfen Corona-Warn-App\'inizi açın."</string>
+    <string name="notification_body_test_result_ready">"Corona-Warn-App uygulamasından yeni mesajlarınız var."</string>
 
     <!-- ####################################
               App Auto Update
@@ -157,7 +157,7 @@
     <string name="risk_card_check_failed_no_internet_restart_button">"Yeniden başlat"</string>
 
     <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
-    <string name="risk_card_low_risk_no_encounters_body">"Şu ana dek hiçbir maruz kalma yok"</string>
+    <string name="risk_card_low_risk_no_encounters_body">"Hiçbir maruz kalma yok"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Bir gün için düşük riskli maruz kalmalar"</item>
@@ -859,7 +859,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucunuz henüz çıkmadı."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi kaldırın. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Güncelle"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1020,7 +1020,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Karantina süreniz genellikle 14 gündür. Lütfen belirtilerinizi gözlemleyin ve belirtilerinizin nasıl ortaya çıktığını izleyin."</item>
-        <item>"Kamu sağlığı yetkilisi, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, belirtileriniz ortaya çıkmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir."</item>
+        <item>"Kamu sağlığı yetkilisi, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, belirtileriniz ortaya çıkmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz."</item>
     </string-array>
