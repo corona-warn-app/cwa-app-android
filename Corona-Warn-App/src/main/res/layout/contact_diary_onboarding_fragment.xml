@@ -212,7 +212,7 @@
 
         </ScrollView>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/contact_diary_onboarding_next_button"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
