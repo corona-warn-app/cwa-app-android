@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
 import java.util.Locale
 
@@ -47,7 +48,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
             onElementSelectionListener: (ListItem) -> Unit
         ) {
             viewDataBinding.contactDiaryOverviewElementName.text =
-                item.date.toString("EEEE, dd.MM.yyyy", Locale.getDefault())
+                item.date.toFormattedDay()
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
