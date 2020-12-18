@@ -24,14 +24,17 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runBlockingTest2
 
 class BaseRiskLevelStorageTest : BaseTest() {
 
@@ -53,6 +56,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
 
         every { riskResultTables.allEntries() } returns emptyFlow()
+        every { riskResultTables.latestEntries(2) } returns emptyFlow()
         coEvery { riskResultTables.insertEntry(any()) } just Runs
         coEvery { riskResultTables.deleteOldest(any()) } returns 7
 
@@ -65,10 +69,12 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     private fun createInstance(
+        scope: CoroutineScope = TestCoroutineScope(),
         storedResultLimit: Int = 10,
         onStoreExposureWindows: (String, RiskLevelResult) -> Unit = { id, result -> },
         onDeletedOrphanedExposureWindows: () -> Unit = {}
     ) = object : BaseRiskLevelStorage(
+        scope = scope,
         riskResultDatabaseFactory = databaseFactory,
         riskLevelResultMigrator = riskLevelResultMigrator
     ) {
@@ -102,7 +108,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         runBlockingTest {
             val instance = createInstance()
-            instance.riskLevelResults.first() shouldBe listOf(testRisklevelResult)
+            instance.allRiskLevelResults.first() shouldBe listOf(testRisklevelResult)
 
             verify { riskLevelResultMigrator wasNot Called }
         }
@@ -116,7 +122,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest {
             val instance = createInstance()
             val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
-            instance.riskLevelResults.first() shouldBe listOf(riskLevelResult)
+            instance.allRiskLevelResults.first() shouldBe listOf(riskLevelResult)
 
             verify { riskLevelResultMigrator wasNot Called }
         }
@@ -130,7 +136,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         runBlockingTest {
             val instance = createInstance()
-            instance.riskLevelResults.first().size shouldBe 2
+            instance.allRiskLevelResults.first().size shouldBe 2
 
             coVerify { riskLevelResultMigrator.getLegacyResults() }
         }
@@ -176,5 +182,21 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `clear works`() = runBlockingTest {
         createInstance().clear()
         verify { database.clearAllTables() }
+    }
+
+    @Test
+    fun `latestRiskLevelResults with exposure windows are returned from database and mapped`() {
+        every { riskResultTables.latestEntries(any()) } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
+
+        runBlockingTest2(ignoreActive = true) {
+            val instance = createInstance(scope = this)
+
+            val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
+            instance.allRiskLevelResults.first() shouldBe listOf(riskLevelResult)
+
+            verify { riskLevelResultMigrator wasNot Called }
+            verify { exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id)) }
+        }
     }
 }

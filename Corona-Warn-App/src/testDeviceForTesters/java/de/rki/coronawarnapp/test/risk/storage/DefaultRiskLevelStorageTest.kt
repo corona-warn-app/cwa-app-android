@@ -19,6 +19,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -78,6 +79,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
 
         every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
+        every { riskResultTables.latestEntries(2) } returns emptyFlow()
         coEvery { riskResultTables.insertEntry(any()) } just Runs
         coEvery { riskResultTables.deleteOldest(any()) } returns 7
 
@@ -93,6 +95,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
     }
 
     private fun createInstance() = DefaultRiskLevelStorage(
+        scope = TestCoroutineScope(),
         riskResultDatabaseFactory = databaseFactory,
         riskLevelResultMigrator = riskLevelResultMigrator
     )
