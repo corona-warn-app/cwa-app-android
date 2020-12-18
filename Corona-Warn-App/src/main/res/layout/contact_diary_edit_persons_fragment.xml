@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toTopOf="@id/delete_button"/>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/delete_button"
             style="@style/buttonReset"
             android:layout_width="@dimen/match_constraint"
