@@ -99,9 +99,9 @@
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Please share your test result and warn others."</string>
     <!-- XHED: Notification title - test result is ready -->
-    <string name="notification_headline_test_result_ready">"Your Test Result"</string>
+    <string name="notification_headline_test_result_ready">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body - test result is ready -->
-    <string name="notification_body_test_result_ready">"There is important news. Please open your Corona-Warn-App."</string>
+    <string name="notification_body_test_result_ready">"You have new messages from your Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -158,7 +158,7 @@
     <string name="risk_card_check_failed_no_internet_restart_button">"Restart"</string>
 
     <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
-    <string name="risk_card_low_risk_no_encounters_body">"No exposure up to now"</string>
+    <string name="risk_card_low_risk_no_encounters_body">"No exposures"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Exposures with low risk on one day"</item>
@@ -214,13 +214,13 @@
     <!-- XHED: Share app link page title -->
     <string name="main_share_title">"Share the Corona-Warn-App"</string>
     <!-- XHED: Share app link page subtitle -->
-    <string name="main_share_headline">"Let\'s fight coronavirus together"</string>
+    <string name="main_share_headline">"Let’s fight coronavirus together"</string>
     <!-- YTXT: Share app link page body -->
     <string name="main_share_body">"The more people who use the app, the faster we can break chains of infection. Please invite your family and friends to download the app."</string>
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Send Download Link"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Fighting coronavirus together"<xliff:g id="line_break">"\n"</xliff:g>"I\'m in on this, you too?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Fighting coronavirus together"<xliff:g id="line_break">"\n"</xliff:g>"I’m in on this, you too?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"A man shares the Corona-Warn-App with four other persons."</string>
 
@@ -235,7 +235,7 @@
     <!-- XHED: App overview subtitle for tracing explanation-->
     <string name="main_overview_subtitle_tracing">"Exposure Logging"</string>
     <!-- YTXT: App overview body text about tracing -->
-    <string name="main_overview_body_tracing">"Exposure logging is one of the three central features of the app. When you activate it, encounters with people\'s smartphones are logged. You don\'t have to do anything else."</string>
+    <string name="main_overview_body_tracing">"Exposure logging is one of the three central features of the app. When you activate it, encounters with people’s smartphones are logged. You don’t have to do anything else."</string>
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Risk of Infection"</string>
     <!-- YTXT: App overview body text about risk levels -->
@@ -397,11 +397,11 @@
     <!-- XACT: Onboarding (together) page title -->
     <string name="onboarding_onboarding_accessibility_title">"Onboarding page 1 of 6: Fighting coronavirus together"</string>
     <!-- XHED: onboarding(together) - fight corona -->
-    <string name="onboarding_headline">"Let\'s fight coronavirus together"</string>
+    <string name="onboarding_headline">"Let’s fight coronavirus together"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
     <string name="onboarding_subtitle">"More protection for you and for us all. By using the Corona-Warn-App we can break chains of infection much quicker."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
+    <string name="onboarding_body">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
@@ -448,7 +448,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Allow prioritized background activity"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the app to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your smartphone\'s battery life.\n\nIf you do not allow this setting, we recommend you to open the app manually at least once every 24 hours."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the app to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your smartphone’s battery life.\n\nIf you do not allow this setting, we recommend you to open the app manually at least once every 24 hours."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Allow"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -464,7 +464,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Allow location access"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Your location cannot be accessed. Google and/or Android requires access to your smartphone\'s location to use Bluetooth."</string>
+    <string name="onboarding_tracing_location_body">"Your location cannot be accessed. Google and/or Android requires access to your smartphone’s location to use Bluetooth."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Open Device Settings"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -472,7 +472,7 @@
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"If you are diagnosed with coronavirus…"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
-    <string name="onboarding_test_subtitle">"… please report this in the Corona-Warn-App. Sharing your test results is voluntary and secure. Please do this for the sake of everyone\'s health."</string>
+    <string name="onboarding_test_subtitle">"… please report this in the Corona-Warn-App. Sharing your test results is voluntary and secure. Please do this for the sake of everyone’s health."</string>
     <!-- YTXT: onboarding(test) - explain test -->
     <string name="onboarding_test_body">"Your notification is encrypted securely and processed on a secure server. People whose encrypted random IDs your smartphone has collected will now receive a warning along with information about what they should now do."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
@@ -653,7 +653,7 @@
     <!-- XHED: Page title for about information page, also menu item / button text -->
     <string name="information_about_title">"About the App"</string>
     <!-- XHED: Subtitle for about information page -->
-    <string name="information_about_headline">"Let\'s fight coronavirus together"</string>
+    <string name="information_about_headline">"Let’s fight coronavirus together"</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App on behalf of the Federal Government. The app is intended as a digital complement to public health measures already introduced: social distancing, hygiene, and face masks."</string>
     <!-- YTXT: Body text for about information page -->
@@ -755,7 +755,7 @@
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN is invalid"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
-    <string name="submission_error_dialog_web_test_paired_body_tan">"The TAN is invalid or has already been used. For further information, call the number listed under \"Request TAN\"."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan">"The TAN is invalid or has already been used. For further information, call the number listed under “Request TAN”."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Back"</string>
 
@@ -862,7 +862,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Your test result is not available yet."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIn you are notified of a positive test result outside the app, please remove the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1023,8 +1023,8 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Your quarantine period is usually 14 days. Please observe your symptoms and monitor how they develop."</item>
-        <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you developed symptoms."</item>
-        <item>"Please particularly consider people who will not be notified directly by the app since they don\'t own a smartphone, or haven\'t installed the app."</item>
+        <item>"You will be asked by the public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you developed symptoms. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
+        <item>"Please particularly consider people who will not be notified directly by the app since they don’t own a smartphone, or haven’t installed the app."</item>
         <item>"Even when you no longer have any symptoms and you feel well again, you could still be infectious."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
@@ -1276,7 +1276,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 Exposure Notifications System\" is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
+    <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the “COVID-19 Exposure Notifications System” is not available on your smartphone’s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - Error title when the provideDiagnosisKeys quota limit was reached. -->
