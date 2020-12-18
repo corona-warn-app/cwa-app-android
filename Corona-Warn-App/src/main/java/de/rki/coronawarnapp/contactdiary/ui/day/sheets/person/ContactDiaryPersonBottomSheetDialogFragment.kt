@@ -63,7 +63,10 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
 
         binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> false
+                EditorInfo.IME_ACTION_DONE -> {
+                    binding.contactDiaryPersonBottomSheetSaveButton.performClick()
+                    false
+                }
                 else -> true
             }
         }
