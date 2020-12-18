@@ -4,7 +4,7 @@
     android:id="@+id/card_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorSurface1"
+    android:backgroundTint="@color/colorSurface1"
     android:layout_marginStart="@dimen/spacing_small"
     android:layout_marginEnd="@dimen/spacing_small"
     android:layout_marginTop="@dimen/spacing_tiny"
