@@ -41,4 +41,7 @@ interface ContactDiaryRepository {
     suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
     suspend fun deletePersonEncounters(contactDiaryPersonEncounters: List<ContactDiaryPersonEncounter>)
     suspend fun deleteAllPersonEncounters()
+
+    // Clean
+    suspend fun clear()
 }

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.sortByNameAndIdASC
+import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
@@ -25,16 +26,31 @@ import javax.inject.Singleton
 @Singleton
 @Suppress("TooManyFunctions")
 class DefaultContactDiaryRepository @Inject constructor(
-    private val contactDiaryLocationDao: ContactDiaryLocationDao,
-    private val contactDiaryLocationVisitDao: ContactDiaryLocationVisitDao,
-    private val contactDiaryPersonDao: ContactDiaryPersonDao,
-    private val contactDiaryPersonEncounterDao: ContactDiaryPersonEncounterDao
+    contactDiaryDatabaseFactory: ContactDiaryDatabase.Factory
 ) : ContactDiaryRepository {
 
+    private val contactDiaryDatabase: ContactDiaryDatabase by lazy {
+        contactDiaryDatabaseFactory.create()
+    }
+    private val contactDiaryLocationDao: ContactDiaryLocationDao by lazy {
+        contactDiaryDatabase.locationDao()
+    }
+    private val contactDiaryLocationVisitDao: ContactDiaryLocationVisitDao by lazy {
+        contactDiaryDatabase.locationVisitDao()
+    }
+    private val contactDiaryPersonDao: ContactDiaryPersonDao by lazy {
+        contactDiaryDatabase.personDao()
+    }
+    private val contactDiaryPersonEncounterDao: ContactDiaryPersonEncounterDao by lazy {
+        contactDiaryDatabase.personEncounterDao()
+    }
+
     // Location
-    override val locations: Flow<List<ContactDiaryLocation>> = contactDiaryLocationDao
-        .allEntries()
-        .map { it.sortByNameAndIdASC() }
+    override val locations: Flow<List<ContactDiaryLocation>> by lazy {
+        contactDiaryLocationDao
+            .allEntries()
+            .map { it.sortByNameAndIdASC() }
+    }
 
     override suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation): ContactDiaryLocation {
         Timber.d("Adding location $contactDiaryLocation")
@@ -75,10 +91,11 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Location visit
-    override val locationVisits: Flow<List<ContactDiaryLocationVisit>> =
+    override val locationVisits: Flow<List<ContactDiaryLocationVisit>> by lazy {
         contactDiaryLocationVisitDao
             .allEntries()
             .map { it.toContactDiaryLocationVisitSortedList() }
+    }
 
     override fun locationVisitsForDate(date: LocalDate): Flow<List<ContactDiaryLocationVisit>> =
         contactDiaryLocationVisitDao
@@ -116,9 +133,11 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Person
-    override val people: Flow<List<ContactDiaryPerson>> = contactDiaryPersonDao
-        .allEntries()
-        .map { it.sortByNameAndIdASC() }
+    override val people: Flow<List<ContactDiaryPerson>> by lazy {
+        contactDiaryPersonDao
+            .allEntries()
+            .map { it.sortByNameAndIdASC() }
+    }
 
     override suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson): ContactDiaryPerson {
         Timber.d("Adding person $contactDiaryPerson")
@@ -159,10 +178,11 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
 
     // Person encounter
-    override val personEncounters: Flow<List<ContactDiaryPersonEncounter>> =
+    override val personEncounters: Flow<List<ContactDiaryPersonEncounter>> by lazy {
         contactDiaryPersonEncounterDao
             .allEntries()
             .map { it.toContactDiaryPersonEncounterSortedList() }
+    }
 
     override fun personEncountersForDate(date: LocalDate): Flow<List<ContactDiaryPersonEncounter>> =
         contactDiaryPersonEncounterDao
@@ -205,5 +225,10 @@ class DefaultContactDiaryRepository @Inject constructor(
         } else {
             throw IllegalArgumentException("Entity has default id")
         }
+    }
+
+    override suspend fun clear() {
+        Timber.d("Clearing contact diary database")
+        contactDiaryDatabase.clearAllTables()
     }
 }
