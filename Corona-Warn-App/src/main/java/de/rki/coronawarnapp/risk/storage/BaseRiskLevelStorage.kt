@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskRes
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapMerge
@@ -17,7 +18,8 @@ import timber.log.Timber
 
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
-    private val riskLevelResultMigrator: RiskLevelResultMigrator
+    private val riskLevelResultMigrator: RiskLevelResultMigrator,
+    scope: CoroutineScope
 ) : RiskLevelStorage {
 
     private val database by lazy { riskResultDatabaseFactory.create() }
@@ -55,6 +57,10 @@ abstract class BaseRiskLevelStorage constructor(
                 results
             }
         }
+        .shareLatest(
+            tag = TAG,
+            scope = scope
+        )
 
     override val latestRiskLevelResults: Flow<List<RiskLevelResult>> = riskResultsTables.latestEntries(2)
         .flatMapMerge { latestResults ->
@@ -75,6 +81,10 @@ abstract class BaseRiskLevelStorage constructor(
                 results
             }
         }
+        .shareLatest(
+            tag = TAG,
+            scope = scope
+        )
 
     override suspend fun storeResult(result: RiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", result.exposureWindows?.size)
@@ -122,5 +132,9 @@ abstract class BaseRiskLevelStorage constructor(
     override suspend fun clear() {
         Timber.w("clear() - Clearing stored riskleve/exposure-detection results.")
         database.clearAllTables()
+    }
+
+    companion object {
+        private const val TAG = "RiskLevelStorage"
     }
 }

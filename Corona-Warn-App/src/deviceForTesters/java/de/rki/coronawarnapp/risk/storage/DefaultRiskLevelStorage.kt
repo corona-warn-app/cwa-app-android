@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindo
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedExposureWindow
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedScanInstances
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,8 +16,9 @@ import javax.inject.Singleton
 @Singleton
 class DefaultRiskLevelStorage @Inject constructor(
     riskResultDatabaseFactory: RiskResultDatabase.Factory,
-    riskLevelResultMigrator: RiskLevelResultMigrator
-) : BaseRiskLevelStorage(riskResultDatabaseFactory, riskLevelResultMigrator) {
+    riskLevelResultMigrator: RiskLevelResultMigrator,
+    @AppScope val scope: CoroutineScope
+) : BaseRiskLevelStorage(riskResultDatabaseFactory, riskLevelResultMigrator, scope) {
 
     // 14 days, 6 times per day
     // For testers keep all the results!
