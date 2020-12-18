@@ -46,7 +46,7 @@
             app:argType="de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity" />
         <argument
             android:name="addedAt"
-            android:defaultValue="null"
+            android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
     </dialog>
@@ -61,7 +61,7 @@
             app:argType="de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity" />
         <argument
             android:name="addedAt"
-            android:defaultValue="null"
+            android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
     </dialog>
