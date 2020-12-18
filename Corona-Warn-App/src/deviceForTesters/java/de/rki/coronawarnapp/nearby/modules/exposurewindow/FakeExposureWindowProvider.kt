@@ -28,11 +28,8 @@ class FakeExposureWindowProvider @Inject constructor(
             else -> throw NotImplementedError()
         }.let { context.assets.open(it) }.readBytes().toString(Charsets.UTF_8)
         val jsonWindows: List<JsonWindow> = gson.fromJson(jsonInput)
-        val jsonWindows2 = (1..30).fold(listOf<JsonWindow>()) { list, new ->
-            list.plus(jsonWindows)
-        }
         val nowUTC = timeStamper.nowUTC
-        return jsonWindows2.map { jWindow ->
+        return jsonWindows.map { jWindow ->
             ExposureWindow.Builder().apply {
                 setDateMillisSinceEpoch(nowUTC.minus(Duration.standardDays(jWindow.ageInDays.toLong())).millis)
                 setCalibrationConfidence(jWindow.calibrationConfidence)
