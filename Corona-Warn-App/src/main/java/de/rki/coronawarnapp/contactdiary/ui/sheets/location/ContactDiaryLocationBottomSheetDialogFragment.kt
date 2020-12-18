@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.sheets.location
+package de.rki.coronawarnapp.contactdiary.ui.sheets.location
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(), AutoInject {
@@ -22,7 +22,13 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
     private val binding get() = _binding!!
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ContactDiaryLocationBottomSheetDialogViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: ContactDiaryLocationBottomSheetDialogViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as ContactDiaryLocationBottomSheetDialogViewModel.Factory
+            factory.create(navArgs.addedAt)
+        }
+    )
 
     private val navArgs: ContactDiaryLocationBottomSheetDialogFragmentArgs by navArgs()
 
