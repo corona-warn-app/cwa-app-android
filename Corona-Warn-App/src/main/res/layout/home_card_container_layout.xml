@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_container"
-    style="@style/cardNoPadding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorSurface1"
     android:layout_marginStart="@dimen/spacing_small"
     android:layout_marginEnd="@dimen/spacing_small"
     android:layout_marginTop="@dimen/spacing_tiny"
     android:layout_marginBottom="@dimen/spacing_tiny"
     android:foreground="?selectableItemBackground"
-    android:focusable="true" />
+    android:focusable="true"
+    app:cardElevation="@dimen/elevation_strong"
+    app:cardCornerRadius="@dimen/radius_card" />
