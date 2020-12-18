@@ -61,7 +61,10 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
 
         binding.contactDiaryLocationBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> false
+                EditorInfo.IME_ACTION_DONE -> {
+                    binding.contactDiaryLocationBottomSheetSaveButton.performClick()
+                    false
+                }
                 else -> true
             }
         }
