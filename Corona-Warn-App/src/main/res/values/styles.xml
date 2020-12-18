@@ -53,7 +53,8 @@
     <style name="AppTheme.Main" parent="AppTheme.NoActionBar" />
 
     <style name="CWAToolbar" parent="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
-        <item name="colorPrimary">@color/colorBackground</item>
+        <item name="colorPrimary">@color/colorSurface1</item>
+        <item name="android:background">@color/colorSurface1</item>
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 

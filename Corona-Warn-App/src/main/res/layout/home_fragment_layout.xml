@@ -22,7 +22,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/CWAToolbar"
+            style="@style/CWAToolbar"
             app:popupTheme="@style/CWAToolbar.Menu">
             <ImageView
                 android:id="@+id/main_header_logo"
@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="8dp"
-                    android:theme="@style/CWAToolbar"
+                    style="@style/CWAToolbar"
                     android:id="@+id/main_tracing"
                     android:clickable="true"
                     android:focusable="true"
