@@ -17,7 +17,7 @@ fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
 }
 
 // According to tech spec german locale only
-fun LocalDate.toFormattedDay() = toString("EEEE, dd.MM.yyyy", Locale.GERMAN)
+fun LocalDate.toFormattedDay(): String = toString("EEEE, dd.MM.yy", Locale.GERMAN)
 
 fun EditText.showKeyboard() = post {
         if (requestFocus()) context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
