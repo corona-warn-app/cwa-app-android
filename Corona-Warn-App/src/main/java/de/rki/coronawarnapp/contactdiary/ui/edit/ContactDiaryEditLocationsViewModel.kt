@@ -17,7 +17,8 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val locationsLiveData = contactDiaryRepository.locations.asLiveData()
+    val locationsLiveData =
+        contactDiaryRepository.locations.asLiveData(dispatcherProvider.IO)
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
