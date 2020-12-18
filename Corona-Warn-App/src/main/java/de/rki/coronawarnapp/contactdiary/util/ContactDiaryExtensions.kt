@@ -14,11 +14,9 @@ fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
     })
 }
 
-fun EditText.showKeyboard() {
-    post {
+fun EditText.showKeyboard() = post {
         if (requestFocus()) context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
-}
 
 fun Fragment.hideKeyboard() {
     context?.inputMethodManager?.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
