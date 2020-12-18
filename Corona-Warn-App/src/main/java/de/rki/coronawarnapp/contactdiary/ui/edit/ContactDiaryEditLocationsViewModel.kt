@@ -17,14 +17,16 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val locationsLiveData =
-        contactDiaryRepository.locations.asLiveData(dispatcherProvider.IO)
+    val locationsLiveData = contactDiaryRepository.locations
+        .asLiveData(dispatcherProvider.IO)
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
-    val isButtonEnabled = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }.asLiveData(dispatcherProvider.IO)
+    val isButtonEnabled = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }
+        .asLiveData(dispatcherProvider.IO)
 
-    val isListVisible = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }.asLiveData(dispatcherProvider.IO)
+    val isListVisible = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }
+        .asLiveData(dispatcherProvider.IO)
 
     fun onDeleteAllLocationsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)
