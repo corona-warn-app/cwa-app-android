@@ -33,7 +33,7 @@ class TracingCardStateProvider @Inject constructor(
         tracingRepository.tracingProgress.onEach {
             Timber.v("tracingProgress: $it")
         },
-        riskLevelStorage.riskLevelResults.onEach {
+        riskLevelStorage.latestRiskLevelResults.onEach {
             Timber.v("riskLevelResults: $it")
         },
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
