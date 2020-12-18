@@ -70,11 +70,15 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
                 ContactDiaryDayNavigationEvents.NavigateToOverviewFragment -> popBackStack()
                 ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet -> doNavigate(
                     ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment()
+                        .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment(
+                            addedAt = navArgs.selectedDay
+                        )
                 )
                 ContactDiaryDayNavigationEvents.NavigateToAddLocationBottomSheet -> doNavigate(
                     ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment()
+                        .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment(
+                            addedAt = navArgs.selectedDay
+                        )
                 )
             }
         }

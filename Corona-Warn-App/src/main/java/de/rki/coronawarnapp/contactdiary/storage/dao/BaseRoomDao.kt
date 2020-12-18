@@ -6,7 +6,7 @@ import androidx.room.Update
 
 abstract class BaseRoomDao<T, U> : BaseDao<T, U> {
     @Insert
-    abstract override suspend fun insert(entity: T)
+    abstract override suspend fun insert(entity: T): Long
 
     @Insert
     abstract override suspend fun insert(entities: List<T>)

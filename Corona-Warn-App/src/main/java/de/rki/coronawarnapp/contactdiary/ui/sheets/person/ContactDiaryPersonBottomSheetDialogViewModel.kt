@@ -1,20 +1,24 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.sheets.person
+package de.rki.coronawarnapp.contactdiary.ui.sheets.person
 
 import androidx.lifecycle.asLiveData
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import org.joda.time.LocalDate
 
 class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val text = MutableStateFlow("")
@@ -30,11 +34,21 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     }
 
     fun addPerson() = launch {
-        contactDiaryRepository.addPerson(
+        val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
                 fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
             )
         )
+
+        addedAt?.let {
+            contactDiaryRepository.addPersonEncounter(
+                DefaultContactDiaryPersonEncounter(
+                    date = LocalDate.parse(it),
+                    contactDiaryPerson = person
+                )
+            )
+        }
+
         shouldClose.postValue(null)
     }
 
@@ -66,5 +80,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<ContactDiaryPersonBottomSheetDialogViewModel>
+    interface Factory : CWAViewModelFactory<ContactDiaryPersonBottomSheetDialogViewModel> {
+        fun create(addedAt: String?): ContactDiaryPersonBottomSheetDialogViewModel
+    }
 }
