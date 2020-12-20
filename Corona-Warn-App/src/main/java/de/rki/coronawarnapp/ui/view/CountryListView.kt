@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.ui.Country
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.ui.view.CountryFlagsAdapter.CountryFlagViewHolder
 import de.rki.coronawarnapp.util.lists.BindableVH
+import java.text.Collator
 
 class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -22,7 +23,10 @@ class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     var countries: List<Country> = defaultCountryList
         set(value) {
-            field = value.also { countries ->
+            field = value.sortedWith { a, b ->
+                // Sort country list alphabetically
+                Collator.getInstance().compare(a.label.get(context), b.label.get(context))
+            }.also { countries ->
                 adapterCountryFlags.countryList = countries
                 countryNames.text = countries.joinToString(", ") { it.label.get(context) }
             }
