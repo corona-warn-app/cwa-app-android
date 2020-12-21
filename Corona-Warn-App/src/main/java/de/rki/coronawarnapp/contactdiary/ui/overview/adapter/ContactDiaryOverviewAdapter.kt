@@ -34,18 +34,16 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         holder.bind(elements[position], onItemSelectionListener)
     }
 
-    class OverviewElementHolder(private val viewDataBinding: IncludeContactDiaryOverviewItemBinding) :
-        RecyclerView.ViewHolder(viewDataBinding.root) {
-        private val nestedItemAdapter = ContactDiaryOverviewNestedAdapter()
-
-        init {
-            viewDataBinding.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
-        }
+    class OverviewElementHolder(
+        private val viewDataBinding: IncludeContactDiaryOverviewItemBinding
+    ) : RecyclerView.ViewHolder(viewDataBinding.root) {
 
         fun bind(
             item: ListItem,
             onElementSelectionListener: (ListItem) -> Unit
         ) {
+            val nestedItemAdapter = ContactDiaryOverviewNestedAdapter(item, onElementSelectionListener)
+            viewDataBinding.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
             viewDataBinding.contactDiaryOverviewElementName.text =
                 item.date.toFormattedDay()
 
