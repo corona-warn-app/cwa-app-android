@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.contactdiary.util.formatContactDiaryNameField
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -37,6 +38,9 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
 
     val shouldClose = SingleLiveEvent<Unit>()
 
+    private val formattedName: String
+        get() = text.value.formatContactDiaryNameField(MAX_PERSON_NAME_LENGTH)
+
     fun textChanged(locationName: String) {
         text.value = locationName
     }
@@ -44,7 +48,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     fun addPerson() = launch(coroutineExceptionHandler) {
         val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
-                fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
+                fullName = formattedName
             )
         )
 
@@ -64,7 +68,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
         contactDiaryRepository.updatePerson(
             DefaultContactDiaryPerson(
                 person.personId,
-                fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
+                fullName = formattedName
             )
         )
         shouldClose.postValue(null)
@@ -93,3 +97,5 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
         fun create(addedAt: String?): ContactDiaryPersonBottomSheetDialogViewModel
     }
 }
+
+private const val MAX_PERSON_NAME_LENGTH = 250

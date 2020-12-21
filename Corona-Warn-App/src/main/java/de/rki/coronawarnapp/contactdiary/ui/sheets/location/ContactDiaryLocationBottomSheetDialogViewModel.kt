@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEnti
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.contactdiary.util.formatContactDiaryNameField
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -37,6 +38,9 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
 
     val shouldClose = SingleLiveEvent<Unit>()
 
+    private val formattedName: String
+        get() = text.value.formatContactDiaryNameField(MAX_LOCATION_NAME_LENGTH)
+
     fun textChanged(locationName: String) {
         text.value = locationName
     }
@@ -44,7 +48,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     fun addLocation() = launch(coroutineExceptionHandler) {
         val location = contactDiaryRepository.addLocation(
             DefaultContactDiaryLocation(
-                locationName = text.value.take(MAX_LOCATION_NAME_LENGTH)
+                locationName = formattedName
             )
         )
 
@@ -64,7 +68,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         contactDiaryRepository.updateLocation(
             DefaultContactDiaryLocation(
                 location.locationId,
-                locationName = text.value.take(MAX_LOCATION_NAME_LENGTH)
+                locationName = formattedName
             )
         )
         shouldClose.postValue(null)
@@ -93,3 +97,5 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         fun create(addedAt: String?): ContactDiaryLocationBottomSheetDialogViewModel
     }
 }
+
+private const val MAX_LOCATION_NAME_LENGTH = 250
