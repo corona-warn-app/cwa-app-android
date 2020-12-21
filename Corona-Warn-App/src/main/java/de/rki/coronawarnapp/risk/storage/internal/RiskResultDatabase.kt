@@ -41,11 +41,14 @@ abstract class RiskResultDatabase : RoomDatabase() {
 
     @Dao
     interface RiskResultsDao {
-        @Query("SELECT * FROM riskresults")
+        @Query("SELECT * FROM riskresults ORDER BY calculatedAt DESC")
         fun allEntries(): Flow<List<PersistedRiskLevelResultDao>>
 
         @Query("SELECT * FROM riskresults ORDER BY calculatedAt DESC LIMIT :limit")
         fun latestEntries(limit: Int): Flow<List<PersistedRiskLevelResultDao>>
+
+        @Query("SELECT * FROM (SELECT * FROM riskresults ORDER BY calculatedAt DESC LIMIT 1) UNION ALL SELECT * FROM (SELECT * FROM riskresults where failureReason is null ORDER BY calculatedAt DESC LIMIT 1)")
+        fun latestAndLastSuccessful(): Flow<List<PersistedRiskLevelResultDao>>
 
         @Insert(onConflict = OnConflictStrategy.ABORT)
         suspend fun insertEntry(riskResultDao: PersistedRiskLevelResultDao)

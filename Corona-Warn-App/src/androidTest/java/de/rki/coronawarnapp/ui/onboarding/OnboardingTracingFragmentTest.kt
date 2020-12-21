@@ -33,7 +33,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<OnboardingNotificationsFragment>()
+        launchFragment<OnboardingTracingFragment>()
     }
 }
 

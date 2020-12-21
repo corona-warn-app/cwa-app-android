@@ -27,7 +27,7 @@ class TracingDetailsStateProvider @Inject constructor(
     val state: Flow<TracingDetailsState> = combine(
         tracingStatus.generalStatus,
         tracingRepository.tracingProgress,
-        riskLevelStorage.latestRiskLevelResults,
+        riskLevelStorage.latestAndLastSuccessful,
         tracingRepository.activeTracingDaysInRetentionPeriod,
         backgroundModeStatus.isAutoModeEnabled
     ) { status,

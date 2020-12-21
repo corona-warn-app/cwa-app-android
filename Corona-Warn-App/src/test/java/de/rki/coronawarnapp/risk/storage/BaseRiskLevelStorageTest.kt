@@ -57,6 +57,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         every { riskResultTables.allEntries() } returns emptyFlow()
         every { riskResultTables.latestEntries(2) } returns emptyFlow()
+        every { riskResultTables.latestAndLastSuccessful() } returns emptyFlow()
         coEvery { riskResultTables.insertEntry(any()) } just Runs
         coEvery { riskResultTables.deleteOldest(any()) } returns 7
 
@@ -124,12 +125,15 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
             instance.allRiskLevelResults.first() shouldBe listOf(riskLevelResult)
 
-            verify { riskLevelResultMigrator wasNot Called }
+            verify {
+                riskLevelResultMigrator wasNot Called
+                riskResultTables.allEntries()
+            }
         }
     }
 
     @Test
-    fun `if no risk level results are available we try to get legacy results`() {
+    fun `riskLevelResults returns legacy results if data is empty`() {
         coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
         every { riskResultTables.allEntries() } returns flowOf(emptyList())
         every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
@@ -137,6 +141,73 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest {
             val instance = createInstance()
             instance.allRiskLevelResults.first().size shouldBe 2
+
+            coVerify { riskLevelResultMigrator.getLegacyResults() }
+        }
+    }
+
+    // This just tests the mapping, the correctness of the SQL statement is validated in an instrumentation test
+    @Test
+    fun `latestRiskLevelResults with exposure windows are returned from database and mapped`() {
+        every { riskResultTables.latestEntries(any()) } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
+
+        runBlockingTest2(ignoreActive = true) {
+            val instance = createInstance(scope = this)
+
+            val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
+            instance.latestRiskLevelResults.first() shouldBe listOf(riskLevelResult)
+
+            verify {
+                riskLevelResultMigrator wasNot Called
+                riskResultTables.latestEntries(2)
+                exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id))
+            }
+        }
+    }
+
+    @Test
+    fun `latestRiskLevelResults returns legacy results if data is empty`() {
+        coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
+        every { riskResultTables.latestEntries(2) } returns flowOf(emptyList())
+        every { exposureWindowTables.allEntries() } returns flowOf(emptyList())
+
+        runBlockingTest {
+            val instance = createInstance()
+            instance.latestRiskLevelResults.first().size shouldBe 2
+
+            coVerify { riskLevelResultMigrator.getLegacyResults() }
+        }
+    }
+
+    // This just tests the mapping, the correctness of the SQL statement is validated in an instrumentation test
+    @Test
+    fun `latestAndLastSuccessful with exposure windows are returned from database and mapped`() {
+        every { riskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(testRiskLevelResultDao))
+        every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
+
+        runBlockingTest2(ignoreActive = true) {
+            val instance = createInstance(scope = this)
+
+            val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
+            instance.latestAndLastSuccessful.first() shouldBe listOf(riskLevelResult)
+
+            verify {
+                riskLevelResultMigrator wasNot Called
+                riskResultTables.latestAndLastSuccessful()
+                exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id))
+            }
+        }
+    }
+
+    @Test
+    fun `latestAndLastSuccessful returns legacy results if data is empty`() {
+        coEvery { riskLevelResultMigrator.getLegacyResults() } returns listOf(mockk(), mockk())
+        every { riskResultTables.latestAndLastSuccessful() } returns flowOf(emptyList())
+
+        runBlockingTest {
+            val instance = createInstance()
+            instance.latestAndLastSuccessful.first().size shouldBe 2
 
             coVerify { riskLevelResultMigrator.getLegacyResults() }
         }
@@ -182,21 +253,5 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `clear works`() = runBlockingTest {
         createInstance().clear()
         verify { database.clearAllTables() }
-    }
-
-    @Test
-    fun `latestRiskLevelResults with exposure windows are returned from database and mapped`() {
-        every { riskResultTables.latestEntries(any()) } returns flowOf(listOf(testRiskLevelResultDao))
-        every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
-
-        runBlockingTest2(ignoreActive = true) {
-            val instance = createInstance(scope = this)
-
-            val riskLevelResult = testRisklevelResult.copy(exposureWindows = listOf(testExposureWindow))
-            instance.allRiskLevelResults.first() shouldBe listOf(riskLevelResult)
-
-            verify { riskLevelResultMigrator wasNot Called }
-            verify { exposureWindowTables.getWindowsForResult(listOf(testRiskLevelResultDao.id)) }
-        }
     }
 }

@@ -148,7 +148,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .toString()
 
     val additionalRiskCalcInfo = combine(
-        riskLevelStorage.latestRiskLevelResults,
+        riskLevelStorage.latestAndLastSuccessful,
         exposureDetectionTracker.latestSubmission()
     ) { riskLevelResults, latestSubmission ->
 

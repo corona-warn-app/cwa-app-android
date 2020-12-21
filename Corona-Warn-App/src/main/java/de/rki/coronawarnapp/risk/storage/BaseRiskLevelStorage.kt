@@ -11,9 +11,8 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.take
 import timber.log.Timber
 
 abstract class BaseRiskLevelStorage constructor(
@@ -28,16 +27,37 @@ abstract class BaseRiskLevelStorage constructor(
 
     abstract val storedResultLimit: Int
 
-    private fun List<PersistedRiskLevelResultDao>.combineWithWindows(
-        windows: List<PersistedExposureWindowDaoWrapper>
-    ): List<RiskLevelTaskResult> = this.map { result ->
-        val matchingWindows = windows.filter { it.exposureWindowDao.riskLevelResultId == result.id }
-        if (matchingWindows.isEmpty()) {
-            result.toRiskResult()
+    private suspend fun List<PersistedRiskLevelResultDao>.combineWithWindows(
+        givenWindows: List<PersistedExposureWindowDaoWrapper>?
+    ): List<RiskLevelTaskResult> {
+        if (this.isEmpty()) return emptyList()
+
+        val windows = if (givenWindows != null) {
+            Timber.v("Using ${givenWindows.size} given windows for combining.")
+            givenWindows
         } else {
-            result.toRiskResult(matchingWindows)
+            Timber.v("Retrieving windows for %d results", this.size)
+            exposureWindowsTables.getWindowsForResult(this.map { it.id }).first()
+        }
+
+        Timber.v("Mapping ${windows.size} windows to ${this.size} risk results.")
+
+        return this.map { result ->
+            val matchingWindows = windows.filter { it.exposureWindowDao.riskLevelResultId == result.id }
+            if (matchingWindows.isEmpty()) {
+                result.toRiskResult()
+            } else {
+                result.toRiskResult(matchingWindows)
+            }
         }
     }
+
+    private suspend fun List<RiskLevelTaskResult>.fallbackToLegacyIfEmpty(): List<RiskLevelResult> =
+        if (isNotEmpty()) {
+            this
+        } else {
+            riskLevelResultMigrator.getLegacyResults()
+        }
 
     final override val allRiskLevelResults: Flow<List<RiskLevelResult>> = combine(
         riskResultsTables.allEntries(),
@@ -50,41 +70,24 @@ abstract class BaseRiskLevelStorage constructor(
             Timber.v("Mapping took %dms", (System.currentTimeMillis() - startTime))
         }
     }
-        .map { results ->
-            if (results.isEmpty()) {
-                riskLevelResultMigrator.getLegacyResults()
-            } else {
-                results
-            }
-        }
-        .shareLatest(
-            tag = TAG,
-            scope = scope
-        )
+        .map { results -> results.fallbackToLegacyIfEmpty() }
+        .shareLatest(tag = TAG, scope = scope)
 
     override val latestRiskLevelResults: Flow<List<RiskLevelResult>> = riskResultsTables.latestEntries(2)
-        .flatMapMerge { latestResults ->
-            Timber.v("Retrieving windows for latestResults: %s", latestResults)
-            exposureWindowsTables
-                .getWindowsForResult(latestResults.map { it.id })
-                .take(1)
-                .map { latestResults to it }
-        }
-        .map { (results: List<PersistedRiskLevelResultDao>, windows: List<PersistedExposureWindowDaoWrapper>) ->
-            Timber.v("Mapping ${windows.size} windows to ${results.size} latest risk results.")
-            results.combineWithWindows(windows)
-        }
         .map { results ->
-            if (results.isEmpty()) {
-                riskLevelResultMigrator.getLegacyResults()
-            } else {
-                results
-            }
+            Timber.v("Mapping latestRiskLevelResults:\n%s", results.joinToString("\n"))
+            results.combineWithWindows(null)
         }
-        .shareLatest(
-            tag = TAG,
-            scope = scope
-        )
+        .map { results -> results.fallbackToLegacyIfEmpty() }
+        .shareLatest(tag = TAG, scope = scope)
+
+    override val latestAndLastSuccessful: Flow<List<RiskLevelResult>> = riskResultsTables.latestAndLastSuccessful()
+        .map { results ->
+            Timber.v("Mapping latestAndLastSuccessful:\n%s", results.joinToString("\n"))
+            results.combineWithWindows(null)
+        }
+        .map { results -> results.fallbackToLegacyIfEmpty() }
+        .shareLatest(tag = TAG, scope = scope)
 
     override suspend fun storeResult(result: RiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", result.exposureWindows?.size)
