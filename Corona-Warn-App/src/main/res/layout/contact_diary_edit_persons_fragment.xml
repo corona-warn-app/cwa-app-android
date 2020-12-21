@@ -9,9 +9,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:title="@string/contact_diary_edit_persons_title"
+            android:background="@drawable/contact_diary_background"
             app:navigationIcon="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,8 +53,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/persons_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:layout_margin="@dimen/spacing_normal"
             android:importantForAccessibility="no"
             android:scrollbars="vertical"
