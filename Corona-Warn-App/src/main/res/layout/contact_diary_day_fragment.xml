@@ -10,7 +10,7 @@
 
         <include
             android:id="@+id/contact_diary_day_header"
-            layout="@layout/include_header"
+            layout="@layout/include_contact_diary_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
@@ -23,6 +23,7 @@
             android:id="@+id/contact_diary_day_tab_layout"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:background="@color/contact_diary_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_day_header" />

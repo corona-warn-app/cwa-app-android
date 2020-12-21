@@ -11,6 +11,7 @@
             android:id="@+id/toolbar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:background="@color/contact_diary_card"
             app:title="@string/contact_diary_edit_locations_title"
             app:navigationIcon="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
