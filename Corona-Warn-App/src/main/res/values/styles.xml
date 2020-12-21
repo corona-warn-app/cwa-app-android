@@ -372,4 +372,8 @@
         <item name="android:background">@drawable/contact_diary_card</item>
     </style>
 
+    <style name="contactDiaryCardRipple">
+        <item name="android:background">@drawable/contact_diary_card_ripple</item>
+    </style>
+
 </resources>
