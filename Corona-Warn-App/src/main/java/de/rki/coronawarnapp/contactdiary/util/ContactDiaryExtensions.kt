@@ -31,8 +31,7 @@ fun Fragment.hideKeyboard() {
 private val Context.inputMethodManager
     get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-fun String.formatContactDiaryNameField(maxLength: Int) : String
-{
+fun String.formatContactDiaryNameField(maxLength: Int): String {
     val newName = if (isNotBlank()) {
         trim()
     } else {
