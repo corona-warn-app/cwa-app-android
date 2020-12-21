@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/header_main"
         android:paddingTop="@dimen/spacing_tiny"
-        android:background="@color/contact_diary_card"
+        android:background="@drawable/contact_diary_background"
         android:paddingBottom="@dimen/spacing_tiny">
 
         <include

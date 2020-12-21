@@ -23,7 +23,7 @@
             android:id="@+id/contact_diary_day_tab_layout"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:background="@color/contact_diary_card"
+            android:background="@drawable/contact_diary_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_day_header" />
