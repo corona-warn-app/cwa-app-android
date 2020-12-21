@@ -7,11 +7,14 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.contactdiary.util.formatContactDiaryNameField
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -22,6 +25,10 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+        shouldClose.postValue(null)
+        ex.report(ExceptionCategory.INTERNAL, TAG)
+    }
 
     private val text = MutableStateFlow("")
 
@@ -38,7 +45,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         text.value = locationName
     }
 
-    fun addLocation() = launch {
+    fun addLocation() = launch(coroutineExceptionHandler) {
         val location = contactDiaryRepository.addLocation(
             DefaultContactDiaryLocation(
                 locationName = formattedName
@@ -57,7 +64,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         shouldClose.postValue(null)
     }
 
-    fun updateLocation(location: ContactDiaryLocationEntity) = launch {
+    fun updateLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
         contactDiaryRepository.updateLocation(
             DefaultContactDiaryLocation(
                 location.locationId,
@@ -67,7 +74,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         shouldClose.postValue(null)
     }
 
-    fun deleteLocation(location: ContactDiaryLocationEntity) = launch {
+    fun deleteLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
         contactDiaryRepository.locationVisits.firstOrNull()?.forEach {
             if (it.contactDiaryLocation.locationId == location.locationId)
                 contactDiaryRepository.deleteLocationVisit(it)
@@ -78,6 +85,11 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
 
     fun closePressed() {
         shouldClose.postValue(null)
+    }
+
+    companion object {
+        private const val MAX_LOCATION_NAME_LENGTH = 250
+        private val TAG = ContactDiaryLocationBottomSheetDialogViewModel::class.java.simpleName
     }
 
     @AssistedInject.Factory
