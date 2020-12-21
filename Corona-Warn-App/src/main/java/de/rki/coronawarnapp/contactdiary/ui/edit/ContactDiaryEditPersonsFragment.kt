@@ -16,6 +16,9 @@ import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewMode
 import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
+import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -30,7 +33,6 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditPersonsFragmentBinding by viewBindingLazy()
 
-    private val personList: MutableList<ContactDiaryPerson> = mutableListOf()
     private val listAdapter = ListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,9 +53,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         }
 
         viewModel.personsLiveData.observe2(this) {
-            personList.clear()
-            personList.addAll(it)
-            listAdapter.notifyDataSetChanged()
+            listAdapter.update(it, true)
         }
 
         viewModel.navigationEvent.observe2(this) {
@@ -98,7 +98,10 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         )
     }
 
-    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+        AsyncDiffUtilAdapter<ContactDiaryPerson> {
+
+        override val asyncDiffer: AsyncDiffer<ContactDiaryPerson> = AsyncDiffer(this)
 
         inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
             val nameTextView = itemView.findViewById<TextView>(R.id.name)
@@ -111,7 +114,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         }
 
         override fun onBindViewHolder(viewHolder: ListAdapter.ViewHolder, position: Int) {
-            val person = personList[position]
+            val person = data[position]
             viewHolder.nameTextView.text = person.fullName
             viewHolder.itemContainerView.setOnClickListener {
                 viewModel.onEditPersonClick(person)
@@ -119,7 +122,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         }
 
         override fun getItemCount(): Int {
-            return personList.size
+            return data.size
         }
     }
 }
