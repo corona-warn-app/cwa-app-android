@@ -21,13 +21,24 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
     private val text = MutableStateFlow("")
 
     val isValid = text.map {
-        it.isNotEmpty() && it.length <= MAX_LOCATION_NAME_LENGTH
+        it.isNotEmpty()
     }.asLiveData()
 
     val shouldClose = SingleLiveEvent<Unit>()
+
+    private val formattedName: String
+        get() {
+            var newName = text.value
+            //allow only spaces as a name
+            if (newName.isNotBlank()) {
+                newName = newName.trim()
+            }
+            return newName.take(MAX_LOCATION_NAME_LENGTH)
+        }
 
     fun textChanged(locationName: String) {
         text.value = locationName
@@ -36,7 +47,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     fun addLocation() = launch {
         val location = contactDiaryRepository.addLocation(
             DefaultContactDiaryLocation(
-                locationName = text.value.take(MAX_LOCATION_NAME_LENGTH)
+                locationName = formattedName
             )
         )
 
@@ -56,7 +67,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         contactDiaryRepository.updateLocation(
             DefaultContactDiaryLocation(
                 location.locationId,
-                locationName = text.value.take(MAX_LOCATION_NAME_LENGTH)
+                locationName = formattedName
             )
         )
         shouldClose.postValue(null)
@@ -75,12 +86,10 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         shouldClose.postValue(null)
     }
 
-    companion object {
-        private const val MAX_LOCATION_NAME_LENGTH = 250
-    }
-
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryLocationBottomSheetDialogViewModel> {
         fun create(addedAt: String?): ContactDiaryLocationBottomSheetDialogViewModel
     }
 }
+
+private const val MAX_LOCATION_NAME_LENGTH = 250

@@ -21,13 +21,24 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
     private val text = MutableStateFlow("")
 
     val isValid = text.map {
-        it.isNotEmpty() && it.length <= MAX_PERSON_NAME_LENGTH
+        it.isNotEmpty()
     }.asLiveData()
 
     val shouldClose = SingleLiveEvent<Unit>()
+
+    private val formattedName: String
+        get() {
+            var newName = text.value
+            //allow only spaces as a name
+            if (newName.isNotBlank()) {
+                newName = newName.trim()
+            }
+            return newName.take(MAX_PERSON_NAME_LENGTH)
+        }
 
     fun textChanged(locationName: String) {
         text.value = locationName
@@ -36,7 +47,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     fun addPerson() = launch {
         val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
-                fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
+                fullName = formattedName
             )
         )
 
@@ -56,7 +67,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
         contactDiaryRepository.updatePerson(
             DefaultContactDiaryPerson(
                 person.personId,
-                fullName = text.value.take(MAX_PERSON_NAME_LENGTH)
+                fullName = formattedName
             )
         )
         shouldClose.postValue(null)
@@ -75,12 +86,10 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
         shouldClose.postValue(null)
     }
 
-    companion object {
-        private const val MAX_PERSON_NAME_LENGTH = 250
-    }
-
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryPersonBottomSheetDialogViewModel> {
         fun create(addedAt: String?): ContactDiaryPersonBottomSheetDialogViewModel
     }
 }
+
+private const val MAX_PERSON_NAME_LENGTH = 250
