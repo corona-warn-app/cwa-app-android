@@ -11,7 +11,7 @@
         <include
             android:id="@+id/contact_diary_day_header"
             layout="@layout/include_contact_diary_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"

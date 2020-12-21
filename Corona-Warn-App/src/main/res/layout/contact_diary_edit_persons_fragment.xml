@@ -9,7 +9,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:title="@string/contact_diary_edit_persons_title"
             android:background="@color/contact_diary_card"
@@ -53,8 +53,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/persons_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_normal"
