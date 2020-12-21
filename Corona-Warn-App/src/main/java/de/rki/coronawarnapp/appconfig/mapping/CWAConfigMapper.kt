@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.appconfig.mapping
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid.ApplicationConfigurationAndroid
-import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -14,7 +13,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             latestVersionCode = rawConfig.latestVersionCode,
             minVersionCode = rawConfig.minVersionCode,
             supportedCountries = rawConfig.getMappedSupportedCountries(),
-            appFeatures = rawConfig.mapAppFeatures()
+            isDeviceTimeCheckEnabled = !rawConfig.isDeviceTimeCheckDisabled(),
         )
     }
 
@@ -28,22 +27,26 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             else -> supportedCountriesList
         }
 
-    private fun ApplicationConfigurationAndroid.mapAppFeatures(): List<AppFeaturesOuterClass.AppFeature> =
-        if (hasAppFeatures()) {
-            val parsedFeatures = mutableListOf<AppFeaturesOuterClass.AppFeature>()
-            for (index in 0 until appFeatures.appFeaturesCount) {
-                parsedFeatures.add(appFeatures.getAppFeatures(index))
-            }
-            parsedFeatures
-        } else {
-            emptyList()
+    private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled(): Boolean {
+        if (!hasAppFeatures()) return false
+
+        return try {
+            (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == "disable-device-time-check" }
+                ?.let { it.value == 1 }
+                ?: false
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to map `disable-device-time-check` from %s", this)
+            false
         }
+    }
 
     data class CWAConfigContainer(
         override val latestVersionCode: Long,
         override val minVersionCode: Long,
         override val supportedCountries: List<String>,
-        override val appFeatures: List<AppFeaturesOuterClass.AppFeature>
+        override val isDeviceTimeCheckEnabled: Boolean
     ) : CWAConfig
 
     companion object {
