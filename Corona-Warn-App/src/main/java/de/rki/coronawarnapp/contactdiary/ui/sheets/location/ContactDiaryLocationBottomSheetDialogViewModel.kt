@@ -26,7 +26,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     private val text = MutableStateFlow("")
 
     val isValid = text.map {
-        it.isNotEmpty()
+        it.isNotEmpty() && it.length <= MAX_LOCATION_NAME_LENGTH
     }.asLiveData()
 
     val shouldClose = SingleLiveEvent<Unit>()
