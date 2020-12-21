@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.util.formatContactDiaryNameField
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -31,14 +32,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     val shouldClose = SingleLiveEvent<Unit>()
 
     private val formattedName: String
-        get() {
-            var newName = text.value
-            // allow only spaces as a name
-            if (newName.isNotBlank()) {
-                newName = newName.trim()
-            }
-            return newName.take(MAX_LOCATION_NAME_LENGTH)
-        }
+        get() = text.value.formatContactDiaryNameField(MAX_LOCATION_NAME_LENGTH)
 
     fun textChanged(locationName: String) {
         text.value = locationName
