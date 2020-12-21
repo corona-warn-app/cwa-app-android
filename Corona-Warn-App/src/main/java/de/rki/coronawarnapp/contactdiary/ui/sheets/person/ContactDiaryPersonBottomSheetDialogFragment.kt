@@ -70,7 +70,9 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
         binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 IME_ACTION_DONE -> {
-                    if (viewModel.isValid.value == true) binding.contactDiaryPersonBottomSheetSaveButton.performClick()
+                    if (viewModel.isValid.value == true) {
+                        binding.contactDiaryPersonBottomSheetSaveButton.performClick()
+                    }
                     false
                 }
                 else -> true

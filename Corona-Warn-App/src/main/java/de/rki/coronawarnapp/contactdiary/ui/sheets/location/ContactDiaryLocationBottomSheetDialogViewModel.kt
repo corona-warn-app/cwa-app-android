@@ -33,7 +33,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     private val formattedName: String
         get() {
             var newName = text.value
-            //allow only spaces as a name
+            // allow only spaces as a name
             if (newName.isNotBlank()) {
                 newName = newName.trim()
             }
