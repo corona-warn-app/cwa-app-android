@@ -1282,7 +1282,7 @@
     <!-- XTXT: error dialog - Error title when the provideDiagnosisKeys quota limit was reached. -->
     <string name="errors_risk_detection_limit_reached_title">"Limit already reached"</string>
     <!-- XTXT: error dialog - Error description when the provideDiagnosisKeys quota limit was reached. -->
-    <string name="errors_risk_detection_limit_reached_description">"No more exposure checks possible today, as you have reached the maximum number of checks per day defined by your operating system. Please check your risik status again tomorrow."</string>
+    <string name="errors_risk_detection_limit_reached_description">"No more exposure checks possible today, as you have reached the maximum number of checks per day defined by your operating system. Please check your risk status again tomorrow."</string>
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
