@@ -21,17 +21,29 @@ class ConfigDataContainerTest : BaseTest() {
             identifier = "localetag",
             cacheValidity = Duration.standardSeconds(300)
         )
-        config.isValid(now) shouldBe true
-        config.isValid(now.plus(Duration.standardSeconds(300))) shouldBe true
-        config.isValid(now.minus(Duration.standardSeconds(300))) shouldBe true
+
+        // isValid uses the "updatedTimestamp" with updatedAt = serverTime + serverOffset = ourTime
+        // Without the offset, we would already be off by one our
+        config.isValid(now) shouldBe false
+        config.isValid(now.plus(Duration.standardSeconds(300))) shouldBe false
+        config.isValid(now.minus(Duration.standardSeconds(300))) shouldBe false
+        config.isValid(now.plus(Duration.standardSeconds(1))) shouldBe false
+        config.isValid(now.minus(Duration.standardSeconds(1))) shouldBe false
 
         val nowWithOffset = now.plus(config.localOffset)
+        config.isValid(nowWithOffset) shouldBe true
+
+        config.isValid(nowWithOffset.plus(Duration.standardSeconds(1))) shouldBe true
+        config.isValid(nowWithOffset.minus(Duration.standardSeconds(1))) shouldBe true
+
         config.isValid(nowWithOffset.plus(Duration.standardSeconds(299))) shouldBe true
         config.isValid(nowWithOffset.minus(Duration.standardSeconds(299))) shouldBe true
 
-        config.isValid(nowWithOffset) shouldBe true
         config.isValid(nowWithOffset.minus(Duration.standardSeconds(300))) shouldBe true
-        config.isValid(nowWithOffset.plus(Duration.standardSeconds(300))) shouldBe false
+        config.isValid(nowWithOffset.plus(Duration.standardSeconds(300))) shouldBe true
+
+        config.isValid(nowWithOffset.minus(Duration.standardSeconds(301))) shouldBe false
+        config.isValid(nowWithOffset.plus(Duration.standardSeconds(301))) shouldBe false
     }
 
     @Test

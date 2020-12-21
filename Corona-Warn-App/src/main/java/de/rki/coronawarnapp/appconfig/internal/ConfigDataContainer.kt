@@ -18,7 +18,6 @@ data class ConfigDataContainer(
     override fun isValid(nowUTC: Instant): Boolean = if (cacheValidity == Duration.ZERO) {
         false
     } else {
-        val expiresAt = updatedAt.plus(cacheValidity)
-        nowUTC.isBefore(expiresAt)
+        Duration(nowUTC, updatedAt).abs() <= cacheValidity
     }
 }
