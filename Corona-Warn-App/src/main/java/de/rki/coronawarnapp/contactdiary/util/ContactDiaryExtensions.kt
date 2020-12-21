@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.util
 
 import android.content.Context
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -19,9 +20,12 @@ fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
 // According to tech spec german locale only
 fun LocalDate.toFormattedDay(): String = toString("EEEE, dd.MM.yy", Locale.GERMAN)
 
-fun EditText.showKeyboard() = post {
-        if (requestFocus()) context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+fun EditText.showKeyboard(view: View) = post {
+    if (requestFocus()) {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
+}
 
 fun Fragment.hideKeyboard() {
     context?.inputMethodManager?.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)

@@ -77,7 +77,7 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             }
         }
 
-        binding.contactDiaryPersonBottomSheetTextInputEditText.showKeyboard()
+        binding.contactDiaryPersonBottomSheetTextInputEditText.showKeyboard(view)
 
         viewModel.shouldClose.observe2(this) {
             dismiss()
