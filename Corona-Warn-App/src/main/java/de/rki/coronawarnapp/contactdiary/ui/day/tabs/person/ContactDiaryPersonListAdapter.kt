@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
-import de.rki.coronawarnapp.databinding.ContactDiaryPersonListLineBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryPersonListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
@@ -34,11 +34,11 @@ class ContactDiaryPersonListAdapter(
 
     class CachedPersonViewHolder(
         parent: ViewGroup
-    ) : BaseAdapter.VH(R.layout.contact_diary_person_list_line, parent),
-        BindableVH<SelectableItem<ContactDiaryPerson>, ContactDiaryPersonListLineBinding> {
-        override val viewBinding = lazy { ContactDiaryPersonListLineBinding.bind(itemView) }
+    ) : BaseAdapter.VH(R.layout.contact_diary_person_list_item, parent),
+        BindableVH<SelectableItem<ContactDiaryPerson>, ContactDiaryPersonListItemBinding> {
+        override val viewBinding = lazy { ContactDiaryPersonListItemBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryPersonListLineBinding.(
+        override val onBindData: ContactDiaryPersonListItemBinding.(
             key: SelectableItem<ContactDiaryPerson>
         ) -> Unit = {
             contactDiaryPersonListLineName.text = it.item.fullName
