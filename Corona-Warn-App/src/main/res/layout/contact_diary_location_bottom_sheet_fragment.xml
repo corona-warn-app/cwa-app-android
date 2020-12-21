@@ -64,7 +64,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/contact_diary_location_bottom_sheet_save_button"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"

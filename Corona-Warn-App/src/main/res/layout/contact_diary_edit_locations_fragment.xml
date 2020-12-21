@@ -11,6 +11,7 @@
             android:id="@+id/toolbar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:background="@drawable/contact_diary_background"
             app:title="@string/contact_diary_edit_locations_title"
             app:navigationIcon="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,8 +53,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/locations_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_normal"
