@@ -12,9 +12,36 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="MaterialAppTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorPrimary">@color/colorBrandSecondary</item>
+        <item name="colorPrimaryDark">@color/colorStableDark</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="alertDialogTheme">@style/diaryDialog</item>
+    </style>
+
+    <style name="MaterialAppTheme.NoActionBar" parent="MaterialAppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="dialogTheme">@style/diaryDialog</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.ContactDiary" parent="MaterialAppTheme.NoActionBar" />
+
+    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
+        <item name="colorSecondary">@color/colorAccentTintButton</item>
+        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
+        <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+    </style>
+
+    <style name="Widget.App.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.App.ExtendedFloatingActionButton
+        </item>
+    </style>
 
     <!-- Launcher theme with background -->
     <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
@@ -32,6 +59,17 @@
     <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="diaryDialogButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccentTintButton</item>
+    </style>
+    <style name="diaryButtonNegative" parent="Widget.MaterialComponents.Button.TextButton" />
+
+    <!--    Contact Diary Dialog-->
+    <style name="diaryDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/diaryDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/diaryDialogButton</item>
     </style>
 
     <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
@@ -318,4 +356,17 @@
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:letterSpacing">2</item>
     </style>
+
+    <!-- ####################################
+        Contact Diary
+    ###################################### -->
+    <style name="contactDiaryListItem" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="contactDiaryCard">
+        <item name="android:background">@drawable/contact_diary_card</item>
+    </style>
+
 </resources>
