@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
@@ -20,8 +22,10 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
 
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -33,7 +37,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository,
     private val testResultNotificationService: TestResultNotificationService,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val cwaSettings: CWASettings,
+    appConfigProvider: AppConfigProvider
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(settingsViewModel)
@@ -95,6 +101,17 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .asLiveData(context = dispatcherProvider.Default)
     }
 
+    private var wasDeviceTimeDialogShown = false
+    val showIncorrectDeviceTimeDialog = appConfigProvider.currentConfig
+        .filter {
+            !it.isDeviceTimeCorrect && !wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged
+        }
+        .onEach {
+            wasDeviceTimeDialogShown = true
+        }
+        .map { }
+        .asLiveData(context = dispatcherProvider.Default)
+
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }
@@ -130,6 +147,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
         LocalData.isUserToBeNotifiedOfLoweredRiskLevel = false
+    }
+
+    fun userHasAcknowledgedIncorrectDeviceTime() {
+        cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
+        wasDeviceTimeDialogShown = false
     }
 
     @AssistedInject.Factory

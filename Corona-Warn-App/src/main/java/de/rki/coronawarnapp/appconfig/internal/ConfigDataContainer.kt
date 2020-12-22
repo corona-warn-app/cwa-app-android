@@ -11,8 +11,10 @@ data class ConfigDataContainer(
     val mappedConfig: ConfigMapping,
     override val identifier: String,
     override val localOffset: Duration,
+    override val isDeviceTimeCorrect: Boolean = localOffset.abs() < ConfigData.DEVICE_TIME_GRACE_RANGE,
     override val configType: ConfigData.Type
 ) : ConfigData, ConfigMapping by mappedConfig {
+
     override val updatedAt: Instant = serverTime.plus(localOffset)
 
     override fun isValid(nowUTC: Instant): Boolean = if (cacheValidity == Duration.ZERO) {

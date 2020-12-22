@@ -16,7 +16,7 @@ class LocalAppConfigSource @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) {
 
-    suspend fun getConfigData(): ConfigData? = withContext(dispatcherProvider.IO) {
+    suspend fun getConfigData(): ConfigDataContainer? = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).v("retrieveConfig()")
 
         val internalConfigData = storage.getStoredConfig()

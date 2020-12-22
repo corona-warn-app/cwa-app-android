@@ -48,7 +48,7 @@ class RemoteAppConfigSource @Inject constructor(
     }
 
     fun clear() {
-        server.clearCache()
+        Timber.tag(TAG).v("clear()")
     }
 
     companion object {

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
@@ -38,6 +39,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
+    @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,6 +102,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             if (it) {
                 showRiskLevelLoweredDialog()
             }
+        }
+        vm.showIncorrectDeviceTimeDialog.observe2(this) {
+            deviceTimeIncorrectDialog.show { vm.userHasAcknowledgedIncorrectDeviceTime() }
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()

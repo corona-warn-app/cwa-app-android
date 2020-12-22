@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.AppDatabase
@@ -52,7 +53,8 @@ class DataReset @Inject constructor(
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryDatabase: ContactDiaryDatabase,
-    private var contactDiarySettings: ContactDiarySettings
+    private val contactDiarySettings: ContactDiarySettings,
+    private val cwaSettings: CWASettings
 ) {
 
     private val mutex = Mutex()
@@ -79,6 +81,7 @@ class DataReset @Inject constructor(
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
         contactDiarySettings.clear()
+        cwaSettings.clear()
 
         // Clear contact diary database
         contactDiaryDatabase.clearAllTables()

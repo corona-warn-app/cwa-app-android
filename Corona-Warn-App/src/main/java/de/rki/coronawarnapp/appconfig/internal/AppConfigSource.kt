@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.sources.fallback.DefaultAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.remote.RemoteAppConfigSource
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.TimeStamper
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,6 +15,7 @@ class AppConfigSource @Inject constructor(
     private val remoteAppConfigSource: RemoteAppConfigSource,
     private val localAppConfigSource: LocalAppConfigSource,
     private val defaultAppConfigSource: DefaultAppConfigSource,
+    private val cwaSettings: CWASettings,
     private val timeStamper: TimeStamper
 ) {
 
@@ -25,7 +27,7 @@ class AppConfigSource @Inject constructor(
             Timber.tag(TAG).d("Returning local config, still valid.")
             return localConfig
         } else {
-            Timber.tag(TAG).d("Local app config was unavailable(${localConfig == null} or invalid.")
+            Timber.tag(TAG).d("Local app config was unavailable(${localConfig == null}) or invalid.")
         }
 
         val remoteConfig = remoteAppConfigSource.getConfigData()
@@ -33,11 +35,20 @@ class AppConfigSource @Inject constructor(
         return when {
             remoteConfig != null -> {
                 Timber.tag(TAG).d("Returning remote config.")
+                if (!remoteConfig.isDeviceTimeCorrect) {
+                    Timber.tag(TAG).w(
+                        "Device time is incorrect, offset=%s", remoteConfig.localOffset.standardMinutes
+                    )
+                }
+                if (remoteConfig.isDeviceTimeCorrect && cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
+                    Timber.tag(TAG).i("Resetting previous incorrect device time acknowledgement.")
+                    cwaSettings.wasDeviceTimeIncorrectAcknowledged = false
+                }
                 remoteConfig
             }
             localConfig != null -> {
                 Timber.tag(TAG).d("Remote config was unavailable, returning local config, even if expired.")
-                localConfig
+                localConfig.copy(isDeviceTimeCorrect = true)
             }
             else -> {
                 Timber.tag(TAG).w("Remote & Local config unavailable! Returning DEFAULT!")

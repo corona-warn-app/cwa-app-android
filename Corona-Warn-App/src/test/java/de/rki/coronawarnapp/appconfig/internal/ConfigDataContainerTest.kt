@@ -78,4 +78,31 @@ class ConfigDataContainerTest : BaseTest() {
         )
         config.updatedAt shouldBe Instant.EPOCH.plus(Duration.standardHours(1))
     }
+
+    @Test
+    fun `device time correctness is checked via localOffset`() {
+        val forOffset: (Duration) -> ConfigData = {
+            ConfigDataContainer(
+                serverTime = Instant.EPOCH.plus(Duration.standardDays(1)),
+                localOffset = it,
+                mappedConfig = mockk(),
+                configType = ConfigData.Type.LAST_RETRIEVED,
+                identifier = "localetag",
+                cacheValidity = Duration.standardSeconds(0)
+            )
+        }
+
+        forOffset(Duration.standardHours(1)).isDeviceTimeCorrect shouldBe true
+
+        forOffset(Duration.ZERO).isDeviceTimeCorrect shouldBe true
+
+        forOffset(Duration.standardHours(2).minus(1)).isDeviceTimeCorrect shouldBe true
+        forOffset(Duration.standardHours(-2).plus(1)).isDeviceTimeCorrect shouldBe true
+
+        forOffset(Duration.standardHours(2)).isDeviceTimeCorrect shouldBe false
+        forOffset(Duration.standardHours(-2)).isDeviceTimeCorrect shouldBe false
+
+        forOffset(Duration.standardHours(2).plus(1)).isDeviceTimeCorrect shouldBe false
+        forOffset(Duration.standardHours(-2).minus(1)).isDeviceTimeCorrect shouldBe false
+    }
 }

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.main.home
 
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -20,10 +22,12 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -49,6 +53,8 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var cwaSettings: CWASettings
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     @BeforeEach
     fun setup() {
@@ -58,6 +64,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { submissionCardsStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
         every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
         every { submissionRepository.hasViewedTestResult } returns flow { emit(true) }
+
+        coEvery { appConfigProvider.currentConfig } returns emptyFlow()
     }
 
     @AfterEach
@@ -74,7 +82,9 @@ class HomeFragmentViewModelTest : BaseTest() {
         submissionCardsStateProvider = submissionCardsStateProvider,
         tracingRepository = tracingRepository,
         testResultNotificationService = testResultNotificationService,
-        submissionRepository = submissionRepository
+        submissionRepository = submissionRepository,
+        cwaSettings = cwaSettings,
+        appConfigProvider = appConfigProvider
     )
 
     @Test

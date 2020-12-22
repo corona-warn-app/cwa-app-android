@@ -4,14 +4,17 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.sources.fallback.DefaultAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.remote.RemoteAppConfigSource
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -27,6 +30,7 @@ class AppConfigSourceTest : BaseTest() {
     @MockK lateinit var localSource: LocalAppConfigSource
     @MockK lateinit var defaultSource: DefaultAppConfigSource
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var cwaSettings: CWASettings
 
     private val remoteConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
@@ -64,6 +68,9 @@ class AppConfigSourceTest : BaseTest() {
         coEvery { defaultSource.getConfigData() } returns defaultConfig
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+
+        every { cwaSettings.wasDeviceTimeIncorrectAcknowledged } returns false
+        every { cwaSettings.wasDeviceTimeIncorrectAcknowledged = any() } just Runs
     }
 
     @AfterEach
@@ -75,7 +82,8 @@ class AppConfigSourceTest : BaseTest() {
         remoteAppConfigSource = remoteSource,
         localAppConfigSource = localSource,
         defaultAppConfigSource = defaultSource,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        cwaSettings = cwaSettings
     )
 
     @Test
@@ -132,6 +140,38 @@ class AppConfigSourceTest : BaseTest() {
             localSource.getConfigData()
             remoteSource.getConfigData()
             defaultSource.getConfigData()
+        }
+    }
+
+    @Test
+    fun `remote config with correct device time resets user acknowledgement`() = runBlockingTest {
+        coEvery { localSource.getConfigData() } returns null
+        every { cwaSettings.wasDeviceTimeIncorrectAcknowledged } returns true
+
+        createInstance().getConfigData()
+
+        coVerifySequence {
+            localSource.getConfigData()
+            remoteSource.getConfigData()
+            cwaSettings.wasDeviceTimeIncorrectAcknowledged
+            cwaSettings.wasDeviceTimeIncorrectAcknowledged = false
+        }
+    }
+
+    @Test
+    fun `remote config with incorrect device time does not reset user acknowledgement`() = runBlockingTest {
+        coEvery { localSource.getConfigData() } returns null
+
+        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(
+            localOffset = Duration.standardHours(3)
+        )
+
+        createInstance().getConfigData()
+
+        coVerifySequence {
+            localSource.getConfigData()
+            remoteSource.getConfigData()
+            cwaSettings.wasDeviceTimeIncorrectAcknowledged
         }
     }
 }
