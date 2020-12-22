@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class TracingDetailsItemProvider @Inject constructor(
                 RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,
                     lastEncounterDaysAgo = Duration(
-                        latestCalc.lastRiskEncounterAt,
+                        latestCalc.lastRiskEncounterAt ?: Instant.EPOCH,
                         timeStamper.nowUTC
                     ).standardDays.toInt()
                 )
