@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.remote.RemoteAppConfigSource
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,7 +49,7 @@ class AppConfigSource @Inject constructor(
             }
             localConfig != null -> {
                 Timber.tag(TAG).d("Remote config was unavailable, returning local config, even if expired.")
-                localConfig.copy(isDeviceTimeCorrect = true)
+                localConfig.copy(localOffset = Duration.ZERO)
             }
             else -> {
                 Timber.tag(TAG).w("Remote & Local config unavailable! Returning DEFAULT!")
