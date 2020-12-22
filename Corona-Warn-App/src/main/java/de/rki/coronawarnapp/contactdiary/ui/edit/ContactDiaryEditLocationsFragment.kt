@@ -124,5 +124,9 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         override fun getItemCount(): Int {
             return data.size
         }
+
+        override fun getItemId(position: Int): Long {
+            return data[position].locationId
+        }
     }
 }
