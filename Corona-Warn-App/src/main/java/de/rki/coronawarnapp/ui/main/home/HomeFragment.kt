@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -76,15 +77,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
         }
 
-        vm.popupEvents.observe2(this) {
-            when (it) {
+        vm.popupEvents.observe2(this) { event ->
+            when (event) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(
                         HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
                     )
                 }
                 is HomeFragmentEvents.ShowTracingExplanation -> {
-                    tracingExplanationDialog.show(it.activeTracingDaysInRetentionPeriod) {
+                    tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
                         vm.tracingExplanationWasShown()
                     }
                 }
@@ -98,7 +99,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     showRemoveTestDialog()
                 }
                 HomeFragmentEvents.GoToContactDiary -> {
-                    (requireActivity() as MainActivity).navigateToContactDiaryActivity()
+                    context?.let { ContactDiaryActivity.start(it) }
                 }
             }
         }
