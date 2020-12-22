@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.sheets.location
+package de.rki.coronawarnapp.contactdiary.ui.sheets.location
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,14 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
+import de.rki.coronawarnapp.contactdiary.util.showKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationBottomSheetFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(), AutoInject {
@@ -22,7 +24,13 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
     private val binding get() = _binding!!
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ContactDiaryLocationBottomSheetDialogViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: ContactDiaryLocationBottomSheetDialogViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as ContactDiaryLocationBottomSheetDialogViewModel.Factory
+            factory.create(navArgs.addedAt)
+        }
+    )
 
     private val navArgs: ContactDiaryLocationBottomSheetDialogFragmentArgs by navArgs()
 
@@ -51,7 +59,7 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
             }
         }
 
-        binding.contactDiaryLocationBottomSheetCloseButton.buttonIcon.setOnClickListener {
+        binding.contactDiaryLocationBottomSheetCloseButton.setOnClickListener {
             viewModel.closePressed()
         }
 
@@ -61,10 +69,17 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
 
         binding.contactDiaryLocationBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> false
+                EditorInfo.IME_ACTION_DONE -> {
+                    if (viewModel.isValid.value == true) {
+                        binding.contactDiaryLocationBottomSheetSaveButton.performClick()
+                    }
+                    false
+                }
                 else -> true
             }
         }
+
+        binding.contactDiaryLocationBottomSheetTextInputEditText.showKeyboard()
 
         viewModel.shouldClose.observe2(this) {
             dismiss()
@@ -74,6 +89,11 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
             binding.contactDiaryLocationBottomSheetTextInputLayout.isErrorEnabled = it
             binding.contactDiaryLocationBottomSheetSaveButton.isEnabled = it
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideKeyboard()
     }
 
     override fun onDestroyView() {

@@ -47,6 +47,7 @@ class ContactDiaryCleanTask @Inject constructor(
         override val executionTimeout: Duration = Duration.standardMinutes(9)
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
+        override val errorHandling: TaskFactory.Config.ErrorHandling = TaskFactory.Config.ErrorHandling.SILENT
     }
 
     class Factory @Inject constructor(

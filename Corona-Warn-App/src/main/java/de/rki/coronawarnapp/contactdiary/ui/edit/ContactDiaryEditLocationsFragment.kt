@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
@@ -34,12 +35,19 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = viewModel
 
         setupRecyclerView()
 
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
+        }
+
+        viewModel.isListVisible.observe2(this) {
+            binding.contactDiaryLocationListNoItemsGroup.isGone = it
+        }
+
+        viewModel.isButtonEnabled.observe2(this) {
+            binding.deleteButton.isEnabled = it
         }
 
         viewModel.locationsLiveData.observe2(this) {
@@ -61,6 +69,10 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                     )
                 }
             }
+        }
+
+        binding.apply {
+            deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
         }
     }
 
