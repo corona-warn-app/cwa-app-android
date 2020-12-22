@@ -7,9 +7,12 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import org.joda.time.LocalDate
@@ -19,6 +22,9 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+        ex.report(ExceptionCategory.INTERNAL, TAG)
+    }
 
     private val localDate = LocalDate.parse(selectedDay)
 
@@ -35,7 +41,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         }
     }.asLiveData()
 
-    fun locationSelectionChanged(item: SelectableItem<ContactDiaryLocation>) = launch {
+    fun locationSelectionChanged(item: SelectableItem<ContactDiaryLocation>) = launch(coroutineExceptionHandler) {
         if (!item.selected) {
             contactDiaryRepository.addLocationVisit(
                 DefaultContactDiaryLocationVisit(
@@ -48,6 +54,10 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                 .find { it.contactDiaryLocation.locationId == item.item.locationId }
             visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
         }
+    }
+
+    companion object {
+        private val TAG = ContactDiaryLocationListViewModel::class.java.simpleName
     }
 
     @AssistedInject.Factory

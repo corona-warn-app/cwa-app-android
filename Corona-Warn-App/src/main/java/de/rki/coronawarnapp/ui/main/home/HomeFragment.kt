@@ -6,8 +6,8 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
@@ -72,15 +72,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.popupEvents.observe2(this) {
-            when (it) {
+        vm.popupEvents.observe2(this) { event ->
+            when (event) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(
                         HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
                     )
                 }
                 is HomeFragmentEvents.ShowTracingExplanation -> {
-                    tracingExplanationDialog.show(it.activeTracingDaysInRetentionPeriod) {
+                    tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
                         vm.tracingExplanationWasShown()
                     }
                 }
@@ -94,7 +94,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                     showRemoveTestDialog()
                 }
                 HomeFragmentEvents.GoToContactDiary -> {
-                    (requireActivity() as MainActivity).navigateToContactDiaryActivity()
+                    context?.let { ContactDiaryActivity.start(it) }
                 }
             }
         }

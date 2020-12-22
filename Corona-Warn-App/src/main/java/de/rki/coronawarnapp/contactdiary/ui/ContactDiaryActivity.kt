@@ -18,11 +18,6 @@ import javax.inject.Inject
  * This activity holds all the contact diary fragments
  */
 class ContactDiaryActivity : AppCompatActivity(), HasAndroidInjector {
-    companion object {
-        fun start(context: Context) {
-            context.startActivity(Intent(context, ContactDiaryActivity::class.java))
-        }
-    }
 
     @Inject lateinit var settings: ContactDiarySettings
     @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -58,5 +53,11 @@ class ContactDiaryActivity : AppCompatActivity(), HasAndroidInjector {
             resultCode,
             data
         )
+    }
+
+    companion object {
+        fun start(context: Context) {
+            context.startActivity(Intent(context, ContactDiaryActivity::class.java))
+        }
     }
 }

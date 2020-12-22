@@ -9,9 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ContactDiarySettings @Inject constructor(
-
     @AppContext val context: Context
-
 ) {
 
     private val prefs by lazy {

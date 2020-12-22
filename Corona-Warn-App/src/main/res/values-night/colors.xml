@@ -59,6 +59,6 @@
     <!-- Contact Diary -->
     <color name="colorContactDiaryListItem">#232324</color>
     <color name="colorContactDiaryListItemPressed">#39393A</color>
-
+    <color name="colorContactDiaryBackground">#232324</color>
 
 </resources>

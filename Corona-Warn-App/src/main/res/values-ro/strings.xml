@@ -98,9 +98,9 @@
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Vă rugăm să partajați rezultatul testului dvs. pentru a-i avertiza pe ceilalți."</string>
     <!-- XHED: Notification title - test result is ready -->
-    <string name="notification_headline_test_result_ready">"Rezultatul testului dvs."</string>
+    <string name="notification_headline_test_result_ready">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body - test result is ready -->
-    <string name="notification_body_test_result_ready">"Există noutăți importante. Deschideți aplicația Corona-Warn."</string>
+    <string name="notification_body_test_result_ready">"Aveți mesaje noi de la aplicația Corona-Warn."</string>
 
     <!-- ####################################
               App Auto Update
@@ -157,7 +157,7 @@
     <string name="risk_card_check_failed_no_internet_restart_button">"Relansare"</string>
 
     <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
-    <string name="risk_card_low_risk_no_encounters_body">"Nicio expunere până acum"</string>
+    <string name="risk_card_low_risk_no_encounters_body">"Nicio expunere"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Expuneri cu risc redus într-o zi"</item>
@@ -859,7 +859,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Actualizare"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1020,7 +1020,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Perioada de carantină este de obicei de 14 zile. Observați ce simptome aveți și monitorizați dezvoltarea acestora."</item>
-        <item>"Direcția de sănătate publică vă va solicita să întocmiți o listă a persoanelor cu care ați intrat în contact. Aceasta trebuie să cuprindă toate persoanele cu care ați avut contact strâns (mai puțin de 2 metri, conversații față în față) timp de peste 15 minute începând cu două zile înainte de a prezenta simptome."</item>
+        <item>"Autoritatea de sănătate publică vă va solicita să întocmiți o listă a persoanelor cu care ați intrat în contact. Aceasta trebuie să cuprindă toate persoanele cu care ați avut contact strâns (mai puțin de 2 metri, conversații față în față) timp de peste 15 minute începând cu două zile înainte de a prezenta simptome. Puteți utiliza jurnalul de contacte în acest scop: trebuie doar să exportați intrările și apoi să le tipăriți sau să le expediați pe e-mail."</item>
         <item>"Luați în considerare în special persoanele care nu vor fi notificate direct de aplicație dacă nu au un smartphone sau dacă nu și-au instalat aplicația."</item>
         <item>"Chiar și când nu mai aveți simptome și vă simțiți din nou bine, tot puteți să fiți contagios."</item>
     </string-array>
@@ -1273,7 +1273,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Nu puteți efectua această acțiune. Contactați hotline-ul."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Aplicația dvs. Corona-Warn este instalată corect, dar serviciul „Notificări privind expunerea la COVID-19” nu este disponibil în sistemul de operare al smartphone-ului dvs. Aceasta înseamnă că nu puteți utiliza aplicația Corona-Warn. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: https://www.coronawarn.app/en/faq/"</string>
+    <string name="errors_google_update_needed">"Aplicația dvs. Corona-Warn este instalată corect, dar „Sistemul de notificări privind expunerea la COVID-19” nu este disponibil în sistemul de operare al smartphone-ului dvs. Aceasta înseamnă că nu puteți utiliza aplicația Corona-Warn. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"Aplicația Corona-Warn funcționează corect, dar nu putem actualiza starea curentă a riscului dvs. Înregistrarea în jurnal a expunerilor rămâne activă și funcționează corect. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - Error title when the provideDiagnosisKeys quota limit was reached. -->

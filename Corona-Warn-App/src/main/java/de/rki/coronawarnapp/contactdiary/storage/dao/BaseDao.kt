@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.storage.dao
 import kotlinx.coroutines.flow.Flow
 
 interface BaseDao<in T, out U> {
-    suspend fun insert(entity: T)
+    suspend fun insert(entity: T): Long
     suspend fun insert(entities: List<T>)
     suspend fun update(entity: T)
     suspend fun update(entities: List<T>)

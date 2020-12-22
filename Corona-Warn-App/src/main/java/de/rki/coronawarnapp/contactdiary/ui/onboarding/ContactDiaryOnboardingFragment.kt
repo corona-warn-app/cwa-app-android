@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -45,7 +44,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
             when (it) {
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToMainActivity -> {
-                    (requireActivity() as ContactDiaryActivity).finish()
+                    requireActivity().onBackPressed()
                 }
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment -> {
