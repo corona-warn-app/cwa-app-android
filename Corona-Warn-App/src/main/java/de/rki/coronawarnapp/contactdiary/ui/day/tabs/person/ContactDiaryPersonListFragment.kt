@@ -49,7 +49,11 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
         viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
 
-            binding.contactDiaryPersonListNoItemsGroup.setInvisible(it.isNotEmpty())
+            if(it.isNotEmpty()) {
+                binding.contactDiaryPersonListNoItemsGroup.visibility = View.GONE
+            } else {
+                binding.contactDiaryPersonListNoItemsGroup.visibility = View.VISIBLE
+            }
         }
     }
 }

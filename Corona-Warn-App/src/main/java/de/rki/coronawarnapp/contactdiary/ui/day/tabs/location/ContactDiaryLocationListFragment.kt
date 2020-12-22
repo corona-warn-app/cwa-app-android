@@ -49,7 +49,11 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
         viewModel.uiList.observe2(this) {
             locationListAdapter.update(it)
 
-            binding.contactDiaryLocationListNoItemsGroup.setInvisible(it.isNotEmpty())
+            if(it.isNotEmpty()) {
+                binding.contactDiaryLocationListNoItemsGroup.visibility = View.GONE
+            } else {
+                binding.contactDiaryLocationListNoItemsGroup.visibility = View.VISIBLE
+            }
         }
     }
 }
