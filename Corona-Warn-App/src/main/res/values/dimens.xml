@@ -6,7 +6,7 @@
     <dimen name="spacing_normal">24dp</dimen>
     <dimen name="spacing_small">16dp</dimen>
     <dimen name="spacing_tiny">8dp</dimen>
-    <dimen name="spacing_mega_tiny">3dp</dimen>
+    <dimen name="spacing_mega_tiny">4dp</dimen>
 
     <!-- font sizes -->
     <dimen name="font_huge">34sp</dimen>
@@ -138,5 +138,5 @@
     <dimen name="calendar_day_spacing">4dp</dimen>
 
     <!-- Contact Diary -->
-    <dimen name="contact_diary_list_item">65dp</dimen>
+    <dimen name="contact_diary_list_item">64dp</dimen>
 </resources>

@@ -24,10 +24,10 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_small"
-            app:layout_constraintBottom_toTopOf="@+id/contact_diary_onboarding_next_button"
+            app:layout_constraintBottom_toTopOf="@id/contact_diary_onboarding_next_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_header">
+            app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -55,8 +55,8 @@
                     android:focusable="true"
                     android:text="@string/contact_diary_information_card_title"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_illustration"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_illustration"
                     tools:text="Behalten Sie den Überblick." />
 
                 <TextView
@@ -69,7 +69,7 @@
                     android:text="@string/contact_diary_onboarding_body"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
                     tools:text="Erstellen Sie eine Übersicht über Ihre Kontakte der letzten 14 Tage. So haben Sie bei Bedarf schnell eine vollständige Liste zur Hand." />
 
                 <include
@@ -81,9 +81,9 @@
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_first_section}"
                     app:icon="@{@drawable/ic_contact_diary_person}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_body" />
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_body" />
 
                 <include
                     android:id="@+id/contact_diary_onboarding_second_section"
@@ -94,9 +94,9 @@
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_second_section}"
                     app:icon="@{@drawable/ic_contact_diary_location}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_first_section" />
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_first_section" />
 
                 <include
                     android:id="@+id/contact_diary_onboarding_third_section"
@@ -107,9 +107,9 @@
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_third_section}"
                     app:icon="@{@drawable/ic_contact_diary_lock}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_second_section" />
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_second_section" />
 
                 <include
                     android:id="@+id/contact_diary_onboarding_fourth_section"
@@ -120,9 +120,9 @@
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_fourth_section}"
                     app:icon="@{@drawable/ic_contact_diary_edit}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_third_section" />
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_third_section" />
 
                 <include
                     android:id="@+id/contact_diary_onboarding_fifth_section"
@@ -180,9 +180,9 @@
                     android:layout_height="@dimen/card_divider"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    bind:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    bind:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    bind:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_information" />
+                    bind:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    bind:layout_constraintStart_toStartOf="@id/guideline_start"
+                    bind:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_privacy_information" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
