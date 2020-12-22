@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject

@@ -36,7 +36,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val logginPeriod: LiveData<PeriodLoggedBox.Item> = tracingDetailsItemProvider.state
+    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = tracingDetailsItemProvider.state
         .mapNotNull { items ->
             items.firstOrNull { it is PeriodLoggedBox.Item } as? PeriodLoggedBox.Item
         }
