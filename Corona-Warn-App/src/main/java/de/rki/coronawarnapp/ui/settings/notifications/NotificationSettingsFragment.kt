@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -30,7 +29,7 @@ class NotificationSettingsFragment : Fragment(R.layout.fragment_settings_notific
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.notificationSettingsState.observe2(this) {
+        vm.notificationSettingsState.observe(viewLifecycleOwner) {
             binding.state = it
         }
         setButtonOnClickListener()

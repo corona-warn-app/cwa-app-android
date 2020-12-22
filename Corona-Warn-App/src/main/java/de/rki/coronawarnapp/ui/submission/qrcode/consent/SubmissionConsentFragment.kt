@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -27,7 +26,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackButtonClick()
         }
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToQRCodeScan -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment()
@@ -40,7 +39,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 )
             }
         }
-        viewModel.countries.observe2(this) {
+        viewModel.countries.observe(viewLifecycleOwner) {
             binding.countries = it
         }
     }

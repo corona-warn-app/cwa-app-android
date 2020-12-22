@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -36,7 +35,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe2(this) {
+        viewModel.state.observe(viewLifecycleOwner) {
             binding.uiState = it
 
             submission_tan_character_error.setGone(it.areCharactersCorrect)
@@ -59,7 +58,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
         }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 
-        viewModel.registrationState.observe2(this) {
+        viewModel.registrationState.observe(viewLifecycleOwner) {
             binding.submissionTanSpinner.visibility = when (it) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
@@ -73,7 +72,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             }
         }
 
-        viewModel.registrationError.observe2(this) {
+        viewModel.registrationError.observe(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
     }

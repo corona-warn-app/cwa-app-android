@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBin
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -40,7 +39,7 @@ class InteroperabilityConfigurationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.countryList.observe2(this) {
+        vm.countryList.observe(viewLifecycleOwner) {
             binding.countryData = it
         }
 
@@ -54,7 +53,7 @@ class InteroperabilityConfigurationFragment :
             vm.onBackPressed()
         }
 
-        vm.navigateBack.observe2(this) {
+        vm.navigateBack.observe(viewLifecycleOwner) {
             if (it) {
                 (requireActivity() as MainActivity).goBack()
             }

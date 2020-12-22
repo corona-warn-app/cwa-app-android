@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBind
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -32,11 +31,11 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
 
-        vm.testResult.observe2(this) {
+        vm.testResult.observe(viewLifecycleOwner) {
             binding.submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
-        vm.routeToScreen.observe2(this) { navDirections ->
+        vm.routeToScreen.observe(viewLifecycleOwner) { navDirections ->
             navDirections?.let { doNavigate(it) } ?: popBackStack()
         }
     }

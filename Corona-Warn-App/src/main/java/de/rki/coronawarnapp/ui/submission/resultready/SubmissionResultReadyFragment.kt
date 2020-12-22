@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -42,7 +41,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
         setButtonOnClickListener()
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity -> doNavigate(
                     SubmissionResultReadyFragmentDirections.actionSubmissionResultReadyFragmentToMainFragment()
@@ -54,7 +53,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
                 )
             }
         }
-        viewModel.showUploadDialog.observe2(this) {
+        viewModel.showUploadDialog.observe(viewLifecycleOwner) {
             uploadDialog.setState(show = it)
         }
     }

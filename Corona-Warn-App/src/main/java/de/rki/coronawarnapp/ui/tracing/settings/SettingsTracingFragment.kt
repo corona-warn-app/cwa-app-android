@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -41,10 +40,10 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.tracingDetailsState.observe2(this) {
+        vm.tracingDetailsState.observe(viewLifecycleOwner) {
             binding.tracingDetails = it
         }
-        vm.tracingSettingsState.observe2(this) { state ->
+        vm.tracingSettingsState.observe(viewLifecycleOwner) { state ->
             binding.settingsTracingState = state
 
             binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
@@ -59,7 +58,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             }
         }
 
-        vm.events.observe2(this) {
+        vm.events.observe(viewLifecycleOwner) {
             when (it) {
                 is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
                 Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
@@ -72,7 +71,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             }
         }
 
-        vm.isTracingSwitchChecked.observe2(this) { checked ->
+        vm.isTracingSwitchChecked.observe(viewLifecycleOwner) { checked ->
             binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.isChecked = checked
         }
 

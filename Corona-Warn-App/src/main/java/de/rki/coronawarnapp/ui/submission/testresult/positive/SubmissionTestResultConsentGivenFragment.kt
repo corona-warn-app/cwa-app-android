@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -43,7 +42,7 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.uiState.observe2(this) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             binding.apply {
                 uiState = it
                 submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
@@ -52,9 +51,9 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
 
         setButtonOnClickListener()
 
-        viewModel.showCancelDialog.observe2(this) { showCancelDialog() }
+        viewModel.showCancelDialog.observe(viewLifecycleOwner) { showCancelDialog() }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
@@ -69,7 +68,7 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
             }
         }
 
-        viewModel.showUploadDialog.observe2(this) {
+        viewModel.showUploadDialog.observe(viewLifecycleOwner) {
             uploadDialog.setState(it)
         }
     }

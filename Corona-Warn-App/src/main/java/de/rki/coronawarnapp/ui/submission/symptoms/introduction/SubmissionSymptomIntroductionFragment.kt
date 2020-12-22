@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -36,21 +35,21 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
         super.onViewCreated(view, savedInstanceState)
         uploadDialog = SubmissionBlockingDialog(requireContext())
 
-        viewModel.navigation.observe2(this) {
+        viewModel.navigation.observe(viewLifecycleOwner) {
             doNavigate(it)
         }
 
-        viewModel.showCancelDialog.observe2(this) {
+        viewModel.showCancelDialog.observe(viewLifecycleOwner) {
             SubmissionCancelDialog(requireContext()).show {
                 viewModel.onCancelConfirmed()
             }
         }
 
-        viewModel.showUploadDialog.observe2(this) {
+        viewModel.showUploadDialog.observe(viewLifecycleOwner) {
             uploadDialog.setState(show = it)
         }
 
-        viewModel.symptomIndication.observe2(this) {
+        viewModel.symptomIndication.observe(viewLifecycleOwner) {
             updateButtons(it)
         }
 

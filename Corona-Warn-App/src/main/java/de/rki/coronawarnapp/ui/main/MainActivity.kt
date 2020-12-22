@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -87,7 +86,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
 
         if (CWADebug.isDeviceForTestersBuild) {
-            vm.showEnvironmentHint.observe2(this) {
+            vm.showEnvironmentHint.observe(this) {
                 Toast.makeText(this, "Current environment: $it", Toast.LENGTH_SHORT).show()
             }
         }

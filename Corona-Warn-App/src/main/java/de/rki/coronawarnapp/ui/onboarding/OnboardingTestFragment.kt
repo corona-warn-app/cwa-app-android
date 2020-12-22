@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -29,7 +28,7 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
             onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
         }
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingNotifications ->
                     doNavigate(

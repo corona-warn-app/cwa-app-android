@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestAppconfigBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -31,13 +30,13 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentConfig.observe2(this) { data ->
+        vm.currentConfig.observe(viewLifecycleOwner) { data ->
             binding.currentConfiguration.text = data.rawConfig.toString()
             binding.lastUpdate.text = timeFormatter.print(data.updatedAt)
             binding.timeOffset.text = "${data.localOffset.millis}ms (configType=${data.configType})"
         }
 
-        vm.errorEvent.observe2(this) {
+        vm.errorEvent.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
 

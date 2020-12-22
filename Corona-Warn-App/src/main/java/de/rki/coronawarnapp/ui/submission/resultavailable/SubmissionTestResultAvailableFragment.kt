@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -36,7 +35,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        vm.consent.observe2(this) {
+        vm.consent.observe(viewLifecycleOwner) {
             if (it) {
                 binding.submissionTestResultAvailableText.setText(
                     R.string.submission_test_result_available_text_consent_given
@@ -55,18 +54,18 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
         }
 
-        vm.showCloseDialog.observe2(this) {
+        vm.showCloseDialog.observe(viewLifecycleOwner) {
             showCloseDialog()
         }
 
-        vm.routeToScreen.observe2(this) {
+        vm.routeToScreen.observe(viewLifecycleOwner) {
             doNavigate(it)
         }
 
-        vm.showPermissionRequest.observe2(this) { permissionRequest ->
+        vm.showPermissionRequest.observe(viewLifecycleOwner) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.showTracingConsentDialog.observe2(this) { onConsentResult ->
+        vm.showTracingConsentDialog.observe(viewLifecycleOwner) { onConsentResult ->
             TracingConsentDialog(requireContext()).show(
                 onConsentGiven = { onConsentResult(true) },
                 onConsentDeclined = { onConsentResult(false) }
