@@ -13,9 +13,9 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
+import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -34,7 +34,8 @@ import javax.inject.Inject
  */
 @Reusable
 class NotificationHelper @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val notificationManagerCompat: NotificationManagerCompat
 ) {
 
     /**
@@ -121,7 +122,8 @@ class NotificationHelper @Inject constructor(
             Intent(context, NotificationReceiver::class.java).apply {
                 putExtra(NOTIFICATION_ID, notificationId)
             },
-            flag)
+            flag
+        )
 
     /**
      * Build notification
@@ -173,7 +175,7 @@ class NotificationHelper @Inject constructor(
             builder.setContentText(content)
         }
 
-        return builder.build().also { logNotificationBuild(it) }
+        return builder.build()
     }
 
     /**
@@ -209,24 +211,21 @@ class NotificationHelper @Inject constructor(
         Timber.d("Sending notification with id: %s | title: %s | content: %s", notificationId, title, content)
         val notification =
             buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
-        with(NotificationManagerCompat.from(context)) {
-            notify(notificationId, notification)
-        }
+        sendNotification(notificationId, notification)
     }
 
-    /**
-     * Log notification build
-     * Log success or failure of creating new notification
-     *
-     * @param notification: Notification?
-     */
-    private fun logNotificationBuild(notification: Notification?) {
-        if (BuildConfig.DEBUG) {
-            if (notification != null) {
-                Timber.d("Notification build successfully.")
-            } else {
-                Timber.d("Notification build failed.")
-            }
-        }
+    fun sendNotification(
+        notificationId: NotificationId,
+        notification: Notification
+    ) {
+        Timber.i("Showing notification for ID=$notificationId: %s", notification)
+        notificationManagerCompat.notify(notificationId, notification)
+    }
+
+    fun getBaseBuilder() = NotificationCompat.Builder(context, channelId).apply {
+        setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
+        setVisibility(VISIBILITY_PRIVATE)
+        setContentIntent(createPendingIntentToMainActivity())
+        setAutoCancel(true)
     }
 }

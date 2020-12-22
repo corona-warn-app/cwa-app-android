@@ -12,6 +12,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
+import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -51,6 +52,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
@@ -83,6 +85,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             contactDiaryWorkScheduler.schedulePeriodic()
         }
 
+        deviceTimeHandler.launch()
         configChangeDetector.launch()
         riskLevelChangeDetector.launch()
     }
