@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
-import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
@@ -20,7 +20,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OverviewElementHolder {
         val inflater = LayoutInflater.from(parent.context)
         return OverviewElementHolder(
-            IncludeContactDiaryOverviewItemBinding.inflate(
+            ContactDiaryOverviewListItemBinding.inflate(
                 inflater,
                 parent,
                 false
@@ -34,7 +34,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         holder.bind(elements[position], onItemSelectionListener)
     }
 
-    class OverviewElementHolder(private val viewDataBinding: IncludeContactDiaryOverviewItemBinding) :
+    class OverviewElementHolder(private val viewDataBinding: ContactDiaryOverviewListItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         private val nestedItemAdapter = ContactDiaryOverviewNestedAdapter()
 
