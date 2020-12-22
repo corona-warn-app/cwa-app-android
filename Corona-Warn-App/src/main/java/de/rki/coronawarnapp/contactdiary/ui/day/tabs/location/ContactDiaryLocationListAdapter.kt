@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
-import de.rki.coronawarnapp.databinding.ContactDiaryLocationListLineBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryLocationListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
@@ -34,11 +34,11 @@ class ContactDiaryLocationListAdapter(
 
     class CachedLocationViewHolder(
         parent: ViewGroup
-    ) : BaseAdapter.VH(R.layout.contact_diary_location_list_line, parent),
-        BindableVH<SelectableItem<ContactDiaryLocation>, ContactDiaryLocationListLineBinding> {
-        override val viewBinding = lazy { ContactDiaryLocationListLineBinding.bind(itemView) }
+    ) : BaseAdapter.VH(R.layout.contact_diary_location_list_item, parent),
+        BindableVH<SelectableItem<ContactDiaryLocation>, ContactDiaryLocationListItemBinding> {
+        override val viewBinding = lazy { ContactDiaryLocationListItemBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryLocationListLineBinding.(
+        override val onBindData: ContactDiaryLocationListItemBinding.(
             key: SelectableItem<ContactDiaryLocation>
         ) -> Unit =
             {
