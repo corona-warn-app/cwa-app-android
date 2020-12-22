@@ -24,12 +24,12 @@ class ContactDiaryPersonListAdapter(
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedPersonViewHolder =
         CachedPersonViewHolder(parent)
 
-    override fun onBindBaseVH(holder: CachedPersonViewHolder, position: Int) {
+    override fun onBindBaseVH(holder: CachedPersonViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnClickListener {
             onTappedCallback(item)
         }
-        holder.bind(item)
+        holder.bind(item, payloads)
     }
 
     class CachedPersonViewHolder(
@@ -39,10 +39,11 @@ class ContactDiaryPersonListAdapter(
         override val viewBinding = lazy { ContactDiaryPersonListItemBinding.bind(itemView) }
 
         override val onBindData: ContactDiaryPersonListItemBinding.(
-            key: SelectableItem<ContactDiaryPerson>
-        ) -> Unit = {
-            contactDiaryPersonListLineName.text = it.item.fullName
-            when (it.selected) {
+            key: SelectableItem<ContactDiaryPerson>,
+            payloads: List<Any>
+        ) -> Unit = { key, _ ->
+            contactDiaryPersonListLineName.text = key.item.fullName
+            when (key.selected) {
                 true -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_selected)
                 false -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_unselected)
             }
