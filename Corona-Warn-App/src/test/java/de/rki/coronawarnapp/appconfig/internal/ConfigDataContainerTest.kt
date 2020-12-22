@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.appconfig.internal
 
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.mapping.ConfigMapping
 import io.kotest.matchers.shouldBe
+import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -85,7 +87,9 @@ class ConfigDataContainerTest : BaseTest() {
             ConfigDataContainer(
                 serverTime = Instant.EPOCH.plus(Duration.standardDays(1)),
                 localOffset = it,
-                mappedConfig = mockk(),
+                mappedConfig = mockk<ConfigMapping>().apply {
+                    every { isDeviceTimeCheckEnabled } returns true
+                },
                 configType = ConfigData.Type.LAST_RETRIEVED,
                 identifier = "localetag",
                 cacheValidity = Duration.standardSeconds(0)

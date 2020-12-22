@@ -66,6 +66,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
             every { maxExposureDetectionsPerUTCDay } returns 5
             every { minTimeBetweenDetections } returns Duration.standardHours(24 / 6)
             every { diagnosisKeysDataMapping } returns diagnosisKeyDataMapping
+            every { isDeviceTimeCorrect } returns true
         }
         coEvery { appConfigProvider.getAppConfig() } returns appConfig
 
@@ -198,6 +199,22 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         coVerifySequence {
             enfClient.isTracingEnabled
             enfClient.latestTrackedExposureDetection()
+            enfClient.provideDiagnosisKeys(any(), any())
+        }
+    }
+
+    @Test
+    fun `we do not submit keys if device time is incorrect`() = runBlockingTest {
+        every { appConfig.isDeviceTimeCorrect } returns false
+        every { appConfig.localOffset } returns Duration.standardHours(5)
+
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
+
+        coVerifySequence {
+            enfClient.isTracingEnabled
+        }
+
+        coVerify(exactly = 0) {
             enfClient.provideDiagnosisKeys(any(), any())
         }
     }

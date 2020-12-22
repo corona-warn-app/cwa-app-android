@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.internal
 
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.mapping.ConfigMapping
 import de.rki.coronawarnapp.appconfig.sources.fallback.DefaultAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.remote.RemoteAppConfigSource
@@ -35,7 +36,9 @@ class AppConfigSourceTest : BaseTest() {
     private val remoteConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
         localOffset = Duration.standardHours(1),
-        mappedConfig = mockk(),
+        mappedConfig = mockk<ConfigMapping>().apply {
+            every { isDeviceTimeCheckEnabled } returns true
+        },
         configType = ConfigData.Type.FROM_SERVER,
         identifier = "remoteetag",
         cacheValidity = Duration.standardSeconds(42)
@@ -44,7 +47,9 @@ class AppConfigSourceTest : BaseTest() {
     private val localConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
         localOffset = Duration.standardHours(1),
-        mappedConfig = mockk(),
+        mappedConfig = mockk<ConfigMapping>().apply {
+            every { isDeviceTimeCheckEnabled } returns true
+        },
         configType = ConfigData.Type.LAST_RETRIEVED,
         identifier = "localetag",
         cacheValidity = Duration.standardSeconds(300)
@@ -53,7 +58,9 @@ class AppConfigSourceTest : BaseTest() {
     private val defaultConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
         localOffset = Duration.standardHours(1),
-        mappedConfig = mockk(),
+        mappedConfig = mockk<ConfigMapping>().apply {
+            every { isDeviceTimeCheckEnabled } returns true
+        },
         configType = ConfigData.Type.LOCAL_DEFAULT,
         identifier = "fallback.local",
         cacheValidity = Duration.ZERO
@@ -119,7 +126,10 @@ class AppConfigSourceTest : BaseTest() {
         coEvery { remoteSource.getConfigData() } returns null
 
         val instance = createInstance()
-        instance.getConfigData() shouldBe localConfig
+        // The fallback "local" config has a forced offset of zero as we we want isDeviceTimeCorrect=true
+        instance.getConfigData() shouldBe localConfig.copy(
+            localOffset = Duration.ZERO
+        )
 
         coVerifySequence {
             localSource.getConfigData()
@@ -171,7 +181,6 @@ class AppConfigSourceTest : BaseTest() {
         coVerifySequence {
             localSource.getConfigData()
             remoteSource.getConfigData()
-            cwaSettings.wasDeviceTimeIncorrectAcknowledged
         }
     }
 }
