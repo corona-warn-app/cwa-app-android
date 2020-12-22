@@ -22,7 +22,7 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -51,7 +51,7 @@ class DataReset @Inject constructor(
     private val exposureDetectionTracker: ExposureDetectionTracker,
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
-    private val contactDiaryDatabase: ContactDiaryDatabase,
+    private val contactDiaryRepository: ContactDiaryRepository,
     private var contactDiarySettings: ContactDiarySettings
 ) {
 
@@ -81,7 +81,7 @@ class DataReset @Inject constructor(
         contactDiarySettings.clear()
 
         // Clear contact diary database
-        contactDiaryDatabase.clearAllTables()
+        contactDiaryRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

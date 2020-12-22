@@ -19,15 +19,12 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.test.risklevel.entities.toExposureWindowJson
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -37,7 +34,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.sample
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -51,14 +47,12 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
-    private val appConfigProvider: AppConfigProvider,
-    tracingCardStateProvider: TracingCardStateProvider,
+    appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val testSettings: TestSettings,
     private val timeStamper: TimeStamper,
     private val exposureDetectionTracker: ExposureDetectionTracker,
-    private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
-    private val submissionRepository: SubmissionRepository
+    private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -78,14 +72,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val dataResetEvent = SingleLiveEvent<String>()
     val shareFileEvent = SingleLiveEvent<File>()
-
-    val showRiskStatusCard = submissionRepository.deviceUIStateFlow.map {
-        it.withSuccess(false) { true }
-    }.asLiveData(dispatcherProvider.Default)
-
-    val tracingCardState = tracingCardStateProvider.state
-        .sample(150L)
-        .asLiveData(dispatcherProvider.Default)
 
     private val lastRiskResult = riskLevelStorage.allRiskLevelResults.map { results ->
         results.maxByOrNull { it.calculatedAt }
