@@ -3,15 +3,41 @@ package de.rki.coronawarnapp.appconfig.mapping
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid.ApplicationConfigurationAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass.AppFeature
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass.AppFeatures
+import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
 import io.mockk.spyk
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class CWAConfigMapperTest : BaseTest() {
 
-    private fun createInstance() = CWAConfigMapper()
+    @MockK lateinit var testSettings: TestSettings
+
+    private fun createInstance() = CWAConfigMapper(
+        testSettings = testSettings
+    )
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+
+        mockkObject(CWADebug)
+        every { testSettings.isDeviceTimeCheckDisabled } returns mockFlowPreference(false)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        clearAllMocks()
+    }
 
     @Test
     fun `simple creation`() {
@@ -124,6 +150,41 @@ class CWAConfigMapperTest : BaseTest() {
                 }
             )
             .build()
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+        }
+    }
+
+    @Test
+    fun `disable-time-check-disabled feature can be set via test settings`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(AppFeature.newBuilder().apply {
+                        label = "disable-device-time-check"
+                        value = 0
+                    }.build())
+                }
+            )
+            .build()
+
+        every { CWADebug.isDeviceForTestersBuild } returns false
+        every { testSettings.isDeviceTimeCheckDisabled } returns mockFlowPreference(false)
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+        }
+
+        every { testSettings.isDeviceTimeCheckDisabled } returns mockFlowPreference(true)
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+        }
+
+        every { CWADebug.isDeviceForTestersBuild } returns true
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe false
+        }
+
+        every { testSettings.isDeviceTimeCheckDisabled } returns mockFlowPreference(false)
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe true
         }
