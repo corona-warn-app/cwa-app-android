@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/card">
+        android:background="@drawable/card_background">
 
         <include
             android:id="@+id/contact_diary_onboarding_header"
