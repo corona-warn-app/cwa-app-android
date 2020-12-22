@@ -24,7 +24,7 @@ class ContactDiaryLocationListAdapter(
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedLocationViewHolder =
         CachedLocationViewHolder(parent)
 
-    override fun onBindBaseVH(holder: CachedLocationViewHolder, position: Int) {
+    override fun onBindBaseVH(holder: CachedLocationViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnClickListener {
             onTappedCallback(item)
@@ -39,11 +39,12 @@ class ContactDiaryLocationListAdapter(
         override val viewBinding = lazy { ContactDiaryLocationListItemBinding.bind(itemView) }
 
         override val onBindData: ContactDiaryLocationListItemBinding.(
-            key: SelectableItem<ContactDiaryLocation>
+            key: SelectableItem<ContactDiaryLocation>,
+            payloads: List<Any>
         ) -> Unit =
-            {
-                contactDiaryLocationListLineName.text = it.item.locationName
-                when (it.selected) {
+            { key, _ ->
+                contactDiaryLocationListLineName.text = key.item.locationName
+                when (key.selected) {
                     true -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_selected)
                     false -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_unselected)
                 }

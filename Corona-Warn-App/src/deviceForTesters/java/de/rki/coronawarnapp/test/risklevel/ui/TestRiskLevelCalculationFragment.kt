@@ -47,13 +47,7 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.tracingCardState.observe2(this) {
-            binding.tracingCard = it
-        }
-        binding.settingsViewModel = settingsViewModel
-        vm.showRiskStatusCard.observe2(this) {
-            binding.showRiskStatusCard = it
-        }
+
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
         binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }

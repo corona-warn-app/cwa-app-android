@@ -6,7 +6,9 @@ interface BindableVH<ItemT, ViewBindingT : ViewBinding> {
 
     val viewBinding: Lazy<ViewBindingT>
 
-    val onBindData: ViewBindingT.(item: ItemT) -> Unit
+    val onBindData: ViewBindingT.(item: ItemT, payloads: List<Any>) -> Unit
 
-    fun bind(item: ItemT) = with(viewBinding.value) { onBindData(item) }
+    fun bind(item: ItemT, payloads: MutableList<Any> = mutableListOf()) = with(viewBinding.value) {
+        onBindData(item, payloads)
+    }
 }
