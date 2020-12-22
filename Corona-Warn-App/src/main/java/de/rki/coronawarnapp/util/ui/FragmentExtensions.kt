@@ -11,7 +11,7 @@ fun Fragment.doNavigate(direction: NavDirections) = findNavController().doNaviga
 fun Fragment.popBackStack(): Boolean {
     if (!isAdded) {
         IllegalStateException("Fragment is not added").also {
-            Timber.w(it, "Trying to pop backstack on Fragment that isn't add to an Activity.")
+            Timber.w(it, "Trying to pop backstack on Fragment that isn't added to an Activity.")
         }
         return false
     }
