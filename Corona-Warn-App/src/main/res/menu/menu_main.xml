@@ -1,5 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/menu_share"
+        android:contentDescription="@string/button_share"
+        android:icon="@drawable/ic_main_share"
+        android:title="@string/button_share"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/menu_help"
         android:title="@string/menu_help" />

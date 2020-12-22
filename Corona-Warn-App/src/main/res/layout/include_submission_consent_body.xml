@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/submission_consent_your_consent_subsection_headline"
         app:layout_constraintBottom_toBottomOf="@id/submission_consent_your_consent_subsection_third_point"
-        style="@style/cardGrey"/>
+        style="@style/cardGrey" />
 
     <TextView
         android:id="@+id/submission_consent_your_consent_subsection_headline"

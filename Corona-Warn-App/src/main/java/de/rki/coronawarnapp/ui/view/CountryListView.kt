@@ -65,7 +65,8 @@ private class CountryFlagsAdapter : BaseAdapter<CountryFlagViewHolder>() {
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CountryFlagViewHolder = CountryFlagViewHolder(parent)
 
-    override fun onBindBaseVH(holder: CountryFlagViewHolder, position: Int) = holder.bind(countryList[position])
+    override fun onBindBaseVH(holder: CountryFlagViewHolder, position: Int, payloads: MutableList<Any>) =
+        holder.bind(countryList[position])
 
     class CountryFlagViewHolder(val parent: ViewGroup) : VH(
         R.layout.view_country_list_entry_flag_item, parent
@@ -75,7 +76,10 @@ private class CountryFlagsAdapter : BaseAdapter<CountryFlagViewHolder>() {
             ViewCountryListEntryFlagItemBinding.bind(itemView)
         }
 
-        override val onBindData: ViewCountryListEntryFlagItemBinding.(key: Country) -> Unit = { item ->
+        override val onBindData: ViewCountryListEntryFlagItemBinding.(
+            key: Country,
+            payloads: List<Any>
+        ) -> Unit = { item, _ ->
             countryListEntryImage.setImageResource(item.iconRes)
         }
     }

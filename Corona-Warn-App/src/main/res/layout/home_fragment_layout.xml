@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="tracingHeader"
+            type="de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/main_title"
+        android:orientation="vertical"
+        tools:context=".ui.main.MainActivity">
+
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CWAToolbar"
+            app:popupTheme="@style/CWAToolbar.Menu">
+            <ImageView
+                android:id="@+id/main_header_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|center_vertical"
+                android:focusable="true"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_main_header"
+                bind:cwaContentDescription="@{@string/accessibility_logo}"
+                tools:ignore="ContentDescription" />
+        </Toolbar>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:theme="@style/CWAToolbar"
+                android:layout_height="wrap_content">
+
+                <Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="8dp"
+                    style="@style/CWAToolbar"
+                    android:id="@+id/main_tracing"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?selectableItemBackground"
+                    app:layout_scrollFlags="scroll|snap|enterAlways">
+
+                    <TextView
+                        android:id="@+id/main_tracing_headline"
+                        style="@style/bodyButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="72dp"
+                        android:contentDescription="@{tracingHeader.getTracingContentDescription(context)}"
+                        android:focusable="false"
+                        android:gravity="start|center_vertical"
+                        android:text="@{tracingHeader.getTracingDescription(context)}"
+                        tools:text="@string/settings_tracing_body_inactive_location" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/main_tracing_icon"
+                        android:layout_width="@dimen/icon_size_main_card"
+                        android:layout_height="@dimen/icon_size_main_card"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:importantForAccessibility="no"
+                        app:animation="@{tracingHeader.getTracingAnimation(context)}"
+                        app:animation_tint="@{tracingHeader.getTracingTint(context)}" />
+
+                </Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:itemCount="3"
+                tools:listitem="@layout/home_submission_status_card_unregistered" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
+</layout>

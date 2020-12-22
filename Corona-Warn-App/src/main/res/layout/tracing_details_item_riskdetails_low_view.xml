@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="info"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox.Item" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSurface2"
+        android:padding="@dimen/card_padding">
+
+        <TextView
+            android:id="@+id/risk_details_information_headline"
+            style="@style/headline5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:focusable="true"
+            android:text="@string/risk_details_headline_infection_risk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/risk_details_information_subtitle"
+            style="@style/body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:focusable="true"
+            android:text="@string/risk_details_subtitle_infection_risk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_details_information_headline" />
+
+        <TextView
+            android:id="@+id/risk_details_information_body"
+            style="@style/body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:focusable="true"
+            android:text="@{info.getRiskDetailsRiskLevelBody(context)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_details_information_subtitle"
+            tools:text="@string/risk_details_information_body_low_risk_with_encounter" />
+
+        <TextView
+            android:id="@+id/risk_details_information_lowrisk_body_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:clickable="true"
+            android:focusable="true"
+            android:linksClickable="true"
+            android:text="@string/risk_details_explanation_dialog_faq_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_details_information_body" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

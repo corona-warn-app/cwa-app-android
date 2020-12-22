@@ -25,4 +25,18 @@
         <attr name="test_result_section_status_icon" format="reference" />
         <attr name="test_result_section_registered_at_text" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="TracingCardInfoRow">
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:icon" />
+        <attr name="compatIconTint" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="TracingDetailsBehaviorRow">
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:icon" />
+        <attr name="android:backgroundTint" />
+        <attr name="android:foregroundTint" />
+    </declare-styleable>
 </resources>
