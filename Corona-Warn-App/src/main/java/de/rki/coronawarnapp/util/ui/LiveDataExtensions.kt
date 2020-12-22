@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util.ui
 
-
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
