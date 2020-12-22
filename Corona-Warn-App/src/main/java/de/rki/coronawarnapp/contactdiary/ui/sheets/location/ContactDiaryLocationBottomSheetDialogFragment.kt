@@ -9,8 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
-import de.rki.coronawarnapp.contactdiary.util.showKeyboard
+import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationBottomSheetFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -79,7 +78,7 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
             }
         }
 
-        binding.contactDiaryLocationBottomSheetTextInputEditText.showKeyboard(view)
+        binding.contactDiaryLocationBottomSheetTextInputEditText.focusAndShowKeyboard()
 
         viewModel.shouldClose.observe2(this) {
             dismiss()
@@ -93,7 +92,6 @@ class ContactDiaryLocationBottomSheetDialogFragment : BottomSheetDialogFragment(
 
     override fun onPause() {
         super.onPause()
-        hideKeyboard()
     }
 
     override fun onDestroyView() {
