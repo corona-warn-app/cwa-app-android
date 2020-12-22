@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -69,8 +69,10 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
 
         binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    binding.contactDiaryPersonBottomSheetSaveButton.performClick()
+                IME_ACTION_DONE -> {
+                    if (viewModel.isValid.value == true) {
+                        binding.contactDiaryPersonBottomSheetSaveButton.performClick()
+                    }
                     false
                 }
                 else -> true
@@ -83,9 +85,9 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             dismiss()
         }
 
-        viewModel.isValid.observe2(this) {
-            binding.contactDiaryPersonBottomSheetTextInputLayout.isErrorEnabled = it
-            binding.contactDiaryPersonBottomSheetSaveButton.isEnabled = it
+        viewModel.isValid.observe2(this) { isValid ->
+            binding.contactDiaryPersonBottomSheetTextInputLayout.isErrorEnabled = isValid
+            binding.contactDiaryPersonBottomSheetSaveButton.isEnabled = isValid
         }
     }
 
