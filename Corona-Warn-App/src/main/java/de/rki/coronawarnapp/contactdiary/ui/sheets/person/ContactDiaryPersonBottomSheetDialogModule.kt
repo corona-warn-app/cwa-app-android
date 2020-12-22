@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.day.sheets.person
+package de.rki.coronawarnapp.contactdiary.ui.sheets.person
 
 import dagger.Binds
 import dagger.Module

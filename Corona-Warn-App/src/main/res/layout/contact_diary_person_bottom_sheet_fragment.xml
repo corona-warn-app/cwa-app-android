@@ -5,17 +5,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
+        <ImageView
             android:id="@+id/contact_diary_person_bottom_sheet_close_button"
-            layout="@layout/include_button_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circle_icon_big"
+            android:layout_height="@dimen/circle_icon_big"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
-            app:icon="@{@drawable/ic_close}"
-            app:iconDescription="@{@string/accessibility_close}"
+            android:src="@drawable/ic_close"
+            android:contentDescription="@string/accessibility_close"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/buttonIcon" />
 
         <TextView
             android:id="@+id/contact_diary_person_bottom_sheet_title"
@@ -58,12 +58,12 @@
                 android:id="@+id/contact_diary_person_bottom_sheet_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/contact_diary_person_bottom_sheet_save_button"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"

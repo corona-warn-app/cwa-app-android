@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Contact Diary
+    ###################################### -->
+    <string name="contact_diary_day_person_tab_title">"Kişiler"</string>
+    <string name="contact_diary_day_person_fab_title">"Kişi"</string>
+    <string name="contact_diary_day_location_tab_title">"Yerler"</string>
+    <string name="contact_diary_day_location_fab_title">"Yer"</string>
+    <string name="contact_diary_location_list_no_items_title">"Henüz hiçbir yer tanımlanmadı"</string>
+    <string name="contact_diary_location_list_no_items_subtitle">"Bir yer oluşturun ve temas güncenize ekleyin."</string>
+    <string name="contact_diary_person_list_no_items_title">"Henüz hiçbir kişi tanımlanmadı"</string>
+    <string name="contact_diary_person_list_no_items_subtitle">"Bir kişi oluşturun ve temas güncenize ekleyin."</string>
+    <string name="contact_diary_person_bottom_sheet_title">"Kişi"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Ad, soyadı"</string>
+    <string name="contact_diary_person_bottom_sheet_save_button">"Kaydet"</string>
+    <string name="contact_diary_location_bottom_sheet_title">"Yer"</string>
+    <string name="contact_diary_location_bottom_sheet_text_input_hint">"Tanım"</string>
+    <string name="contact_diary_location_bottom_sheet_save_button">"Kaydet"</string>
+
+    <!-- XHED: Title for the contact diary card displayed in the homescreen -->
+    <string name="contact_diary_homescreen_card_header">"Temas Güncesi"</string>
+    <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
+    <string name="contact_diary_homescreen_card_body">"Nerede bulunduğunuzun ve kimlerle karşılaştığınızın kaydını tutun."</string>
+    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
+    <string name="contact_diary_homescreen_card_button_text">"Günce Yönetimi"</string>
+    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
+    <string name="contact_diary_onboarding_button_text">"Günce Yönetimi"</string>
+
+    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_information_card_title">"Temas kaydınızı tutun."</string>
+    <!-- XTXT: Contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_body">"İhtiyaç duyduğunuzda elinizin altında eksiksiz bir liste olması için son 14 güne ait temaslarınıza ilişkin bir genel bakış oluşturun."</string>
+    <!-- XTXT: Contact diary onboarding screen first functionality -->
+    <string name="contact_diary_onboarding_functionality_first_section">"Karşılaştığınız kişileri girin."</string>
+    <!-- XTXT: Contact diary onboarding screen second functionality -->
+    <string name="contact_diary_onboarding_functionality_second_section">"Başka insanlarla karşılaştığınız yerleri girin."</string>
+    <!-- XTXT: Contact diary onboarding screen third functionality -->
+    <string name="contact_diary_onboarding_functionality_third_section">"Günce girişlerinize yalnızca siz erişebilirsiniz. Girişleriniz yalnızca akıllı telefonunuza kaydedilecektir."</string>
+    <!-- XTXT: Contact diary onboarding screen fourth functionality -->
+    <string name="contact_diary_onboarding_functionality_fourth_section">"Dilediğiniz zaman güncenizdeki kişi ve yer girişlerini kaldırabilirsiniz. Günce girişleri 16 günün ardından otomatik olarak silinecektir."</string>
+    <!-- XTXT: Contact diary onboarding screen fifth functionality -->
+    <string name="contact_diary_onboarding_functionality_fifth_section">"Temas güncenizi düz metin biçiminde dışa aktarabilir ve ardından girişleri yazdırabilir, düzenleyebilir ya da gerekli olduğunda kamu sağlığı yetkilinize sunabilirsiniz."</string>
+    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_title">"Temas Güncesi"</string>
+    <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_legal_information">"Daha fazla bilgi için lütfen gizlilik bildirimine başvurun."</string>
+
+
+    <!-- XTXT: Menu information entry for contact diary overview screen -->
+    <string name="menu_contact_diary_information">"Bilgi"</string>
+    <!-- XTXT: Menu export entry for contact diary overview screen -->
+    <string name="menu_contact_export_entries">"Girişleri Dışa Aktar"</string>
+    <!-- XTXT: Menu edit persons entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_persons">"Kişileri Düzenle"</string>
+    <!-- XTXT: Menu edit locations entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_locations">"Yerleri Düzenle"</string>
+    <!-- XTXT: Title for contact diary overview screen -->
+    <string name="contact_diary_overview_title">"Temas Güncesi"</string>
+    <!-- XTXT: Subtitle for contact diary overview screen -->
+    <string name="contact_diary_overview_subtitle">"Karşılaştığınız kişileri ve ziyaret ettiğiniz yerleri yazın."</string>
+    <!-- XTXT: Header for contact diary overview screen -->
+    <string name="contact_diary_overview_header">"Başlangıç Sayfası"</string>
+
+    <!-- XTXT: content description of contact journal image on home screen -->
+    <string name="contact_diary_homescreen_card_image_content_description">"Yer işareti bulunan kapalı bir kitap"</string>
+    <!-- XTXT: content description of contact journal header image on onboarding screen -->
+    <string name="contact_diary_onboarding_image_content_description">"Birden fazla kişi dış mekanda, akıllı telefonlarına bakıyor."</string>
+    <!-- XTXT: content description of contact journal background image on edit persons screen -->
+    <string name="contact_diary_edit_persons_image_content_description">"Çayırda yürüyen bir kadın silüeti."</string>
+    <!-- XTXT: content description of contact journal background image on edit locations screen -->
+    <string name="contact_diary_edit_locations_image_content_description">"Konum işareti taşıyan bir bina."</string>
+
+
+    <!-- XHED: Title for the contact diary edit locations -->
+    <string name="contact_diary_edit_locations_title">"Yerleri Düzenle"</string>
+    <!-- XHED: Title for the contact diary edit persons -->
+    <string name="contact_diary_edit_persons_title">"Kişileri Düzenle"</string>
+    <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
+    <string name="contact_diary_remove_all_button">"Tümünü kaldır"</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_positive">"Kaldır"</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_negative">"İptal"</string>
+    <!-- XHED: Title for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_title">"Tüm yerleri gerçekten kaldırmak istiyor musunuz?"</string>
+    <!-- XHED: Title for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_title">"Tüm kişileri gerçekten kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_message">"Bir yeri kaldırdığınızda o yere ilişkin tüm girişler güncenizden kaldırılacaktır."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_message">"Bir kişiyi kaldırdığınızda o kişiye ilişkin tüm girişler güncenizden kaldırılacaktır."</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_edit_icon_content_description">"Girişi Düzenle"</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_delete_icon_content_description">"Girişi Sil"</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
+    <string name="contact_diary_delete_location_title">"Bu yeri gerçekten kaldırmak istiyor musunuz?"</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
+    <string name="contact_diary_delete_person_title">"Bu kişiyi gerçekten kaldırmak istiyor musunuz?"</string>
+</resources>
