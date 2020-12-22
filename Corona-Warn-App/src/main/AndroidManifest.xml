@@ -82,7 +82,7 @@
             android:screenOrientation="portrait"
             android:launchMode= "singleTop"
             android:theme="@style/AppTheme.ContactDiary"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustResize"/>
 
     </application>
 
