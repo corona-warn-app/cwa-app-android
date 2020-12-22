@@ -43,6 +43,13 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
 
         binding.downloadAction.setOnClickListener { vm.download() }
         binding.deleteAction.setOnClickListener { vm.clearConfig() }
+
+        vm.deviceTimeCheckDisabled.observe2(this) {
+            binding.deviceTimeCheckDisabledToggle.isChecked = it
+        }
+        binding.deviceTimeCheckDisabledToggle.setOnClickListener {
+            vm.toggleDeviceTimeCheckDisabled()
+        }
     }
 
     companion object {
