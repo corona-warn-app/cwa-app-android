@@ -43,6 +43,7 @@ import javax.inject.Singleton
 /**
  * Helper for supplying functionality regarding Data Retention
  */
+@Suppress("LongParameterList")
 @Singleton
 class DataReset @Inject constructor(
     @AppContext private val context: Context,

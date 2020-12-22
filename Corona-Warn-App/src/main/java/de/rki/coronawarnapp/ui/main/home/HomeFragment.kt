@@ -41,6 +41,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
 
+    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

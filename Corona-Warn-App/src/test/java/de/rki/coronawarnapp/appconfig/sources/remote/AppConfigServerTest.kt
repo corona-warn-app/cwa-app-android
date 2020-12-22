@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
@@ -34,8 +33,6 @@ class AppConfigServerTest : BaseIOTest() {
     @MockK lateinit var verificationKeys: VerificationKeys
     @MockK lateinit var timeStamper: TimeStamper
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
-
-    private val defaultHomeCountry = LocationCode("DE")
 
     @BeforeEach
     fun setup() {
