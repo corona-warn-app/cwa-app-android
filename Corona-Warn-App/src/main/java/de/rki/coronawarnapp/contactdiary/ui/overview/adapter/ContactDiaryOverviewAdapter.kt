@@ -51,7 +51,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
-            viewDataBinding.contactDiaryOverviewNestedElementGroup.isGone = item.data.isNotEmpty()
+            viewDataBinding.contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
 
             nestedItemAdapter.setItems(item.data)
         }
