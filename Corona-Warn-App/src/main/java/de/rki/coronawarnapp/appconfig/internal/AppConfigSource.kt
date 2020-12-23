@@ -24,7 +24,10 @@ class AppConfigSource @Inject constructor(
         Timber.tag(TAG).d("getConfigData()")
 
         val localConfig = localAppConfigSource.getConfigData()
-        if (localConfig != null && localConfig.isValid(timeStamper.nowUTC)) {
+        val nowUTC = timeStamper.nowUTC
+        Timber.tag(TAG).d("nowUTC=%s localConfig.updatedAt=%s", nowUTC, localConfig?.updatedAt)
+
+        if (localConfig != null && localConfig.isValid(nowUTC)) {
             Timber.tag(TAG).d("Returning local config, still valid.")
             return localConfig
         } else {
