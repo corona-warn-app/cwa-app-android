@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,11 +14,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contact_diary_overview_element_item_body"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="54dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
             android:focusable="true">
 
             <TextView
@@ -26,9 +26,9 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginTop="16dp"
                 android:focusable="true"
-                android:text="Donnerstag, 01.12.2020"
+                tools:text="Donnerstag, 01.12.2020"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/contact_diary_overview_element_right_arrow"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,24 +48,37 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:id="@+id/contact_diary_overview_element_divider"
-            android:layout_width="match_parent"
-            android:layout_marginTop="6dp"
-            android:layout_height="@dimen/card_divider"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_item_body"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contact_diary_overview_nested_recycler_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_overview_nested_element_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="3dp"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider"/>
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/contact_diary_overview_element_item_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true">
 
+            <View
+                android:id="@+id/contact_diary_overview_element_divider"
+                android:layout_width="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="@dimen/card_divider"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contact_diary_overview_nested_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

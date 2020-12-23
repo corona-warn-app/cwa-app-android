@@ -52,9 +52,9 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
             if (item.data.isNotEmpty()) {
-                viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.VISIBLE
+                viewDataBinding.contactDiaryOverviewNestedElementGroup.visibility = View.VISIBLE
             } else {
-                viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.INVISIBLE
+                viewDataBinding.contactDiaryOverviewNestedElementGroup.visibility = View.GONE
             }
 
             nestedItemAdapter.setItems(item.data)
