@@ -48,7 +48,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             // Selected
             day.isSelected -> {
                 textView.setBackgroundResource(R.drawable.calendar_selected_day_back)
-                textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextEmphasizedButton))
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorCalendarTextSelected))
             }
             // Today
             day.date.isEqual(today) -> {
@@ -63,7 +63,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             // Past
             day.date.isBefore(today) -> {
                 textView.setBackgroundResource(0)
-                textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary1))
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorCalendarTextUnselected))
             }
         }
     }

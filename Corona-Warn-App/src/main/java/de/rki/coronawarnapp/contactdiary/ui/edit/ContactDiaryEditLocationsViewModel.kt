@@ -49,10 +49,6 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
         navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity()))
     }
 
-    companion object {
-        private val TAG = ContactDiaryEditLocationsViewModel::class.java.simpleName
-    }
-
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryEditLocationsViewModel>
 
@@ -61,3 +57,5 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
         data class ShowLocationDetailSheet(val location: ContactDiaryLocationEntity) : NavigationEvent()
     }
 }
+
+private val TAG = ContactDiaryEditLocationsViewModel::class.java.simpleName
