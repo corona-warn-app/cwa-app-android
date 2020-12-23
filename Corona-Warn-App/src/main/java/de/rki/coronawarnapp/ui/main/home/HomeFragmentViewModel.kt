@@ -59,7 +59,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -110,6 +109,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    val showIncorrectDeviceTimeDialog by lazy {
+        var wasDeviceTimeDialogShown = false
+        SingleLiveEvent<Boolean>().also { singleLiveEvent ->
+            appConfigProvider.currentConfig.map { it.isDeviceTimeCorrect }.onEach { isDeviceTimeCorrect ->
+                if (isDeviceTimeCorrect) {
+                    singleLiveEvent.postValue(false)
+                    wasDeviceTimeDialogShown = false
+                } else if (!wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
+                    singleLiveEvent.postValue(true)
+                    wasDeviceTimeDialogShown = true
+                }
+            }.launchInViewModel()
+        }
+    }
     private val tracingCardItems = tracingStateProvider.state.map { tracingState ->
         when (tracingState) {
             is TracingInProgress -> TracingProgressCard.Item(
@@ -245,17 +258,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .asLiveData(context = dispatcherProvider.Default)
     }
 
-    private var wasDeviceTimeDialogShown = false
-    val showIncorrectDeviceTimeDialog = appConfigProvider.currentConfig
-        .filter {
-            !it.isDeviceTimeCorrect && !wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged
-        }
-        .onEach {
-            wasDeviceTimeDialogShown = true
-        }
-        .map { }
-        .asLiveData(context = dispatcherProvider.Default)
-
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }
@@ -287,7 +289,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun userHasAcknowledgedIncorrectDeviceTime() {
         cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
-        wasDeviceTimeDialogShown = false
     }
 
     @AssistedInject.Factory

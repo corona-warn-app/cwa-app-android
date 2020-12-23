@@ -109,7 +109,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()
         }
-        vm.showIncorrectDeviceTimeDialog.observe2(this) {
+        vm.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
+            if (!showDialog) return@observe2
             deviceTimeIncorrectDialog.show { vm.userHasAcknowledgedIncorrectDeviceTime() }
         }
 
