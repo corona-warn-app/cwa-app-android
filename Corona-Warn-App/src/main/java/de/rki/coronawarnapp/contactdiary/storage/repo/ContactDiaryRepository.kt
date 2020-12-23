@@ -12,7 +12,7 @@ interface ContactDiaryRepository {
 
     // Location
     val locations: Flow<List<ContactDiaryLocation>>
-    suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation)
+    suspend fun addLocation(contactDiaryLocation: ContactDiaryLocation): ContactDiaryLocation
     suspend fun updateLocation(contactDiaryLocation: ContactDiaryLocation)
     suspend fun deleteLocation(contactDiaryLocation: ContactDiaryLocation)
     suspend fun deleteLocations(contactDiaryLocations: List<ContactDiaryLocation>)
@@ -28,7 +28,7 @@ interface ContactDiaryRepository {
 
     // Person
     val people: Flow<List<ContactDiaryPerson>>
-    suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson)
+    suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson): ContactDiaryPerson
     suspend fun updatePerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun deletePerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun deletePeople(contactDiaryPeople: List<ContactDiaryPerson>)
@@ -41,4 +41,7 @@ interface ContactDiaryRepository {
     suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter)
     suspend fun deletePersonEncounters(contactDiaryPersonEncounters: List<ContactDiaryPersonEncounter>)
     suspend fun deleteAllPersonEncounters()
+
+    // Clean
+    suspend fun clear()
 }

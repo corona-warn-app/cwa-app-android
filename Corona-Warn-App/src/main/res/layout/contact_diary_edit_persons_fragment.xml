@@ -2,14 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
@@ -17,9 +9,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:title="@string/contact_diary_edit_persons_title"
+            android:background="@drawable/contact_diary_background"
             app:navigationIcon="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +23,6 @@
             android:id="@+id/contact_diary_person_list_no_items_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:gone="@{viewModel.isListVisible()}"
             app:constraint_referenced_ids="contact_diary_person_list_no_items_image,contact_diary_person_list_no_items_title" />
 
         <ImageView
@@ -61,8 +53,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/persons_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -75,15 +67,13 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toTopOf="@id/delete_button"/>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/delete_button"
             style="@style/buttonReset"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@string/contact_diary_remove_all_button"
             android:textAllCaps="true"
-            android:onClick="@{ () -> viewModel.onDeleteAllPersonsClick()}"
-            android:enabled="@{viewModel.isButtonEnabled()}"
             android:layout_margin="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -80,7 +80,9 @@
             android:name=".contactdiary.ui.ContactDiaryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ContactDiary" />
+            android:launchMode= "singleTop"
+            android:theme="@style/AppTheme.ContactDiary"
+            android:windowSoftInputMode="adjustResize"/>
 
     </application>
 
