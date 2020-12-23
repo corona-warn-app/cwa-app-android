@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/contactDiaryCardRipple"
         android:id="@+id/contact_diary_person_list_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/spacing_huge"
-        style="@style/contactDiaryCardRipple">
+        android:minHeight="@dimen/spacing_huge">
 
         <ImageView
             android:id="@+id/contact_diary_person_list_line_icon"
