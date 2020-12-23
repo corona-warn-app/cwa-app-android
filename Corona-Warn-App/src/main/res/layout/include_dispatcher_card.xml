@@ -23,6 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dispatcher_card"
         style="@style/cardGrey"
+        android:foreground="?selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"

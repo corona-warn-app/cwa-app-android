@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="tracingDetails"
-            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
+            name="loggedPeriod"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +44,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_layout"
-            app:tracingDetails="@{tracingDetails}" />
+            app:loggedPeriod="@{loggedPeriod}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
