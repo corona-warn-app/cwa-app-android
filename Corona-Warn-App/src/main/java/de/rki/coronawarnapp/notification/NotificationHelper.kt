@@ -11,9 +11,9 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
-import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
@@ -35,20 +35,9 @@ import javax.inject.Inject
 @Reusable
 class NotificationHelper @Inject constructor(
     @AppContext private val context: Context,
-    private val notificationManagerCompat: NotificationManagerCompat
+    private val notificationManagerCompat: NotificationManagerCompat,
+    private val notificationManager: NotificationManager
 ) {
-
-    /**
-     * Notification channel id
-     *
-     * @see NotificationConstants.NOTIFICATION_CHANNEL_ID
-     */
-    private val channelId = context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)
-
-    /**
-     * Notification manager
-     */
-    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     /**
      * Notification channel audio attributes
@@ -63,27 +52,22 @@ class NotificationHelper @Inject constructor(
      * Notification channel is only needed for API version >= 26.
      * Safe to be called repeatedly.
      *
-     * @see NotificationConstants.CHANNEL_NAME
-     * @see NotificationConstants.CHANNEL_DESCRIPTION
      * @see audioAttributes
      * @see notificationManager
-     * @see channelId
      */
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelName =
-                context.getString(NotificationConstants.CHANNEL_NAME)
+            val notificationRingtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-            val notificationRingtone =
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val channel = NotificationChannel(
+                MAIN_CHANNEL_ID,
+                context.getString(R.string.notification_name),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = context.getString(R.string.notification_description)
+                setSound(notificationRingtone, audioAttributes)
+            }
 
-            val channel =
-                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
-
-            channel.description =
-                context
-                    .getString(NotificationConstants.CHANNEL_DESCRIPTION)
-            channel.setSound(notificationRingtone, audioAttributes)
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -220,11 +204,16 @@ class NotificationHelper @Inject constructor(
         notificationManagerCompat.notify(notificationId, notification)
     }
 
-    fun getBaseBuilder() = NotificationCompat.Builder(context, channelId).apply {
-        setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
+    fun getBaseBuilder() = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
+        setSmallIcon(R.drawable.ic_splash_logo)
         priority = NotificationCompat.PRIORITY_MAX
-        setVisibility(VISIBILITY_PRIVATE)
+        setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
         setContentIntent(createPendingIntentToMainActivity())
         setAutoCancel(true)
+    }
+
+    companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val MAIN_CHANNEL_ID = "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
     }
 }
