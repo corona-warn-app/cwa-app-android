@@ -15,11 +15,10 @@ sealed class SettingsTracingState {
 
     object BluetoothDisabled : SettingsTracingState() {
         override fun getTracingIconColor(c: Context): Int =
-            c.getColor(R.color.colorTextPrimary3)
+            c.getColor(R.color.colorTextSemanticRed)
 
-        // TODO Why are we using the active indicator for Bluetooth?
         override fun getTracingIcon(c: Context): Drawable? =
-            c.getDrawable(R.drawable.ic_settings_tracing_active_small)
+            c.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive)
 
         override fun getTracingStatusText(c: Context): String =
             c.getString(R.string.settings_tracing_status_restricted)
