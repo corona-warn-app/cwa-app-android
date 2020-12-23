@@ -12,7 +12,7 @@
         android:id="@+id/mainFragment"
         android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/home_fragment_layout">
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
@@ -94,7 +94,7 @@
 
     <fragment
         android:id="@+id/settingsTracingFragment"
-        android:name="de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragment"
+        android:name="de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing">
         <action
@@ -208,9 +208,9 @@
 
     <fragment
         android:id="@+id/riskDetailsFragment"
-        android:name="de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragment"
-        android:label="@layout/fragment_risk_details"
-        tools:layout="@layout/fragment_risk_details">
+        android:name="de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragment"
+        android:label="@layout/tracing_details_fragment_layout"
+        tools:layout="@layout/tracing_details_fragment_layout">
         <action
             android:id="@+id/action_riskDetailsFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />

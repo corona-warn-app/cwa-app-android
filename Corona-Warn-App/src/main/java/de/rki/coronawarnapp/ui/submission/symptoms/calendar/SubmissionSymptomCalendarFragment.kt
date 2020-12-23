@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
-import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -76,37 +76,37 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
         binding.apply {
             calendarButtonSevenDays.apply {
                 setTextColor(
-                    formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays)
+                    formatSymptomButtonTextStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays)
                 )
                 backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays)
+                    formatSymptomBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays)
                 )
                 setOnClickListener { viewModel.onLastSevenDaysStart() }
             }
 
             calendarButtonOneTwoWeeks.apply {
                 setTextColor(
-                    formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
+                    formatSymptomButtonTextStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
                 )
                 backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
+                    formatSymptomBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
                 )
                 setOnClickListener { viewModel.onOneToTwoWeeksAgoStart() }
             }
 
             calendarButtonMoreThanTwoWeeks.apply {
                 setTextColor(
-                    formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
+                    formatSymptomButtonTextStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
                 )
                 backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
+                    formatSymptomBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
                 )
                 setOnClickListener { viewModel.onMoreThanTwoWeeksStart() }
             }
             targetButtonVerify.apply {
-                setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.NoInformation))
+                setTextColor(formatSymptomButtonTextStyleByState(symptomStart, Symptoms.StartOf.NoInformation))
                 backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.NoInformation)
+                    formatSymptomBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.NoInformation)
                 )
                 setOnClickListener { viewModel.onNoInformationStart() }
             }
