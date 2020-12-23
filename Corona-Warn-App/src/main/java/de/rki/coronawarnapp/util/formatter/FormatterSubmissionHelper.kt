@@ -19,29 +19,37 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 import java.util.Locale
 
-fun formatButtonStyleByState(
+fun formatSymptomButtonTextStyleByState(
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state, R.color.colorTextSixteen, R.color.colorTextPrimary1)
+    formatColor(currentState == state,
+        R.color.colorCalendarTextSelected,
+        R.color.colorCalendarTextUnselected)
 
-fun formatBackgroundButtonStyleByState(
+fun formatSymptomButtonTextStyleByState(
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
+): Int =
+    formatColor(currentState == state,
+        R.color.colorCalendarTextSelected,
+        R.color.colorCalendarTextUnselected)
+
+fun formatSymptomBackgroundButtonStyleByState(
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+    formatColor(currentState == state,
+        R.color.colorCalendarBackgroundSelected,
+        R.color.colorCalendarBackgroundUnselected)
 
-fun formatCalendarButtonStyleByState(
+fun formatSymptomBackgroundButtonStyleByState(
     currentState: Symptoms.StartOf?,
     state: Symptoms.StartOf?
 ): Int =
-    formatColor(currentState == state, R.color.colorTextSixteen, R.color.colorTextPrimary1)
-
-fun formatCalendarBackgroundButtonStyleByState(
-    currentState: Symptoms.StartOf?,
-    state: Symptoms.StartOf?
-): Int =
-    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+    formatColor(currentState == state,
+        R.color.colorCalendarBackgroundSelected,
+        R.color.colorCalendarBackgroundUnselected)
 
 fun formatTestResultStatusText(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): String =
     uiState.withSuccess(R.string.test_result_card_status_invalid) {

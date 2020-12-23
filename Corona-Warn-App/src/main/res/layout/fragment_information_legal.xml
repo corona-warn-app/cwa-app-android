@@ -80,7 +80,7 @@
 
                 <TextView
                     android:id="@+id/information_legal_headline_contact"
-                    style="@style/headline5"
+                    style="@style/headline6"
                     android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
 
                 <TextView
                     android:id="@+id/information_legal_headline_taxid"
-                    style="@style/headline5"
+                    style="@style/headline6"
                     android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
-import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -59,24 +59,24 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
 
     private fun updateButtons(symptomIndication: Symptoms.Indication?) {
         binding.targetButtonApply.apply {
-            setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE))
+            setTextColor(formatSymptomButtonTextStyleByState(symptomIndication, Symptoms.Indication.POSITIVE))
             backgroundTintList = ColorStateList.valueOf(
-                formatBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE)
+                formatSymptomBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE)
             )
             setOnClickListener { viewModel.onPositiveSymptomIndication() }
         }
         binding.targetButtonReject.apply {
-            setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE))
+            setTextColor(formatSymptomButtonTextStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE))
             backgroundTintList = ColorStateList.valueOf(
-                formatBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE)
+                formatSymptomBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE)
             )
             setOnClickListener { viewModel.onNegativeSymptomIndication() }
         }
         binding.targetButtonVerify.apply {
-            setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION))
+            setTextColor(formatSymptomButtonTextStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION))
             backgroundTintList =
                 ColorStateList.valueOf(
-                    formatBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION)
+                    formatSymptomBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION)
                 )
 
             setOnClickListener { viewModel.onNoInformationSymptomIndication() }

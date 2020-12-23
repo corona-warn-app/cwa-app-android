@@ -98,9 +98,9 @@
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
     <string name="notification_body_share_positive_result">"Udostępnij swój wynik testu i ostrzeż innych."</string>
     <!-- XHED: Notification title - test result is ready -->
-    <string name="notification_headline_test_result_ready">"Twój wynik testu"</string>
+    <string name="notification_headline_test_result_ready">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body - test result is ready -->
-    <string name="notification_body_test_result_ready">"Ważna wiadomość. Otwórz aplikację Corona-Warn-App."</string>
+    <string name="notification_body_test_result_ready">"Masz nowe wiadomości od Corona-Warn-App."</string>
 
     <!-- ####################################
               App Auto Update
@@ -157,7 +157,7 @@
     <string name="risk_card_check_failed_no_internet_restart_button">"Uruchom ponownie"</string>
 
     <!-- XTXT: risk card - Low risk state - No days with low risk encounters -->
-    <string name="risk_card_low_risk_no_encounters_body">"Brak narażenia do tej pory"</string>
+    <string name="risk_card_low_risk_no_encounters_body">"Brak narażeń"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Narażenia z niskim ryzykiem w ciągu jednego dnia"</item>
@@ -859,7 +859,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualizuj"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1020,7 +1020,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Okres kwarantanny wynosi zazwyczaj 14 dni. Obserwuj swoje objawy i monitoruj ich rozwój."</item>
-        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 15 minut w ciągu dwóch dni przed wystąpieniem objawów."</item>
+        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 15 minut w ciągu dwóch dni przed wystąpieniem objawów. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
         <item>"Zwróć szczególną uwagę na osoby, które nie zostaną powiadomione bezpośrednio przez aplikację, ponieważ nie posiadają smartfonów lub nie zainstalowały aplikacji."</item>
         <item>"Nawet jeśli nie masz już żadnych objawów i znów czujesz się dobrze, możesz nadal zarażać."</item>
     </string-array>
@@ -1273,7 +1273,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Nie możesz wykonać tej czynności. Skontaktuj się z infolinią."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Twoja aplikacja Corona-Warn-App jest poprawnie zainstalowana, ale system „Powiadomienia o narażeniu na COVID-19” nie jest dostępny w systemie operacyjnym Twojego smartfona. Oznacza to, że nie możesz korzystać z aplikacji Corona-Warn-App. Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”: https://www.coronawarn.app/en/faq/."</string>
+    <string name="errors_google_update_needed">"Twoja aplikacja Corona-Warn-App jest poprawnie zainstalowana, ale „System powiadomień o narażeniu na COVID-19” nie jest dostępny w systemie operacyjnym Twojego smartfona. Oznacza to, że nie możesz korzystać z aplikacji Corona-Warn-App. Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”: https://www.coronawarn.app/en/faq/."</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"Aplikacja Corona-Warn-App działa prawidłowo, ale nie możemy zaktualizować Twojego aktualnego statusu ryzyka. Rejestrowanie narażenia pozostaje aktywne i działa prawidłowo. Więcej informacji można znaleźć na naszej stronie „Często zadawane pytania”: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - Error title when the provideDiagnosisKeys quota limit was reached. -->
@@ -1414,7 +1414,7 @@
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"Następujące kraje uczestniczą obecnie w międzynarodowym rejestrowaniu narażenia:"</string>
     <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
-    <string name="interoperability_configuration_information">"Informacje aplikacji o prywatności danych (łącznie z wyjaśnieniem dotyczącym przetwarzania danych wykonywanego dla funkcji rejestrowania narażenia) można znaleźć w menu w sekcji „Informacje aplikacji” &gt; „Informacje o ochronie danych”."</string>
+    <string name="interoperability_configuration_information">"Oświadczenie o ochronie prywatności dotyczące aplikacji (wraz z informacjami na temat przetwarzania danych na potrzeby funkcji transgranicznego rejestrowania narażenia) znajduje się w menu w sekcji „Informacje o aplikacji” &gt; „Prywatność danych”."</string>
 
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
@@ -1432,7 +1432,7 @@
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Wyświetl warunki korzystania"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Warunki korzystania i informacje o prywatności danych można znaleźć w menu w sekcji „Informacje aplikacji” oraz w opisie aplikacji w Twoim App Store. Zmiany nie będą miały wpływu na korzystanie przez Ciebie z aplikacji. W przypadku dalszego korzystania z aplikacji lub jej ponownego otwarcia, zakładamy, że użytkownik zgadza się na zaktualizowane warunki korzystania."</string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Warunki korzystania i oświadczenie o ochronie prywatności znajdują się w menu w sekcji „Informacje o aplikacji” oraz w opisie aplikacji w Twoim sklepie z aplikacjami. Zmiany nie będą miały wpływu na korzystanie przez Ciebie z aplikacji. Dalsze korzystanie z aplikacji lub jej ponowne otwarcie będzie oznaczać akceptację zaktualizowanych Warunków korzystania."</string>
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
