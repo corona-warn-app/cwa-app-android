@@ -23,25 +23,33 @@ fun formatSymptomButtonTextStyleByState(
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state, R.color.colorCalendarTextSelected, R.color.colorCalendarTextUnselected)
+    formatColor(currentState == state,
+        R.color.colorCalendarTextSelected,
+        R.color.colorCalendarTextUnselected)
 
 fun formatSymptomButtonTextStyleByState(
     currentState: Symptoms.StartOf?,
     state: Symptoms.StartOf?
 ): Int =
-    formatColor(currentState == state, R.color.colorCalendarTextSelected, R.color.colorCalendarTextUnselected)
+    formatColor(currentState == state,
+        R.color.colorCalendarTextSelected,
+        R.color.colorCalendarTextUnselected)
 
 fun formatSymptomBackgroundButtonStyleByState(
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state, R.color.colorCalendarBackgroundSelected, R.color.colorCalendarBackgroundUnselected)
+    formatColor(currentState == state,
+        R.color.colorCalendarBackgroundSelected,
+        R.color.colorCalendarBackgroundUnselected)
 
 fun formatSymptomBackgroundButtonStyleByState(
     currentState: Symptoms.StartOf?,
     state: Symptoms.StartOf?
 ): Int =
-    formatColor(currentState == state, R.color.colorCalendarBackgroundSelected, R.color.colorCalendarBackgroundUnselected)
+    formatColor(currentState == state,
+        R.color.colorCalendarBackgroundSelected,
+        R.color.colorCalendarBackgroundUnselected)
 
 fun formatTestResultStatusText(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): String =
     uiState.withSuccess(R.string.test_result_card_status_invalid) {

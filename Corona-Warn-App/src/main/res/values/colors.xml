@@ -50,6 +50,7 @@
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorCrashReporter">@color/colorTextSemanticNeutral</color>
 
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
