@@ -19,20 +19,21 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     private val contactDiaryRepository: ContactDiaryRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
-        ex.report(ExceptionCategory.INTERNAL, TAG)
-    }
-
-    val personsLiveData = contactDiaryRepository.people
-        .asLiveData(dispatcherProvider.IO)
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
+
+    val personsLiveData = contactDiaryRepository.people
+        .asLiveData()
 
     val isButtonEnabled = contactDiaryRepository.people.map { !it.isNullOrEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
     val isListVisible = contactDiaryRepository.people.map { !it.isNullOrEmpty() }
         .asLiveData(dispatcherProvider.IO)
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+        ex.report(ExceptionCategory.INTERNAL, TAG)
+    }
 
     fun onDeleteAllPersonsClick() {
         navigationEvent.postValue(NavigationEvent.ShowDeletionConfirmationDialog)
@@ -49,10 +50,6 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
         navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person.toContactDiaryPersonEntity()))
     }
 
-    companion object {
-        private val TAG = ContactDiaryEditPersonsViewModel::class.java.simpleName
-    }
-
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryEditPersonsViewModel>
 
@@ -61,3 +58,5 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
         data class ShowPersonDetailSheet(val person: ContactDiaryPersonEntity) : NavigationEvent()
     }
 }
+
+private val TAG = ContactDiaryEditPersonsViewModel::class.java.simpleName

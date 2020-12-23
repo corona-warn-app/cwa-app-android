@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_diary_overview_element_body"
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
             android:focusable="true"
-            android:text="Donnerstag, 01.12.2020"
+            tools:text="Donnerstag, 01.12.2020"
             app:layout_constraintBottom_toTopOf="@id/contact_diary_overview_element_divider"
             app:layout_constraintEnd_toStartOf="@+id/contact_diary_overview_element_right_arrow"
             app:layout_constraintStart_toStartOf="parent"
