@@ -31,7 +31,7 @@
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
-    <color name="colorTextTint">#007FAD</color>
+    <color name="colorTextTint">@color/colorAccent</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -44,9 +44,10 @@
     <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
 
     <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccent">#007FAD</color>
+    <color name="colorAccentTintButton">@color/colorAccent</color>
     <color name="colorAccentTintButtonPressed">#02759E</color>
-    <color name="colorAccentTintIcon">#007FAD</color>
+    <color name="colorAccentTintIcon">@color/colorAccent</color>
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
@@ -68,8 +69,8 @@
     <color name="colorCalendarTextSelected">@color/colorTextPrimary1Inverted</color>
     <color name="colorCalendarTextUnselected">@color/colorTextPrimary1</color>
     <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
-    <color name="colorCalendarTodayBorder">#007FAD</color>
-    <color name="colorCalendarTodayText">#007FAD</color>
+    <color name="colorCalendarTodayBorder">@color/colorAccent</color>
+    <color name="colorCalendarTodayText">@color/colorAccent</color>
     <color name="colorCalendarMonthText">#DE000000</color>
 
     <!-- Contact Diary -->
