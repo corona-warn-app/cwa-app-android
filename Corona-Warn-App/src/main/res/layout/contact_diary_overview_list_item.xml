@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contact_diary_overview_element_item_body"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="@dimen/spacing_huge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
             android:id="@+id/contact_diary_overview_nested_element_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/spacing_large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/contact_diary_overview_element_item_body"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,14 +71,14 @@
                 android:id="@+id/contact_diary_overview_nested_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
+                android:paddingVertical="@dimen/spacing_tiny"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
