@@ -57,7 +57,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/spacing_small"
             android:text="@{state.getProgressCardBody(context)}"
             android:textColor="@{state.getStableTextColor(context)}"
             app:layout_constraintBottom_toBottomOf="parent"
