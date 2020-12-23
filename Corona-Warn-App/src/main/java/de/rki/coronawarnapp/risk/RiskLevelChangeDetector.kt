@@ -33,7 +33,7 @@ class RiskLevelChangeDetector @Inject constructor(
 
     fun launch() {
         Timber.v("Monitoring risk level changes.")
-        riskLevelStorage.riskLevelResults
+        riskLevelStorage.latestRiskLevelResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)
             }

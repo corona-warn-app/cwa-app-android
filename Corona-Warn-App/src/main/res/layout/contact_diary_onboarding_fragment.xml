@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/card">
+        android:background="@drawable/contact_diary_onboarding_background">
 
         <include
             android:id="@+id/contact_diary_onboarding_header"
@@ -37,9 +37,9 @@
                     android:id="@+id/contact_diary_onboarding_illustration"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/contact_diary_onboarding_image_content_description"
                     android:focusable="true"
                     android:src="@drawable/ic_contact_diary_illustration_onboarding"
-                    android:contentDescription="@string/contact_diary_onboarding_image_content_description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -142,8 +142,8 @@
                     layout="@layout/include_contact_diary_privacy_card"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginHorizontal="@dimen/guideline_card"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -164,14 +164,14 @@
                     style="@style/subtitle"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:paddingVertical="@dimen/spacing_tiny"
                     android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingVertical="@dimen/spacing_tiny"
+                    android:text="@string/contact_diary_onboarding_legal_information"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_first_divider"
-                    android:text="@string/contact_diary_onboarding_legal_information"
                     tools:text="@string/contact_diary_onboarding_legal_information" />
 
                 <View
@@ -214,7 +214,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/contact_diary_onboarding_button_text"/>
+            tools:text="@string/contact_diary_onboarding_button_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
