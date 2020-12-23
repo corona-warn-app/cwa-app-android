@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -47,12 +48,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
 
         viewModel.uiList.observe2(this) {
             locationListAdapter.update(it)
-
-            if (it.isNotEmpty()) {
-                binding.contactDiaryLocationListNoItemsGroup.visibility = View.GONE
-            } else {
-                binding.contactDiaryLocationListNoItemsGroup.visibility = View.VISIBLE
-            }
+            binding.contactDiaryLocationListNoItemsGroup.isGone = it.isNotEmpty()
         }
     }
 }

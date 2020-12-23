@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -47,12 +48,7 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
 
         viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
-
-            if (it.isNotEmpty()) {
-                binding.contactDiaryPersonListNoItemsGroup.visibility = View.GONE
-            } else {
-                binding.contactDiaryPersonListNoItemsGroup.visibility = View.VISIBLE
-            }
+            binding.contactDiaryPersonListNoItemsGroup.isGone = it.isNotEmpty()
         }
     }
 }

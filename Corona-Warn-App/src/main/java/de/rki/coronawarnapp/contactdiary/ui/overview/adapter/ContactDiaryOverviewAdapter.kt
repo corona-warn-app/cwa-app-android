@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
@@ -51,11 +51,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
-            if (item.data.isNotEmpty()) {
-                viewDataBinding.contactDiaryOverviewNestedElementGroup.visibility = View.VISIBLE
-            } else {
-                viewDataBinding.contactDiaryOverviewNestedElementGroup.visibility = View.GONE
-            }
+            viewDataBinding.contactDiaryOverviewNestedElementGroup.isGone = item.data.isNotEmpty()
 
             nestedItemAdapter.setItems(item.data)
         }
