@@ -21,6 +21,7 @@
 
     <!-- Text -->
     <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorTextPrimary1Inverted">#FFFFFF</color>
     <color name="colorTextPrimary1Stable">#17191A</color>
     <color name="colorTextPrimary1InvertedStable">#FFFFFF</color>
     <color name="colorTextPrimary2">#9917191A</color>
@@ -49,6 +50,7 @@
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorCrashReporter">@color/colorTextSemanticNeutral</color>
 
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
@@ -60,13 +62,15 @@
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
 
-    <!-- Calendar -->
-    <color name="colorCalendarSelectedDayBackground">@color/cwaGrayHighlight</color>
+    <!-- Symptoms / Calendar -->
+    <color name="colorCalendarBackgroundSelected">@color/colorTextSemanticNeutral</color>
+    <color name="colorCalendarBackgroundUnselected">@color/colorSurface2</color>
+    <color name="colorCalendarTextSelected">@color/colorTextPrimary1Inverted</color>
+    <color name="colorCalendarTextUnselected">@color/colorTextPrimary1</color>
+    <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
     <color name="colorCalendarTodayBorder">#007FAD</color>
     <color name="colorCalendarTodayText">#007FAD</color>
     <color name="colorCalendarMonthText">#DE000000</color>
-    <color name="colorCalendarLayoutFocusOn">@color/cwaGrayHighlight</color>
-    <color name="colorCalendarLayoutFocusOff">#F5F5F5</color>
 
     <!-- Contact Diary -->
     <color name="colorContactDiaryListItem">#F5F5F5</color>
