@@ -33,7 +33,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val locationListAdapter = ContactDiaryLocationListAdapter {
+        val locationListAdapter = ContactDiaryLocationListAdapter(getString(R.string.accessibility_location)) {
             viewModel.locationSelectionChanged(it)
         }
 

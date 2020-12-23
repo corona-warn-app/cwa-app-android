@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 
 class ContactDiaryLocationListAdapter(
+    private val itemTypeString: String,
     private val onTappedCallback: (item: SelectableItem<ContactDiaryLocation>) -> Unit
 ) : BaseAdapter<ContactDiaryLocationListAdapter.CachedLocationViewHolder>(),
     AsyncDiffUtilAdapter<SelectableItem<ContactDiaryLocation>> {
@@ -22,7 +23,7 @@ class ContactDiaryLocationListAdapter(
     override fun getItemId(position: Int): Long = data[position].stableId
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedLocationViewHolder =
-        CachedLocationViewHolder(parent)
+        CachedLocationViewHolder(itemTypeString, parent)
 
     override fun onBindBaseVH(holder: CachedLocationViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
@@ -33,6 +34,7 @@ class ContactDiaryLocationListAdapter(
     }
 
     class CachedLocationViewHolder(
+        private val itemTypeString: String,
         parent: ViewGroup
     ) : BaseAdapter.VH(R.layout.contact_diary_location_list_item, parent),
         BindableVH<SelectableItem<ContactDiaryLocation>, ContactDiaryLocationListItemBinding> {
@@ -44,6 +46,7 @@ class ContactDiaryLocationListAdapter(
         ) -> Unit =
             { key, _ ->
                 contactDiaryLocationListLineName.text = key.item.locationName
+                contactDiaryLocationListLine.contentDescription = "$itemTypeString ${key.item.locationName}"
                 when (key.selected) {
                     true -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_selected)
                     false -> contactDiaryLocationListLineIcon.setImageResource(R.drawable.ic_unselected)

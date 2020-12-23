@@ -105,4 +105,8 @@
     <string name="contact_diary_export_intro_one" translatable="false">"Kontakte der letzten 14 Tage (%1$s - %2$s)"</string>
     <!-- XTXT: Intro text  for the contact journal email export part two-->
     <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
+    <!-- XTXT: location description for screen readers -->
+    <string name="accessibility_location">Ort</string>
+    <!-- XTXT: person description for screen readers -->
+    <string name="accessibility_person">Person</string>
 </resources>

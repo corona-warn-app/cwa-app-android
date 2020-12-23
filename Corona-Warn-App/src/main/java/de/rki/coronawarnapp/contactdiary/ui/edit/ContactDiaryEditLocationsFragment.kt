@@ -33,7 +33,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBindingLazy()
 
-    private val listAdapter = ListAdapter()
+    private lateinit var listAdapter : ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,6 +82,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     }
 
     private fun setupRecyclerView() {
+        listAdapter = ListAdapter(getString(R.string.accessibility_location))
         binding.locationsRecyclerView.adapter = listAdapter
     }
 
@@ -98,7 +99,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         )
     }
 
-    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+    inner class ListAdapter(private val itemTypeString: String) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
         AsyncDiffUtilAdapter<ContactDiaryLocation> {
 
         override val asyncDiffer: AsyncDiffer<ContactDiaryLocation> = AsyncDiffer(this)
@@ -115,10 +116,14 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
 
         override fun onBindViewHolder(viewHolder: ListAdapter.ViewHolder, position: Int) {
             val location = data[position]
-            viewHolder.nameTextView.text = location.locationName
-            viewHolder.itemContainerView.setOnClickListener {
-                viewModel.onEditLocationClick(location)
+            with(viewHolder) {
+                nameTextView.text = location.locationName
+                itemContainerView.setOnClickListener {
+                    viewModel.onEditLocationClick(location)
+                }
+                itemContainerView.contentDescription = "$itemTypeString ${location.locationName}"
             }
+
         }
 
         override fun getItemCount(): Int {

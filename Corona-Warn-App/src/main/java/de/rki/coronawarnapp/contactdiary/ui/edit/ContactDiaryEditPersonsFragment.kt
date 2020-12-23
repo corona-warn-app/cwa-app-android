@@ -33,7 +33,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditPersonsFragmentBinding by viewBindingLazy()
 
-    private val listAdapter = ListAdapter()
+    private lateinit var listAdapter : ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,6 +82,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     }
 
     private fun setupRecyclerView() {
+        listAdapter = ListAdapter(getString(R.string.accessibility_person))
         binding.personsRecyclerView.adapter = listAdapter
     }
 
@@ -98,7 +99,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         )
     }
 
-    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+    inner class ListAdapter(private val itemTypeString : String) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
         AsyncDiffUtilAdapter<ContactDiaryPerson> {
 
         override val asyncDiffer: AsyncDiffer<ContactDiaryPerson> = AsyncDiffer(this)
@@ -115,9 +116,12 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
 
         override fun onBindViewHolder(viewHolder: ListAdapter.ViewHolder, position: Int) {
             val person = data[position]
-            viewHolder.nameTextView.text = person.fullName
-            viewHolder.itemContainerView.setOnClickListener {
-                viewModel.onEditPersonClick(person)
+            with(viewHolder) {
+                nameTextView.text = person.fullName
+                itemContainerView.setOnClickListener {
+                    viewModel.onEditPersonClick(person)
+                }
+                itemContainerView.contentDescription = "$itemTypeString ${person.fullName}"
             }
         }
 
