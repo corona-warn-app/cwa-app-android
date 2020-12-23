@@ -18,7 +18,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/contact_diary_overview_header}" />
 
-
         <TextView
             android:id="@+id/onboarding_headline"
             style="@style/headline5Bold"
