@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
