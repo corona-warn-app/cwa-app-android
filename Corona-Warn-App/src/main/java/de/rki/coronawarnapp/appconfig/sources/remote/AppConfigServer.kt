@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.VerificationKeys
-import okhttp3.Cache
 import okhttp3.CacheControl
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -26,8 +25,7 @@ import javax.inject.Inject
 class AppConfigServer @Inject constructor(
     private val api: Lazy<AppConfigApiV2>,
     private val verificationKeys: VerificationKeys,
-    private val timeStamper: TimeStamper,
-    @AppConfigHttpCache private val cache: Cache
+    private val timeStamper: TimeStamper
 ) {
 
     internal suspend fun downloadAppConfig(): InternalConfigData {
@@ -55,8 +53,7 @@ class AppConfigServer @Inject constructor(
             exportBinary
         }
 
-        // If this is a cached response, we need the original timestamp to calculate the time offset
-        val localTime = response.getCacheTimestamp() ?: timeStamper.nowUTC
+        val localTime = timeStamper.nowUTC
 
         val headers = response.headers()
 
@@ -89,18 +86,6 @@ class AppConfigServer @Inject constructor(
     } catch (e: Exception) {
         Timber.e("Failed to get server time.")
         null
-    }
-
-    private fun <T> Response<T>.getCacheTimestamp(): Instant? {
-        val cacheResponse = raw().cacheResponse
-        return cacheResponse?.sentRequestAtMillis?.let {
-            Instant.ofEpochMilli(it)
-        }
-    }
-
-    internal fun clearCache() {
-        Timber.tag(TAG).v("clearCache()")
-        cache.evictAll()
     }
 
     companion object {

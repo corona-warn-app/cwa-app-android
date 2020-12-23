@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
@@ -59,7 +61,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
+@Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
@@ -68,7 +72,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     submissionStateProvider: SubmissionStateProvider,
     private val tracingRepository: TracingRepository,
     private val testResultNotificationService: TestResultNotificationService,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val cwaSettings: CWASettings,
+    appConfigProvider: AppConfigProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -103,6 +109,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    val showIncorrectDeviceTimeDialog by lazy {
+        var wasDeviceTimeDialogShown = false
+        SingleLiveEvent<Boolean>().also { singleLiveEvent ->
+            appConfigProvider.currentConfig.map { it.isDeviceTimeCorrect }.onEach { isDeviceTimeCorrect ->
+                if (isDeviceTimeCorrect) {
+                    singleLiveEvent.postValue(false)
+                    wasDeviceTimeDialogShown = false
+                } else if (!wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
+                    singleLiveEvent.postValue(true)
+                    wasDeviceTimeDialogShown = true
+                }
+            }.launchInViewModel()
+        }
+    }
     private val tracingCardItems = tracingStateProvider.state.map { tracingState ->
         when (tracingState) {
             is TracingInProgress -> TracingProgressCard.Item(
@@ -265,6 +285,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
         LocalData.isUserToBeNotifiedOfLoweredRiskLevel = false
+    }
+
+    fun userHasAcknowledgedIncorrectDeviceTime() {
+        cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
     }
 
     @AssistedInject.Factory

@@ -47,10 +47,6 @@ class RemoteAppConfigSource @Inject constructor(
         }
     }
 
-    fun clear() {
-        server.clearCache()
-    }
-
     companion object {
         private const val TAG = "AppConfigRetriever"
     }
