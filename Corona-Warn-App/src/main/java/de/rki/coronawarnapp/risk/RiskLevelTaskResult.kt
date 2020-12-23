@@ -32,4 +32,11 @@ data class RiskLevelTaskResult(
         aggregatedRiskResult = null,
         exposureWindows = null
     )
+
+    override fun toString(): String = "RiskLevelTaskResult(" +
+        "calculatedAt=$calculatedAt, " +
+        "failureReason=$failureReason, " +
+        "aggregatedRiskResult=$aggregatedRiskResult, " +
+        "exposureWindows.size=${exposureWindows?.size}" +
+        ")"
 }

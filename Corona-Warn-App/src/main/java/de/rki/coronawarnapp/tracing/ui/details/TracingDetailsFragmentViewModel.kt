@@ -69,7 +69,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     val buttonStates: LiveData<TracingDetailsState> = combine(
         tracingStatus.generalStatus,
-        riskLevelStorage.riskLevelResults,
+        riskLevelStorage.latestAndLastSuccessful,
         backgroundModeStatus.isAutoModeEnabled
     ) { status,
         riskLevelResults,
