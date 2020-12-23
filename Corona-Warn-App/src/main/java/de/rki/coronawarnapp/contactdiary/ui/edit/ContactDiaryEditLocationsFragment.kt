@@ -33,7 +33,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBindingLazy()
 
-    private lateinit var listAdapter : ListAdapter
+    private lateinit var listAdapter: ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -123,7 +123,6 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                 }
                 itemContainerView.contentDescription = "$itemTypeString ${location.locationName}"
             }
-
         }
 
         override fun getItemCount(): Int {

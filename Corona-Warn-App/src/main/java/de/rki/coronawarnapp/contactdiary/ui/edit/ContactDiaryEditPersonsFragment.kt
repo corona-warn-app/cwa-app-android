@@ -33,7 +33,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditPersonsFragmentBinding by viewBindingLazy()
 
-    private lateinit var listAdapter : ListAdapter
+    private lateinit var listAdapter: ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -99,7 +99,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         )
     }
 
-    inner class ListAdapter(private val itemTypeString : String) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+    inner class ListAdapter(private val itemTypeString: String) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
         AsyncDiffUtilAdapter<ContactDiaryPerson> {
 
         override val asyncDiffer: AsyncDiffer<ContactDiaryPerson> = AsyncDiffer(this)
