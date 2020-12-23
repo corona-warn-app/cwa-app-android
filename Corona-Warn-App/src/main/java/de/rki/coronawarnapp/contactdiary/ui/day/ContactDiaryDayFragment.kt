@@ -56,7 +56,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
                 viewModel.onCreateButtonClicked(adapter.tabs[contactDiaryDayTabLayout.selectedTabPosition])
             }
 
-            contactDiaryDayHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            contactDiaryDayHeader.setNavigationOnClickListener {
                 viewModel.onBackPressed()
             }
         }
