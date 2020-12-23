@@ -140,4 +140,5 @@
 
     <!-- Contact Diary -->
     <dimen name="contact_diary_list_item">64dp</dimen>
+    <dimen name="contact_diary_nested_recyclerview_margin">60dp</dimen>
 </resources>
