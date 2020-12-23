@@ -79,7 +79,7 @@
         <Button
             android:id="@+id/risk_card_button_update"
             style="@style/buttonPrimary"
-            gone="@{state.showRestartButton}"
+            gone="@{!state.showRestartButton}"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
