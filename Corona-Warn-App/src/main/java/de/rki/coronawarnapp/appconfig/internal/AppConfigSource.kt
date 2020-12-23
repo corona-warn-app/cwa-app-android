@@ -61,7 +61,6 @@ class AppConfigSource @Inject constructor(
 
     suspend fun clear() {
         Timber.tag(TAG).d("clear()")
-        remoteAppConfigSource.clear()
         localAppConfigSource.clear()
     }
 

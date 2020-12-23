@@ -47,10 +47,6 @@ class RemoteAppConfigSource @Inject constructor(
         }
     }
 
-    fun clear() {
-        Timber.tag(TAG).v("clear()")
-    }
-
     companion object {
         private const val TAG = "AppConfigRetriever"
     }
