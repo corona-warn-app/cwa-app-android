@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="tracingDetails"
-            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
+            name="loggedPeriod"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/risk_details_behavior_icon"
+            android:id="@+id/icon_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,7 @@
                 app:circleWidth="@dimen/circle_large_width"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:progress="@{tracingDetails.activeTracingDaysInRetentionPeriod}" />
+                app:progress="@{loggedPeriod.activeTracingDaysInRetentionPeriod}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -39,10 +39,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
-            android:text="@{tracingDetails.getRiskActiveTracingDaysInRetentionPeriodLogged(context)}"
+            android:text="@{loggedPeriod.getRiskActiveTracingDaysInRetentionPeriodLogged(context)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/risk_details_behavior_icon"
+            app:layout_constraintStart_toEndOf="@+id/icon_background"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

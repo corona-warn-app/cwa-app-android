@@ -28,7 +28,7 @@ class KeyFileDownloadAdapter(
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedKeyViewHolder = CachedKeyViewHolder(parent)
 
-    override fun onBindBaseVH(holder: CachedKeyViewHolder, position: Int) {
+    override fun onBindBaseVH(holder: CachedKeyViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnLongClickListener {
             deleteAction(item)
@@ -45,7 +45,10 @@ class KeyFileDownloadAdapter(
 
         override val viewBinding = lazy { FragmentTestKeydownloadAdapterLineBinding.bind(itemView) }
 
-        override val onBindData: FragmentTestKeydownloadAdapterLineBinding.(key: CachedKeyListItem) -> Unit = { item ->
+        override val onBindData: FragmentTestKeydownloadAdapterLineBinding.(
+            key: CachedKeyListItem,
+            payloads: List<Any>
+        ) -> Unit = { item, _ ->
             locationInfo.text = item.info.location.identifier
 
             val shortSize = Formatter.formatShortFileSize(context, item.fileSize)
