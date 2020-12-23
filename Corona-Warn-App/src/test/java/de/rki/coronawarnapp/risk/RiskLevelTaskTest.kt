@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
-import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery

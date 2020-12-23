@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.device
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

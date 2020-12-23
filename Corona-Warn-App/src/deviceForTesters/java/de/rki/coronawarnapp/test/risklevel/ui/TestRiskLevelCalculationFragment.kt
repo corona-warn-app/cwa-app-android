@@ -10,14 +10,12 @@ import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -40,8 +38,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             factory.create(handle, navArgs.exampleArgument)
         }
     )
-
-    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     private val binding: FragmentTestRiskLevelCalculationBinding by viewBindingLazy()
 

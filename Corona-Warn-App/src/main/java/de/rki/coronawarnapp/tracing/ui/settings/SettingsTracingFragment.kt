@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragmentViewModel.Event
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -25,7 +24,6 @@ import javax.inject.Inject
 /**
  * The user can start/stop tracing and is informed about tracing.
  *
- * @see SettingsViewModel
  * @see InternalExposureNotificationClient
  */
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {

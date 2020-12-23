@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.settings.notification
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

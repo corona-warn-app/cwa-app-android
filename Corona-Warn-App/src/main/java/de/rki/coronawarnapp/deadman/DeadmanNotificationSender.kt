@@ -10,7 +10,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

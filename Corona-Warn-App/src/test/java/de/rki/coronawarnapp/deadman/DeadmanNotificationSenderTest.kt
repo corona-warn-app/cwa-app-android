@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.deadman
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
