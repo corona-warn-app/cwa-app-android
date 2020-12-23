@@ -38,7 +38,8 @@ class AppConfigSource @Inject constructor(
                 Timber.tag(TAG).d("Returning remote config.")
                 if (!remoteConfig.isDeviceTimeCorrect) {
                     Timber.tag(TAG).w(
-                        "Device time is incorrect, offset=%s", remoteConfig.localOffset.standardMinutes
+                        "Device time is incorrect, offset=%dmin",
+                        remoteConfig.localOffset.standardMinutes
                     )
                 }
                 if (remoteConfig.isDeviceTimeCorrect && cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
