@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -31,7 +32,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.routeToScreen.observe(viewLifecycleOwner) {
+        viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     findNavController().popBackStack()
@@ -42,7 +43,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
             }
         }
 
-        viewModel.dial.observe(viewLifecycleOwner) {
+        viewModel.dial.observe2(this) {
             dial()
         }
     }

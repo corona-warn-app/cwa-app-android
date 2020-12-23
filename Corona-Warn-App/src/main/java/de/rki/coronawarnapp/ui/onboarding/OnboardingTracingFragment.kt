@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -28,7 +29,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe(viewLifecycleOwner) {
+        vm.countryList.observe2(this) {
             binding.countryData = it
         }
         vm.saveInteroperabilityUsed()
@@ -37,7 +38,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             onboardingButtonDisable.setOnClickListener { vm.showCancelDialog() }
             onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonPress() }
         }
-        vm.routeToScreen.observe(viewLifecycleOwner) {
+        vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
                 is OnboardingNavigationEvents.ShowCancelDialog ->
@@ -56,7 +57,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                     (requireActivity() as OnboardingActivity).goBack()
             }
         }
-        vm.permissionRequestEvent.observe(viewLifecycleOwner) { permissionRequest ->
+        vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
     }

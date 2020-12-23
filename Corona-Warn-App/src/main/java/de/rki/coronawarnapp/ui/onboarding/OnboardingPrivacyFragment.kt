@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -28,7 +29,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
             onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
         }
-        vm.routeToScreen.observe(viewLifecycleOwner) {
+        vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
                     doNavigate(

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -29,7 +30,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.consent.observe(viewLifecycleOwner) {
+        vm.consent.observe2(this) {
             binding.submissionYourConsentSwitch.status = it
             binding.submissionYourConsentSwitch.statusText = getString(
                 if (it) {
@@ -40,11 +41,11 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
             )
         }
 
-        vm.countryList.observe(viewLifecycleOwner) {
+        vm.countryList.observe2(this) {
             binding.submissionYourConsentAgreementCountryList.countries = it
         }
 
-        vm.clickEvent.observe(viewLifecycleOwner) {
+        vm.clickEvent.observe2(this) {
             when (it) {
                 is SubmissionYourConsentEvents.GoBack -> (activity as MainActivity).goBack()
                 is SubmissionYourConsentEvents.GoLegal -> doNavigate(

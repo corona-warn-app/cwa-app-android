@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -33,7 +34,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
             settingsResetButtonCancel.setOnClickListener { vm.goBack() }
             settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
         }
-        vm.clickEvent.observe(viewLifecycleOwner) {
+        vm.clickEvent.observe2(this) {
             when (it) {
                 is SettingsEvents.ResetApp -> confirmReset()
                 is SettingsEvents.GoBack -> (activity as MainActivity).goBack()

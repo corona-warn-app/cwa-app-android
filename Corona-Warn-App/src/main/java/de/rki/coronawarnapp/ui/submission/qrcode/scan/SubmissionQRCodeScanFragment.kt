@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -58,13 +59,13 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatusValue.observe(viewLifecycleOwner) {
+        viewModel.scanStatusValue.observe2(this) {
             if (ScanStatus.INVALID == it) {
                 showInvalidScanDialog()
             }
         }
 
-        viewModel.showRedeemedTokenWarning.observe(viewLifecycleOwner) {
+        viewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_tan_redeemed_title,
@@ -76,7 +77,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             goBack()
         }
 
-        viewModel.registrationState.observe(viewLifecycleOwner) { state ->
+        viewModel.registrationState.observe2(this) { state ->
             binding.submissionQrCodeScanSpinner.visibility = when (state.apiRequestState) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
@@ -96,11 +97,11 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
         }
 
-        viewModel.registrationError.observe(viewLifecycleOwner) {
+        viewModel.registrationError.observe2(this) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        viewModel.routeToScreen.observe(viewLifecycleOwner) {
+        viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     navigateToDispatchScreen()

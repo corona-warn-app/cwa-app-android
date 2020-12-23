@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -34,7 +35,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
         binding.testLogfileToggle.apply {
             setOnClickListener { vm.setLoggerEnabled(isChecked) }
         }
-        vm.loggerState.observe(viewLifecycleOwner) { state ->
+        vm.loggerState.observe2(this) { state ->
             binding.apply {
                 testLogfileToggle.isChecked = state.isLogging
                 val logSize = Formatter.formatShortFileSize(requireContext(), state.logsize)
@@ -43,7 +44,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
             }
         }
         binding.testLogfileShare.setOnClickListener { vm.shareLogFile() }
-        vm.logShareEvent.observe(viewLifecycleOwner) { showSnackBar("Logfile copied to $it") }
+        vm.logShareEvent.observe2(this) { showSnackBar("Logfile copied to $it") }
 
         // Server environment card
         binding.environmentToggleGroup.apply {
@@ -54,7 +55,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
             }
         }
 
-        vm.environmentState.observe(viewLifecycleOwner) { state ->
+        vm.environmentState.observe2(this) { state ->
             binding.apply {
                 if (environmentToggleGroup.childCount != state.available.size) {
                     environmentToggleGroup.removeAllViews()
@@ -81,7 +82,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
             }
         }
-        vm.environmentChangeEvent.observe(viewLifecycleOwner) {
+        vm.environmentChangeEvent.observe2(this) {
             showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
         }
     }

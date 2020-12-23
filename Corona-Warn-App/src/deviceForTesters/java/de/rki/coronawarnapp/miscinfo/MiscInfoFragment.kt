@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDeviceinfoBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -25,20 +26,20 @@ class MiscInfoFragment : Fragment(R.layout.fragment_test_deviceinfo), AutoInject
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.errorEvent.observe(viewLifecycleOwner) {
+        vm.errorEvent.observe2(this) {
             Snackbar.make(requireView(), it, Snackbar.LENGTH_INDEFINITE).show()
         }
 
-        vm.versionState.observe(viewLifecycleOwner) {
+        vm.versionState.observe2(this) {
             binding.googlePlayServicesVersionInfo.text = "Google Play Services: ${it.gmsVersion}"
             binding.exposureNotificationServiceVersionInfo.text = "Exposure Notification Services: ${it.enfVersion}"
         }
 
-        vm.inActiveTracingIntervals.observe(viewLifecycleOwner) {
+        vm.inActiveTracingIntervals.observe2(this) {
             binding.tracingInfosInactiveIntervals.text = "Inactive tracing intervals:\n$it"
         }
 
-        vm.tracingDaysInRetention.observe(viewLifecycleOwner) {
+        vm.tracingDaysInRetention.observe2(this) {
             binding.tracingInfosActiveTracingRetention.text = "Active tracing days in retention period: $it"
         }
     }

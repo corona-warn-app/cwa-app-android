@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewMode
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,7 +27,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.routeToScreen.observe(viewLifecycleOwner) {
+        viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     findNavController().popBackStack()

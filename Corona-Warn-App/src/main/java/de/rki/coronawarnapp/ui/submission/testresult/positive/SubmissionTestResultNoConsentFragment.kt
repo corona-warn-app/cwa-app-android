@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -38,7 +39,7 @@ class SubmissionTestResultNoConsentFragment : Fragment(R.layout.fragment_submiss
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.uiState.observe(viewLifecycleOwner) {
+        viewModel.uiState.observe2(this) {
             binding.submissionTestResultSection
                 .setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }

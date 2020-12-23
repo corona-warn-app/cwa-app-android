@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBindi
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -31,11 +32,11 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
 
-        vm.testResult.observe(viewLifecycleOwner) {
+        vm.testResult.observe2(this) {
             binding.submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
-        vm.routeToScreen.observe(viewLifecycleOwner) { navDirections ->
+        vm.routeToScreen.observe2(this) { navDirections ->
             navDirections?.let { doNavigate(it) } ?: popBackStack()
         }
     }

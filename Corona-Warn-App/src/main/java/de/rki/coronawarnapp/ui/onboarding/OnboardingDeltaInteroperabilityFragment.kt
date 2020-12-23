@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,7 +27,7 @@ class OnboardingDeltaInteroperabilityFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.countryList.observe(viewLifecycleOwner) {
+        vm.countryList.observe2(this) {
             binding.countryData = it
         }
         vm.saveInteroperabilityUsed()
@@ -48,7 +49,7 @@ class OnboardingDeltaInteroperabilityFragment :
             vm.onBackPressed()
         }
 
-        vm.navigateBack.observe(viewLifecycleOwner) {
+        vm.navigateBack.observe2(this) {
             if (it) {
                 (requireActivity() as MainActivity).goBack()
             }

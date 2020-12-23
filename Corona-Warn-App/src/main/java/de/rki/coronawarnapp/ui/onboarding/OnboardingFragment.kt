@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -30,7 +31,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
             onboardingInclude.onboardingEasyLanguage.setOnClickListener { vm.onEasyLanguageClick() }
         }
-        vm.routeToScreen.observe(viewLifecycleOwner) {
+        vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
                     doNavigate(

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -44,15 +45,15 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onBackPressed()
         }
 
-        viewModel.routeToScreen.observe(viewLifecycleOwner) {
+        viewModel.routeToScreen.observe2(this) {
             doNavigate(it)
         }
 
-        viewModel.showPermissionRequest.observe(viewLifecycleOwner) { permissionRequest ->
+        viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
 
-        viewModel.showEnableTracingEvent.observe(viewLifecycleOwner) {
+        viewModel.showEnableTracingEvent.observe2(this) {
             val tracingRequiredDialog = DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_test_result_dialog_tracing_required_title,
@@ -66,11 +67,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onDataPrivacyClick()
         }
 
-        viewModel.countryList.observe(viewLifecycleOwner) {
+        viewModel.countryList.observe2(this) {
             binding.countryList.countries = it
         }
 
-        viewModel.showTracingConsentDialog.observe(viewLifecycleOwner) { onConsentResult ->
+        viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
             TracingConsentDialog(requireContext()).show(
                 onConsentGiven = { onConsentResult(true) },
                 onConsentDeclined = { onConsentResult(false) }

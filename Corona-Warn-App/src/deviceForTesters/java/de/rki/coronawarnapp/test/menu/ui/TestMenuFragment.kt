@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestMenuBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -30,10 +31,10 @@ class TestMenuFragment : Fragment(R.layout.fragment_test_menu), AutoInject {
             adapter = menuAdapter
         }
 
-        vm.testMenuData.observe(viewLifecycleOwner) { menuAdapter.data = it }
+        vm.testMenuData.observe2(this) { menuAdapter.data = it }
         menuAdapter.onItemClickListener = { vm.showTestScreen(it) }
 
-        vm.showTestScreenEvent.observe(viewLifecycleOwner) {
+        vm.showTestScreenEvent.observe2(this) {
             findNavController().navigate(it.targetId)
         }
     }

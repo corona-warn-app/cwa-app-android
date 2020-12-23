@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -41,13 +42,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.tracingHeaderState.observe(viewLifecycleOwner) {
+        vm.tracingHeaderState.observe2(this) {
             binding.tracingHeader = it
         }
-        vm.tracingCardState.observe(viewLifecycleOwner) {
+        vm.tracingCardState.observe2(this) {
             binding.tracingCard = it
         }
-        vm.submissionCardState.observe(viewLifecycleOwner) {
+        vm.submissionCardState.observe2(this) {
             binding.submissionCard = it
 
             setupTestResultCard(it.deviceUiState)
@@ -68,7 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.popupEvents.observe(viewLifecycleOwner) {
+        vm.popupEvents.observe2(this) {
             when (it) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(
@@ -92,7 +93,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             }
         }
 
-        vm.showLoweredRiskLevelDialog.observe(viewLifecycleOwner) {
+        vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) {
                 showRiskLevelLoweredDialog()
             }

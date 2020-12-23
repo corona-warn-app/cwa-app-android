@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -34,11 +35,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pendingViewModel.consentGiven.observe(viewLifecycleOwner) {
+        pendingViewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
         }
 
-        pendingViewModel.testState.observe(viewLifecycleOwner) { result ->
+        pendingViewModel.testState.observe2(this) { result ->
             result.deviceUiState.withFailure {
                 if (it is CwaWebException) {
                     DialogHelper.showDialog(buildErrorDialog(it))
@@ -74,7 +75,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             consentStatus.setOnClickListener { pendingViewModel.onConsentClicked() }
         }
 
-        pendingViewModel.showRedeemedTokenWarning.observe(viewLifecycleOwner) {
+        pendingViewModel.showRedeemedTokenWarning.observe2(this) {
             val dialog = DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_tan_redeemed_title,
@@ -85,7 +86,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             DialogHelper.showDialog(dialog)
         }
 
-        pendingViewModel.routeToScreen.observe(viewLifecycleOwner) {
+        pendingViewModel.routeToScreen.observe2(this) {
             it?.let { doNavigate(it) } ?: navigateToMainScreen()
         }
 

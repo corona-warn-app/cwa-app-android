@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -27,7 +28,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentTestId.observe(viewLifecycleOwner) {
+        vm.currentTestId.observe2(this) {
             binding.registrationTokenCurrent.text = "Current: '$it'"
         }
 
@@ -41,12 +42,12 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             adapter = tekHistoryAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-        vm.tekHistory.observe(viewLifecycleOwner) { teks ->
+        vm.tekHistory.observe2(this) { teks ->
             tekHistoryAdapter.update(teks)
             binding.tekStorageCount.text = "${teks.size} TEKs"
         }
 
-        vm.shareTEKsEvent.observe(viewLifecycleOwner) { tekExport ->
+        vm.shareTEKsEvent.observe2(this) { tekExport ->
             val share = Intent.createChooser(Intent().apply {
                 action = Intent.ACTION_SEND
                 type = "text/plain"
@@ -60,10 +61,10 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             tekStorageClear.setOnClickListener { vm.clearStorage() }
             tekStorageEmail.setOnClickListener { vm.emailTEKs() }
         }
-        vm.permissionRequestEvent.observe(viewLifecycleOwner) { permissionRequest ->
+        vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.showTracingConsentDialog.observe(viewLifecycleOwner) { consentResult ->
+        vm.showTracingConsentDialog.observe2(this) { consentResult ->
             TracingConsentDialog(requireContext()).show(
                 onConsentGiven = { consentResult(true) },
                 onConsentDeclined = { consentResult(false) }

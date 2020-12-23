@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -44,20 +45,20 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
             viewModel.onDateSelected(it)
         }
 
-        viewModel.showCancelDialog.observe(viewLifecycleOwner) {
+        viewModel.showCancelDialog.observe2(this) {
             SubmissionCancelDialog(requireContext()).show {
                 viewModel.onCancelConfirmed()
             }
         }
-        viewModel.showUploadDialog.observe(viewLifecycleOwner) {
+        viewModel.showUploadDialog.observe2(this) {
             uploadDialog.setState(show = it)
         }
 
-        viewModel.routeToScreen.observe(viewLifecycleOwner) {
+        viewModel.routeToScreen.observe2(this) {
             doNavigate(it)
         }
 
-        viewModel.symptomStart.observe(viewLifecycleOwner) {
+        viewModel.symptomStart.observe2(this) {
             when (it) {
                 is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date)
                 else -> binding.symptomCalendarContainer.setSelectedDate(null)

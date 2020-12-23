@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -46,11 +47,11 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.tracingCardState.observe(viewLifecycleOwner) {
+        vm.tracingCardState.observe2(this) {
             binding.tracingCard = it
         }
         binding.settingsViewModel = settingsViewModel
-        vm.showRiskStatusCard.observe(viewLifecycleOwner) {
+        vm.showRiskStatusCard.observe2(this) {
             binding.showRiskStatusCard = it
         }
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
@@ -59,28 +60,28 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
         binding.buttonExposureWindowsShare.setOnClickListener { vm.shareExposureWindows() }
 
-        vm.dataResetEvent.observe(viewLifecycleOwner) { Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show() }
+        vm.dataResetEvent.observe2(this) { Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show() }
 
-        vm.additionalRiskCalcInfo.observe(viewLifecycleOwner) {
+        vm.additionalRiskCalcInfo.observe2(this) {
             binding.labelRiskAdditionalInfo.text = it
         }
-        vm.aggregatedRiskResult.observe(viewLifecycleOwner) {
+        vm.aggregatedRiskResult.observe2(this) {
             binding.labelAggregatedRiskResult.text = it
         }
-        vm.backendParameters.observe(viewLifecycleOwner) {
+        vm.backendParameters.observe2(this) {
             binding.labelBackendParameters.text = it
         }
-        vm.exposureWindowCount.observe(viewLifecycleOwner) { exposureWindowCount ->
+        vm.exposureWindowCount.observe2(this) { exposureWindowCount ->
             binding.labelExposureWindowCount.text = "Retrieved $exposureWindowCount Exposure Windows"
             binding.buttonExposureWindowsShare.visibility = when (exposureWindowCount > 0) {
                 true -> View.VISIBLE
                 false -> View.GONE
             }
         }
-        vm.shareFileEvent.observe(viewLifecycleOwner) {
+        vm.shareFileEvent.observe2(this) {
             shareExposureWindowsFile(it)
         }
-        vm.fakeWindowsState.observe(viewLifecycleOwner) { currentType ->
+        vm.fakeWindowsState.observe2(this) { currentType ->
             binding.apply {
                 if (fakeWindowsToggleGroup.childCount != TestSettings.FakeExposureWindowTypes.values().size) {
                     fakeWindowsToggleGroup.removeAllViews()

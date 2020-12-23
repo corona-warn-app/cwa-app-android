@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -28,12 +29,12 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.fakeMeteredConnection.observe(viewLifecycleOwner) {
+        vm.fakeMeteredConnection.observe2(this) {
             binding.fakeMeteredConnectionToggle.isChecked = it
         }
         binding.fakeMeteredConnectionToggle.setOnClickListener { vm.toggleAllowMeteredConnections() }
 
-        vm.isMeteredConnection.observe(viewLifecycleOwner) {
+        vm.isMeteredConnection.observe2(this) {
             binding.infoMeteredNetwork.text = "Is metered network? $it"
         }
 
@@ -42,7 +43,7 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
             clearAction.setOnClickListener { vm.clearDownloads() }
         }
 
-        vm.isSyncRunning.observe(viewLifecycleOwner) { isRunning ->
+        vm.isSyncRunning.observe2(this) { isRunning ->
             binding.apply {
                 downloadAction.isEnabled = !isRunning
                 clearAction.isEnabled = !isRunning
@@ -55,7 +56,7 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        vm.currentCache.observe(viewLifecycleOwner) { items ->
+        vm.currentCache.observe2(this) { items ->
             val dayCount = items.count { it.info.type == CachedKeyInfo.Type.LOCATION_DAY }
             val hourCount = items.count { it.info.type == CachedKeyInfo.Type.LOCATION_HOUR }
             binding.cacheListInfos.text = "${items.size} files, $dayCount days, $hourCount hours."
@@ -63,7 +64,7 @@ class KeyDownloadTestFragment : Fragment(R.layout.fragment_test_keydownload), Au
             keyFileAdapter.update(items)
         }
 
-        vm.errorEvent.observe(viewLifecycleOwner) {
+        vm.errorEvent.observe2(this) {
             Snackbar.make(requireView(), it.toString(), Snackbar.LENGTH_LONG).show()
         }
     }

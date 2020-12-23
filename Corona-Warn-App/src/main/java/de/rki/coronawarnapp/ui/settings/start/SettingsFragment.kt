@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -33,13 +34,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.tracingState.observe(viewLifecycleOwner) {
+        vm.tracingState.observe2(this) {
             binding.tracingState = it
         }
-        vm.notificationState.observe(viewLifecycleOwner) {
+        vm.notificationState.observe2(this) {
             binding.notificationState = it
         }
-        vm.backgroundPrioritystate.observe(viewLifecycleOwner) {
+        vm.backgroundPrioritystate.observe2(this) {
             binding.backgroundState = it
         }
         setButtonOnClickListener()
