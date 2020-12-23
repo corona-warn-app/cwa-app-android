@@ -144,12 +144,10 @@ class NotificationHelper @Inject constructor(
         expandableLongText: Boolean = false,
         pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ): Notification? {
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setVisibility(visibility)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
+        val builder = getBaseBuilder().apply {
+            setContentIntent(pendingIntent)
+            setVisibility(visibility)
+        }
 
         if (expandableLongText) {
             builder
@@ -224,6 +222,7 @@ class NotificationHelper @Inject constructor(
 
     fun getBaseBuilder() = NotificationCompat.Builder(context, channelId).apply {
         setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
+        priority = NotificationCompat.PRIORITY_MAX
         setVisibility(VISIBILITY_PRIVATE)
         setContentIntent(createPendingIntentToMainActivity())
         setAutoCancel(true)

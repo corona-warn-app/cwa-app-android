@@ -17,6 +17,7 @@ object NotificationConstants {
     val POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET: Duration = Duration.standardHours(2)
     val POSITIVE_RESULT_NOTIFICATION_INTERVAL: Duration = Duration.standardHours(2)
 
+    const val DEADMAN_NOTIFICATION_ID = 3
     const val NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID = 110
     const val NEW_MESSAGE_TEST_RESULT_NOTIFICATION_ID = 120
     const val TEST_RESULT_AVAILABLE_NOTIFICATION_ID = 130
