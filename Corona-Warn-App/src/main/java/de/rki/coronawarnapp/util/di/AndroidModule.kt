@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.getSystemService
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.WorkManager
 import dagger.Module
@@ -54,6 +55,5 @@ class AndroidModule {
 
     @Provides
     @Singleton
-    fun activityManager(@AppContext context: Context): ActivityManager =
-        context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    fun activityManager(@AppContext context: Context): ActivityManager = context.getSystemService()!!
 }
