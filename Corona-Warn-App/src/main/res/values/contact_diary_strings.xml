@@ -111,12 +111,17 @@
     <!-- XTXT: person description for screen readers -->
     <string name="accessibility_person">Person</string>
     <!-- XTXT: location description for screen readers -->
-    <string name="accessibility_location_unselected">Ort %s ist nicht selektiert</string>
+    <string name="accessibility_location_unselected">Ort %s ist nicht ausgewählt</string>
     <!-- XTXT: person description for screen readers -->
-    <string name="accessibility_person_unselected">Person %s ist nicht selektiert</string>
+    <string name="accessibility_person_unselected">Person %s ist nicht ausgewählt</string>
     <!-- XTXT: location description for screen readers -->
-    <string name="accessibility_location_selected">Ort %s ist selektiert</string>
+    <string name="accessibility_location_selected">Ort %s ist ausgewählt</string>
     <!-- XTXT: person description for screen readers -->
-    <string name="accessibility_person_selected">Person %s ist selektiert</string>
+    <string name="accessibility_person_selected">Person %s ist ausgewählt</string>
+
+    <!-- XTXT: person description for screen readers -->
+    <string name="accessibility_action_select">auswählen</string>
+    <!-- XTXT: person description for screen readers -->
+    <string name="accessibility_action_deselect">Auswahl aufheben</string>
 
 </resources>

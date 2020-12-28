@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
+import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -27,6 +29,8 @@ class ContactDiaryLocationListAdapter(
     override fun onBindBaseVH(holder: CachedLocationViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnClickListener {
+            it.contentDescription = item.onClickDescription
+            it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
             onTappedCallback(item)
         }
         holder.bind(item)
@@ -39,16 +43,18 @@ class ContactDiaryLocationListAdapter(
         override val viewBinding = lazy { ContactDiaryLocationListItemBinding.bind(itemView) }
 
         override val onBindData: ContactDiaryLocationListItemBinding.(
-            item: SelectableItem<ContactDiaryLocation>,
+            key: SelectableItem<ContactDiaryLocation>,
             payloads: List<Any>
-        ) -> Unit = { item, _ ->
-            contactDiaryLocationListItemName.text = item.item.locationName
-            contactDiaryLocationListItem.contentDescription = item.contentDescription
-            when (item.selected) {
+        ) -> Unit = { key, _ ->
+            contactDiaryLocationListItemName.text = key.item.locationName
+            contactDiaryLocationListItem.contentDescription = key.contentDescription
+            contactDiaryLocationListItem.setClickLabel(key.clickLabel)
+            when (key.selected) {
                 true -> contactDiaryLocationListItemIcon.setImageResource(R.drawable.ic_selected)
                 false -> contactDiaryLocationListItemIcon.setImageResource(R.drawable.ic_unselected)
             }
         }
     }
+
 }
 

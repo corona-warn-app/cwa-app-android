@@ -35,18 +35,28 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.locationVisitsForDate(localDate)
     private val selectableLocations = contactDiaryRepository.locations
 
+    private val selectActionDescriptionString: String = context.getString(selectActionDescription)
+    private val deselectActionDescriptionString: String = context.getString(deselectActionDescription)
+
     val uiList = selectableLocations.combine(dayElement) { locations, dayElement ->
         locations.map { contactDiaryLocation ->
             if (dayElement.any { it.contactDiaryLocation.locationId == contactDiaryLocation.locationId }) {
                 SelectableItem(
                     true,
                     contactDiaryLocation,
-                    context.getString(selectedContentDescription, contactDiaryLocation.locationName))
+                    context.getString(selectedContentDescription, contactDiaryLocation.locationName),
+                    context.getString(unselectedContentDescription, contactDiaryLocation.locationName),
+                    deselectActionDescriptionString,
+                    selectActionDescriptionString
+                )
             } else {
                 SelectableItem(
                     false,
                     contactDiaryLocation,
-                    context.getString(unselectedContentDescription, contactDiaryLocation.locationName)
+                    context.getString(unselectedContentDescription, contactDiaryLocation.locationName),
+                    context.getString(selectedContentDescription, contactDiaryLocation.locationName),
+                    selectActionDescriptionString,
+                    deselectActionDescriptionString
                 )
             }
         }
@@ -77,3 +87,5 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
 private val TAG = ContactDiaryLocationListViewModel::class.java.simpleName
 private const val selectedContentDescription = R.string.accessibility_location_selected
 private const val unselectedContentDescription = R.string.accessibility_location_unselected
+private const val selectActionDescription = R.string.accessibility_action_select
+private const val deselectActionDescription = R.string.accessibility_action_deselect

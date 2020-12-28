@@ -4,6 +4,9 @@ import android.content.Context
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -56,4 +59,17 @@ fun View.focusAndShowKeyboard() {
                 }
             })
     }
+}
+
+fun View.setClickLabel(label: String) {
+    ViewCompat.setAccessibilityDelegate(this, object : AccessibilityDelegateCompat() {
+        override fun onInitializeAccessibilityNodeInfo(v: View, info: AccessibilityNodeInfoCompat) {
+            super.onInitializeAccessibilityNodeInfo(v, info)
+            info.addAction(
+                AccessibilityNodeInfoCompat.AccessibilityActionCompat(
+                    AccessibilityNodeInfoCompat.ACTION_CLICK, label
+                )
+            )
+        }
+    })
 }

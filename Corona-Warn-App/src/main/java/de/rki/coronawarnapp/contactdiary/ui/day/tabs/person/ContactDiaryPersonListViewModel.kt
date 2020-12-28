@@ -35,18 +35,27 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.personEncountersForDate(localDate)
     private val selectablePersons = contactDiaryRepository.people
 
+    private val selectActionDescriptionString: String = context.getString(selectActionDescription)
+    private val deselectActionDescriptionString: String = context.getString(deselectActionDescription)
+
     val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
         persons.map { contactDiaryPerson ->
             if (dayElement.any { it.contactDiaryPerson.personId == contactDiaryPerson.personId }) {
                 SelectableItem(
                     true,
                     contactDiaryPerson,
-                    context.getString(selectedContentDescription, contactDiaryPerson.fullName))
+                    context.getString(selectedContentDescription, contactDiaryPerson.fullName),
+                    context.getString(unselectedContentDescription, contactDiaryPerson.fullName),
+                    deselectActionDescriptionString,
+                    selectActionDescriptionString)
             } else {
                 SelectableItem(
                     false,
                     contactDiaryPerson,
-                    context.getString(unselectedContentDescription, contactDiaryPerson.fullName))
+                    context.getString(unselectedContentDescription, contactDiaryPerson.fullName),
+                    context.getString(selectedContentDescription, contactDiaryPerson.fullName),
+                    selectActionDescriptionString,
+                    deselectActionDescriptionString)
             }
         }
     }.asLiveData()
@@ -78,3 +87,5 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
 
 private const val selectedContentDescription = R.string.accessibility_person_selected
 private const val unselectedContentDescription = R.string.accessibility_person_unselected
+private const val selectActionDescription = R.string.accessibility_action_select
+private const val deselectActionDescription = R.string.accessibility_action_deselect
