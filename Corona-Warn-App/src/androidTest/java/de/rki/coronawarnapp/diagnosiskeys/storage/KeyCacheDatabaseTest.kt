@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -40,7 +41,7 @@ class KeyCacheDatabaseTest {
 
             dao.insertEntry(keyDay)
             dao.insertEntry(keyHour)
-            dao.allEntries() shouldBe listOf(keyDay, keyHour)
+            dao.allEntries().first() shouldBe listOf(keyDay, keyHour)
             dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY.typeValue) shouldBe listOf(keyDay)
             dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR.typeValue) shouldBe listOf(keyHour)
 
@@ -65,7 +66,7 @@ class KeyCacheDatabaseTest {
             }
 
             dao.deleteEntry(keyDay)
-            dao.allEntries() shouldBe listOf(
+            dao.allEntries().first() shouldBe listOf(
                 keyHour.copy(
                     isDownloadComplete = true,
                     etag = "with milk"
@@ -73,7 +74,7 @@ class KeyCacheDatabaseTest {
             )
 
             dao.clear()
-            dao.allEntries() shouldBe emptyList<List<CachedKeyInfo>>()
+            dao.allEntries().first() shouldBe emptyList<List<CachedKeyInfo>>()
         }
     }
 }

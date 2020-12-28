@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -22,6 +23,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,6 +67,8 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns emptyList()
+
+        coEvery { riskLevelStorage.storeResult(any()) } just Runs
     }
 
     private fun createTask() = RiskLevelTask(
@@ -85,5 +89,18 @@ class RiskLevelTaskTest : BaseTest() {
 //        task.run(arguments)
 //
 //        verify { riskLevelSettings.lastUsedConfigIdentifier = "config-identifier" }
+    }
+
+    @Test
+    fun `risk calculation is skipped if device time is incorrect`() = runBlockingTest {
+        every { configData.isDeviceTimeCorrect } returns false
+        every { configData.localOffset } returns Duration.standardHours(5)
+
+        val task = createTask()
+
+        task.run(arguments) shouldBe RiskLevelTaskResult(
+            calculatedAt = Instant.EPOCH,
+            failureReason = RiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
+        )
     }
 }

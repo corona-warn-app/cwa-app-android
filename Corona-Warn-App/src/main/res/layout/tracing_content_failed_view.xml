@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorSurface1"
         android:padding="@dimen/card_padding">
 
         <TextView
@@ -68,8 +69,8 @@
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_time_fetched"
             android:text="@{state.getTimeFetched(context)}"
-            android:textColor="@color/colorTextPrimary1Stable"
-            app:compatIconTint="@color/colorTextSemanticNeutral"
+            android:textColor="@color/colorTextPrimary1"
+            app:compatIconTint="@color/colorSemanticNeutralRisk"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_risk"
@@ -78,7 +79,7 @@
         <Button
             android:id="@+id/risk_card_button_update"
             style="@style/buttonPrimary"
-            gone="@{state.showRestartButton}"
+            gone="@{!state.showRestartButton}"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"

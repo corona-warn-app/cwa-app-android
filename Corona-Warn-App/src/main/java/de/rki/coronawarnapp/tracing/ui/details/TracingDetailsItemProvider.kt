@@ -35,7 +35,7 @@ class TracingDetailsItemProvider @Inject constructor(
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
-        riskLevelStorage.riskLevelResults,
+        riskLevelStorage.latestAndLastSuccessful,
         tracingRepository.activeTracingDaysInRetentionPeriod
     ) { status,
         riskLevelResults,

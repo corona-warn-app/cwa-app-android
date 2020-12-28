@@ -34,7 +34,7 @@ class TracingStateProvider @AssistedInject constructor(
         tracingRepository.tracingProgress.onEach {
             Timber.v("tracingProgress: $it")
         },
-        riskLevelStorage.riskLevelResults.onEach {
+        riskLevelStorage.latestAndLastSuccessful.onEach {
             Timber.v("riskLevelResults: $it")
         },
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
@@ -66,7 +66,7 @@ class TracingStateProvider @AssistedInject constructor(
             )
             tracingProgress != TracingProgress.Idle -> TracingInProgress(
                 isInDetailsMode = isDetailsMode,
-                riskState = latestSuccessfulCalc.riskState,
+                riskState = latestCalc.riskState,
                 tracingProgress = tracingProgress
             )
             latestCalc.riskState == RiskState.LOW_RISK -> LowRisk(

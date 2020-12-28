@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
-import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass
 
 interface CWAConfig {
 
@@ -11,7 +10,7 @@ interface CWAConfig {
 
     val supportedCountries: List<String>
 
-    val appFeatures: List<AppFeaturesOuterClass.AppFeature>
+    val isDeviceTimeCheckEnabled: Boolean
 
     interface Mapper : ConfigMapper<CWAConfig>
 }

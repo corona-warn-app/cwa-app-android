@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
+import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -41,9 +42,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
+    @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
 
     private val homeAdapter = HomeAdapter()
 
+    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -105,6 +108,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()
+        }
+        vm.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
+            if (!showDialog) return@observe2
+            deviceTimeIncorrectDialog.show { vm.userHasAcknowledgedIncorrectDeviceTime() }
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
