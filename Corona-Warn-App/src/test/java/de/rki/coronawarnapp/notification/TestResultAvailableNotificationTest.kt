@@ -43,7 +43,6 @@ class TestResultAvailableNotificationTest {
         mockkObject(CoronaWarnApplication)
 
         every { CoronaWarnApplication.getAppContext() } returns context
-        every { context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID) } returns "notification_channel_id"
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
