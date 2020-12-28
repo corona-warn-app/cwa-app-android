@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +45,8 @@ class TracingRepository @Inject constructor(
     private val taskController: TaskController,
     enfClient: ENFClient,
     private val timeStamper: TimeStamper,
-    private val exposureDetectionTracker: ExposureDetectionTracker
+    private val exposureDetectionTracker: ExposureDetectionTracker,
+    private val backgroundModeStatus: BackgroundModeStatus
 ) {
 
     private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
@@ -108,17 +110,15 @@ class TracingRepository @Inject constructor(
 
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
-     *
-     * @see RiskLevelRepository
      */
     // TODO temp place, this needs to go somewhere better
-    fun refreshRiskLevel() {
+    suspend fun refreshRiskLevel() {
         // check if the network is enabled to make the server fetch
         val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(context)
 
         // only fetch the diagnosis keys if background jobs are enabled, so that in manual
         // model the keys are only fetched on button press of the user
-        val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
+        val isBackgroundJobEnabled = backgroundModeStatus.isAutoModeEnabled.first()
 
         Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
         Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")

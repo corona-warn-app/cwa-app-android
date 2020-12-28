@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first

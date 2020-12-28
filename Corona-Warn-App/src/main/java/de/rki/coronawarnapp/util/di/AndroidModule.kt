@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.di
 
+import android.app.ActivityManager
 import android.app.Application
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
@@ -58,4 +59,8 @@ class AndroidModule {
 
     @Provides
     fun navDeepLinkBuilder(@AppContext context: Context): NavDeepLinkBuilder = NavDeepLinkBuilder(context)
+
+    @Provides
+    @Singleton
+    fun activityManager(@AppContext context: Context): ActivityManager = context.getSystemService()!!
 }
