@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -21,8 +20,6 @@ import javax.inject.Inject
 
 /**
  * This is the detail view of the risk card if additional information for the user.
- *
- * @see SettingsViewModel
  */
 class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout), AutoInject {
 

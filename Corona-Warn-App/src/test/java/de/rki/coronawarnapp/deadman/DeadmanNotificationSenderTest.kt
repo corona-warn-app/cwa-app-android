@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.deadman
 
 import android.content.Context
 import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks

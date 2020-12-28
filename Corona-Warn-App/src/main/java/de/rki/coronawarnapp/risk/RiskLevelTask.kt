@@ -16,9 +16,9 @@ import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
