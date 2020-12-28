@@ -26,7 +26,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTime
@@ -36,8 +35,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
-import timber.log.Timber
-import java.io.File
 
 class RiskLevelTaskTest : BaseTest() {
 
@@ -166,10 +163,10 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if results are outdated while in background mode`() = runBlockingTest {
         val cachedKey = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.now().minusDays(3)
+                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(3)
             }
         }
-        val now = Instant.now()
+        val now = Instant.parse("2020-12-28")
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
@@ -185,10 +182,10 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation is skipped if results are outdated while no background mode`() = runBlockingTest {
         val cachedKey = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.now().minusDays(3)
+                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(3)
             }
         }
-        val now = Instant.now()
+        val now = Instant.parse("2020-12-28")
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
@@ -204,10 +201,10 @@ class RiskLevelTaskTest : BaseTest() {
     fun `risk calculation returns aggregated risk result`() = runBlockingTest {
         val cachedKey = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.now().minusDays(1)
+                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
             }
         }
-        val now = Instant.now()
+        val now = Instant.parse("2020-12-28")
         val aggregatedRiskResult = mockk<AggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true
         }
@@ -226,7 +223,7 @@ class RiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `run task throws exception if it already canceled`() = runBlockingTest {
+    fun `run task throws exception if it is already canceled`() = runBlockingTest {
         val task = createTask()
         task.cancel()
         assertThrows<TaskCancellationException> {
