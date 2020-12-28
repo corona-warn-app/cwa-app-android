@@ -34,7 +34,7 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
         super.onViewCreated(view, savedInstanceState)
 
         val personListAdapter = ContactDiaryPersonListAdapter() {
-            viewModel.personSelectionChanged(it)
+            viewModel.onPersonSelectionChanged(it)
         }
 
         binding.contactDiaryPersonListRecyclerView.apply {

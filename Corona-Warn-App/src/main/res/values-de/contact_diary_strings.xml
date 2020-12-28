@@ -100,9 +100,9 @@
     <string name="contact_diary_delete_person_title">"Wollen Sie wirklich diese Person entfernen?"</string>
 
     <!-- XTXT: location description for screen readers -->
-    <string name="accessibility_location">Ort</string>
+    <string name="accessibility_location">Ort %s</string>
     <!-- XTXT: person description for screen readers -->
-    <string name="accessibility_person">Person</string>
+    <string name="accessibility_person">Person %s</string>
     <!-- XTXT: location description for screen readers -->
     <string name="accessibility_location_unselected">Ort %s ist nicht ausgewählt</string>
     <!-- XTXT: person description for screen readers -->
@@ -116,4 +116,5 @@
     <string name="accessibility_action_select">auswählen</string>
     <!-- XTXT: person description for screen readers -->
     <string name="accessibility_action_deselect">Auswahl aufheben</string>
+    <string name="accessibility_edit">Bearbeiten</string>
 </resources>

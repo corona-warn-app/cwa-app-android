@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailSheet
+import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -82,7 +83,9 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     }
 
     private fun setupRecyclerView() {
-        listAdapter = ListAdapter(getString(R.string.accessibility_person))
+        listAdapter = ListAdapter(getString(R.string.accessibility_edit)) {
+            getString(R.string.accessibility_person, it.fullName)
+        }
         binding.personsRecyclerView.adapter = listAdapter
     }
 
@@ -99,7 +102,10 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         )
     }
 
-    inner class ListAdapter(private val itemTypeString: String) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+    inner class ListAdapter(
+        private val clickLabelString: String,
+        private val getContentDescriptionString: (ContactDiaryPerson) -> String
+    ) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
         AsyncDiffUtilAdapter<ContactDiaryPerson> {
 
         override val asyncDiffer: AsyncDiffer<ContactDiaryPerson> = AsyncDiffer(this)
@@ -121,7 +127,8 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
                 itemContainerView.setOnClickListener {
                     viewModel.onEditPersonClick(person)
                 }
-                itemContainerView.contentDescription = "$itemTypeString ${person.fullName}"
+                itemContainerView.contentDescription = getContentDescriptionString(person)
+                itemContainerView.setClickLabel(clickLabelString)
             }
         }
 

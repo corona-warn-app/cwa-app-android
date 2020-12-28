@@ -35,8 +35,8 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.personEncountersForDate(localDate)
     private val selectablePersons = contactDiaryRepository.people
 
-    private val selectActionDescriptionString: String = context.getString(selectActionDescription)
-    private val deselectActionDescriptionString: String = context.getString(deselectActionDescription)
+    private val selectActionDescriptionString: String = context.getString(SELECT_ACTION_DESCRIPTION)
+    private val deselectActionDescriptionString: String = context.getString(DESELECT_ACTION_DESCRIPTION)
 
     val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
         persons.map { contactDiaryPerson ->
@@ -44,23 +44,23 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                 SelectableItem(
                     true,
                     contactDiaryPerson,
-                    context.getString(selectedContentDescription, contactDiaryPerson.fullName),
-                    context.getString(unselectedContentDescription, contactDiaryPerson.fullName),
+                    context.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
+                    context.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
                     deselectActionDescriptionString,
                     selectActionDescriptionString)
             } else {
                 SelectableItem(
                     false,
                     contactDiaryPerson,
-                    context.getString(unselectedContentDescription, contactDiaryPerson.fullName),
-                    context.getString(selectedContentDescription, contactDiaryPerson.fullName),
+                    context.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
+                    context.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
                     selectActionDescriptionString,
                     deselectActionDescriptionString)
             }
         }
     }.asLiveData()
 
-    fun personSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch(coroutineExceptionHandler) {
+    fun onPersonSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch(coroutineExceptionHandler) {
         if (!item.selected) {
             contactDiaryRepository.addPersonEncounter(
                 DefaultContactDiaryPersonEncounter(
@@ -75,17 +75,14 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         }
     }
 
-    companion object {
-        private val TAG = ContactDiaryPersonListViewModel::class.java.simpleName
-    }
-
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryPersonListViewModel> {
         fun create(selectedDay: String): ContactDiaryPersonListViewModel
     }
 }
 
-private const val selectedContentDescription = R.string.accessibility_person_selected
-private const val unselectedContentDescription = R.string.accessibility_person_unselected
-private const val selectActionDescription = R.string.accessibility_action_select
-private const val deselectActionDescription = R.string.accessibility_action_deselect
+private val TAG = ContactDiaryPersonListViewModel::class.java.simpleName
+private const val SELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_selected
+private const val UNSELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_unselected
+private const val SELECT_ACTION_DESCRIPTION = R.string.accessibility_action_select
+private const val DESELECT_ACTION_DESCRIPTION = R.string.accessibility_action_deselect

@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet
+import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -82,7 +83,9 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     }
 
     private fun setupRecyclerView() {
-        listAdapter = ListAdapter(getString(R.string.accessibility_location))
+        listAdapter = ListAdapter(getString(R.string.accessibility_edit)) {
+            getString(R.string.accessibility_location, it.locationName)
+        }
         binding.locationsRecyclerView.adapter = listAdapter
     }
 
@@ -99,7 +102,10 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         )
     }
 
-    inner class ListAdapter(private val itemTypeString: String) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+    inner class ListAdapter(
+        private val clickLabelString: String,
+        private val getContentDescriptionString: (ContactDiaryLocation) -> String
+    ) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
         AsyncDiffUtilAdapter<ContactDiaryLocation> {
 
         override val asyncDiffer: AsyncDiffer<ContactDiaryLocation> = AsyncDiffer(this)
@@ -121,7 +127,8 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                 itemContainerView.setOnClickListener {
                     viewModel.onEditLocationClick(location)
                 }
-                itemContainerView.contentDescription = "$itemTypeString ${location.locationName}"
+                itemContainerView.contentDescription = getContentDescriptionString(location)
+                itemContainerView.setClickLabel(clickLabelString)
             }
         }
 
