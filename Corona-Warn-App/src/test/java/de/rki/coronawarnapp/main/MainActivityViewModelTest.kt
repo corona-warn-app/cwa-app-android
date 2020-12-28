@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.main
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -22,6 +23,7 @@ import testhelpers.extensions.InstantExecutorExtension
 class MainActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
+    @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
 
     @BeforeEach
     fun setup() {
@@ -37,7 +39,8 @@ class MainActivityViewModelTest : BaseTest() {
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
         dispatcherProvider = TestDispatcherProvider,
-        environmentSetup = environmentSetup
+        environmentSetup = environmentSetup,
+        backgroundModeStatus = backgroundModeStatus
     )
 
     @Test

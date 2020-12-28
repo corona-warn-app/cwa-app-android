@@ -6,7 +6,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -43,7 +43,6 @@ class TestResultAvailableNotificationTest {
         mockkObject(CoronaWarnApplication)
 
         every { CoronaWarnApplication.getAppContext() } returns context
-        every { context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID) } returns "notification_channel_id"
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent

@@ -1,12 +1,11 @@
 package de.rki.coronawarnapp.deadman
 
 import android.content.Context
-import androidx.core.app.NotificationManagerCompat
-import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.util.device.ForegroundState
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -17,14 +16,11 @@ class DeadmanNotificationSenderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
-    @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
-
-    private val channelId = "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
+    @MockK lateinit var notificationHelper: NotificationHelper
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID) } returns channelId
     }
 
     @AfterEach
@@ -35,11 +31,13 @@ class DeadmanNotificationSenderTest : BaseTest() {
     private fun createSender() = DeadmanNotificationSender(
         context = context,
         foregroundState = foregroundState,
-        notificationManagerCompat = notificationManagerCompat
+        notificationHelper = notificationHelper
     )
 
     @Test
     fun `sender creation`() {
-        createSender()
+        shouldNotThrowAny {
+            createSender()
+        }
     }
 }
