@@ -8,14 +8,11 @@ import de.rki.coronawarnapp.appconfig.sources.local.AppConfigStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -60,7 +57,6 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         }
 
         coEvery { configServer.downloadAppConfig() } returns dataFromServer
-        every { configServer.clearCache() } just Runs
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
@@ -107,19 +103,6 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         mockConfigStorage shouldBe dataFromServer
 
         coVerify(exactly = 0) { configStorage.setStoredConfig(any()) }
-    }
-
-    @Test
-    fun `clear clears caches`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance()
-
-        instance.clear()
-
-        advanceUntilIdle()
-
-        coVerifyOrder {
-            configServer.clearCache()
-        }
     }
 
     companion object {

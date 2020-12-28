@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.appconfig
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
@@ -8,16 +7,12 @@ import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
-import de.rki.coronawarnapp.appconfig.sources.remote.AppConfigHttpCache
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
-import de.rki.coronawarnapp.util.di.AppContext
-import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.joda.time.Duration
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -26,26 +21,19 @@ class AppConfigModule {
 
     @Singleton
     @Provides
-    @AppConfigHttpCache
-    fun provideAppConfigCache(
-        @AppContext context: Context
-    ): Cache {
-        val cacheSize = 1 * 1024 * 1024L // 1MB
-        val cacheDir = File(context.cacheDir, "http_app-config")
-        return Cache(cacheDir, cacheSize)
-    }
-
-    @Singleton
-    @Provides
     fun provideAppConfigApi(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory,
-        @AppConfigHttpCache cache: Cache
+        gsonConverterFactory: GsonConverterFactory
     ): AppConfigApiV2 {
 
-        val cachingClient = client.newBuilder().apply {
-            cache(cache)
+        val configHttpClient = client.newBuilder().apply {
+            // We no longer use the retrofit cache, due to the complexity it adds when invalidating the cache.
+            // The our manual local storage offers more control and should replace it functionally.
+            // See **[de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource]**
+            // If we ever want to use it again, the previous cache path was:
+            // val cacheDir = File(context.cacheDir, "http_app-config")
+            // cache(cache)
             connectTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
             readTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
             writeTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
@@ -53,7 +41,7 @@ class AppConfigModule {
         }.build()
 
         return Retrofit.Builder()
-            .client(cachingClient)
+            .client(configHttpClient)
             .baseUrl(url)
             .addConverterFactory(gsonConverterFactory)
             .build()
