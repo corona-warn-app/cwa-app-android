@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
+import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,6 +50,16 @@ class SubmissionSettings @Inject constructor(
         key = "submission.symptoms.latest",
         reader = FlowPreference.gsonReader<Symptoms?>(gson, null),
         writer = FlowPreference.gsonWriter(gson)
+    )
+
+    val lastSubmissionUserActivityUTC = prefs.createFlowPreference(
+        key = "submission.user.activity.last",
+        reader = { key ->
+            Instant.ofEpochMilli(getLong(key, 0L))
+        },
+        writer = { key, value ->
+            putLong(key, value.millis)
+        }
     )
 
     fun clear() {

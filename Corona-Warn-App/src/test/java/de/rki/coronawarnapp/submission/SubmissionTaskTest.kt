@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.server.protocols.external.exposurenotification.Tempo
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.Task
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,6 +26,8 @@ import io.mockk.just
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Duration
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -47,7 +50,10 @@ class SubmissionTaskTest : BaseTest() {
 
     @MockK lateinit var appConfigData: ConfigData
 
+    @MockK lateinit var timeStamper: TimeStamper
+
     private lateinit var mockSymptomsPreference: FlowPreference<Symptoms?>
+    private lateinit var mockLastUserActivity: FlowPreference<Instant>
 
     @BeforeEach
     fun setup() {
@@ -71,12 +77,18 @@ class SubmissionTaskTest : BaseTest() {
         mockSymptomsPreference = mockFlowPreference(userSymptoms)
         every { submissionSettings.symptoms } returns mockSymptomsPreference
 
+
         coEvery { appConfigProvider.getAppConfig() } returns appConfigData
         every { appConfigData.supportedCountries } returns listOf("NL")
 
         coEvery { playbook.submit(any()) } just Runs
 
         every { testResultNotificationService.cancelPositiveTestResultNotification() } just Runs
+
+        mockLastUserActivity = mockFlowPreference(Instant.EPOCH.plus(1))
+        every { submissionSettings.lastSubmissionUserActivityUTC } returns mockLastUserActivity
+
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
     }
 
     private fun createTask() = SubmissionTask(
@@ -85,15 +97,20 @@ class SubmissionTaskTest : BaseTest() {
         tekHistoryCalculations = tekHistoryCalculations,
         tekHistoryStorage = tekHistoryStorage,
         submissionSettings = submissionSettings,
-        testResultNotificationService
+        testResultNotificationService = testResultNotificationService,
+        timeStamper = timeStamper
     )
 
     @Test
     fun `submission flow`() = runBlockingTest {
         val task = createTask()
-        task.run(object : Task.Arguments {})
+        task.run(object : Task.Arguments {}) shouldBe SubmissionTask.Result(
+            state = SubmissionTask.Result.State.SUCCESSFUL
+        )
 
         coVerifySequence {
+            mockLastUserActivity.value
+
             LocalData.registrationToken()
             tekHistoryStorage.tekData
             mockSymptomsPreference.value
@@ -112,6 +129,7 @@ class SubmissionTaskTest : BaseTest() {
 
             tekHistoryStorage.clear()
             mockSymptomsPreference.update(any())
+            mockLastUserActivity.update(any())
 
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
@@ -120,6 +138,7 @@ class SubmissionTaskTest : BaseTest() {
         }
 
         submissionSettings.symptoms.value shouldBe null
+        submissionSettings.lastSubmissionUserActivityUTC.value shouldBe Instant.EPOCH
     }
 
     @Test
@@ -151,8 +170,10 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryStorage.clear()
             mockSymptomsPreference.update(any())
             testResultNotificationService.cancelPositiveTestResultNotification()
+            mockLastUserActivity.update(any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
+        submissionSettings.lastSubmissionUserActivityUTC.value shouldBe Instant.EPOCH.plus(1)
     }
 
     @Test
@@ -169,7 +190,9 @@ class SubmissionTaskTest : BaseTest() {
     fun `DE is used as fallback country`() = runBlockingTest {
         every { appConfigData.supportedCountries } returns listOf("DE")
 
-        createTask().run(object : Task.Arguments {})
+        createTask().run(object : Task.Arguments {}) shouldBe SubmissionTask.Result(
+            state = SubmissionTask.Result.State.SUCCESSFUL
+        )
 
         coVerifySequence {
             playbook.submit(
@@ -185,6 +208,16 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() {
-        // TODO
+        TODO()
+    }
+
+    @Test
+    fun `submission is skipped if user was recently active in submission`() {
+        TODO()
+    }
+
+    @Test
+    fun `negative activity durations lead to immediate submission`() {
+        TODO()
     }
 }

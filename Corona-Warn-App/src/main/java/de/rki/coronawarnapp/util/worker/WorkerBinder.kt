@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
+import de.rki.coronawarnapp.submission.worker.BackgroundSubmissionWorker
 import de.rki.coronawarnapp.worker.BackgroundNoiseOneTimeWorker
 import de.rki.coronawarnapp.worker.BackgroundNoisePeriodicWorker
 import de.rki.coronawarnapp.worker.DiagnosisKeyRetrievalOneTimeWorker
@@ -71,6 +72,13 @@ abstract class WorkerBinder {
     @WorkerKey(DeadmanNotificationPeriodicWorker::class)
     abstract fun deadmanNotificationPeriodic(
         factory: DeadmanNotificationPeriodicWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(BackgroundSubmissionWorker::class)
+    abstract fun submissionBackgroundWorker(
+        factory: BackgroundSubmissionWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 
     @Binds
