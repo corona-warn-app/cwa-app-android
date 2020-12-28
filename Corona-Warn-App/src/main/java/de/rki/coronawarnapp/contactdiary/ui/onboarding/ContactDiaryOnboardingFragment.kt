@@ -35,7 +35,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 vm.onBackButtonPress()
             }
 
-            contactDiaryOnboardingPrivacyInformationContainer.setOnClickListener {
+            contactDiaryOnboardingPrivacyInformation.setOnClickListener {
                 vm.onPrivacyButtonPress()
             }
         }

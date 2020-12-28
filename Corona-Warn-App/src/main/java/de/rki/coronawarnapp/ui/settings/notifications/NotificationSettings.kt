@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.settings.notifications
 
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

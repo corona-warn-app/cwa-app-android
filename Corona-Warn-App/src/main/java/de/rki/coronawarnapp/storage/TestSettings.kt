@@ -19,6 +19,11 @@ class TestSettings @Inject constructor(
         context.getSharedPreferences("test_settings", Context.MODE_PRIVATE)
     }
 
+    val isDeviceTimeCheckDisabled = prefs.createFlowPreference(
+        key = "config.devicetimecheck.disabled",
+        defaultValue = false
+    )
+
     val fakeMeteredConnection = prefs.createFlowPreference(
         key = "connections.metered.fake",
         defaultValue = false

@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
-import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewItemBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
@@ -20,7 +20,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OverviewElementHolder {
         val inflater = LayoutInflater.from(parent.context)
         return OverviewElementHolder(
-            IncludeContactDiaryOverviewItemBinding.inflate(
+            ContactDiaryOverviewListItemBinding.inflate(
                 inflater,
                 parent,
                 false
@@ -34,7 +34,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         holder.bind(elements[position], onItemSelectionListener)
     }
 
-    class OverviewElementHolder(private val viewDataBinding: IncludeContactDiaryOverviewItemBinding) :
+    class OverviewElementHolder(private val viewDataBinding: ContactDiaryOverviewListItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         private val nestedItemAdapter = ContactDiaryOverviewNestedAdapter()
 
@@ -51,11 +51,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
-            if (item.data.isNotEmpty()) {
-                viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.VISIBLE
-            } else {
-                viewDataBinding.contactDiaryOverviewElementDivider.visibility = View.INVISIBLE
-            }
+            viewDataBinding.contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
 
             nestedItemAdapter.setItems(item.data)
         }

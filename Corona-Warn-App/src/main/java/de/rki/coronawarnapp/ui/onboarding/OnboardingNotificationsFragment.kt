@@ -32,15 +32,10 @@ class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_no
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+            onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
         }
-        vm.routeToScreen.observe2(this) {
-            when (it) {
-                is OnboardingNavigationEvents.NavigateToMainActivity ->
-                    (requireActivity() as OnboardingActivity).completeOnboarding()
-                is OnboardingNavigationEvents.NavigateToOnboardingTest ->
-                    (activity as OnboardingActivity).goBack()
-            }
+        vm.completedOnboardingEvent.observe2(this) {
+            (requireActivity() as OnboardingActivity).completeOnboarding()
         }
     }
 

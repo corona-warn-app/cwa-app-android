@@ -66,5 +66,5 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 @Module
 abstract class SubmissionTestResultConsentGivenTestModule {
     @ContributesAndroidInjector
-    abstract fun submissionTestResultScreen(): SubmissionTestResultConsentGivenViewModel
+    abstract fun submissionTestResultScreen(): SubmissionTestResultConsentGivenFragment
 }

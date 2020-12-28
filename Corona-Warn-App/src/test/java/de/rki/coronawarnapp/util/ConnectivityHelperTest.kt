@@ -22,11 +22,7 @@ import org.junit.Test
  */
 class ConnectivityHelperTest {
 
-    @MockK
-    private lateinit var bAdapter: BluetoothAdapter
-
-    @MockK
-    private lateinit var context: Context
+    @MockK private lateinit var context: Context
 
     @Before
     fun setUp() {

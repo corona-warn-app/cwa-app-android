@@ -28,8 +28,7 @@ class HomeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { viewModel.tracingHeaderState } returns MutableLiveData()
-        every { viewModel.tracingCardState } returns MutableLiveData()
-        every { viewModel.submissionCardState } returns MutableLiveData()
+        every { viewModel.homeItems } returns MutableLiveData(emptyList())
         every { viewModel.refreshRequiredData() } just Runs
 
         setupMockViewModel(object : HomeFragmentViewModel.Factory {

@@ -379,6 +379,16 @@
     <string name="risk_lowered_dialog_button_cancel">"More"</string>
 
     <!-- ####################################
+           Outdated Device Time Dialog
+    ###################################### -->
+    <!-- XHED: device time dialog - dialog headline -->
+    <string name="device_time_incorrect_dialog_headline">"Risiko-Überprüfung nicht möglich"</string>
+    <!-- XTXT: device time dialog - dialog content -->
+    <string name="device_time_incorrect_dialog_body">"Die auf Ihrem Smartphone eingestellte Uhrzeit entspricht nicht der aktuellen Uhrzeit. Deshalb kann Ihr Risiko im Moment nicht überprüft werden. Bitte passen Sie die Uhrzeit in den Einstellungen Ihres Smartphones an."</string>
+    <!-- XBUT: device time dialog - dialog confirm -->
+    <string name="device_time_incorrect_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 

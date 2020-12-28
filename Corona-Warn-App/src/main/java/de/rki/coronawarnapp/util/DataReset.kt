@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.AppDatabase
@@ -42,6 +43,7 @@ import javax.inject.Singleton
 /**
  * Helper for supplying functionality regarding Data Retention
  */
+@Suppress("LongParameterList")
 @Singleton
 class DataReset @Inject constructor(
     @AppContext private val context: Context,
@@ -52,7 +54,8 @@ class DataReset @Inject constructor(
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
-    private var contactDiarySettings: ContactDiarySettings
+    private var contactDiarySettings: ContactDiarySettings,
+    private val cwaSettings: CWASettings
 ) {
 
     private val mutex = Mutex()
@@ -79,6 +82,7 @@ class DataReset @Inject constructor(
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
         contactDiarySettings.clear()
+        cwaSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()

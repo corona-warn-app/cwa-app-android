@@ -3,12 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_homescreen_card"
-        style="@style/cardNoPadding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true">
-
 
         <TextView
             android:id="@+id/contact_diary_card_homescreen_title"
@@ -22,7 +19,6 @@
             android:text="@string/contact_diary_homescreen_card_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/contact_diary_card_homescreen_body"
@@ -38,6 +34,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_card_homescreen_title" />
 
+        <ImageView
+            android:id="@+id/contact_diary_card_homescreen_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:contentDescription="@string/contact_diary_homescreen_card_image_content_description"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/contact_diary_card_homescreen_body"
+            app:srcCompat="@drawable/ic_diary_book" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/submission_status_card_unregistered_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="contact_diary_card_homescreen_icon,contact_diary_card_homescreen_body" />
+
         <Button
             android:id="@+id/contact_diary_card_homescreen_button"
             style="@style/buttonPrimary"
@@ -52,23 +66,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_barrier" />
-
-        <ImageView
-            android:id="@+id/contact_diary_card_homescreen_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_normal"
-            android:importantForAccessibility="no"
-            android:contentDescription="@string/contact_diary_homescreen_card_image_content_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/contact_diary_card_homescreen_body"
-            app:srcCompat="@drawable/ic_diary_book" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/submission_status_card_unregistered_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="contact_diary_card_homescreen_icon,contact_diary_card_homescreen_body" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

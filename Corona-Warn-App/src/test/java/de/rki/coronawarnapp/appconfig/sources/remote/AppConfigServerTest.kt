@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
@@ -14,8 +13,6 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.Headers
@@ -37,8 +34,6 @@ class AppConfigServerTest : BaseIOTest() {
     @MockK lateinit var timeStamper: TimeStamper
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
-    private val defaultHomeCountry = LocationCode("DE")
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -55,10 +50,9 @@ class AppConfigServerTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createInstance(homeCountry: LocationCode = defaultHomeCountry) = AppConfigServer(
+    private fun createInstance() = AppConfigServer(
         api = { api },
         verificationKeys = verificationKeys,
-        cache = mockk(),
         timeStamper = timeStamper
     )
 
@@ -168,37 +162,6 @@ class AppConfigServerTest : BaseIOTest() {
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.standardHours(-1),
-            etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
-        )
-    }
-
-    @Test
-    fun `local offset uses cached timestamps for cached responses`() = runBlockingTest {
-        val response = spyk(
-            Response.success(
-                APPCONFIG_BUNDLE.toResponseBody(),
-                Headers.headersOf(
-                    "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
-                    "ETag", "I am an ETag :)!"
-                )
-            )
-        )
-
-        val mockCacheResponse = mockk<okhttp3.Response>()
-        // The cached one is 2 hours before our local time, so the offset will be -2 hours
-        every { mockCacheResponse.sentRequestAtMillis } returns Instant.parse("2020-11-03T04:35:16.000Z").millis
-        every { response.raw().cacheResponse } returns mockCacheResponse
-
-        coEvery { api.getApplicationConfiguration() } returns response
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
-
-        val downloadServer = createInstance()
-
-        downloadServer.downloadAppConfig() shouldBe InternalConfigData(
-            rawData = APPCONFIG_RAW,
-            serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardHours(-2),
             etag = "I am an ETag :)!",
             cacheValidity = Duration.standardSeconds(300)
         )
