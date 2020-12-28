@@ -80,6 +80,25 @@
             android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
+            <Switch
+                android:id="@+id/device_time_check_disabled_toggle"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:text="Disable device time check"
+                android:theme="@style/switchBase" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/current_configuration"
                 style="@style/TextAppearance.AppCompat.Caption"
