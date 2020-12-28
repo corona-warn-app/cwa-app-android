@@ -53,6 +53,7 @@ interface RiskLevelResult {
         UNKNOWN("unknown"),
         TRACING_OFF("tracingOff"),
         NO_INTERNET("noInternet"),
+        INCORRECT_DEVICE_TIME("incorrectDeviceTime"),
         OUTDATED_RESULTS("outDatedResults"),
         OUTDATED_RESULTS_MANUAL("outDatedResults.manual")
     }

@@ -72,6 +72,11 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
             throwIfCancelled()
 
+            if (!exposureConfig.isDeviceTimeCorrect) {
+                Timber.tag(TAG).w("Aborting, Device time is incorrect, offset=%s", exposureConfig.localOffset)
+                return object : Task.Result {}
+            }
+
             val now = timeStamper.nowUTC
 
             if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
