@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 
 class ContactDiaryPersonListAdapter(
-    private val itemTypeString: String,
     private val onTappedCallback: (item: SelectableItem<ContactDiaryPerson>) -> Unit
 ) : BaseAdapter<ContactDiaryPersonListAdapter.CachedPersonViewHolder>(),
     AsyncDiffUtilAdapter<SelectableItem<ContactDiaryPerson>> {
@@ -23,7 +22,7 @@ class ContactDiaryPersonListAdapter(
     override fun getItemId(position: Int): Long = data[position].stableId
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedPersonViewHolder =
-        CachedPersonViewHolder(itemTypeString, parent)
+        CachedPersonViewHolder(parent)
 
     override fun onBindBaseVH(holder: CachedPersonViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
@@ -34,7 +33,6 @@ class ContactDiaryPersonListAdapter(
     }
 
     class CachedPersonViewHolder(
-        private val itemTypeString: String,
         parent: ViewGroup
     ) : BaseAdapter.VH(R.layout.contact_diary_person_list_item, parent),
         BindableVH<SelectableItem<ContactDiaryPerson>, ContactDiaryPersonListItemBinding> {
@@ -44,11 +42,11 @@ class ContactDiaryPersonListAdapter(
             key: SelectableItem<ContactDiaryPerson>,
             payloads: List<Any>
         ) -> Unit = { key, _ ->
-            contactDiaryPersonListLineName.text = key.item.fullName
-            contactDiaryPersonListLine.contentDescription = "$itemTypeString ${key.item.fullName}"
+            contactDiaryPersonListItemName.text = key.item.fullName
+            contactDiaryPersonListItem.contentDescription = key.contentDescription
             when (key.selected) {
-                true -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_selected)
-                false -> contactDiaryPersonListLineIcon.setImageResource(R.drawable.ic_unselected)
+                true -> contactDiaryPersonListItemIcon.setImageResource(R.drawable.ic_selected)
+                false -> contactDiaryPersonListItemIcon.setImageResource(R.drawable.ic_unselected)
             }
         }
     }

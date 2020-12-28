@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
+import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -10,6 +12,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -20,7 +23,8 @@ import org.joda.time.LocalDate
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: String,
-    private val contactDiaryRepository: ContactDiaryRepository
+    private val contactDiaryRepository: ContactDiaryRepository,
+    @AppContext context: Context
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
@@ -34,9 +38,15 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
         persons.map { contactDiaryPerson ->
             if (dayElement.any { it.contactDiaryPerson.personId == contactDiaryPerson.personId }) {
-                SelectableItem(true, contactDiaryPerson)
+                SelectableItem(
+                    true,
+                    contactDiaryPerson,
+                    context.getString(selectedContentDescription, contactDiaryPerson.fullName))
             } else {
-                SelectableItem(false, contactDiaryPerson)
+                SelectableItem(
+                    false,
+                    contactDiaryPerson,
+                    context.getString(unselectedContentDescription, contactDiaryPerson.fullName))
             }
         }
     }.asLiveData()
@@ -65,3 +75,6 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         fun create(selectedDay: String): ContactDiaryPersonListViewModel
     }
 }
+
+private const val selectedContentDescription = R.string.accessibility_person_selected
+private const val unselectedContentDescription = R.string.accessibility_person_unselected

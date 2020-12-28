@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
+import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -10,6 +12,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -20,7 +23,8 @@ import org.joda.time.LocalDate
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: String,
-    private val contactDiaryRepository: ContactDiaryRepository
+    private val contactDiaryRepository: ContactDiaryRepository,
+    @AppContext context: Context
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
@@ -34,14 +38,21 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     val uiList = selectableLocations.combine(dayElement) { locations, dayElement ->
         locations.map { contactDiaryLocation ->
             if (dayElement.any { it.contactDiaryLocation.locationId == contactDiaryLocation.locationId }) {
-                SelectableItem(true, contactDiaryLocation)
+                SelectableItem(
+                    true,
+                    contactDiaryLocation,
+                    context.getString(selectedContentDescription, contactDiaryLocation.locationName))
             } else {
-                SelectableItem(false, contactDiaryLocation)
+                SelectableItem(
+                    false,
+                    contactDiaryLocation,
+                    context.getString(unselectedContentDescription, contactDiaryLocation.locationName)
+                )
             }
         }
     }.asLiveData()
 
-    fun locationSelectionChanged(item: SelectableItem<ContactDiaryLocation>) = launch(coroutineExceptionHandler) {
+    fun onLocationSelectionChanged(item: SelectableItem<ContactDiaryLocation>) = launch(coroutineExceptionHandler) {
         if (!item.selected) {
             contactDiaryRepository.addLocationVisit(
                 DefaultContactDiaryLocationVisit(
@@ -50,14 +61,11 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                 )
             )
         } else {
-            val visit = dayElement.first()
+            val visit = dayElement
+                .first()
                 .find { it.contactDiaryLocation.locationId == item.item.locationId }
             visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
         }
-    }
-
-    companion object {
-        private val TAG = ContactDiaryLocationListViewModel::class.java.simpleName
     }
 
     @AssistedInject.Factory
@@ -65,3 +73,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         fun create(selectedDay: String): ContactDiaryLocationListViewModel
     }
 }
+
+private val TAG = ContactDiaryLocationListViewModel::class.java.simpleName
+private const val selectedContentDescription = R.string.accessibility_location_selected
+private const val unselectedContentDescription = R.string.accessibility_location_unselected
