@@ -61,8 +61,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-//        mavenLocal()
-
     }
 }
 
@@ -71,8 +69,8 @@ task clean(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.1.1"
-    distributionType = "all"
+    gradleVersion = "6.7.1"
+    distributionType = "bin"
 }
 
 task quickBuild {
