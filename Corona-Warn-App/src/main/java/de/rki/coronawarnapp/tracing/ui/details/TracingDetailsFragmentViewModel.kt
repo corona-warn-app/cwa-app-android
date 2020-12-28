@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -88,7 +87,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         .onStart { Timber.v("TracingDetailsState FLOW start") }
         .onEach { Timber.d("TracingDetailsState FLOW emission: %s", it) }
         .onCompletion { Timber.v("TracingDetailsState FLOW completed.") }
-        .asLiveData(Dispatchers.Default)
+        .asLiveData(dispatcherProvider.Default)
 
     fun refreshData() {
         launch {

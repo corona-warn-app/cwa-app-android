@@ -78,6 +78,14 @@ class RiskLevelTask @Inject constructor(
             Timber.d("The current time is %s", it)
         }
 
+        if (!configData.isDeviceTimeCorrect) {
+            Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
+            return RiskLevelTaskResult(
+                calculatedAt = nowUTC,
+                failureReason = FailureReason.INCORRECT_DEVICE_TIME
+            )
+        }
+
         if (!isNetworkEnabled(context)) {
             Timber.i("Risk not calculated, internet unavailable.")
             return RiskLevelTaskResult(

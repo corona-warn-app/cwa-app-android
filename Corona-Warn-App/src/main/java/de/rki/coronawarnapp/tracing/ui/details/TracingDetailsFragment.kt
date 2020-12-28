@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -57,7 +56,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
             vm.updateRiskDetails()
         }
         binding.riskDetailsButtonEnableTracing.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
         }
