@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/generate_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generate entities"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/outdated_location_visits_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:text="Outdated\nLocation Visits"
+                app:layout_constraintEnd_toStartOf="@+id/normal_location_visits_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/generate_title" />
+            <Button
+                android:id="@+id/normal_location_visits_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:text="Normal\nLocation Visits"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/outdated_location_visits_button"
+                app:layout_constraintTop_toBottomOf="@+id/generate_title" />
+            <Button
+                android:id="@+id/outdated_person_encounters_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:text="Outdated Person Encounters"
+                app:layout_constraintEnd_toStartOf="@+id/normal_person_encounters_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outdated_location_visits_button" />
+            <Button
+                android:id="@+id/normal_person_encounters_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:text="Normal Person Encounters"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/outdated_person_encounters_button"
+                app:layout_constraintTop_toBottomOf="@+id/normal_location_visits_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny">
+
+            <TextView
+                android:id="@+id/clean_title"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clean outdated"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/location_visits_title"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:text="Location Visits:"
+                app:layout_constraintEnd_toStartOf="@+id/location_visits_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clean_title" />
+
+            <TextView
+                android:id="@+id/location_visits_status"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:text="Outdated: X Normal: Y"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/location_visits_title"
+                app:layout_constraintTop_toBottomOf="@+id/clean_title" />
+
+            <TextView
+                android:id="@+id/location_visits_fancy"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="- none -"
+                app:layout_constraintTop_toBottomOf="@id/location_visits_status" />
+
+            <View
+                android:id="@+id/divider_top"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:background="@color/colorHairline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/location_visits_fancy" />
+
+            <TextView
+                android:id="@+id/person_encounters_title"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:text="Person Encounters:"
+                app:layout_constraintEnd_toStartOf="@+id/person_encounters_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+
+            <TextView
+                android:id="@+id/person_encounters_status"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:text="Outdated: X Normal: Y"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/person_encounters_title"
+                app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+
+            <TextView
+                android:id="@+id/person_encounters_fancy"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="- none -"
+                app:layout_constraintTop_toBottomOf="@id/person_encounters_status" />
+
+            <View
+                android:id="@+id/divider_bottom"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:background="@color/colorHairline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/person_encounters_fancy" />
+
+            <Button
+                android:id="@+id/location_visits_clean_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:text="Clean Location Visits"
+                app:layout_constraintEnd_toStartOf="@+id/person_encounters_clean_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_bottom" />
+            <Button
+                android:id="@+id/person_encounters_clean_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:text="Clean Person Encounters"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/location_visits_clean_button"
+                app:layout_constraintTop_toBottomOf="@+id/divider_bottom" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny">
+
+            <TextView
+                android:id="@+id/wipe_all"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sudo drop table"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/wipe_all_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:text="Delete all"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wipe_all" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

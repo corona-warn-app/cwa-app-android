@@ -67,4 +67,10 @@
     <color name="colorCalendarMonthText">#DE000000</color>
     <color name="colorCalendarLayoutFocusOn">@color/cwaGrayHighlight</color>
     <color name="colorCalendarLayoutFocusOff">#F5F5F5</color>
+
+    <!-- Contact Diary -->
+    <color name="colorContactDiaryListItem">#F5F5F5</color>
+    <color name="colorContactDiaryListItemPressed">#D7D7D7</color>
+    <color name="colorContactDiaryBackground">#FFFFFF</color>
+
 </resources>

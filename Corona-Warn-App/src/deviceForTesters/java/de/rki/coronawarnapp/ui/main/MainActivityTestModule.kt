@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragmentModule
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
+import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
+import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -45,4 +47,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTestFragmentModule::class])
     abstract fun submissionTest(): SubmissionTestFragment
+
+    @ContributesAndroidInjector(modules = [ContactDiaryTestFragmentModule::class])
+    abstract fun contactDiaryTest(): ContactDiaryTestFragment
 }

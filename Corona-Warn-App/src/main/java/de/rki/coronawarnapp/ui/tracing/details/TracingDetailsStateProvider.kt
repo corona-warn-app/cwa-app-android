@@ -7,11 +7,14 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.common.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.util.BackgroundModeStatus
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,7 +24,8 @@ class TracingDetailsStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
-    riskLevelStorage: RiskLevelStorage
+    riskLevelStorage: RiskLevelStorage,
+    private val timeStamper: TimeStamper
 ) {
 
     val state: Flow<TracingDetailsState> = combine(
@@ -47,12 +51,16 @@ class TracingDetailsStateProvider @Inject constructor(
 
         val isRestartButtonEnabled = !isBackgroundJobEnabled || latestCalc.riskState == RiskState.CALCULATION_FAILED
 
+        val daysSinceLastExposure = (latestCalc.lastRiskEncounterAt ?: Instant.EPOCH).let {
+            Duration(it, timeStamper.nowUTC).standardDays.toInt()
+        }
+
         TracingDetailsState(
             tracingStatus = status,
             riskState = latestCalc.riskState,
             tracingProgress = tracingProgress,
             matchedKeyCount = latestCalc.matchedKeyCount,
-            daysSinceLastExposure = latestCalc.daysWithEncounters,
+            daysSinceLastExposure = daysSinceLastExposure,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
             isManualKeyRetrievalEnabled = isRestartButtonEnabled,
             isAdditionalInformationVisible = isAdditionalInformationVisible,

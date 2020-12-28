@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card">
+
+        <include
+            android:id="@+id/contact_diary_onboarding_header"
+            layout="@layout/include_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/contact_diary_title}" />
+
+        <ScrollView
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@+id/contact_diary_onboarding_next_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_header">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/contact_diary_onboarding_illustration"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:src="@drawable/ic_contact_diary_illustration_onboarding"
+                    android:contentDescription="@string/contact_diary_onboarding_image_content_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_contact_diary_illustration_onboarding" />
+
+                <TextView
+                    android:id="@+id/onboarding_headline"
+                    style="@style/headline5"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/contact_diary_information_card_title"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_illustration"
+                    tools:text="Behalten Sie den Überblick." />
+
+                <TextView
+                    android:id="@+id/contact_diary_onboarding_body"
+                    style="@style/subtitleMedium"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/contact_diary_onboarding_body"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
+                    tools:text="Erstellen Sie eine Übersicht über Ihre Kontakte der letzten 14 Tage. So haben Sie bei Bedarf schnell eine vollständige Liste zur Hand." />
+
+                <include
+                    android:id="@+id/contact_diary_onboarding_first_section"
+                    layout="@layout/include_contact_diary_onboarding_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:body="@{@string/contact_diary_onboarding_functionality_first_section}"
+                    app:icon="@{@drawable/ic_contact_diary_person}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_body" />
+
+                <include
+                    android:id="@+id/contact_diary_onboarding_second_section"
+                    layout="@layout/include_contact_diary_onboarding_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:body="@{@string/contact_diary_onboarding_functionality_second_section}"
+                    app:icon="@{@drawable/ic_contact_diary_location}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_first_section" />
+
+                <include
+                    android:id="@+id/contact_diary_onboarding_third_section"
+                    layout="@layout/include_contact_diary_onboarding_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:body="@{@string/contact_diary_onboarding_functionality_third_section}"
+                    app:icon="@{@drawable/ic_contact_diary_lock}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_second_section" />
+
+                <include
+                    android:id="@+id/contact_diary_onboarding_fourth_section"
+                    layout="@layout/include_contact_diary_onboarding_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:body="@{@string/contact_diary_onboarding_functionality_fourth_section}"
+                    app:icon="@{@drawable/ic_contact_diary_edit}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_third_section" />
+
+
+                <include
+                    android:id="@+id/contact_diary_onboarding_fifth_section"
+                    layout="@layout/include_contact_diary_onboarding_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:body="@{@string/contact_diary_onboarding_functionality_fifth_section}"
+                    app:icon="@{@drawable/ic_contact_diary_file}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_fourth_section" />
+
+
+                <include
+                    android:id="@+id/contact_diary_onboarding_privacy_card"
+                    layout="@layout/include_contact_diary_privacy_card"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_fifth_section" />
+
+                <View
+                    android:id="@+id/contact_diary_onboarding_first_divider"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_card" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/contact_diary_onboarding_privacy_information_container"
+                    style="@style/row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_first_divider">
+
+                    <TextView
+                        android:id="@+id/contact_diary_onboarding_privacy_information"
+                        style="@style/subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/contact_diary_onboarding_legal_information"
+                        tools:text="@string/contact_diary_onboarding_legal_information" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:id="@+id/contact_diary_onboarding_second_divider"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/card_divider"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    bind:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    bind:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    bind:layout_constraintTop_toBottomOf="@+id/contact_diary_onboarding_privacy_information_container" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <android.widget.Button
+            android:id="@+id/contact_diary_onboarding_next_button"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/contact_diary_onboarding_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/contact_diary_onboarding_button_text"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
@@ -18,7 +19,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.android.synthetic.main.include_submission_status_card_ready.*
 import javax.inject.Inject
 
 /**
@@ -55,12 +55,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         setupToolbar()
+        setupRiskCard()
+        setupDiaryCard()
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
-
-        setupRiskCard()
 
         binding.mainAbout.mainCard.apply {
             setOnClickListener {
@@ -69,15 +69,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.popupEvents.observe2(this) {
-            when (it) {
+        vm.popupEvents.observe2(this) { event ->
+            when (event) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(
                         HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
                     )
                 }
                 is HomeFragmentEvents.ShowTracingExplanation -> {
-                    tracingExplanationDialog.show(it.activeTracingDaysInRetentionPeriod) {
+                    tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
                         vm.tracingExplanationWasShown()
                     }
                 }
@@ -89,6 +89,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
                     showRemoveTestDialog()
+                }
+                HomeFragmentEvents.GoToContactDiary -> {
+                    context?.let { ContactDiaryActivity.start(it) }
                 }
             }
         }
@@ -200,6 +203,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun setupDiaryCard() {
+        binding.contactDiaryCard.apply {
+            contactDiaryCardHomescreenButton.setOnClickListener { vm.moveToContactDiary() }
+            contactDiaryHomescreenCard.setOnClickListener { vm.moveToContactDiary() }
         }
     }
 

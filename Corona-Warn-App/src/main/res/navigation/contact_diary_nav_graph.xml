@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contact_diary_nav_graph"
+    app:startDestination="@id/contactDiaryOverviewFragment">
+    <fragment
+        android:id="@+id/contactDiaryDayFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment"
+        android:label="ContactDiaryDayFragment">
+        <argument
+            android:name="selectedDay"
+            android:defaultValue="2020-03-25"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryPersonBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryLocationBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryLocationBottomSheetDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryPersonListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment"
+        android:label="ContactDiaryPersonListFragment">
+        <argument
+            android:name="selectedDay"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryPlaceListFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment"
+        android:label="ContactDiaryPlaceListFragment">
+        <argument
+            android:name="selectedDay"
+            app:argType="string" />
+    </fragment>
+    <dialog
+        android:id="@+id/contactDiaryPersonBottomSheetDialogFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryPersonBottomSheetDialogFragment"
+        android:label="ContactDiaryPersonBottomSheetDialogFragment">
+        <argument
+            android:name="selectedPerson"
+            app:nullable="true"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity" />
+        <argument
+            android:name="addedAt"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/contactDiaryLocationBottomSheetDialogFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogFragment"
+        android:label="ContactDiaryLocationBottomSheetDialogFragment">
+        <argument
+            android:name="selectedLocation"
+            app:nullable="true"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity" />
+        <argument
+            android:name="addedAt"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+    <fragment
+        android:id="@+id/contactDiaryOnboardingFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment"
+        android:label="ContactDiaryOnboardingFragment">
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryInformationPrivacyFragment"
+            app:destination="@id/contactDiaryInformationPrivacyFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryOverviewFragment"
+            app:destination="@id/contactDiaryOverviewFragment"
+            app:popUpTo="@id/contact_diary_nav_graph"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryInformationPrivacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="InformationPrivacyFragment" />
+    <fragment
+        android:id="@+id/contactDiaryOverviewFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment"
+        android:label="contact_diary_overview_fragment"
+        tools:layout="@layout/contact_diary_overview_fragment">
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryDayFragment"
+            app:destination="@id/contactDiaryDayFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryEditLocationsFragment"
+            app:destination="@id/contactDiaryEditLocationsFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryEditPersonsFragment"
+            app:destination="@id/contactDiaryEditPersonsFragment" />
+        <action
+            android:id="@+id/action_contactDiaryOverviewFragment_to_contactDiaryOnboardingFragment"
+            app:destination="@id/contactDiaryOnboardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryEditLocationsFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"
+        android:label="ContactDiaryEditLocationsFragment">
+        <action
+            android:id="@+id/action_contactDiaryEditLocationsFragment_to_contactDiaryLocationBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryLocationBottomSheetDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryEditPersonsFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsFragment"
+        android:label="ContactDiaryEditPersonsFragment" >
+        <action
+            android:id="@+id/action_contactDiaryEditPersonsFragment_to_contactDiaryPersonBottomSheetDialogFragment"
+            app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
+    </fragment>
+
+</navigation>
