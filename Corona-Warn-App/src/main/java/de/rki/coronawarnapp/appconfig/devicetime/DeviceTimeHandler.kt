@@ -31,7 +31,7 @@ class DeviceTimeHandler @Inject constructor(
                 Timber.tag(TAG).v("Current device time offset is: %dms", it.localOffset.millis)
                 if (it.isDeviceTimeCorrect) {
                     Timber.v("Dismissing any notification, device time is correct again.")
-                    notification.dimiss()
+                    notification.dismiss()
                 } else {
                     if (cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
                         Timber.d("Device time is incorrect, but user has already acknowledged it.")

@@ -14,14 +14,15 @@ import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsItemProvider
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
-import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
@@ -32,7 +33,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingDetailsItemProvider: TracingDetailsItemProvider,
     tracingStatus: GeneralTracingStatus,
-    private val backgroundPrioritization: BackgroundPrioritization,
+    private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -63,15 +64,17 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     private val tracingPermissionHelper =
         tracingPermissionHelperFactory.create(object : TracingPermissionHelper.Callback {
             override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
-                if (isTracingEnabled) {
-                    // check if background processing is switched off,
-                    // if it is, show the manual calculation dialog explanation before turning on.
-                    if (!backgroundPrioritization.isBackgroundActivityPrioritized) {
-                        events.postValue(Event.ManualCheckingDialog)
+                launch {
+                    if (isTracingEnabled) {
+                        // check if background processing is switched off,
+                        // if it is, show the manual calculation dialog explanation before turning on.
+                        if (!backgroundStatus.isIgnoringBatteryOptimizations.first()) {
+                            events.postValue(Event.ManualCheckingDialog)
+                        }
+                        BackgroundWorkScheduler.startWorkScheduler()
                     }
-                    BackgroundWorkScheduler.startWorkScheduler()
+                    isTracingSwitchChecked.postValue(isTracingEnabled)
                 }
-                isTracingSwitchChecked.postValue(isTracingEnabled)
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {

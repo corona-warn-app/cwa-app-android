@@ -263,10 +263,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshRequiredData() {
-        submissionRepository.refreshDeviceUIState()
-        // TODO the ordering here is weird, do we expect these to run in sequence?
-        tracingRepository.refreshRiskLevel()
-        tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+        launch {
+            submissionRepository.refreshDeviceUIState()
+            tracingRepository.refreshRiskLevel()
+            tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+        }
     }
 
     fun tracingExplanationWasShown() {

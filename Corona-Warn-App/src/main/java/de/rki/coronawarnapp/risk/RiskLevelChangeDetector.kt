@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch

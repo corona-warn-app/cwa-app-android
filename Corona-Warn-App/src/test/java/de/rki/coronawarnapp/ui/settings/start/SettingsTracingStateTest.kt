@@ -39,10 +39,10 @@ class SettingsTracingStateTest : BaseTest() {
     fun `bluetooth disabled`() {
         SettingsTracingState.BluetoothDisabled.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextPrimary3) }
+            verify { context.getColor(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_active_small) }
+            verify { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_restricted) }
