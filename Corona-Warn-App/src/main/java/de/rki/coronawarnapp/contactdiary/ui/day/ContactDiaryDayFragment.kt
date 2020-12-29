@@ -89,6 +89,6 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
 
     override fun onResume() {
         super.onResume()
-        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 }
