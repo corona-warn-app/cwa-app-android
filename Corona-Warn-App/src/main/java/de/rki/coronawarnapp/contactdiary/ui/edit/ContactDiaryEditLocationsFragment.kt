@@ -45,6 +45,8 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
             popBackStack()
         }
 
+        binding.deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
+
         viewModel.isListVisible.observe2(this) {
             binding.contactDiaryLocationListNoItemsGroup.isGone = it
         }
@@ -70,10 +72,6 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                     )
                 }
             }
-        }
-
-        binding.apply {
-            deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
         }
     }
 

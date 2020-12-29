@@ -15,6 +15,8 @@ import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.ui.ContextStringProvider
+import de.rki.coronawarnapp.util.ui.StringProvider
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
 import javax.inject.Singleton
 
@@ -63,4 +65,7 @@ class AndroidModule {
     @Provides
     @Singleton
     fun activityManager(@AppContext context: Context): ActivityManager = context.getSystemService()!!
+
+    @Provides
+    fun stringProvider(@AppContext context: Context): StringProvider = ContextStringProvider(context)
 }

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
-import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -12,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.ui.StringProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,7 +23,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository,
-    @AppContext context: Context
+    stringProvider: StringProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
@@ -35,8 +34,8 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.locationVisitsForDate(localDate)
     private val selectableLocations = contactDiaryRepository.locations
 
-    private val selectActionDescriptionString: String = context.getString(SELECT_ACTION_DESCRIPTION)
-    private val deselectActionDescriptionString: String = context.getString(DESELECT_ACTION_DESCRIPTION)
+    private val selectActionDescriptionString: String = stringProvider.getString(SELECT_ACTION_DESCRIPTION)
+    private val deselectActionDescriptionString: String = stringProvider.getString(DESELECT_ACTION_DESCRIPTION)
 
     val uiList = selectableLocations.combine(dayElement) { locations, dayElement ->
         locations.map { contactDiaryLocation ->
@@ -44,8 +43,8 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                 SelectableItem(
                     true,
                     contactDiaryLocation,
-                    context.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
-                    context.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
+                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
+                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
                     deselectActionDescriptionString,
                     selectActionDescriptionString
                 )
@@ -53,8 +52,8 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                 SelectableItem(
                     false,
                     contactDiaryLocation,
-                    context.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
-                    context.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
+                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
+                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
                     selectActionDescriptionString,
                     deselectActionDescriptionString
                 )

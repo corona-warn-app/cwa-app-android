@@ -19,6 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back"
+            app:navigationContentDescription="@string/accessibility_back"
             tools:title="Mittwoch, 23.12.2020" />
 
         <com.google.android.material.tabs.TabLayout

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
-import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -12,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.ui.StringProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,7 +23,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository,
-    @AppContext context: Context
+    stringProvider: StringProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
@@ -35,8 +34,8 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.personEncountersForDate(localDate)
     private val selectablePersons = contactDiaryRepository.people
 
-    private val selectActionDescriptionString: String = context.getString(SELECT_ACTION_DESCRIPTION)
-    private val deselectActionDescriptionString: String = context.getString(DESELECT_ACTION_DESCRIPTION)
+    private val selectActionDescriptionString: String = stringProvider.getString(SELECT_ACTION_DESCRIPTION)
+    private val deselectActionDescriptionString: String = stringProvider.getString(DESELECT_ACTION_DESCRIPTION)
 
     val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
         persons.map { contactDiaryPerson ->
@@ -44,16 +43,16 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                 SelectableItem(
                     true,
                     contactDiaryPerson,
-                    context.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
-                    context.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
+                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
+                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
                     deselectActionDescriptionString,
                     selectActionDescriptionString)
             } else {
                 SelectableItem(
                     false,
                     contactDiaryPerson,
-                    context.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
-                    context.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
+                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
+                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
                     selectActionDescriptionString,
                     deselectActionDescriptionString)
             }
