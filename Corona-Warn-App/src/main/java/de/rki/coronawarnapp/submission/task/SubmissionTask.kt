@@ -51,6 +51,12 @@ class SubmissionTask @Inject constructor(
                 return Result(state = Result.State.SKIPPED)
             }
 
+            if (!submissionSettings.hasGivenConsent.value) {
+                Timber.tag(TAG).w("Consent unavailable. Skipping execution, disabling auto submission.")
+                autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
+                return Result(state = Result.State.SKIPPED)
+            }
+
             if (hasExceededRetryAttempts()) {
                 throw IllegalStateException("Submission task retry limit exceeded")
             }
