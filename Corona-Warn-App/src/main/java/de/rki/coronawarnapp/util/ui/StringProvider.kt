@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.annotation.StringRes
 
 interface StringProvider {
-    fun getString(@StringRes resId: Int, vararg formatArgs: Any?): String
+    fun getString(@StringRes resId: Int, formatArg: Any? = null) : String
 }
 
 class ContextStringProvider(private val context: Context): StringProvider {
-    override fun getString(@StringRes resId: Int, vararg formatArgs: Any?): String {
-        return context.resources.getString(resId, *formatArgs)
+    override fun getString(@StringRes resId: Int, formatArg: Any?) : String {
+        return context.resources.getString(resId, formatArg)
     }
 }
