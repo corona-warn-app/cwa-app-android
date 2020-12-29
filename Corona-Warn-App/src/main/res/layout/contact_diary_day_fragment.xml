@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/settings_title"
-        android:focusable="true">
+        android:focusable="true"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/contact_diary_day_header"
@@ -19,7 +19,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_back"
-            tools:title="Mittwoch, 23.12.2020" />
+            android:focusable="true"
+            app:navigationContentDescription="@string/accessibility_back"
+            tools:title="Mittwoch, 23.12.20" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/contact_diary_day_tab_layout"

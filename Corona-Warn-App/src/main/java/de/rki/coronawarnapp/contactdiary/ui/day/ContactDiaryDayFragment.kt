@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day
 
 import android.os.Bundle
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.bindingadapters.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -41,6 +43,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         val adapter = ContactDiaryDayFragmentsAdapter(this, contactDiaryTabs, navArgs.selectedDay)
 
         binding.contactDiaryDayViewPager.adapter = adapter
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
             val tabSource = adapter.tabs[position]
@@ -63,7 +66,9 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
 
         viewModel.uiState.observe2(this) {
             binding.contactDiaryDayHeader.title = it.dayText
+            binding.contactDiaryDayHeader.contentDescription = it.dayText
         }
+
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
@@ -82,5 +87,10 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
                 )
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
