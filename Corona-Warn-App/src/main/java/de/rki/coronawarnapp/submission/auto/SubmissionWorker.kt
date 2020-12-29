@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.task.SubmissionTask
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
@@ -27,6 +28,7 @@ class SubmissionWorker @AssistedInject constructor(
             DefaultTaskRequest(
                 type = SubmissionTask::class,
                 arguments = SubmissionTask.Arguments(checkUserActivity = true),
+                errorHandling = TaskFactory.Config.ErrorHandling.SILENT,
                 originTag = TAG
             )
         )
