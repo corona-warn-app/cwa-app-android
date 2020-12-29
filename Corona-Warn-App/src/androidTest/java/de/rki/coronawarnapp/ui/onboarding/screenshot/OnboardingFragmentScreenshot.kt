@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.ui.onboarding.screenshot
 
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragment
@@ -44,7 +48,8 @@ class OnboardingFragmentScreenshot : BaseUITest() {
     @Test
     fun capture_screenshot() {
         launchFragmentInContainer<OnboardingFragment>(themeResId = R.style.AppTheme)
-        Thread.sleep(1000)
+        // Check any view to make sure screenshot is not blank
+        onView(withId(R.id.onboarding_button_next)).check(matches(isDisplayed()))
         Screengrab.screenshot(OnboardingFragment::class.simpleName)
     }
 }
