@@ -8,9 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.ConfigurationCompat
 import androidx.viewpager2.widget.ViewPager2
 import org.joda.time.LocalDate
-import java.text.DateFormatSymbols
-import java.util.Calendar
-import java.util.Locale
 
 fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
     this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

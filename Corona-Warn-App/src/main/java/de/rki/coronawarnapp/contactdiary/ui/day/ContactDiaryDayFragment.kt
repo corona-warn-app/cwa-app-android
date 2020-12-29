@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.contactdiary.util.registerOnPageChangeCallback
 import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.bindingadapters.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -68,7 +67,6 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             binding.contactDiaryDayHeader.title = it.dayText
             binding.contactDiaryDayHeader.contentDescription = it.dayTextContentDescription
         }
-
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
