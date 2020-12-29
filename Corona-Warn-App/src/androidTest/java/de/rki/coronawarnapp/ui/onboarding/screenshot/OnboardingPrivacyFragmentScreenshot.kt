@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding.screenshot
 
-import android.Manifest
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyFragment
 import de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyViewModel

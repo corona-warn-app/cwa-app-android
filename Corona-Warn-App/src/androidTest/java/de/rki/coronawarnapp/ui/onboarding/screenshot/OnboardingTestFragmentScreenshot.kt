@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding.screenshot
 
-import android.Manifest
-import android.os.SystemClock
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragment
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTestViewModel
@@ -25,11 +22,6 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 class OnboardingTestFragmentScreenshot : BaseUITest() {
 
     @MockK lateinit var viewModel: OnboardingTestViewModel
-
-    @get:Rule val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
 
     @Rule
     @JvmField
