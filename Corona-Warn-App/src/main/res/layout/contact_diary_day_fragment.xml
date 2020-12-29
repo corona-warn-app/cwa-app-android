@@ -6,19 +6,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/settings_title"
         android:focusable="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/contact_diary_day_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:background="@drawable/contact_diary_background"
             android:elevation="@dimen/elevation_weak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back"
+            style="@style/CWAToolbar.BackArrow"
             tools:title="Mittwoch, 23.12.2020" />
 
         <com.google.android.material.tabs.TabLayout
