@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.onboarding.screenshot
 
-import android.Manifest
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragment
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentViewModel
 import io.mockk.MockKAnnotations
@@ -13,16 +13,19 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.captureScreenshot
+import testhelpers.Screenshot
+import tools.fastlane.screengrab.DecorViewScreenshotStrategy
+import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
+@Screenshot
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentScreenshot : BaseUITest() {
 
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
 
     @MockK lateinit var viewModel: OnboardingFragmentViewModel
 
@@ -42,6 +45,8 @@ class OnboardingFragmentScreenshot : BaseUITest() {
 
     @Test
     fun capture_screenshot() {
-        captureScreenshot<OnboardingFragment>()
+        launchFragmentInContainer<OnboardingFragment>(themeResId = R.style.AppTheme)
+        Thread.sleep(1000)
+        Screengrab.screenshot(OnboardingFragment::class.simpleName)
     }
 }

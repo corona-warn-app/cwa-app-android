@@ -1,0 +1,7 @@
+#locales ['de-DE', 'en-US', 'tr-TR', 'bg-BG', 'pl-PL', 'ro-RO']
+clear_previous_screenshots true
+test_instrumentation_runner 'testhelpers.TestApplicationUIRunner'
+app_package_name 'de.rki.coronawarnapp.test'
+use_tests_in_packages ['de.rki.coronawarnapp.ui.onboarding.screenshot']
+app_apk_path './Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/Corona-Warn-App-deviceForTesters-debug-androidTest.apk'
+tests_apk_path './Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/Corona-Warn-App-deviceForTesters-debug-androidTest.apk'
