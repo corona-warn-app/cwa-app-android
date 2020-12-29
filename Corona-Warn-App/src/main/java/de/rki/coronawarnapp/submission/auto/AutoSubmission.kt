@@ -83,6 +83,7 @@ class AutoSubmission @Inject constructor(
         Timber.tag(TAG).v("scheduleWorker(): Creating periodic worker request for submission.")
 
         val request = PeriodicWorkRequestBuilder<SubmissionWorker>(15, TimeUnit.MINUTES).apply {
+            addTag(AUTOSUBMISSIO_WORKER_TAG)
             setBackoffCriteria(BackoffPolicy.EXPONENTIAL, BackgroundConstants.BACKOFF_INITIAL_DELAY, TimeUnit.MINUTES)
             setConstraints(
                 Constraints.Builder().apply {
@@ -91,7 +92,7 @@ class AutoSubmission @Inject constructor(
             )
         }.build()
 
-        workManager.enqueueUniquePeriodicWork(PERIODIC_WORKER_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+        workManager.enqueueUniquePeriodicWork(AUTOSUBMISSIO_WORKER_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
     private fun enableAutoSubmission(lastActivity: Instant) {
@@ -109,7 +110,7 @@ class AutoSubmission @Inject constructor(
 
     private fun disableAutoSubmission() {
         Timber.tag(TAG).v("disableAutoSubmission()")
-        workManager.cancelUniqueWork(PERIODIC_WORKER_TAG)
+        workManager.cancelAllWorkByTag(AUTOSUBMISSIO_WORKER_TAG)
 
         submissionSettings.apply {
             autoSubmissionEnabled.update { false }
@@ -140,7 +141,7 @@ class AutoSubmission @Inject constructor(
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val PERIODIC_WORKER_TAG = "BackgroundSubmissionWorker"
+        internal const val AUTOSUBMISSIO_WORKER_TAG = "BackgroundSubmissionWorker"
         private const val TAG = "AutoSubmission"
     }
 }
