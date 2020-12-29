@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import io.kotest.matchers.shouldBe
@@ -39,7 +39,7 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
     @Test
     fun testOnCancelled() {
         viewModel = createViewModel()
-        viewModel.cancelTestSubmission()
+        viewModel.onCancelConfirmed()
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToMainActivity
     }
 }

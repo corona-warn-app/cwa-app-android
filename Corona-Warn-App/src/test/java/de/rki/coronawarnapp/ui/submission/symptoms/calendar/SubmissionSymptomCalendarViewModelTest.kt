@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
@@ -38,7 +38,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         currentSymptoms = mockFlowPreference(null)
 
         every { submissionRepository.isSubmissionRunning } returns flowOf(false)
-        coEvery { submissionRepository.startSubmission() } just Runs
+        coEvery { submissionRepository.greenlightSubmission() } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
@@ -77,7 +77,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         coVerifySequence {
             submissionRepository.isSubmissionRunning
             submissionRepository.currentSymptoms
-            submissionRepository.startSubmission()
+            submissionRepository.greenlightSubmission()
         }
 
         currentSymptoms.value shouldBe Symptoms(
@@ -92,7 +92,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         coVerifySequence {
             submissionRepository.isSubmissionRunning
-            submissionRepository.startSubmission()
+            submissionRepository.greenlightSubmission()
         }
     }
 

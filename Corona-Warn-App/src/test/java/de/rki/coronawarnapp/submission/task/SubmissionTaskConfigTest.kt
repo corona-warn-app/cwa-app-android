@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
+import de.rki.coronawarnapp.submission.task.SubmissionTask
 import io.kotest.matchers.comparables.shouldBeLessThan
 import org.joda.time.Duration
 import org.junit.jupiter.api.Test

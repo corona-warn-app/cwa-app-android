@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.tan
 
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK

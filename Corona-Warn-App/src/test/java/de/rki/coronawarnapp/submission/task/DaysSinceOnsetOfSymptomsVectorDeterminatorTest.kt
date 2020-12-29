@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE

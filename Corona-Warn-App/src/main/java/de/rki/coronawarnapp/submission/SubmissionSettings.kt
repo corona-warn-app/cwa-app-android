@@ -62,6 +62,26 @@ class SubmissionSettings @Inject constructor(
         }
     )
 
+    val autoSubmissionEnabled = prefs.createFlowPreference(
+        key = "submission.auto.enabled",
+        defaultValue = false
+    )
+
+    val autoSubmissionAttemptsCount = prefs.createFlowPreference(
+        key = "submission.auto.attempts.count",
+        defaultValue = 0
+    )
+
+    val autoSubmissionAttemptsLast = prefs.createFlowPreference(
+        key = "submission.auto.attempts.last",
+        reader = { key ->
+            Instant.ofEpochMilli(getLong(key, 0L))
+        },
+        writer = { key, value ->
+            putLong(key, value.millis)
+        }
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }

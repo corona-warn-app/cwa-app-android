@@ -8,6 +8,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -24,6 +25,7 @@ import java.util.UUID
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryStorage: TEKHistoryStorage,
+    private val submissionRepository: SubmissionRepository,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {

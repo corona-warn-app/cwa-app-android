@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.TimeStamper
@@ -217,7 +219,32 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `negative activity durations lead to immediate submission`() {
+    fun `user activity is only checked if enabled via arguments`() {
+        TODO()
+    }
+
+    @Test
+    fun `user activity is not checked by default`() {
+        TODO()
+    }
+
+    @Test
+    fun `negative user activity durations lead to immediate submission`() {
+        TODO()
+    }
+
+    @Test
+    fun `successful submission disables auto submission`() {
+        TODO()
+    }
+
+    @Test
+    fun `task executed with empty TEKs disables autosubmission too`() {
+        TODO()
+    }
+
+    @Test
+    fun `exceeding retry attempts throws error`() {
         TODO()
     }
 }

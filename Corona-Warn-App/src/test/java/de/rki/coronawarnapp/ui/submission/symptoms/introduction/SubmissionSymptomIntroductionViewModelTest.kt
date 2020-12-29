@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -35,7 +35,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { submissionRepository.isSubmissionRunning } returns flowOf(false)
-        coEvery { submissionRepository.startSubmission() } just Runs
+        coEvery { submissionRepository.greenlightSubmission() } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
@@ -88,7 +88,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             )
         }
 
-        coVerify { submissionRepository.startSubmission() }
+        coVerify { submissionRepository.greenlightSubmission() }
     }
 
     @Test
@@ -111,7 +111,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         coVerifySequence {
             submissionRepository.isSubmissionRunning
-            submissionRepository.startSubmission()
+            submissionRepository.greenlightSubmission()
         }
     }
 
