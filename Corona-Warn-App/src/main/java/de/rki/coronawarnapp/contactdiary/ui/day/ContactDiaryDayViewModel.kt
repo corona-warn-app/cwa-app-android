@@ -5,6 +5,7 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -22,7 +23,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryDayNavigationEvents> = SingleLiveEvent()
 
     val uiState = displayedDay.map { day ->
-        UIState(dayText = day.toFormattedDay())
+        UIState(dayText = day.toFormattedDay(), dayTextContentDescription = day.toFormattedDayForAccessibility())
     }.asLiveData()
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
@@ -39,7 +40,8 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     }
 
     data class UIState(
-        val dayText: String
+        val dayText: String,
+        val dayTextContentDescription: String
     )
 
     @AssistedInject.Factory
