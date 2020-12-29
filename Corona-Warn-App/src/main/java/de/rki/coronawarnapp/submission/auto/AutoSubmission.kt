@@ -14,9 +14,7 @@ import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
@@ -26,7 +24,6 @@ import javax.inject.Singleton
 
 @Singleton
 class AutoSubmission @Inject constructor(
-    @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val submissionSettings: SubmissionSettings,
     private val workManager: WorkManager,
@@ -45,7 +42,7 @@ class AutoSubmission @Inject constructor(
         Timber.tag(TAG).v("setup()")
 
         if (submissionSettings.autoSubmissionEnabled.value) {
-            Timber.tag(TAG).i("Fresh app start and auto submission is enabled, SUBMIT_ASAP.")
+            Timber.tag(TAG).i("Fresh app start and auto submission is enabled, updating mode.")
 
             updateMode(Mode.SUBMIT_ASAP)
         } else {
@@ -59,9 +56,7 @@ class AutoSubmission @Inject constructor(
         when (newMode) {
             Mode.DISABLED -> disableAutoSubmission()
             Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
-            Mode.SUBMIT_ASAP -> {
-                enableAutoSubmission()
-            }
+            Mode.SUBMIT_ASAP -> enableAutoSubmission(lastActivity = Instant.EPOCH)
         }
         currentMode = newMode
     }
@@ -99,7 +94,7 @@ class AutoSubmission @Inject constructor(
         workManager.enqueueUniquePeriodicWork(PERIODIC_WORKER_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
-    private fun enableAutoSubmission(lastActivity: Instant = Instant.EPOCH) {
+    private fun enableAutoSubmission(lastActivity: Instant) {
         submissionSettings.apply {
             // Setting last activity to EPOCH will skip the user activity period.
             lastSubmissionUserActivityUTC.update { lastActivity }
@@ -114,7 +109,7 @@ class AutoSubmission @Inject constructor(
 
     private fun disableAutoSubmission() {
         Timber.tag(TAG).v("disableAutoSubmission()")
-        workManager.cancelAllWorkByTag(PERIODIC_WORKER_TAG)
+        workManager.cancelUniqueWork(PERIODIC_WORKER_TAG)
 
         submissionSettings.apply {
             autoSubmissionEnabled.update { false }
