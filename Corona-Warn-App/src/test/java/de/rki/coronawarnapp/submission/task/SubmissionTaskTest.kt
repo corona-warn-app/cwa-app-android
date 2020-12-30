@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.server.protocols.external.exposurenotification.Tempo
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.TimeStamper
@@ -44,6 +45,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var autoSubmission: AutoSubmission
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
     @MockK lateinit var tek: TemporaryExposureKey
@@ -100,7 +102,8 @@ class SubmissionTaskTest : BaseTest() {
         tekHistoryStorage = tekHistoryStorage,
         submissionSettings = submissionSettings,
         testResultNotificationService = testResultNotificationService,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        autoSubmission = autoSubmission
     )
 
     @Test
