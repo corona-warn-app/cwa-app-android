@@ -20,8 +20,8 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.LowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingDisabledBox
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingProgressBox
-import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
@@ -90,8 +90,10 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         .asLiveData(dispatcherProvider.Default)
 
     fun refreshData() {
-        tracingRepository.refreshRiskLevel()
-        tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+        launch {
+            tracingRepository.refreshRiskLevel()
+            tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+        }
     }
 
     fun updateRiskDetails() {

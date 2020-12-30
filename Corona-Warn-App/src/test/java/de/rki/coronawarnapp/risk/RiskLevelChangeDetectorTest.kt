@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations

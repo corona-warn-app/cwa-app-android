@@ -22,15 +22,12 @@ import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
-import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.task.SubmissionTaskModule
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.ui.ActivityBinder
-import de.rki.coronawarnapp.util.ConnectivityHelperInjection
-import de.rki.coronawarnapp.util.UtilModule
 import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.CoroutineModule
@@ -53,7 +50,6 @@ import javax.inject.Singleton
         ServiceBinder::class,
         ActivityBinder::class,
         RiskModule::class,
-        UtilModule::class,
         DeviceModule::class,
         ENFModule::class,
         HttpModule::class,
@@ -74,10 +70,6 @@ import javax.inject.Singleton
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
-
-    val connectivityHelperInjection: ConnectivityHelperInjection
-
-    val settingsRepository: SettingsRepository
 
     val keyCacheRepository: KeyCacheRepository
 
