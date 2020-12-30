@@ -83,7 +83,7 @@ class SubmissionTask @Inject constructor(
             userInactivity.standardMinutes
         )
 
-        return userInactivity < USER_INACTIVITY_TIMEOUT
+        return userInactivity.millis >= 0 && userInactivity < USER_INACTIVITY_TIMEOUT
     }
 
     private fun hasExceededRetryAttempts(): Boolean {
@@ -109,7 +109,14 @@ class SubmissionTask @Inject constructor(
         val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         Timber.tag(TAG).d("Using registrationToken=$registrationToken")
 
-        val keys: List<TemporaryExposureKey> = tekHistoryStorage.tekData.first().flatMap { it.keys }
+        val keys: List<TemporaryExposureKey> = try {
+            tekHistoryStorage.tekData.first().flatMap { it.keys }
+        } catch (e: NoSuchElementException) {
+            Timber.tag(TAG).e(e, "No TEKs available, aborting.")
+            autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
+            throw e
+        }
+
         val symptoms: Symptoms = submissionSettings.symptoms.value ?: Symptoms.NO_INFO_GIVEN
 
         val transformedKeys = tekHistoryCalculations.transformToKeyHistoryInExternalFormat(

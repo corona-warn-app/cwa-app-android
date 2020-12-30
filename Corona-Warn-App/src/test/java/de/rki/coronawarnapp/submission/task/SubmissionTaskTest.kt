@@ -12,11 +12,11 @@ import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
-import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.shouldThrowMessage
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -26,7 +26,10 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.verify
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -56,8 +59,13 @@ class SubmissionTaskTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
 
-    private lateinit var mockSymptomsPreference: FlowPreference<Symptoms?>
-    private lateinit var mockLastUserActivity: FlowPreference<Instant>
+    private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
+
+    private val settingHasGivenConsent: FlowPreference<Boolean> = mockFlowPreference(true)
+    private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
+    private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
+
+    private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
 
     @BeforeEach
     fun setup() {
@@ -75,12 +83,15 @@ class SubmissionTaskTest : BaseTest() {
         coEvery { tekHistoryStorage.clear() } just Runs
 
         every {
-            tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), any())
         } returns listOf(transformedKey)
 
-        mockSymptomsPreference = mockFlowPreference(userSymptoms)
-        every { submissionSettings.symptoms } returns mockSymptomsPreference
-
+        settingSymptomsPreference = mockFlowPreference(userSymptoms)
+        every { submissionSettings.symptoms } returns settingSymptomsPreference
+        every { submissionSettings.hasGivenConsent } returns settingHasGivenConsent
+        every { submissionSettings.lastSubmissionUserActivityUTC } returns settingLastUserActivityUTC
+        every { submissionSettings.autoSubmissionAttemptsCount } returns settingAutoSubmissionAttemptsCount
+        every { submissionSettings.autoSubmissionAttemptsLast } returns settingAutoSubmissionAttemptsLast
 
         coEvery { appConfigProvider.getAppConfig() } returns appConfigData
         every { appConfigData.supportedCountries } returns listOf("NL")
@@ -89,8 +100,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { testResultNotificationService.cancelPositiveTestResultNotification() } just Runs
 
-        mockLastUserActivity = mockFlowPreference(Instant.EPOCH.plus(1))
-        every { submissionSettings.lastSubmissionUserActivityUTC } returns mockLastUserActivity
+        every { autoSubmission.updateMode(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
     }
@@ -109,16 +119,17 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `submission flow`() = runBlockingTest {
         val task = createTask()
-        task.run(object : Task.Arguments {}) shouldBe SubmissionTask.Result(
+        task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = SubmissionTask.Result.State.SUCCESSFUL
         )
 
         coVerifySequence {
-            mockLastUserActivity.value
+            settingLastUserActivityUTC.value
+            settingHasGivenConsent.value
 
             LocalData.registrationToken()
             tekHistoryStorage.tekData
-            mockSymptomsPreference.value
+            settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
 
@@ -133,17 +144,30 @@ class SubmissionTaskTest : BaseTest() {
             )
 
             tekHistoryStorage.clear()
-            mockSymptomsPreference.update(any())
-            mockLastUserActivity.update(any())
+            settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
+
+            autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
 
             testResultNotificationService.cancelPositiveTestResultNotification()
         }
+    }
 
-        submissionSettings.symptoms.value shouldBe null
-        submissionSettings.lastSubmissionUserActivityUTC.value shouldBe Instant.EPOCH
+    @Test
+    fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() = runBlockingTest {
+        val emptySymptoms: FlowPreference<Symptoms?> = mockFlowPreference(null)
+        every { submissionSettings.symptoms } returns emptySymptoms
+
+        val task = createTask()
+        task.run(SubmissionTask.Arguments()) shouldBe SubmissionTask.Result(
+            state = SubmissionTask.Result.State.SUCCESSFUL
+        )
+
+        verify {
+            tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), Symptoms.NO_INFO_GIVEN)
+        }
     }
 
     @Test
@@ -151,13 +175,15 @@ class SubmissionTaskTest : BaseTest() {
         coEvery { playbook.submit(any()) } throws IOException()
 
         shouldThrow<IOException> {
-            createTask().run(object : Task.Arguments {})
+            createTask().run(SubmissionTask.Arguments())
         }
 
         coVerifySequence {
+            settingHasGivenConsent.value
+
             LocalData.registrationToken()
             tekHistoryStorage.tekData
-            mockSymptomsPreference.value
+            settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
 
@@ -173,12 +199,11 @@ class SubmissionTaskTest : BaseTest() {
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
-            mockSymptomsPreference.update(any())
+            settingSymptomsPreference.update(any())
             testResultNotificationService.cancelPositiveTestResultNotification()
-            mockLastUserActivity.update(any())
+            autoSubmission.updateMode(any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
-        submissionSettings.lastSubmissionUserActivityUTC.value shouldBe Instant.EPOCH.plus(1)
     }
 
     @Test
@@ -187,7 +212,7 @@ class SubmissionTaskTest : BaseTest() {
 
         val task = createTask()
         shouldThrow<NoRegistrationTokenSetException> {
-            task.run(object : Task.Arguments {})
+            task.run(SubmissionTask.Arguments())
         }
     }
 
@@ -195,7 +220,7 @@ class SubmissionTaskTest : BaseTest() {
     fun `DE is used as fallback country`() = runBlockingTest {
         every { appConfigData.supportedCountries } returns listOf("DE")
 
-        createTask().run(object : Task.Arguments {}) shouldBe SubmissionTask.Result(
+        createTask().run(SubmissionTask.Arguments()) shouldBe SubmissionTask.Result(
             state = SubmissionTask.Result.State.SUCCESSFUL
         )
 
@@ -212,42 +237,58 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() {
-        TODO()
+    fun `submission is skipped if user was recently active in submission`() = runBlockingTest {
+        settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.standardHours(1)) }
+        val task = createTask()
+        task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
+            state = SubmissionTask.Result.State.SKIPPED
+        )
+
+        coVerify(exactly = 0) { tekHistoryCalculations.transformToKeyHistoryInExternalFormat(any(), any()) }
     }
 
     @Test
-    fun `submission is skipped if user was recently active in submission`() {
-        TODO()
-    }
+    fun `user activity is only checked if enabled via arguments`() = runBlockingTest {
+        val task = createTask()
 
-    @Test
-    fun `user activity is only checked if enabled via arguments`() {
-        TODO()
+        task.run(SubmissionTask.Arguments(checkUserActivity = false))
+        verify(exactly = 0) { settingLastUserActivityUTC.value }
+
+        task.run(SubmissionTask.Arguments(checkUserActivity = true))
+        verify { settingLastUserActivityUTC.value }
     }
 
     @Test
     fun `user activity is not checked by default`() {
-        TODO()
+        SubmissionTask.Arguments().checkUserActivity shouldBe false
     }
 
     @Test
-    fun `negative user activity durations lead to immediate submission`() {
-        TODO()
+    fun `negative user activity durations lead to immediate submission`() = runBlockingTest {
+        settingLastUserActivityUTC.update { Instant.ofEpochMilli(Long.MAX_VALUE) }
+        val task = createTask()
+        task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
+            state = SubmissionTask.Result.State.SUCCESSFUL
+        )
     }
 
     @Test
-    fun `successful submission disables auto submission`() {
-        TODO()
+    fun `task executed with empty TEKs disables autosubmission too`() = runBlockingTest {
+        every { tekHistoryStorage.tekData } returns emptyFlow()
+        val task = createTask()
+        shouldThrow<NoSuchElementException> {
+            task.run(SubmissionTask.Arguments())
+        }
+        verify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
     }
 
     @Test
-    fun `task executed with empty TEKs disables autosubmission too`() {
-        TODO()
-    }
-
-    @Test
-    fun `exceeding retry attempts throws error`() {
-        TODO()
+    fun `exceeding retry attempts throws error and disables autosubmission`() = runBlockingTest {
+        settingAutoSubmissionAttemptsCount.update { Int.MAX_VALUE }
+        val task = createTask()
+        shouldThrowMessage("Submission task retry limit exceeded") {
+            task.run(SubmissionTask.Arguments())
+        }
+        verify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
     }
 }
