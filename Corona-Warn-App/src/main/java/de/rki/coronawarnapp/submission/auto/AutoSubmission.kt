@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.submission.auto
 
-import androidx.annotation.VisibleForTesting
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -74,7 +73,7 @@ class AutoSubmission @Inject constructor(
         if (result.isSuccessful) {
             Timber.tag(TAG).i("Blocking submission was successful.")
         } else {
-            Timber.tag(TAG).w("Blocking submission was not successful, enabling auto submission.")
+            Timber.tag(TAG).w(result.error, "Blocking submission was not successful, enabling auto submission.")
             updateMode(Mode.SUBMIT_ASAP)
         }
     }
@@ -140,8 +139,7 @@ class AutoSubmission @Inject constructor(
     }
 
     companion object {
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val AUTOSUBMISSIO_WORKER_TAG = "BackgroundSubmissionWorker"
+        private const val AUTOSUBMISSIO_WORKER_TAG = "AutoSubmissionWorker"
         private const val TAG = "AutoSubmission"
     }
 }
