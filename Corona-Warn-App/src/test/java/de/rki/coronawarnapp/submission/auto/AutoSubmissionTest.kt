@@ -106,8 +106,6 @@ class AutoSubmissionTest : BaseTest() {
 
         verifySequence {
             lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.ofEpochMilli(123456789) })
-            autoSubmissionAttemptsCount.update(match { it.invoke(123) == 0 })
-            autoSubmissionAttemptsLast.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
             autoSubmissionEnabled.update(match { it.invoke(false) })
 
             workManager.enqueueUniquePeriodicWork(
@@ -126,8 +124,6 @@ class AutoSubmissionTest : BaseTest() {
 
         verifySequence {
             lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
-            autoSubmissionAttemptsCount.update(match { it.invoke(123) == 0 })
-            autoSubmissionAttemptsLast.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
             autoSubmissionEnabled.update(match { it.invoke(false) })
 
             workManager.enqueueUniquePeriodicWork(
@@ -188,8 +184,6 @@ class AutoSubmissionTest : BaseTest() {
 
         verifySequence {
             lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
-            autoSubmissionAttemptsCount.update(match { it.invoke(123) == 0 })
-            autoSubmissionAttemptsLast.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
             autoSubmissionEnabled.update(match { it.invoke(false) })
 
             workManager.enqueueUniquePeriodicWork(

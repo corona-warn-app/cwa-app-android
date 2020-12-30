@@ -98,8 +98,7 @@ class AutoSubmission @Inject constructor(
         submissionSettings.apply {
             // Setting last activity to EPOCH will skip the user activity period.
             lastSubmissionUserActivityUTC.update { lastActivity }
-            autoSubmissionAttemptsCount.update { 0 }
-            autoSubmissionAttemptsLast.update { Instant.EPOCH }
+
             // Will trigger worker scheduling
             autoSubmissionEnabled.update { true }
         }
