@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.model
 
 import org.joda.time.LocalDate
+import java.util.Locale
 
 interface ContactDiaryLocationVisit {
     val id: Long
@@ -9,4 +10,4 @@ interface ContactDiaryLocationVisit {
 }
 
 fun List<ContactDiaryLocationVisit>.sortByNameAndIdASC(): List<ContactDiaryLocationVisit> =
-    this.sortedWith(compareBy({ it.contactDiaryLocation.locationName }, { it.contactDiaryLocation.locationId }))
+    this.sortedWith(compareBy({ it.contactDiaryLocation.locationName.toLowerCase(Locale.ROOT) }, { it.contactDiaryLocation.locationId }))
