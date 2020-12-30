@@ -1,5 +1,7 @@
-# TODO Enable locale change at the moment this is causing a weird crash in androidx.lifecycle.SavedStateHandleController.attachHandleIfNeeded
-#locales ['de-DE', 'en-US', 'tr-TR', 'bg-BG', 'pl-PL', 'ro-RO']
+# TODO Fix crash that is preventing other locales from capturing all screenshots except ending_locale
+# There is a weird crash in androidx.lifecycle.SavedStateHandleController.attachHandleIfNeeded
+locales ['de-DE'] #other locales ['en-US', 'tr-TR', 'bg-BG', 'pl-PL', 'ro-RO']
+ending_locale 'de-DE'
 clear_previous_screenshots true
 test_instrumentation_runner 'testhelpers.TestApplicationUIRunner'
 app_package_name 'de.rki.coronawarnapp.test'
