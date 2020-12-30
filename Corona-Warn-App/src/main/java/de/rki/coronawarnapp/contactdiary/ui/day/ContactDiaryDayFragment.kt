@@ -42,7 +42,6 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         val adapter = ContactDiaryDayFragmentsAdapter(this, contactDiaryTabs, navArgs.selectedDay)
 
         binding.contactDiaryDayViewPager.adapter = adapter
-        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         TabLayoutMediator(binding.contactDiaryDayTabLayout, binding.contactDiaryDayViewPager) { tab, position ->
             val tabSource = adapter.tabs[position]
