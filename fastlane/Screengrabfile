@@ -3,8 +3,8 @@
 clear_previous_screenshots true
 test_instrumentation_runner 'testhelpers.TestApplicationUIRunner'
 app_package_name 'de.rki.coronawarnapp.test'
-use_tests_in_packages ['de.rki.coronawarnapp.ui.onboarding.screenshot']
 app_apk_path './Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/Corona-Warn-App-1.11.0-RC1-deviceForTesters-debug.apk'
 tests_apk_path './Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/Corona-Warn-App-deviceForTesters-debug-androidTest.apk'
 use_adb_root true
 reinstall_app true
+launch_arguments ["annotation testhelpers.Screenshot"]
