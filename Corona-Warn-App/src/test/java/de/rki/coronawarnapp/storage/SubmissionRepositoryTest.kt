@@ -89,7 +89,6 @@ class SubmissionRepositoryTest {
         submissionSettings = submissionSettings,
         submissionService = submissionService,
         timeStamper = timeStamper,
-        taskController = taskController,
         tekHistoryStorage = tekHistoryStorage
     )
 

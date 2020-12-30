@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import io.kotest.matchers.shouldBe
@@ -15,8 +16,8 @@ import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
-    @MockK
-    lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var autoSubmission: AutoSubmission
     lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 
     @BeforeEach
@@ -26,7 +27,8 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
 
     private fun createViewModel() = SubmissionTestResultConsentGivenViewModel(
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider,
+        autoSubmission = autoSubmission
     )
 
     @Test

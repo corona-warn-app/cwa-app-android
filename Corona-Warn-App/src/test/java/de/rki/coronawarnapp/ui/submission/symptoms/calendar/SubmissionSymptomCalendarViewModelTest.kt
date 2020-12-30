@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -29,6 +30,7 @@ import testhelpers.preferences.mockFlowPreference
 class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var autoSubmission: AutoSubmission
     private lateinit var currentSymptoms: FlowPreference<Symptoms?>
 
     @BeforeEach
@@ -37,8 +39,9 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         currentSymptoms = mockFlowPreference(null)
 
-        every { submissionRepository.isSubmissionRunning } returns flowOf(false)
-        coEvery { submissionRepository.greenlightSubmission() } just Runs
+        every { autoSubmission.isSubmissionRunning } returns flowOf(false)
+        every { autoSubmission.updateMode(any()) } just Runs
+        coEvery { autoSubmission.runSubmissionNow() } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
@@ -51,7 +54,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         SubmissionSymptomCalendarViewModel(
             symptomIndication = indication,
             dispatcherProvider = TestDispatcherProvider,
-            submissionRepository = submissionRepository
+            submissionRepository = submissionRepository,
+            autoSubmission = autoSubmission
         )
 
     @Test
@@ -75,9 +79,9 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         }
 
         coVerifySequence {
-            submissionRepository.isSubmissionRunning
+            autoSubmission.isSubmissionRunning
             submissionRepository.currentSymptoms
-            submissionRepository.greenlightSubmission()
+            autoSubmission.runSubmissionNow()
         }
 
         currentSymptoms.value shouldBe Symptoms(
@@ -91,15 +95,15 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         createViewModel().onCancelConfirmed()
 
         coVerifySequence {
-            submissionRepository.isSubmissionRunning
-            submissionRepository.greenlightSubmission()
+            autoSubmission.isSubmissionRunning
+            autoSubmission.runSubmissionNow()
         }
     }
 
     @Test
     fun `submission shows upload dialog`() {
         val uploadStatus = MutableStateFlow(false)
-        every { submissionRepository.isSubmissionRunning } returns uploadStatus
+        every { autoSubmission.isSubmissionRunning } returns uploadStatus
         createViewModel().apply {
             showUploadDialog.observeForever { }
             showUploadDialog.value shouldBe false

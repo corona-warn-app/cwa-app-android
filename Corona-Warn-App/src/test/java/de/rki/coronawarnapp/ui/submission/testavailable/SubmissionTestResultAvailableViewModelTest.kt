@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.testavailable
 
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragmentDirections
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
@@ -27,6 +28,7 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
 
@@ -45,7 +47,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(
         submissionRepository = submissionRepository,
         dispatcherProvider = TestDispatcherProvider,
-        tekHistoryUpdaterFactory = tekHistoryUpdaterFactory
+        tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
+        autoSubmission = autoSubmission
     )
 
     @AfterEach
