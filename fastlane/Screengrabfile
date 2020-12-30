@@ -8,4 +8,3 @@ app_apk_path './Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/Corona-
 tests_apk_path './Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/Corona-Warn-App-deviceForTesters-debug-androidTest.apk'
 use_adb_root true
 reinstall_app true
-use_timestamp_suffix false
