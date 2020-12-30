@@ -13,6 +13,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -27,18 +28,14 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: OnboardingFragmentViewModel
-
     @Rule
     @JvmField
     val localeTestRule = LocaleTestRule()
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this, relaxed = true)
-
         setupMockViewModel(object : OnboardingFragmentViewModel.Factory {
-            override fun create(): OnboardingFragmentViewModel = viewModel
+            override fun create(): OnboardingFragmentViewModel = OnboardingFragmentViewModel()
         })
     }
 

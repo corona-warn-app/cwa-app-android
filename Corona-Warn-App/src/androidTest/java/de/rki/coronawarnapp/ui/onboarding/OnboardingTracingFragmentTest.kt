@@ -11,9 +11,13 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.SpyK
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,10 +30,6 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 class OnboardingTracingFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: OnboardingTracingFragmentViewModel
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
 
     @Before
     fun setup() {
@@ -50,7 +50,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         launchFragment<OnboardingTracingFragment>()
     }
 
-    @Screenshot
+    @Ignore("Exclude until mocked viewModel is replaced") // @Screenshot
     @Test
     fun capture_screenshot() {
         val simpleName = OnboardingTracingFragment::class.simpleName

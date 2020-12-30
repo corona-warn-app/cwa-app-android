@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -19,13 +20,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.TestDispatcherProvider
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: OnboardingDeltaInteroperabilityFragmentViewModel
+    @MockK lateinit var interopRepo: InteroperabilityRepository
 
     @Rule
     @JvmField
@@ -36,7 +38,11 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         setupMockViewModel(object : OnboardingDeltaInteroperabilityFragmentViewModel.Factory {
-            override fun create(): OnboardingDeltaInteroperabilityFragmentViewModel = viewModel
+            override fun create(): OnboardingDeltaInteroperabilityFragmentViewModel =
+                OnboardingDeltaInteroperabilityFragmentViewModel(
+                    interopRepo = interopRepo,
+                    dispatcherProvider = TestDispatcherProvider
+                )
         })
     }
 
