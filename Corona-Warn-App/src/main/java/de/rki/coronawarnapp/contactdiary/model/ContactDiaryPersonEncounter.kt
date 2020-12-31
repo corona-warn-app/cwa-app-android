@@ -10,4 +10,9 @@ interface ContactDiaryPersonEncounter {
 }
 
 fun List<ContactDiaryPersonEncounter>.sortByNameAndIdASC(): List<ContactDiaryPersonEncounter> =
-    this.sortedWith(compareBy({ it.contactDiaryPerson.fullName.toLowerCase(Locale.ROOT) }, { it.contactDiaryPerson.personId }))
+    this.sortedWith(
+        compareBy(
+            { it.contactDiaryPerson.fullName.toLowerCase(Locale.ROOT) },
+            { it.contactDiaryPerson.personId }
+        )
+    )
