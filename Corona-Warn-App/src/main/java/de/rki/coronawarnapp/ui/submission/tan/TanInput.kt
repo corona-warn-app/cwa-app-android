@@ -13,7 +13,6 @@ import androidx.annotation.DimenRes
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
-import kotlinx.android.synthetic.main.view_tan_input_edittext.view.*
 import java.util.Locale
 import kotlin.math.max
 
@@ -45,6 +44,8 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
     private val lineSpacing: Int
 
+    private var tanInput: EditText
+
     init {
         // add "hidden" edittext for input handling
         inflate(context, R.layout.view_tan_input_edittext, this)
@@ -56,10 +57,11 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         lineSpacing = getDimension(R.dimen.submission_tan_line_spacing).toInt()
 
-        tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
+        tanInput = findViewById<EditText>(R.id.tan_input_edittext).apply {
+            filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
+            doOnTextChanged { text, _, _, _ -> updateTan(text ?: "") }
+        }
 
-        // register listener
-        tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text ?: "") }
         setOnClickListener { showKeyboard() }
 
         // initially show the keyboard
@@ -70,9 +72,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     }
 
     private fun showKeyboard() {
-        if (tan_input_edittext.requestFocus()) {
+        if (tanInput.requestFocus()) {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(tan_input_edittext, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(tanInput, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
