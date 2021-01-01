@@ -28,7 +28,7 @@ class ContactDiaryDateFormatterExtensionTest {
 
         val testDate = LocalDate("2021-01-01")
 
-        Assert.assertEquals("Петък, 01.01.21", testDate.toFormattedDay())
+        Assert.assertEquals("петък, 1.01.21 r.", testDate.toFormattedDay())
     }
 
     @Test
@@ -55,7 +55,7 @@ class ContactDiaryDateFormatterExtensionTest {
 
         val testDate = LocalDate("2021-01-03")
 
-        Assert.assertEquals("Sunday, 03/01/21", testDate.toFormattedDay())
+        Assert.assertEquals("Sunday, 03/01/2021", testDate.toFormattedDay())
     }
 
     @Test
@@ -64,7 +64,7 @@ class ContactDiaryDateFormatterExtensionTest {
 
         val testDate = LocalDate("2021-01-04")
 
-        Assert.assertEquals("poniedziałek, 04.01.21", testDate.toFormattedDay())
+        Assert.assertEquals("poniedziałek, 04.01.2021", testDate.toFormattedDay())
     }
 
     @Test
@@ -73,7 +73,7 @@ class ContactDiaryDateFormatterExtensionTest {
 
         val testDate = LocalDate("2021-01-05")
 
-        Assert.assertEquals("marţi, 05.01.2021", testDate.toFormattedDay())
+        Assert.assertEquals("marți, 05.01.2021", testDate.toFormattedDay())
     }
 
     @Test
@@ -82,6 +82,6 @@ class ContactDiaryDateFormatterExtensionTest {
 
         val testDate = LocalDate("2021-01-06")
 
-        Assert.assertEquals("Çarşamba, 06.01.2021", testDate.toFormattedDay())
+        Assert.assertEquals("Çarşamba, 6.01.2021", testDate.toFormattedDay())
     }
 }
