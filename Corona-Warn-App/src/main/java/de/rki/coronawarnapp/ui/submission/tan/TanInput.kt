@@ -44,7 +44,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
     private val lineSpacing: Int
 
-    private var tanInput: EditText
+    private var tanInputEditText: EditText
 
     init {
         // add "hidden" edittext for input handling
@@ -57,7 +57,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         lineSpacing = getDimension(R.dimen.submission_tan_line_spacing).toInt()
 
-        tanInput = findViewById<EditText>(R.id.tan_input_edittext).apply {
+        tanInputEditText = findViewById<EditText>(R.id.tan_input_edittext).apply {
             filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
             doOnTextChanged { text, _, _, _ -> updateTan(text ?: "") }
         }
@@ -72,9 +72,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     }
 
     private fun showKeyboard() {
-        if (tanInput.requestFocus()) {
+        if (tanInputEditText.requestFocus()) {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(tanInput, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(tanInputEditText, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
