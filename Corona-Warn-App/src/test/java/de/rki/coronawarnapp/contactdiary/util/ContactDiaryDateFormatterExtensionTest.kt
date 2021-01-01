@@ -28,7 +28,7 @@ class ContactDiaryDateFormatterExtensionTest {
 
         val testDate = LocalDate("2021-01-01")
 
-        Assert.assertEquals("петък, 1.01.21 r.", testDate.toFormattedDay())
+        Assert.assertEquals("петък, 1.01.21 г.", testDate.toFormattedDay())
     }
 
     @Test
