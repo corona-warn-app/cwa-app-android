@@ -6,6 +6,7 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.viewpager2.widget.ViewPager2
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import java.util.Locale
 
 fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
@@ -16,8 +17,12 @@ fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
     })
 }
 
-// According to tech spec german locale only
-fun LocalDate.toFormattedDay(): String = toString("EEEE, dd.MM.yy", Locale.GERMAN)
+fun LocalDate.toFormattedDay(): String {
+    // Use two different methods to get the final date format (Weekday, Shortdate)
+    // because the custom pattern of toString() does not localize characters like "/" or "."
+    return "${toString("EEEE", Locale.getDefault())}, " +
+        DateTimeFormat.shortDate().withLocale(Locale.getDefault()).print(this)
+}
 
 fun String.formatContactDiaryNameField(maxLength: Int): String {
     val newName = if (isNotBlank()) {
