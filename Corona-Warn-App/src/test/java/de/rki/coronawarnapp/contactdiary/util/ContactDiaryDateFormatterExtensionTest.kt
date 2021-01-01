@@ -41,12 +41,21 @@ class ContactDiaryDateFormatterExtensionTest {
     }
 
     @Test
-    fun `format english date`() {
+    fun `format english (us) date`() {
         Locale.setDefault(Locale.US)
 
         val testDate = LocalDate("2021-01-03")
 
         Assert.assertEquals("Sunday, 1/3/21", testDate.toFormattedDay())
+    }
+
+    @Test
+    fun `format english (uk) date`() {
+        Locale.setDefault(Locale.UK)
+
+        val testDate = LocalDate("2021-01-03")
+
+        Assert.assertEquals("Sunday, 03/01/21", testDate.toFormattedDay())
     }
 
     @Test
