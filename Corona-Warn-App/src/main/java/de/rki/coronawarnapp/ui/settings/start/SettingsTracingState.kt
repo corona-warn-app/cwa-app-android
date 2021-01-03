@@ -16,7 +16,7 @@ sealed class SettingsTracingState {
 
     object BluetoothDisabled : SettingsTracingState() {
         override fun getTracingIconColor(context: Context): Int =
-            ContextCompat.getColor(context, R.color.colorTextPrimary3)
+            ContextCompat.getColor(context, R.color.colorTextSemanticRed)
 
         override fun getTracingIcon(context: Context): Drawable? =
             context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive)
