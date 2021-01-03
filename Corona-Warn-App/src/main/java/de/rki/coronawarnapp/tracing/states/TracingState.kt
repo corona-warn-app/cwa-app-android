@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.states
 import android.content.Context
 import android.text.format.DateUtils
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -212,17 +213,17 @@ data class TracingInProgress(
     fun getStableIconColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
-    }.let { c.getColor(it) }
+    }.let { ContextCompat.getColor(c, it) }
 
     fun getStableTextColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
         else -> R.color.colorTextPrimary1
-    }.let { c.getColor(it) }
+    }.let { ContextCompat.getColor(c, it) }
 
     @ColorInt
     fun getContainerColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         RiskState.CALCULATION_FAILED -> R.color.colorSemanticUnknownRisk
-    }.let { c.getColor(it) }
+    }.let { ContextCompat.getColor(c, it) }
 }

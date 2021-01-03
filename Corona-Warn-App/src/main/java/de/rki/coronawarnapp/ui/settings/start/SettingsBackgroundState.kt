@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.settings.start
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 
 data class SettingsBackgroundState(
@@ -13,7 +14,7 @@ data class SettingsBackgroundState(
      * Formats the settings icon color for background priority
      */
     @ColorInt
-    fun getBackgroundPriorityIconColor(c: Context): Int = c.getColor(
+    fun getBackgroundPriorityIconColor(c: Context): Int = ContextCompat.getColor(c,
         if (isEnabled) R.color.colorAccentTintIcon
         else R.color.colorTextSemanticRed
     )
