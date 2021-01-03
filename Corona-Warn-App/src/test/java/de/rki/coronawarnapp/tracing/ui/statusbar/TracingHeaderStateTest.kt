@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.tracing.ui.statusbar
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState.BluetoothDisabled
@@ -45,7 +46,7 @@ class TracingHeaderStateTest : BaseTest() {
             getTracingAnimation(context) shouldBe R.drawable.ic_settings_tracing_bluetooth_inactive
 
             getTracingTint(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
 
             getTracingDescription(context)
             verify { context.getString(R.string.settings_tracing_body_bluetooth_inactive) }
@@ -64,7 +65,7 @@ class TracingHeaderStateTest : BaseTest() {
             getTracingAnimation(context) shouldBe R.drawable.ic_settings_location_inactive_small
 
             getTracingTint(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
 
             getTracingDescription(context)
             verify { context.getString(R.string.settings_tracing_body_inactive_location) }
@@ -83,7 +84,7 @@ class TracingHeaderStateTest : BaseTest() {
             getTracingAnimation(context) shouldBe R.drawable.ic_settings_tracing_inactive
 
             getTracingTint(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
 
             getTracingDescription(context)
             verify { context.getString(R.string.settings_tracing_body_inactive) }
@@ -102,7 +103,7 @@ class TracingHeaderStateTest : BaseTest() {
             getTracingAnimation(context) shouldBe R.raw.ic_settings_tracing_animated
 
             getTracingTint(context)
-            verify { context.getColor(R.color.colorAccentTintIcon) }
+            verify { ContextCompat.getColor(context, R.color.colorAccentTintIcon) }
 
             getTracingDescription(context)
             verify { context.getString(R.string.settings_tracing_body_active) }

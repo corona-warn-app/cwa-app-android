@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import io.kotest.matchers.shouldBe
@@ -39,7 +40,7 @@ class SettingsTracingStateTest : BaseTest() {
     fun `bluetooth disabled`() {
         SettingsTracingState.BluetoothDisabled.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
             verify { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) }
@@ -53,7 +54,7 @@ class SettingsTracingStateTest : BaseTest() {
     fun `location disabled`() {
         SettingsTracingState.LocationDisabled.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
             verify { context.getDrawable(R.drawable.ic_settings_location_inactive_small) }
@@ -67,7 +68,7 @@ class SettingsTracingStateTest : BaseTest() {
     fun `tracing inactive`() {
         SettingsTracingState.TracingInActive.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
             verify { context.getDrawable(R.drawable.ic_settings_tracing_inactive_small) }
@@ -81,7 +82,7 @@ class SettingsTracingStateTest : BaseTest() {
     fun `tracing active`() {
         SettingsTracingState.TracingActive.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorAccentTintIcon) }
+            verify { ContextCompat.getColor(context, R.color.colorAccentTintIcon) }
 
             getTracingIcon(context)
             verify { context.getDrawable(R.drawable.ic_settings_tracing_active_small) }

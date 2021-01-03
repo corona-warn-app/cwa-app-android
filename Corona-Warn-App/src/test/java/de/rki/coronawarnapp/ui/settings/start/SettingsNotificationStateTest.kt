@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -24,6 +25,7 @@ class SettingsNotificationStateTest : BaseTest() {
         MockKAnnotations.init(this)
         every { context.getString(any()) } returns ""
         every { context.getColor(any()) } returns 0
+        every { context.resources.getColor(any()) } returns 0
         every { context.getDrawable(any()) } returns mockk()
     }
 
@@ -72,14 +74,14 @@ class SettingsNotificationStateTest : BaseTest() {
             isNotificationsRiskEnabled = true,
             isNotificationsTestEnabled = true
         ).getNotificationIconColor(context)
-        verify { context.getColor(R.color.colorAccentTintIcon) }
+        verify { ContextCompat.getColor(context, R.color.colorAccentTintIcon) }
 
         SettingsNotificationState(
             isNotificationsEnabled = false,
             isNotificationsRiskEnabled = true,
             isNotificationsTestEnabled = true
         ).getNotificationIconColor(context)
-        verify { context.getColor(R.color.colorTextSemanticRed) }
+        verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
     }
 
     @Test

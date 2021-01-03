@@ -72,6 +72,9 @@ class FormatterHelperTest {
         every { context.getColor(1) } returns 1
         every { context.getColor(2) } returns 2
 
+        every { context.resources.getColor(1) } returns 1
+        every { context.resources.getColor(2) } returns 2
+
         val result = formatColor(value = bValue, colorTrue = 1, colorFalse = 2)
         assertThat(result, `is`((context.getColor(iColor))))
     }

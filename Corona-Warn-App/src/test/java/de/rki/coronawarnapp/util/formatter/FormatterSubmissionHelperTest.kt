@@ -51,6 +51,9 @@ class FormatterSubmissionHelperTest {
         every { context.getColor(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
         every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
 
+        every { context.resources.getColor(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
+        every { context.resources.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
+
         every { context.getDrawable(R.drawable.ic_test_result_illustration_invalid) } returns drawable
         every { context.getDrawable(R.drawable.ic_test_result_illustration_pending) } returns drawable
         every { context.getDrawable(R.drawable.ic_test_result_illustration_positive) } returns drawable
