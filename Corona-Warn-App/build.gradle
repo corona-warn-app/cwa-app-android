@@ -254,6 +254,7 @@ android {
         }
         androidTest {
             java.srcDirs += "$projectDir/src/testShared/java"
+            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
 }
@@ -416,6 +417,7 @@ dependencies {
     implementation "androidx.room:room-guava:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.sqlite:sqlite:2.1.0"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
