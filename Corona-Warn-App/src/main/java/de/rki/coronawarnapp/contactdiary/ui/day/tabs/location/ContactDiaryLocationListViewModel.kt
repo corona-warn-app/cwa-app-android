@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.ui.StringProvider
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,8 +22,7 @@ import org.joda.time.LocalDate
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: String,
-    private val contactDiaryRepository: ContactDiaryRepository,
-    stringProvider: StringProvider
+    private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
@@ -34,28 +33,25 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.locationVisitsForDate(localDate)
     private val selectableLocations = contactDiaryRepository.locations
 
-    private val selectActionDescriptionString: String = stringProvider.getString(SELECT_ACTION_DESCRIPTION)
-    private val deselectActionDescriptionString: String = stringProvider.getString(DESELECT_ACTION_DESCRIPTION)
-
     val uiList = selectableLocations.combine(dayElement) { locations, dayElement ->
         locations.map { contactDiaryLocation ->
             if (dayElement.any { it.contactDiaryLocation.locationId == contactDiaryLocation.locationId }) {
                 SelectableItem(
                     true,
                     contactDiaryLocation,
-                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
-                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
-                    deselectActionDescriptionString,
-                    selectActionDescriptionString
+                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryLocation.locationName),
+                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryLocation.locationName),
+                    DESELECT_ACTION_DESCRIPTION,
+                    SELECT_ACTION_DESCRIPTION
                 )
             } else {
                 SelectableItem(
                     false,
                     contactDiaryLocation,
-                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
-                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryLocation.locationName),
-                    selectActionDescriptionString,
-                    deselectActionDescriptionString
+                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryLocation.locationName),
+                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryLocation.locationName),
+                    SELECT_ACTION_DESCRIPTION,
+                    DESELECT_ACTION_DESCRIPTION
                 )
             }
         }

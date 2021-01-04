@@ -29,7 +29,7 @@ class ContactDiaryLocationListAdapter(
     override fun onBindBaseVH(holder: CachedLocationViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnClickListener {
-            it.contentDescription = item.onClickDescription
+            it.contentDescription = item.onClickDescription.get(holder.context)
             it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
             onTappedCallback(item)
         }
@@ -47,8 +47,8 @@ class ContactDiaryLocationListAdapter(
             payloads: List<Any>
         ) -> Unit = { key, _ ->
             contactDiaryLocationListItemName.text = key.item.locationName
-            contactDiaryLocationListItem.contentDescription = key.contentDescription
-            contactDiaryLocationListItem.setClickLabel(key.clickLabel)
+            contactDiaryLocationListItem.contentDescription = key.contentDescription.get(context)
+            contactDiaryLocationListItem.setClickLabel(context.getString(key.clickLabel))
             when (key.selected) {
                 true -> contactDiaryLocationListItemIcon.setImageResource(R.drawable.ic_selected)
                 false -> contactDiaryLocationListItemIcon.setImageResource(R.drawable.ic_unselected)

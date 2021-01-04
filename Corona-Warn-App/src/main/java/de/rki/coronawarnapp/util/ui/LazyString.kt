@@ -17,3 +17,7 @@ data class CachedString(val provider: (Context) -> String) : LazyString {
 fun String.toLazyString() = object : LazyString {
     override fun get(context: Context) = this@toLazyString
 }
+
+fun Int.toResolvingString(vararg formatArgs: Any): LazyString = object : LazyString {
+    override fun get(context: Context): String = context.getString(this@toResolvingString, *formatArgs)
+}

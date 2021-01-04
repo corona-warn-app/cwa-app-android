@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.ui.StringProvider
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,8 +22,7 @@ import org.joda.time.LocalDate
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted selectedDay: String,
-    private val contactDiaryRepository: ContactDiaryRepository,
-    stringProvider: StringProvider
+    private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
@@ -34,27 +33,26 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     private val dayElement = contactDiaryRepository.personEncountersForDate(localDate)
     private val selectablePersons = contactDiaryRepository.people
 
-    private val selectActionDescriptionString: String = stringProvider.getString(SELECT_ACTION_DESCRIPTION)
-    private val deselectActionDescriptionString: String = stringProvider.getString(DESELECT_ACTION_DESCRIPTION)
-
     val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
         persons.map { contactDiaryPerson ->
             if (dayElement.any { it.contactDiaryPerson.personId == contactDiaryPerson.personId }) {
                 SelectableItem(
                     true,
                     contactDiaryPerson,
-                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
-                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
-                    deselectActionDescriptionString,
-                    selectActionDescriptionString)
+                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    DESELECT_ACTION_DESCRIPTION,
+                    SELECT_ACTION_DESCRIPTION
+                )
             } else {
                 SelectableItem(
                     false,
                     contactDiaryPerson,
-                    stringProvider.getString(UNSELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
-                    stringProvider.getString(SELECTED_CONTENT_DESCRIPTION, contactDiaryPerson.fullName),
-                    selectActionDescriptionString,
-                    deselectActionDescriptionString)
+                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    SELECT_ACTION_DESCRIPTION,
+                    DESELECT_ACTION_DESCRIPTION
+                )
             }
         }
     }.asLiveData()

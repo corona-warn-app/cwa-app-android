@@ -29,7 +29,7 @@ class ContactDiaryPersonListAdapter(
     override fun onBindBaseVH(holder: CachedPersonViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
         holder.itemView.setOnClickListener {
-            it.contentDescription = item.onClickDescription
+            it.contentDescription = item.onClickDescription.get(holder.context)
             it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
             onTappedCallback(item)
         }
@@ -47,8 +47,8 @@ class ContactDiaryPersonListAdapter(
             payloads: List<Any>
         ) -> Unit = { key, _ ->
             contactDiaryPersonListItemName.text = key.item.fullName
-            contactDiaryPersonListItem.contentDescription = key.contentDescription
-            contactDiaryPersonListItem.setClickLabel(key.clickLabel)
+            contactDiaryPersonListItem.contentDescription = key.contentDescription.get(context)
+            contactDiaryPersonListItem.setClickLabel(context.getString(key.clickLabel))
             when (key.selected) {
                 true -> contactDiaryPersonListItemIcon.setImageResource(R.drawable.ic_selected)
                 false -> contactDiaryPersonListItemIcon.setImageResource(R.drawable.ic_unselected)
