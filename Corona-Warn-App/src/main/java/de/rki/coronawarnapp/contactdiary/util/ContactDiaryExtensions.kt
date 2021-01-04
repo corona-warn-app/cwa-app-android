@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.util
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import androidx.core.os.ConfigurationCompat
 import androidx.viewpager2.widget.ViewPager2
 import org.joda.time.LocalDate
 import java.util.Locale
