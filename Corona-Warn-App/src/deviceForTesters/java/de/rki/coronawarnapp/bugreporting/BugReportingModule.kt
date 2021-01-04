@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.bugreporting
 
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.bugreporting.loghistory.RollingLogHistory
 import de.rki.coronawarnapp.bugreporting.processor.BugProcessor
@@ -38,4 +39,8 @@ class BugReportingModule {
     @Provides
     fun bugEventDao(bugDatabaseFactory: BugDatabase.Factory): DefaultBugDao =
         bugDatabaseFactory.create().defaultBugDao()
+
+    @Singleton
+    @Provides
+    fun debugLogger() = DebugLogger
 }

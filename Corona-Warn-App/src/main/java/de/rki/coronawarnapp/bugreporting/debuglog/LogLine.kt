@@ -5,14 +5,17 @@ import android.util.Log
 import org.joda.time.Instant
 
 data class LogLine(
-    val timestamp: Instant,
+    val timestamp: Long,
     val priority: Int,
     val tag: String?,
     val message: String,
     val throwable: Throwable?
 ) {
 
-    fun format(context: Context): String = "$timestamp  ${priorityLabel(priority)}/$tag: $message\n"
+    fun format(context: Context): String {
+        val time = Instant.ofEpochMilli(timestamp)
+        return "$time  ${priorityLabel(priority)}/$tag: $message\n"
+    }
 
     private fun priorityLabel(priority: Int): String = when (priority) {
         Log.ERROR -> "E"

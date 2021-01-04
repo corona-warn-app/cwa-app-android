@@ -1,61 +1,47 @@
 package de.rki.coronawarnapp.bugreporting.debuglog
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
-import kotlinx.coroutines.CoroutineScope
+import android.util.Log
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.io.File
-import java.util.concurrent.Executors
-import javax.inject.Inject
-import javax.inject.Provider
-import javax.inject.Singleton
 
+@SuppressLint("LogNotTimber")
 @Suppress("BlockingMethodInNonBlockingContext")
-@Singleton
-class DebugLogger @Inject constructor(
-    @AppContext private val context: Context,
-    @AppScope private val appScope: CoroutineScope,
-    private val logTreeProvider: Provider<DebugLogTree>
-) {
-    private val debugDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+object DebugLogger {
+    private val scope = DebugLoggerScope
+    private lateinit var context: Context
+
     private val debugDir by lazy {
         File(context.cacheDir, "debuglog").also {
             if (!it.exists()) it.mkdir()
         }
     }
 
-    private val triggerFile by lazy {
-        File(debugDir, "debug.trigger")
-    }
+    private val triggerFile by lazy { File(debugDir, "debug.trigger") }
 
-    internal val runningLog by lazy {
-        File(debugDir, "debug.log")
-    }
-    val sharedDirectory by lazy {
-        File(debugDir, "shared")
-    }
+    internal val runningLog by lazy { File(debugDir, "debug.log") }
+    val sharedDirectory by lazy { File(debugDir, "shared") }
 
     private val mutex = Mutex()
 
     private var logJob: Job? = null
     private var logTree: DebugLogTree? = null
 
-    init {
+    fun init(application: Application) {
+        context = application
+
         if (triggerFile.exists()) {
             Timber.tag(TAG).i("Trigger file exists, starting debug log.")
-            appScope.launch(debugDispatcher) {
-                start()
-            }
+            runBlocking { start() }
         }
     }
 
@@ -73,19 +59,23 @@ class DebugLogger @Inject constructor(
         logJob?.cancel()
         logTree?.let { Timber.uproot(it) }
 
-        logTreeProvider.get().apply {
+        DebugLogTree().apply {
+            Timber.plant(this)
+            logTree = this
+
             if (!runningLog.exists() && runningLog.createNewFile()) {
                 Timber.tag(TAG).i("Log file didn't exist and was created.")
             }
-            logJob = logLines
-                .onEach { appendLogLine(it) }
-                .catch {
-                    Timber.tag(TAG).e(it, "Logging error")
-                }
-                .launchIn(scope = appScope + debugDispatcher)
 
-            logTree = this
-            Timber.plant(this)
+            logJob = scope.launch {
+                try {
+                    logLines.collect { appendLogLine(it) }
+                } catch (e: CancellationException) {
+                    Timber.tag(TAG).i("Logging was canceled.")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to call appendLogLine(...)", e)
+                }
+            }
         }
 
         if (!triggerFile.exists()) {
@@ -131,7 +121,9 @@ class DebugLogger @Inject constructor(
 
     fun getLogSize(): Long = runningLog.length()
 
-    companion object {
-        private const val TAG = "DebugLogger"
-    }
+    fun getShareSize(): Long = sharedDirectory.listFiles()
+        ?.fold(0L) { prev, file -> prev + file.length() }
+        ?: 0L
+
+    private const val TAG = "DebugLogger"
 }
