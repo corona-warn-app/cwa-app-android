@@ -6,7 +6,9 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
+import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -20,14 +22,16 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var contactDiaryOverviewMenu: ContactDiaryOverviewMenu
+    @Inject lateinit var systemInfoProvider: DefaultSystemInfoProvider
     private val vm: ContactDiaryOverviewViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOverviewFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ContactDiaryOverviewAdapter {
-            vm.onItemPress(it)
-        }
+        val adapter = ContactDiaryOverviewAdapter(
+            { it.toFormattedDay(systemInfoProvider) },
+            { vm.onItemPress(it) }
+        )
 
         setupToolbar()
 

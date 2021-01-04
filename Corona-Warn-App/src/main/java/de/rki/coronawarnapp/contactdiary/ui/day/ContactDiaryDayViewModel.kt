@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import org.joda.time.LocalDate
 
 class ContactDiaryDayViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    systemInfoProvider: DefaultSystemInfoProvider,
     @Assisted selectedDay: String
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val displayedDay = MutableStateFlow(LocalDate.parse(selectedDay))
@@ -22,7 +24,7 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryDayNavigationEvents> = SingleLiveEvent()
 
     val uiState = displayedDay.map { day ->
-        UIState(dayText = day.toFormattedDay())
+        UIState(dayText = day.toFormattedDay(systemInfoProvider))
     }.asLiveData()
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
