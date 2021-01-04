@@ -66,6 +66,16 @@
         <item name="android:tint">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="CWAToolbar.BackArrow">
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="navigationContentDescription">@string/accessibility_back</item>
+    </style>
+
+    <style name="CWAToolbar.Close">
+        <item name="navigationIcon">@drawable/ic_close</item>
+        <item name="navigationContentDescription">@string/accessibility_close</item>
+    </style>
+
     <!-- Default dialog -->
     <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
