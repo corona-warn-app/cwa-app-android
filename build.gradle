@@ -70,7 +70,7 @@ task clean(type: Delete) {
 
 wrapper {
     gradleVersion = "6.7.1"
-    distributionType = "bin"
+    distributionType = "all"
 }
 
 task quickBuild {
