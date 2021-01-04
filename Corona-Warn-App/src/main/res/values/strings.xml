@@ -739,6 +739,26 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title">"Fehlerbericht"</string>
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation">"Durch diese Option wird das App Verhalten in einer Text-Datei protokolliert. Ist die Option aktiviert bevor ein Fehler auftritt, können Sie diesen Bericht zur Verfügung stellen um die Entwickler bei der Problemlösung zu unterstützen.\nEine dauerhafte Aktivierung dieser Option führt zu hohem Speicherbedarf. Der Fehlerbericht wird durch deaktivieren der Option gelöscht."</string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie das in Fehlerberichten sensitive Daten enthalten sein können, aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording">"Starten"</string>
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording">"Löschen"</string>
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log">"Teilen"</string>
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording">"Aufzeichnung läuft"</string>
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording">"Inaktiv"</string>
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"Derzeitige Größe: %1$s (unkomprimiert)."</string>
+
     <!-- ####################################
               Interoperability
     ###################################### -->
