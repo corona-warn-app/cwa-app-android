@@ -38,8 +38,11 @@ class DebugLogger @Inject constructor(
         File(debugDir, "debug.trigger")
     }
 
-    private val runningLog by lazy {
+    internal val runningLog by lazy {
         File(debugDir, "debug.log")
+    }
+    val sharedDirectory by lazy {
+        File(debugDir, "shared")
     }
 
     private val mutex = Mutex()
@@ -111,6 +114,13 @@ class DebugLogger @Inject constructor(
 
         if (runningLog.exists() && runningLog.delete()) {
             Timber.tag(TAG).i("Log file was deleted.")
+        }
+
+        if (sharedDirectory.exists()) {
+            val shared = sharedDirectory.list()
+            if (sharedDirectory.deleteRecursively()) {
+                Timber.tag(TAG).i("Deleted shared files: %s", shared?.joinToString(", "))
+            }
         }
     }
 

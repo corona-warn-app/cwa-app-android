@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui
 import android.os.Bundle
 import android.text.format.Formatter
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -38,8 +39,13 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     if (it.isRecording) R.string.debugging_debuglog_action_stop_recording
                     else R.string.debugging_debuglog_action_start_recording
                 )
-                shareRecording.isEnabled = it.currentSize > 0L
+                shareRecording.isEnabled = it.currentSize > 0L && !it.sharingInProgress
+                toggleRecording.isEnabled = !it.sharingInProgress
             }
+        }
+
+        vm.errorEvent.observe2(this) {
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
 
         binding.apply {
