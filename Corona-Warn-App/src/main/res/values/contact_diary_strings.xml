@@ -100,11 +100,11 @@
     <string name="contact_diary_delete_person_title">"Do you really want to remove this person?"</string>
 
     <!-- XHED: Title for the contact journal export email subject -->
-    <string name="contact_diary_export_subject">"Mein Kontakt-Tagebuch"</string>
+    <string name="contact_diary_export_subject" translatable="false">"Mein Kontakt-Tagebuch"</string>
     <!-- XTXT: Intro text  for the contact journal email export part one-->
-    <string name="contact_diary_export_intro_one">"Kontakte der letzten 14 Tage (%1$s - %2$s)"</string>
+    <string name="contact_diary_export_intro_one" translatable="false">"Kontakte der letzten 14 Tage (%1$s - %2$s)"</string>
     <!-- XTXT: Intro text  for the contact journal email export part two-->
-    <string name="contact_diary_export_intro_two">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
+    <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">Ort %s</string>
