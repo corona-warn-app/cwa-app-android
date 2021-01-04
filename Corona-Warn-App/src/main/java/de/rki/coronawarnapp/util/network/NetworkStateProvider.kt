@@ -74,8 +74,22 @@ class NetworkStateProvider @Inject constructor(
         get() = manager.activeNetwork.let { network ->
             State(
                 activeNetwork = network,
-                capabilities = network?.let { manager.getNetworkCapabilities(it) },
-                linkProperties = network?.let { manager.getLinkProperties(it) },
+                capabilities = network?.let {
+                    try {
+                        manager.getNetworkCapabilities(it)
+                    } catch (e: SecurityException) {
+                        Timber.tag(TAG).e(e, "Failed to determine network capabilities.")
+                        null
+                    }
+                },
+                linkProperties = network?.let {
+                    try {
+                        manager.getLinkProperties(it)
+                    } catch (e: Exception) {
+                        Timber.tag(TAG).e(e, "Failed to determine link properties.")
+                        null
+                    }
+                },
                 isFakeMeteredConnection = testSettings.fakeMeteredConnection.value
             )
         }
