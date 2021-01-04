@@ -28,8 +28,8 @@ class DebugLogViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val ticker = flow {
         while (true) {
-            delay(500)
             emit(Unit)
+            delay(500)
         }
     }
     private val manualTick = MutableStateFlow(Unit)
