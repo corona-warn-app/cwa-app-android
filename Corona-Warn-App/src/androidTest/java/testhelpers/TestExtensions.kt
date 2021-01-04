@@ -1,4 +1,4 @@
-package testhelpers;
+package testhelpers
 
 import android.os.Bundle
 import androidx.annotation.StyleRes
@@ -22,5 +22,3 @@ inline fun <reified F : Fragment> launchFragmentInContainer2(
     @StyleRes themeResId: Int = R.style.AppTheme,
     factory: FragmentFactory? = null
 ) = FragmentScenario.launchInContainer(F::class.java, fragmentArgs, themeResId, factory)
-
-
