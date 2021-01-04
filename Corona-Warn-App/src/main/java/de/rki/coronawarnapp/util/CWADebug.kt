@@ -27,6 +27,10 @@ object CWADebug {
         Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
     }
 
+    fun initAfterInjection() {
+        DebugLogger.setInjectionIsReady()
+    }
+
     val isDebugBuildOrMode: Boolean
         get() = BuildConfig.DEBUG || buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
 

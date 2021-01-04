@@ -8,7 +8,7 @@ import timber.log.Timber
 class DebugLogTree : Timber.DebugTree() {
 
     private val logLinesPub = MutableSharedFlow<LogLine>(
-        replay = 10,
+        replay = 128,
         extraBufferCapacity = 1024,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )

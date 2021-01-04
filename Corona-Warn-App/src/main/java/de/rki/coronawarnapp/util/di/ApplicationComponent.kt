@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.contactdiary.ContactDiaryRootModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -87,6 +88,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     @AppScope val appScope: AppCoroutineScope
 
     val bugReporter: BugReporter
+
+    val bugCensors: List<BugCensor>
 
     @Component.Factory
     interface Factory {

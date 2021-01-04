@@ -60,6 +60,8 @@ class DebugLogViewModel @AssistedInject constructor(
         sharingInProgress.value = true
         launch {
             try {
+                debugLogger.clearSharedFiles()
+
                 val now = timeStamper.nowUTC
                 val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
                 val formattedFileName = "CWA Log ${now.toString(formatter)}"
@@ -87,7 +89,7 @@ class DebugLogViewModel @AssistedInject constructor(
     data class State(
         val isRecording: Boolean,
         val sharingInProgress: Boolean = false,
-        val currentSize: Long = 0,
+        val currentSize: Long = 0
     )
 
     @AssistedInject.Factory

@@ -63,6 +63,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.v("onCreate(): Initializing Dagger")
         AppInjector.init(this)
+        CWADebug.initAfterInjection()
 
         Timber.plant(rollingLogHistory)
 
