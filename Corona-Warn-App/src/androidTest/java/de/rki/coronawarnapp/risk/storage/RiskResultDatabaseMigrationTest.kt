@@ -190,9 +190,8 @@ class RiskResultDatabaseMigrationTest : BaseTest() {
             context = ApplicationProvider.getApplicationContext()
         ).create(databaseName = DB_NAME)
 
-        val allEntries = runBlocking { daoDb.riskResults().allEntries().first() }
-
-        allEntries.size shouldBe 0
+        val emptyResults = runBlocking { daoDb.riskResults().allEntries().first() }
+        emptyResults.size shouldBe 0
 
         val expectedResult = PersistedRiskLevelResultDao(
             id = "48a57f54-467b-4a0b-89c4-3c14e7ce65b5",
@@ -213,7 +212,10 @@ class RiskResultDatabaseMigrationTest : BaseTest() {
 
         val insertedResult = runBlocking {
             daoDb.riskResults().insertEntry(expectedResult)
-            daoDb.riskResults().allEntries().first().first()
+            daoDb.riskResults().allEntries().first().let {
+                it.size shouldBe 1
+                it.first()
+            }
         }
 
         Timber.v("insertedResult=%s", insertedResult)
