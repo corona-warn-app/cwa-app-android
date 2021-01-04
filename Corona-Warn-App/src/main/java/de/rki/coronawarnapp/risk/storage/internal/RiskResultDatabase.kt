@@ -9,7 +9,7 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigrations
+import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
@@ -86,8 +86,7 @@ abstract class RiskResultDatabase : RoomDatabase() {
             Timber.d("Instantiating risk result database.")
             return Room
                 .databaseBuilder(context, RiskResultDatabase::class.java, databaseName)
-                .addMigrations(RiskResultDatabaseMigrations.MIGRATION_1_2)
-                .fallbackToDestructiveMigrationFrom(3)
+                .addMigrations(RiskResultDatabaseMigration1To2)
                 .build()
         }
     }
