@@ -5,12 +5,12 @@ import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.util.AttributeSet
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.LayoutInflater
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -27,39 +27,32 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
-    private lateinit var testResultSectionHeadline: TextView
-    private lateinit var testResultSectionContent: TextView
-    private lateinit var testResultSectionRegisteredAt: TextView
-    private lateinit var testResultSectionStatusIcon: ImageView
+    private val binding = ViewTestResultSectionBinding.inflate(LayoutInflater.from(context), this)
 
     init {
-        inflate(context, R.layout.view_test_result_section, this)
         context.withStyledAttributes(attrs, R.styleable.TestResultSection) {
-            testResultSectionHeadline = findViewById(R.id.test_result_section_headline)
-            testResultSectionContent = findViewById(R.id.test_result_section_content)
-            testResultSectionRegisteredAt = findViewById(R.id.test_result_section_registered_at_text)
-            testResultSectionStatusIcon = findViewById(R.id.test_result_section_status_icon)
-
-            testResultSectionHeadline.text =
+            binding.testResultSectionHeadline.text =
                 getText(R.styleable.TestResultSection_test_result_section_headline)
-            testResultSectionContent.text =
+            binding.testResultSectionContent.text =
                 getText(R.styleable.TestResultSection_test_result_section_content)
-            testResultSectionRegisteredAt.text =
+            binding.testResultSectionRegisteredAtText.text =
                 getText(R.styleable.TestResultSection_test_result_section_registered_at_text)
             val resultIconId = getResourceId(R.styleable.TestResultSection_test_result_section_status_icon, 0)
             if (resultIconId != 0) {
                 val drawable = getDrawable(context, resultIconId)
-                testResultSectionStatusIcon.setImageDrawable(drawable)
+                binding.testResultSectionStatusIcon.setImageDrawable(drawable)
             }
         }
     }
 
     fun setTestResultSection(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?, registeredAt: Date?) {
-        testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
-        testResultSectionRegisteredAt.text = formatTestResultRegisteredAtText(registeredAt)
-        val testResultIcon = formatTestStatusIcon(uiState)
-        testResultSectionStatusIcon.setImageDrawable(testResultIcon)
-        testResultSectionContent.text = formatTestResultSectionContent(uiState)
+        binding.apply {
+            testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+            testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(registeredAt)
+            val testResultIcon = formatTestStatusIcon(uiState)
+            testResultSectionStatusIcon.setImageDrawable(testResultIcon)
+            testResultSectionContent.text = formatTestResultSectionContent(uiState)
+        }
     }
 
     private fun formatTestStatusIcon(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Drawable? {
