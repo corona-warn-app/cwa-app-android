@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -17,6 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -47,7 +47,7 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer<OnboardingNotificationsFragment>(themeResId = R.style.AppTheme)
+        launchFragmentInContainer2<OnboardingNotificationsFragment>()
         // Check any view to make sure screenshot is not blank
         onView(withId(R.id.onboarding_button_next)).check(matches(isDisplayed()))
         Screengrab.screenshot(OnboardingNotificationsFragment::class.simpleName)
