@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
-import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.compression.Zipper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.sharing.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -23,8 +23,8 @@ import java.io.File
 class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
-    @AppContext private val context: Context,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val fileSharing: FileSharing
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val ticker = flow {
         while (true) {
@@ -37,13 +37,13 @@ class DebugLogViewModel @AssistedInject constructor(
     val state: LiveData<State> = combine(ticker, manualTick, sharingInProgress) { _, _, sharingInProgress ->
         State(
             isRecording = debugLogger.isLogging,
-            currentSize = debugLogger.getLogSize(),
+            currentSize = debugLogger.getLogSize() + debugLogger.getShareSize(),
             sharingInProgress = sharingInProgress
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errorEvent = SingleLiveEvent<Throwable>()
-    val shareEvent = SingleLiveEvent<File>()
+    val shareEvent = SingleLiveEvent<Intent>()
 
     fun toggleRecording() {
         launch {
@@ -69,7 +69,12 @@ class DebugLogViewModel @AssistedInject constructor(
                     listOf(Zipper.Entry(name = "$formattedFileName.txt", path = debugLogger.runningLog))
                 )
 
-                shareEvent.postValue(zipFile)
+                val sharingIntent = fileSharing.getIntent(
+                    path = zipFile,
+                    title = zipFile.name
+                )
+
+                shareEvent.postValue(sharingIntent)
             } catch (e: Exception) {
                 Timber.e(e, "Sharing debug log failed.")
                 errorEvent.postValue(e)

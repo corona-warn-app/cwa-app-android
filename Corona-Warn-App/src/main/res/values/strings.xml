@@ -758,6 +758,8 @@
     <string name="debugging_debuglog_status_not_recording" />
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_additional_infos">"%1$s"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title" />
 
     <!-- ####################################
               Interoperability
