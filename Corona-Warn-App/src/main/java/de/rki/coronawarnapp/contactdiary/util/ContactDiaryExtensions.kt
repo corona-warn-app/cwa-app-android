@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.ConfigurationCompat
 import androidx.viewpager2.widget.ViewPager2
 import org.joda.time.LocalDate
+import java.util.Locale
 
 fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
     this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -18,9 +19,9 @@ fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
 }
 
 // According to tech spec german locale only
-fun LocalDate.toFormattedDay(): String = toString("EEEE, dd.MM.yy", ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+fun LocalDate.toFormattedDay(): String = toString("EEEE, dd.MM.yy", Locale.GERMAN)
 
-fun LocalDate.toFormattedDayForAccessibility(): String = toString("EEEE, dd.MM.yyyy", ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+fun LocalDate.toFormattedDayForAccessibility(): String = toString("EEEE, dd.MM.yyyy", Locale.GERMAN)
 
 fun String.formatContactDiaryNameField(maxLength: Int): String {
     val newName = if (isNotBlank()) {
