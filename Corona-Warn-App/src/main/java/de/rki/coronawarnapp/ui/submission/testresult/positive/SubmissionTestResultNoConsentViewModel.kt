@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel

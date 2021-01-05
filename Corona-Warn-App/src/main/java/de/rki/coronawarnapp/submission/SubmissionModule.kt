@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
 import de.rki.coronawarnapp.submission.server.SubmissionApiV1
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
+import de.rki.coronawarnapp.submission.task.DefaultKeyConverter
+import de.rki.coronawarnapp.submission.task.KeyConverter
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
