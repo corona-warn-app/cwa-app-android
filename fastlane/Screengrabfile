@@ -1,0 +1,8 @@
+locales ['de-DE', 'en-US', 'tr-TR', 'bg-BG', 'pl-PL', 'ro-RO']
+use_adb_root true
+clear_previous_screenshots true
+app_package_name 'de.rki.coronawarnapp.test'
+launch_arguments ["annotation testhelpers.Screenshot"]
+test_instrumentation_runner 'testhelpers.TestApplicationUIRunner'
+app_apk_path Dir.glob('**/build/outputs/apk/deviceForTesters/debug/*.apk').first
+tests_apk_path Dir.glob('**/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk').first
