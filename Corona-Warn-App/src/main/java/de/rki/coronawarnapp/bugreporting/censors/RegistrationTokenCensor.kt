@@ -14,9 +14,9 @@ class RegistrationTokenCensor @Inject constructor() : BugCensor {
         if (!entry.message.contains(token)) return null
 
         val replacement = if (CWADebug.isDeviceForTestersBuild) {
-            token.substring(0, min(4, token.length)) + "###-####-####-####-############"
-        } else {
             token
+        } else {
+            token.substring(0, min(4, token.length)) + "###-####-####-####-############"
         }
         return entry.copy(message = entry.message.replace(token, replacement))
     }
