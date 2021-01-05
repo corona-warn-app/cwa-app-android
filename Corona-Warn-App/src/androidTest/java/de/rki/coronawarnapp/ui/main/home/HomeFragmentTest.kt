@@ -16,12 +16,21 @@ import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
+import de.rki.coronawarnapp.tracing.states.TracingDisabled
+import de.rki.coronawarnapp.tracing.states.TracingInProgress
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
+import de.rki.coronawarnapp.tracing.ui.homecards.IncreasedRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
+import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
+import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
+import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
+import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -38,6 +47,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
@@ -74,7 +84,7 @@ class HomeFragmentTest : BaseUITest() {
         viewModel = homeFragmentViewModelSpy()
 
         with(viewModel) {
-            every { tracingHeaderState } returns MutableLiveData()
+            every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { homeItems } returns MutableLiveData(emptyList())
             every { refreshRequiredData() } just Runs
             every { popupEvents } returns SingleLiveEvent()
@@ -101,9 +111,8 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun capture_screenshot() {
-        val headerState = MutableLiveData<TracingHeaderState>(TracingHeaderState.TracingActive)
-        val lowRiskItem = LowRiskCard.Item(
+    fun capture_screenshot_low_risk() {
+        val item = LowRiskCard.Item(
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = true,
@@ -116,20 +125,100 @@ class HomeFragmentTest : BaseUITest() {
             onUpdateClick = {}
         )
 
-        val homeItems = MutableLiveData(
+        every { viewModel.homeItems } returns homeItemsLiveData(item)
+        launchFragmentInContainer2<HomeFragment>()
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(HomeFragment::class.simpleName)
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_increased_risk() {
+        val item = IncreasedRiskCard.Item(
+            state = IncreasedRisk(
+                riskState = RiskState.INCREASED_RISK,
+                isInDetailsMode = true,
+                lastExposureDetectionTime = Instant.now(),
+                allowManualUpdate = true,
+                daysWithEncounters = 1,
+                activeTracingDays = 1,
+                lastEncounterAt = Instant.now()
+            ),
+            onCardClick = {},
+            onUpdateClick = {}
+        )
+
+        every { viewModel.homeItems } returns homeItemsLiveData(item)
+        launchFragmentInContainer2<HomeFragment>()
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(HomeFragment::class.simpleName)
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_tracing_disabled() {
+        val item = TracingDisabledCard.Item(
+            state = TracingDisabled(
+                riskState = RiskState.LOW_RISK,
+                isInDetailsMode = true,
+                lastExposureDetectionTime = Instant.now()
+            ),
+            onCardClick = {},
+            onEnableTracingClick = {}
+        )
+
+        every { viewModel.tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingInActive)
+        every { viewModel.homeItems } returns homeItemsLiveData(item)
+        launchFragmentInContainer2<HomeFragment>()
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(HomeFragment::class.simpleName)
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_tracing_progress_downloading() {
+        val item = TracingProgressCard.Item(
+            state = TracingInProgress(
+                riskState = RiskState.LOW_RISK,
+                isInDetailsMode = true,
+                tracingProgress = TracingProgress.Downloading
+            ),
+            onCardClick = {}
+        )
+
+        every { viewModel.homeItems } returns homeItemsLiveData(item)
+        launchFragmentInContainer2<HomeFragment>()
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(HomeFragment::class.simpleName)
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_tracing_progress_ENFIsCalculating() {
+        val item = TracingProgressCard.Item(
+            state = TracingInProgress(
+                riskState = RiskState.INCREASED_RISK,
+                isInDetailsMode = true,
+                tracingProgress = TracingProgress.ENFIsCalculating
+            ),
+            onCardClick = {}
+        )
+
+        every { viewModel.homeItems } returns homeItemsLiveData(item)
+        launchFragmentInContainer2<HomeFragment>()
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(HomeFragment::class.simpleName)
+    }
+
+    private fun homeItemsLiveData(tracingStateItem: TracingStateItem): MutableLiveData<List<HomeItem>> {
+        return MutableLiveData(
             listOf(
-                lowRiskItem,
+                tracingStateItem,
                 TestUnregisteredCard.Item(NoTest, onClickAction = {}),
                 DiaryCard.Item(onClickAction = { }),
                 FAQCard.Item(onClickAction = { })
             )
         )
-
-        every { viewModel.tracingHeaderState } returns headerState
-        every { viewModel.homeItems } returns homeItems
-        launchFragmentInContainer2<HomeFragment>()
-        Thread.sleep(1000)
-        Screengrab.screenshot(HomeFragment::class.simpleName)
     }
 
     private fun homeFragmentViewModelSpy() = spyk(
