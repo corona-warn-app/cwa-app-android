@@ -7,4 +7,5 @@ interface TaskRequest {
     val id: UUID
     val type: KClass<out Task<Task.Progress, Task.Result>>
     val arguments: Task.Arguments
+    val errorHandling: TaskFactory.Config.ErrorHandling?
 }
