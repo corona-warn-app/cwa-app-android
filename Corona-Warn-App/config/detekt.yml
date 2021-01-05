@@ -409,7 +409,7 @@ performance:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
   SpreadOperator:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt', '**/CertificatePinnerFactory.kt']
   UnnecessaryTemporaryInstantiation:
     active: true

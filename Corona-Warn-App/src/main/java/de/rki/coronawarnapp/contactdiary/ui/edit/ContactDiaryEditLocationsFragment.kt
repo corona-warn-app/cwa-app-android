@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet
+import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -33,7 +34,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBindingLazy()
 
-    private val listAdapter = ListAdapter()
+    private lateinit var listAdapter: ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +44,8 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
         }
+
+        binding.deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
 
         viewModel.isListVisible.observe2(this) {
             binding.contactDiaryLocationListNoItemsGroup.isGone = it
@@ -70,10 +73,6 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                 }
             }
         }
-
-        binding.apply {
-            deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
-        }
     }
 
     override fun onResume() {
@@ -82,6 +81,9 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     }
 
     private fun setupRecyclerView() {
+        listAdapter = ListAdapter(getString(R.string.accessibility_edit)) {
+            getString(R.string.accessibility_location, it.locationName)
+        }
         binding.locationsRecyclerView.adapter = listAdapter
     }
 
@@ -98,7 +100,10 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         )
     }
 
-    inner class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
+    inner class ListAdapter(
+        private val clickLabelString: String,
+        private val getContentDescriptionString: (ContactDiaryLocation) -> String
+    ) : RecyclerView.Adapter<ListAdapter.ViewHolder>(),
         AsyncDiffUtilAdapter<ContactDiaryLocation> {
 
         override val asyncDiffer: AsyncDiffer<ContactDiaryLocation> = AsyncDiffer(this)
@@ -115,9 +120,13 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
 
         override fun onBindViewHolder(viewHolder: ListAdapter.ViewHolder, position: Int) {
             val location = data[position]
-            viewHolder.nameTextView.text = location.locationName
-            viewHolder.itemContainerView.setOnClickListener {
-                viewModel.onEditLocationClick(location)
+            with(viewHolder) {
+                nameTextView.text = location.locationName
+                itemContainerView.setOnClickListener {
+                    viewModel.onEditLocationClick(location)
+                }
+                itemContainerView.contentDescription = getContentDescriptionString(location)
+                itemContainerView.setClickLabel(clickLabelString)
             }
         }
 

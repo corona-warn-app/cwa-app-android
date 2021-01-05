@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
 import dagger.Reusable
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
