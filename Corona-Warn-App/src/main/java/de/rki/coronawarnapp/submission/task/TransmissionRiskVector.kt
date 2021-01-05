@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
 class TransmissionRiskVector(private val values: IntArray) {
 

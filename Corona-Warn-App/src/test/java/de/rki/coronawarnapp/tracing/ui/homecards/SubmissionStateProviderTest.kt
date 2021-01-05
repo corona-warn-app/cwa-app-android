@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.homecards
 
 import android.content.Context
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.util.DeviceUIState
