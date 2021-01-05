@@ -9,14 +9,18 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.spyk
+import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -56,6 +60,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         )
 
         every { viewModelSpy.resetTracing() } just Runs
+        every { interopRepo.countryList } returns flowOf()
 
         setupMockViewModel(object : OnboardingTracingFragmentViewModel.Factory {
             override fun create(): OnboardingTracingFragmentViewModel = viewModelSpy
