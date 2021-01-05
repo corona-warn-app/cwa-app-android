@@ -39,7 +39,7 @@ class SubmissionWorker @AssistedInject constructor(
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "TEK submission failed.")
         e.report(ExceptionCategory.HTTP, prefix = "TEK Submission failed.")
-        Result.failure()
+        Result.retry()
     }
 
     @AssistedInject.Factory
