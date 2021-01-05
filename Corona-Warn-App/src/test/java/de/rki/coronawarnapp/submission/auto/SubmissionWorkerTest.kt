@@ -78,7 +78,7 @@ class SubmissionWorkerTest : BaseTest() {
 
         val worker = createWorker()
 
-        worker.doWork() shouldBe ListenableWorker.Result.failure()
+        worker.doWork() shouldBe ListenableWorker.Result.retry()
 
         coVerify {
             taskController.submitBlocking(any())
