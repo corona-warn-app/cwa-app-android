@@ -43,7 +43,7 @@ class RegistrationTokenCensorTest : BaseTest() {
             throwable = null
         )
         instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: 63b4###-####-####-####-############",
+            message = "I'm a shy registration token: 63b4###-####-####-####-############"
         )
 
         verify { LocalData.registrationToken() }

@@ -77,8 +77,11 @@ object DebugLogger : DebugLoggerBase() {
             Timber.plant(this)
             logTree = this
 
-            if (!runningLog.exists() && runningLog.createNewFile()) {
-                Timber.tag(TAG).i("Log file didn't exist and was created.")
+            if (!runningLog.exists()) {
+                runningLog.parentFile?.mkdirs()
+                if (runningLog.createNewFile()) {
+                    Timber.tag(TAG).i("Log file didn't exist and was created.")
+                }
             }
 
             logJob = scope.launch {
@@ -105,25 +108,26 @@ object DebugLogger : DebugLoggerBase() {
     }
 
     suspend fun stop() = mutex.withLock {
-        Timber.tag(TAG).d("stop()")
+        Timber.tag(TAG).i("stop()")
 
-        if (!triggerFile.exists()) {
-            Timber.tag(TAG).w("We are not logging, ignoring stop().")
-            return@withLock
+        if (triggerFile.exists() && triggerFile.delete()) {
+            Timber.tag(TAG).d("Trigger file deleted.")
         }
 
-        if (triggerFile.delete()) {
-            Timber.tag(TAG).i("Trigger file deleted.")
+        logTree?.let {
+            Timber.tag(TAG).d("LogTree uprooted.")
+            Timber.uproot(it)
         }
-
-        logTree?.let { Timber.uproot(it) }
         logTree = null
 
-        logJob?.cancel()
+        logJob?.let {
+            Timber.tag(TAG).d("LogJob canceled.")
+            it.cancel()
+        }
         logJob = null
 
         if (runningLog.exists() && runningLog.delete()) {
-            Timber.tag(TAG).i("Log file was deleted.")
+            Timber.tag(TAG).d("Log file was deleted.")
         }
 
         clearSharedFiles()
@@ -143,9 +147,12 @@ object DebugLogger : DebugLoggerBase() {
     fun clearSharedFiles() {
         if (!sharedDirectory.exists()) return
 
-        val shared = sharedDirectory.list()
-        if (sharedDirectory.deleteRecursively()) {
-            Timber.tag(TAG).i("Deleted shared files: %s", shared?.joinToString(", "))
+        sharedDirectory.listFiles()?.forEach {
+            if (it.delete()) {
+                Timber.tag(TAG).d("Deleted shared file: %s", it)
+            } else {
+                Timber.tag(TAG).w("Failed to delete shared file: %s", it)
+            }
         }
     }
 
