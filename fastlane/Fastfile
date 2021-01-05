@@ -21,7 +21,7 @@ platform :android do
     gradle(task: "test")
   end
 
-=begin TODO: Enable the following lanes based our requirements
+=begin TODO: Enable the following lanes based on our requirements
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
     gradle(task: "clean assembleRelease")
