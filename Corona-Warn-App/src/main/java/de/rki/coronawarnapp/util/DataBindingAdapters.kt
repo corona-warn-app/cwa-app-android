@@ -25,7 +25,7 @@ fun setChecked(switch: Switch, status: Boolean?) {
 @BindingAdapter("animation")
 fun setAnimation(view: LottieAnimationView, animation: Int?) {
     if (animation != null) {
-        val appContext = CoronaWarnApplication.getAppContext()
+        val appContext = view.context.applicationContext
         val type = appContext.resources.getResourceTypeName(animation)
 
         if (type == DRAWABLE_TYPE) {
