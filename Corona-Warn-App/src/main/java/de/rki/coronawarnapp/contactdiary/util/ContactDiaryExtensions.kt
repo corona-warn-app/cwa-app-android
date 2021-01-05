@@ -57,3 +57,8 @@ fun View.focusAndShowKeyboard() {
             })
     }
 }
+
+fun <T> MutableList<T>.clearAndAddAll(newItems: List<T>) {
+    clear()
+    addAll(newItems)
+}

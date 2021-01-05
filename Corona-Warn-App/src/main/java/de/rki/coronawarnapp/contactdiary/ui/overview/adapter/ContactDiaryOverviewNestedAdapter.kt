@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
 
 class ContactDiaryOverviewNestedAdapter :
@@ -11,8 +12,7 @@ class ContactDiaryOverviewNestedAdapter :
     private val dataList: MutableList<ListItem.Data> = mutableListOf()
 
     fun setItems(dataList: List<ListItem.Data>) {
-        this.dataList.clear()
-        this.dataList += dataList
+        this.dataList.clearAndAddAll(dataList)
         notifyDataSetChanged()
     }
 

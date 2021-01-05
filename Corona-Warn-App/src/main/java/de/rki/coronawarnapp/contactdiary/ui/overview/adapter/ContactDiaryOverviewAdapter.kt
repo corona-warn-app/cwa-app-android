@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
+import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 
@@ -12,8 +13,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
     private val elements: MutableList<ListItem> = mutableListOf()
 
     fun setItems(elements: List<ListItem>) {
-        this.elements.clear()
-        this.elements += elements
+        this.elements.clearAndAddAll(elements)
         notifyDataSetChanged()
     }
 
