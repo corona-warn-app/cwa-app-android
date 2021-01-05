@@ -21,9 +21,9 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<ContactDiaryDayNavigationEvents> = SingleLiveEvent()
 
-    val uiState = displayedDay.map { day ->
-        UIState(dayText = day.toFormattedDay())
-    }.asLiveData()
+    val dayText = displayedDay
+        .map { it.toFormattedDay() }
+        .asLiveData()
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
         when (activeTab) {
@@ -37,10 +37,6 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     fun onBackPressed() {
         routeToScreen.postValue(ContactDiaryDayNavigationEvents.NavigateToOverviewFragment)
     }
-
-    data class UIState(
-        val dayText: String
-    )
 
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryDayViewModel> {
