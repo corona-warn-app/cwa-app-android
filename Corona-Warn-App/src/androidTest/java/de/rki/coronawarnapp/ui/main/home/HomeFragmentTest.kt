@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import androidx.fragment.app.testing.launchFragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -32,7 +32,6 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.refreshRequiredData() } just Runs
 
         setupMockViewModel(object : HomeFragmentViewModel.Factory {
-            // override fun create(handle: SavedStateHandle){} HomeFragmentViewModel = viewModel}
             override fun create(): HomeFragmentViewModel = viewModel
         })
     }
@@ -44,10 +43,9 @@ class HomeFragmentTest : BaseUITest() {
 
     @Test
     fun onResumeCallsRefresh() {
-        launchFragment<HomeFragment>().apply {
-            moveToState(Lifecycle.State.RESUMED)
-            verify(exactly = 1) { viewModel.refreshRequiredData() }
-        }
+        // AppTheme is required here to prevent xml inflation crash
+        launchFragment<HomeFragment>(themeResId = R.style.AppTheme)
+        verify(exactly = 1) { viewModel.refreshRequiredData() }
     }
 }
 
