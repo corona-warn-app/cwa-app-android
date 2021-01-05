@@ -1,3 +1,3 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
 typealias DaysSinceOnsetOfSymptomsVector = IntArray

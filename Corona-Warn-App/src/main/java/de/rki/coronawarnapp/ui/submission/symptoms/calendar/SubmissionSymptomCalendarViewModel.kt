@@ -5,8 +5,9 @@ import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -18,7 +19,8 @@ import timber.log.Timber
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @Assisted val symptomIndication: Symptoms.Indication,
     dispatcherProvider: DispatcherProvider,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val autoSubmission: AutoSubmission
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomStartInternal = MutableStateFlow<Symptoms.StartOf?>(null)
@@ -26,7 +28,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val showCancelDialog = SingleLiveEvent<Unit>()
-    val showUploadDialog = submissionRepository.isSubmissionRunning
+    val showUploadDialog = autoSubmission.isSubmissionRunning
         .asLiveData(context = dispatcherProvider.Default)
 
     fun onLastSevenDaysStart() {
@@ -81,7 +83,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     private fun performSubmission() {
         launch {
             try {
-                submissionRepository.startSubmission()
+                autoSubmission.runSubmissionNow()
             } catch (e: Exception) {
                 Timber.tag(TAG).e(e, "performSubmission() failed.")
             } finally {
@@ -90,6 +92,11 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 )
             }
         }
+    }
+
+    fun onNewUserActivity() {
+        Timber.d("onNewUserActivity()")
+        autoSubmission.updateLastSubmissionUserActivity()
     }
 
     @AssistedInject.Factory

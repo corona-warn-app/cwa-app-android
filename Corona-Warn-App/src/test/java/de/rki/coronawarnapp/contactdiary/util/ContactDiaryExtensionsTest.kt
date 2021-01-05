@@ -21,13 +21,13 @@ class ContactDiaryExtensionsTest {
         val testList = listOf(
             DefaultContactDiaryPerson(1, "Max Mustermann"),
             DefaultContactDiaryPerson(2, "Erika Musterfrau"),
-            DefaultContactDiaryPerson(3, "erika musterfrau2"),
+            DefaultContactDiaryPerson(3, "erika musterfrau2")
         )
 
         val expectedResult = listOf(
             DefaultContactDiaryPerson(2, "Erika Musterfrau"),
             DefaultContactDiaryPerson(3, "erika musterfrau2"),
-            DefaultContactDiaryPerson(1, "Max Mustermann"),
+            DefaultContactDiaryPerson(1, "Max Mustermann")
         )
 
         // Test that lowercase "erika musterfrau2" is sorted to the 2nd position instead of the end
@@ -39,13 +39,13 @@ class ContactDiaryExtensionsTest {
         val testList = listOf(
             DefaultContactDiaryPerson(1, "Max Mustermann"),
             DefaultContactDiaryPerson(3, "Erika Musterfrau"),
-            DefaultContactDiaryPerson(2, "Erika Musterfrau"),
+            DefaultContactDiaryPerson(2, "Erika Musterfrau")
         )
 
         val expectedResult = listOf(
             DefaultContactDiaryPerson(2, "Erika Musterfrau"),
             DefaultContactDiaryPerson(3, "Erika Musterfrau"),
-            DefaultContactDiaryPerson(1, "Max Mustermann"),
+            DefaultContactDiaryPerson(1, "Max Mustermann")
         )
 
         // Test that "Erika Musterfrau" with lower personId comes before the other one, even though it was
@@ -58,13 +58,13 @@ class ContactDiaryExtensionsTest {
         val testList = listOf(
             DefaultContactDiaryLocation(1, "Berlin"),
             DefaultContactDiaryLocation(2, "At home"),
-            DefaultContactDiaryLocation(3, "at home"),
+            DefaultContactDiaryLocation(3, "at home")
         )
 
         val expectedResult = listOf(
             DefaultContactDiaryLocation(2, "At home"),
             DefaultContactDiaryLocation(3, "at home"),
-            DefaultContactDiaryLocation(1, "Berlin"),
+            DefaultContactDiaryLocation(1, "Berlin")
         )
 
         // Test that lowercase "at home" is sorted to the 2nd position instead of the end
@@ -76,13 +76,13 @@ class ContactDiaryExtensionsTest {
         val testList = listOf(
             DefaultContactDiaryLocation(1, "Berlin"),
             DefaultContactDiaryLocation(3, "At home"),
-            DefaultContactDiaryLocation(2, "At home"),
+            DefaultContactDiaryLocation(2, "At home")
         )
 
         val expectedResult = listOf(
             DefaultContactDiaryLocation(2, "At home"),
             DefaultContactDiaryLocation(3, "At home"),
-            DefaultContactDiaryLocation(1, "Berlin"),
+            DefaultContactDiaryLocation(1, "Berlin")
         )
 
         // Test that "At home" with lower locationId comes before the other one, even though it was

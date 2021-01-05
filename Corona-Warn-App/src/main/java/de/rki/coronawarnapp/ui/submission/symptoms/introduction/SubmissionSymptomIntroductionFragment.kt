@@ -94,4 +94,9 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
             setOnClickListener { viewModel.onNextClicked() }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onNewUserActivity()
+    }
 }
