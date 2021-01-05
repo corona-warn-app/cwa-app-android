@@ -1,7 +1,8 @@
-package de.rki.coronawarnapp.submission
+package de.rki.coronawarnapp.submission.task
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.Symptoms.Indication
 import de.rki.coronawarnapp.submission.Symptoms.StartOf
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
