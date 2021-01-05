@@ -15,7 +15,8 @@ import timber.log.Timber
 
 @Entity(tableName = "riskresults")
 data class PersistedRiskLevelResultDao(
-    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "monotonicId") val monotonicId: Long = 0,
+    @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "calculatedAt") val calculatedAt: Instant,
     @ColumnInfo(name = "failureReason") val failureReason: FailureReason?,
     @Embedded val aggregatedRiskResult: PersistedAggregatedRiskResult?
@@ -81,7 +82,7 @@ data class PersistedRiskLevelResultDao(
     class Converter {
         @TypeConverter
         fun toType(value: String?): FailureReason? = value?.let {
-            FailureReason.values().singleOrNull { it.failureCode == value } ?: FailureReason.UNKNOWN
+            FailureReason.values().singleOrNull { it.failureCode == value }
         }
 
         @TypeConverter

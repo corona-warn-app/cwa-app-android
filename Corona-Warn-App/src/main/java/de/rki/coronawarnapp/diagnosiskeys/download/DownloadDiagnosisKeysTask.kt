@@ -140,9 +140,23 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         trackedDetections: Collection<TrackedExposureDetection>
     ): Boolean {
         val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
-        val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
+        if (lastDetection == null) {
+            Timber.tag(TAG).d("No previous detections exist, don't abort.")
+            return false
+        }
 
-        return (nextDetectionAt != null && now.isBefore(nextDetectionAt)).also {
+        if (lastDetection.startedAt.isAfter(now.plus(Duration.standardHours(1)))) {
+            Timber.tag(TAG).w("Last detection happened in our future? Don't abort as precaution.")
+            return false
+        }
+
+        val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections)
+
+        Duration(now, nextDetectionAt).also {
+            Timber.tag(TAG).d("Next detection is available in %d min", it.standardMinutes)
+        }
+
+        return (now.isBefore(nextDetectionAt)).also {
             if (it) Timber.tag(TAG).w("Aborting. Last detection is recent: %s (now=%s)", lastDetection, now)
         }
     }
