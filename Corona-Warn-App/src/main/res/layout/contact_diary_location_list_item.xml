@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_diary_location_list_item"
         style="@style/contactDiaryCardRipple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/spacing_huge">
 
         <ImageView
-            android:id="@+id/contact_diary_location_list_line_icon"
+            android:id="@+id/contact_diary_location_list_item_icon"
             android:layout_width="@dimen/spacing_medium"
             android:layout_height="@dimen/spacing_medium"
             android:layout_marginStart="@dimen/spacing_small"
@@ -20,7 +21,7 @@
             tools:srcCompat="@drawable/ic_selected" />
 
         <TextView
-            android:id="@+id/contact_diary_location_list_line_name"
+            android:id="@+id/contact_diary_location_list_item_name"
             style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
             android:layout_marginVertical="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_location_list_line_icon"
+            app:layout_constraintStart_toEndOf="@+id/contact_diary_location_list_item_icon"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
