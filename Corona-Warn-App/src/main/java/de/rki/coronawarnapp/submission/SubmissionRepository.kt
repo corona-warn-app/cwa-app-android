@@ -176,6 +176,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)
         LocalData.initialPollingForTestResultTimeStamp(0L)
+        LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.isTestResultNotificationSent(false)
     }

@@ -97,6 +97,7 @@ class SubmissionRepositoryTest {
         val submissionRepository = createInstance(scope = this)
 
         every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
+        every { LocalData.initialTestResultReceivedTimestamp(any()) } just Runs
         every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
         every { LocalData.isTestResultNotificationSent(any()) } just Runs
 
@@ -106,6 +107,7 @@ class SubmissionRepositoryTest {
             LocalData.registrationToken(null)
             LocalData.devicePairingSuccessfulTimestamp(0L)
             LocalData.initialPollingForTestResultTimeStamp(0L)
+            LocalData.initialTestResultReceivedTimestamp(0L)
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.isTestResultNotificationSent(false)
         }

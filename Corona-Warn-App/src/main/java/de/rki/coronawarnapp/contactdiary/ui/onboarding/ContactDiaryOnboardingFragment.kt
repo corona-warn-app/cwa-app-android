@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.onboarding
 
 import android.os.Bundle
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
@@ -31,7 +32,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 vm.onNextButtonClick()
             }
 
-            contactDiaryOnboardingHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 vm.onBackButtonPress()
             }
 
@@ -67,5 +68,10 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
     fun onboardingComplete() {
         settings.isOnboarded.update { true }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
