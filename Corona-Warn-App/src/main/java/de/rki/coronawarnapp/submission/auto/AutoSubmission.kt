@@ -29,8 +29,6 @@ class AutoSubmission @Inject constructor(
     private val taskController: TaskController
 ) {
 
-    private var currentMode: Mode = Mode.DISABLED
-
     private fun List<TaskInfo>.isSubmissionTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == SubmissionTask::class
     }
@@ -57,7 +55,6 @@ class AutoSubmission @Inject constructor(
             Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
             Mode.SUBMIT_ASAP -> enableAutoSubmission(lastActivity = Instant.EPOCH)
         }
-        currentMode = newMode
     }
 
     suspend fun runSubmissionNow() {
