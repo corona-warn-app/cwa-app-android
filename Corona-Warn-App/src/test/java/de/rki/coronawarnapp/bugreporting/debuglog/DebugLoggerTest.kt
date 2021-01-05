@@ -16,6 +16,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
+import testhelpers.logging.JUnitTree
 import timber.log.Timber
 import java.io.File
 import kotlin.random.Random
@@ -63,6 +64,10 @@ class DebugLoggerTest : BaseIOTest() {
             isLogging shouldBe false
         }
         runningLog.exists() shouldBe false
+        Timber.forest().apply {
+            size shouldBe 1
+            (first() is JUnitTree) shouldBe true
+        }
     }
 
     @Test
