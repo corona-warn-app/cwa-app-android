@@ -98,4 +98,24 @@
     <string name="contact_diary_delete_location_title">"Wollen Sie wirklich diesen Ort entfernen?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Wollen Sie wirklich diese Person entfernen?"</string>
+
+    <!-- XTXT: location (description for screen readers) -->
+    <string name="accessibility_location">Ort %s</string>
+    <!-- XTXT: person (description for screen readers) -->
+    <string name="accessibility_person">Person %s</string>
+    <!-- XTXT: location is not selected (description for screen readers) -->
+    <string name="accessibility_location_unselected">Ort %s ist nicht ausgewählt</string>
+    <!-- XTXT: person is not selected (description for screen readers) -->
+    <string name="accessibility_person_unselected">Person %s ist nicht ausgewählt</string>
+    <!-- XTXT: location is selected (description for screen readers) -->
+    <string name="accessibility_location_selected">Ort %s ist ausgewählt</string>
+    <!-- XTXT: person is selected (description for screen readers) -->
+    <string name="accessibility_person_selected">Person %s ist ausgewählt</string>
+
+    <!-- XTXT: Select (description for screen readers) -->
+    <string name="accessibility_action_select">auswählen</string>
+    <!-- XTXT: Deselect (description for screen readers) -->
+    <string name="accessibility_action_deselect">Auswahl aufheben</string>
+    <!-- XTXT: Edit (description for screen readers) -->
+    <string name="accessibility_edit">Bearbeiten</string>
 </resources>
