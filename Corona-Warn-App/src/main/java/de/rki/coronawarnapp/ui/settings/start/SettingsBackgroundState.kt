@@ -2,10 +2,13 @@ package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.hasAPILevel
 
 data class SettingsBackgroundState(
     val isEnabled: Boolean
@@ -34,4 +37,9 @@ data class SettingsBackgroundState(
     fun getBackgroundPriorityText(c: Context): String = c.getString(
         if (isEnabled) R.string.settings_on else R.string.settings_off
     )
+
+    /**
+     * Whether the "background priority" row should be visible in the settings
+     */
+    fun showBackgroundPrioritySettings(): Boolean = BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M)
 }
