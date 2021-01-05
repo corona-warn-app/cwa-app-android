@@ -11,12 +11,12 @@
             android:id="@+id/toolbar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:background="@drawable/contact_diary_background"
+            style="@style/CWAToolbar.Close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_close"
-            app:title="@string/contact_diary_edit_persons_title" />
+            app:title="@string/contact_diary_edit_persons_title"
+            android:contentDescription="@string/contact_diary_edit_persons_title"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/contact_diary_person_list_no_items_group"

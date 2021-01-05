@@ -5,20 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/contact_diary_onboarding_background">
+        android:background="@drawable/contact_diary_onboarding_background"
+        android:focusable="true">
 
-        <include
-            android:id="@+id/contact_diary_onboarding_header"
-            layout="@layout/include_header"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
+            style="@style/CWAToolbar.Close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/contact_diary_title}" />
+            app:title="@string/contact_diary_title" />
 
         <ScrollView
             android:layout_width="@dimen/match_constraint"
@@ -27,7 +28,7 @@
             app:layout_constraintBottom_toTopOf="@id/contact_diary_onboarding_next_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_header">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -74,7 +75,7 @@
 
                 <include
                     android:id="@+id/contact_diary_onboarding_first_section"
-                    layout="@layout/include_contact_diary_onboarding_row"
+                    layout="@layout/contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -87,7 +88,7 @@
 
                 <include
                     android:id="@+id/contact_diary_onboarding_second_section"
-                    layout="@layout/include_contact_diary_onboarding_row"
+                    layout="@layout/contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -100,7 +101,7 @@
 
                 <include
                     android:id="@+id/contact_diary_onboarding_third_section"
-                    layout="@layout/include_contact_diary_onboarding_row"
+                    layout="@layout/contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -113,7 +114,7 @@
 
                 <include
                     android:id="@+id/contact_diary_onboarding_fourth_section"
-                    layout="@layout/include_contact_diary_onboarding_row"
+                    layout="@layout/contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -126,7 +127,7 @@
 
                 <include
                     android:id="@+id/contact_diary_onboarding_fifth_section"
-                    layout="@layout/include_contact_diary_onboarding_row"
+                    layout="@layout/contact_diary_onboarding_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -139,7 +140,7 @@
 
                 <include
                     android:id="@+id/contact_diary_onboarding_privacy_card"
-                    layout="@layout/include_contact_diary_privacy_card"
+                    layout="@layout/contact_diary_privacy_card"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/guideline_card"
