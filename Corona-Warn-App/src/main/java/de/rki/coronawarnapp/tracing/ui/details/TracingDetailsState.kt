@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.tracing.ui.details
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -17,14 +16,14 @@ data class TracingDetailsState(
         riskState == RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         riskState == RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         else -> R.color.colorSemanticUnknownRisk
-    }.let { ContextCompat.getColor(c, it) }
+    }.let { c.getColorCompat(it) }
 
     fun getStableTextColor(c: Context): Int = when {
         tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextPrimary1
         riskState == RiskState.INCREASED_RISK ||
             riskState == RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
         else -> R.color.colorTextPrimary1
-    }.let { ContextCompat.getColor(c, it) }
+    }.let { c.getColorCompat(it) }
 
     fun isUpdateButtonEnabled(): Boolean = isManualKeyRetrievalEnabled
 

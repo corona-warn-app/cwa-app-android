@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.tracing.ui.details.items.behavior
 import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsItemBehaviorNormalViewBinding
 import de.rki.coronawarnapp.risk.RiskState
@@ -39,13 +38,13 @@ class BehaviorNormalRiskBox(
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextSemanticNeutral
             riskState == RiskState.INCREASED_RISK || riskState == RiskState.LOW_RISK -> R.color.colorStableLight
             else -> R.color.colorTextSemanticNeutral
-        }.let { ContextCompat.getColor(context, it) }
+        }.let { context.getColorCompat(it) }
 
         fun getBackgroundColor(context: Context) = when {
             tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorSurface2
             riskState == RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
             riskState == RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
             else -> R.color.colorSurface2
-        }.let { ContextCompat.getColor(context, it) }
+        }.let { context.getColorCompat(it) }
     }
 }

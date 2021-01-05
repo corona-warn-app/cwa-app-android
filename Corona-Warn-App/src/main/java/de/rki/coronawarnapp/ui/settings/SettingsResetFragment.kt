@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
@@ -66,8 +65,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         )
 
         DialogHelper.showDialog(resetDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
-                ContextCompat.getColor(context, R.color.colorTextSemanticRed))
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 }

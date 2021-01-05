@@ -6,7 +6,6 @@ import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import java.util.regex.Pattern
 
@@ -112,7 +111,7 @@ object DialogHelper {
         textView.movementMethod = LinkMovementMethod.getInstance()
         textView.setPadding(paddingStartEnd, paddingLeftRight, paddingStartEnd, paddingLeftRight)
         textView.setTextAppearance(R.style.body1)
-        textView.setLinkTextColor(ContextCompat.getColorStateList(context, R.color.button_primary))
+        textView.setLinkTextColor(context.getColorStateListCompat(R.color.button_primary))
         if (isTextSelectable) textView.setTextIsSelectable(true)
         return textView
     }

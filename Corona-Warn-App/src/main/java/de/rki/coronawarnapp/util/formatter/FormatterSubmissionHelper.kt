@@ -9,7 +9,6 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.Symptoms
@@ -70,7 +69,7 @@ fun formatTestResultStatusColor(uiState: NetworkRequestWrapper<DeviceUIState, Th
             DeviceUIState.PAIRED_POSITIVE_TELETAN -> R.color.colorTextSemanticRed
             else -> R.color.colorTextSemanticRed
         }
-    }.let { ContextCompat.getColor(CoronaWarnApplication.getAppContext(), it) }
+    }.let { CoronaWarnApplication.getAppContext().getColorCompat(it) }
 
 fun formatTestResult(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
     val appContext = CoronaWarnApplication.getAppContext()
