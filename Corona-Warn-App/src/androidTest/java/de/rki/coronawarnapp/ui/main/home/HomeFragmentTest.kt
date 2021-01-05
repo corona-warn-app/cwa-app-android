@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
