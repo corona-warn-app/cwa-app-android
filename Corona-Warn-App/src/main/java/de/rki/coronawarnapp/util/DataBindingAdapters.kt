@@ -8,7 +8,6 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
-import de.rki.coronawarnapp.CoronaWarnApplication
 
 const val IGNORE_CHANGE_TAG = "ignore"
 const val DRAWABLE_TYPE = "drawable"
