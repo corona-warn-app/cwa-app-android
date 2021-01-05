@@ -60,7 +60,7 @@
     <!-- XTXT: Subtitle for contact diary overview screen -->
     <string name="contact_diary_overview_subtitle">"Write down the people you have met and places you have visited."</string>
     <!-- XTXT: Header for contact diary overview screen -->
-    <string name="contact_diary_overview_header">"Start Page"</string>
+    <string name="contact_diary_overview_header">Start Page</string>
 
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"A closed book with a bookmark"</string>
