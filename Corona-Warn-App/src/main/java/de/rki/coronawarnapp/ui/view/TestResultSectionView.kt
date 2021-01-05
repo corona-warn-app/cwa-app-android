@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
@@ -27,9 +26,10 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
-    private val binding = ViewTestResultSectionBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = ViewTestResultSectionBinding.bind(this)
 
     init {
+        inflate(context, R.layout.view_test_result_section, this)
         context.withStyledAttributes(attrs, R.styleable.TestResultSection) {
             binding.testResultSectionHeadline.text =
                 getText(R.styleable.TestResultSection_test_result_section_headline)
