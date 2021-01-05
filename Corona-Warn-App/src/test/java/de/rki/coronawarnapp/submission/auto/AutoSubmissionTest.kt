@@ -130,8 +130,8 @@ class AutoSubmissionTest : BaseTest() {
                 "AutoSubmissionWorker",
                 ExistingPeriodicWorkPolicy.KEEP,
                 match {
-                    it.workSpec.constraints.requiredNetworkType == NetworkType.CONNECTED
-                        && it.workSpec.intervalDuration == 15 * 60 * 1000L
+                    it.workSpec.constraints.requiredNetworkType == NetworkType.CONNECTED &&
+                        it.workSpec.intervalDuration == 15 * 60 * 1000L
                 }
             )
         }
