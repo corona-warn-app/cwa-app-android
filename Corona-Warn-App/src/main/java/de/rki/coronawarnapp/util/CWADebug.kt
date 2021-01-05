@@ -5,6 +5,7 @@ import android.os.Build
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.debug.FileLogger
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 
 object CWADebug {
@@ -27,8 +28,8 @@ object CWADebug {
         Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
     }
 
-    fun initAfterInjection() {
-        DebugLogger.setInjectionIsReady()
+    fun initAfterInjection(component: ApplicationComponent) {
+        DebugLogger.setInjectionIsReady(component)
     }
 
     val isDebugBuildOrMode: Boolean

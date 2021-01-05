@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -18,10 +18,8 @@ import java.io.File
 
 @SuppressLint("LogNotTimber")
 @Suppress("BlockingMethodInNonBlockingContext")
-object DebugLogger {
-    private val bugCensors by lazy {
-        AppInjector.component.bugCensors
-    }
+object DebugLogger : DebugLoggerBase() {
+
     private val scope = DebugLoggerScope
     private lateinit var context: Context
 
@@ -55,8 +53,9 @@ object DebugLogger {
      * To censor unique data, we need to actually know what to censor.
      * So we buffer log statements until Dagger is ready
      */
-    fun setInjectionIsReady() {
+    fun setInjectionIsReady(component: ApplicationComponent) {
         Timber.tag(TAG).i("setInjectionIsReady()")
+        component.inject(this)
         isDaggerReady = true
     }
 
@@ -88,7 +87,7 @@ object DebugLogger {
                         while (!isDaggerReady) {
                             yield()
                         }
-                        val censoredLine = bugCensors.mapNotNull { it.checkLog(rawLine) }.firstOrNull()
+                        val censoredLine = bugCensors.get().mapNotNull { it.checkLog(rawLine) }.firstOrNull()
                         appendLogLine(censoredLine ?: rawLine)
                     }
                 } catch (e: CancellationException) {
