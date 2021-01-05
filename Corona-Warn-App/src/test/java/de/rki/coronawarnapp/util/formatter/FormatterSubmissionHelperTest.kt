@@ -8,6 +8,8 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
@@ -38,6 +40,7 @@ class FormatterSubmissionHelperTest {
         mockkObject(CoronaWarnApplication.Companion)
         mockkStatic(SpannableStringBuilder::class)
         mockkStatic(Spannable::class)
+        mockkStatic(ContextExtensions::class)
 
         every { CoronaWarnApplication.getAppContext() } returns context
 
@@ -48,11 +51,8 @@ class FormatterSubmissionHelperTest {
         every { context.getString(R.string.test_result_card_status_pending) } returns R.string.test_result_card_status_pending.toString()
         every { context.getString(R.string.test_result_card_status_invalid) } returns R.string.test_result_card_status_invalid.toString()
 
-        every { context.getColor(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
-        every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
-
-        every { context.resources.getColor(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
-        every { context.resources.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
+        every { context.getColorCompat(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
+        every { context.getColorCompat(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
 
         every { context.getDrawable(R.drawable.ic_test_result_illustration_invalid) } returns drawable
         every { context.getDrawable(R.drawable.ic_test_result_illustration_pending) } returns drawable

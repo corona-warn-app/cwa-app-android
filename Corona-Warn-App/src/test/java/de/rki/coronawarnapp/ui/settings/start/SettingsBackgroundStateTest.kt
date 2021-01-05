@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -34,11 +33,11 @@ class SettingsBackgroundStateTest : BaseTest() {
     fun getBackgroundPriorityIconColor() {
         createInstance(isEnabled = true).apply {
             getBackgroundPriorityIconColor(context)
-            verify { ContextCompat.getColor(context, R.color.colorAccentTintIcon) }
+            verify { context.getColorCompat(R.color.colorAccentTintIcon) }
         }
         createInstance(isEnabled = false).apply {
             getBackgroundPriorityIconColor(context)
-            verify { ContextCompat.getColor(context, R.color.colorTextSemanticRed) }
+            verify { context.getColorCompat(R.color.colorTextSemanticRed) }
         }
     }
 
