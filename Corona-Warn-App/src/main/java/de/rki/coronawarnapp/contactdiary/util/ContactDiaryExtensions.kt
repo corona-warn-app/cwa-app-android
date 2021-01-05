@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.util
 
 import android.content.Context
+import android.os.Build
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -8,9 +9,9 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
-import de.rki.coronawarnapp.util.device.SystemInfoProvider
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
+import java.util.Locale
 
 fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
     this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -20,9 +21,17 @@ fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
     })
 }
 
-fun LocalDate.toFormattedDay(systemInfoProvider: SystemInfoProvider): String {
-    val locale = systemInfoProvider.locale
+fun Context.getLocale(): Locale {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        @Suppress("NewApi")
+        resources.configuration.locales[0]
+    } else {
+        @Suppress("DEPRECATION")
+        resources.configuration.locale
+    }
+}
 
+fun LocalDate.toFormattedDay(locale: Locale): String {
     // Use two different methods to get the final date format (Weekday, Shortdate)
     // because the custom pattern of toString() does not localize characters like "/" or "."
     return "${toString("EEEE", locale)}, " +
