@@ -15,7 +15,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             style="@style/CWAToolbar.Close"
-            app:title="@string/contact_diary_edit_locations_title" />
+            app:title="@string/contact_diary_edit_locations_title"
+            android:contentDescription="@string/contact_diary_edit_locations_title"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/contact_diary_location_list_no_items_group"

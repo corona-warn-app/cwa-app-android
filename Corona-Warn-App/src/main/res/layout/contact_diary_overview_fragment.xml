@@ -13,13 +13,13 @@
             android:id="@+id/toolbar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            style="@style/CWAToolbar.BackArrow"
             android:background="@color/colorBackground"
-            app:popupTheme="@style/CWAToolbar.Menu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/contact_diary_overview_header"
-            style="@style/CWAToolbar.BackArrow"/>
+            app:popupTheme="@style/CWAToolbar.Menu"
+            app:title="@string/contact_diary_overview_header" />
 
         <TextView
             android:id="@+id/onboarding_headline"

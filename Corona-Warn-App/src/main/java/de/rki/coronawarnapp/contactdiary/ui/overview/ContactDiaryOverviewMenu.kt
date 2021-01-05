@@ -16,7 +16,8 @@ class ContactDiaryOverviewMenu @Inject constructor(
     private val navController: NavController
         get() = contactDiaryOverviewFragment.findNavController()
     private val vm: ContactDiaryOverviewViewModel by contactDiaryOverviewFragment.cwaViewModels {
-        contactDiaryOverviewFragment.viewModelFactory }
+        contactDiaryOverviewFragment.viewModelFactory
+    }
 
     fun setupMenu(toolbar: Toolbar) = toolbar.apply {
         inflateMenu(R.menu.menu_contact_diary_overview)
@@ -29,7 +30,8 @@ class ContactDiaryOverviewMenu @Inject constructor(
                     )
                     true
                 }
-                R.id.menu_contact_diary_export_entries -> { vm.onExportPress(context)
+                R.id.menu_contact_diary_export_entries -> {
+                    vm.onExportPress(context)
                     true }
                 R.id.menu_contact_diary_edit_persons -> {
                     navController.doNavigate(

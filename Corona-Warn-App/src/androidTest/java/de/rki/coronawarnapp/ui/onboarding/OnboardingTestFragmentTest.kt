@@ -10,12 +10,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.SCREENSHOT_DELAY_TIME
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingTestFragmentTest : BaseUITest() {

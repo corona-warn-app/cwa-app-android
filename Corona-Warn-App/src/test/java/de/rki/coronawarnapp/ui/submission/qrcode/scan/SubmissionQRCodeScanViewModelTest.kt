@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.playbook.BackgroundNoise
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
