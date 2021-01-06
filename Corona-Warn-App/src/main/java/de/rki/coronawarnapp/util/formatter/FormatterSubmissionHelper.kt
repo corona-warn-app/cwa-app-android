@@ -12,6 +12,7 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -69,7 +70,7 @@ fun formatTestResultStatusColor(uiState: NetworkRequestWrapper<DeviceUIState, Th
             DeviceUIState.PAIRED_POSITIVE_TELETAN -> R.color.colorTextSemanticRed
             else -> R.color.colorTextSemanticRed
         }
-    }.let { CoronaWarnApplication.getAppContext().getColor(it) }
+    }.let { CoronaWarnApplication.getAppContext().getColorCompat(it) }
 
 fun formatTestResult(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
     val appContext = CoronaWarnApplication.getAppContext()
