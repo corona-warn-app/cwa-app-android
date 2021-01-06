@@ -736,9 +736,9 @@
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Fehlerbericht"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"Durch diese Option wird das App Verhalten in einer Text-Datei protokolliert. Ist die Option aktiviert bevor ein Fehler auftritt, können Sie diesen Bericht zur Verfügung stellen, um die Entwickler bei der Problemlösung zu unterstützen.\nEine dauerhafte Aktivierung dieser Option führt zu hohem Speicherbedarf. Der Fehlerbericht wird durch Deaktivieren der Option gelöscht."</string>
+    <string name="debugging_debuglog_intro_explanation">"Durch diese Option wird das App-Verhalten in einer Textdatei protokolliert. Ist die Option aktiviert bevor ein Fehler auftritt, können Sie diesen Bericht zur Verfügung stellen, um die Entwickler bei der Problemlösung zu unterstützen.\nEine dauerhafte Aktivierung dieser Option führt zu hohem Speicherbedarf. Der Fehlerbericht wird durch Deaktivieren der Option gelöscht."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten Information über Risikoberechnung und Testergebnis enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
+    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten Informationen über Risikoberechnung und Testergebnis enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Starten"</string>
     <!-- XBUT: Button text to stop the log recording -->
