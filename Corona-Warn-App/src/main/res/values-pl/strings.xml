@@ -632,10 +632,6 @@
     <string name="settings_background_priority_headline">"Zaktualizuj automatycznie status ryzyka"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Jeśli aktywujesz priorytetowe działanie w tle, aplikacja będzie mogła ustalić Twój status ryzyka w dowolnym momencie. Powoduje to wyłączenie optymalizacji żywotności baterii tylko dla aplikacji Corona-Warn-App."</string>
-    <!-- XACT: settings(background priority) - on - illustration description -->
-    <string name="settings_background_priority_on_illustration_description" />
-    <!-- XACT: settings(background priority) - off - illustration description -->
-    <string name="settings_background_priority_off_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Możesz aktywować i dezaktywować priorytetowe działanie w tle w ustawieniach urządzenia."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
