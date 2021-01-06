@@ -18,16 +18,15 @@
         android:fillViewport="true"
         tools:context=".ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragment">
 
-        <include
-            android:id="@+id/submission_positive_other_warning_header"
-            layout="@layout/include_header"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
+            style="@style/CWAToolbar.Close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_positive_other_warning_title}" />
+            app:title="@string/submission_positive_other_warning_title" />
 
         <ScrollView
             android:id="@+id/content_scrollcontainer"
@@ -47,10 +46,10 @@
 
                 <ImageView
                     android:id="@+id/submission_positive_other_warning_hero_illustration"
-                    bind:cwaContentDescription="@{@string/submission_positive_other_illustration_description}"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_submission_illustration_other_warning"
+                    android:contentDescription="@string/submission_positive_other_illustration_description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +61,6 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/submission_positive_other_warning_headline"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
