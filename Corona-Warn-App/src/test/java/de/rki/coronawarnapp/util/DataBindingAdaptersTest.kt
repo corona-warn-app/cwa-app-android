@@ -5,13 +5,11 @@ import android.graphics.drawable.Drawable
 import android.widget.Switch
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
@@ -29,7 +27,6 @@ class DataBindingAdaptersTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkObject(CoronaWarnApplication)
     }
 
     private fun setChecked(status: Boolean?) {
@@ -68,9 +65,13 @@ class DataBindingAdaptersTest {
     }
 
     private fun setAnimation(animation: Int?) {
-        every { CoronaWarnApplication.getAppContext().resources.getResourceTypeName(any()) } returns "raw"
-
-        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true)
+        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true).apply {
+            every { context } returns mockk<Context>().apply {
+                every { applicationContext } returns mockk<Context>().apply {
+                    every { resources.getResourceTypeName(any()) } returns "raw"
+                }
+            }
+        }
 
         setAnimation(animationView, animation)
 
@@ -80,6 +81,7 @@ class DataBindingAdaptersTest {
 
         if (animation != null) {
             verifySequence {
+                animationView.context
                 animationView.setAnimation(animation)
                 animationView.repeatCount = LottieDrawable.INFINITE
                 animationView.repeatMode = LottieDrawable.RESTART
@@ -106,10 +108,14 @@ class DataBindingAdaptersTest {
     }
 
     private fun setDrawable(drawableId: Int?) {
-        every { CoronaWarnApplication.getAppContext().resources.getResourceTypeName(any()) } returns DRAWABLE_TYPE
-        every { CoronaWarnApplication.getAppContext().getDrawable(any()) } returns drawable
-
-        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true)
+        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true).apply {
+            every { context } returns mockk<Context>().apply {
+                every { applicationContext } returns mockk<Context>().apply {
+                    every { resources.getResourceTypeName(any()) } returns DRAWABLE_TYPE
+                    every { getDrawable(any()) } returns this@DataBindingAdaptersTest.drawable
+                }
+            }
+        }
 
         setAnimation(animationView, drawableId)
 
@@ -122,6 +128,7 @@ class DataBindingAdaptersTest {
 
         if (drawableId != null) {
             verifySequence {
+                animationView.context
                 animationView.setImageDrawable(any())
             }
         } else {
