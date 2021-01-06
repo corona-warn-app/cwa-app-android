@@ -22,6 +22,7 @@ class RiskResultDatabaseTest {
     private val riskResultDao = database.riskResults()
 
     private val oldestSuccessfulEntry = PersistedRiskLevelResultDao(
+        monotonicId = 1,
         id = UUID.randomUUID().toString(),
         calculatedAt = Instant.now().minus(9000),
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
@@ -37,6 +38,7 @@ class RiskResultDatabaseTest {
     )
 
     private val olderEntryFailedEntry = PersistedRiskLevelResultDao(
+        monotonicId = 2,
         id = UUID.randomUUID().toString(),
         calculatedAt = Instant.now().minus(4500),
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
@@ -52,6 +54,7 @@ class RiskResultDatabaseTest {
     )
 
     private val newestEntryFailed = PersistedRiskLevelResultDao(
+        monotonicId = 3,
         id = UUID.randomUUID().toString(),
         calculatedAt = Instant.now(),
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(

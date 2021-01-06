@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.WatchdogService
@@ -53,6 +54,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
+    @Inject lateinit var autoSubmission: AutoSubmission
+
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
@@ -88,6 +91,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         deviceTimeHandler.launch()
         configChangeDetector.launch()
         riskLevelChangeDetector.launch()
+        autoSubmission.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

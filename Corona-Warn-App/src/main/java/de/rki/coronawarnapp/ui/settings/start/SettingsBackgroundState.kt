@@ -22,7 +22,7 @@ data class SettingsBackgroundState(
     /**
      * Formats the settings icon for background priority
      */
-    fun getBackgroindPriorityIcon(c: Context): Drawable? = c.getDrawable(
+    fun getBackgroundPriorityIcon(c: Context): Drawable? = c.getDrawable(
         if (isEnabled) R.drawable.ic_settings_background_priority_enabled
         else R.drawable.ic_settings_background_priority_disabled
     )

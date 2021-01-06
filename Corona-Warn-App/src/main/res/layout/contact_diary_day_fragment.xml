@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/settings_title"
         android:focusable="true">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_back"
+            style="@style/CWAToolbar.BackArrow"
             tools:title="Mittwoch, 23.12.2020" />
 
         <com.google.android.material.tabs.TabLayout
