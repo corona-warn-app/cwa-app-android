@@ -11,7 +11,6 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -90,7 +89,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         Timber.forest().none { it is DebugLogTree } shouldBe true
 
-        runBlockingTest {
+        runBlocking {
             instance.start()
             Timber.forest().single { it is DebugLogTree } shouldNotBe null
         }
@@ -110,7 +109,7 @@ class DebugLoggerTest : BaseIOTest() {
             appendBytes(Random.nextBytes(10))
         }
 
-        runBlockingTest {
+        runBlocking {
             instance.start()
             instance.start()
             instance.start()
@@ -129,7 +128,6 @@ class DebugLoggerTest : BaseIOTest() {
 
     @Test
     fun `stop cancels the coroutine and uproots the tree and deletes any logs`() {
-
         val instance = createInstance().apply {
             init(application)
             isLogging shouldBe false
@@ -137,7 +135,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         Timber.forest().none { it is DebugLogTree } shouldBe true
 
-        runBlockingTest {
+        runBlocking {
             instance.start()
             Timber.forest().single { it is DebugLogTree } shouldNotBe null
 
