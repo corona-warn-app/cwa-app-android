@@ -33,12 +33,12 @@ import org.joda.time.Instant
 object HomeData {
 
     object Tracing {
-        val lowRiskItem = LowRiskCard.Item(
+        val LOW_RISK_ITEM = LowRiskCard.Item(
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
-                isInDetailsMode = true,
+                isInDetailsMode = false,
                 lastExposureDetectionTime = Instant.now(),
-                allowManualUpdate = true,
+                allowManualUpdate = false,
                 daysWithEncounters = 1,
                 activeTracingDays = 1
             ),
@@ -46,12 +46,12 @@ object HomeData {
             onUpdateClick = {}
         )
 
-        val increasedRiskItem = IncreasedRiskCard.Item(
+        val INCREASED_RISK_ITEM = IncreasedRiskCard.Item(
             state = IncreasedRisk(
                 riskState = RiskState.INCREASED_RISK,
-                isInDetailsMode = true,
+                isInDetailsMode = false,
                 lastExposureDetectionTime = Instant.now(),
-                allowManualUpdate = true,
+                allowManualUpdate = false,
                 daysWithEncounters = 1,
                 activeTracingDays = 1,
                 lastEncounterAt = Instant.now()
@@ -60,29 +60,29 @@ object HomeData {
             onUpdateClick = {}
         )
 
-        val tracingDisabledItem = TracingDisabledCard.Item(
+        val TRACING_DISABLED_ITEM = TracingDisabledCard.Item(
             state = TracingDisabled(
                 riskState = RiskState.LOW_RISK,
-                isInDetailsMode = true,
+                isInDetailsMode = false,
                 lastExposureDetectionTime = Instant.now()
             ),
             onCardClick = {},
             onEnableTracingClick = {}
         )
 
-        val tracingProgressItem = TracingProgressCard.Item(
+        val TRACING_PROGRESS_ITEM = TracingProgressCard.Item(
             state = TracingInProgress(
                 riskState = RiskState.LOW_RISK,
-                isInDetailsMode = true,
+                isInDetailsMode = false,
                 tracingProgress = TracingProgress.Downloading
             ),
             onCardClick = {}
         )
 
-        val tracingFailedItem = TracingFailedCard.Item(
+        val TRACING_FAILED_ITEM = TracingFailedCard.Item(
             state = TracingFailed(
                 riskState = RiskState.CALCULATION_FAILED,
-                isInDetailsMode = true,
+                isInDetailsMode = false,
                 lastExposureDetectionTime = Instant.now()
             ),
             onCardClick = {},
@@ -91,41 +91,41 @@ object HomeData {
     }
 
     object Submission {
-        val testUnregisteredItem = TestUnregisteredCard.Item(
+        val TEST_UNREGISTERED_ITEM = TestUnregisteredCard.Item(
             state = NoTest,
             onClickAction = {}
         )
 
-        val testFetchingItem = TestFetchingCard.Item(
+        val TEST_FETCHING_ITEM = TestFetchingCard.Item(
             state = FetchingResult
         )
 
-        val testPositiveItem = TestPositiveCard.Item(
+        val TEST_POSITIVE_ITEM = TestPositiveCard.Item(
             state = TestPositive,
             onClickAction = {}
         )
 
-        val testNegativeItem = TestNegativeCard.Item(
+        val TEST_NEGATIVE_ITEM = TestNegativeCard.Item(
             state = TestNegative,
             onClickAction = {}
         )
 
-        val testInvalidItem = TestInvalidCard.Item(
+        val TEST_INVALID_ITEM = TestInvalidCard.Item(
             state = TestInvalid,
             onDeleteTest = {}
         )
 
-        val testErrorItem = TestErrorCard.Item(
+        val TEST_ERROR_ITEM = TestErrorCard.Item(
             state = TestError,
             onDeleteTest = {}
         )
 
-        val testPendingItem = TestPendingCard.Item(
+        val TEST_PENDING_ITEM = TestPendingCard.Item(
             state = TestPending,
             onClickAction = {}
         )
 
-        val testSubmissionDoneItem = TestSubmissionDoneCard.Item(
+        val TEST_SUBMISSION_DONE_ITEM = TestSubmissionDoneCard.Item(
             state = SubmissionDone
         )
     }

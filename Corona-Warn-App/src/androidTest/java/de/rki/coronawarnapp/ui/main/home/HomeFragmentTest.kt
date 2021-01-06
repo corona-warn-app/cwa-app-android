@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import androidx.fragment.app.testing.launchFragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -13,15 +14,17 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
+import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
+import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -43,6 +46,7 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.recyclerScrollTo
+import timber.log.Timber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -103,14 +107,22 @@ class HomeFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_low_risk() {
-        every { viewModel.homeItems } returns itemsLiveData(HomeData.Tracing.lowRiskItem)
+        every { viewModel.homeItems } returns itemsLiveData(
+            HomeData.Tracing.LOW_RISK_ITEM
+        )
+
         captureScreenshot()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(HomeFragment::class.simpleName.plus("2"))
     }
 
     @Screenshot
     @Test
     fun capture_screenshot_increased_risk() {
-        every { viewModel.homeItems } returns itemsLiveData(HomeData.Tracing.increasedRiskItem)
+        every { viewModel.homeItems } returns itemsLiveData(
+            HomeData.Tracing.INCREASED_RISK_ITEM
+        )
         captureScreenshot()
     }
 
@@ -118,14 +130,90 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_tracing_disabled() {
         every { viewModel.tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingInActive)
-        every { viewModel.homeItems } returns itemsLiveData(HomeData.Tracing.tracingDisabledItem)
+        every { viewModel.homeItems } returns itemsLiveData(
+            HomeData.Tracing.TRACING_DISABLED_ITEM
+        )
         captureScreenshot()
     }
 
     @Screenshot
     @Test
     fun capture_screenshot_tracing_progress_downloading() {
-        every { viewModel.homeItems } returns itemsLiveData(HomeData.Tracing.tracingProgressItem)
+        every { viewModel.homeItems } returns itemsLiveData(
+            HomeData.Tracing.TRACING_PROGRESS_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_tracing_failed() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            HomeData.Tracing.TRACING_FAILED_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_submission_done() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_SUBMISSION_DONE_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_error() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_ERROR_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_fetching() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_FETCHING_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_invalid() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_INVALID_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_negative() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_NEGATIVE_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_positive() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_POSITIVE_ITEM
+        )
+        captureScreenshot()
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_test_pending() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            submissionTestResultItem = HomeData.Submission.TEST_PENDING_ITEM
+        )
         captureScreenshot()
     }
 
@@ -134,20 +222,26 @@ class HomeFragmentTest : BaseUITest() {
         launchFragmentInContainer2<HomeFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(simpleName)
-
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(simpleName.plus("2"))
     }
 
-    private fun itemsLiveData(tracingStateItem: TracingStateItem) =
+    private fun itemsLiveData(
+        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM,
+        submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM
+    ): LiveData<List<HomeItem>> =
         MutableLiveData(
-            listOf(
-                tracingStateItem,
-                TestUnregisteredCard.Item(NoTest, onClickAction = {}),
-                DiaryCard.Item(onClickAction = { }),
-                FAQCard.Item(onClickAction = { })
-            )
+            mutableListOf<HomeItem>().apply {
+                when (submissionTestResultItem) {
+                    is TestSubmissionDoneCard.Item,
+                    is TestPositiveCard.Item -> {
+                        Timber.d("Tracing item is not added, submission:$submissionTestResultItem")
+                    }
+                    else -> add(tracingStateItem)
+                }
+
+                add(submissionTestResultItem)
+                add(DiaryCard.Item {})
+                add(FAQCard.Item {})
+            }
         )
 
     private fun homeFragmentViewModelSpy() = spyk(
