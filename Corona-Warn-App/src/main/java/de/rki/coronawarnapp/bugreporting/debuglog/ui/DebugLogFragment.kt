@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.format.Formatter
 import android.view.View
@@ -51,7 +50,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         vm.shareEvent.observe2(this) {
-            startActivity(Intent.createChooser(it, getString(R.string.debugging_debuglog_sharing_dialog_title)))
+            startActivity(it.get(requireActivity()))
         }
 
         binding.apply {

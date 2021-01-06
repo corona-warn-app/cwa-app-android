@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.compression.Zipper
@@ -43,7 +43,7 @@ class DebugLogViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errorEvent = SingleLiveEvent<Throwable>()
-    val shareEvent = SingleLiveEvent<Intent>()
+    val shareEvent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
 
     fun toggleRecording() {
         launch {
@@ -71,12 +71,13 @@ class DebugLogViewModel @AssistedInject constructor(
                     listOf(Zipper.Entry(name = "$formattedFileName.txt", path = debugLogger.runningLog))
                 )
 
-                val sharingIntent = fileSharing.getIntent(
+                val intentProvider = fileSharing.getIntentProvider(
                     path = zipFile,
-                    title = zipFile.name
+                    title = zipFile.name,
+                    chooserTitle = R.string.debugging_debuglog_sharing_dialog_title
                 )
 
-                shareEvent.postValue(sharingIntent)
+                shareEvent.postValue(intentProvider)
             } catch (e: Exception) {
                 Timber.e(e, "Sharing debug log failed.")
                 errorEvent.postValue(e)
