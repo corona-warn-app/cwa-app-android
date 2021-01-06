@@ -26,10 +26,11 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
-    private val binding = ViewTestResultSectionBinding.bind(this)
+    private var binding: ViewTestResultSectionBinding
 
     init {
         inflate(context, R.layout.view_test_result_section, this)
+        binding = ViewTestResultSectionBinding.bind(this)
         context.withStyledAttributes(attrs, R.styleable.TestResultSection) {
             binding.testResultSectionHeadline.text =
                 getText(R.styleable.TestResultSection_test_result_section_headline)
@@ -85,7 +86,7 @@ constructor(
 
                 DeviceUIState.PAIRED_POSITIVE,
                 DeviceUIState.PAIRED_POSITIVE_TELETAN,
-                DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(uiState))
                 else -> SpannableString("")
             }
         }
