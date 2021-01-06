@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper

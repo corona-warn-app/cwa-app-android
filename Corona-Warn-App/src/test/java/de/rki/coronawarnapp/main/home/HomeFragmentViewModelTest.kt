@@ -4,8 +4,8 @@ import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
-import io.mockk.coEvery
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -44,11 +44,11 @@ class SettingsBackgroundStateTest : BaseTest() {
     @Test
     fun getBackgroindPriorityIcon() {
         createInstance(isEnabled = true).apply {
-            getBackgroindPriorityIcon(context)
+            getBackgroundPriorityIcon(context)
             verify { context.getDrawable(R.drawable.ic_settings_background_priority_enabled) }
         }
         createInstance(isEnabled = false).apply {
-            getBackgroindPriorityIcon(context)
+            getBackgroundPriorityIcon(context)
             verify { context.getDrawable(R.drawable.ic_settings_background_priority_disabled) }
         }
     }
