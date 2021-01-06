@@ -23,9 +23,7 @@ object CWADebug {
 
         DebugLogger.init(application)
 
-        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
-        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
-        Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
+        logDeviceInfos()
     }
 
     fun initAfterInjection(component: ApplicationComponent) {
@@ -52,5 +50,11 @@ object CWADebug {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun logDeviceInfos() {
+        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
+        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
+        Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
     }
 }

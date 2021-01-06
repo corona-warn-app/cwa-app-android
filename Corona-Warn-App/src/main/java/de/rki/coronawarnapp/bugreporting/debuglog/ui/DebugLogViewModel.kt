@@ -5,6 +5,8 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.compression.Zipper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -24,7 +26,8 @@ class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
-    private val fileSharing: FileSharing
+    private val fileSharing: FileSharing,
+    private val enfClient: ENFClient
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val ticker = flow {
         while (true) {
@@ -51,11 +54,22 @@ class DebugLogViewModel @AssistedInject constructor(
                 debugLogger.stop()
             } else {
                 debugLogger.start()
+                printExtendedLogInfos()
             }
         } catch (e: Exception) {
             errorEvent.postValue(e)
         } finally {
             manualTick.value = Unit
+        }
+    }
+
+    private suspend fun printExtendedLogInfos() {
+        CWADebug.logDeviceInfos()
+        try {
+            val enfVersion = enfClient.getENFClientVersion()
+            Timber.tag("ENFClient").i("ENF Version: %d", enfVersion)
+        } catch (e: Exception) {
+            Timber.tag("ENFClient").e(e, "Failed to get ENF version for debug log.")
         }
     }
 
