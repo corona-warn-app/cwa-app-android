@@ -3,12 +3,21 @@ package de.rki.coronawarnapp.ui.calendar
 import io.kotest.matchers.shouldBe
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import org.junit.Before
 import org.junit.Test
+import java.util.Locale
 
 class CalendarCalculationTest {
 
     private var pattern = "dd.MM.yyyy"
     private val formatter = DateTimeFormat.forPattern(pattern)
+
+
+    @Before
+    fun setUp() {
+        // Always return English results no matter the locale of the test environment host
+        Locale.setDefault(Locale.ENGLISH)
+    }
 
     @Test
     fun calculateSameYearSameMonth() {
