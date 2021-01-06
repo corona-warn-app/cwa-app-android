@@ -32,12 +32,10 @@
             android:id="@+id/content_scrollcontainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_action"
+            app:layout_constraintBottom_toTopOf="@id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_header"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,7 +63,7 @@
                     android:text="@string/submission_positive_other_warning_headline"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_hero_illustration" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_positive_other_warning_hero_illustration" />
 
                 <TextView
                     android:id="@+id/submission_positive_other_warning_text_first_part"
@@ -77,7 +75,7 @@
                     android:text="@string/submission_positive_other_warning_no_consent_body_first_part"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_positive_other_warning_headline" />
 
                 <TextView
                     android:id="@+id/submission_positive_other_warning_text_second_part"
@@ -89,7 +87,7 @@
                     android:text="@string/submission_positive_other_warning_no_consent_body_second_part"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_first_part" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_positive_other_warning_text_first_part" />
 
 
                 <de.rki.coronawarnapp.ui.view.CountryListView
@@ -98,8 +96,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text_second_part" />
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_positive_other_warning_text_second_part" />
 
                 <include
                     android:id="@+id/submission_positive_other_privacy"
@@ -107,9 +105,9 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/countryList" />
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/countryList" />
 
                 <include
                     android:id="@+id/submission_no_consent_main_first_point"
