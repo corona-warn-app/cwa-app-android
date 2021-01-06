@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
-import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
+import org.joda.time.LocalDate
 
-class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
+class ContactDiaryOverviewAdapter(
+    private val dateFormatter: (LocalDate) -> String,
+    private val onItemSelectionListener: (ListItem) -> Unit
+) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
     private val elements: MutableList<ListItem> = mutableListOf()
 
@@ -31,7 +34,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
     override fun getItemCount() = elements.size
 
     override fun onBindViewHolder(holder: OverviewElementHolder, position: Int) {
-        holder.bind(elements[position], onItemSelectionListener)
+        holder.bind(elements[position], dateFormatter, onItemSelectionListener)
     }
 
     class OverviewElementHolder(private val viewDataBinding: ContactDiaryOverviewListItemBinding) :
@@ -44,10 +47,10 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
 
         fun bind(
             item: ListItem,
+            dateFormatter: (LocalDate) -> String,
             onElementSelectionListener: (ListItem) -> Unit
         ) {
-            viewDataBinding.contactDiaryOverviewElementName.text =
-                item.date.toFormattedDay()
+            viewDataBinding.contactDiaryOverviewElementName.text = dateFormatter(item.date)
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
