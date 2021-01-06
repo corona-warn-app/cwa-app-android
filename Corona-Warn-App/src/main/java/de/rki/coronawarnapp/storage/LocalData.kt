@@ -464,7 +464,7 @@ object LocalData {
             )
         }
 
-    fun numberOfSuccessfulSubmissions(): Int {
+    private fun numberOfSuccessfulSubmissions(): Int {
         return getSharedPreferenceInstance().getInt(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_number_successful_submissions),

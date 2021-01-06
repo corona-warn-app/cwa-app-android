@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -212,17 +213,17 @@ data class TracingInProgress(
     fun getStableIconColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
-    }.let { c.getColor(it) }
+    }.let { c.getColorCompat(it) }
 
     fun getStableTextColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
         else -> R.color.colorTextPrimary1
-    }.let { c.getColor(it) }
+    }.let { c.getColorCompat(it) }
 
     @ColorInt
     fun getContainerColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         RiskState.CALCULATION_FAILED -> R.color.colorSemanticUnknownRisk
-    }.let { c.getColor(it) }
+    }.let { c.getColorCompat(it) }
 }
