@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.android.synthetic.main.include_submission_tan.*
 import javax.inject.Inject
 
 /**
@@ -37,27 +36,31 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.observe2(this) {
-            binding.uiState = it
+            binding.apply {
+                uiState = it
 
-            submission_tan_character_error.setGone(it.areCharactersCorrect)
-            if (it.isCorrectLength) {
-                submission_tan_error.setGone(it.isTanValid)
-            } else {
-                submission_tan_error.setGone(true)
+                submissionTanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
+                if (it.isCorrectLength) {
+                    submissionTanContent.submissionTanError.setGone(it.isTanValid)
+                } else {
+                    submissionTanContent.submissionTanError.setGone(true)
+                }
             }
         }
 
-        binding.submissionTanContent.submissionTanInput.listener = { tan ->
-            submission_tan_character_error.visibility = View.GONE
-            submission_tan_error.visibility = View.GONE
+        binding.apply {
+            submissionTanContent.submissionTanInput.listener = { tan ->
+                submissionTanContent.submissionTanCharacterError.visibility = View.GONE
+                submissionTanContent.submissionTanError.visibility = View.GONE
 
-            viewModel.onTanChanged(tan)
-        }
+                viewModel.onTanChanged(tan)
+            }
 
-        binding.submissionTanButtonEnter.setOnClickListener {
-            viewModel.onTanSubmit()
+            submissionTanButtonEnter.setOnClickListener {
+                viewModel.onTanSubmit()
+            }
+            submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
         }
-        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 
         viewModel.registrationState.observe2(this) {
             binding.submissionTanSpinner.visibility = when (it) {
