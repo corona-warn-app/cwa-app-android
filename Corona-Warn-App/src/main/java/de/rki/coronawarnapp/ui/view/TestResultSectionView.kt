@@ -26,7 +26,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
-    private var binding: ViewTestResultSectionBinding
+    private val binding: ViewTestResultSectionBinding
 
     init {
         inflate(context, R.layout.view_test_result_section, this)
