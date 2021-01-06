@@ -43,9 +43,14 @@ object DebugLogger : DebugLoggerBase() {
     fun init(application: Application) {
         context = application
 
-        if (triggerFile.exists()) {
-            Timber.tag(TAG).i("Trigger file exists, starting debug log.")
-            runBlocking { start() }
+        try {
+            if (triggerFile.exists()) {
+                Timber.tag(TAG).i("Trigger file exists, starting debug log.")
+                runBlocking { start() }
+            }
+        } catch (e: Exception) {
+            // This is called from Application.onCreate() never crash here.
+            Timber.tag(TAG).e(e, "DebugLogger init(%s) failed.", application)
         }
     }
 

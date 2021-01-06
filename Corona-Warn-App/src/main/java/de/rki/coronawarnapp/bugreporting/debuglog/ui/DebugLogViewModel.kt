@@ -45,13 +45,16 @@ class DebugLogViewModel @AssistedInject constructor(
     val errorEvent = SingleLiveEvent<Throwable>()
     val shareEvent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
 
-    fun toggleRecording() {
-        launch {
+    fun toggleRecording() = launch {
+        try {
             if (debugLogger.isLogging) {
                 debugLogger.stop()
             } else {
                 debugLogger.start()
             }
+        } catch (e: Exception) {
+            errorEvent.postValue(e)
+        } finally {
             manualTick.value = Unit
         }
     }
