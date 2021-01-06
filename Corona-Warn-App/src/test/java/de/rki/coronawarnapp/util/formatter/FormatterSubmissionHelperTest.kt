@@ -182,39 +182,39 @@ class FormatterSubmissionHelperTest {
     fun formatTestResultStatusColor() {
         formatTestResultStatusColorBase(
             oUiState = null,
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NEGATIVE),
-            iResult = context.getColor(R.color.colorTextSemanticGreen)
+            iResult = context.getColorCompat(R.color.colorTextSemanticGreen)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_ERROR),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_NO_RESULT),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE_TELETAN),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
         formatTestResultStatusColorBase(
             oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED),
-            iResult = context.getColor(R.color.colorTextSemanticRed)
+            iResult = context.getColorCompat(R.color.colorTextSemanticRed)
         )
     }
 
