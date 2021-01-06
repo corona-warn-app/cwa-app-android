@@ -1,15 +1,16 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.recyclerview.widget.RecyclerView
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
+import de.rki.coronawarnapp.ui.lists.BaseAdapter
+import de.rki.coronawarnapp.util.lists.BindableVH
 
 class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
-    RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
+    BaseAdapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
     private val elements: MutableList<ListItem> = mutableListOf()
 
     fun setItems(elements: List<ListItem>) {
@@ -17,43 +18,31 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OverviewElementHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return OverviewElementHolder(
-            ContactDiaryOverviewListItemBinding.inflate(
-                inflater,
-                parent,
-                false
-            )
-        )
-    }
-
     override fun getItemCount() = elements.size
 
-    override fun onBindViewHolder(holder: OverviewElementHolder, position: Int) {
-        holder.bind(elements[position], onItemSelectionListener)
-    }
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): OverviewElementHolder = OverviewElementHolder(parent)
 
-    class OverviewElementHolder(private val viewDataBinding: ContactDiaryOverviewListItemBinding) :
-        RecyclerView.ViewHolder(viewDataBinding.root) {
+    override fun onBindBaseVH(holder: OverviewElementHolder, position: Int, payloads: MutableList<Any>) =
+        holder.bind(elements[position], payloads)
+
+    inner class OverviewElementHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.contact_diary_overview_list_item, parent),
+        BindableVH<ListItem, ContactDiaryOverviewListItemBinding> {
+        override val viewBinding: Lazy<ContactDiaryOverviewListItemBinding> =
+            lazy { ContactDiaryOverviewListItemBinding.bind(itemView) }
+
         private val nestedItemAdapter = ContactDiaryOverviewNestedAdapter()
 
         init {
-            viewDataBinding.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
+            viewBinding.value.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
         }
 
-        fun bind(
-            item: ListItem,
-            onElementSelectionListener: (ListItem) -> Unit
-        ) {
-            viewDataBinding.contactDiaryOverviewElementName.text =
-                item.date.toFormattedDay()
-
-            viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
-
-            viewDataBinding.contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
-
-            nestedItemAdapter.setItems(item.data)
-        }
+        override val onBindData: ContactDiaryOverviewListItemBinding.(item: ListItem, payloads: List<Any>) -> Unit =
+            { key, _ ->
+                contactDiaryOverviewElementName.text = key.date.toFormattedDay()
+                contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(key) }
+                contactDiaryOverviewNestedElementGroup.isGone = key.data.isEmpty()
+                nestedItemAdapter.setItems(key.data)
+            }
     }
 }
