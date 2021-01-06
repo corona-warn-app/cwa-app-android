@@ -325,7 +325,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     implementation 'androidx.annotation:annotation:1.1.0'
@@ -350,7 +349,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
 
     //ENA
-    implementation files('libs\\play-services-nearby-exposurenotification-1.7.2-eap.aar')
+    implementation files('libs/play-services-nearby-exposurenotification-1.7.2-eap.aar')
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
