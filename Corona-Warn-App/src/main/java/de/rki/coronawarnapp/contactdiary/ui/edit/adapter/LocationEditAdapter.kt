@@ -25,8 +25,8 @@ internal class LocationEditAdapter(private val onItemClicked: (item: ContactDiar
         override val onBindData:
             ContactDiaryEditListItemBinding.(item: ContactDiaryLocation, payloads: List<Any>) -> Unit =
             { key, _ ->
-                viewBinding.value.name.text = key.locationName
-                viewBinding.value.itemContainer.setOnClickListener { onItemClicked(key) }
+                name.text = key.locationName
+                itemContainer.setOnClickListener { onItemClicked(key) }
             }
     }
 }

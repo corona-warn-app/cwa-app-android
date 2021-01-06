@@ -25,10 +25,8 @@ internal class PersonEditAdapter(private val onItemClicked: (item: ContactDiaryP
         override val onBindData:
             ContactDiaryEditListItemBinding.(item: ContactDiaryPerson, payloads: List<Any>) -> Unit =
             { key, _ ->
-                viewBinding.value.apply {
-                    name.text = key.fullName
-                    itemContainer.setOnClickListener { onItemClicked(key) }
-                }
+                name.text = key.fullName
+                itemContainer.setOnClickListener { onItemClicked(key) }
             }
     }
 }
