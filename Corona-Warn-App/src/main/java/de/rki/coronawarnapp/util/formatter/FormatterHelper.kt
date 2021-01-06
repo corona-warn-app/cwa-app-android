@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.html.HtmlParser
 
 /*Style*/

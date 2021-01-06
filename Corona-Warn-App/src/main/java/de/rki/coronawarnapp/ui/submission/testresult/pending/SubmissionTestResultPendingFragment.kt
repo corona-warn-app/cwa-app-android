@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBindi
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess

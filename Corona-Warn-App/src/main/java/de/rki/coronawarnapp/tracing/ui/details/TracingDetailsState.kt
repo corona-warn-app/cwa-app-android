@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 data class TracingDetailsState(
     val tracingStatus: GeneralTracingStatus.Status,

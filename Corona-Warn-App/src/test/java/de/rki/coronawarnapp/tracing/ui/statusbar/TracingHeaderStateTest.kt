@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState.BluetoothDis
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState.LocationDisabled
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState.TracingActive
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState.TracingInActive
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks

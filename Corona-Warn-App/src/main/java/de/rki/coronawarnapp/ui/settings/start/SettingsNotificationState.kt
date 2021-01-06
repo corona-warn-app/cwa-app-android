@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 data class SettingsNotificationState(
     val isNotificationsEnabled: Boolean,

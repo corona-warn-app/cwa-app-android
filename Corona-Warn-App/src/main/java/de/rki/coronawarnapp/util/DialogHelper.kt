@@ -7,6 +7,7 @@ import android.text.util.Linkify
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorStateListCompat
 import java.util.regex.Pattern
 
 object DialogHelper {

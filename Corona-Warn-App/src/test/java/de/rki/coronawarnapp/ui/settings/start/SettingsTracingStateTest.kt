@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.settings.start
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks

@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox.Item
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 class BehaviorNormalRiskBox(
     parent: ViewGroup,

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.statusbar
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 sealed class TracingHeaderState {
     abstract fun getTracingDescription(c: Context): String
