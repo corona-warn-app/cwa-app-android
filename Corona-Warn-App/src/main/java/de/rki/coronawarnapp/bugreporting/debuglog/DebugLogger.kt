@@ -123,6 +123,7 @@ object DebugLogger : DebugLoggerBase() {
         logJob?.let {
             Timber.tag(TAG).d("LogJob canceled.")
             it.cancel()
+            it.join()
         }
         logJob = null
 
