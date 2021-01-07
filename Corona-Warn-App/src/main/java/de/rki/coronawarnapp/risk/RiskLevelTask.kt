@@ -48,7 +48,6 @@ class RiskLevelTask @Inject constructor(
 
     private var isCanceled = false
 
-    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult = try {
         Timber.d("Running with arguments=%s", arguments)
 
