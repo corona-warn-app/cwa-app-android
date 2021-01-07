@@ -28,7 +28,7 @@ class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 Collator.getInstance().compare(a.label.get(context), b.label.get(context))
             }.also { countries ->
                 adapterCountryFlags.countryList = countries
-                countryNames.text = countries.joinToString(", ") { it.label.get(context) }
+                countryNames.text = countries.joinToString(", ") { context.getString(it.labelRes) }
             }
         }
 
