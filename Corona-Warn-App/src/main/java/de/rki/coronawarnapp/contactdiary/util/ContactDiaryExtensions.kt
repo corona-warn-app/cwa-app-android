@@ -38,7 +38,7 @@ fun LocalDate.toFormattedDay(locale: Locale): String {
         DateTimeFormat.shortDate().withLocale(locale).print(this)
 }
 
-fun LocalDate.toFormattedDayForAccessibility(): String = toString("EEEE, dd.MM.yyyy", Locale.GERMAN)
+fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String = toString("EEEE, dd.MM.yyyy", locale)
 
 fun String.formatContactDiaryNameField(maxLength: Int): String {
     val newName = if (isNotBlank()) {

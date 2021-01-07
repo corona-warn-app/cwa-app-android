@@ -64,7 +64,7 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
 
         viewModel.uiState.observe2(this) {
             binding.contactDiaryDayHeader.title = it.dayText(requireContext())
-            binding.contactDiaryDayHeader.contentDescription = it.dayText(requireContext())
+            binding.contactDiaryDayHeader.contentDescription = it.dayTextContentDescription(requireContext())
         }
 
         viewModel.routeToScreen.observe2(this) {

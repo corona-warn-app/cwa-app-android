@@ -11,6 +11,7 @@ import org.joda.time.LocalDate
 
 class ContactDiaryOverviewAdapter(
     private val dateFormatter: (LocalDate) -> String,
+    private val dateFormatterForAccessibility: (LocalDate) -> String,
     private val onItemSelectionListener: (ListItem) -> Unit
 ) :
     RecyclerView.Adapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
@@ -36,7 +37,7 @@ class ContactDiaryOverviewAdapter(
     override fun getItemCount() = elements.size
 
     override fun onBindViewHolder(holder: OverviewElementHolder, position: Int) {
-        holder.bind(elements[position], dateFormatter, onItemSelectionListener)
+        holder.bind(elements[position], dateFormatter, dateFormatterForAccessibility, onItemSelectionListener)
     }
 
     class OverviewElementHolder(private val viewDataBinding: ContactDiaryOverviewListItemBinding) :
@@ -50,11 +51,12 @@ class ContactDiaryOverviewAdapter(
         fun bind(
             item: ListItem,
             dateFormatter: (LocalDate) -> String,
+            dateFormatterForAccessibility: (LocalDate) -> String,
             onElementSelectionListener: (ListItem) -> Unit
         ) {
             viewDataBinding.contactDiaryOverviewElementName.text = dateFormatter(item.date)
 
-            viewDataBinding.contactDiaryOverviewElementName.contentDescription = item.date.toFormattedDayForAccessibility()
+            viewDataBinding.contactDiaryOverviewElementName.contentDescription = dateFormatterForAccessibility(item.date)
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 
