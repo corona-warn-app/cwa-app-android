@@ -47,7 +47,7 @@
                     app:body="@{@string/settings_background_priority_body}"
                     app:headline="@{@string/settings_background_priority_headline}"
                     app:illustration="@{state.getHeaderIllustration(context)}"
-                    app:illustrationDescription="@{@string/settings_background_priority_illustration_description}"
+                    app:illustrationDescription="@{state.getHeaderIllustrationDescription(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
