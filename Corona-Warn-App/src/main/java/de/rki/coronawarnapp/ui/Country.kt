@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui
 
+import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
@@ -43,5 +44,8 @@ enum class Country(
     SI("si", R.string.country_name_si, R.drawable.ic_country_si),
     SK("sk", R.string.country_name_sk, R.drawable.ic_country_sk);
 
-    val label = CachedString { it.getString(labelRes) }
+    fun getLabel(context: Context): String {
+        return context.getString(labelRes)
+    }
+
 }

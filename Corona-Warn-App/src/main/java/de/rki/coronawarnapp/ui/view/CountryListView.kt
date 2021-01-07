@@ -25,10 +25,10 @@ class CountryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         set(value) {
             field = value.sortedWith { a, b ->
                 // Sort country list alphabetically
-                Collator.getInstance().compare(a.label.get(context), b.label.get(context))
+                Collator.getInstance().compare(a.getLabel(context), b.getLabel(context))
             }.also { countries ->
                 adapterCountryFlags.countryList = countries
-                countryNames.text = countries.joinToString(", ") { context.getString(it.labelRes) }
+                countryNames.text = countries.joinToString(", ") { it.getLabel(context) }
             }
         }
 
