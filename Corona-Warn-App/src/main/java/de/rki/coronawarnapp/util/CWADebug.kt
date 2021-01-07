@@ -4,21 +4,16 @@ import android.app.Application
 import android.os.Build
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.util.debug.FileLogger
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 
 object CWADebug {
-    var fileLogger: FileLogger? = null
 
     fun init(application: Application) {
         if (isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
         if (isDeviceForTestersBuild) {
             Timber.plant(Timber.DebugTree())
-        }
-        if (isDeviceForTestersBuild) {
-            fileLogger = FileLogger(application)
         }
 
         DebugLogger.init(application)
