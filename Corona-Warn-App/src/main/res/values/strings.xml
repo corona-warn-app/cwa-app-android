@@ -741,6 +741,28 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title" />
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation"></string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning" />
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording" />
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording" />
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log" />
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording" />
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording" />
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"%1$s"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title" />
+
     <!-- ####################################
               Interoperability
     ###################################### -->

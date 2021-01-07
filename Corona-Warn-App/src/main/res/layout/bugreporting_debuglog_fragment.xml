@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:navigationIcon="@drawable/ic_back"
+        android:title="@string/debugging_debuglog_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/explanation"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/debugging_debuglog_intro_explanation" />
+
+            <TextView
+                android:id="@+id/sensitive_information"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cwaGrayHighlight"
+                android:padding="@dimen/spacing_normal"
+                android:text="@string/debugging_debuglog_intro_warning"
+                android:textColor="@color/colorStableLight" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/cardTracing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_tiny">
+
+                <ProgressBar
+                    android:id="@+id/debuglog_activity_indicator"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/debuglog_status_secondary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/debuglog_status_primary"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/debuglog_status_primary"
+                    style="@style/body1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/debuglog_activity_indicator"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginStart="0dp"
+                    tools:text="@string/debugging_debuglog_status_not_recording" />
+
+                <TextView
+                    android:id="@+id/debuglog_status_secondary"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/debuglog_activity_indicator"
+                    app:layout_constraintTop_toBottomOf="@id/debuglog_status_primary"
+                    app:layout_goneMarginStart="0dp"
+                    tools:text="@string/debugging_debuglog_status_additional_infos" />
+
+                <Button
+                    android:id="@+id/share_recording"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="false"
+                    android:text="@string/debugging_debuglog_action_share_log"
+                    app:layout_constraintEnd_toStartOf="@+id/toggle_recording"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/debuglog_status_secondary" />
+                <Button
+                    android:id="@+id/toggle_recording"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/debugging_debuglog_action_start_recording"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/share_recording"
+                    app:layout_constraintTop_toBottomOf="@id/debuglog_status_secondary" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

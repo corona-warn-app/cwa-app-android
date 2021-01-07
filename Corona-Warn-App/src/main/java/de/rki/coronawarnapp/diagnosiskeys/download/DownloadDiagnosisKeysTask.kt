@@ -39,7 +39,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
     private var isCanceled = false
 
-    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): Task.Result {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
