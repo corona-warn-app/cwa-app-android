@@ -109,7 +109,7 @@
             <Button
                 android:id="@+id/risk_details_button_enable_tracing"
                 style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/risk_card_button_enable_tracing"
                 gone="@{!tracingDetailsState.isRiskDetailsEnableTracingButtonVisible()}"
@@ -121,7 +121,7 @@
             <Button
                 android:id="@+id/risk_details_button_update"
                 style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:enabled="@{tracingDetailsState.isUpdateButtonEnabled()}"
                 android:text="@{tracingDetailsState.getUpdateButtonText(context)}"

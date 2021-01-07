@@ -11,7 +11,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/contact_diary_day_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/contact_diary_background"
             android:elevation="@dimen/elevation_weak"
@@ -23,7 +23,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/contact_diary_day_tab_layout"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/contact_diary_background"
             android:elevation="@dimen/elevation_weak"
@@ -35,8 +35,8 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/contact_diary_day_view_pager"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

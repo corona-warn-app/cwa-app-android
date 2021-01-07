@@ -15,7 +15,7 @@
         <include
             android:id="@+id/submission_done_no_consent_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,8 +25,8 @@
 
         <ScrollView
             android:id="@+id/content_scrollcontainer"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/submission_done_button_continue_with_symptom_recording"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
 
                 <ImageView
                     android:id="@+id/submission_done_hero_illustration"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:focusable="true"
                     android:src="@drawable/ic_illustration_together"
@@ -54,7 +54,7 @@
                 <TextView
                     android:id="@+id/submission_done_text"
                     style="@style/headline6"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginEnd="@dimen/spacing_normal"
@@ -67,7 +67,7 @@
                 <TextView
                     android:id="@+id/submission_done_subtitle"
                     style="@style/headline6"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
@@ -80,7 +80,7 @@
                 <TextView
                     android:id="@+id/submission_done_no_consent_body"
                     style="@style/subtitle"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
@@ -109,7 +109,7 @@
         <Button
             android:id="@+id/submission_done_contact_button_finish_flow"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/submission_done_no_consent_break_flow"
