@@ -35,7 +35,7 @@ class SubmissionTask @Inject constructor(
     private val autoSubmission: AutoSubmission,
     private val timeStamper: TimeStamper,
     private val testResultNotificationService: TestResultNotificationService,
-    private val testResultAvailableNotification: TestResultAvailableNotification,
+    private val testResultAvailableNotification: TestResultAvailableNotification
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
