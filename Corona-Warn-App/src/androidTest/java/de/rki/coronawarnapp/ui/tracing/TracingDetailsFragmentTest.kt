@@ -119,7 +119,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
 
     private fun captureScreenshot() {
         launchFragmentInContainer2<TracingDetailsFragment>()
-        Thread.sleep(2000) // TODO use constant from (EXPOSUREAPP-2950)
+        Thread.sleep(2000) // TODO use constant and scrolling Action from (EXPOSUREAPP-2950)
         Screengrab.screenshot(TracingDetailsFragment::class.simpleName)
     }
 }
