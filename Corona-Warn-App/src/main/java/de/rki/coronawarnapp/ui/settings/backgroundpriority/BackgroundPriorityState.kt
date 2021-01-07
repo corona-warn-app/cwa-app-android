@@ -21,4 +21,13 @@ data class BackgroundPriorityState(
         }
         return ContextCompat.getDrawable(context, illustrationId)
     }
+
+    fun getHeaderIllustrationDescription(context: Context): String {
+        val illustrationDescription = if (isBackgroundPriorityEnabled) {
+            R.string.settings_background_priority_on_illustration_description
+        } else {
+            R.string.settings_background_priority_off_illustration_description
+        }
+        return context.getString(illustrationDescription)
+    }
 }
