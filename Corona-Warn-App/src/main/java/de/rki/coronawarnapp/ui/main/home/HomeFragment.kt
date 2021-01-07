@@ -47,7 +47,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     private val homeAdapter = HomeAdapter()
 
-    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

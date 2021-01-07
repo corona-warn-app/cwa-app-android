@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
+import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.contactdiary.ContactDiaryRootModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -64,6 +66,7 @@ import javax.inject.Singleton
         TaskModule::class,
         DeviceForTestersModule::class,
         BugReportingModule::class,
+        BugReportingSharedModule::class,
         SerializationModule::class,
         WorkerBinder::class,
         ContactDiaryRootModule::class
@@ -87,6 +90,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     @AppScope val appScope: AppCoroutineScope
 
     val bugReporter: BugReporter
+
+    fun inject(logger: DebugLogger)
 
     @Component.Factory
     interface Factory {
