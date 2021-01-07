@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.ui.CachedString
 
 enum class Country(
     val code: String,
@@ -47,5 +46,4 @@ enum class Country(
     fun getLabel(context: Context): String {
         return context.getString(labelRes)
     }
-
 }
