@@ -54,7 +54,8 @@ class ContactDiaryOverviewAdapter(
         ) {
             viewDataBinding.contactDiaryOverviewElementName.text = dateFormatter(item.date)
 
-            viewDataBinding.contactDiaryOverviewElementName.contentDescription = dateFormatterForAccessibility(item.date)
+            viewDataBinding.contactDiaryOverviewElementName.contentDescription =
+                dateFormatterForAccessibility(item.date)
 
             viewDataBinding.contactDiaryOverviewElementBody.setOnClickListener { onElementSelectionListener(item) }
 

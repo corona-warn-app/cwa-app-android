@@ -25,7 +25,9 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryDayNavigationEvents> = SingleLiveEvent()
 
     val uiState = displayedDay.map { day ->
-        UIState(dayText = { day.toFormattedDay(it.getLocale()) }, dayTextContentDescription = { day.toFormattedDayForAccessibility(it.getLocale()) })
+        UIState(
+            dayText = { day.toFormattedDay(it.getLocale()) },
+            dayTextContentDescription = { day.toFormattedDayForAccessibility(it.getLocale()) })
     }.asLiveData()
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
