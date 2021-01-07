@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
-import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
-import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import org.joda.time.LocalDate
 
