@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.html.HtmlParser
 
 /*Style*/
@@ -39,9 +40,9 @@ fun formatDrawable(value: Boolean, drawableTrue: Int, drawableFalse: Int): Drawa
 fun formatColor(value: Boolean, colorTrue: Int, colorFalse: Int): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (value) {
-        appContext.getColor(colorTrue)
+        appContext.getColorCompat(colorTrue)
     } else {
-        appContext.getColor(colorFalse)
+        appContext.getColorCompat(colorFalse)
     }
 }
 
@@ -126,7 +127,7 @@ fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int?): String {
  */
 fun formatColorIcon(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColor(R.color.colorAccentTintIcon)
+    return color ?: appContext.getColorCompat(R.color.colorAccentTintIcon)
 }
 
 fun parseHtmlFromAssets(context: Context, path: String): Spanned {
@@ -141,7 +142,7 @@ fun parseHtmlFromAssets(context: Context, path: String): Spanned {
  * @return
  */
 fun formatColorDivider(context: Context, color: Int?): Int {
-    return color ?: context.getColor(R.color.colorHairline)
+    return color ?: context.getColorCompat(R.color.colorHairline)
 }
 
 /**
