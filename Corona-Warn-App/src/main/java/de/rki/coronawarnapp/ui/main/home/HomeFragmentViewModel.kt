@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
+import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -74,7 +76,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val testResultNotificationService: TestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
-    appConfigProvider: AppConfigProvider
+    appConfigProvider: AppConfigProvider,
+    statisticsProvider: StatisticsProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -209,8 +212,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         submissionCardItems,
-        submissionStateProvider.state
-    ) { tracingItem, submissionItem, submissionState ->
+        submissionStateProvider.state,
+        statisticsProvider.current
+    ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
                 TestPositive,
@@ -218,6 +222,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
+            }
+
+            if (statsData.isDataAvailable) {
+                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { TODO("Nav to help page") }))
             }
 
             add(submissionItem)
