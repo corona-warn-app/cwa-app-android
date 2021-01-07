@@ -632,8 +632,6 @@
     <string name="settings_background_priority_headline">"Actualizare automată a stării de risc"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Dacă activați activitatea în fundal cu prioritate, aplicația poate determina în orice moment starea riscului dvs. Această opțiune dezactivează optimizarea vieții bateriei doar pentru aplicația Corona-Warn."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Puteți activa și dezactiva activitatea în fundal cu prioritate din setările dispozitivului."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
