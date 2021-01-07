@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.submission.ui.homecards
 import dagger.Reusable
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper

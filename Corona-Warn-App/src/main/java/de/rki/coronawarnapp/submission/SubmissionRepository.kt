@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.storage
+package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -7,13 +7,8 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.submission.SubmissionTask
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
-import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.TaskInfo
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -24,7 +19,6 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
@@ -37,7 +31,6 @@ class SubmissionRepository @Inject constructor(
     private val submissionService: SubmissionService,
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    private val taskController: TaskController,
     private val tekHistoryStorage: TEKHistoryStorage
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
@@ -52,22 +45,7 @@ class SubmissionRepository @Inject constructor(
     val hasViewedTestResult = submissionSettings.hasViewedTestResult.flow
     val currentSymptoms = submissionSettings.symptoms
 
-    private fun List<TaskInfo>.isSubmissionTaskRunning() = any {
-        it.taskState.isActive && it.taskState.request.type == SubmissionTask::class
-    }
-
-    val isSubmissionRunning = taskController.tasks.map { it.isSubmissionTaskRunning() }
-
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
-
-    suspend fun startSubmission() {
-        Timber.i("Starting submission.")
-        val result = taskController.submitBlocking(DefaultTaskRequest(type = SubmissionTask::class))
-        result.error?.let {
-            Timber.e(it, "Submission failed.")
-            it.report(ExceptionCategory.HTTP, prefix = "Submission failed.")
-        }
-    }
 
     // to be used by new submission flow screens
     fun giveConsentToSubmission() {
@@ -198,16 +176,21 @@ class SubmissionRepository @Inject constructor(
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)
         LocalData.initialPollingForTestResultTimeStamp(0L)
+        LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.isTestResultNotificationSent(false)
     }
-}
 
-private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
-    TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
-    TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
-    TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
-    TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
-    TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
-    null -> DeviceUIState.UNPAIRED
+    private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
+        TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+        TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+        TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
+        TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
+        TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
+        null -> DeviceUIState.UNPAIRED
+    }
+
+    companion object {
+        private const val TAG = "SubmissionRepository"
+    }
 }

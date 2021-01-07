@@ -34,7 +34,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
         super.onViewCreated(view, savedInstanceState)
 
         val locationListAdapter = ContactDiaryLocationListAdapter {
-            viewModel.locationSelectionChanged(it)
+            viewModel.onLocationSelectionChanged(it)
         }
 
         binding.contactDiaryLocationListRecyclerView.apply {
