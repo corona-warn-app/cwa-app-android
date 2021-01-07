@@ -225,7 +225,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { TODO("Nav to help page") }))
+                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { }))
             }
 
             add(submissionItem)
