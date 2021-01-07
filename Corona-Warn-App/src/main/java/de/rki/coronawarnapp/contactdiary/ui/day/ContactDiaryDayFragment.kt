@@ -61,8 +61,16 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             }
         }
 
-        viewModel.dayText.observe2(this) {
-            binding.contactDiaryDayHeader.title = it
+        viewModel.uiState.observe2(this) { uiState ->
+            binding.apply {
+                contactDiaryDayHeader.apply {
+                    title = uiState.dayText(context)
+                }
+
+                contentContainer.apply {
+                    contentDescription = uiState.dayText(context)
+                }
+            }
         }
 
         viewModel.routeToScreen.observe2(this) {

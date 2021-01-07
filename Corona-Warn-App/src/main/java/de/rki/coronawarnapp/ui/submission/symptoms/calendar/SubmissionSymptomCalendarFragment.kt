@@ -117,4 +117,9 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onNewUserActivity()
+    }
 }

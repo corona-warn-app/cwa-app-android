@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.contactdiary.ui.day
 
+import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryDayTab
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -21,9 +23,9 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<ContactDiaryDayNavigationEvents> = SingleLiveEvent()
 
-    val dayText = displayedDay
-        .map { it.toFormattedDay() }
-        .asLiveData()
+    val uiState = displayedDay.map { day ->
+        UIState(dayText = { day.toFormattedDay(it.getLocale()) })
+    }.asLiveData()
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
         when (activeTab) {
@@ -37,6 +39,10 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     fun onBackPressed() {
         routeToScreen.postValue(ContactDiaryDayNavigationEvents.NavigateToOverviewFragment)
     }
+
+    data class UIState(
+        val dayText: (Context) -> String
+    )
 
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryDayViewModel> {

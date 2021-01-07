@@ -27,7 +27,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private val viewModel: ContactDiaryEditLocationsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditLocationsFragmentBinding by viewBindingLazy()
 
-    private val listAdapter = LocationEditAdapter { viewModel.onEditLocationClick(it) }
+    private lateinit var listAdapter: LocationEditAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +37,8 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
         }
+
+        binding.deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
 
         viewModel.isListVisible.observe2(this) {
             binding.contactDiaryLocationListNoItemsGroup.isGone = it
@@ -64,10 +66,6 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
                 }
             }
         }
-
-        binding.apply {
-            deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
-        }
     }
 
     override fun onResume() {
@@ -76,6 +74,11 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     }
 
     private fun setupRecyclerView() {
+        listAdapter = LocationEditAdapter(
+            clickLabelString = getString(R.string.accessibility_edit),
+            getContentDescriptionString = { getString(R.string.accessibility_location, it.locationName) },
+            onItemClicked = { viewModel.onEditLocationClick(it) }
+        )
         binding.locationsRecyclerView.adapter = listAdapter
     }
 

@@ -4,13 +4,16 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
-import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
+import org.joda.time.LocalDate
 
-class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem) -> Unit) :
-    BaseAdapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
+class ContactDiaryOverviewAdapter(
+    private val dateFormatter: (LocalDate) -> String,
+    private val onItemSelectionListener: (ListItem) -> Unit
+) : BaseAdapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
+
     private val elements: MutableList<ListItem> = mutableListOf()
 
     fun setItems(elements: List<ListItem>) {
@@ -28,6 +31,7 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
     inner class OverviewElementHolder(parent: ViewGroup) :
         BaseAdapter.VH(R.layout.contact_diary_overview_list_item, parent),
         BindableVH<ListItem, ContactDiaryOverviewListItemBinding> {
+
         override val viewBinding: Lazy<ContactDiaryOverviewListItemBinding> =
             lazy { ContactDiaryOverviewListItemBinding.bind(itemView) }
 
@@ -38,11 +42,11 @@ class ContactDiaryOverviewAdapter(private val onItemSelectionListener: (ListItem
         }
 
         override val onBindData: ContactDiaryOverviewListItemBinding.(item: ListItem, payloads: List<Any>) -> Unit =
-            { key, _ ->
-                contactDiaryOverviewElementName.text = key.date.toFormattedDay()
-                contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(key) }
-                contactDiaryOverviewNestedElementGroup.isGone = key.data.isEmpty()
-                nestedItemAdapter.setItems(key.data)
+            { item, _ ->
+                contactDiaryOverviewElementName.text = dateFormatter(item.date)
+                contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(item) }
+                contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
+                nestedItemAdapter.setItems(item.data)
             }
     }
 }

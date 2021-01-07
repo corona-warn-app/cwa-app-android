@@ -61,6 +61,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
     override fun onResume() {
         super.onResume()
+        viewModel.onNewUserActivity()
         binding.submissionDoneNoConsentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
@@ -78,7 +79,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
     private fun onConfirmSkipSymptomsInput() {
         SubmissionCancelDialog(requireContext()).show {
-            viewModel.onSkipSymptomInput()
+            viewModel.onSkipSymptomsConfirmed()
         }
     }
 }

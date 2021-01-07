@@ -27,7 +27,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     private val viewModel: ContactDiaryEditPersonsViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryEditPersonsFragmentBinding by viewBindingLazy()
 
-    private val listAdapter = PersonEditAdapter { viewModel.onEditPersonClick(it) }
+    private lateinit var listAdapter: PersonEditAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,6 +76,11 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
     }
 
     private fun setupRecyclerView() {
+        listAdapter = PersonEditAdapter(
+            clickLabelString = getString(R.string.accessibility_edit),
+            getContentDescriptionString = { getString(R.string.accessibility_person, it.fullName) },
+            onItemClicked = { viewModel.onEditPersonClick(it) }
+        )
         binding.personsRecyclerView.adapter = listAdapter
     }
 
