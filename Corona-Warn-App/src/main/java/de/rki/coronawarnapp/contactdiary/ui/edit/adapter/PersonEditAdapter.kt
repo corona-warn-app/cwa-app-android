@@ -22,10 +22,12 @@ internal class PersonEditAdapter(
 
     inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
         BindableVH<ContactDiaryPerson, ContactDiaryEditListItemBinding> {
-        override val viewBinding: Lazy<ContactDiaryEditListItemBinding> =
+        override val viewBinding:
+            Lazy<ContactDiaryEditListItemBinding> =
             lazy { ContactDiaryEditListItemBinding.bind(itemView) }
 
-        override val onBindData: ContactDiaryEditListItemBinding.(item: ContactDiaryPerson, payloads: List<Any>) -> Unit =
+        override val onBindData:
+            ContactDiaryEditListItemBinding.(item: ContactDiaryPerson, payloads: List<Any>) -> Unit =
             { person, _ ->
                 name.text = person.fullName
                 itemContainer.apply {
