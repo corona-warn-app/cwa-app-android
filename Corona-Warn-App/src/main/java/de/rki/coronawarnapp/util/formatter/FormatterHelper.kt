@@ -98,26 +98,6 @@ fun formatVisibilityText(text: String?): Int = formatVisibility(text != null && 
  */
 fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null && text != "")
 
-/*Text*/
-/**
- * Formats text resource to be displayed depending on flag provided
- *
- * @param value
- * @param stringTrue
- * @param stringFalse
- * @return
- */
-fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (value == true) {
-        appContext.getString(stringTrue)
-    } else {
-        if (stringFalse != null) {
-            appContext.getString(stringFalse)
-        } else ""
-    }
-}
-
 fun parseHtmlFromAssets(context: Context, path: String): Spanned {
     return HtmlParser(context.assets).parseByAssetPath(path)
 }

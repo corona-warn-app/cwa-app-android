@@ -56,14 +56,6 @@ class FormatterHelperTest {
         assertThat(result, `is`((formatVisibility(bValue))))
     }
 
-    private fun formatTextBase(bValue: Boolean?, iResult: Int) {
-        every { context.getString(1) } returns "true string"
-        every { context.getString(2) } returns "false string"
-
-        val result = formatText(value = bValue, stringTrue = 1, stringFalse = 2)
-        assertThat(result, `is`((CoronaWarnApplication.getAppContext().getString(iResult))))
-    }
-
     private fun formatDrawableBase(bValue: Boolean) {
         every { context.getDrawable(1) } returns drawable
         every { context.getDrawable(2) } returns drawable
@@ -117,18 +109,6 @@ class FormatterHelperTest {
 
         // Check visibilityText when value true and text is empty
         formatVisibilityTextBase(bValue = false, sText = "")
-    }
-
-    @Test
-    fun formatText() {
-        // Check  formatText when value true
-        formatTextBase(bValue = true, iResult = 1)
-
-        // Check  formatText when value false
-        formatTextBase(bValue = false, iResult = 2)
-
-        // Check  formatText when value false
-        formatTextBase(bValue = null, iResult = 2)
     }
 
     @Test
