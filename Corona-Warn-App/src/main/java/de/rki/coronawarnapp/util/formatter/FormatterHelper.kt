@@ -134,14 +134,4 @@ fun parseHtmlFromAssets(context: Context, path: String): Spanned {
     return HtmlParser(context.assets).parseByAssetPath(path)
 }
 
-/**
- * Formats divider color depending on resource value
- * Returns colorHairline as default
- *
- * @param color
- * @return
- */
-fun formatColorDivider(context: Context, color: Int?): Int {
-    return color ?: context.getColorCompat(R.color.colorHairline)
-}
 
