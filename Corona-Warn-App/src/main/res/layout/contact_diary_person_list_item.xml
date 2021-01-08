@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/contact_diary_person_list_item_name"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:layout_marginVertical="@dimen/spacing_small"

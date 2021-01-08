@@ -21,7 +21,7 @@
         <include
             android:id="@+id/submission_tan_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="false"
             app:icon="@{@drawable/ic_close}"
@@ -33,8 +33,8 @@
         <include
             android:id="@+id/submission_tan_content"
             layout="@layout/include_submission_tan"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
         <Button
             android:id="@+id/submission_tan_button_enter"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:enabled="@{uiState.tanValid}"
             android:text="@string/submission_tan_button_text"
