@@ -7,6 +7,7 @@ import android.util.Log
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -95,8 +96,12 @@ object DebugLogger : DebugLoggerBase() {
                         while (!isDaggerReady) {
                             yield()
                         }
-                        val censoredLine = bugCensors.get().mapNotNull { it.checkLog(rawLine) }.firstOrNull()
-                        appendLogLine(censoredLine ?: rawLine)
+                        launch {
+                            // Censor data sources need a moment to know what to censor
+                            delay(1000)
+                            val censoredLine = bugCensors.get().mapNotNull { it.checkLog(rawLine) }.firstOrNull()
+                            appendLogLine(censoredLine ?: rawLine)
+                        }
                     }
                 } catch (e: CancellationException) {
                     Timber.tag(TAG).i("Logging was canceled.")
@@ -141,6 +146,7 @@ object DebugLogger : DebugLoggerBase() {
 
     private fun appendLogLine(line: LogLine) {
         val formattedLine = line.format(context)
+        Log.println(line.priority, line.tag, formattedLine)
         runningLog.appendText(formattedLine, Charsets.UTF_8)
     }
 
