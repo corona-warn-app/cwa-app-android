@@ -36,12 +36,11 @@ fun formatDrawable(value: Boolean, drawableTrue: Int, drawableFalse: Int): Drawa
  * @param colorFalse
  * @return
  */
-fun formatColor(value: Boolean, colorTrue: Int, colorFalse: Int): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
+fun formatColor(context: Context, value: Boolean, colorTrue: Int, colorFalse: Int): Int {
     return if (value) {
-        appContext.getColorCompat(colorTrue)
+        context.getColorCompat(colorTrue)
     } else {
-        appContext.getColorCompat(colorFalse)
+        context.getColorCompat(colorFalse)
     }
 }
 

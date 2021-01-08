@@ -21,36 +21,52 @@ import java.util.Date
 import java.util.Locale
 
 fun formatSymptomButtonTextStyleByState(
+    context: Context,
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state,
+    formatColor(
+        context,
+        currentState == state,
         R.color.colorCalendarTextSelected,
-        R.color.colorCalendarTextUnselected)
+        R.color.colorCalendarTextUnselected
+    )
 
 fun formatSymptomButtonTextStyleByState(
+    context: Context,
     currentState: Symptoms.StartOf?,
     state: Symptoms.StartOf?
 ): Int =
-    formatColor(currentState == state,
+    formatColor(
+        context,
+        currentState == state,
         R.color.colorCalendarTextSelected,
-        R.color.colorCalendarTextUnselected)
+        R.color.colorCalendarTextUnselected
+    )
 
 fun formatSymptomBackgroundButtonStyleByState(
+    context: Context,
     currentState: Symptoms.Indication?,
     state: Symptoms.Indication?
 ): Int =
-    formatColor(currentState == state,
+    formatColor(
+        context,
+        currentState == state,
         R.color.colorCalendarBackgroundSelected,
-        R.color.colorCalendarBackgroundUnselected)
+        R.color.colorCalendarBackgroundUnselected
+    )
 
 fun formatSymptomBackgroundButtonStyleByState(
+    context: Context,
     currentState: Symptoms.StartOf?,
     state: Symptoms.StartOf?
 ): Int =
-    formatColor(currentState == state,
+    formatColor(
+        context,
+        currentState == state,
         R.color.colorCalendarBackgroundSelected,
-        R.color.colorCalendarBackgroundUnselected)
+        R.color.colorCalendarBackgroundUnselected
+    )
 
 fun formatTestResultStatusText(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): String =
     uiState.withSuccess(R.string.test_result_card_status_invalid) {
@@ -96,7 +112,7 @@ fun formatTestResultCardContent(uiState: NetworkRequestWrapper<DeviceUIState, Th
 
             DeviceUIState.PAIRED_POSITIVE,
             DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(uiState))
+            DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
             else -> SpannableString("")
         }
     }
@@ -157,8 +173,8 @@ fun formatCountryIsoTagToFlagDrawable(isoTag: String?): Drawable? {
         appContext.getDrawable(R.drawable.ic_submission_country_flag_ireland)
 }
 
-fun formatCountrySelectCardColor(isActive: Boolean?): Int =
-    formatColor(isActive == true, R.color.colorTextSemanticNeutral, R.color.card_dark)
+fun formatCountrySelectCardColor(context: Context, isActive: Boolean?): Int =
+    formatColor(context, isActive == true, R.color.colorTextSemanticNeutral, R.color.card_dark)
 
-fun formatCountrySelectCardTextColor(isActive: Boolean?): Int =
-    formatColor(isActive == true, R.color.colorTextEmphasizedButton, R.color.colorTextPrimary1)
+fun formatCountrySelectCardTextColor(context: Context, isActive: Boolean?): Int =
+    formatColor(context, isActive == true, R.color.colorTextEmphasizedButton, R.color.colorTextPrimary1)
