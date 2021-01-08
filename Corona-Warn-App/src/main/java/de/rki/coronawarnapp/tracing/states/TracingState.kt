@@ -131,18 +131,13 @@ data class TracingFailed(
 
     val showRestartButton: Boolean = !isInDetailsMode
 
-    fun getTimeFetched(c: Context): String = when (riskState) {
-        RiskState.LOW_RISK, RiskState.INCREASED_RISK -> {
-            if (lastExposureDetectionTime != null) {
-                c.getString(
-                    R.string.risk_card_body_time_fetched,
-                    formatRelativeDateTimeString(c, lastExposureDetectionTime)
-                )
-            } else {
-                c.getString(R.string.risk_card_body_not_yet_fetched)
-            }
-        }
-        else -> ""
+    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+        context.getString(
+            R.string.risk_card_body_time_fetched,
+            formatRelativeDateTimeString(context, lastExposureDetectionTime)
+        )
+    } else {
+        context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
     fun getLastRiskState(c: Context): String {
