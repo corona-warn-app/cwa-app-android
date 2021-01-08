@@ -56,14 +56,6 @@ class FormatterHelperTest {
         assertThat(result, `is`((formatVisibility(bValue))))
     }
 
-    private fun formatDrawableBase(bValue: Boolean) {
-        every { context.getDrawable(1) } returns drawable
-        every { context.getDrawable(2) } returns drawable
-
-        val result = formatDrawable(value = bValue, drawableTrue = 1, drawableFalse = 2)
-        assertThat(result, `is`((equalTo(drawable))))
-    }
-
     private fun formatColorBase(bValue: Boolean, iColor: Int) {
         every { context.getColorCompat(1) } returns 1
         every { context.getColorCompat(2) } returns 2
@@ -109,15 +101,6 @@ class FormatterHelperTest {
 
         // Check visibilityText when value true and text is empty
         formatVisibilityTextBase(bValue = false, sText = "")
-    }
-
-    @Test
-    fun formatDrawable() {
-        // Check formatDrawable when value true
-        formatDrawableBase(bValue = true)
-
-        // Check formatDrawable when value false
-        formatDrawableBase(bValue = false)
     }
 
     @Test

@@ -3,31 +3,12 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.text.Spanned
 import android.view.View
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.html.HtmlParser
 
 /*Style*/
-/**
- * Formats drawable resource of item to be displayed depending on flag provided
- *
- * @param value
- * @param drawableTrue
- * @param drawableFalse
- * @return
- */
-fun formatDrawable(value: Boolean, drawableTrue: Int, drawableFalse: Int): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (value) {
-        appContext.getDrawable(drawableTrue)
-    } else {
-        appContext.getDrawable(drawableFalse)
-    }
-}
-
 /**
  * Formats color resource of item to be displayed depending on flag provided
  *
