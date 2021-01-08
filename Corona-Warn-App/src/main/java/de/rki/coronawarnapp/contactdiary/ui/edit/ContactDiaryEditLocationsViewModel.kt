@@ -28,10 +28,10 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
-    val isButtonEnabled = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }
+    val isButtonEnabled = contactDiaryRepository.locations.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
-    val isListVisible = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }
+    val isListVisible = contactDiaryRepository.locations.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
     fun onDeleteAllLocationsClick() {

@@ -97,5 +97,3 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         fun create(addedAt: String?): ContactDiaryLocationBottomSheetDialogViewModel
     }
 }
-
-private const val MAX_LOCATION_NAME_LENGTH = 250
