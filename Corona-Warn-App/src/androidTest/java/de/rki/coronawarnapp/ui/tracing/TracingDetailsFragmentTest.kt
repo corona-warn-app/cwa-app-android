@@ -88,28 +88,28 @@ class TracingDetailsFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_tracing_low_risk() {
         mockData(TracingData.LOW_RISK)
-        captureScreenshot()
+        captureScreenshot("tracing_low_risk")
     }
 
     @Screenshot
     @Test
     fun capture_screenshot_tracing_disabled() {
         mockData(TracingData.TRACING_DISABLED)
-        captureScreenshot()
+        captureScreenshot("tracing_disabled")
     }
 
     @Screenshot
     @Test
     fun capture_screenshot_tracing_failed() {
         mockData(TracingData.TRACING_FAILED)
-        captureScreenshot()
+        captureScreenshot("tracing_failed")
     }
 
     @Screenshot
     @Test
     fun capture_screenshot_tracing_increased() {
         mockData(TracingData.INCREASED_RISK)
-        captureScreenshot()
+        captureScreenshot("tracing_increased")
     }
 
     private fun mockData(pair: Pair<TracingDetailsState, List<DetailsItem>>) {
@@ -117,10 +117,11 @@ class TracingDetailsFragmentTest : BaseUITest() {
         every { viewModel.detailsItems } returns MutableLiveData(pair.second)
     }
 
-    private fun captureScreenshot() {
+    private fun captureScreenshot(nameSuffix: String) {
+        val name = TracingDetailsFragment::class.simpleName + "_" + nameSuffix
         launchFragmentInContainer2<TracingDetailsFragment>()
-        Thread.sleep(2000) // TODO use constant and scrolling Action from (EXPOSUREAPP-2950)
-        Screengrab.screenshot(TracingDetailsFragment::class.simpleName)
+        Thread.sleep(2000) // TODO use constant when EXPOSUREAPP-2950 is merged
+        Screengrab.screenshot(name)
     }
 }
 
