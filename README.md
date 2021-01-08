@@ -93,4 +93,4 @@ You may obtain a copy of the License from [here](./LICENSES/Apache-2.0.txt).
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the [LICENSE](./LICENSES/Apache-2.0.txt) for the specific language governing permissions and limitations under the License.
 
-For detailed licensing information via the [REUSE tool](https://reuse.software/) check this [link](https://api.reuse.software/info/github.com/corona-warn-app/cwa-app-android).
+Please see the [detailed licensing information](https://api.reuse.software/info/github.com/corona-warn-app/cwa-app-android) via the [REUSE Tool](https://reuse.software/) for more details.
