@@ -35,6 +35,10 @@ class TestResultAvailableNotification @Inject constructor(
         )
     }
 
+    fun cancelTestResultNotification() {
+        notificationHelper.cancelCurrentNotification(NotificationConstants.TEST_RESULT_AVAILABLE_NOTIFICATION_ID)
+    }
+
     /**
      * The pending result fragment will forward to the correct screen
      * Because we can't save the test result at the moment (legal),
