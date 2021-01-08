@@ -124,7 +124,7 @@
 
             <View
                 android:id="@+id/divider_top"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/card_divider"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:background="@color/colorHairline"
@@ -166,7 +166,7 @@
 
             <View
                 android:id="@+id/divider_bottom"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/card_divider"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:background="@color/colorHairline"

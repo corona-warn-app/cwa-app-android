@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.notification.TestResultAvailableNotification
 import de.rki.coronawarnapp.notification.TestResultNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
@@ -33,7 +34,8 @@ class SubmissionTask @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val autoSubmission: AutoSubmission,
     private val timeStamper: TimeStamper,
-    private val testResultNotificationService: TestResultNotificationService
+    private val testResultNotificationService: TestResultNotificationService,
+    private val testResultAvailableNotification: TestResultAvailableNotification
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -154,6 +156,7 @@ class SubmissionTask @Inject constructor(
         LocalData.numberOfSuccessfulSubmissions(1)
 
         testResultNotificationService.cancelPositiveTestResultNotification()
+        testResultAvailableNotification.cancelTestResultNotification()
     }
 
     data class Arguments(

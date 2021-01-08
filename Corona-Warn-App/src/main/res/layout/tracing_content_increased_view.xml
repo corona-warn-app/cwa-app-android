@@ -42,7 +42,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_contact"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:icon="@drawable/ic_risk_card_contact_increased"
@@ -57,7 +57,7 @@
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_contact_last"
             gone="@{state.getRiskContactLast(context) == null}"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_calendar"
             android:text="@{state.getRiskContactLast(context)}"
@@ -71,7 +71,7 @@
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_tracing_days"
             gone="@{!state.inDetailsMode}"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_calendar"
             android:text="@{state.getRiskActiveTracingDaysInRetentionPeriod(context)}"
@@ -84,7 +84,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_time_fetched"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_time_fetched"
             android:text="@{state.getTimeFetched(context)}"
@@ -99,7 +99,7 @@
             android:id="@+id/update_action"
             style="@style/buttonLight"
             gone="@{!state.showUpdateButton}"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/risk_card_button_update"

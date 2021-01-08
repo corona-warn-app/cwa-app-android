@@ -15,7 +15,7 @@
             android:id="@+id/test_result_section_headline"
             style="@style/body2"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
             app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
@@ -26,7 +26,7 @@
         <TextView
             android:id="@+id/test_result_section_content"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_normal"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/test_result_section_registered_at_text"
             style="@style/body2"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
