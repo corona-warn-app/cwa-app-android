@@ -83,6 +83,7 @@ android {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        vectorDrawables.useSupportLibrary = true
     }
 
     def signingPropFile = file("../keystore.properties")
