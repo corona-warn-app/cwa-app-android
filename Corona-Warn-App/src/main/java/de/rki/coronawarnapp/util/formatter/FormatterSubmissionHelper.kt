@@ -87,7 +87,10 @@ fun formatTestResultStatusColor(context: Context, uiState: NetworkRequestWrapper
         }
     }.let { context.getColorCompat(it) }
 
-fun formatTestResult(context: Context, uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Spannable {
+fun formatTestResult(
+    context: Context,
+    uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?
+): Spannable {
     return SpannableStringBuilder()
         .append(context.getString(R.string.test_result_card_virus_name_text))
         .append("\n")
@@ -112,7 +115,7 @@ fun formatTestResultCardContent(
 
             DeviceUIState.PAIRED_POSITIVE,
             DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(context, uiState)
+            DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
             else -> SpannableString("")
         }
     }
