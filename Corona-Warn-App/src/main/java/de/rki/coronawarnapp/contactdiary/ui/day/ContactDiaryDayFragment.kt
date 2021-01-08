@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day
 
 import android.os.Bundle
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
@@ -62,14 +63,9 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         }
 
         viewModel.uiState.observe2(this) { uiState ->
-            binding.apply {
-                contactDiaryDayHeader.apply {
-                    title = uiState.dayText(context)
-                }
-
-                contentContainer.apply {
-                    contentDescription = uiState.dayText(context)
-                }
+            binding.contactDiaryDayHeader.apply {
+                title = uiState.dayText(context)
+                contentDescription = uiState.dayTextContentDescription(context)
             }
         }
 
@@ -90,5 +86,10 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
                 )
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 }

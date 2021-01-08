@@ -9,7 +9,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         <TextView
             android:id="@+id/contact_diary_location_list_no_items_title"
             style="@style/subtitleMedium"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_huge"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -53,8 +53,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/locations_recycler_view"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/spacing_normal"
             android:importantForAccessibility="no"
             android:scrollbars="vertical"
@@ -67,7 +67,7 @@
         <android.widget.Button
             android:id="@+id/delete_button"
             style="@style/buttonReset"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
             android:text="@string/contact_diary_remove_all_button"

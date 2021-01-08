@@ -14,7 +14,7 @@
             android:id="@+id/contact_diary_privacy_card_title"
             style="@style/headline5"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/contact_diary_onboarding_privacy_information_title"
             android:focusable="true"
@@ -26,7 +26,7 @@
             android:id="@+id/contact_diary_privacy_card_first_section_title"
             style="@style/subtitle"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/contact_diary_onboarding_privacy_information_first_section_title"
@@ -38,7 +38,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contact_diary_privacy_card_first_section_body_container_one"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             <TextView
                 android:id="@+id/contact_diary_privacy_card_first_section_body_one"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:focusable="true"
@@ -70,7 +70,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contact_diary_privacy_card_first_section_body_container_two"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
             <TextView
                 android:id="@+id/contact_diary_privacy_card_first_section_body_two"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:focusable="true"
@@ -102,7 +102,7 @@
         <TextView
             android:id="@+id/contact_diary_privacy_card_second_section_title"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:accessibilityHeading="true"
@@ -114,7 +114,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contact_diary_privacy_card_second_section_body_container_one"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +131,7 @@
             <TextView
                 android:id="@+id/contact_diary_privacy_card_second_section_body_one"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:focusable="true"
@@ -145,7 +145,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contact_diary_privacy_card_second_section_body_container_two"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +162,7 @@
             <TextView
                 android:id="@+id/contact_diary_privacy_card_second_section_body_two"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:focusable="true"

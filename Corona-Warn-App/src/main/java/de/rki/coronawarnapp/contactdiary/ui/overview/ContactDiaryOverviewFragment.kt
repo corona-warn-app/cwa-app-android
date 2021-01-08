@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -30,6 +31,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         super.onViewCreated(view, savedInstanceState)
         val adapter = ContactDiaryOverviewAdapter(
             { it.toFormattedDay(requireContext().getLocale()) },
+            { it.toFormattedDayForAccessibility(requireContext().getLocale()) },
             { vm.onItemPress(it) }
         )
 

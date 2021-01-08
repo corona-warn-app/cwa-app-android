@@ -11,6 +11,7 @@ import org.joda.time.LocalDate
 
 class ContactDiaryOverviewAdapter(
     private val dateFormatter: (LocalDate) -> String,
+    private val dateFormatterForAccessibility: (LocalDate) -> String,
     private val onItemSelectionListener: (ListItem) -> Unit
 ) : BaseAdapter<ContactDiaryOverviewAdapter.OverviewElementHolder>() {
 
@@ -44,6 +45,7 @@ class ContactDiaryOverviewAdapter(
         override val onBindData: ContactDiaryOverviewListItemBinding.(item: ListItem, payloads: List<Any>) -> Unit =
             { item, _ ->
                 contactDiaryOverviewElementName.text = dateFormatter(item.date)
+                contactDiaryOverviewElementName.contentDescription = dateFormatterForAccessibility(item.date)
                 contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(item) }
                 contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
                 nestedItemAdapter.setItems(item.data)

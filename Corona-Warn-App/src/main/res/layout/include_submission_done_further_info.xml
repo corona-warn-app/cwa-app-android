@@ -14,7 +14,7 @@
             android:id="@+id/further_info_title"
             style="@style/headline5"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:text="@string/submission_done_further_info_title"
@@ -24,7 +24,7 @@
 
         <de.rki.coronawarnapp.ui.view.BulletPointList
             android:id="@+id/further_info_text"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:layout_marginTop="@dimen/spacing_normal"
