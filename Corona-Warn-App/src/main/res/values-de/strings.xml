@@ -639,8 +639,10 @@
     <string name="settings_background_priority_headline">"Risikostatus immer automatisch aktualisieren"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität einschalten, kann die App Ihren Risikostatus immer automatisch prüfen. Damit wird die Optimierung des Akku-Verbrauchs ausschließlich für die Corona-Warn-App deaktiviert."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description" />
+    <!-- XACT: settings(background priority) - on - illustration description -->
+    <string name="settings_background_priority_on_illustration_description">"Eine Hand hält ein Smartphone, auf dem ein Symbol für „Aktualisierung ist aktiv" zu sehen ist." </string>
+    <!-- XACT: settings(background priority) - off - illustration description -->
+    <string name="settings_background_priority_off_illustration_description">"Eine Hand hält ein Smartphone, auf dem ein Symbol für „Aktualisierung ist nicht aktiv" zu sehen ist."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Sie können die priorisierte Hintergrundaktivität in den Einstellungen Ihres Smartphones ein- beziehungsweise ausschalten."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -738,7 +740,7 @@
     <!-- YTXT: Description for the debug option to record log files -->
     <string name="debugging_debuglog_intro_explanation">"Durch diese Option wird das App-Verhalten in einer Textdatei protokolliert. Ist die Option aktiviert bevor ein Fehler auftritt, können Sie diesen Bericht zur Verfügung stellen, um die Entwickler bei der Problemlösung zu unterstützen.\nEine dauerhafte Aktivierung dieser Option führt zu hohem Speicherbedarf. Der Fehlerbericht wird durch Deaktivieren der Option gelöscht."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten Informationen über Risikoberechnung und Testergebnis enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
+    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten sensible Daten (z.B. Testergebnis oder Kontakt-Tagebuch-Einträge) enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Starten"</string>
     <!-- XBUT: Button text to stop the log recording -->

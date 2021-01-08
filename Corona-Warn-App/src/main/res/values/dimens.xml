@@ -126,7 +126,6 @@
     <dimen name="bullet_point_spacing_before">@dimen/spacing_tiny</dimen>
     <dimen name="bullet_point_spacing_after">@dimen/spacing_normal</dimen>
 
-    <dimen name="match_constraint">0dp</dimen>
     <dimen name="no_padding">0dp</dimen>
 
     <!-- Calendar -->
