@@ -111,10 +111,10 @@ class HomeFragmentTest : BaseUITest() {
             HomeData.Tracing.LOW_RISK_ITEM
         )
 
-        captureScreenshot()
+        captureScreenshot("low_risk")
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(HomeFragment::class.simpleName.plus("2"))
+        Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
     }
 
     @Screenshot
@@ -123,7 +123,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             HomeData.Tracing.INCREASED_RISK_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("increased_risk")
     }
 
     @Screenshot
@@ -133,7 +133,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             HomeData.Tracing.TRACING_DISABLED_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("tracing_disabled")
     }
 
     @Screenshot
@@ -142,7 +142,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             HomeData.Tracing.TRACING_PROGRESS_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("progress_downloading")
     }
 
     @Screenshot
@@ -151,7 +151,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             HomeData.Tracing.TRACING_FAILED_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("tracing_failed")
     }
 
     @Screenshot
@@ -160,7 +160,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_SUBMISSION_DONE_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("submission_done")
     }
 
     @Screenshot
@@ -169,7 +169,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_ERROR_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("test_error")
     }
 
     @Screenshot
@@ -178,7 +178,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_FETCHING_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("test_fetching")
     }
 
     @Screenshot
@@ -187,7 +187,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_INVALID_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("test_invalid")
     }
 
     @Screenshot
@@ -196,7 +196,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_NEGATIVE_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("test_negative")
     }
 
     @Screenshot
@@ -205,7 +205,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_POSITIVE_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("test_positive")
     }
 
     @Screenshot
@@ -214,14 +214,14 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.homeItems } returns itemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_PENDING_ITEM
         )
-        captureScreenshot()
+        captureScreenshot("test_pending")
     }
 
-    private fun captureScreenshot() {
-        val simpleName = HomeFragment::class.simpleName
+    private fun captureScreenshot(nameSuffix: String) {
+        val name = HomeFragment::class.simpleName + "_" + nameSuffix
         launchFragmentInContainer2<HomeFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(simpleName)
+        Screengrab.screenshot(name)
     }
 
     private fun itemsLiveData(
