@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/main_card_header_headline"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_small"
@@ -50,7 +50,7 @@
         <TextView
             android:id="@+id/main_card_content_body"
             style="@style/subtitleMedium"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/main_about_body"

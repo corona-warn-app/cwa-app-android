@@ -15,7 +15,7 @@
         <include
             android:id="@+id/interoperability_configuration_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:title="@{@string/interoperability_title}"
             app:icon="@{@drawable/ic_back}"
