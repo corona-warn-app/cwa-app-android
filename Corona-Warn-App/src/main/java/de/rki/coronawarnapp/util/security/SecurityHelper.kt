@@ -8,6 +8,7 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
@@ -61,7 +62,7 @@ object SecurityHelper {
 
     @SuppressLint("ApplySharedPref")
     fun resetSharedPrefs() {
-        globalEncryptedSharedPreferencesInstance.edit().clear().commit()
+        globalEncryptedSharedPreferencesInstance.clearAndNotify()
     }
 
     private fun getStoredDbPassword(): ByteArray? =

@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
         <variable
-            name="riskLevel"
-            type="Integer" />
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
+            name="loggedPeriod"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +44,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_layout"
-            app:riskLevel="@{tracingViewModel.riskLevel}"
-            app:tracingViewModel="@{tracingViewModel}" />
+            app:loggedPeriod="@{loggedPeriod}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,9 +4,10 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
-import java.util.Date
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import timber.log.Timber
 
 /**
  * LocalData is responsible for all access to the shared preferences. Each preference is accessible
@@ -21,6 +22,8 @@ object LocalData {
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
+    private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
+        "preference_has_risk_status_lowered"
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -255,78 +258,6 @@ object LocalData {
             )
         }
 
-    /****************************************************
-     * RISK LEVEL
-     ****************************************************/
-
-    /**
-     * Gets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @return
-     */
-    fun lastCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score),
-            RiskLevel.UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(rawRiskLevel)
-    }
-
-    /**
-     * Sets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @param rawRiskLevel
-     */
-    fun lastCalculatedRiskLevel(rawRiskLevel: Int) =
-        getSharedPreferenceInstance().edit(true) {
-            putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score),
-                rawRiskLevel
-            )
-        }
-
-    /**
-     * Gets the last successfully calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @return
-     */
-    fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel {
-        val rawRiskLevel = getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score_successful),
-            RiskLevel.UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(rawRiskLevel)
-    }
-
-    /**
-     * Sets the last calculated risk level
-     * from the EncryptedSharedPrefs
-     *
-     * @see RiskLevelRepository
-     *
-     * @param rawRiskLevel
-     */
-    fun lastSuccessfullyCalculatedRiskLevel(rawRiskLevel: Int) =
-        getSharedPreferenceInstance().edit(true) {
-            putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score_successful),
-                rawRiskLevel
-            )
-        }
-
     /**
      * Gets the boolean if the user has seen the explanation dialog for the
      * risk level tracing days
@@ -355,143 +286,63 @@ object LocalData {
             )
         }
 
-    /****************************************************
-     * SERVER FETCH DATA
-     ****************************************************/
-
     /**
-     * Gets the last time the server fetched the diagnosis keys from the server as Date object
-     * from the EncryptedSharedPrefs
-     *
-     * @return timestamp as Date
+     * Sets a boolean depending whether the risk level decreased or not.
      */
-    // TODO should be changed to Long as well to align with other timestamps
-    fun lastTimeDiagnosisKeysFromServerFetch(): Date? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-            0L
+    private val isUserToBeNotifiedOfLoweredRiskLevelFlowInternal by lazy {
+        MutableStateFlow(isUserToBeNotifiedOfLoweredRiskLevel)
+    }
+    val isUserToBeNotifiedOfLoweredRiskLevelFlow: Flow<Boolean> by lazy {
+        isUserToBeNotifiedOfLoweredRiskLevelFlowInternal
+    }
+    var isUserToBeNotifiedOfLoweredRiskLevel: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(
+            PREFERENCE_HAS_RISK_STATUS_LOWERED,
+            false
         )
-        if (time == 0L) return null
-
-        return Date(time)
-    }
-
-    /**
-     * Sets the last time the server fetched the diagnosis keys from the server as Date object
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Date
-     */
-    fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-                value?.time ?: 0L
-            )
-        }
-    }
-
-    /**
-     * Gets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @return Long
-     */
-    fun lastTimeRiskLevelCalculation(): Long? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_timestamp_risk_level_calculation),
-            0L
-        )
-        return Date(time).time
-    }
-
-    /**
-     * Sets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Long
-     */
-    fun lastTimeRiskLevelCalculation(value: Long?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_risk_level_calculation),
-                value ?: 0L
-            )
-        }
-    }
-
-    /****************************************************
-     * EXPOSURE NOTIFICATION DATA
-     ****************************************************/
-
-    /**
-     * Gets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @return UUID as string
-     */
-    fun googleApiToken(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_string_google_api_token),
-        null
-    )
-
-    /**
-     * Sets the last token that was used to provide the diagnosis keys to the Exposure Notification API
-     *
-     * @param value UUID as string
-     */
-    fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
-        putString(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_string_google_api_token),
-            value
-        )
-    }
+        set(value) = getSharedPreferenceInstance()
+            .edit(commit = true) { putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value) }
+            .also { isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value }
 
     /****************************************************
      * SETTINGS DATA
      ****************************************************/
 
-    /**
-     * Gets the user decision if notification should be enabled for a risk change
-     *
-     * @return
-     */
-    fun isNotificationsRiskEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_notifications_risk_enabled),
-        true
-    )
+    private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
 
-    /**
-     * Toggles the user decision if notification should be enabled for a risk change
-     *
-     */
-    fun toggleNotificationsRiskEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_notifications_risk_enabled),
-            !isNotificationsRiskEnabled()
-        )
+    private val isNotificationsRiskEnabledFlowInternal by lazy {
+        MutableStateFlow(isNotificationsRiskEnabled)
     }
-
-    fun isNotificationsTestEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_notifications_test_enabled),
-        true
-    )
-
-    fun toggleNotificationsTestEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_notifications_test_enabled),
-            !isNotificationsTestEnabled()
-        )
+    val isNotificationsRiskEnabledFlow: Flow<Boolean> by lazy {
+        isNotificationsRiskEnabledFlowInternal
     }
+    var isNotificationsRiskEnabled: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
+        set(value) = getSharedPreferenceInstance().edit(true) {
+            putBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, value)
+            isNotificationsRiskEnabledFlowInternal.value = value
+        }
+
+    private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
+    private val isNotificationsTestEnabledFlowInternal by lazy {
+        MutableStateFlow(isNotificationsTestEnabled)
+    }
+    val isNotificationsTestEnabledFlow: Flow<Boolean> by lazy {
+        isNotificationsTestEnabledFlowInternal
+    }
+    var isNotificationsTestEnabled: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)
+        set(value) = getSharedPreferenceInstance().edit(true) {
+            putBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, value)
+            isNotificationsTestEnabledFlowInternal.value = value
+        }
+
+    private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
+    var numberOfRemainingPositiveTestResultReminders: Int
+        get() = getSharedPreferenceInstance().getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
+        set(value) = getSharedPreferenceInstance().edit(true) {
+            putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)
+        }
 
     /**
      * Gets the decision if background jobs are enabled
@@ -613,7 +464,7 @@ object LocalData {
             )
         }
 
-    fun numberOfSuccessfulSubmissions(): Int {
+    private fun numberOfSuccessfulSubmissions(): Int {
         return getSharedPreferenceInstance().getInt(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_number_successful_submissions),
@@ -621,37 +472,7 @@ object LocalData {
         )
     }
 
-    fun testGUID(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_test_guid),
-        null
-    )
-
-    fun testGUID(value: String?) {
-        getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_test_guid),
-                value
-            )
-        }
-    }
-
-    fun authCode(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_auth_code),
-        null
-    )
-
-    fun authCode(value: String?) {
-        getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_auth_code),
-                value
-            )
-        }
-    }
+    fun submissionWasSuccessful(): Boolean = numberOfSuccessfulSubmissions() >= 1
 
     fun isAllowedToSubmitDiagnosisKeys(isAllowedToSubmitDiagnosisKeys: Boolean) {
         getSharedPreferenceInstance().edit(true) {
@@ -671,43 +492,6 @@ object LocalData {
         )
     }
 
-    fun teletan(value: String?) = getSharedPreferenceInstance().edit(true) {
-        putString(
-            CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan),
-            value
-        )
-    }
-
-    fun teletan(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
-    )
-
-    fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_last_three_hours_from_server),
-            value
-        )
-    }
-
-    fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_last_three_hours_from_server), false
-    )
-
-    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_notification),
-            value
-        )
-    }
-
-    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_background_notification), false
-    )
-
     /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
@@ -726,8 +510,12 @@ object LocalData {
             )
         }
         set(value) {
-            getSharedPreferenceInstance().edit {
+            getSharedPreferenceInstance().edit(true) {
                 putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
             }
         }
+
+    fun clear() {
+        Timber.w("LocalData.clear()")
+    }
 }

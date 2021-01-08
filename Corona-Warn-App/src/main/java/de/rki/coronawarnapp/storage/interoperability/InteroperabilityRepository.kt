@@ -1,48 +1,44 @@
 package de.rki.coronawarnapp.storage.interoperability
 
-import android.text.TextUtils
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.storage.LocalData
-import kotlinx.coroutines.runBlocking
+import de.rki.coronawarnapp.ui.Country
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class InteroperabilityRepository @Inject constructor() {
+class InteroperabilityRepository @Inject constructor(
+    private val appConfigProvider: AppConfigProvider
+) {
+
+    val countryList = appConfigProvider.currentConfig
+        .map { configData ->
+            try {
+                configData
+                    .supportedCountries
+                    .mapNotNull { rawCode ->
+                        val countryCode = rawCode.toLowerCase(Locale.ROOT)
+
+                        val mappedCountry = Country.values().singleOrNull { it.code == countryCode }
+                        if (mappedCountry == null) Timber.e("Unknown countrycode: %s", rawCode)
+                        mappedCountry
+                    }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to map country list.")
+                emptyList()
+            }
+        }
+        .onEach { Timber.d("Country list: %s", it.joinToString(",")) }
+
+    suspend fun refreshCountries() {
+        appConfigProvider.getAppConfig()
+    }
 
     fun saveInteroperabilityUsed() {
         LocalData.isInteroperabilityShownAtLeastOnce = true
-    }
-
-    private val _countryList: MutableLiveData<List<String>> = MutableLiveData(listOf())
-    val countryList = Transformations.distinctUntilChanged(_countryList)
-
-    init {
-        getAllCountries()
-    }
-
-    /**
-     * Gets all countries from @see ApplicationConfigurationService.asyncRetrieveApplicationConfiguration
-     * Also changes every country code to lower case
-     */
-
-    fun getAllCountries() {
-        runBlocking {
-            try {
-                val countries =
-                    ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                        .supportedCountriesList
-                        ?.map { it.toLowerCase(Locale.ROOT) } ?: listOf()
-                _countryList.postValue(countries)
-                Timber.d("Country list: ${TextUtils.join(System.lineSeparator(), countries)}")
-            } catch (e: Exception) {
-                Timber.e(e)
-                _countryList.postValue(listOf())
-            }
-        }
     }
 }

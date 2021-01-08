@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA1
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -18,7 +20,7 @@ data class CachedKeyInfo(
     @ColumnInfo(name = "day") val day: LocalDate, // i.e. 2020-08-23
     @ColumnInfo(name = "hour") val hour: LocalTime?, // i.e. 23
     @ColumnInfo(name = "createdAt") val createdAt: Instant,
-    @ColumnInfo(name = "checksumMD5") val checksumMD5: String?,
+    @ColumnInfo(name = "checksumMD5") val etag: String?, // ETag
     @ColumnInfo(name = "completed") val isDownloadComplete: Boolean
 ) {
 
@@ -35,18 +37,23 @@ data class CachedKeyInfo(
         hour = hour,
         type = type,
         createdAt = createdAt,
-        checksumMD5 = null,
+        etag = null,
         isDownloadComplete = false
     )
 
     @Transient
     val fileName: String = "$id.zip"
 
-    fun toDownloadUpdate(checksumMD5: String?): DownloadUpdate = DownloadUpdate(
+    fun toDownloadUpdate(etag: String): DownloadUpdate = DownloadUpdate(
         id = id,
-        checksumMD5 = checksumMD5,
-        isDownloadComplete = checksumMD5 != null
+        etag = etag,
+        isDownloadComplete = true
     )
+
+    fun toDateTime(): DateTime = when (type) {
+        Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
+        Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+    }
 
     companion object {
         fun calcluateId(
@@ -62,8 +69,8 @@ data class CachedKeyInfo(
     }
 
     enum class Type constructor(internal val typeValue: String) {
-        COUNTRY_DAY("country_day"),
-        COUNTRY_HOUR("country_hour");
+        LOCATION_DAY("country_day"),
+        LOCATION_HOUR("country_hour");
 
         class Converter {
             @TypeConverter
@@ -78,7 +85,7 @@ data class CachedKeyInfo(
     @Entity
     data class DownloadUpdate(
         @PrimaryKey @ColumnInfo(name = "id") val id: String,
-        @ColumnInfo(name = "checksumMD5") val checksumMD5: String?,
+        @ColumnInfo(name = "checksumMD5") val etag: String?,
         @ColumnInfo(name = "completed") val isDownloadComplete: Boolean
     )
 }

@@ -16,7 +16,7 @@ class TimeVariablesTest {
 
     @Test
     fun getTransactionTimeout() {
-        Assert.assertEquals(TimeVariables.getTransactionTimeout(), 180000L)
+        Assert.assertEquals(TimeVariables.getTransactionTimeout(), 480000L)
     }
 
     @Test
@@ -32,11 +32,6 @@ class TimeVariablesTest {
     @Test
     fun getMinActivatedTracingTime() {
         Assert.assertEquals(TimeVariables.getMinActivatedTracingTime(), 24)
-    }
-
-    @Test
-    fun getMaxStaleExposureRiskRange() {
-        Assert.assertEquals(TimeVariables.getMaxStaleExposureRiskRange(), 48)
     }
 
     @Test

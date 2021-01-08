@@ -1,0 +1,14 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.stats;
+
+
+message CardHeader {
+  
+  // ID of the card; must be unique across all types of cards
+  // fed into cardIdSequence
+  int32 cardId = 1;
+
+  // UNIX timestamp
+  int64 updatedAt = 2;
+}

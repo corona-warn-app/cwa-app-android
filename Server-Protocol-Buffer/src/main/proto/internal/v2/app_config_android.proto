@@ -1,0 +1,52 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/app_features.proto";
+import "internal/v2/exposure_detection_parameters.proto";
+import "internal/v2/key_download_parameters.proto";
+import "internal/v2/risk_calculation_parameters.proto";
+
+message ApplicationConfigurationAndroid {
+
+  // Android apps are versioned by Version Code and not by Semantic Versioning
+  int64 minVersionCode = 1;
+  int64 latestVersionCode = 2;
+
+  AppFeatures appFeatures = 3;
+
+  repeated string supportedCountries = 4;
+
+  KeyDownloadParametersAndroid keyDownloadParameters = 5;
+
+  ExposureDetectionParametersAndroid exposureDetectionParameters = 6;
+
+  RiskCalculationParameters riskCalculationParameters = 7;
+
+  DiagnosisKeysDataMapping diagnosisKeysDataMapping = 8;
+  DailySummariesConfig dailySummariesConfig = 9;
+}
+
+message DiagnosisKeysDataMapping {
+
+  map<int32, int32> daysSinceOnsetToInfectiousness = 1;
+
+  int32 infectiousnessWhenDaysSinceOnsetMissing = 2;
+
+  int32 reportTypeWhenMissing = 3;
+}
+
+message DailySummariesConfig {
+
+  repeated int32 attenuationBucketThresholdDb = 1;
+
+  repeated double attenuationBucketWeights = 2;
+
+  int32 daysSinceExposureThreshold = 3;
+
+  map<int32, double> infectiousnessWeights = 4;
+
+  double minimumWindowScore = 5;
+
+  map<int32, double> reportTypeWeights = 6;
+}

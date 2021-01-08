@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_contact_diary_information"
+        android:title="@string/menu_contact_diary_information" />
+    <item
+        android:id="@+id/menu_contact_diary_export_entries"
+        android:title="@string/menu_contact_export_entries" />
+    <item
+        android:id="@+id/menu_contact_diary_edit_persons"
+        android:title="@string/menu_contact_diary_edit_persons" />
+    <item
+        android:id="@+id/menu_contact_diary_edit_locations"
+        android:title="@string/menu_contact_diary_edit_locations" />
+</menu>

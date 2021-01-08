@@ -1,0 +1,22 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+
+message AttenuationDuration {
+  Thresholds thresholds = 1;
+  Weights weights = 2;
+  int32 defaultBucketOffset = 3;
+  int32 riskScoreNormalizationDivisor = 4;
+}
+
+message Thresholds {
+  int32 lower = 1;
+  int32 upper = 2;
+}
+
+message Weights {
+  double low = 1;
+  double mid = 2;
+  double high = 3;
+}

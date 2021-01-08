@@ -16,10 +16,11 @@
 
     <!-- Text -->
     <color name="colorTextPrimary1">#FFFFFF</color>
+    <color name="colorTextPrimary1Inverted">#17191A</color>
     <color name="colorTextPrimary2">#99FFFFFF</color>
     <color name="colorTextPrimary3">#4DFFFFFF</color>
     <color name="colorTextEmphasizedButton">#FFFFFF</color>
-    <color name="colorTextSixteenWhite">#FFFFFF</color>
+    <color name="colorTextSixteen">#FFFFFF</color>
     <color name="colorTextSemanticRed">#FF919A</color>
     <color name="colorTextSemanticGreen">#6ACC8B</color>
     <color name="colorTextSemanticNeutral">#B8C8D9</color>
@@ -55,4 +56,13 @@
 
     <!-- Calendar -->
     <color name="colorCalendarMonthText">#DEFFFFFF</color>
+    <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
+    <color name="colorCalendarTodayBorder">#007FAD</color>
+    <color name="colorCalendarTodayText">#007FAD</color>
+
+    <!-- Contact Diary -->
+    <color name="colorContactDiaryListItem">#232324</color>
+    <color name="colorContactDiaryListItemPressed">#39393A</color>
+    <color name="colorContactDiaryBackground">#232324</color>
+
 </resources>

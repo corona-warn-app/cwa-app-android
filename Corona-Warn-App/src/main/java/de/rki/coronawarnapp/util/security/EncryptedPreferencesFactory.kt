@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.util.RetryMechanism
+import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import java.security.KeyException
 import javax.inject.Inject
@@ -12,16 +13,16 @@ import javax.inject.Singleton
 
 @Singleton
 class EncryptedPreferencesFactory @Inject constructor(
-    private val context: Context
+    @AppContext private val context: Context
 ) {
 
-    private val masterKeyAlias by lazy {
+    private val mainKeyAlias by lazy {
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
     }
 
     private fun createInstance(fileName: String) = EncryptedSharedPreferences.create(
         fileName,
-        masterKeyAlias,
+        mainKeyAlias,
         context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
@@ -35,6 +36,6 @@ class EncryptedPreferencesFactory @Inject constructor(
             }
         }
     } catch (e: Exception) {
-        throw KeyException("Permantly failed to instantiate encrypted preferences", e)
+        throw KeyException("Permanently failed to instantiate encrypted preferences", e)
     }
 }

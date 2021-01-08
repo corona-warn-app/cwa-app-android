@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util.security
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeySignatureList.TEKSignatureList
 import timber.log.Timber
 import java.security.KeyFactory
 import java.security.Signature
@@ -25,8 +25,8 @@ class VerificationKeys @Inject constructor(
         Signature.getInstance(SecurityConstants.EXPORT_FILE_SIGNATURE_VERIFICATION_ALGORITHM)
 
     fun hasInvalidSignature(
-        export: ByteArray?,
-        signatureListBinary: ByteArray?
+        export: ByteArray,
+        signatureListBinary: ByteArray
     ): Boolean = SecurityHelper.withSecurityCatch {
         signature.getValidSignaturesForExport(export, signatureListBinary)
             .isEmpty()
@@ -66,7 +66,7 @@ class VerificationKeys @Inject constructor(
 
     private fun getTEKSignaturesForEnvironment(
         signatureListBinary: ByteArray?
-    ) = KeyExportFormat.TEKSignatureList
+    ) = TEKSignatureList
         .parseFrom(signatureListBinary)
         .signaturesList
         .asSequence()

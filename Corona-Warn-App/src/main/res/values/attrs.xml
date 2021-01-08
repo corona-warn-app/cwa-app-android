@@ -12,13 +12,31 @@
         <attr name="step_entry_icon" format="integer" />
         <attr name="step_entry_final" format="boolean" />
     </declare-styleable>
-
     <declare-styleable name="SimpleStepEntry">
         <attr name="simple_step_entry_title" format="string" />
         <attr name="simple_step_entry_text" format="string" />
     </declare-styleable>
-
     <declare-styleable name="BulletPointList">
         <attr name="entries" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="TestResultSection">
+        <attr name="test_result_section_headline" format="string" />
+        <attr name="test_result_section_content" format="string" />
+        <attr name="test_result_section_status_icon" format="reference" />
+        <attr name="test_result_section_registered_at_text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="TracingCardInfoRow">
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:icon" />
+        <attr name="compatIconTint" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="TracingDetailsBehaviorRow">
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:icon" />
+        <attr name="android:backgroundTint" />
+        <attr name="android:foregroundTint" />
     </declare-styleable>
 </resources>

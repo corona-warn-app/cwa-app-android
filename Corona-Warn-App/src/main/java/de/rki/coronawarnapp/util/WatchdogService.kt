@@ -5,18 +5,28 @@ import android.net.wifi.WifiManager
 import android.os.PowerManager
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.submitBlocking
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class WatchdogService @Inject constructor(private val context: Context) {
+class WatchdogService @Inject constructor(
+    @AppContext private val context: Context,
+    private val taskController: TaskController,
+    private val backgroundModeStatus: BackgroundModeStatus
+) {
 
     private val powerManager by lazy {
         context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -26,30 +36,31 @@ class WatchdogService @Inject constructor(private val context: Context) {
     }
 
     fun launch() {
+        val isAutoModeEnable = runBlocking { backgroundModeStatus.isAutoModeEnabled.first() }
         // Only do this if the background jobs are enabled
-        if (!ConnectivityHelper.autoModeEnabled(context)) {
-            Timber.d("Background jobs are not enabled, aborting.")
+        if (!isAutoModeEnable) {
+            Timber.tag(TAG).d("Background jobs are not enabled, aborting.")
             return
         }
 
-        Timber.v("Acquiring wakelocks for watchdog routine.")
+        Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing
             val wifiLock = createWifiLock()
-            try {
-                BackgroundWorkHelper.sendDebugNotification(
-                    "Automatic mode is on", "Check if we have downloaded keys already today"
+
+            Timber.tag(TAG).d("Automatic mode is on, check if we have downloaded keys already today")
+
+            val state = taskController.submitBlocking(
+                DefaultTaskRequest(
+                    DownloadDiagnosisKeysTask::class,
+                    DownloadDiagnosisKeysTask.Arguments(),
+                    originTag = "WatchdogService"
                 )
-                RetrieveDiagnosisKeysTransaction.startWithConstraints()
-            } catch (e: Exception) {
-                BackgroundWorkHelper.sendDebugNotification(
-                    "RetrieveDiagnosisKeysTransaction failed",
-                    (e.localizedMessage
-                        ?: "Unknown exception occurred in onCreate") + "\n\n" + (e.cause
-                        ?: "Cause is unknown").toString()
-                )
+            )
+            if (state.isFailed) {
+                Timber.tag(TAG).e(state.error, "RetrieveDiagnosisKeysTransaction failed")
                 // retry the key retrieval in case of an error with a scheduled work
                 BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
             }
@@ -72,6 +83,7 @@ class WatchdogService @Inject constructor(private val context: Context) {
         .apply { acquire() }
 
     companion object {
+        private const val TAG = "WatchdogService"
         private const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
     }
 }

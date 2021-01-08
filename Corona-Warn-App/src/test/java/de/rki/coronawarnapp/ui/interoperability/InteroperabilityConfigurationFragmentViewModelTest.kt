@@ -1,71 +1,58 @@
 package de.rki.coronawarnapp.ui.interoperability
 
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.ui.Country
+import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.api.extension.Extensions
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
-@Extensions(
-    ExtendWith(MockKExtension::class),
-    ExtendWith(InstantExecutorExtension::class)
-)
+@ExtendWith(InstantExecutorExtension::class)
 class InteroperabilityConfigurationFragmentViewModelTest {
 
-    @MockK(relaxUnitFun = true)
-    lateinit var interoperabilityRepository: InteroperabilityRepository
-
-    private lateinit var interoperabilityConfigurationFragmentViewModel: InteroperabilityConfigurationFragmentViewModel
-
-    private val countryListLiveData = MutableLiveData<List<String>>(listOf())
+    @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
 
     @BeforeEach
     fun setupFreshViewModel() {
-        every { interoperabilityRepository.countryList } returns countryListLiveData
-        interoperabilityConfigurationFragmentViewModel =
-            InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository)
+        MockKAnnotations.init(this)
+
+        every { interoperabilityRepository.countryList } returns flowOf(Country.values().toList())
+    }
+
+    private fun createViewModel() =
+        InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository, TestDispatcherProvider)
+
+    @Test
+    fun `viewmodel returns interop repo countryList`() {
+        val vm = createViewModel()
+
+        vm.countryList.getOrAwaitValue() shouldBe Country.values().toList()
+
+        verify { interoperabilityRepository.countryList }
     }
 
     @Test
-    fun countryListIsEmptyIfRepositoryReturnsNoData() {
-        val countryList =
-            interoperabilityConfigurationFragmentViewModel.countryList.getOrAwaitValue()
-
-        assertTrue(countryList.isEmpty())
-    }
-
-    @Test
-    fun testFetchCountryList() {
-        val countryListFetched = listOf(
-            "DE", "UK", "FR", "IT", "ES", "PL", "RO", "NL",
-            "BE", "CZ", "SE", "PT", "HU", "AT", "CH", "BG", "DK", "FI", "SK",
-            "NO", "IE", "HR", "SI", "LT", "LV", "EE", "CY", "LU", "MT", "IS"
-        )
-
-        interoperabilityRepository.getAllCountries()
-        countryListLiveData.value = countryListFetched
-
-        val countryList =
-            interoperabilityConfigurationFragmentViewModel.countryList.getOrAwaitValue()
-
-        assertEquals(countryList.size, countryListFetched.size)
-        assertTrue(countryList == countryListFetched)
-        verify { interoperabilityRepository.getAllCountries() }
+    fun `forced countrylist refresh via app config`() {
+        val vm = createViewModel()
+        coVerify(exactly = 0) { interoperabilityRepository.refreshCountries() }
+        vm.refreshCountries()
+        coVerify(exactly = 1) { interoperabilityRepository.refreshCountries() }
     }
 
     @Test
     fun testBackPressButton() {
-        interoperabilityConfigurationFragmentViewModel.onBackPressed()
+        val vm = createViewModel()
+        vm.onBackPressed()
 
-        assertTrue(interoperabilityConfigurationFragmentViewModel.navigateBack.getOrAwaitValue())
+        vm.navigateBack.getOrAwaitValue() shouldBe true
     }
 }

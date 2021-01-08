@@ -23,24 +23,12 @@
             app:step_entry_icon="@drawable/ic_test_result_step_done" />
 
         <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-            android:id="@+id/test_result_positive_steps_positive_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test_result_positive_steps_added"
-            app:simple_step_entry_text="@string/submission_test_result_positive_steps_positive_body"
-            app:simple_step_entry_title="@string/submission_test_result_positive_steps_positive_heading"
-            app:step_entry_final="false"
-            app:step_entry_icon="@drawable/ic_test_result_step_done" />
-
-        <de.rki.coronawarnapp.ui.view.SimpleStepEntry
             android:id="@+id/test_result_positive_steps_warning_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test_result_positive_steps_positive_result"
+            app:layout_constraintTop_toBottomOf="@+id/test_result_positive_steps_added"
             app:simple_step_entry_text="@string/submission_test_result_positive_steps_warning_others_body"
             app:simple_step_entry_title="@string/submission_test_result_positive_steps_warning_others_heading"
             app:step_entry_final="true"

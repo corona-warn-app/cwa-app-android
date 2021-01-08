@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.storage.AppDatabase
+import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,7 +32,7 @@ class DiagnosisKeysModule {
 
     @Singleton
     @Provides
-    fun legacyKeyCacheDao(context: Context): KeyCacheLegacyDao {
+    fun legacyKeyCacheDao(@AppContext context: Context): KeyCacheLegacyDao {
         return AppDatabase.getInstance(context).dateDao()
     }
 }

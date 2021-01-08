@@ -5,6 +5,7 @@ import dagger.Lazy
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.Duration
@@ -14,7 +15,7 @@ import java.io.File
 import javax.inject.Inject
 
 class LegacyKeyCacheMigration @Inject constructor(
-    private val context: Context,
+    @AppContext private val context: Context,
     private val legacyDao: Lazy<KeyCacheLegacyDao>,
     private val timeStamper: TimeStamper
 ) {

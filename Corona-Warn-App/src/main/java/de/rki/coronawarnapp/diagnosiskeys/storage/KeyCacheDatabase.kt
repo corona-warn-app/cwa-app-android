@@ -12,6 +12,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.Update
 import de.rki.coronawarnapp.util.database.CommonConverters
+import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @Database(
@@ -27,7 +29,7 @@ abstract class KeyCacheDatabase : RoomDatabase() {
     @Dao
     interface CachedKeyFileDao {
         @Query("SELECT * FROM keyfiles")
-        suspend fun getAllEntries(): List<CachedKeyInfo>
+        fun allEntries(): Flow<List<CachedKeyInfo>>
 
         @Query("SELECT * FROM keyfiles WHERE type = :type")
         suspend fun getEntriesForType(type: String): List<CachedKeyInfo>
@@ -45,7 +47,7 @@ abstract class KeyCacheDatabase : RoomDatabase() {
         suspend fun updateDownloadState(update: CachedKeyInfo.DownloadUpdate)
     }
 
-    class Factory @Inject constructor(private val context: Context) {
+    class Factory @Inject constructor(@AppContext private val context: Context) {
         /**
          * The fallback behavior is to reset the app as we only store exposure summaries
          * and cached references that are non-critical to app operation.

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="countryData"
-            type="java.util.List&lt;String&gt;" />
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +44,7 @@
                 app:firstSection="@{@string/interoperability_configuration_first_section}"
                 app:secondSection="@{@string/interoperability_configuration_second_section}"
                 app:countryListTitle="@{@string/interoperability_configuration_list_title}"
+                app:fourthSection="@{@string/interoperability_configuration_information}"
                 app:countryData="@{countryData}"
                 app:isOnboarding="@{false}"
                 app:isRiskdetection="@{true}"

@@ -20,7 +20,11 @@ import net.sqlcipher.database.SupportFactory
 import java.io.File
 
 @Database(
-    entities = [ExposureSummaryEntity::class, KeyCacheLegacyEntity::class, TracingIntervalEntity::class],
+    entities = [
+        ExposureSummaryEntity::class,
+        KeyCacheLegacyEntity::class,
+        TracingIntervalEntity::class
+    ],
     version = 1,
     exportSchema = true
 )
@@ -58,7 +62,6 @@ abstract class AppDatabase : RoomDatabase() {
             val keyRepository = AppInjector.component.keyCacheRepository
             runBlocking { keyRepository.clear() } // TODO this is not nice
             TracingIntervalRepository.resetInstance()
-            ExposureSummaryRepository.resetInstance()
         }
 
         private fun buildDatabase(context: Context): AppDatabase {

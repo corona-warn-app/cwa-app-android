@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.playbook
 
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
 
@@ -18,14 +18,14 @@ interface Playbook {
 
     suspend fun testResult(registrationToken: String): TestResult
 
+    suspend fun submit(data: SubmissionData)
+
+    suspend fun dummy()
+
     data class SubmissionData(
         val registrationToken: String,
-        val temporaryExposureKeys: List<KeyExportFormat.TemporaryExposureKey>,
+        val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visistedCountries: List<String>
     )
-
-    suspend fun submission(data: SubmissionData)
-
-    suspend fun dummy()
 }

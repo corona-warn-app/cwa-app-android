@@ -2,12 +2,14 @@
 
 package de.rki.coronawarnapp.util.formatter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Spanned
 import android.view.View
-import androidx.core.text.HtmlCompat
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.html.HtmlParser
 
 /*Style*/
 /**
@@ -38,9 +40,9 @@ fun formatDrawable(value: Boolean, drawableTrue: Int, drawableFalse: Int): Drawa
 fun formatColor(value: Boolean, colorTrue: Int, colorFalse: Int): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (value) {
-        appContext.getColor(colorTrue)
+        appContext.getColorCompat(colorTrue)
     } else {
-        appContext.getColor(colorFalse)
+        appContext.getColorCompat(colorFalse)
     }
 }
 
@@ -125,16 +127,11 @@ fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int?): String {
  */
 fun formatColorIcon(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColor(R.color.colorAccentTintIcon)
+    return color ?: appContext.getColorCompat(R.color.colorAccentTintIcon)
 }
 
-fun formatStringAsHTMLFromLocal(path: String): Spanned {
-    val appContext = CoronaWarnApplication.getAppContext()
-    val content = appContext.assets.open(path).bufferedReader().use { it.readText() }
-    return HtmlCompat.fromHtml(
-        content,
-        HtmlCompat.FROM_HTML_MODE_LEGACY
-    )
+fun parseHtmlFromAssets(context: Context, path: String): Spanned {
+    return HtmlParser(context.assets).parseByAssetPath(path)
 }
 
 /**
@@ -144,9 +141,8 @@ fun formatStringAsHTMLFromLocal(path: String): Spanned {
  * @param color
  * @return
  */
-fun formatColorDivider(color: Int?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColor(R.color.colorHairline)
+fun formatColorDivider(context: Context, color: Int?): Int {
+    return color ?: context.getColorCompat(R.color.colorHairline)
 }
 
 /**
