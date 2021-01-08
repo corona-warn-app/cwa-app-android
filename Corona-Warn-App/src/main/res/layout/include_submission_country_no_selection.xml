@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/submission_country_no_selection_header"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_normal"
             android:focusable="true"
