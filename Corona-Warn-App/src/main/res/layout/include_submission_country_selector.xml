@@ -21,7 +21,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/cardGrey"
+        style="@style/GreyCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@{FormatterSubmissionHelper.formatCountrySelectCardColor(active)}"

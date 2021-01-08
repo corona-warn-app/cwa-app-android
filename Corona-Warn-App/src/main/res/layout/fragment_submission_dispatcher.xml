@@ -85,7 +85,6 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_needs_testing_text" />
 
-
                 <TextView
                     android:id="@+id/submission_dispatcher_already_positive_text"
                     style="@style/headline6"
