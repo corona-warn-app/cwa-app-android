@@ -97,3 +97,8 @@ fun View.setClickLabel(label: String) {
         }
     })
 }
+
+fun <T> MutableList<T>.clearAndAddAll(newItems: List<T>) {
+    clear()
+    addAll(newItems)
+}
