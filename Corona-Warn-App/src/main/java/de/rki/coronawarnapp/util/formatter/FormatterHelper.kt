@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import android.text.Spanned
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.html.HtmlParser
 
@@ -119,19 +118,6 @@ fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int?): String {
     }
 }
 
-/**
- * Formats color to be displayed depending on color id provided with default option
- *
- * @param color
- * @return
- */
-fun formatColorIcon(color: Int?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColorCompat(R.color.colorAccentTintIcon)
-}
-
 fun parseHtmlFromAssets(context: Context, path: String): Spanned {
     return HtmlParser(context.assets).parseByAssetPath(path)
 }
-
-
