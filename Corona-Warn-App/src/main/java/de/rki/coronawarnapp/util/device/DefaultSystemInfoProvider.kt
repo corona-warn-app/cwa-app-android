@@ -6,7 +6,7 @@ import android.os.Build
 import java.util.Locale
 import javax.inject.Inject
 
-class DefaultSystemInfoProvider @Inject constructor(context: Context) : SystemInfoProvider {
+class DefaultSystemInfoProvider @Inject constructor() : SystemInfoProvider {
 
     override val locale: Locale
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

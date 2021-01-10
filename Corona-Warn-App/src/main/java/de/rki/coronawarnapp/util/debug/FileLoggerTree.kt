@@ -18,7 +18,7 @@ class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
     fun start() {
         if (logWriter != null) return
 
-        logFile.parentFile.mkdirs()
+        logFile.parentFile?.mkdirs()
         if (logFile.createNewFile()) {
             Log.i(TAG, "File logger writing to " + logFile.path)
         }
