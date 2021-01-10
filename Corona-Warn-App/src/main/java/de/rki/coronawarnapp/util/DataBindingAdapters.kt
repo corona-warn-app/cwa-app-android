@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.util
 
+import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.widget.ImageView
 import android.widget.Switch
+import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
@@ -48,4 +51,9 @@ fun setAnimationColor(view: LottieAnimationView, color: Int?) {
             LottieProperty.COLOR_FILTER
         ) { PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP) }
     }
+}
+
+@BindingAdapter("app:tint")
+fun setTint(view: ImageView, color: Int) {
+    ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
 }
