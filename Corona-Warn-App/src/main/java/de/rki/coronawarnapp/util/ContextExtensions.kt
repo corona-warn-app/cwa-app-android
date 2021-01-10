@@ -20,6 +20,9 @@ object ContextExtensions {
     fun Context.getColorCompat(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
     fun Context.getColorStateListCompat(@ColorRes id: Int) = ContextCompat.getColorStateList(this, id)
+
+    fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable? =
+        ContextCompat.getDrawable(this, id)
 }
 
 @Throws(Resources.NotFoundException::class)

@@ -12,6 +12,7 @@ import com.airbnb.lottie.LottieDrawable
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 const val IGNORE_CHANGE_TAG = "ignore"
 const val DRAWABLE_TYPE = "drawable"
@@ -32,7 +33,7 @@ fun setAnimation(view: LottieAnimationView, animation: Int?) {
         val type = appContext.resources.getResourceTypeName(animation)
 
         if (type == DRAWABLE_TYPE) {
-            view.setImageDrawable(appContext.getDrawable(animation))
+            view.setImageDrawable(appContext.getDrawableCompat(animation))
         } else {
             view.setAnimation(animation)
             view.repeatCount = LottieDrawable.INFINITE

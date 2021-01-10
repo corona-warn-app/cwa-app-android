@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -113,7 +114,7 @@ fun formatTestStatusIcon(uiState: NetworkRequestWrapper<DeviceUIState, Throwable
             DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
             else -> R.drawable.ic_test_result_illustration_invalid
         }
-    }.let { CoronaWarnApplication.getAppContext().getDrawable(it) }
+    }.let { CoronaWarnApplication.getAppContext().getDrawableCompat(it) }
 }
 
 fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
@@ -152,9 +153,9 @@ fun formatCountryIsoTagToFlagDrawable(isoTag: String?): Drawable? {
         countryName?.let { resolveNameToDrawableId("ic_submission_country_flag_$it", appContext) }
 
     return if (countryId != null)
-        appContext.getDrawable(countryId)
+        appContext.getDrawableCompat(countryId)
     else
-        appContext.getDrawable(R.drawable.ic_submission_country_flag_ireland)
+        appContext.getDrawableCompat(R.drawable.ic_submission_country_flag_ireland)
 }
 
 fun formatCountrySelectCardColor(isActive: Boolean?): Int =

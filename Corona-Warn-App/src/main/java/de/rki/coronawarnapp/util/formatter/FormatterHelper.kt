@@ -9,6 +9,8 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.getDrawableCompat
 import de.rki.coronawarnapp.util.html.HtmlParser
 
 /*Style*/
@@ -23,9 +25,9 @@ import de.rki.coronawarnapp.util.html.HtmlParser
 fun formatDrawable(value: Boolean, drawableTrue: Int, drawableFalse: Int): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (value) {
-        appContext.getDrawable(drawableTrue)
+        appContext.getDrawableCompat(drawableTrue)
     } else {
-        appContext.getDrawable(drawableFalse)
+        appContext.getDrawableCompat(drawableFalse)
     }
 }
 
