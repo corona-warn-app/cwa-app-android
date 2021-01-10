@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.tan
 
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.ViewGroup
@@ -65,7 +66,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         setOnClickListener { showKeyboard() }
 
         // initially show the keyboard
-        Handler().postDelayed(
+        Handler(Looper.getMainLooper()).postDelayed(
             { showKeyboard() },
             KEYBOARD_TRIGGER_DELAY
         )
