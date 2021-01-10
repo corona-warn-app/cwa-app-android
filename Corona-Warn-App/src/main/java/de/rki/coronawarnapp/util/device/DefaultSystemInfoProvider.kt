@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util.device
 
-import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import java.util.Locale

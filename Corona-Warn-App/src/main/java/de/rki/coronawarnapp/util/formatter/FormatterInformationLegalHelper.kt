@@ -3,7 +3,6 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.view.View
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.ui.information.InformationLegalPresentation
 import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
 
