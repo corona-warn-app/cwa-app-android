@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.settings
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -39,7 +40,7 @@ class TracingSettingsStateTest : BaseTest() {
     fun `bluetooth disabled`() {
         TracingSettingsState.BluetoothDisabled.apply {
             getTracingStatusImage(context)
-            verify { context.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_illustration_bluetooth_off) }
 
             getTracingIllustrationText(context)
             verify { context.getString(R.string.settings_tracing_bluetooth_illustration_description_inactive) }
@@ -60,7 +61,7 @@ class TracingSettingsStateTest : BaseTest() {
     fun `location disabled`() {
         TracingSettingsState.LocationDisabled.apply {
             getTracingStatusImage(context)
-            verify { context.getDrawable(R.drawable.ic_settings_illustration_location_off) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_illustration_location_off) }
 
             getTracingIllustrationText(context)
             verify { context.getString(R.string.settings_tracing_location_illustration_description_inactive) }
@@ -81,7 +82,7 @@ class TracingSettingsStateTest : BaseTest() {
     fun `tracing inactive`() {
         TracingSettingsState.TracingInactive.apply {
             getTracingStatusImage(context)
-            verify { context.getDrawable(R.drawable.ic_settings_illustration_tracing_off) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_illustration_tracing_off) }
 
             getTracingIllustrationText(context)
             verify { context.getString(R.string.settings_tracing_illustration_description_inactive) }
@@ -102,7 +103,7 @@ class TracingSettingsStateTest : BaseTest() {
     fun `tracing active`() {
         TracingSettingsState.TracingActive.apply {
             getTracingStatusImage(context)
-            verify { context.getDrawable(R.drawable.ic_illustration_tracing_on) }
+            verify { context.getDrawableCompat(R.drawable.ic_illustration_tracing_on) }
 
             getTracingIllustrationText(context)
             verify { context.getString(R.string.settings_tracing_illustration_description_active) }

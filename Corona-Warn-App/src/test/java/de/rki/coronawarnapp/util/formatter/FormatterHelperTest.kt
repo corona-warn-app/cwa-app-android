@@ -6,6 +6,7 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.ContextExtensions
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -31,7 +32,7 @@ class FormatterHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication.Companion)
-        mockkStatic(ContextExtensions::class)
+        mockkObject(ContextExtensions)
 
         every { CoronaWarnApplication.getAppContext() } returns context
     }
@@ -65,8 +66,8 @@ class FormatterHelperTest {
     }
 
     private fun formatDrawableBase(bValue: Boolean) {
-        every { context.getDrawable(1) } returns drawable
-        every { context.getDrawable(2) } returns drawable
+        every { context.getDrawableCompat(1) } returns drawable
+        every { context.getDrawableCompat(2) } returns drawable
 
         val result = formatDrawable(value = bValue, drawableTrue = 1, drawableFalse = 2)
         assertThat(result, `is`((equalTo(drawable))))

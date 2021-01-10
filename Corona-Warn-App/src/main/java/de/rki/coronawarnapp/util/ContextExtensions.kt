@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -21,10 +20,9 @@ object ContextExtensions {
 
     fun Context.getColorStateListCompat(@ColorRes id: Int) = ContextCompat.getColorStateList(this, id)
 
-    fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable? =
-        ContextCompat.getDrawable(this, id)
+    fun Context.getDrawableCompat(@DrawableRes id: Int) = ContextCompat.getDrawable(this, id)
 }
 
 @Throws(Resources.NotFoundException::class)
-fun Resources.getDrawableCompat(@DrawableRes id: Int, theme: Resources.Theme? = null): Drawable? =
+fun Resources.getDrawableCompat(@DrawableRes id: Int, theme: Resources.Theme? = null) =
     ResourcesCompat.getDrawable(this, id, theme)
