@@ -188,6 +188,7 @@ jobs:
       - image: circleci/android:api-28
     steps:
       - skip-for-external-pull-requests
+      - setup-google-cloud
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
@@ -196,13 +197,12 @@ jobs:
           command: |
             ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
             ./gradlew :Corona-Warn-App:assembleAndroidTest
-      - setup-google-cloud
       - run:
           name: Test with Firebase Test Lab
           command: >
             sudo gcloud firebase test android run \
-              --app <local_server_path>/<app_apk>.apk \
-              --test <local_server_path>/<app_test_apk>.apk \
+              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/release/*.apk \
+              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
       - run:
           name: Install gsutil dependency and copy test results data
