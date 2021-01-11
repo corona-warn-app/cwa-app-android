@@ -67,7 +67,7 @@ commands:
 jobs:
   quick_build_device_release_no_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -84,7 +84,7 @@ jobs:
           destination: reports
   quick_build_device_for_testers_release_no_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -101,7 +101,7 @@ jobs:
           destination: reports
   device_release_unit_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     parallelism: 3
     steps:
@@ -124,7 +124,7 @@ jobs:
             - ./project
   device_for_testers_release_unit_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     parallelism: 3
     steps:
@@ -143,7 +143,7 @@ jobs:
           path: Corona-Warn-App/build/test-results
   lint_device_release_check:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -171,7 +171,7 @@ jobs:
           destination: reports
   lint_device_for_testers_release_check:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -213,7 +213,7 @@ jobs:
           destination: reports
   run_sonar:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - attach_workspace:
@@ -226,7 +226,7 @@ jobs:
       - scan-sonar
   quick_build_device_for_testers_signed:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
