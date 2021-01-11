@@ -58,7 +58,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         setAccessibilityDelegate()
 
         // TODO Hidden until further clarification regarding release schedule is available
-        binding.informationDebuglog.mainRow.isGone = !CWADebug.isDeviceForTestersBuild
+        binding.informationDebuglog.rootLayout.isGone = !CWADebug.isDeviceForTestersBuild
     }
 
     override fun onResume() {
