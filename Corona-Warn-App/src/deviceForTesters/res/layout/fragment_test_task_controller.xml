@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            style="@style/card"
+            style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_tiny"
@@ -40,7 +40,7 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/card"
+            style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_tiny"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
-            style="@style/card"
+            style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_tiny"

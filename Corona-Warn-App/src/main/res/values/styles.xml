@@ -175,14 +175,24 @@
     <!-- ####################################
                     Card
     ###################################### -->
-    <style name="card">
+    <style name="Card">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
-    <style name="cardNoPadding" parent="card">
+    <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
+    </style>
+
+    <style name="GreyCard" parent="Card.NoPadding">
+        <item name="android:tint">@color/card_dark</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
+
+    <style name="GreyCard.Ripple">
+        <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
 
     <style name="cardTracing">
@@ -206,12 +216,6 @@
     <style name="targetLayout">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-    </style>
-
-    <style name="cardGrey" parent="cardNoPadding">
-        <item name="android:tint">@color/card_dark</item>
-        <item name="android:elevation">0dp</item>
-        <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
     <!-- ####################################
