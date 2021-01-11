@@ -81,7 +81,7 @@ class FormatterSubmissionHelperTest {
         oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
         iResult: String
     ) {
-        val result = formatTestResultStatusText(uiState = oUiState)
+        val result = formatTestResultStatusText(context = context, uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
@@ -89,12 +89,12 @@ class FormatterSubmissionHelperTest {
         oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
         iResult: Int
     ) {
-        val result = formatTestResultStatusColor(uiState = oUiState)
+        val result = formatTestResultStatusColor(context = context, uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
     private fun formatTestStatusIconBase(oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?) {
-        val result = formatTestStatusIcon(uiState = oUiState)
+        val result = formatTestStatusIcon(context = context, uiState = oUiState)
         assertThat(result, `is`(drawable))
     }
 
@@ -134,7 +134,7 @@ class FormatterSubmissionHelperTest {
             )
         } returns spannableStringBuilder3
 
-        val result = formatTestResult(uiState = oUiState)
+        val result = formatTestResult(context = context, uiState = oUiState)
         assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
     }
 
