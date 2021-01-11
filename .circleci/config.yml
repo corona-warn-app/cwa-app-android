@@ -2,16 +2,23 @@ version: 2.1
 orbs:
   android: circleci/android@0.2.1
   sonarcloud: sonarsource/sonarcloud@1.0.2
+
+#######################
+# Commands section
+# For code reuse.
+#######################
 commands:
   install-ndk: android/install-ndk
   restore-android-build-cache: android/restore-build-cache
   save-android-build-cache: android/save-build-cache
   scan-sonar: sonarcloud/scan
+
   restore-gradle-cache:
     description: "Restore gradle caches"
     steps:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
+
   save-gradle-cache:
     description: "Save gradle caches"
     steps:
@@ -19,6 +26,7 @@ commands:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
+
   require-version-bump:
     description: "Require version bump for binary assembling"
     steps:
@@ -30,6 +38,7 @@ commands:
               circleci-agent step halt
               echo "Skipping job"
             fi
+
   run-gradle-cmd:
     description: "Running gradle command with environment options"
     parameters:
@@ -45,6 +54,7 @@ commands:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+
   run-gradle-cmd-test-splitting:
     description: "Running gradle command with environment options and test splitting"
     parameters:
@@ -64,10 +74,37 @@ commands:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
 
+  skip-for-external-pull-requests:
+    description: "Skip for external pull requests due to missing access to secrets."
+    steps:
+      - run:
+          name: Early return if this build is from a forked PR
+          command: |
+            if [ -n "$CIRCLE_PR_NUMBER" ]; then
+              echo "Nothing to do for forked PRs, so marking this step successful"
+              circleci step halt
+            fi
+
+  setup-google-cloud:
+    description: "Setup Google Cloud access."
+    steps:
+      - run:
+          name: Store Google Service Account
+          command: echo GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
+      - run:
+          name: Authorize gcloud and set config defaults
+          command: |
+            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+
+#######################
+# Jobs section
+# Tasks that get executed
+#######################
 jobs:
   quick_build_device_release_no_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -82,9 +119,10 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   quick_build_device_for_testers_release_no_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -99,9 +137,10 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   device_release_unit_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     parallelism: 3
     steps:
@@ -122,9 +161,10 @@ jobs:
           root: /home/circleci
           paths:
             - ./project
+
   device_for_testers_release_unit_tests:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     parallelism: 3
     steps:
@@ -141,9 +181,35 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+
+  device_for_testers_release_instrumentation_tests:
+    resource_class: xlarge
+    docker:
+      - image: circleci/android:api-28
+    steps:
+      - skip-for-external-pull-requests
+      - run:
+          name: Build debug APK and release APK
+          command: |
+            ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
+            ./gradlew :Corona-Warn-App:assembleAndroidTest
+      - setup-google-cloud
+      - run:
+          name: Test with Firebase Test Lab
+          command: >
+            sudo gcloud firebase test android run \
+              --app <local_server_path>/<app_apk>.apk \
+              --test <local_server_path>/<app_test_apk>.apk \
+              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+      - run:
+          name: Install gsutil dependency and copy test results data
+          command: |
+            sudo pip install -U crcmod
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-${GOOGLE_PROJECT_ID}/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+
   lint_device_release_check:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -155,6 +221,7 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   ktlint_device_release_check:
     executor: android/android
     resource_class: medium
@@ -171,7 +238,7 @@ jobs:
           destination: reports
   lint_device_for_testers_release_check:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -183,6 +250,7 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   ktlint_device_for_testers_release_check:
     executor: android/android
     resource_class: medium
@@ -197,6 +265,7 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   detekt:
     executor: android/android
     resource_class: medium
@@ -211,11 +280,13 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   run_sonar:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
+      - skip-for-external-pull-requests
       - attach_workspace:
           at: /home/circleci
       - restore-gradle-cache
@@ -224,9 +295,10 @@ jobs:
           desc: JaCoCo report
           cmd: ":Corona-Warn-App:jacocoTestReportDeviceRelease -i"
       - scan-sonar
+
   quick_build_device_for_testers_signed:
     executor: android/android
-    resource_class: large
+    resource_class: xlarge
     working_directory: ~/project
     steps:
       - checkout
@@ -276,6 +348,11 @@ jobs:
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
+
+#######################
+# Workflow section
+# Job execution orders
+#######################
 workflows:
   version: 2
   quick_build:
@@ -284,6 +361,9 @@ workflows:
       - quick_build_device_for_testers_release_no_tests
       - device_release_unit_tests
       - device_for_testers_release_unit_tests
+      - device_for_testers_release_instrumentation_tests:
+          requires:
+            - device_for_testers_release_unit_tests
       - lint_device_release_check
       - lint_device_for_testers_release_check
       - ktlint_device_release_check
