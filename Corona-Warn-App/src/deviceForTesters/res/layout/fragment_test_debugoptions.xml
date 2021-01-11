@@ -32,27 +32,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Switch
-                    android:id="@+id/test_logfile_toggle"
-                    style="@style/body1"
+                <TextView
+                    android:id="@+id/new_debuglog_screen_explanation"
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:layout_weight="1"
-                    android:text="Logfile enabled"
-                    android:theme="@style/switchBase"
+                    android:text="The debuglog option has moved. It's now available for all builds. For test builds it's started automatically on each app start."
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
 
                 <Button
-                    android:id="@+id/test_logfile_share"
+                    android:id="@+id/show_debug_log_screen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="Share log"
+                    android:text="Open new debug log screen"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/test_logfile_toggle" />
+                    app:layout_constraintTop_toBottomOf="@+id/new_debuglog_screen_explanation" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
