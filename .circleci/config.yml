@@ -90,7 +90,7 @@ commands:
     steps:
       - run:
           name: Store Google Service Account
-          command: echo GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
+          command: echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
       - run:
           name: Authorize gcloud and set config defaults
           command: |
@@ -192,7 +192,7 @@ jobs:
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
-          name: Build debug APK and release APK
+          name: "Build app and instrumentation test APK"
           command: |
             ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
             ./gradlew :Corona-Warn-App:assembleAndroidTest
