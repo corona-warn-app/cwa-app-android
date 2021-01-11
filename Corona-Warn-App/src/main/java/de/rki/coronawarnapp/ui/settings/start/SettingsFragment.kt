@@ -35,7 +35,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         vm.notificationState.observe2(this) {
             binding.notificationState = it
         }
-        vm.backgroundPrioritystate.observe2(this) {
+        vm.backgroundPriorityState.observe2(this) {
             binding.backgroundState = it
         }
         setButtonOnClickListener()
