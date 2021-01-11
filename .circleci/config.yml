@@ -360,21 +360,21 @@ workflows:
   version: 2
   quick_build:
     jobs:
-      - quick_build_device_release_no_tests
-      - quick_build_device_for_testers_release_no_tests
-      - device_release_unit_tests
-      - device_for_testers_release_unit_tests
-      - device_for_testers_release_instrumentation_tests:
-          requires:
-            - device_for_testers_release_unit_tests
-      - lint_device_release_check
-      - lint_device_for_testers_release_check
-      - ktlint_device_release_check
-      - ktlint_device_for_testers_release_check
-      - detekt
-      - run_sonar:
-          requires:
-            - device_release_unit_tests
+      #      - quick_build_device_release_no_tests
+      #      - quick_build_device_for_testers_release_no_tests
+      #      - device_release_unit_tests
+      #      - device_for_testers_release_unit_tests
+      - device_for_testers_release_instrumentation_tests
+  #          requires:
+  #            - device_for_testers_release_unit_tests
+  #      - lint_device_release_check
+  #      - lint_device_for_testers_release_check
+  #      - ktlint_device_release_check
+  #      - ktlint_device_for_testers_release_check
+  #      - detekt
+  #      - run_sonar:
+  #          requires:
+  #            - device_release_unit_tests
   signed_build:
     jobs:
       - quick_build_device_for_testers_signed:
