@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -107,8 +108,14 @@ object DebugLogger : DebugLoggerBase() {
                         while (!isDaggerReady) {
                             yield()
                         }
-                        val censoredLine = bugCensors.get().mapNotNull { it.checkLog(rawLine) }.firstOrNull()
-                        appendLogLine(censoredLine ?: rawLine)
+                        launch {
+                            // Censor data sources need a moment to know what to censor
+                            delay(1000)
+                            val censoredLine = bugCensors.get().fold(rawLine) { prev, censor ->
+                                censor.checkLog(prev) ?: prev
+                            }
+                            appendLogLine(censoredLine)
+                        }
                     }
                 } catch (e: CancellationException) {
                     Timber.tag(TAG).i("Logging was canceled.")
