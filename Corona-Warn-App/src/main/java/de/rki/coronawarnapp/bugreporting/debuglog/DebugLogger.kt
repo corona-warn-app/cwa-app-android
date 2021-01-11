@@ -159,7 +159,7 @@ object DebugLogger : DebugLoggerBase() {
     }
 
     private fun appendLogLine(line: LogLine) {
-        val formattedLine = line.format(context)
+        val formattedLine = line.format()
         runningLog.appendText(formattedLine, Charsets.UTF_8)
     }
 
