@@ -13,7 +13,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/CWAToolbar.Close"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +22,8 @@
             app:title="@string/contact_diary_title" />
 
         <ScrollView
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
             app:layout_constraintBottom_toTopOf="@id/contact_diary_onboarding_next_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
 
                 <ImageView
                     android:id="@+id/contact_diary_onboarding_illustration"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/contact_diary_onboarding_image_content_description"
                     android:focusable="true"
@@ -49,7 +49,7 @@
                 <TextView
                     android:id="@+id/onboarding_headline"
                     style="@style/headline5"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
@@ -63,7 +63,7 @@
                 <TextView
                     android:id="@+id/contact_diary_onboarding_body"
                     style="@style/subtitleMedium"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
@@ -76,7 +76,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_first_section"
                     layout="@layout/contact_diary_onboarding_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
@@ -89,7 +89,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_second_section"
                     layout="@layout/contact_diary_onboarding_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
@@ -102,7 +102,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_third_section"
                     layout="@layout/contact_diary_onboarding_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
@@ -115,7 +115,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_fourth_section"
                     layout="@layout/contact_diary_onboarding_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
@@ -128,7 +128,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_fifth_section"
                     layout="@layout/contact_diary_onboarding_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
@@ -141,7 +141,7 @@
                 <include
                     android:id="@+id/contact_diary_onboarding_privacy_card"
                     layout="@layout/contact_diary_privacy_card"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/guideline_card"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -152,7 +152,7 @@
 
                 <View
                     android:id="@+id/contact_diary_onboarding_first_divider"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:background="?android:attr/listDivider"
@@ -163,7 +163,7 @@
                 <TextView
                     android:id="@+id/contact_diary_onboarding_privacy_information"
                     style="@style/subtitle"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"
                     android:clickable="true"
@@ -177,7 +177,7 @@
 
                 <View
                     android:id="@+id/contact_diary_onboarding_second_divider"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -206,7 +206,7 @@
         <android.widget.Button
             android:id="@+id/contact_diary_onboarding_next_button"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"

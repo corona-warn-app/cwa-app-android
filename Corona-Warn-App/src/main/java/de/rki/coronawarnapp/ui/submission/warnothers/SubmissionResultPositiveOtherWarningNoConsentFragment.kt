@@ -41,7 +41,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         binding.submissionPositiveOtherWarningNoConsentButtonNext.setOnClickListener {
             viewModel.onConsentButtonClicked()
         }
-        binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             viewModel.onBackPressed()
         }
 

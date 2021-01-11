@@ -25,7 +25,7 @@
         android:paddingBottom="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/card"
+            style="@style/Card"
             android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_tiny"
@@ -45,7 +45,7 @@
             <TextView
                 android:id="@+id/textViewCrashReportDate"
                 style="@style/body1"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@{crashReportDateFormatted}"

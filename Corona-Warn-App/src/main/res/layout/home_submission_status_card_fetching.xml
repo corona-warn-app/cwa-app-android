@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/submission_status_card_fetching_title"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:accessibilityHeading="true"
             android:text="@string/submission_status_card_title_fetching"
@@ -32,7 +32,7 @@
         <TextView
             android:id="@+id/submission_status_card_fetching_body"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:text="@string/submission_status_card_body_fetching"
@@ -44,7 +44,7 @@
         <Button
             android:id="@+id/show_test_action"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:enabled="false"

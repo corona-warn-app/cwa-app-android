@@ -632,8 +632,6 @@
     <string name="settings_background_priority_headline">"Update Risk Status Automatically"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"If you activate prioritized background activity, the app can determine your risk status at any time. This disables battery life optimization for the Corona-Warn-App only."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"You can activate and deactivate prioritized background activity in your device settings."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->

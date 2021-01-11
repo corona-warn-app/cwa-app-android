@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/submission_status_card_positive_title"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
@@ -55,7 +55,7 @@
         <TextView
             android:id="@+id/submission_status_card_positive_result_subtitle"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:accessibilityHeading="true"
@@ -67,7 +67,7 @@
         <include
             android:id="@+id/submission_status_card_positive_result_contact"
             layout="@layout/include_submission_behaviour_row"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_status_card_positive_result_contact}"
@@ -79,7 +79,7 @@
         <include
             android:id="@+id/submission_status_card_positive_result_contagious"
             layout="@layout/include_submission_behaviour_row"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_status_card_positive_result_contagious}"
@@ -91,7 +91,7 @@
         <include
             android:id="@+id/submission_status_card_positive_result_share"
             layout="@layout/include_submission_behaviour_row"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_status_card_positive_result_share}"
@@ -103,7 +103,7 @@
         <Button
             android:id="@+id/submission_status_card_positive_button"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_test_result_positive_no_consent_button_warn_others"

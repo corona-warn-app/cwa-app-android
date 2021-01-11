@@ -21,7 +21,7 @@
         <include
             android:id="@+id/submission_positive_other_warning_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,8 +31,8 @@
 
         <include
             layout="@layout/include_submission_positive_other_warning"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:countryData="@{uiState.countryList}"
             app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         <Button
             android:id="@+id/submission_positive_other_warning_button_next"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:enabled="@{uiState != null &amp;&amp; uiState.isSubmitButtonEnabled()}"
             android:text="@string/submission_accept_button"
@@ -57,7 +57,7 @@
         <ProgressBar
             android:id="@+id/submission_positive_other_warning_spinner"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
             android:indeterminate="true"
