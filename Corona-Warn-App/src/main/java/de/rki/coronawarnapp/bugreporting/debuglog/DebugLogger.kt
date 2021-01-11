@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -44,8 +45,19 @@ object DebugLogger : DebugLoggerBase() {
         context = application
 
         try {
-            if (triggerFile.exists()) {
-                Timber.tag(TAG).i("Trigger file exists, starting debug log.")
+            val startLogger = when {
+                triggerFile.exists() -> {
+                    Timber.tag(TAG).i("Trigger file exists, starting debug log.")
+                    true
+                }
+                CWADebug.isDeviceForTestersBuild -> {
+                    Timber.tag(TAG).i("Trigger file does not exist, but it's a tester build, starting debug log.")
+                    true
+                }
+                else -> false
+            }
+
+            if (startLogger) {
                 runBlocking { start() }
             }
         } catch (e: Exception) {

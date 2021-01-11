@@ -22,7 +22,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_divider"
-            android:background="@{FormatterHelper.formatColorDivider(context,dividerColor)}"
+            android:background="@{(dividerColor != 0) ? dividerColor : @color/colorHairline}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -2,6 +2,7 @@
 
 package de.rki.coronawarnapp.util.formatter
 
+import android.content.Context
 import android.view.View
 import de.rki.coronawarnapp.ui.information.InformationLegalPresentation
 import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
@@ -14,9 +15,10 @@ import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
  */
 
 fun formatVisibilityLanguageBased(
+    context: Context,
     isContactFormView: Boolean?
 ): Int {
-    InformationLegalPresentation(DefaultSystemInfoProvider()).apply {
+    InformationLegalPresentation(DefaultSystemInfoProvider(context)).apply {
         if (!showBackupLinkToContactForm) {
             return if (isContactFormView == true) {
                 View.VISIBLE
