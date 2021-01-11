@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
         <variable
             name="tracingState"
             type="de.rki.coronawarnapp.ui.settings.start.SettingsTracingState" />

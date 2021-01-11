@@ -43,7 +43,7 @@
                 android:layout_height="@dimen/icon_size_main_card"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                android:tint="@{FormatterHelper.formatColorIcon(iconTint)}"
+                android:tint="@{(iconTint != 0) ? iconTint : @color/colorAccentTintIcon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
                 app:layout_constraintBottom_toBottomOf="@+id/main_overview_row_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/guideline_icon"
