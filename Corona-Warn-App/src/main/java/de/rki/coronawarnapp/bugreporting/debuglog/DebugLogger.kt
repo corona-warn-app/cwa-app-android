@@ -99,8 +99,10 @@ object DebugLogger : DebugLoggerBase() {
                         launch {
                             // Censor data sources need a moment to know what to censor
                             delay(1000)
-                            val censoredLine = bugCensors.get().mapNotNull { it.checkLog(rawLine) }.firstOrNull()
-                            appendLogLine(censoredLine ?: rawLine)
+                            val censoredLine = bugCensors.get().fold(rawLine) { prev, censor ->
+                                censor.checkLog(prev) ?: prev
+                            }
+                            appendLogLine(censoredLine)
                         }
                     }
                 } catch (e: CancellationException) {
