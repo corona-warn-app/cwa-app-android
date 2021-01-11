@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.settings.notification
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsState
 import de.rki.coronawarnapp.util.ContextExtensions
