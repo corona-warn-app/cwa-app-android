@@ -168,6 +168,9 @@
         <action
             android:id="@+id/action_informationFragment_to_informationTechnicalFragment"
             app:destination="@id/informationTechnicalFragment" />
+        <action
+            android:id="@+id/action_informationFragment_to_debuglogFragment"
+            app:destination="@id/debuglogFragment" />
     </fragment>
 
     <fragment
@@ -479,4 +482,8 @@
         android:name="de.rki.coronawarnapp.ui.submission.testresult.invalid.SubmissionTestResultInvalidFragment"
         android:label="SubmissionTestResultInvalidFragment"
         tools:layout="@layout/fragment_submission_test_result_invalid" />
+    <fragment
+        android:id="@+id/debuglogFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
+        android:label="DebuglogFragment" />
 </navigation>

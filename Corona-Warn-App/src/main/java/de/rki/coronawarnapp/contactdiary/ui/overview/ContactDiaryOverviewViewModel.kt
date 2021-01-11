@@ -139,7 +139,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         }
     }
 
-    private fun List<String>.addToStringBuilder(sb: StringBuilder, dateString: String) = sorted()
+    private fun List<String>.addToStringBuilder(sb: StringBuilder, dateString: String) = sortedBy {
+        it.toLowerCase(Locale.ROOT)
+    }
         .forEach { sb.appendLine("$dateString $it") }
 
     // According to tech spec german locale only

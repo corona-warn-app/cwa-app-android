@@ -61,7 +61,7 @@
                 <include
                     android:id="@+id/settings_tracing_switch_row"
                     layout="@layout/include_settings_switch_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:enabled="@{settingsTracingState.isTracingSwitchEnabled()}"
@@ -75,7 +75,7 @@
                 <include
                     android:id="@+id/settings_interoperability_row"
                     layout="@layout/include_settings_plain_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_location"
                         layout="@layout/include_tracing_status_card_location"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         gone="@{!settingsTracingState.isLocationCardVisible()}"
                         app:buttonText="@{@string/settings_tracing_status_location_button}"
@@ -109,7 +109,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_bluetooth"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         gone="@{!settingsTracingState.isBluetoothCardVisible()}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
@@ -151,7 +151,7 @@
                     <TextView
                         android:id="@+id/settings_tracing_body"
                         style="@style/body1"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:text="@string/settings_tracing_body_text"

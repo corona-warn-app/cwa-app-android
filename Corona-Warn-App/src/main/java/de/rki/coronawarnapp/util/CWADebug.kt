@@ -2,8 +2,12 @@ package de.rki.coronawarnapp.util
 
 import android.app.Application
 import android.os.Build
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.debug.FileLogger
+import de.rki.coronawarnapp.util.debug.UncaughtExceptionLogger
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import timber.log.Timber
 
 object CWADebug {
@@ -19,9 +23,15 @@ object CWADebug {
             fileLogger = FileLogger(application)
         }
 
-        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
-        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
-        Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
+        setupExceptionHandler()
+
+        DebugLogger.init(application)
+
+        logDeviceInfos()
+    }
+
+    fun initAfterInjection(component: ApplicationComponent) {
+        DebugLogger.setInjectionIsReady(component)
     }
 
     val isDebugBuildOrMode: Boolean
@@ -44,5 +54,19 @@ object CWADebug {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun logDeviceInfos() {
+        Timber.i("CWA version: %s (%s)", BuildConfig.VERSION_CODE, BuildConfig.GIT_COMMIT_SHORT_HASH)
+        Timber.i("CWA flavor: %s (%s)", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
+        Timber.i("Build.FINGERPRINT: %s", Build.FINGERPRINT)
+    }
+
+    /**
+     * Allow internal logging via `DebugLogger` to log stacktraces for uncaught exceptions.
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun setupExceptionHandler() {
+        UncaughtExceptionLogger.wrapCurrentHandler()
     }
 }

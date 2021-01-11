@@ -106,29 +106,39 @@
                     app:layout_constraintTop_toBottomOf="@+id/information_contact"
                     app:subtitle="@{@string/information_legal_title}" />
 
+                <include
+                    android:id="@+id/information_debuglog"
+                    layout="@layout/include_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/information_contact"
+                    app:subtitle="@{@string/debugging_debuglog_title}" />
+
                 <TextView
                     android:id="@+id/information_version"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_body_title_padding"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:focusable="true"
-                    tools:text="v1.8.0-RC1"
-                    android:layout_marginStart="@dimen/guideline_body_title_padding" />
+                    tools:text="v1.8.0-RC1" />
 
                 <TextView
                     android:id="@+id/information_enf_version"
                     style="@style/body2Medium"
-                    android:visibility="gone"
-                    tools:visibility="visible"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_body_title_padding"
+                    android:background="?selectableItemBackground"
+                    android:focusable="true"
                     android:paddingTop="@dimen/spacing_tiny"
                     android:paddingBottom="@dimen/spacing_tiny"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:background="?selectableItemBackground"
+                    android:visibility="gone"
                     tools:text="16000000"
-                    android:layout_marginStart="@dimen/guideline_body_title_padding" />
+                    tools:visibility="visible" />
 
 
             </LinearLayout>
