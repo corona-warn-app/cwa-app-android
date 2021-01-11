@@ -5,15 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -55,6 +56,9 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
 
         setButtonOnClickListener()
         setAccessibilityDelegate()
+
+        // TODO Hidden until further clarification regarding release schedule is available
+        binding.informationDebuglog.mainRow.isGone = !CWADebug.isDeviceForTestersBuild
     }
 
     override fun onResume() {
@@ -76,22 +80,22 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
 
     private fun setButtonOnClickListener() {
         binding.informationAbout.mainRow.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationAboutFragment()
             )
         }
         binding.informationPrivacy.mainRow.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationPrivacyFragment()
             )
         }
         binding.informationTerms.mainRow.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
         }
         binding.informationContact.mainRow.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
             )
         }
@@ -99,13 +103,18 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             ExternalActionHelper.openUrl(this, requireContext().getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationLegalFragment()
             )
         }
         binding.informationTechnical.mainRow.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
+            )
+        }
+        binding.informationDebuglog.mainRow.setOnClickListener {
+            doNavigate(
+                InformationFragmentDirections.actionInformationFragmentToDebuglogFragment()
             )
         }
         binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {

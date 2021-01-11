@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -130,18 +131,13 @@ data class TracingFailed(
 
     val showRestartButton: Boolean = !isInDetailsMode
 
-    fun getTimeFetched(c: Context): String = when (riskState) {
-        RiskState.LOW_RISK, RiskState.INCREASED_RISK -> {
-            if (lastExposureDetectionTime != null) {
-                c.getString(
-                    R.string.risk_card_body_time_fetched,
-                    formatRelativeDateTimeString(c, lastExposureDetectionTime)
-                )
-            } else {
-                c.getString(R.string.risk_card_body_not_yet_fetched)
-            }
-        }
-        else -> ""
+    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+        context.getString(
+            R.string.risk_card_body_time_fetched,
+            formatRelativeDateTimeString(context, lastExposureDetectionTime)
+        )
+    } else {
+        context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
     fun getLastRiskState(c: Context): String {
@@ -212,17 +208,17 @@ data class TracingInProgress(
     fun getStableIconColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
-    }.let { c.getColor(it) }
+    }.let { c.getColorCompat(it) }
 
     fun getStableTextColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
         else -> R.color.colorTextPrimary1
-    }.let { c.getColor(it) }
+    }.let { c.getColorCompat(it) }
 
     @ColorInt
     fun getContainerColor(c: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         RiskState.CALCULATION_FAILED -> R.color.colorSemanticUnknownRisk
-    }.let { c.getColor(it) }
+    }.let { c.getColorCompat(it) }
 }

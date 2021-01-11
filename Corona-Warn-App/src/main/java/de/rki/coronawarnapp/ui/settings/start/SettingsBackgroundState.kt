@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 data class SettingsBackgroundState(
     val isEnabled: Boolean
@@ -13,7 +14,7 @@ data class SettingsBackgroundState(
      * Formats the settings icon color for background priority
      */
     @ColorInt
-    fun getBackgroundPriorityIconColor(c: Context): Int = c.getColor(
+    fun getBackgroundPriorityIconColor(c: Context): Int = c.getColorCompat(
         if (isEnabled) R.color.colorAccentTintIcon
         else R.color.colorTextSemanticRed
     )
@@ -21,7 +22,7 @@ data class SettingsBackgroundState(
     /**
      * Formats the settings icon for background priority
      */
-    fun getBackgroindPriorityIcon(c: Context): Drawable? = c.getDrawable(
+    fun getBackgroundPriorityIcon(c: Context): Drawable? = c.getDrawable(
         if (isEnabled) R.drawable.ic_settings_background_priority_enabled
         else R.drawable.ic_settings_background_priority_disabled
     )

@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/risk_card_body"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/risk_card_check_failed_no_internet_body"
@@ -51,7 +51,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/risk_card_row_saved_risk"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:icon="@drawable/ic_risk_card_saved_risk"
@@ -65,7 +65,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/risk_card_row_time_fetched"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_time_fetched"
             android:text="@{state.getTimeFetched(context)}"
@@ -80,7 +80,7 @@
             android:id="@+id/risk_card_button_update"
             style="@style/buttonPrimary"
             gone="@{!state.showRestartButton}"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/risk_card_check_failed_no_internet_restart_button"

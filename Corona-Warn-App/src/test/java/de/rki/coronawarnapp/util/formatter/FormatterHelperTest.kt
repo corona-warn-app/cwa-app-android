@@ -4,10 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.ContextExtensions
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
@@ -28,6 +31,7 @@ class FormatterHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication.Companion)
+        mockkStatic(ContextExtensions::class)
 
         every { CoronaWarnApplication.getAppContext() } returns context
     }
@@ -69,11 +73,11 @@ class FormatterHelperTest {
     }
 
     private fun formatColorBase(bValue: Boolean, iColor: Int) {
-        every { context.getColor(1) } returns 1
-        every { context.getColor(2) } returns 2
+        every { context.getColorCompat(1) } returns 1
+        every { context.getColorCompat(2) } returns 2
 
         val result = formatColor(value = bValue, colorTrue = 1, colorFalse = 2)
-        assertThat(result, `is`((context.getColor(iColor))))
+        assertThat(result, `is`((context.getColorCompat(iColor))))
     }
 
     @Test

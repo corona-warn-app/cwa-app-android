@@ -17,11 +17,13 @@
     <fragment
         android:id="@+id/onboardingNotificationsFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsFragment"
-        android:label="OnboardingNotificationsFragment" />
+        android:label="OnboardingNotificationsFragment"
+        tools:layout="@layout/fragment_onboarding_notifications" />
     <fragment
         android:id="@+id/onboardingPrivacyFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyFragment"
-        android:label="OnboardingPrivacyFragment">
+        android:label="OnboardingPrivacyFragment"
+        tools:layout="@layout/fragment_onboarding_privacy">
         <action
             android:id="@+id/action_onboardingPrivacyFragment_to_onboardingTracingFragment"
             app:destination="@id/onboardingTracingFragment" />
@@ -29,7 +31,8 @@
     <fragment
         android:id="@+id/onboardingTestFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragment"
-        android:label="OnboardingTestFragment">
+        android:label="OnboardingTestFragment"
+        tools:layout="@layout/fragment_onboarding_test">
         <action
             android:id="@+id/action_onboardingTestFragment_to_onboardingNotificationsFragment"
             app:destination="@id/onboardingNotificationsFragment" />
@@ -37,7 +40,8 @@
     <fragment
         android:id="@+id/onboardingTracingFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragment"
-        android:label="OnboardingTracingFragment">
+        android:label="OnboardingTracingFragment"
+        tools:layout="@layout/fragment_onboarding_tracing">
         <action
             android:id="@+id/action_onboardingTracingFragment_to_onboardingTestFragment"
             app:destination="@id/onboardingTestFragment" />
