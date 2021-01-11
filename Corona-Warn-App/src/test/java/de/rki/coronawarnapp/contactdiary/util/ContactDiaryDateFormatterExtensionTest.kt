@@ -11,7 +11,7 @@ class ContactDiaryDateFormatterExtensionTest {
     fun `format bulgarian date`() {
         LocalDate("2021-01-01").toFormattedDay(
             Locale("bg", "BG")
-        ) shouldBe "петък, 1.01.21 г."
+        ) shouldBe "Петък, 01.01.21"
     }
 
     @Test
@@ -26,27 +26,27 @@ class ContactDiaryDateFormatterExtensionTest {
 
     @Test
     fun `format english (uk) date`() {
-        LocalDate("2021-01-03").toFormattedDay(Locale.UK) shouldBe "Sunday, 03/01/2021"
+        LocalDate("2021-01-03").toFormattedDay(Locale.UK) shouldBe "Sunday, 03/01/21"
     }
 
     @Test
     fun `format polish date`() {
         LocalDate("2021-01-04").toFormattedDay(
             Locale("pl", "PL")
-        ) shouldBe "poniedziałek, 04.01.2021"
+        ) shouldBe "poniedziałek, 04.01.21"
     }
 
     @Test
     fun `format romanian date`() {
         LocalDate("2021-01-05").toFormattedDay(
             Locale("ro", "RO")
-        ) shouldBe "marți, 05.01.2021"
+        ) shouldBe "marţi, 05.01.2021"
     }
 
     @Test
     fun `format turkish date`() {
         LocalDate("2021-01-06").toFormattedDay(
             Locale("tr", "TR")
-        ) shouldBe "Çarşamba, 6.01.2021"
+        ) shouldBe "Çarşamba, 06.01.2021"
     }
 }
