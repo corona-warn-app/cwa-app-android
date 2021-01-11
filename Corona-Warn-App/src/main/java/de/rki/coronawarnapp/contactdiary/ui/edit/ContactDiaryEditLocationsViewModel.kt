@@ -19,7 +19,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     private val contactDiaryRepository: ContactDiaryRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 

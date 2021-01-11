@@ -24,7 +24,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 
