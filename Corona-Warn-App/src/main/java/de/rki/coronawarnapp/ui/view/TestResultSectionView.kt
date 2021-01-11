@@ -87,7 +87,7 @@ constructor(
 
                 DeviceUIState.PAIRED_POSITIVE,
                 DeviceUIState.PAIRED_POSITIVE_TELETAN,
-                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(uiState))
+                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
                 else -> SpannableString("")
             }
         }

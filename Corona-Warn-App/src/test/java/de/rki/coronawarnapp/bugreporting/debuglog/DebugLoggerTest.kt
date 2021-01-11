@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 import android.app.Application
 import dagger.Lazy
 import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -10,6 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -36,6 +38,9 @@ class DebugLoggerTest : BaseIOTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkObject(CWADebug)
+        every { CWADebug.isDeviceForTestersBuild } returns false
+
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
@@ -73,6 +78,16 @@ class DebugLoggerTest : BaseIOTest() {
     fun `init calls start if there is a trigger file`() {
         triggerFile.parentFile?.mkdirs()
         triggerFile.createNewFile()
+        createInstance().apply {
+            init(application)
+            isLogging shouldBe true
+        }
+        runningLog.exists() shouldBe true
+    }
+
+    @Test
+    fun `init calls start if it is a tester build`() {
+        every { CWADebug.isDeviceForTestersBuild } returns true
         createInstance().apply {
             init(application)
             isLogging shouldBe true
