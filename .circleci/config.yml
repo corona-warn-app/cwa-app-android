@@ -188,6 +188,9 @@ jobs:
       - image: circleci/android:api-28
     steps:
       - skip-for-external-pull-requests
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: Build debug APK and release APK
           command: |
