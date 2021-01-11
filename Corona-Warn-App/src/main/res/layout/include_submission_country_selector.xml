@@ -21,7 +21,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/cardGrey"
+        style="@style/GreyCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@{FormatterSubmissionHelper.formatCountrySelectCardColor(active)}"
@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/submission_country_selector_header"
             style="@style/headline5"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:focusable="true"
@@ -43,7 +43,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/submission_country_selector_recyclerview"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_mega_tiny"
             android:layout_marginTop="@dimen/spacing_normal"

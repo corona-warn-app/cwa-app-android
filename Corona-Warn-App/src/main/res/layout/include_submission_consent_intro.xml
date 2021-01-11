@@ -8,7 +8,7 @@
 
         <TextView
             android:id="@+id/submission_consent_main_headline_body"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_illustration"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/submission_consent_call_test_result"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_main_headline_body"
@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/submission_consent_call_test_result_body"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result"
@@ -53,7 +53,7 @@
 
         <TextView
             android:id="@+id/submission_consent_call_test_result_scan_your_test_only"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_tiny"
@@ -78,7 +78,7 @@
 
         <TextView
             android:id="@+id/submission_consent_call_test_result_scan_test_only_once"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_tiny"
@@ -90,7 +90,7 @@
 
         <TextView
             android:id="@+id/submission_consent_help_by_warning_others_headline"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_test_only_once"
@@ -101,7 +101,7 @@
 
         <TextView
             android:id="@+id/submission_consent_help_by_warning_others_body"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_help_by_warning_others_headline"
