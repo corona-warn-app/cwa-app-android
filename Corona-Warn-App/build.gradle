@@ -215,6 +215,7 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     kapt {
@@ -336,9 +337,11 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
 
     def assisted_injection_version = "0.6.0"
     compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_injection_version"
@@ -384,7 +387,8 @@ dependencies {
 
     // Testing - Instrumentation
     androidTestImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.3.1-alpha02'
+    androidTestUtil 'androidx.test:orchestrator:1.3.1-alpha02'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'

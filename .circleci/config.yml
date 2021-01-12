@@ -193,22 +193,28 @@ jobs:
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
-          name: "Build app and instrumentation test APK"
-          command: |
-            ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
-            ./gradlew :Corona-Warn-App:assembleAndroidTest
+          name: "Build app APK "
+          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebug
+      - run:
+          name: "Build instrumentation test APK"
+          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest
       - run:
           name: Test with Firebase Test Lab
           command: >
             sudo gcloud firebase test android run \
-              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/release/*.apk \
-              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
-              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+              --app ~/git/cwa-app-android/Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
+              --test ~/git/cwa-app-android/Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
+              --test-targets "notAnnotation testhelpers.Screenshot" \
+              --use-orchestrator \
+              --timeout 20m \
+              --num-flaky-test-attempts 3 \
+              --device model=Pixel2,version=28,locale=de_DE,orientation=portrait
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-${GOOGLE_PROJECT_ID}/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
 
   lint_device_release_check:
     executor: android/android
