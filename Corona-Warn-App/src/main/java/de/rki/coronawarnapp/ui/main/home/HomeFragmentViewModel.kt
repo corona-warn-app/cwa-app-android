@@ -236,12 +236,18 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .first { state ->
                 state.withSuccess(false) {
                     when (it) {
-                        DeviceUIState.PAIRED_POSITIVE, DeviceUIState.PAIRED_POSITIVE_TELETAN -> true
+                        DeviceUIState.PAIRED_POSITIVE -> true
                         else -> false
                     }
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also {
+                if (submissionRepository.hasViewedTestResult.first()) {
+                    testResultNotificationService.cancelPositiveTestResultNotification()
+                } else {
+                    testResultNotificationService.schedulePositiveTestResultReminder()
+                }
+            }
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access

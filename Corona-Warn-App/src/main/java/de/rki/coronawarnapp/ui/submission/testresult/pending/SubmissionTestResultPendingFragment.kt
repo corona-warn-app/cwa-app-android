@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -47,7 +47,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 }
             }
 
-            val hasResult = result.deviceUiState.withSuccess(false) { true }
+            val hasResult = result.deviceUiState is NetworkRequestWrapper.RequestSuccessful
 
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)

@@ -85,25 +85,26 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         }
         .asLiveData(context = dispatcherProvider.Default)
 
-    fun onTestOpened() {
-        submissionRepository.setViewedTestResult()
-    }
-
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionRepository.deviceUIStateFlow
             .first { request ->
                 request.withSuccess(false) {
-                    it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN
+                    it == DeviceUIState.PAIRED_POSITIVE
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also {
+                if (submissionRepository.hasViewedTestResult.first()) {
+                    testResultNotificationService.cancelPositiveTestResultNotification()
+                } else {
+                    testResultNotificationService.schedulePositiveTestResultReminder()
+                }
+            }
     }
 
     fun deregisterTestFromDevice() {
         Timber.d("deregisterTestFromDevice()")
         launch {
             submissionRepository.removeTestFromDevice()
-
             routeToScreen.postValue(null)
         }
     }
