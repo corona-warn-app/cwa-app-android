@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -69,7 +68,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<OnboardingTracingFragment>()
+        launchFragmentInContainer2<OnboardingTracingFragment>()
     }
 
     @Screenshot

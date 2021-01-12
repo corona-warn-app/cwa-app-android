@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.launchFragmentInContainer2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTanFragmentTest : BaseUITest() {
@@ -35,7 +35,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTanFragment>()
+        launchFragmentInContainer2<SubmissionTanFragment>()
     }
 
     @Test fun testEventTanNextClicked() {

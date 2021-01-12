@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -19,6 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.launchFragmentInContainer2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionSymptomIntroFragmentTest : BaseUITest() {
@@ -40,11 +39,11 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionSymptomIntroductionFragment>()
+        launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>()
     }
 
     @Test fun testSymptomNextClicked() {
-        val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
+        val scenario = launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())
             .perform(click())

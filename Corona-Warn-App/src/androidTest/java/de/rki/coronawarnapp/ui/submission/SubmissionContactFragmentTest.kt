@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -18,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.launchFragmentInContainer2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionContactFragmentTest : BaseUITest() {
@@ -39,11 +38,11 @@ class SubmissionContactFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionContactFragment>()
+        launchFragmentInContainer2<SubmissionContactFragment>()
     }
 
     @Test fun testContactCallClicked() {
-        val scenario = launchFragmentInContainer<SubmissionContactFragment>()
+        val scenario = launchFragmentInContainer2<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_call))
             .perform(click())
 
@@ -51,7 +50,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
     }
 
     @Test fun testContactEnterTanClicked() {
-        val scenario = launchFragmentInContainer<SubmissionContactFragment>()
+        val scenario = launchFragmentInContainer2<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
 

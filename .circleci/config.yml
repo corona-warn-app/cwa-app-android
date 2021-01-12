@@ -208,8 +208,7 @@ jobs:
               --test-targets "notAnnotation testhelpers.Screenshot" \
               --use-orchestrator \
               --timeout 20m \
-              --num-flaky-test-attempts 3 \
-              --device model=Pixel2,version=28,locale=de_DE,orientation=portrait
+              --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
       - run:
           name: Install gsutil dependency and copy test results data
           command: |

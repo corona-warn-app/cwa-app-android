@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -19,6 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.launchFragmentInContainer2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionDispatcherFragmentTest : BaseUITest() {
@@ -40,11 +39,11 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>()
     }
 
     @Test fun testEventQRClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        val scenario = launchFragmentInContainer2<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click())
@@ -53,7 +52,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     }
 
     @Test fun testEventTeleClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        val scenario = launchFragmentInContainer2<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click())
@@ -62,7 +61,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     }
 
     @Test fun testEventTanClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        val scenario = launchFragmentInContainer2<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
