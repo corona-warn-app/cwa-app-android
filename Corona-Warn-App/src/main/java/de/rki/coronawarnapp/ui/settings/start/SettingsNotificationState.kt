@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 data class SettingsNotificationState(
     val isNotificationsEnabled: Boolean,
@@ -27,7 +28,7 @@ data class SettingsNotificationState(
     /**
      * Formats settings icon color for notifications depending on notification values
      */
-    fun getNotificationIcon(c: Context): Drawable? = c.getDrawable(
+    fun getNotificationIcon(context: Context): Drawable? = context.getDrawableCompat(
         if (isEnabled) R.drawable.ic_settings_notification_active
         else R.drawable.ic_settings_notification_inactive
     )

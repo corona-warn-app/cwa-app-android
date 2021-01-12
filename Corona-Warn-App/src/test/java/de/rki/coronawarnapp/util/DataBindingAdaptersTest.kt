@@ -7,10 +7,12 @@ import android.widget.Switch
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
@@ -28,6 +30,7 @@ class DataBindingAdaptersTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        mockkObject(ContextExtensions)
     }
 
     private fun setChecked(status: Boolean?) {
@@ -114,7 +117,7 @@ class DataBindingAdaptersTest {
                 every { resources } returns mockk<Resources>().apply {
                     every { getResourceTypeName(any()) } returns DRAWABLE_TYPE
                 }
-                every { getDrawable(any()) } returns this@DataBindingAdaptersTest.drawable
+                every { getDrawableCompat(any()) } returns this@DataBindingAdaptersTest.drawable
             }
         }
 

@@ -47,7 +47,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         }
 
         val dialogTitle = if (intent.getStringExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA) != null) {
-            intent.getStringExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA)
+            intent.getStringExtra(ReportingConstants.ERROR_REPORT_TITLE_EXTRA).orEmpty()
         } else {
             val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
                 .toUpperCase(Locale.ROOT)
