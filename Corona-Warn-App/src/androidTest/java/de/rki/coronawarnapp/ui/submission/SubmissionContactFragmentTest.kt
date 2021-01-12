@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,8 +25,6 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 @RunWith(AndroidJUnit4::class)
 class SubmissionContactFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: SubmissionContactViewModel
-
     @Rule
     @JvmField
     val localeTestRule = LocaleTestRule()
@@ -35,11 +32,13 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
+    private fun createViewModel() = SubmissionContactViewModel()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(object : SubmissionContactViewModel.Factory {
-            override fun create(): SubmissionContactViewModel = viewModel
+            override fun create(): SubmissionContactViewModel = createViewModel()
         })
     }
 

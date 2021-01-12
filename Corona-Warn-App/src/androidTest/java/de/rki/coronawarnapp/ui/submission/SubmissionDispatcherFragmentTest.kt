@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -22,12 +21,11 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionDispatcherFragmentTest : BaseUITest() {
-
-    @MockK lateinit var viewModel: SubmissionDispatcherViewModel
 
     @Rule
     @JvmField
@@ -36,11 +34,13 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
+    private fun createViewModel() = SubmissionDispatcherViewModel()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(object : SubmissionDispatcherViewModel.Factory {
-            override fun create(): SubmissionDispatcherViewModel = viewModel
+            override fun create(): SubmissionDispatcherViewModel = createViewModel()
         })
     }
 
@@ -85,6 +85,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment() {
         captureScreenshot<SubmissionDispatcherFragment>()
+        onView(withId(R.id.submission_dispatcher_tan_tele))
+            .perform(scrollTo())
+        Thread.sleep(2000)
+        Screengrab.screenshot(SubmissionDispatcherFragment::class.simpleName.plus("2"))
     }
 }
 

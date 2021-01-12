@@ -10,12 +10,22 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
+import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.spyk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -25,12 +35,16 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import tools.fastlane.screengrab.locale.LocaleTestRule
+import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultFragmentTest : BaseUITest() {
 
-    @MockK lateinit var pendingViewModel: SubmissionTestResultPendingViewModel
+    lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var uiState: TestResultUIState
+    @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var dispatcherProvider: DispatcherProvider
+    @MockK lateinit var testResultNotificationService: TestResultNotificationService
 
     @Rule
     @JvmField
@@ -43,10 +57,22 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { pendingViewModel.testState } returns MutableLiveData()
+        every { submissionRepository.deviceUIStateFlow } returns flow { emit(NetworkRequestWrapper.RequestIdle) }
+        every { submissionRepository.testResultReceivedDateFlow } returns flow { }
+        every { dispatcherProvider.Default } returns Dispatchers.Default
+
+        viewModel = spyk(SubmissionTestResultPendingViewModel(
+            dispatcherProvider,
+            testResultNotificationService,
+            submissionRepository
+        ))
+
+        with(viewModel) {
+            every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
+        }
 
         setupMockViewModel(object : SubmissionTestResultPendingViewModel.Factory {
-            override fun create(): SubmissionTestResultPendingViewModel = pendingViewModel
+            override fun create(): SubmissionTestResultPendingViewModel = viewModel
         })
     }
 
@@ -103,9 +129,15 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_pending_fragment() {
+        every { viewModel.testState } returns MutableLiveData(
+            TestResultUIState(
+                NetworkRequestWrapper.RequestSuccessful(
+                    DeviceUIState.PAIRED_NO_RESULT
+                ), Date()
+            )
+        )
         captureScreenshot<SubmissionTestResultPendingFragment>()
     }
-
 }
 
 @Module

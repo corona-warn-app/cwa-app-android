@@ -7,6 +7,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -35,7 +36,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
 
-    private fun createInstance() = SubmissionTanViewModel(
+    private fun createViewModel() = SubmissionTanViewModel(
         dispatcherProvider = TestDispatcherProvider,
         submissionRepository = submissionRepository
     )
@@ -52,7 +53,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         setupMockViewModel(object : SubmissionTanViewModel.Factory {
-            override fun create(): SubmissionTanViewModel = createInstance()
+            override fun create(): SubmissionTanViewModel = createViewModel()
         })
     }
 
@@ -83,7 +84,8 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(closeSoftKeyboard())
-        Screengrab.screenshot("SubmissionTanFragment_empty")
+        Thread.sleep(2000)
+        Screengrab.screenshot(SubmissionTanFragment::class.simpleName)
     }
 
     @Test
@@ -92,9 +94,9 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
-            .perform(ViewActions.typeText("AC9UHD65AF"))
-            .perform(closeSoftKeyboard())
-        Screengrab.screenshot("SubmissionTanFragment_done")
+            .perform(typeText("AC9UHD65AF"),closeSoftKeyboard())
+        Thread.sleep(2000)
+        Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_done"))
     }
 
     @Test
@@ -103,9 +105,9 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
-            .perform(ViewActions.typeText("AC9U0"))
-            .perform(closeSoftKeyboard())
-        Screengrab.screenshot("SubmissionTanFragment_invalid")
+            .perform(typeText("AC9U0"),closeSoftKeyboard())
+        Thread.sleep(2000)
+        Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_invalid"))
     }
 
 }
