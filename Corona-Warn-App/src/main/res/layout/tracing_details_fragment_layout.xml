@@ -43,7 +43,7 @@
                     android:layout_height="@dimen/icon_size_button"
                     bind:cwaContentDescription="@{@string/accessibility_back}"
                     android:src="@{@drawable/ic_close}"
-                    android:tint="@{tracingDetailsState.getStableTextColor(context)}"
+                    app:tint="@{tracingDetailsState.getStableTextColor(context)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

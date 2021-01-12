@@ -35,7 +35,7 @@
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_forward"
-            android:tint="@color/colorTextPrimary1"
+            app:tint="@color/colorTextPrimary1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

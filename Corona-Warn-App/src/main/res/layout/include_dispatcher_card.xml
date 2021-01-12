@@ -49,11 +49,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:src="@drawable/ic_forward"
-            android:tint="@color/colorTextPrimary1"
             android:importantForAccessibility="no"
+            android:src="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorTextPrimary1" />
 
         <TextView
             android:id="@+id/submission_dispatcher_card_text"
