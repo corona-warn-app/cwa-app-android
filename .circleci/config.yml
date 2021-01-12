@@ -97,6 +97,14 @@ commands:
             sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
 
+  setup-random-BUCKETDIR:
+    description: "Setup random bucket dir Cloud access."
+    steps:
+      - run:
+          name: Setup random bucket dir
+          command: |
+            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
+
 #######################
 # Jobs section
 # Tasks that get executed
@@ -224,8 +232,12 @@ jobs:
       - skip-for-external-pull-requests
       - setup-google-cloud
       - checkout
+      - setup-random-BUCKETDIR
       - restore-gradle-cache
       - restore-android-build-cache
+      - run:
+          name: "Test"
+          command: echo $BUCKETDIR
       - run:
           name: "Build app APK "
           command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceDebug
