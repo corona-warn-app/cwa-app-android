@@ -10,7 +10,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -30,7 +29,7 @@ class FormatterHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication.Companion)
-        mockkStatic(ContextExtensions::class)
+        mockkObject(ContextExtensions)
 
         every { CoronaWarnApplication.getAppContext() } returns context
     }
