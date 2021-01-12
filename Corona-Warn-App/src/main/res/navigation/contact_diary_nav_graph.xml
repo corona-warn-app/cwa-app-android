@@ -7,7 +7,8 @@
     <fragment
         android:id="@+id/contactDiaryDayFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment"
-        android:label="ContactDiaryDayFragment">
+        android:label="ContactDiaryDayFragment"
+        tools:layout="@layout/contact_diary_day_fragment">
         <argument
             android:name="selectedDay"
             android:defaultValue="2020-03-25"
@@ -40,7 +41,8 @@
     <dialog
         android:id="@+id/contactDiaryPersonBottomSheetDialogFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryPersonBottomSheetDialogFragment"
-        android:label="ContactDiaryPersonBottomSheetDialogFragment">
+        android:label="ContactDiaryPersonBottomSheetDialogFragment"
+        tools:layout="@layout/contact_diary_person_bottom_sheet_fragment">
         <argument
             android:name="selectedPerson"
             android:defaultValue="@null"
@@ -55,7 +57,8 @@
     <dialog
         android:id="@+id/contactDiaryLocationBottomSheetDialogFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogFragment"
-        android:label="ContactDiaryLocationBottomSheetDialogFragment">
+        android:label="ContactDiaryLocationBottomSheetDialogFragment"
+        tools:layout="@layout/contact_diary_location_bottom_sheet_fragment">
         <argument
             android:name="selectedLocation"
             android:defaultValue="@null"
@@ -107,7 +110,8 @@
     <fragment
         android:id="@+id/contactDiaryEditLocationsFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"
-        android:label="ContactDiaryEditLocationsFragment">
+        android:label="ContactDiaryEditLocationsFragment"
+        tools:layout="@layout/contact_diary_edit_locations_fragment">
         <action
             android:id="@+id/action_contactDiaryEditLocationsFragment_to_contactDiaryLocationBottomSheetDialogFragment"
             app:destination="@id/contactDiaryLocationBottomSheetDialogFragment" />
