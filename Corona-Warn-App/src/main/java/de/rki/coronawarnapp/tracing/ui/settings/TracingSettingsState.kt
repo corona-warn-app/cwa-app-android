@@ -4,18 +4,19 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 sealed class TracingSettingsState {
 
     /**
      * Formats the settings tracing details illustration depending on tracing status
      */
-    abstract fun getTracingStatusImage(c: Context): Drawable?
+    abstract fun getTracingStatusImage(context: Context): Drawable?
 
     /**
      * Format the settings tracing content description for the header illustration
      */
-    abstract fun getTracingIllustrationText(c: Context): String
+    abstract fun getTracingIllustrationText(context: Context): String
 
     /**
      * Formats the tracing switch enabled status based on the tracing status
@@ -30,7 +31,7 @@ sealed class TracingSettingsState {
     /**
      * Change the tracing text in the row based on the tracing status.
      */
-    abstract fun getTracingStatusText(c: Context): String
+    abstract fun getTracingStatusText(context: Context): String
 
     /**
      * Change the visibility of the location card based on the tracing status.
@@ -48,18 +49,18 @@ sealed class TracingSettingsState {
     abstract fun isTracingStatusTextVisible(): Boolean
 
     object BluetoothDisabled : TracingSettingsState() {
-        override fun getTracingStatusImage(c: Context): Drawable? =
-            c.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off)
+        override fun getTracingStatusImage(context: Context): Drawable? =
+            context.getDrawableCompat(R.drawable.ic_settings_illustration_bluetooth_off)
 
-        override fun getTracingIllustrationText(c: Context): String =
-            c.getString(R.string.settings_tracing_bluetooth_illustration_description_inactive)
+        override fun getTracingIllustrationText(context: Context): String =
+            context.getString(R.string.settings_tracing_bluetooth_illustration_description_inactive)
 
         override fun isTracingSwitchEnabled(): Boolean = false
 
         override fun isTracingSwitchChecked(): Boolean = false
 
-        override fun getTracingStatusText(c: Context): String =
-            c.getString(R.string.settings_tracing_status_restricted)
+        override fun getTracingStatusText(context: Context): String =
+            context.getString(R.string.settings_tracing_status_restricted)
 
         override fun isLocationCardVisible(): Boolean = false
 
@@ -69,18 +70,18 @@ sealed class TracingSettingsState {
     }
 
     object LocationDisabled : TracingSettingsState() {
-        override fun getTracingStatusImage(c: Context): Drawable? =
-            c.getDrawable(R.drawable.ic_settings_illustration_location_off)
+        override fun getTracingStatusImage(context: Context): Drawable? =
+            context.getDrawableCompat(R.drawable.ic_settings_illustration_location_off)
 
-        override fun getTracingIllustrationText(c: Context): String =
-            c.getString(R.string.settings_tracing_location_illustration_description_inactive)
+        override fun getTracingIllustrationText(context: Context): String =
+            context.getString(R.string.settings_tracing_location_illustration_description_inactive)
 
         override fun isTracingSwitchEnabled(): Boolean = false
 
         override fun isTracingSwitchChecked(): Boolean = false
 
-        override fun getTracingStatusText(c: Context): String =
-            c.getString(R.string.settings_tracing_status_inactive)
+        override fun getTracingStatusText(context: Context): String =
+            context.getString(R.string.settings_tracing_status_inactive)
 
         override fun isLocationCardVisible(): Boolean = true
 
@@ -90,18 +91,18 @@ sealed class TracingSettingsState {
     }
 
     object TracingInactive : TracingSettingsState() {
-        override fun getTracingStatusImage(c: Context): Drawable? =
-            c.getDrawable(R.drawable.ic_settings_illustration_tracing_off)
+        override fun getTracingStatusImage(context: Context): Drawable? =
+            context.getDrawableCompat(R.drawable.ic_settings_illustration_tracing_off)
 
-        override fun getTracingIllustrationText(c: Context): String =
-            c.getString(R.string.settings_tracing_illustration_description_inactive)
+        override fun getTracingIllustrationText(context: Context): String =
+            context.getString(R.string.settings_tracing_illustration_description_inactive)
 
         override fun isTracingSwitchEnabled(): Boolean = true
 
         override fun isTracingSwitchChecked(): Boolean = false
 
-        override fun getTracingStatusText(c: Context): String =
-            c.getString(R.string.settings_tracing_status_inactive)
+        override fun getTracingStatusText(context: Context): String =
+            context.getString(R.string.settings_tracing_status_inactive)
 
         override fun isLocationCardVisible(): Boolean = false
 
@@ -111,18 +112,18 @@ sealed class TracingSettingsState {
     }
 
     object TracingActive : TracingSettingsState() {
-        override fun getTracingStatusImage(c: Context): Drawable? =
-            c.getDrawable(R.drawable.ic_illustration_tracing_on)
+        override fun getTracingStatusImage(context: Context): Drawable? =
+            context.getDrawableCompat(R.drawable.ic_illustration_tracing_on)
 
-        override fun getTracingIllustrationText(c: Context): String =
-            c.getString(R.string.settings_tracing_illustration_description_active)
+        override fun getTracingIllustrationText(context: Context): String =
+            context.getString(R.string.settings_tracing_illustration_description_active)
 
         override fun isTracingSwitchEnabled(): Boolean = true
 
         override fun isTracingSwitchChecked(): Boolean = true
 
-        override fun getTracingStatusText(c: Context): String =
-            c.getString(R.string.settings_tracing_status_active)
+        override fun getTracingStatusText(context: Context): String =
+            context.getString(R.string.settings_tracing_status_active)
 
         override fun isLocationCardVisible(): Boolean = false
 

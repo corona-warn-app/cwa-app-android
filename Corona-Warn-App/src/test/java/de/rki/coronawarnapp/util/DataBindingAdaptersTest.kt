@@ -7,6 +7,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -30,6 +31,7 @@ class DataBindingAdaptersTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication)
+        mockkObject(ContextExtensions)
     }
 
     private fun setChecked(status: Boolean?) {
@@ -107,7 +109,7 @@ class DataBindingAdaptersTest {
 
     private fun setDrawable(drawableId: Int?) {
         every { CoronaWarnApplication.getAppContext().resources.getResourceTypeName(any()) } returns DRAWABLE_TYPE
-        every { CoronaWarnApplication.getAppContext().getDrawable(any()) } returns drawable
+        every { CoronaWarnApplication.getAppContext().getDrawableCompat(any()) } returns drawable
 
         val animationView = mockk<LottieAnimationView>(relaxUnitFun = true)
 

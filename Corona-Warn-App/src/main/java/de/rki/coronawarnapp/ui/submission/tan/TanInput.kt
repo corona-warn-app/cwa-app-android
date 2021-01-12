@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.tan
 
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.annotation.DimenRes
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.getDrawableCompat
 import java.util.Locale
 import kotlin.math.max
 
@@ -65,7 +67,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         setOnClickListener { showKeyboard() }
 
         // initially show the keyboard
-        Handler().postDelayed(
+        Handler(Looper.getMainLooper()).postDelayed(
             { showKeyboard() },
             KEYBOARD_TRIGGER_DELAY
         )
@@ -98,12 +100,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         val text = digitAtIndex(i)
         tanDigit.text = text
         tanDigit.background = when {
-            text == EMPTY_STRING -> resources.getDrawable(R.drawable.tan_input_digit, null)
-            Tan.isTanCharacterValid(text) -> resources.getDrawable(
-                R.drawable.tan_input_digit_entered,
-                null
-            )
-            else -> resources.getDrawable(R.drawable.tan_input_digit_error, null)
+            text == EMPTY_STRING -> resources.getDrawableCompat(R.drawable.tan_input_digit)
+            Tan.isTanCharacterValid(text) -> resources.getDrawableCompat(R.drawable.tan_input_digit_entered)
+            else -> resources.getDrawableCompat(R.drawable.tan_input_digit_error)
         }
 
         tanDigit.setTextColor(

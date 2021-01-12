@@ -12,6 +12,7 @@ import android.view.View
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -132,7 +133,7 @@ fun formatTestStatusIcon(context: Context, uiState: NetworkRequestWrapper<Device
             DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
             else -> R.drawable.ic_test_result_illustration_invalid
         }
-    }.let { context.getDrawable(it) }
+    }.let { context.getDrawableCompat(it) }
 }
 
 fun formatTestResultRegisteredAtText(context: Context, registeredAt: Date?): String {
@@ -168,9 +169,9 @@ fun formatCountryIsoTagToFlagDrawable(context: Context, isoTag: String?): Drawab
         countryName?.let { resolveNameToDrawableId("ic_submission_country_flag_$it", context) }
 
     return if (countryId != null)
-        context.getDrawable(countryId)
+        context.getDrawableCompat(countryId)
     else
-        context.getDrawable(R.drawable.ic_submission_country_flag_ireland)
+        context.getDrawableCompat(R.drawable.ic_submission_country_flag_ireland)
 }
 
 fun formatCountrySelectCardColor(context: Context, isActive: Boolean?): Int =
