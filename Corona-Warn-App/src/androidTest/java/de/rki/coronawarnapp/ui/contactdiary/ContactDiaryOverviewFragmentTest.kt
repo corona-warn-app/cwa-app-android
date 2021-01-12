@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
@@ -86,7 +87,38 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
             (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
                 .map { LocalDate.now().minusDays(it) }
                 .map {
-                    ListItem(it)
+                    ListItem(it).apply {
+                        data.apply {
+                            add(
+                                ListItem.Data(
+                                    R.drawable.ic_contact_diary_person_item,
+                                    "Max Musterann"
+                                )
+                            )
+
+                            add(
+                                ListItem.Data(
+                                    R.drawable.ic_contact_diary_person_item,
+                                    "Erika Musterann"
+                                )
+                            )
+
+                            add(
+                                ListItem.Data(
+                                    R.drawable.ic_contact_diary_location,
+                                    "Fitnessstudio"
+                                )
+                            )
+
+                            add(
+                                ListItem.Data(
+                                    R.drawable.ic_contact_diary_location,
+                                    "Supermarket"
+                                )
+                            )
+                        }
+
+                    }
                 }
         )
 }
