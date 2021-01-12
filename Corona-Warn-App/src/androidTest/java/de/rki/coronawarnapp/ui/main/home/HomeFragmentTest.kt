@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -44,7 +45,7 @@ class HomeFragmentTest : BaseUITest() {
 
     @Test
     fun onResumeCallsRefresh() {
-        launchFragment<HomeFragment>().apply {
+        launchFragment<HomeFragment>(themeResId = R.style.AppTheme).apply {
             moveToState(Lifecycle.State.RESUMED)
             verify(exactly = 1) { viewModel.refreshRequiredData() }
         }
