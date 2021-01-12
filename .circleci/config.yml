@@ -236,8 +236,8 @@ jobs:
           name: Test with Firebase Test Lab
           command: >
             sudo gcloud firebase test android run \
-              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
-              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --app Corona-Warn-App/build/outputs/apk/device/debug/*.apk \
+              --test Corona-Warn-App/build/outputs/apk/androidTest/device/debug/*.apk \
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --environment-variables clearPackageData=true \
               --test-targets "annotation testhelpers.Screenshot" \
