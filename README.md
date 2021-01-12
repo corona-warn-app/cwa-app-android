@@ -85,7 +85,7 @@ The German government has asked SAP and Deutsche Telekom to develop the Corona-W
 
 ## Licensing
 
-Copyright (c) 2020 SAP SE or an SAP affiliate company.
+Copyright (c) 2020-2021 SAP SE or an SAP affiliate company.
 
 Licensed under the **Apache License, Version 2.0** (the "License"); you may not use this file except in compliance with the License.
 

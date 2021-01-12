@@ -39,3 +39,7 @@ License: Apache-2.0
 Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/viewmodel/ViewModelLazyKeyed.kt
 Copyright: 2018 The Android Open Source Project
 License: Apache-2.0
+
+Files: gradlew gradlew.bat
+Copyright: Copyright 2015 the original author or authors.
+License: Apache-2.0
