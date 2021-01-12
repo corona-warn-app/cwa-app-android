@@ -202,8 +202,8 @@ jobs:
           name: Test with Firebase Test Lab
           command: >
             sudo gcloud firebase test android run \
-              --app ~/git/cwa-app-android/Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
-              --test ~/git/cwa-app-android/Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
+              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --test-targets "notAnnotation testhelpers.Screenshot" \
               --use-orchestrator \
