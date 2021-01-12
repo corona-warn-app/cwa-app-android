@@ -948,7 +948,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN-Eingabe"</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">"Geben Sie bitte die 10-stellige TAN ein, die Ihnen mitgeteilt wurde."</string>
+    <string name="submission_tan_body">"Geben Sie die 10-stellige TAN ein, die Ihnen mitgeteilt wurde."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Weiter"</string>
     <!-- XACT: Submission Tan page title -->
