@@ -2,20 +2,19 @@ package de.rki.coronawarnapp.test.debugoptions.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.format.Formatter
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -32,19 +31,9 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.testLogfileToggle.apply {
-            setOnClickListener { vm.setLoggerEnabled(isChecked) }
+        binding.showDebugLogScreen.setOnClickListener {
+            findNavController().navigate(R.id.debuglogFragment)
         }
-        vm.loggerState.observe2(this) { state ->
-            binding.apply {
-                testLogfileToggle.isChecked = state.isLogging
-                val logSize = Formatter.formatShortFileSize(requireContext(), state.logsize)
-                testLogfileToggle.text = "Logfile enabled ($logSize)"
-                testLogfileShare.setGone(!state.isLogging)
-            }
-        }
-        binding.testLogfileShare.setOnClickListener { vm.shareLogFile() }
-        vm.logShareEvent.observe2(this) { showSnackBar("Logfile copied to $it") }
 
         // Server environment card
         binding.environmentToggleGroup.apply {

@@ -25,13 +25,13 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     val personsLiveData = contactDiaryRepository.people
         .asLiveData()
 
-    val isButtonEnabled = contactDiaryRepository.people.map { !it.isNullOrEmpty() }
+    val isButtonEnabled = contactDiaryRepository.people.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
-    val isListVisible = contactDiaryRepository.people.map { !it.isNullOrEmpty() }
+    val isListVisible = contactDiaryRepository.people.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 

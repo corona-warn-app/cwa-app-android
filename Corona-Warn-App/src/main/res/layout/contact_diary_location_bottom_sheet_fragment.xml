@@ -44,7 +44,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contact_diary_location_bottom_sheet_text_input_layout"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
@@ -67,7 +67,7 @@
         <android.widget.Button
             android:id="@+id/contact_diary_location_bottom_sheet_save_button"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"

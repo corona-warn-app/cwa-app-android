@@ -23,7 +23,7 @@
             <TextView
                 android:id="@+id/contact_diary_overview_element_name"
                 style="@style/contactDiaryListItem"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:focusable="true"
@@ -35,7 +35,7 @@
 
             <ImageView
                 android:id="@+id/contact_diary_overview_element_right_arrow"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/spacing_tiny"
                 android:layout_marginEnd="@dimen/spacing_small"

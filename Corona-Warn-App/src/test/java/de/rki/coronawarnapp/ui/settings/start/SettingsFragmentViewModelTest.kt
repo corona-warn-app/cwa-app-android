@@ -79,8 +79,8 @@ class SettingsFragmentViewModelTest : BaseTest() {
     @Test
     fun `background priority status is forwarded`() {
         createInstance().apply {
-            backgroundPrioritystate.observeForever { }
-            backgroundPrioritystate.value shouldBe SettingsBackgroundState(
+            backgroundPriorityState.observeForever { }
+            backgroundPriorityState.value shouldBe SettingsBackgroundState(
                 isEnabled = true
             )
         }

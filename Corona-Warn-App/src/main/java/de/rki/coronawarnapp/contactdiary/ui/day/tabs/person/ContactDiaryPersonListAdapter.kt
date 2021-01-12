@@ -4,24 +4,18 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.util.AbstractAdapter
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
-import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 
-class ContactDiaryPersonListAdapter(
+internal class ContactDiaryPersonListAdapter(
     private val onTappedCallback: (item: SelectableItem<ContactDiaryPerson>) -> Unit
-) : BaseAdapter<ContactDiaryPersonListAdapter.CachedPersonViewHolder>(),
+) : AbstractAdapter<SelectableItem<ContactDiaryPerson>, ContactDiaryPersonListAdapter.CachedPersonViewHolder>(),
     AsyncDiffUtilAdapter<SelectableItem<ContactDiaryPerson>> {
-
-    override val asyncDiffer: AsyncDiffer<SelectableItem<ContactDiaryPerson>> = AsyncDiffer(this)
-
-    override fun getItemCount(): Int = data.size
-
-    override fun getItemId(position: Int): Long = data[position].stableId
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): CachedPersonViewHolder =
         CachedPersonViewHolder(parent)

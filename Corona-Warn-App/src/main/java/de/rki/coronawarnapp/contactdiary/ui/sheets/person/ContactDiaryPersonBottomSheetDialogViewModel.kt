@@ -25,7 +25,7 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         shouldClose.postValue(null)
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
@@ -97,5 +97,3 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
         fun create(addedAt: String?): ContactDiaryPersonBottomSheetDialogViewModel
     }
 }
-
-private const val MAX_PERSON_NAME_LENGTH = 250

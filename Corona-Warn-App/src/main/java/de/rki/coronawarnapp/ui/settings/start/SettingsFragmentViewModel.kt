@@ -25,7 +25,6 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         .map { it.toSettingsTracingState() }
         .asLiveData(dispatcherProvider.Default)
 
-    // (settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
     val notificationState: LiveData<SettingsNotificationState> = combine(
         notificationSettings.isNotificationsEnabled,
         notificationSettings.isNotificationsRiskEnabled,
@@ -38,7 +37,7 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         )
     }.asLiveData(dispatcherProvider.Default)
 
-    val backgroundPrioritystate: LiveData<SettingsBackgroundState> =
+    val backgroundPriorityState: LiveData<SettingsBackgroundState> =
         backgroundModeStatus.isIgnoringBatteryOptimizations
             .map { SettingsBackgroundState((it)) }
             .asLiveData(dispatcherProvider.Default)

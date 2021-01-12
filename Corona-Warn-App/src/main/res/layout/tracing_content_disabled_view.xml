@@ -42,7 +42,7 @@
         <TextView
             android:id="@+id/body_text"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/risk_card_body_tracing_off"
@@ -52,7 +52,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/risk_card_row_saved_risk"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:icon="@drawable/ic_risk_card_saved_risk"
@@ -66,7 +66,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_time_fetched"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_time_fetched"
             android:text="@{state.getTimeFetched(context)}"
@@ -81,7 +81,7 @@
             android:id="@+id/enable_tracing_action"
             style="@style/buttonPrimary"
             gone="@{!state.showEnableTracingButton}"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/risk_details_button_enable_tracing"

@@ -26,7 +26,7 @@
         <TextView
             android:id="@+id/body"
             style="@style/subtitleMedium"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
@@ -56,7 +56,7 @@
         <Button
             android:id="@+id/delete_test_action"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/spacing_normal"

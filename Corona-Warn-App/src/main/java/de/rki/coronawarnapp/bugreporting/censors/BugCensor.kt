@@ -7,5 +7,5 @@ interface BugCensor {
     /**
      * If there is something to censor a new log line is returned, otherwise returns null
      */
-    fun checkLog(entry: LogLine): LogLine?
+    suspend fun checkLog(entry: LogLine): LogLine?
 }

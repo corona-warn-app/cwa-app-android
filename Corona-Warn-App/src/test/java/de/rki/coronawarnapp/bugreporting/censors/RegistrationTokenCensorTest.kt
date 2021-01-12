@@ -9,6 +9,7 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,7 +38,7 @@ class RegistrationTokenCensorTest : BaseTest() {
     private fun createInstance() = RegistrationTokenCensor()
 
     @Test
-    fun `censoring replaces the logline message`() {
+    fun `censoring replaces the logline message`() = runBlockingTest {
         val instance = createInstance()
         val filterMe = LogLine(
             timestamp = 1,
@@ -47,14 +48,33 @@ class RegistrationTokenCensorTest : BaseTest() {
             throwable = null
         )
         instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: 63b4###-####-####-####-############"
+            message = "I'm a shy registration token: ########-####-####-####-########3a2f"
+        )
+
+        every { CWADebug.isDeviceForTestersBuild } returns true
+        instance.checkLog(filterMe) shouldBe filterMe.copy(
+            message = "I'm a shy registration token: 63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
         )
 
         verify { LocalData.registrationToken() }
     }
 
     @Test
-    fun `censoring returns null if thereis no match`() {
+    fun `censoring returns null if there is no token`() = runBlockingTest {
+        every { LocalData.registrationToken() } returns null
+        val instance = createInstance()
+        val filterMeNot = LogLine(
+            timestamp = 1,
+            priority = 3,
+            message = "I'm a shy registration token: $testToken",
+            tag = "I'm a tag",
+            throwable = null
+        )
+        instance.checkLog(filterMeNot) shouldBe null
+    }
+
+    @Test
+    fun `censoring returns null if there is no match`() = runBlockingTest {
         val instance = createInstance()
         val filterMeNot = LogLine(
             timestamp = 1,
@@ -64,23 +84,5 @@ class RegistrationTokenCensorTest : BaseTest() {
             throwable = null
         )
         instance.checkLog(filterMeNot) shouldBe null
-    }
-
-    @Test
-    fun `token is not censored on tester builds`() {
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        val instance = createInstance()
-        val filterMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy registration token: $testToken",
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: 63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
-        )
-
-        verify { LocalData.registrationToken() }
     }
 }
