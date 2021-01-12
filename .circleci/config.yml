@@ -228,8 +228,8 @@ jobs:
       - restore-android-build-cache
       - run:
           name: "Test"
-          command: >
-            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}" \
+          command: |
+            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
             echo $BUCKETDIR
       - run:
           name: "Build app APK "
