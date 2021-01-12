@@ -16,14 +16,25 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
+import testhelpers.SystemUIDemoModeRule
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionSymptomIntroductionViewModel
+
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
+
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -50,6 +61,12 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
             .perform(click())
 
         // TODO verify result
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment() {
+        captureScreenshot<SubmissionSymptomIntroductionFragment>()
     }
 }
 

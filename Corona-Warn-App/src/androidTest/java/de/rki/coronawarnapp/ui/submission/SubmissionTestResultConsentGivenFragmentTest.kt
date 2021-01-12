@@ -19,14 +19,25 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
+import testhelpers.SystemUIDemoModeRule
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
+
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
+
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -60,6 +71,12 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
         verify {
             mockNavController.navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
         }
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment() {
+        captureScreenshot<SubmissionTestResultConsentGivenFragment>()
     }
 }
 
