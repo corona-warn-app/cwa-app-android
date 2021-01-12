@@ -1114,15 +1114,15 @@
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"TAN eingeben"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
-    <string name="submission_contact_step_1_body">"Hotline anrufen &amp; TAN erfragen:"</string>
+    <string name="submission_contact_step_1_body">"Rufen Sie die Hotline an und fragen Sie nach einer TAN."</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"+49 800 7540002"</string>
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">"+49 800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
-    <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
+    <string name="submission_contact_step_2_body">"Geben Sie die TAN in der App ein, um Ihren Test zu registrieren."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo - So: Täglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
+    <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\ntäglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 
