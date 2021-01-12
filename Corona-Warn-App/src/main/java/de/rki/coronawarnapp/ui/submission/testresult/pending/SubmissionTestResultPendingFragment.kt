@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.testresult.pending
 
-
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent

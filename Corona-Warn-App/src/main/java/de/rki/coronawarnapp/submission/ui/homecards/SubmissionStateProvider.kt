@@ -115,8 +115,8 @@ class SubmissionStateProvider @Inject constructor(
             when (deviceUiState) {
                 is NetworkRequestWrapper.RequestFailed -> true
                 is NetworkRequestWrapper.RequestSuccessful -> {
-                    deviceUiState.data == DeviceUIState.PAIRED_ERROR
-                        || deviceUiState.data == DeviceUIState.PAIRED_NO_RESULT
+                    deviceUiState.data == DeviceUIState.PAIRED_ERROR ||
+                        deviceUiState.data == DeviceUIState.PAIRED_NO_RESULT
                 }
                 else -> false
             }
