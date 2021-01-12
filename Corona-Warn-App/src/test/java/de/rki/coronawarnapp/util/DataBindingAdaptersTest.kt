@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.widget.Switch
 import com.airbnb.lottie.LottieAnimationView
@@ -67,8 +68,8 @@ class DataBindingAdaptersTest {
     private fun setAnimation(animation: Int?) {
         val animationView = mockk<LottieAnimationView>(relaxUnitFun = true).apply {
             every { context } returns mockk<Context>().apply {
-                every { applicationContext } returns mockk<Context>().apply {
-                    every { resources.getResourceTypeName(any()) } returns "raw"
+                every { resources } returns mockk<Resources>().apply {
+                    every { getResourceTypeName(any()) } returns "raw"
                 }
             }
         }
@@ -110,10 +111,10 @@ class DataBindingAdaptersTest {
     private fun setDrawable(drawableId: Int?) {
         val animationView = mockk<LottieAnimationView>(relaxUnitFun = true).apply {
             every { context } returns mockk<Context>().apply {
-                every { applicationContext } returns mockk<Context>().apply {
-                    every { resources.getResourceTypeName(any()) } returns DRAWABLE_TYPE
-                    every { getDrawable(any()) } returns this@DataBindingAdaptersTest.drawable
+                every { resources } returns mockk<Resources>().apply {
+                    every { getResourceTypeName(any()) } returns DRAWABLE_TYPE
                 }
+                every { getDrawable(any()) } returns this@DataBindingAdaptersTest.drawable
             }
         }
 

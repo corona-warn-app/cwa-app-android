@@ -24,11 +24,11 @@ fun setChecked(switch: Switch, status: Boolean?) {
 @BindingAdapter("animation")
 fun setAnimation(view: LottieAnimationView, animation: Int?) {
     if (animation != null) {
-        val appContext = view.context.applicationContext
-        val type = appContext.resources.getResourceTypeName(animation)
+        val context = view.context
+        val type = context.resources.getResourceTypeName(animation)
 
         if (type == DRAWABLE_TYPE) {
-            view.setImageDrawable(appContext.getDrawable(animation))
+            view.setImageDrawable(context.getDrawable(animation))
         } else {
             view.setAnimation(animation)
             view.repeatCount = LottieDrawable.INFINITE
