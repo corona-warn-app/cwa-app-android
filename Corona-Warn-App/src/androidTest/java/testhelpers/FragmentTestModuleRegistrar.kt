@@ -1,6 +1,7 @@
 package testhelpers
 
 import dagger.Module
+import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentTestModule
@@ -33,7 +34,9 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         SubmissionTestResultConsentGivenTestModule::class,
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionContactTestModule::class,
-        SubmissionQRScanFragmentModule::class
+        SubmissionQRScanFragmentModule::class,
+        // Contact Diary
+        ContactDiaryOnboardingFragmentTestModule::class
     ]
 )
 class FragmentTestModuleRegistrar
