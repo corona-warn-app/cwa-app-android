@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.ui.submission.testresult.pending
 
-import android.app.AlertDialog
+
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
@@ -33,6 +34,8 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     private var skipInitialTestResultRefresh = false
 
+    private var dialog: AlertDialog? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,7 +46,8 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         pendingViewModel.testState.observe2(this) { result ->
             result.deviceUiState.withFailure {
                 if (it is CwaWebException) {
-                    DialogHelper.showDialog(buildErrorDialog(it))
+                    dialog?.dismiss()
+                    dialog = DialogHelper.showDialog(buildErrorDialog(it))
                 }
             }
 
@@ -119,6 +123,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     }
 
     private fun navigateToMainScreen() {
+        dialog?.dismiss()
         popBackStack()
     }
 
