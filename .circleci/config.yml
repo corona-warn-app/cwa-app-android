@@ -200,10 +200,13 @@ jobs:
           command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest
       - run:
           name: Test with Firebase Test Lab
-          command: >
+          command: |
+            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
+            echo "Using bucketdir $BUCKETDIR"
             sudo gcloud firebase test android run \
               --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
               --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --results-dir ${BUCKETDIR} \
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --environment-variables clearPackageData=true \
               --test-targets "notAnnotation testhelpers.Screenshot" \
@@ -214,7 +217,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
 
   device_screenshots:
     resource_class: xlarge
@@ -227,11 +230,6 @@ jobs:
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
-          name: "Setting up bucket dir"
-          command: |
-            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
-            echo "Using bucketdir $BUCKETDIR"
-      - run:
           name: "Build app APK "
           command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceDebug
       - run:
@@ -239,7 +237,9 @@ jobs:
           command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceDebugAndroidTest
       - run:
           name: Test with Firebase Test Lab
-          command: >
+          command: |
+            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
+            echo "Using bucketdir $BUCKETDIR"
             sudo gcloud firebase test android run \
               --app Corona-Warn-App/build/outputs/apk/device/debug/*.apk \
               --test Corona-Warn-App/build/outputs/apk/androidTest/device/debug/*.apk \
