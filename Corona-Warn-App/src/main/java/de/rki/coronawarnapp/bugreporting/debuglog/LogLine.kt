@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.debuglog
 
-import android.content.Context
 import android.util.Log
 import org.joda.time.Instant
 
@@ -12,7 +11,7 @@ data class LogLine(
     val throwable: Throwable?
 ) {
 
-    fun format(context: Context): String {
+    fun format(): String {
         val time = Instant.ofEpochMilli(timestamp)
         return "$time  ${priorityLabel(priority)}/$tag: $message\n"
     }

@@ -98,7 +98,7 @@ object ConnectivityHelper {
          */
         abstract fun onNetworkUnavailable()
 
-        override fun onAvailable(network: Network?) {
+        override fun onAvailable(network: Network) {
             onNetworkAvailable()
         }
 
@@ -106,7 +106,7 @@ object ConnectivityHelper {
             onNetworkUnavailable()
         }
 
-        override fun onLost(network: Network?) {
+        override fun onLost(network: Network) {
             onNetworkUnavailable()
         }
     }

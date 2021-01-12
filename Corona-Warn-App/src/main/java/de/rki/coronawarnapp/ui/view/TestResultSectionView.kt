@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
@@ -67,7 +68,7 @@ constructor(
                 DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
                 else -> R.drawable.ic_test_result_illustration_invalid
             }
-        }.let { context.getDrawable(it) }
+        }.let { context.getDrawableCompat(it) }
     }
 
     private fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
@@ -86,7 +87,7 @@ constructor(
 
                 DeviceUIState.PAIRED_POSITIVE,
                 DeviceUIState.PAIRED_POSITIVE_TELETAN,
-                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(uiState))
+                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
                 else -> SpannableString("")
             }
         }

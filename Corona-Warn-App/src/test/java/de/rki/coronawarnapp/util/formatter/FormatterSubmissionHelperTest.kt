@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
@@ -38,9 +39,9 @@ class FormatterSubmissionHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication.Companion)
+        mockkObject(ContextExtensions)
         mockkStatic(SpannableStringBuilder::class)
         mockkStatic(Spannable::class)
-        mockkStatic(ContextExtensions::class)
 
         every { CoronaWarnApplication.getAppContext() } returns context
 
@@ -51,13 +52,20 @@ class FormatterSubmissionHelperTest {
         every { context.getString(R.string.test_result_card_status_pending) } returns R.string.test_result_card_status_pending.toString()
         every { context.getString(R.string.test_result_card_status_invalid) } returns R.string.test_result_card_status_invalid.toString()
 
-        every { context.getColorCompat(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
-        every { context.getColorCompat(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
+        with(context) {
+            every { getColorCompat(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
+            every { getColorCompat(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
 
-        every { context.getDrawable(R.drawable.ic_test_result_illustration_invalid) } returns drawable
-        every { context.getDrawable(R.drawable.ic_test_result_illustration_pending) } returns drawable
-        every { context.getDrawable(R.drawable.ic_test_result_illustration_positive) } returns drawable
-        every { context.getDrawable(R.drawable.ic_main_illustration_negative) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_test_result_illustration_invalid) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_test_result_illustration_pending) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_test_result_illustration_positive) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_main_illustration_negative) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_main_illustration_pending) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_main_illustration_negative) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_main_illustration_invalid) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_main_illustration_invalid) } returns drawable
+            every { getDrawableCompat(R.drawable.ic_test_result_illustration_negative) } returns drawable
+        }
 
         every { context.getString(R.string.submission_status_card_title_available) } returns R.string.submission_status_card_title_available.toString()
         every { context.getString(R.string.submission_status_card_title_pending) } returns R.string.submission_status_card_title_pending.toString()
@@ -68,20 +76,13 @@ class FormatterSubmissionHelperTest {
         every { context.getString(R.string.submission_status_card_body_pending) } returns R.string.submission_status_card_body_pending.toString()
 
         every { context.getString(R.string.submission_status_card_button_show_results) } returns R.string.submission_status_card_button_show_results.toString()
-
-        every { context.getDrawable(R.drawable.ic_main_illustration_pending) } returns drawable
-        every { context.getDrawable(R.drawable.ic_main_illustration_negative) } returns drawable
-        every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
-        every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
-
-        every { context.getDrawable(R.drawable.ic_test_result_illustration_negative) } returns drawable
     }
 
     private fun formatTestResultStatusTextBase(
         oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
         iResult: String
     ) {
-        val result = formatTestResultStatusText(uiState = oUiState)
+        val result = formatTestResultStatusText(context = context, uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
@@ -89,12 +90,12 @@ class FormatterSubmissionHelperTest {
         oUiState: NetworkRequestWrapper<DeviceUIState, Throwable>?,
         iResult: Int
     ) {
-        val result = formatTestResultStatusColor(uiState = oUiState)
+        val result = formatTestResultStatusColor(context = context, uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
     private fun formatTestStatusIconBase(oUiState: NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>?) {
-        val result = formatTestStatusIcon(uiState = oUiState)
+        val result = formatTestStatusIcon(context = context, uiState = oUiState)
         assertThat(result, `is`(drawable))
     }
 
@@ -134,7 +135,7 @@ class FormatterSubmissionHelperTest {
             )
         } returns spannableStringBuilder3
 
-        val result = formatTestResult(uiState = oUiState)
+        val result = formatTestResult(context = context, uiState = oUiState)
         assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
     }
 
