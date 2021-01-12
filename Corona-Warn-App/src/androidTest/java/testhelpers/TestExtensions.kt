@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
 import de.rki.coronawarnapp.R
 
+const val SCREENSHOT_DELAY_TIME = 2000L
+
 /**
  * Launches Fragment in Activity root container.
  * Same as [androidx.fragment.app.testing.launchFragmentInContainer] except that it defaults

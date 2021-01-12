@@ -2,6 +2,7 @@ package testhelpers
 
 import dagger.Module
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestModule
+import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentTestModule
@@ -36,7 +37,8 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         SubmissionContactTestModule::class,
         SubmissionQRScanFragmentModule::class,
         // Contact Diary
-        ContactDiaryOnboardingFragmentTestModule::class
+        ContactDiaryOnboardingFragmentTestModule::class,
+        ContactDiaryOverviewFragmentTestModule::class
     ]
 )
 class FragmentTestModuleRegistrar
