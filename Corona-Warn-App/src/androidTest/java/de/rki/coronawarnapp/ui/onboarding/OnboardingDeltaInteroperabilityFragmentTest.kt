@@ -1,14 +1,9 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.fragment.app.testing.launchFragment
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -24,6 +19,7 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.SCREENSHOT_DELAY_TIME
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
@@ -64,8 +60,7 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingDeltaInteroperabilityFragment>()
-        // Check any view to make sure screenshot is not blank
-        onView(withId(R.id.onboarding_button_next)).check(matches(isDisplayed()))
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(OnboardingDeltaInteroperabilityFragment::class.simpleName)
     }
 }
