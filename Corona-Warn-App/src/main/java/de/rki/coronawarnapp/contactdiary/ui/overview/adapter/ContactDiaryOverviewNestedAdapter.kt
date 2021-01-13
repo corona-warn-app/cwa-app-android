@@ -7,8 +7,10 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBindin
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 
-class ContactDiaryOverviewNestedAdapter :
-    BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
+class ContactDiaryOverviewNestedAdapter(
+    private val element: ListItem,
+    private val onItemSelectionListener: (ListItem) -> Unit
+) : BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
 
     private val dataList: MutableList<ListItem.Data> = mutableListOf()
 
@@ -19,12 +21,13 @@ class ContactDiaryOverviewNestedAdapter :
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): NestedItemViewHolder = NestedItemViewHolder(parent)
 
-    override fun onBindBaseVH(holder: NestedItemViewHolder, position: Int, payloads: MutableList<Any>) =
+    override fun onBindBaseVH(holder: NestedItemViewHolder, position: Int, payloads: MutableList<Any>) {
         holder.bind(dataList[position], payloads)
+    }
 
     override fun getItemCount(): Int = dataList.size
 
-    class NestedItemViewHolder(parent: ViewGroup) :
+    inner class NestedItemViewHolder(parent: ViewGroup) :
         BaseAdapter.VH(R.layout.contact_diary_overview_nested_list_item, parent),
         BindableVH<ListItem.Data, ContactDiaryOverviewNestedListItemBinding> {
         override val viewBinding:
@@ -36,6 +39,7 @@ class ContactDiaryOverviewNestedAdapter :
             { key, _ ->
                 contactDiaryOverviewElementImage.setImageResource(key.drawableId)
                 contactDiaryOverviewElementName.text = key.text
+                contactDiaryOverviewElementNestedContainer.setOnClickListener { onItemSelectionListener(element) }
             }
     }
 }
