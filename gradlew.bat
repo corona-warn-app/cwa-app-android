@@ -13,6 +13,8 @@
 @rem See the License for the specific language governing permissions and
 @rem limitations under the License.
 @rem
+@rem Modifications Copyright SAP SE. 2020.  All rights reserved.
+@rem
 
 @if "%DEBUG%" == "" @echo off
 @rem ##########################################################################
