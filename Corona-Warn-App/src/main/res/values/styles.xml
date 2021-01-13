@@ -402,4 +402,18 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
+    <style name="StatisticsCardInfoButton" parent="TextAppearance.AppCompat.Button" />
+
+    <style name="StatisticsCardPrimaryTitle" parent="TextAppearance.AppCompat.Subhead" />
+
+    <style name="StatisticsCardValueLabel" parent="TextAppearance.AppCompat.Body1" />
+
+    <style name="StatisticsCardTitleCaption" parent="TextAppearance.AppCompat.Caption" />
+
+    <style name="StatisticsCardPrimaryValue" parent="TextAppearance.AppCompat.Body2" />
+
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2" />
+
+    <style name="TrendArrowView" />
+
 </resources>
