@@ -19,7 +19,7 @@ abstract class BaseUITest : BaseTest() {
     inline fun <reified F: Fragment>captureScreenshot(suffix:String = "") {
         val name = F::class.simpleName
         launchFragmentInContainer2<F>()
-        Thread.sleep(2000)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(name.plus(suffix))
     }
 }

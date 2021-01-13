@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import tools.fastlane.screengrab.Screengrab
@@ -87,7 +88,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         captureScreenshot<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
-        Thread.sleep(2000)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionDispatcherFragment::class.simpleName.plus("2"))
     }
 }

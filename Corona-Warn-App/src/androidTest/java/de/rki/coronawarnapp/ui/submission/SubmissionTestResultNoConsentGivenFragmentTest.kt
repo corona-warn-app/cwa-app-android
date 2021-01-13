@@ -1,20 +1,11 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
-import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -23,9 +14,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import org.junit.After
 import org.junit.Before
@@ -70,29 +59,8 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     }
 
     @Test
-    fun launch_fragment() {
-        launchFragment<SubmissionTestResultNoConsentFragment>()
-    }
-
-    @Test
-    fun testEventConsentGivenContinueWithSymptomsClicked() {
-
-        val mockNavController = mockk<NavController>()
-        val scenario = launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>()
-
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-        }
-        // Verify that performing a click prompts the correct Navigation action
-        onView(ViewMatchers.withId(R.id.submission_test_result_button_consent_given_continue)).perform(ViewActions.click())
-        verify {
-            mockNavController.navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
-        }
-    }
-
-    @Test
     @Screenshot
-    fun capture_fragment_paired_positive() {
+    fun capture_fragment() {
         every { viewModel.uiState } returns MutableLiveData(
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(

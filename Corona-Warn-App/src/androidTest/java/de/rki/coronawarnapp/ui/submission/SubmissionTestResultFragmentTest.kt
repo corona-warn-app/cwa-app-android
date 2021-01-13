@@ -41,7 +41,6 @@ import java.util.Date
 class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
-    @MockK lateinit var uiState: TestResultUIState
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dispatcherProvider: DispatcherProvider
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
@@ -128,7 +127,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_pending_fragment() {
+    fun capture_fragment() {
         every { viewModel.testState } returns MutableLiveData(
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(

@@ -24,6 +24,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
@@ -85,7 +86,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(closeSoftKeyboard())
-        Thread.sleep(2000)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionTanFragment::class.simpleName)
     }
 
@@ -96,7 +97,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(typeText("AC9UHD65AF"),closeSoftKeyboard())
-        Thread.sleep(2000)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_done"))
     }
 
@@ -107,7 +108,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(typeText("AC9U0"),closeSoftKeyboard())
-        Thread.sleep(2000)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_invalid"))
     }
 

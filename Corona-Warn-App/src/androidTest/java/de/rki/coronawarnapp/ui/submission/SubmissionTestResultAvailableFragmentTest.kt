@@ -4,17 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.nearby.modules.tekhistory.DefaultTEKHistoryProvider_Factory
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_AssistedFactory
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
-import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
-import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
-import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
-import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import io.mockk.MockKAnnotations
@@ -32,13 +26,11 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultAvailableViewModel
-    @MockK lateinit var uiState: TestResultUIState
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dispatcherProvider: DispatcherProvider
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater_AssistedFactory

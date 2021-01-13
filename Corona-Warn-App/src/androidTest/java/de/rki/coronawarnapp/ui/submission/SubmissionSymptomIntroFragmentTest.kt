@@ -28,6 +28,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import tools.fastlane.screengrab.Screengrab
@@ -89,7 +90,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         captureScreenshot<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())
-        Thread.sleep(2000)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionSymptomIntroductionFragment::class.simpleName.plus("2"))
     }
 }

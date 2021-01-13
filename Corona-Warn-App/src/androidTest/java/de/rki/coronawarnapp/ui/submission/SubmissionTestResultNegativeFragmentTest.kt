@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
-import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -33,7 +32,6 @@ import java.util.Date
 class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
-    @MockK lateinit var uiState: TestResultUIState
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dispatcherProvider: DispatcherProvider
 
@@ -69,7 +67,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_negative_fragment() {
+    fun capture_fragment() {
         every { viewModel.testResult } returns MutableLiveData(
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(

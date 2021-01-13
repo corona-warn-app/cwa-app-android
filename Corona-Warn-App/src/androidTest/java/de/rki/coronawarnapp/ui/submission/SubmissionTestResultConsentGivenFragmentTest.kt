@@ -93,7 +93,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment_paired_positive() {
+    fun capture_fragment() {
         every { viewModel.uiState } returns MutableLiveData(
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
