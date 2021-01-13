@@ -10,12 +10,10 @@ import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResu
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import kotlinx.coroutines.Dispatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -24,6 +22,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.captureScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
 
@@ -31,7 +30,6 @@ import java.util.Date
 class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var dispatcherProvider: DispatcherProvider
 
     @Rule
     @JvmField
@@ -45,7 +43,6 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { dispatcherProvider.Default } returns Dispatchers.Default
         viewModel =
             spyk(SubmissionTestResultNoConsentViewModel(submissionRepository))
         setupMockViewModel(object : SubmissionTestResultNoConsentViewModel.Factory {

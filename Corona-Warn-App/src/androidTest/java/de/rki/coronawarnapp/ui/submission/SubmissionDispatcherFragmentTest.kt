@@ -22,6 +22,7 @@ import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.captureScreenshot
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -55,7 +56,8 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         launchFragment<SubmissionDispatcherFragment>()
     }
 
-    @Test fun testEventQRClicked() {
+    @Test
+    fun testEventQRClicked() {
         val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
@@ -64,7 +66,8 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         // TODO verify result
     }
 
-    @Test fun testEventTeleClicked() {
+    @Test
+    fun testEventTeleClicked() {
         val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
@@ -73,7 +76,8 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         // TODO verify result
     }
 
-    @Test fun testEventTanClicked() {
+    @Test
+    fun testEventTanClicked() {
         val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())

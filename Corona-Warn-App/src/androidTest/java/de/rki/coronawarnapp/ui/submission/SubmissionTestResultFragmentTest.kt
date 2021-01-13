@@ -17,15 +17,13 @@ import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResul
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.spyk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -34,6 +32,8 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.TestDispatcherProvider
+import testhelpers.captureScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
 
@@ -42,7 +42,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var dispatcherProvider: DispatcherProvider
     @MockK lateinit var testResultNotificationService: TestResultNotificationService
 
     @Rule
@@ -56,15 +55,16 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { submissionRepository.deviceUIStateFlow } returns flow { emit(NetworkRequestWrapper.RequestIdle) }
-        every { submissionRepository.testResultReceivedDateFlow } returns flow { }
-        every { dispatcherProvider.Default } returns Dispatchers.Default
+        every { submissionRepository.deviceUIStateFlow } returns flowOf()
+        every { submissionRepository.testResultReceivedDateFlow } returns flowOf()
 
-        viewModel = spyk(SubmissionTestResultPendingViewModel(
-            dispatcherProvider,
-            testResultNotificationService,
-            submissionRepository
-        ))
+        viewModel = spyk(
+            SubmissionTestResultPendingViewModel(
+                TestDispatcherProvider,
+                testResultNotificationService,
+                submissionRepository
+            )
+        )
 
         with(viewModel) {
             every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs

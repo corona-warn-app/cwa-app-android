@@ -96,7 +96,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
-            .perform(typeText("AC9UHD65AF"),closeSoftKeyboard())
+            .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_done"))
     }
@@ -107,11 +107,10 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
-            .perform(typeText("AC9U0"),closeSoftKeyboard())
+            .perform(typeText("AC9U0"), closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_invalid"))
     }
-
 }
 
 @Module

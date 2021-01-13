@@ -16,12 +16,10 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionViewModel
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import kotlinx.coroutines.Dispatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -31,6 +29,8 @@ import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.TestDispatcherProvider
+import testhelpers.captureScreenshot
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -38,7 +38,6 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var dispatcherProvider: DispatcherProvider
     @MockK lateinit var autoSubmission: AutoSubmission
 
     @Rule
@@ -53,9 +52,8 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { dispatcherProvider.Default } returns Dispatchers.Default
         viewModel =
-            spyk(SubmissionSymptomIntroductionViewModel(dispatcherProvider, submissionRepository, autoSubmission))
+            spyk(SubmissionSymptomIntroductionViewModel(TestDispatcherProvider, submissionRepository, autoSubmission))
         with(viewModel) {
             every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }

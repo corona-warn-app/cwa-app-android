@@ -20,6 +20,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.captureScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -52,7 +53,8 @@ class SubmissionContactFragmentTest : BaseUITest() {
         launchFragment<SubmissionContactFragment>()
     }
 
-    @Test fun testContactCallClicked() {
+    @Test
+    fun testContactCallClicked() {
         val scenario = launchFragmentInContainer<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_call))
             .perform(click())
@@ -60,7 +62,8 @@ class SubmissionContactFragmentTest : BaseUITest() {
         // TODO verify result
     }
 
-    @Test fun testContactEnterTanClicked() {
+    @Test
+    fun testContactEnterTanClicked() {
         val scenario = launchFragmentInContainer<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
