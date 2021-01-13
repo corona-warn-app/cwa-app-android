@@ -86,7 +86,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         pendingViewModel.observeTestResultToSchedulePositiveTestResultReminder()
-
     }
 
     override fun onResume() {
