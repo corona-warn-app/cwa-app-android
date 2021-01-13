@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending), AutoInject {
@@ -123,7 +122,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     private fun handleFailure(exception: CwaWebException) {
         errorDialog = when (exception) {
             is CwaClientError, is CwaServerError -> {
-                Timber.e("showDialog for $exception")
                 DialogHelper.showDialog(buildErrorDialog(exception))
             }
             else -> {
