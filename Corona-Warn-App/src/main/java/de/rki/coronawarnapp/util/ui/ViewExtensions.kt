@@ -16,4 +16,3 @@ fun View.setInvisible(invisible: Boolean) {
 
 fun View.setOnClickListenerThrottled(interval: Long = 300L, listenerBlock: (View) -> Unit) =
     setOnClickListener(ThrottledClickListener(interval, listenerBlock))
-
