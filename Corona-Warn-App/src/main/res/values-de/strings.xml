@@ -476,9 +476,9 @@
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Einführung Seite 5 von 6: Falls Sie positiv getestet wurden"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
-    <string name="onboarding_test_headline">"Falls Sie Corona-positiv getestet werden …"</string>
+    <string name="onboarding_test_headline">"Falls Sie Corona-positiv getestet werden"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
-    <string name="onboarding_test_subtitle">"… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller."</string>
+    <string name="onboarding_test_subtitle">"Falls  Sie ein positives Testergebnis erhalten, teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller."</string>
     <!-- YTXT: onboarding(test) - explain test -->
     <string name="onboarding_test_body">"Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufalls-IDs Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
