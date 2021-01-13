@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
+import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -43,7 +43,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         pendingViewModel.testState.observe(viewLifecycleOwner) { result ->
-            val hasResult = result.deviceUiState.withSuccess(false) { true }
+            val hasResult = result.deviceUiState is NetworkRequestWrapper.RequestSuccessful
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
                 submissionTestResultSpinner.setInvisible(hasResult)
@@ -93,7 +93,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         pendingViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
         skipInitialTestResultRefresh = false
         pendingViewModel.cwaWebExceptionLiveData.observe(this.viewLifecycleOwner) { exception ->
-            handleFailure(exception)
+            handleError(exception)
             pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
         }
     }
@@ -119,7 +119,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
     }
 
-    private fun handleFailure(exception: CwaWebException) {
+    private fun handleError(exception: CwaWebException) {
         errorDialog = when (exception) {
             is CwaClientError, is CwaServerError -> {
                 DialogHelper.showDialog(buildErrorDialog(exception))
@@ -147,8 +147,8 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         ::navigateToMainScreen
     )
 
-    private val genericErrorDialog by lazy {
-        DialogHelper.DialogInstance(
+    private val genericErrorDialog: DialogHelper.DialogInstance
+        get() = DialogHelper.DialogInstance(
             requireActivity(),
             R.string.submission_error_dialog_web_generic_error_title,
             R.string.submission_error_dialog_web_generic_error_body,
@@ -157,5 +157,4 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             true,
             ::navigateToMainScreen
         )
-    }
 }
