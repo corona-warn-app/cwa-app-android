@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.settings.notifications
 import android.content.Context
 import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 data class NotificationSettingsState(
     val isNotificationsEnabled: Boolean,
@@ -31,7 +32,7 @@ data class NotificationSettingsState(
     /**
      * Formats the settings notifications details illustration depending on notifications status
      */
-    fun getNotificationsImage(c: Context): Drawable? = c.getDrawable(
+    fun getNotificationsImage(context: Context): Drawable? = context.getDrawableCompat(
         if (isNotificationsEnabled) R.drawable.ic_illustration_notification_on
         else R.drawable.ic_settings_illustration_notification_off
     )
