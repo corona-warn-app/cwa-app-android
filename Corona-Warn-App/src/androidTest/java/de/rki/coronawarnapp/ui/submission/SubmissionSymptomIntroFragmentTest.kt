@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -31,6 +30,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -53,15 +53,13 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { dispatcherProvider.Default } returns Dispatchers.Default
-        viewModel = spyk(SubmissionSymptomIntroductionViewModel(dispatcherProvider, submissionRepository, autoSubmission))
-        with(viewModel){
-            every { symptomIndication } returns MutableLiveData<Symptoms.Indication>()
-            every { navigation } returns SingleLiveEvent()
-            every { showCancelDialog } returns SingleLiveEvent()
-            every { showUploadDialog } returns SingleLiveEvent()
+        viewModel =
+            spyk(SubmissionSymptomIntroductionViewModel(dispatcherProvider, submissionRepository, autoSubmission))
+        with(viewModel) {
+            every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }
         setupMockViewModel(object : SubmissionSymptomIntroductionViewModel.Factory {
-            override fun create(): SubmissionSymptomIntroductionViewModel = SubmissionSymptomIntroductionViewModel(dispatcherProvider, submissionRepository, autoSubmission)
+            override fun create(): SubmissionSymptomIntroductionViewModel = viewModel
         })
     }
 
@@ -75,7 +73,8 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         launchFragment<SubmissionSymptomIntroductionFragment>()
     }
 
-    @Test fun testSymptomNextClicked() {
+    @Test
+    fun testSymptomNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())
@@ -88,6 +87,10 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment() {
         captureScreenshot<SubmissionSymptomIntroductionFragment>()
+        onView(withId(R.id.symptom_button_next))
+            .perform(scrollTo())
+        Thread.sleep(2000)
+        Screengrab.screenshot(SubmissionSymptomIntroductionFragment::class.simpleName.plus("2"))
     }
 }
 

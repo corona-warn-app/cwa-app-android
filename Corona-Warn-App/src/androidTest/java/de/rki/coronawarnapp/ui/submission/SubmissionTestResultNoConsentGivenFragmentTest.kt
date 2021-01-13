@@ -13,10 +13,10 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
-import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -39,11 +39,10 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
-class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
+class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dispatcherProvider: DispatcherProvider
-    @MockK lateinit var autoSubmission: AutoSubmission
 
     @Rule
     @JvmField
@@ -52,16 +51,16 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
-    private lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
+    private lateinit var viewModel: SubmissionTestResultNoConsentViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { dispatcherProvider.Default } returns Dispatchers.Default
         viewModel =
-            spyk(SubmissionTestResultConsentGivenViewModel(submissionRepository, autoSubmission, dispatcherProvider))
-        setupMockViewModel(object : SubmissionTestResultConsentGivenViewModel.Factory {
-            override fun create(): SubmissionTestResultConsentGivenViewModel = viewModel
+            spyk(SubmissionTestResultNoConsentViewModel(submissionRepository))
+        setupMockViewModel(object : SubmissionTestResultNoConsentViewModel.Factory {
+            override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
         })
     }
 
@@ -72,7 +71,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTestResultConsentGivenFragment>()
+        launchFragment<SubmissionTestResultNoConsentFragment>()
     }
 
     @Test
@@ -102,12 +101,12 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             )
         )
 
-        captureScreenshot<SubmissionTestResultConsentGivenFragment>()
+        captureScreenshot<SubmissionTestResultNoConsentFragment>()
     }
 }
 
 @Module
-abstract class SubmissionTestResultConsentGivenTestModule {
+abstract class SubmissionTestResultNoConsentModel {
     @ContributesAndroidInjector
-    abstract fun submissionTestResultScreen(): SubmissionTestResultConsentGivenFragment
+    abstract fun submissionTestResultScreen(): SubmissionTestResultNoConsentFragment
 }
