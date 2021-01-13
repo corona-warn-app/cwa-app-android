@@ -83,6 +83,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     fun capture_fragment_empty() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
+            .perform(click())
             .perform(closeSoftKeyboard())
         Thread.sleep(2000)
         Screengrab.screenshot(SubmissionTanFragment::class.simpleName)
