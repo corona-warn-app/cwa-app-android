@@ -379,13 +379,13 @@
     <string name="risk_lowered_dialog_button_cancel">"More"</string>
 
     <!-- ####################################
-           Outdated Device Time Dialog
+           Outdated Device Time
     ###################################### -->
-    <!-- XHED: device time dialog - dialog headline -->
-    <string name="device_time_incorrect_dialog_headline">"Risiko-Überprüfung nicht möglich"</string>
-    <!-- XTXT: device time dialog - dialog content -->
-    <string name="device_time_incorrect_dialog_body">"Die auf Ihrem Smartphone eingestellte Uhrzeit entspricht nicht der aktuellen Uhrzeit. Deshalb kann Ihr Risiko im Moment nicht überprüft werden. Bitte passen Sie die Uhrzeit in den Einstellungen Ihres Smartphones an."</string>
-    <!-- XBUT: device time dialog - dialog confirm -->
+    <!-- XHED: incorrect device time - dialog/notification headline -->
+    <string name="device_time_incorrect_dialog_headline">"Exposure Check Not Possible"</string>
+    <!-- XTXT: incorrect device time - dialog/notification content -->
+    <string name="device_time_incorrect_dialog_body">"The time set on your device does not match the current time. As a result, your risk cannot be checked right now. Please set the correct time in your device settings."</string>
+    <!-- XBUT: incorrect device time - dialog confirm -->
     <string name="device_time_incorrect_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
@@ -590,7 +590,7 @@
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">"Notifications are deactivated"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"Allow automatic notifications of COVID-19 risk status"</string>
+    <string name="settings_notifications_body_description">"Allow automatic notifications of your COVID-19 risk status."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Specify which areas you want to continue to receive notifications for."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
@@ -644,9 +644,9 @@
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"If you activate prioritized background activity, the app can determine your risk status at any time. This disables battery life optimization for the Corona-Warn-App only."</string>
     <!-- XACT: settings(background priority) - on - illustration description -->
-    <string name="settings_background_priority_on_illustration_description" />
+    <string name="settings_background_priority_on_illustration_description">"A hand is holding a smartphone, on which an icon for “Refresh active” can be seen."</string>
     <!-- XACT: settings(background priority) - off - illustration description -->
-    <string name="settings_background_priority_off_illustration_description" />
+    <string name="settings_background_priority_off_illustration_description">"A hand is holding a smartphone, on which an icon for “Refresh not active” can be seen."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"You can activate and deactivate prioritized background activity in your device settings."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -743,25 +743,25 @@
 
 
     <!-- XHED: Headline for debug log screen -->
-    <string name="debugging_debuglog_title" />
+    <string name="debugging_debuglog_title">"Error Report"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation"></string>
+    <string name="debugging_debuglog_intro_explanation">"This option logs the app’s behavior in a text file. If this option is activated before an error occurs, you can make this report available to help the developers solve the problem.\nIf you leave this option activated, it will result in high storage requirements. If you deactivate the option, the error report is deleted."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning" />
+    <string name="debugging_debuglog_intro_warning">"Please note that error reports may contain sensitive data (such as a test result or contact journal entries). Therefore, you should not share these error reports publicly."</string>
     <!-- XBUT: Button text to start the log recording -->
-    <string name="debugging_debuglog_action_start_recording" />
+    <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
-    <string name="debugging_debuglog_action_stop_recording" />
+    <string name="debugging_debuglog_action_stop_recording">"Delete"</string>
     <!-- XBUT: Button text to share the log recording -->
-    <string name="debugging_debuglog_action_share_log" />
+    <string name="debugging_debuglog_action_share_log">"Share"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
-    <string name="debugging_debuglog_status_recording" />
+    <string name="debugging_debuglog_status_recording">"Recording Active"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->
-    <string name="debugging_debuglog_status_not_recording" />
+    <string name="debugging_debuglog_status_not_recording">"Inactive"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
-    <string name="debugging_debuglog_status_additional_infos">"%1$s"</string>
+    <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
     <!-- XHED: Title for native sharing dialog -->
-    <string name="debugging_debuglog_sharing_dialog_title" />
+    <string name="debugging_debuglog_sharing_dialog_title">"Share CWA Error Report"</string>
 
     <!-- ####################################
               Interoperability
@@ -896,7 +896,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Your test result is not available yet."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIn you are notified of a positive test result outside the app, please remove the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please remove the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1179,7 +1179,7 @@
     <!-- XHED: Subtitle for the submission status card: ready -->
     <string name="submission_status_card_subtitle_ready">"You can now retrieve your test result"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"You result is being updated"</string>
+    <string name="submission_status_card_body_fetching">"Your result is being updated"</string>
     <!-- YTXT: Body text for submission status: unregistered -->
     <string name="submission_status_card_body_unregistered">"Help protect yourself and others."</string>
     <!-- YTXT: Body text for submission status: pending -->
@@ -1232,7 +1232,7 @@
         <item>"Still feeling unwell? If you feel very poorly and/or your symptoms have worsened, please contact your general practitioner."</item>
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk."</item>
-        <item>"If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
+        <item>"If your symptoms worsen, you might need another SARS-CoV-2 test."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->

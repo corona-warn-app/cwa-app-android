@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModu
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultConsentGivenTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
+import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 
 @Module(
     includes = [
@@ -39,6 +40,9 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionContactTestModule::class,
         SubmissionQRScanFragmentModule::class,
+        SubmissionQRScanFragmentModule::class,
+        // Tracing
+        TracingDetailsFragmentTestTestModule::class,
         // Contact Diary
         ContactDiaryOnboardingFragmentTestModule::class,
         ContactDiaryOverviewFragmentTestModule::class,
