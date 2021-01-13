@@ -32,7 +32,11 @@ class TestApplication : Application(), HasAndroidInjector {
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
 
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = setupFragmentHook(activity)
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                Timber.d("onActivityCreated")
+                setupFragmentHook(activity)
+                Timber.d("FragmentHook injection is called")
+            }
 
             override fun onActivityStarted(activity: Activity) = Unit
 

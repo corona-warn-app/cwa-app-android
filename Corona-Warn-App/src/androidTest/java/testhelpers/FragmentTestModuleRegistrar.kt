@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultNoConsentModel
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestAvailableModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestNegativeModule
+import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 
 @Module(
     includes = [
@@ -39,7 +40,9 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestNegativeModule
         SubmissionTestResultConsentGivenTestModule::class,
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionContactTestModule::class,
-        SubmissionQRScanFragmentModule::class
+        SubmissionQRScanFragmentModule::class,
+        // Tracing
+        TracingDetailsFragmentTestTestModule::class
     ]
 )
 class FragmentTestModuleRegistrar

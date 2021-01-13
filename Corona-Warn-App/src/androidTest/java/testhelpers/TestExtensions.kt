@@ -12,6 +12,10 @@ import tools.fastlane.screengrab.Screengrab
  */
 const val SCREENSHOT_DELAY_TIME = 2000L
 
+/** Delay time before taking screenshot
+ */
+const val SCREENSHOT_DELAY_TIME = 2000L
+
 /**
  * Launches Fragment in Activity root container.
  * Same as [androidx.fragment.app.testing.launchFragmentInContainer] except that it defaults
