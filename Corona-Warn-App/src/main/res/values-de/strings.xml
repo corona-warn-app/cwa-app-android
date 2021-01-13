@@ -556,7 +556,7 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Internetverbindung herstellen"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
-    <string name="settings_tracing_status_connection_body">"Die Risiko-Ermittlung benötigt eine Internetverbindung, um Risiko-Begegnungen berechnen zu können. Bitte aktivieren Sie WLAN oder mobile Daten in Ihren Geräte-Einstellungen."</string>
+    <string name="settings_tracing_status_connection_body">"Die Risiko-Ermittlung benötigt eine Internetverbindung, um um Ihr Infektionsrisiko zu berechnen zu können. Bitte aktivieren Sie WLAN oder mobile Daten in Ihren Geräte-Einstellungen."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_connection_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
