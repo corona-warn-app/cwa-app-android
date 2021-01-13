@@ -81,10 +81,6 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- NOTR -->
-    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
     <!-- XTXT: Notification channel name for os settings -->
     <string name="notification_name">"Corona-Warn-App"</string>
     <!-- XTXT: Notification channel description for os settings -->
@@ -378,6 +374,16 @@
     <string name="risk_lowered_dialog_button_cancel">"Mai mult"</string>
 
     <!-- ####################################
+           Outdated Device Time
+    ###################################### -->
+    <!-- XHED: incorrect device time - dialog/notification headline -->
+    <string name="device_time_incorrect_dialog_headline">"Verificarea expunerii nu este posibilă"</string>
+    <!-- XTXT: incorrect device time - dialog/notification content -->
+    <string name="device_time_incorrect_dialog_body">"Ora setată pe dispozitivul dvs. nu corespunde cu ora curentă. Drept rezultat, riscul dvs. nu poate fi verificat chiar acum. Setați ora corectă în setările dispozitivului."</string>
+    <!-- XBUT: incorrect device time - dialog confirm -->
+    <string name="device_time_incorrect_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 
@@ -632,6 +638,10 @@
     <string name="settings_background_priority_headline">"Actualizare automată a stării de risc"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Dacă activați activitatea în fundal cu prioritate, aplicația poate determina în orice moment starea riscului dvs. Această opțiune dezactivează optimizarea vieții bateriei doar pentru aplicația Corona-Warn."</string>
+    <!-- XACT: settings(background priority) - on - illustration description -->
+    <string name="settings_background_priority_on_illustration_description">"O mână ține un smartphone pe care se poate vedea pictograma „Împrospătarea este activă”."</string>
+    <!-- XACT: settings(background priority) - off - illustration description -->
+    <string name="settings_background_priority_off_illustration_description">"O mână ține un smartphone pe care se poate vedea pictograma „Împrospătarea nu este activă”."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Puteți activa și dezactiva activitatea în fundal cu prioritate din setările dispozitivului."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -723,6 +733,27 @@
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"O mână ține un smartphone pe al cărui ecran este afișat un corp mare de text. Lângă text există un simbol de secțiune, reprezentând informațiile de contact."</string>
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title">"Raport de erori"</string>
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation">"Această opțiune înregistrează comportamentul aplicației într-un fișier text de jurnal. Dacă opțiunea este activată înainte de apariția unei erori, puteți face disponibil acest raport pentru a-i ajuta pe dezvoltatori să rezolve problema.\nDacă lăsați activată această opțiune, acest lucru va conduce la cerințe de stocare ridicate. Dacă dezactivați opțiunea, raportul de erori este șters."</string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning">"Rețineți că rapoartele de erori pot conține date sensibile (precum un rezultat al testului sau intrări în jurnal ale contactelor). În consecință, nu este recomandat să împărtășiți public aceste rapoarte de erori."</string>
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording">"Pornire"</string>
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording">"Ștergere"</string>
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log">"Partajare"</string>
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording">"Înregistrare activă"</string>
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording">"Inactivă"</string>
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"Mărime curentă: %1$s (necomprimat)"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title">"Partajare raport de erori CWA"</string>
 
     <!-- ####################################
               Interoperability
@@ -857,7 +888,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Actualizare"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -912,7 +943,6 @@
     <string name="submission_test_result_consent_given_breakup_button">"Ieșire"</string>
 
 
-
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"Introduceți TAN"</string>
@@ -930,7 +960,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Înainte"</string>
-    
+
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Aflarea rezultatului testului"</string>
@@ -1193,7 +1223,7 @@
         <item>"Încă vă simțiți rău? Dacă vă simțiți foarte rău și/sau simptomele dvs. s-au agravat, vă rugăm să contactați medicul dvs. de familie."</item>
         <item>"Rămâneți acasă până vă simțiți din nou bine. Dacă v-ați infecta cu coronavirus (SARS-CoV-2) în timp ce organismul dvs. este slăbit din cauza unei alte infecții, aceasta ar putea duce la o boală gravă."</item>
         <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane."</item>
-        <item>"Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un test SARS-CoV-2 suplimentar."</item>
+        <item>"Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un alt test SARS-CoV-2."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->

@@ -31,7 +31,7 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     val isListVisible = contactDiaryRepository.people.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 

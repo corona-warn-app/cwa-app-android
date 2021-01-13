@@ -20,7 +20,7 @@ class TracingProgressCard(
     }
 
     override val onBindData: TracingContentProgressViewBinding.(item: Item, payloads: List<Any>) -> Unit =
-        { item, payloads ->
+        { item, _ ->
             itemView.backgroundTintMode = PorterDuff.Mode.SRC_OVER
             itemView.backgroundTintList = ColorStateList.valueOf(item.state.getContainerColor(context))
             state = item.state

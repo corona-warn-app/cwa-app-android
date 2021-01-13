@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.lifecycle.MutableLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -30,6 +31,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     fun validateTestGUID(rawResult: String) {
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
+            QRCodeCensor.lastGUID = scanResult.guid
             scanStatusValue.postValue(ScanStatus.SUCCESS)
             doDeviceRegistration(scanResult)
         } else {

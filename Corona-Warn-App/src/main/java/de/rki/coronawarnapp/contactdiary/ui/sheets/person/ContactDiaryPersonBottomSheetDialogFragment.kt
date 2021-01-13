@@ -66,7 +66,7 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             viewModel.textChanged(it.toString())
         }
 
-        binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
+        binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 IME_ACTION_DONE -> {
                     if (viewModel.isValid.value == true) {
@@ -88,10 +88,6 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             binding.contactDiaryPersonBottomSheetTextInputLayout.isErrorEnabled = isValid
             binding.contactDiaryPersonBottomSheetSaveButton.isEnabled = isValid
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     override fun onDestroyView() {
