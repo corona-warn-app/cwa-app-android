@@ -247,7 +247,7 @@
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Benachrichtigung anderer"</string>
     <!-- YTXT: App overview body text about rest procedure -->
-    <string name="main_overview_body_test">"Eine weitere zentrale Funktion. Hier können Sie Ihren Test registrieren und seinen Status abfragen. Bei einem positiven Test können Sie andere warnen und damit Infektionsketten unterbrechen."</string>
+    <string name="main_overview_body_test">"Sie können Ihren Test registrieren und das Testergebnis in der App abfragen. Ist das Testergebnis positiv, können Sie andere warnen und somit helfen, Infektionsketten zu unterbrechen."</string>
     <!-- XHED: App overview headline for glossary -->
     <string name="main_overview_headline_glossary">"Wichtige Begriffe:"</string>
     <!-- XHED: App overview subtitle for glossary key storage -->
