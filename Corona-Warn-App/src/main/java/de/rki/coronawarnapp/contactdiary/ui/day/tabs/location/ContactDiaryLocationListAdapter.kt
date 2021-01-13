@@ -23,7 +23,7 @@ internal class ContactDiaryLocationListAdapter(
 
     override fun onBindBaseVH(holder: CachedLocationViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
-        holder.itemView.setOnClickListenerThrottled(300L) {
+        holder.itemView.setOnClickListenerThrottled {
             it.contentDescription = item.onClickDescription.get(holder.context)
             it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
             onTappedCallback(item)
