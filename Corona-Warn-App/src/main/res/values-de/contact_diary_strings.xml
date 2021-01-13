@@ -41,6 +41,8 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">"Sie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section">"Die angezeigten Risiko-Begegnungen müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen. Bitte ziehen Sie keine falschen Rückschlüsse."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->

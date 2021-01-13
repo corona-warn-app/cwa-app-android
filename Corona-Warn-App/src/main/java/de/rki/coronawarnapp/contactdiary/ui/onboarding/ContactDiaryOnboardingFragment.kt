@@ -66,8 +66,9 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
         }
     }
 
-    fun onboardingComplete() {
+    private fun onboardingComplete() {
         settings.isOnboarded.update { true }
+        settings.isExtendedOnboarded.update { true }
     }
 
     override fun onResume() {

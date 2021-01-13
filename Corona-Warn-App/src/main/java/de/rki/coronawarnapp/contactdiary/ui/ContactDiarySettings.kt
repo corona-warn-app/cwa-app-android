@@ -21,6 +21,14 @@ class ContactDiarySettings @Inject constructor(
         defaultValue = false
     )
 
+    /**
+     * onboarding must be presented again, if not yet shown including additional hints
+     */
+    val isExtendedOnboarded = prefs.createFlowPreference(
+        key = "contact_diary_onboarded_extended",
+        defaultValue = false
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }
