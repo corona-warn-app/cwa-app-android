@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -43,7 +44,7 @@ class SettingsTracingStateTest : BaseTest() {
             verify { context.getColorCompat(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_tracing_bluetooth_inactive) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_restricted) }
@@ -57,7 +58,7 @@ class SettingsTracingStateTest : BaseTest() {
             verify { context.getColorCompat(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_location_inactive_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_location_inactive_small) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_inactive) }
@@ -71,7 +72,7 @@ class SettingsTracingStateTest : BaseTest() {
             verify { context.getColorCompat(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_inactive_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_tracing_inactive_small) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_inactive) }
@@ -85,7 +86,7 @@ class SettingsTracingStateTest : BaseTest() {
             verify { context.getColorCompat(R.color.colorAccentTintIcon) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_active_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_tracing_active_small) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_active) }
