@@ -30,7 +30,7 @@
             android:layout_margin="@dimen/icon_margin_risk_details_behavior"
             android:focusable="false"
             android:importantForAccessibility="no"
-            android:tint="@color/colorStableLight"
+            app:tint="@color/colorStableLight"
             tools:src="@drawable/common_full_open_on_phone" />
     </FrameLayout>
 
