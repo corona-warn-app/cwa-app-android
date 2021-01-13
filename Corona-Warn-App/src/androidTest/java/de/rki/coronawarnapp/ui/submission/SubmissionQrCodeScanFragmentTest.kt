@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission
 
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
@@ -11,28 +10,14 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
-import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionQrCodeScanFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionQRCodeScanViewModel
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val cameraPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA)
 
     @Before
     fun setup() {
@@ -50,12 +35,6 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
     @Test
     fun launch_fragment() {
         launchFragment<SubmissionQRCodeScanFragment>()
-    }
-
-    @Test
-    @Screenshot
-    fun capture_fragment() {
-        captureScreenshot<SubmissionQRCodeScanFragment>()
     }
 }
 
