@@ -117,7 +117,6 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                                 )
                             )
                         }
-
                     }
                 }
         )
