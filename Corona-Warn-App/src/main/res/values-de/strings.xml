@@ -1165,7 +1165,7 @@
     <!-- XHED: Page title for the various submission status fetch ready -->
     <string name="submission_status_card_title_ready">"Ihr Testergebnis liegt vor"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
-    <string name="submission_status_card_subtitle_invalid">"Fehlerhafter Test"</string>
+    <string name="submission_status_card_subtitle_invalid">"Test kann nicht ausgewertet werden"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
     <string name="submission_status_card_subtitle_negative">"Befund negativ"</string>
     <!-- XHED: Subtitle for the submission status card: ready -->
