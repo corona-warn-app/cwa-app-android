@@ -1,19 +1,16 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.fragment.app.testing.launchFragment
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
@@ -51,9 +48,7 @@ class OnboardingPrivacyFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingPrivacyFragment>()
-        // Check any view to make sure screenshot is not blank
-        Espresso.onView(ViewMatchers.withId(R.id.onboarding_button_next))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(OnboardingPrivacyFragment::class.simpleName)
     }
 }

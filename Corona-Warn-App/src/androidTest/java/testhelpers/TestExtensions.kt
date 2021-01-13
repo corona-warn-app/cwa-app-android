@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
 import de.rki.coronawarnapp.R
 
+/** Delay time before taking screenshot
+ */
 const val SCREENSHOT_DELAY_TIME = 2000L
 
 /**
