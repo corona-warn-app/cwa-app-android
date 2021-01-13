@@ -414,7 +414,7 @@ dependencies {
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
 
     // LOGGING
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:4.7.1@aar'
 
     // ANIMATIONS
     implementation "com.airbnb.android:lottie:3.5.0"
