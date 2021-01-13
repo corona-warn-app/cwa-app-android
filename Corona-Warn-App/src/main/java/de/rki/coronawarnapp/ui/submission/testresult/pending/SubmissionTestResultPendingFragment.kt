@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -12,7 +13,6 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withFailure
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending), AutoInject {
@@ -33,30 +34,20 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     private var skipInitialTestResultRefresh = false
 
-    private var dialog: AlertDialog? = null
+    private var errorDialog: AlertDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pendingViewModel.consentGiven.observe2(this) {
+        pendingViewModel.consentGiven.observe(viewLifecycleOwner) {
             binding.consentStatus.consent = it
         }
 
-        pendingViewModel.testState.observe2(this) { result ->
-            result.deviceUiState.withFailure {
-                if (it is CwaWebException) {
-                    dialog?.dismiss()
-                    dialog = DialogHelper.showDialog(buildErrorDialog(it))
-                }
-            }
-
+        pendingViewModel.testState.observe(viewLifecycleOwner) { result ->
             val hasResult = result.deviceUiState.withSuccess(false) { true }
-
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
-
                 submissionTestResultSpinner.setInvisible(hasResult)
-
                 submissionTestResultContent.setInvisible(!hasResult)
                 buttonContainer.setInvisible(!hasResult)
             }
@@ -95,14 +86,23 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         pendingViewModel.observeTestResultToSchedulePositiveTestResultReminder()
+
     }
 
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         pendingViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
-
         skipInitialTestResultRefresh = false
+        pendingViewModel.cwaWebExceptionLiveData.observe(this.viewLifecycleOwner) { exception ->
+            handleFailure(exception)
+            pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        errorDialog?.dismiss()
     }
 
     private fun removeTestAfterConfirmation() {
@@ -121,34 +121,44 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
     }
 
+    private fun handleFailure(exception: CwaWebException) {
+        errorDialog = when (exception) {
+            is CwaClientError, is CwaServerError -> {
+                Timber.e("showDialog for $exception")
+                DialogHelper.showDialog(buildErrorDialog(exception))
+            }
+            else -> {
+                DialogHelper.showDialog(genericErrorDialog)
+            }
+        }
+    }
+
     private fun navigateToMainScreen() {
-        dialog?.dismiss()
         popBackStack()
     }
 
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-        }
+    private fun buildErrorDialog(exception: CwaWebException) = DialogHelper.DialogInstance(
+        requireActivity(),
+        R.string.submission_error_dialog_web_generic_error_title,
+        getString(
+            R.string.submission_error_dialog_web_generic_network_error_body,
+            exception.statusCode
+        ),
+        R.string.submission_error_dialog_web_generic_error_button_positive,
+        null,
+        true,
+        ::navigateToMainScreen
+    )
+
+    private val genericErrorDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_error_dialog_web_generic_error_title,
+            R.string.submission_error_dialog_web_generic_error_body,
+            R.string.submission_error_dialog_web_generic_error_button_positive,
+            null,
+            true,
+            ::navigateToMainScreen
+        )
     }
 }
