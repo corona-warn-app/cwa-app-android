@@ -45,7 +45,7 @@ fun formatVisibility(value: Boolean): Int {
  * @param drawable
  * @return
  */
-fun formatVisibilityIcon(drawable: Any?): Int? {
+fun formatVisibilityIcon(drawable: Any?): Int {
     return if (drawable != null) {
         View.VISIBLE
     } else {

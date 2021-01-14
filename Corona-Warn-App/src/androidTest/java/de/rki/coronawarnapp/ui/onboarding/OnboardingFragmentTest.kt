@@ -4,8 +4,6 @@ import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -17,6 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
@@ -54,8 +53,7 @@ class OnboardingFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingFragment>()
-        // Check any view to make sure screenshot is not blank
-        onView(withId(R.id.onboarding_button_next)).check(matches(isDisplayed()))
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(OnboardingFragment::class.simpleName)
 
         onView(withId(R.id.onboarding_easy_language)).perform(scrollTo(), click())
