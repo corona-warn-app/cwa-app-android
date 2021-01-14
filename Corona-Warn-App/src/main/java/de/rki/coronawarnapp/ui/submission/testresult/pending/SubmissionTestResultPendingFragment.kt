@@ -5,7 +5,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -17,6 +16,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -38,11 +38,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pendingViewModel.consentGiven.observe(viewLifecycleOwner) {
+        pendingViewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
         }
 
-        pendingViewModel.testState.observe(viewLifecycleOwner) { result ->
+        pendingViewModel.testState.observe2(this) { result ->
             val hasResult = result.deviceUiState is NetworkRequestWrapper.RequestSuccessful
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.deviceUiState, result.testResultReceivedDate)
@@ -92,16 +92,15 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         pendingViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
         skipInitialTestResultRefresh = false
-        pendingViewModel.cwaWebExceptionLiveData.observe(this.viewLifecycleOwner) { exception ->
-            pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
+        pendingViewModel.cwaWebExceptionLiveData.observeOnce(this.viewLifecycleOwner) { exception ->
             handleError(exception)
         }
     }
 
     override fun onPause() {
-        super.onPause()
         pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
         errorDialog?.dismiss()
+        super.onPause()
     }
 
     private fun removeTestAfterConfirmation() {
