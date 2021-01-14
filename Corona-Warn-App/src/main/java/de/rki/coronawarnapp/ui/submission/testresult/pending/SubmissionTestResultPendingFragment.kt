@@ -93,13 +93,14 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         pendingViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
         skipInitialTestResultRefresh = false
         pendingViewModel.cwaWebExceptionLiveData.observe(this.viewLifecycleOwner) { exception ->
-            handleError(exception)
             pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
+            handleError(exception)
         }
     }
 
     override fun onPause() {
         super.onPause()
+        pendingViewModel.cwaWebExceptionLiveData.removeObservers(this.viewLifecycleOwner)
         errorDialog?.dismiss()
     }
 
