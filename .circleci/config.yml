@@ -213,6 +213,7 @@ jobs:
           name: start AVD
           command: emulator @Pixel_3a_API_29 -no-window -no-audio
           background: true
+          no_output_timeout: 30m
       - run:
           name: Wait for emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
