@@ -212,11 +212,15 @@ jobs:
               --test-targets "notAnnotation testhelpers.Screenshot" \
               --timeout 20m \
               --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
+          no_output_timeout: 30m
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+      - store_artifacts:
+          path: Pixel2-29-de_DE-portrait
+          destination: Pixel2-29-de_DE-portrait
 
   device_screenshots:
     resource_class: xlarge
@@ -247,12 +251,17 @@ jobs:
               --environment-variables clearPackageData=true \
               --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
+              --directories-to-pull /data/user/0/de.rki.coronawarnapp/files/de.rki.coronawarnapp/screengrab
               --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
+          no_output_timeout: 30m
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+      - store_artifacts:
+          path: Pixel2-29-de_DE-portrait
+          destination: Pixel2-29-de_DE-portrait
 
   lint_device_release_check:
     executor: android/android
