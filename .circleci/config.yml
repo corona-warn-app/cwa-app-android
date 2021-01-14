@@ -189,10 +189,11 @@ jobs:
       - checkout
       - run:
           name: set ANDROID_SDK_ROOT
-          command: |
-            echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
+          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
+      - restore_cache:
+          key: android=tools-v1-{{ checksum "scripts/install-android-tools.sh" }}-{{ arch }}
       - run:
-          name: install android tools
+          name: Install android tools
           command: |
             sh .circleci/setup-android.sh
             echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
@@ -201,20 +202,23 @@ jobs:
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             source $BASH_ENV
             sdkmanager --list
+      - save_cache:
+          key: android=tools-v1-{{ checksum "scripts/install-android-tools.sh" }}-{{ arch }}
+          paths:
+            - /Users/distiller/android-tools
       - run:
-          name: create AVD
-          command: make create-avd
+          name: Create AVD
+          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
       - run:
           name: start AVD
-          command: emulator-headless -avd android-tablet
+          command: emulator @Pixel_3a_API_29 -no-window -no-audio
           background: true
       - run:
-          name: wait for emulator
+          name: Wait for emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
       - run:
           name: Run instrumentation tests
-          command: |
-            adb shell am instrument -w -m -e debug false de.rki.coronawarnapp.test.test/testhelpers.TestApplicationUIRunner
+          command: adb shell am instrument -w -m -e debug false de.rki.coronawarnapp.test.test/testhelpers.TestApplicationUIRunner
 
   device_screenshots:
     resource_class: xlarge
