@@ -420,12 +420,12 @@ workflows:
       - run_sonar:
           requires:
             - device_release_unit_tests
-      - device_screenshots
-        requires:
-          - lint_device_release_check
-          - ktlint_device_release_check
-          - quick_build_device_release_no_tests
-          - device_release_unit_tests
+      - device_screenshots:
+          requires:
+            - lint_device_release_check
+            - ktlint_device_release_check
+            - quick_build_device_release_no_tests
+            - device_release_unit_tests
 
   check_buildtype_device_for_testers:
     jobs:
@@ -434,13 +434,13 @@ workflows:
       - ktlint_device_for_testers_release_check
       - quick_build_device_for_testers_release_no_tests
       - device_for_testers_release_unit_tests
-      - device_for_testers_instrumentation_tests
-        requires:
-          - quick_build_device_for_testers_release_no_tests
-          - device_for_testers_release_unit_tests
-          - lint_device_for_testers_release_check
-          - ktlint_device_for_testers_release_check
-          - detekt
+      - device_for_testers_instrumentation_tests:
+          requires:
+            - quick_build_device_for_testers_release_no_tests
+            - device_for_testers_release_unit_tests
+            - lint_device_for_testers_release_check
+            - ktlint_device_for_testers_release_check
+            - detekt
 
   signed_build:
     jobs:
