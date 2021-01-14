@@ -2,6 +2,8 @@ package testhelpers
 
 import dagger.Module
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
+import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditLocationsFragmentTestModule
+import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditPersonsFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryLocationListFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
@@ -48,7 +50,9 @@ import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
         ContactDiaryOverviewFragmentTestModule::class,
         ContactDiaryDayFragmentTestModule::class,
         ContactDiaryPersonListFragmentTestModule::class,
-        ContactDiaryLocationListFragmentTestModule::class
+        ContactDiaryLocationListFragmentTestModule::class,
+        ContactDiaryEditLocationsFragmentTestModule::class,
+        ContactDiaryEditPersonsFragmentTestModule::class
     ]
 )
 class FragmentTestModuleRegistrar

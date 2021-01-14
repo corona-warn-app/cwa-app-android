@@ -86,4 +86,16 @@ object DiaryData {
             onClickLabel = R.string.accessibility_person
         )
     )
+
+    val LOCATIONS_EDIT_LIST: List<ContactDiaryLocation> = listOf(
+        DefaultContactDiaryLocation(locationName = "Sport"),
+        DefaultContactDiaryLocation(locationName = "Büro"),
+        DefaultContactDiaryLocation(locationName = "Supermarkt"),
+    )
+
+    val PERSONS_EDIT_LIST: List<ContactDiaryPerson> = listOf(
+        DefaultContactDiaryPerson(fullName = "Max Mustermann"),
+        DefaultContactDiaryPerson(fullName = "Erika Mustermann"),
+        DefaultContactDiaryPerson(fullName = "John Doe")
+    )
 }
