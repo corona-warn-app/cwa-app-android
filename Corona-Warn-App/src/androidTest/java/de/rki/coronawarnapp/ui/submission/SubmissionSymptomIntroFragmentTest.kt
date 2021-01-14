@@ -1,8 +1,15 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragment
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionViewModel
 import io.mockk.MockKAnnotations
@@ -33,16 +40,16 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-//        launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>()
+        launchFragment<SubmissionSymptomIntroductionFragment>()
     }
 
     @Test fun testSymptomNextClicked() {
-//        val scenario = launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>()
-//        onView(withId(R.id.symptom_button_next))
-//            .perform(scrollTo())
-//            .perform(click())
-//
-//        // TODO verify result
+        val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
+        onView(withId(R.id.symptom_button_next))
+            .perform(scrollTo())
+            .perform(click())
+
+        // TODO verify result
     }
 }
 

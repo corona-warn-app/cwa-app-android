@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -40,9 +41,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-//        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        launchFragment<SubmissionTestResultPendingFragment>()
     }
-// TODO
+
 //    @Test
 //    fun testEventPendingRefreshClicked() {
 //        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()

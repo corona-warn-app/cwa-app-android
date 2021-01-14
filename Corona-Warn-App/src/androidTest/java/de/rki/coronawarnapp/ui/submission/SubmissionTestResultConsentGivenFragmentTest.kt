@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -33,12 +34,12 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-//        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>()
+        launchFragment<SubmissionTestResultConsentGivenFragment>()
     }
 
-    @Test
-    fun testEventConsentGivenContinueWithSymptomsClicked() {
-// TODO
+//    @Test
+//    fun testEventConsentGivenContinueWithSymptomsClicked() {
+//
 //        val mockNavController = mockk<NavController>()
 //        val scenario = launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>()
 //
@@ -50,7 +51,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 //        verify {
 //            mockNavController.navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
 //        }
-    }
+//    }
 }
 
 @Module

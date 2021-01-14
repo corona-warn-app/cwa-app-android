@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.tracing
 
+import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -80,7 +81,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
 
     @Test
     fun launch_tracing_details() {
-//        launchFragment<TracingDetailsFragment>()
+        launchFragment<TracingDetailsFragment>()
     }
 
     @Screenshot

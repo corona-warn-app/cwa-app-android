@@ -210,7 +210,6 @@ jobs:
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --environment-variables clearPackageData=true \
               --test-targets "notAnnotation testhelpers.Screenshot" \
-              --use-orchestrator \
               --timeout 20m \
               --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
       - run:
@@ -247,7 +246,6 @@ jobs:
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --environment-variables clearPackageData=true \
               --test-targets "annotation testhelpers.Screenshot" \
-              --use-orchestrator \
               --timeout 20m \
               --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
       - run:

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -33,35 +34,35 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-//        launchFragmentInContainer2<SubmissionDispatcherFragment>()
+        launchFragment<SubmissionDispatcherFragment>()
     }
 
-    @Test fun testEventQRClicked() {
-//        val scenario = launchFragmentInContainer2<SubmissionDispatcherFragment>()
+//    @Test fun testEventQRClicked() {
+//        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
 //        onView(withId(R.id.submission_dispatcher_qr))
 //            .perform(scrollTo())
 //            .perform(click())
 //
 //        // TODO verify result
-    }
-
-    @Test fun testEventTeleClicked() {
-//        val scenario = launchFragmentInContainer2<SubmissionDispatcherFragment>()
+//    }
+//
+//    @Test fun testEventTeleClicked() {
+//        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
 //        onView(withId(R.id.submission_dispatcher_tan_tele))
 //            .perform(scrollTo())
 //            .perform(click())
 //
 //        // TODO verify result
-    }
-
-    @Test fun testEventTanClicked() {
-//        val scenario = launchFragmentInContainer2<SubmissionDispatcherFragment>()
+//    }
+//
+//    @Test fun testEventTanClicked() {
+//        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
 //        onView(withId(R.id.submission_dispatcher_tan_code))
 //            .perform(scrollTo())
 //            .perform(click())
 //
 //        // TODO verify result
-    }
+//    }
 }
 
 @Module

@@ -197,7 +197,12 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
-//        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
+        // Using orchestration toegether with mockk on x86 (32bit) emulator images crashes
+        // Leaving this in here as reminder
+        // https://github.com/android/android-test/issues/352
+        // https://github.com/mockk/mockk/issues/466
+        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     kapt {

@@ -1,8 +1,16 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragment
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
 import io.mockk.MockKAnnotations
@@ -12,7 +20,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.launchFragmentInContainer2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTanFragmentTest : BaseUITest() {
@@ -35,18 +42,17 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragmentInContainer2<SubmissionTanFragment>()
+        launchFragment<SubmissionTanFragment>()
     }
 
     @Test fun testEventTanNextClicked() {
-        // TODO Commented out for pipeline work, will be readded
-//        val scenario = launchFragmentInContainer<SubmissionTanFragment>()
-//        ViewActions.closeSoftKeyboard()
-//        onView(withId(R.id.submission_tan_button_enter))
-//            .perform(scrollTo())
-//            .perform(click())
-//
-//        // TODO verify result
+        val scenario = launchFragmentInContainer<SubmissionTanFragment>()
+        ViewActions.closeSoftKeyboard()
+        onView(withId(R.id.submission_tan_button_enter))
+            .perform(scrollTo())
+            .perform(click())
+
+        // TODO verify result
     }
 }
 
