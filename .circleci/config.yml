@@ -183,44 +183,37 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
   device_for_testers_instrumentation_tests:
-    resource_class: xlarge
-    docker:
-      - image: circleci/android:api-28
+    macos:
+      xcode: "11.2.0"
     steps:
-      - skip-for-external-pull-requests
-      - setup-google-cloud
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
       - run:
-          name: "Build app APK "
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebug
-      - run:
-          name: "Build instrumentation test APK"
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest
-      - run:
-          name: Test with Firebase Test Lab
+          name: set ANDROID_SDK_ROOT
           command: |
-            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
-            echo "Using bucketdir $BUCKETDIR"
-            sudo gcloud firebase test android run \
-              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
-              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
-              --results-dir ${BUCKETDIR} \
-              --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
-              --environment-variables clearPackageData=true \
-              --test-targets "notAnnotation testhelpers.Screenshot" \
-              --timeout 20m \
-              --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
-          no_output_timeout: 30m
+            echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
       - run:
-          name: Install gsutil dependency and copy test results data
+          name: install android tools
           command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
-      - store_artifacts:
-          path: "$CIRCLE_ARTIFACTS/Pixel2-29-de_DE-portrait"
-          destination: Pixel2-29-de_DE-portrait
+            sh .circleci/setup-android.sh
+            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
+            source $BASH_ENV
+            sdkmanager --list
+      - run:
+          name: create AVD
+          command: make create-avd
+      - run:
+          name: start AVD
+          command: emulator-headless -avd android-tablet
+          background: true
+      - run:
+          name: wait for emulator
+          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+      - run:
+          name: Run instrumentation tests
+          command: |
+            adb shell am instrument -w -m -e debug false de.rki.coronawarnapp.test.test/testhelpers.TestApplicationUIRunner
 
   device_screenshots:
     resource_class: xlarge
@@ -410,37 +403,37 @@ jobs:
 #######################
 workflows:
   version: 2
-  check_buildtype_device:
-    jobs:
-      - detekt
-      - lint_device_release_check
-      - ktlint_device_release_check
-      - quick_build_device_release_no_tests
-      - device_release_unit_tests
-      - run_sonar:
-          requires:
-            - device_release_unit_tests
-      - device_screenshots:
-          requires:
-            - lint_device_release_check
-            - ktlint_device_release_check
-            - quick_build_device_release_no_tests
-            - device_release_unit_tests
+  #  check_buildtype_device:
+  #    jobs:
+  #      - detekt
+  #      - lint_device_release_check
+  #      - ktlint_device_release_check
+  #      - quick_build_device_release_no_tests
+  #      - device_release_unit_tests
+  #      - run_sonar:
+  #          requires:
+  #            - device_release_unit_tests
+  #      - device_screenshots:
+  #          requires:
+  #            - lint_device_release_check
+  #            - ktlint_device_release_check
+  #            - quick_build_device_release_no_tests
+  #            - device_release_unit_tests
 
   check_buildtype_device_for_testers:
     jobs:
-      - detekt
-      - lint_device_for_testers_release_check
-      - ktlint_device_for_testers_release_check
-      - quick_build_device_for_testers_release_no_tests
-      - device_for_testers_release_unit_tests
-      - device_for_testers_instrumentation_tests:
-          requires:
-            - quick_build_device_for_testers_release_no_tests
-            - device_for_testers_release_unit_tests
-            - lint_device_for_testers_release_check
-            - ktlint_device_for_testers_release_check
-            - detekt
+      #      - detekt
+      #      - lint_device_for_testers_release_check
+      #      - ktlint_device_for_testers_release_check
+      #      - quick_build_device_for_testers_release_no_tests
+      #      - device_for_testers_release_unit_tests
+      - device_for_testers_instrumentation_tests
+  #          requires:
+  #            - quick_build_device_for_testers_release_no_tests
+  #            - device_for_testers_release_unit_tests
+  #            - lint_device_for_testers_release_check
+  #            - ktlint_device_for_testers_release_check
+  #            - detekt
 
   signed_build:
     jobs:
