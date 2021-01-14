@@ -107,23 +107,23 @@
     <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
 
     <!-- XTXT: location (description for screen readers) -->
-    <string name="accessibility_location">Ort %s</string>
+    <string name="accessibility_location">"Place %s"</string>
     <!-- XTXT: person (description for screen readers) -->
-    <string name="accessibility_person">Person %s</string>
+    <string name="accessibility_person">"Person %s"</string>
     <!-- XTXT: location is not selected (description for screen readers) -->
-    <string name="accessibility_location_unselected">Ort %s ist nicht ausgewählt</string>
+    <string name="accessibility_location_unselected">"Place %s is not selected"</string>
     <!-- XTXT: person is not selected (description for screen readers) -->
-    <string name="accessibility_person_unselected">Person %s ist nicht ausgewählt</string>
+    <string name="accessibility_person_unselected">"Person %s is not selected"</string>
     <!-- XTXT: location is selected (description for screen readers) -->
-    <string name="accessibility_location_selected">Ort %s ist ausgewählt</string>
+    <string name="accessibility_location_selected">"Place %s is selected"</string>
     <!-- XTXT: person is selected (description for screen readers) -->
-    <string name="accessibility_person_selected">Person %s ist ausgewählt</string>
+    <string name="accessibility_person_selected">"Person %s is selected"</string>
 
     <!-- XTXT: Select (description for screen readers) -->
-    <string name="accessibility_action_select">auswählen</string>
+    <string name="accessibility_action_select">"Select"</string>
     <!-- XTXT: Deselect (description for screen readers) -->
-    <string name="accessibility_action_deselect">Auswahl aufheben</string>
+    <string name="accessibility_action_deselect">"Cancel Selection"</string>
     <!-- XTXT: Edit (description for screen readers) -->
-    <string name="accessibility_edit">Bearbeiten</string>
+    <string name="accessibility_edit">"Edit"</string>
 
 </resources>

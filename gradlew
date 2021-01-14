@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Modifications Copyright SAP SE. 2020.  All rights reserved.
+#
 
 ##############################################################################
 ##

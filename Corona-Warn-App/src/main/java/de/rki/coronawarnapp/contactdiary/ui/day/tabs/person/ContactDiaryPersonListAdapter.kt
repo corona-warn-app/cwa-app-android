@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryPersonListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
+import de.rki.coronawarnapp.util.ui.setOnClickListenerThrottled
 
 internal class ContactDiaryPersonListAdapter(
     private val onTappedCallback: (item: SelectableItem<ContactDiaryPerson>) -> Unit
@@ -22,7 +23,7 @@ internal class ContactDiaryPersonListAdapter(
 
     override fun onBindBaseVH(holder: CachedPersonViewHolder, position: Int, payloads: MutableList<Any>) {
         val item = data[position]
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListenerThrottled {
             it.contentDescription = item.onClickDescription.get(holder.context)
             it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
             onTappedCallback(item)
