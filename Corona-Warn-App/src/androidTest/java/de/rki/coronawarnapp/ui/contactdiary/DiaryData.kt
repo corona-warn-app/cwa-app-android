@@ -90,7 +90,7 @@ object DiaryData {
     val LOCATIONS_EDIT_LIST: List<ContactDiaryLocation> = listOf(
         DefaultContactDiaryLocation(locationName = "Sport"),
         DefaultContactDiaryLocation(locationName = "Büro"),
-        DefaultContactDiaryLocation(locationName = "Supermarkt"),
+        DefaultContactDiaryLocation(locationName = "Supermarkt")
     )
 
     val PERSONS_EDIT_LIST: List<ContactDiaryPerson> = listOf(
