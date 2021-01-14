@@ -191,7 +191,7 @@ jobs:
           name: set ANDROID_SDK_ROOT
           command: echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
       - restore_cache:
-          key: android=tools-v1-{{ checksum "scripts/install-android-tools.sh" }}-{{ arch }}
+          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
       - run:
           name: Install android tools
           command: |
@@ -203,7 +203,7 @@ jobs:
             source $BASH_ENV
             sdkmanager --list
       - save_cache:
-          key: android=tools-v1-{{ checksum "scripts/install-android-tools.sh" }}-{{ arch }}
+          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
           paths:
             - /Users/distiller/android-tools
       - run:
