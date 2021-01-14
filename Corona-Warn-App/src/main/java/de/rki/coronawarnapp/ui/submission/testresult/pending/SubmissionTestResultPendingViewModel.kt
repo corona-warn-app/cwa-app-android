@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -24,7 +24,7 @@ import timber.log.Timber
 
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -89,10 +89,10 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         submissionRepository.deviceUIStateFlow
             .first { request ->
                 request.withSuccess(false) {
-                    it == DeviceUIState.PAIRED_POSITIVE
+                    it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
     }
 
     fun deregisterTestFromDevice() {

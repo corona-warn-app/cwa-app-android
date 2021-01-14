@@ -6,7 +6,7 @@ import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -71,7 +71,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStateProviderFactory: TracingStateProvider.Factory,
     submissionStateProvider: SubmissionStateProvider,
     private val tracingRepository: TracingRepository,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider
@@ -236,12 +236,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .first { state ->
                 state.withSuccess(false) {
                     when (it) {
-                        DeviceUIState.PAIRED_POSITIVE -> true
+                        DeviceUIState.PAIRED_POSITIVE, DeviceUIState.PAIRED_POSITIVE_TELETAN -> true
                         else -> false
                     }
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access

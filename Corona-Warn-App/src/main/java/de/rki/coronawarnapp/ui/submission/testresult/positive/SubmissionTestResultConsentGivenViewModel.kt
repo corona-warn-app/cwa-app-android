@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -19,7 +19,7 @@ import timber.log.Timber
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -42,7 +42,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     fun onTestOpened() {
         submissionRepository.setViewedTestResult()
-        testResultNotificationService.cancelPositiveTestResultNotification()
+        testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
     fun onContinuePressed() {

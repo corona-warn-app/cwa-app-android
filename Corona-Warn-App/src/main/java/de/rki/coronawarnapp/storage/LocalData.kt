@@ -338,7 +338,7 @@ object LocalData {
         }
 
     private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
-    var numberOfRemainingPositiveTestResultReminders: Int
+    var numberOfRemainingSharePositiveTestResultReminders: Int
         get() = getSharedPreferenceInstance().getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
         set(value) = getSharedPreferenceInstance().edit(true) {
             putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)

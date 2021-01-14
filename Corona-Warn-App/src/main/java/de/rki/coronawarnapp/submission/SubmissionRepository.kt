@@ -161,6 +161,9 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
+    suspend fun asyncRequestTestResult(registrationToken: String): TestResult =
+        submissionService.asyncRequestTestResult(registrationToken)
+
     private suspend fun fetchTestResult(registrationToken: String): DeviceUIState = try {
         val testResult = submissionService.asyncRequestTestResult(registrationToken)
         updateTestResult(testResult)

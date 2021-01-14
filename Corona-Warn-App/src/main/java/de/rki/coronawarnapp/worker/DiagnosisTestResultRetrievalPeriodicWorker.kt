@@ -8,13 +8,14 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.notification.TestResultAvailableNotification
-import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 /**
@@ -25,9 +26,9 @@ import timber.log.Timber
 class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val submissionService: SubmissionService,
-    private val testResultAvailableNotification: TestResultAvailableNotification,
-    private val notificationHelper: NotificationHelper
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val notificationHelper: NotificationHelper,
+    private val submissionRepository: SubmissionRepository
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -57,7 +58,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             ) {
                 Timber.tag(TAG).d(" $id maximum days not exceeded")
                 val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-                val testResult = submissionService.asyncRequestTestResult(registrationToken)
+                val testResult = submissionRepository.asyncRequestTestResult(registrationToken)
                 initiateNotification(testResult)
                 Timber.tag(TAG).d(" $id Test Result Notification Initiated")
             } else {
@@ -89,14 +90,19 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             Timber.tag(TAG).d("$id: Notification already sent or there was a successful submission")
             return
         }
-        Timber.tag(TAG).d("$id: Test Result retried is $testResult")
+        if (submissionRepository.hasViewedTestResult.first()) {
+            Timber.tag(TAG).d("$id: No notification scheduled. Test result has already been viewed.")
+            return
+        }
+        Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
         ) {
-            testResultAvailableNotification.showTestResultNotification(testResult)
+            testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
 
             notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID)
+                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+            )
 
             Timber.tag(TAG).d("$id: Test Result available - notification issued & risk level notification canceled")
             LocalData.isTestResultNotificationSent(true)
