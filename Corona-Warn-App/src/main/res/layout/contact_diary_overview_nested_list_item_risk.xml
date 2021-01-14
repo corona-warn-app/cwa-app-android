@@ -1,80 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contact_diary_overview_element_nested_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="true"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="body"
+            type="String" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_overview_risk_item"
+        android:id="@+id/contact_diary_overview_element_nested_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/spacing_tiny"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/contact_diary_overview_risk_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:importantForAccessibility="no"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_high_risk_alert"
-            app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_overview_item_risk_title"
-            app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_item_risk_title"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/contact_diary_overview_item_risk_title"
-            style="@style/subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginEnd="@dimen/spacing_small"
-            android:ellipsize="end"
-            android:focusable="true"
-            android:text="@string/contact_diary_high_risk_title"
-            app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_risk_item_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_risk_item_image"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Erhöhtes Risiko" />
-
-        <TextView
-            android:id="@+id/contact_diary_overview_item_risk_body"
-            style="@style/subtitleMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_mega_tiny"
-            android:ellipsize="end"
-            android:focusable="true"
-            android:text="@string/contact_diary_risk_body_extended"
-            app:layout_constraintEnd_toEndOf="@id/contact_diary_overview_item_risk_title"
-            app:layout_constraintStart_toStartOf="@+id/contact_diary_overview_item_risk_title"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_item_risk_title"
-            tools:text="aufgrund der von der App ausgewerteten Begegnungen. Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen." />
-
-        <View
-            android:id="@+id/contact_diary_overview_item_risk_divider"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_overview_risk_item"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_divider"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:background="?android:attr/listDivider"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_tiny"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_item_risk_body" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/contact_diary_overview_risk_item_image"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:importantForAccessibility="no"
+                android:scaleType="centerInside"
+                android:src="@{icon}"
+                app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_overview_item_risk_title"
+                app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_item_risk_title"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/ic_high_risk_alert" />
+
+            <TextView
+                android:id="@+id/contact_diary_overview_item_risk_title"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:text="@{title}"
+                app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_risk_item_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_risk_item_image"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Erhöhtes Risiko" />
+
+            <TextView
+                android:id="@+id/contact_diary_overview_item_risk_body"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_mega_tiny"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:text="@{body}"
+                app:layout_constraintEnd_toEndOf="@id/contact_diary_overview_item_risk_title"
+                app:layout_constraintStart_toStartOf="@+id/contact_diary_overview_item_risk_title"
+                app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_item_risk_title"
+                tools:text="aufgrund der von der App ausgewerteten Begegnungen. Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen." />
+
+            <View
+                android:id="@+id/contact_diary_overview_item_risk_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_item_risk_body" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
