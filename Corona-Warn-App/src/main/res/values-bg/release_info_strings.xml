@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen 1.12
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header"/>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title" />
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body" />
+    <!-- XTXT: Encounter history title for the release info screen -->
+    <string name="release_info_encounter_history_title" />
+    <!-- XTXT: Encounter history body for the release info screen -->
+    <string name="release_info_encounter_history_body" />
+    <!-- XTXT: Statistics title for the release info screen -->
+    <string name="release_info_statistics_title" />
+    <!-- XTXT: Statistics body for the release info screen -->
+    <string name="release_info_statistics_body" />
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button" />
+
+</resources>
