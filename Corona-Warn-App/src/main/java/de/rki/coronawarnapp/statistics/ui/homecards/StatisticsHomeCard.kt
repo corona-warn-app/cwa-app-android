@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.StatisticsData
@@ -28,6 +29,7 @@ class StatisticsHomeCard(
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(StatisticsCardPaddingDecorator(startPadding = R.dimen.spacing_small))
             }
+            PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
         }
     }
 
