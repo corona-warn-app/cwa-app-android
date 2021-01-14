@@ -1282,6 +1282,16 @@
     <!-- XTXT: Your consent screen detailed information -->
     <string name="submission_your_consent_agreement_details">"Detailed Information on Data Processing and Your Consent"</string>
 
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for incident statistics card -->
+    <string name="statistics_card_incidence_title">7-Tage-Inzidenz</string>
+
+    <!-- XTXT: Label in statistics card that is displayed above the incidence value-->
+    <string name="statistics_card_incidence_value_label">Bis gestern</string>
+
+    <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
+    <string name="statistics_card_incidence_value_description">bestätigte Neuinfektionen je 100.000 Einwohner</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
