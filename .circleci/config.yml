@@ -216,9 +216,9 @@ jobs:
       - run:
           name: Wait for emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
-      - run:
-          name: Run instrumentation tests
-          command: adb shell am instrument -w -m -e debug false de.rki.coronawarnapp.test.test/testhelpers.TestApplicationUIRunner
+      - run-gradle-cmd:
+          desc: connectedAndroidTest
+          cmd: "connectedAndroidTest"
 
   device_screenshots:
     resource_class: xlarge
