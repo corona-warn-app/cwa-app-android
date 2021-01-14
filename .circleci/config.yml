@@ -194,7 +194,7 @@ jobs:
       - run:
           name: install android tools
           command: |
-            sh Corona-Warn-App/.circleci/setup-android.sh
+            sh .circleci/setup-android.sh
             echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
