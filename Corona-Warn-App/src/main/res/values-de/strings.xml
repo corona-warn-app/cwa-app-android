@@ -127,7 +127,7 @@
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Aktualisieren"</string>
     <!-- XBUT: risk card - activate tracing -->
-    <string name="risk_card_button_enable_tracing">"Risiko-Ermittlung einschalten"</string>
+    <string name="risk_card_button_enable_tracing">"Risiko-Ermittlung aktivieren"</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
     <string name="risk_card_body_tracing_off">"Aktivieren Sie die Risiko-Ermittlung, um Ihren heutigen Risikostatus zu berechnen."</string>
     <!-- XHED: risk card - low risk headline -->
