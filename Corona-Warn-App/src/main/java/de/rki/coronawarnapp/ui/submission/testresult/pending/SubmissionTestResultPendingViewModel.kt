@@ -92,13 +92,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     it == DeviceUIState.PAIRED_POSITIVE
                 }
             }
-            .also {
-                if (submissionRepository.hasViewedTestResult.first()) {
-                    testResultNotificationService.cancelPositiveTestResultNotification()
-                } else {
-                    testResultNotificationService.schedulePositiveTestResultReminder()
-                }
-            }
+            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
     }
 
     fun deregisterTestFromDevice() {

@@ -241,13 +241,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     }
                 }
             }
-            .also {
-                if (submissionRepository.hasViewedTestResult.first()) {
-                    testResultNotificationService.cancelPositiveTestResultNotification()
-                } else {
-                    testResultNotificationService.schedulePositiveTestResultReminder()
-                }
-            }
+            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
