@@ -251,7 +251,6 @@ jobs:
               --environment-variables clearPackageData=true \
               --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
-              --directories-to-pull /data/user/0/de.rki.coronawarnapp/files/de.rki.coronawarnapp/screengrab
               --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
           no_output_timeout: 30m
       - run:
@@ -411,24 +410,38 @@ jobs:
 #######################
 workflows:
   version: 2
-  quick_build:
+  check_buildtype_device:
     jobs:
-      #      - quick_build_device_release_no_tests
-      #      - quick_build_device_for_testers_release_no_tests
-      #      - device_release_unit_tests
-      #      - device_for_testers_release_unit_tests
-      - device_for_testers_instrumentation_tests
-      - device_screenshots
-  #          requires:
-  #            - device_for_testers_release_unit_tests
-  #      - lint_device_release_check
-  #      - lint_device_for_testers_release_check
-  #      - ktlint_device_release_check
-  #      - ktlint_device_for_testers_release_check
-  #      - detekt
-  #      - run_sonar:
-  #          requires:
-  #            - device_release_unit_tests
+      - detekt
+      - lint_device_release_check
+      - ktlint_device_release_check
+      - quick_build_device_release_no_tests
+      - device_release_unit_tests
+      - run_sonar:
+          requires:
+            - device_release_unit_tests
+      - device_screenshots:
+          requires:
+            - lint_device_release_check
+            - ktlint_device_release_check
+            - quick_build_device_release_no_tests
+            - device_release_unit_tests
+
+  check_buildtype_device_for_testers:
+    jobs:
+      - detekt
+      - lint_device_for_testers_release_check
+      - ktlint_device_for_testers_release_check
+      - quick_build_device_for_testers_release_no_tests
+      - device_for_testers_release_unit_tests
+      - device_for_testers_instrumentation_tests:
+        requires:
+        - quick_build_device_for_testers_release_no_tests
+        - device_for_testers_release_unit_tests
+        - lint_device_for_testers_release_check
+        - ktlint_device_for_testers_release_check
+        - detekt
+
   signed_build:
     jobs:
       - quick_build_device_for_testers_signed:
