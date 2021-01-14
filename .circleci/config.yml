@@ -51,6 +51,7 @@ commands:
       - run:
           name: << parameters.desc >>
           command: ./gradlew << parameters.cmd >>
+          no_output_timeout: 30m
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -220,7 +221,6 @@ jobs:
       - run-gradle-cmd:
           desc: connectedAndroidTest
           cmd: "connectedAndroidTest"
-          no_output_timeout: 30m
 
   device_screenshots:
     resource_class: xlarge
