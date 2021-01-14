@@ -29,14 +29,14 @@
             app:layout_goneMarginEnd="0dp"
             tools:text="Daten werden herunter geladen" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_forward"
-            android:tint="@{state.getStableIconColor(context)}"
+            app:tint="@{state.getStableIconColor(context)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

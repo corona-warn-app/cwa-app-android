@@ -31,16 +31,16 @@
             tools:text="@string/risk_card_low_risk_headline"
             tools:textColor="@color/colorStableLight" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_forward"
-            android:tint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorStableLight"
             tools:tint="@color/colorStableLight" />
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow

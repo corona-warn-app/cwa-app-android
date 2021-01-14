@@ -11,5 +11,5 @@
     android:layout_marginBottom="@dimen/spacing_tiny"
     android:foreground="?selectableItemBackground"
     android:focusable="true"
-    app:cardElevation="@dimen/elevation_strong"
+    app:cardElevation="@dimen/elevation_weak"
     app:cardCornerRadius="@dimen/radius_card" />

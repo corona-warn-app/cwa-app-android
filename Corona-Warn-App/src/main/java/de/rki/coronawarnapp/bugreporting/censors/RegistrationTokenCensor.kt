@@ -5,19 +5,23 @@ import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.CWADebug
 import javax.inject.Inject
-import kotlin.math.min
 
 @Reusable
 class RegistrationTokenCensor @Inject constructor() : BugCensor {
-    override fun checkLog(entry: LogLine): LogLine? {
+    override suspend fun checkLog(entry: LogLine): LogLine? {
         val token = LocalData.registrationToken() ?: return null
         if (!entry.message.contains(token)) return null
 
-        val replacement = if (CWADebug.isDeviceForTestersBuild) {
-            token
-        } else {
-            token.substring(0, min(4, token.length)) + "###-####-####-####-############"
+        var newMessage = entry.message.replace(token, PLACEHOLDER + token.takeLast(4))
+
+        if (CWADebug.isDeviceForTestersBuild) {
+            newMessage = entry.message
         }
-        return entry.copy(message = entry.message.replace(token, replacement))
+
+        return entry.copy(message = newMessage)
+    }
+
+    companion object {
+        private const val PLACEHOLDER = "########-####-####-####-########"
     }
 }
