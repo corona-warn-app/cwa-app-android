@@ -12,7 +12,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_overview_element_nested_body"
+        android:id="@+id/contact_diary_overview_risk_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_tiny"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/contact_diary_overview_element_image"
+            android:id="@+id/contact_diary_overview_risk_item_image"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/spacing_small"
@@ -44,9 +44,9 @@
             android:ellipsize="end"
             android:focusable="true"
             android:text="@string/contact_diary_high_risk_title"
-            app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_image"
+            app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_risk_item_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
+            app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_risk_item_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Erhöhtes Risiko" />
 
