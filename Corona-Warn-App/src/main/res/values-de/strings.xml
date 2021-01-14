@@ -214,7 +214,7 @@
     <!-- YTXT: Share app link page body -->
     <string name="main_share_body">"Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Verschicken Sie einen Link auf die Corona-Warn-App an Familie, Freunde und Bekannte!"</string>
     <!-- XBUT: Share app link page button -->
-    <string name="main_share_button">"Download-Link versenden"</string>
+    <string name="main_share_button">"Link versenden"</string>
     <!-- YMSG: Message when sharing is executed -->
     <string name="main_share_message">"Gemeinsam Corona bekämpfen"<xliff:g id="line_break">"\n"</xliff:g>"Ich bin dabei. Du auch?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
