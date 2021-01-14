@@ -10,6 +10,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
+import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
+import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
@@ -24,9 +26,10 @@ import javax.inject.Inject
     entities = [
         PersistedRiskLevelResultDao::class,
         PersistedExposureWindowDao::class,
-        PersistedExposureWindowDao.PersistedScanInstance::class
+        PersistedExposureWindowDao.PersistedScanInstance::class,
+        PersistedAggregatedRiskPerDateResult::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(
@@ -39,6 +42,8 @@ abstract class RiskResultDatabase : RoomDatabase() {
     abstract fun riskResults(): RiskResultsDao
 
     abstract fun exposureWindows(): ExposureWindowsDao
+
+    abstract fun aggregatedRiskPerDate(): AggregatedRiskPerDateResultDao
 
     @Dao
     interface RiskResultsDao {
@@ -80,13 +85,25 @@ abstract class RiskResultDatabase : RoomDatabase() {
         suspend fun deleteByRiskResultId(riskResultIds: List<String>): Int
     }
 
+    @Dao
+    interface AggregatedRiskPerDateResultDao {
+        @Query("SELECT * FROM riskperdate ORDER BY dateMillisSinceEpoch DESC")
+        fun allEntries(): Flow<List<PersistedAggregatedRiskPerDateResult>>
+
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insertRisk(persistedAggregatedRiskPerDateResults: List<PersistedAggregatedRiskPerDateResult>)
+
+        @Query("DELETE FROM riskperdate WHERE dateMillisSinceEpoch NOT IN(SELECT dateMillisSinceEpoch FROM riskperdate ORDER BY dateMillisSinceEpoch DESC LIMIT 14)")
+        suspend fun dropOldest()
+    }
+
     class Factory @Inject constructor(@AppContext private val context: Context) {
 
         fun create(databaseName: String = DATABASE_NAME): RiskResultDatabase {
             Timber.d("Instantiating risk result database.")
             return Room
                 .databaseBuilder(context, RiskResultDatabase::class.java, databaseName)
-                .addMigrations(RiskResultDatabaseMigration1To2)
+                .addMigrations(RiskResultDatabaseMigration1To2, RiskResultDatabaseMigration2To3)
                 .build()
         }
     }
