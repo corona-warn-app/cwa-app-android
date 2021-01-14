@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_diary_privacy_card"
+        style="@style/GreyCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_normal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/contact_diary_privacy_card_title"
+            style="@style/headline5"
+            android:accessibilityHeading="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_diary_onboarding_privacy_information_title"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/contact_diary_privacy_card_first_section_title"
+            style="@style/subtitle"
+            android:accessibilityHeading="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/contact_diary_onboarding_privacy_information_first_section_title"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_title"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_privacy_card_first_section_body_container_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.104"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_first_section_title">
+
+            <include
+                android:id="@+id/bulletpoint_one"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_privacy_card_first_section_body_one" />
+
+            <TextView
+                android:id="@+id/contact_diary_privacy_card_first_section_body_one"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/contact_diary_onboarding_privacy_information_first_section_body_one"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bulletpoint_one"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_privacy_card_first_section_body_container_two"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_first_section_body_container_one">
+
+            <include
+                android:id="@+id/bulletpoint_two"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_privacy_card_first_section_body_two" />
+
+            <TextView
+                android:id="@+id/contact_diary_privacy_card_first_section_body_two"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/contact_diary_onboarding_privacy_information_first_section_body_two"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bulletpoint_two"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/contact_diary_privacy_card_second_section_title"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
+            android:focusable="true"
+            android:text="@string/contact_diary_onboarding_privacy_information_second_section_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_first_section_body_container_two" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_privacy_card_second_section_body_container_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_second_section_title">
+
+            <include
+                android:id="@+id/bulletpoint_three"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_privacy_card_second_section_body_one" />
+
+            <TextView
+                android:id="@+id/contact_diary_privacy_card_second_section_body_one"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/contact_diary_onboarding_privacy_information_second_section_body_one"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bulletpoint_three"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_diary_privacy_card_second_section_body_container_two"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_diary_privacy_card_second_section_body_container_one">
+
+            <include
+                android:id="@+id/bulletpoint_four"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_privacy_card_second_section_body_two" />
+
+            <TextView
+                android:id="@+id/contact_diary_privacy_card_second_section_body_two"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/contact_diary_onboarding_privacy_information_second_section_body_two"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bulletpoint_four"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -183,7 +183,7 @@
             <include
                 android:id="@+id/onboarding_location_card"
                 layout="@layout/include_tracing_status_card"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:focusable="true"
@@ -198,7 +198,7 @@
             <include
                 android:id="@+id/onboarding_location_card_16_years"
                 layout="@layout/include_16_years"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
@@ -211,7 +211,7 @@
             <include
                 android:id="@+id/onboarding_card"
                 layout="@layout/include_tracing_status_card"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"

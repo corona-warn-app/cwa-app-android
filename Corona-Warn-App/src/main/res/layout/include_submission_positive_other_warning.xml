@@ -22,7 +22,7 @@
 
             <ImageView
                 android:id="@+id/submission_positive_other_warning_hero_illustration"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 bind:cwaContentDescription="@{@string/submission_positive_other_illustration_description}"
                 android:src="@drawable/ic_submission_illustration_other_warning"
@@ -35,7 +35,7 @@
                 android:id="@+id/submission_positive_other_warning_headline"
                 android:accessibilityHeading="true"
                 style="@style/headline5"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/submission_positive_other_warning_headline"
@@ -47,7 +47,7 @@
             <TextView
                 android:id="@+id/submission_positive_other_warning_text"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
@@ -59,7 +59,7 @@
             <TextView
                 android:id="@+id/submission_country_header_description"
                 style="@style/headline6"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{@string/submission_interoperability_list_title}"
@@ -69,7 +69,7 @@
 
             <de.rki.coronawarnapp.ui.view.CountryListView
                 android:id="@+id/countryList"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 app:layout_constraintEnd_toEndOf="@+id/submission_country_header_description"
@@ -80,7 +80,7 @@
             <include
                 android:id="@+id/submission_positive_location_card_16_years"
                 layout="@layout/include_16_years"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
@@ -91,7 +91,7 @@
             <include
                 android:id="@+id/submission_positive_other_privacy"
                 layout="@layout/include_privacy_card"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"

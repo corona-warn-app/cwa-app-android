@@ -77,7 +77,7 @@ complexity:
     threshold: 600
   LongMethod:
     active: true
-    threshold: 60
+    threshold: 120
   LongParameterList:
     active: true
     functionThreshold: 6
@@ -409,7 +409,7 @@ performance:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
   SpreadOperator:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt', '**/CertificatePinnerFactory.kt']
   UnnecessaryTemporaryInstantiation:
     active: true
@@ -630,4 +630,4 @@ style:
   WildcardImport:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
-    excludeImports: ['java.util.*', 'kotlinx.android.synthetic.*']
+    excludeImports: ['java.util.*']

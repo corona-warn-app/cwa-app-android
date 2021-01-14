@@ -7,7 +7,10 @@ import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -36,6 +39,8 @@ abstract class CWAViewModel constructor(
             Timber.w(e, "launch()ed coroutine was canceled.")
         }
     }
+
+    fun <T> Flow<T>.launchInViewModel() = this.launchIn(viewModelScope + dispatcherProvider.Default)
 
     @CallSuper
     override fun onCleared() {

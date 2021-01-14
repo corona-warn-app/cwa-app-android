@@ -4,13 +4,14 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.ContextExtensions
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
@@ -28,6 +29,7 @@ class FormatterHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication.Companion)
+        mockkObject(ContextExtensions)
 
         every { CoronaWarnApplication.getAppContext() } returns context
     }
@@ -52,28 +54,12 @@ class FormatterHelperTest {
         assertThat(result, `is`((formatVisibility(bValue))))
     }
 
-    private fun formatTextBase(bValue: Boolean?, iResult: Int) {
-        every { context.getString(1) } returns "true string"
-        every { context.getString(2) } returns "false string"
-
-        val result = formatText(value = bValue, stringTrue = 1, stringFalse = 2)
-        assertThat(result, `is`((CoronaWarnApplication.getAppContext().getString(iResult))))
-    }
-
-    private fun formatDrawableBase(bValue: Boolean) {
-        every { context.getDrawable(1) } returns drawable
-        every { context.getDrawable(2) } returns drawable
-
-        val result = formatDrawable(value = bValue, drawableTrue = 1, drawableFalse = 2)
-        assertThat(result, `is`((equalTo(drawable))))
-    }
-
     private fun formatColorBase(bValue: Boolean, iColor: Int) {
-        every { context.getColor(1) } returns 1
-        every { context.getColor(2) } returns 2
+        every { context.getColorCompat(1) } returns 1
+        every { context.getColorCompat(2) } returns 2
 
-        val result = formatColor(value = bValue, colorTrue = 1, colorFalse = 2)
-        assertThat(result, `is`((context.getColor(iColor))))
+        val result = formatColor(context = context, value = bValue, colorTrue = 1, colorFalse = 2)
+        assertThat(result, `is`((context.getColorCompat(iColor))))
     }
 
     @Test
@@ -113,27 +99,6 @@ class FormatterHelperTest {
 
         // Check visibilityText when value true and text is empty
         formatVisibilityTextBase(bValue = false, sText = "")
-    }
-
-    @Test
-    fun formatText() {
-        // Check  formatText when value true
-        formatTextBase(bValue = true, iResult = 1)
-
-        // Check  formatText when value false
-        formatTextBase(bValue = false, iResult = 2)
-
-        // Check  formatText when value false
-        formatTextBase(bValue = null, iResult = 2)
-    }
-
-    @Test
-    fun formatDrawable() {
-        // Check formatDrawable when value true
-        formatDrawableBase(bValue = true)
-
-        // Check formatDrawable when value false
-        formatDrawableBase(bValue = false)
     }
 
     @Test

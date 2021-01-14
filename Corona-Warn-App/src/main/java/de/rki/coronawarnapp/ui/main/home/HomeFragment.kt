@@ -5,15 +5,20 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
-import de.rki.coronawarnapp.databinding.FragmentHomeBinding
-import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
+import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
+import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
+import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -26,7 +31,7 @@ import javax.inject.Inject
  * Three ViewModels are needed that this fragment shows all relevant information to the user.
  * Also the Menu is set here.
  */
-class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
+class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: HomeFragmentViewModel by cwaViewModels(
@@ -34,39 +39,44 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         factoryProducer = { viewModelFactory }
     )
 
-    val binding: FragmentHomeBinding by viewBindingLazy()
+    val binding: HomeFragmentLayoutBinding by viewBindingLazy()
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
+    @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
+
+    private val homeAdapter = HomeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        homeMenu.setupMenu(binding.toolbar)
+
         vm.tracingHeaderState.observe2(this) {
             binding.tracingHeader = it
         }
-        vm.tracingCardState.observe2(this) {
-            binding.tracingCard = it
-        }
-        vm.submissionCardState.observe2(this) {
-            binding.submissionCard = it
 
-            setupTestResultCard(it.deviceUiState)
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = DefaultItemAnimator()
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            adapter = homeAdapter
         }
 
-        setupToolbar()
-        setupRiskCard()
-        setupDiaryCard()
+        vm.homeItems.observe2(this) {
+            homeAdapter.update(it)
+        }
+
+        vm.routeToScreen.observe2(this) {
+            doNavigate(it)
+        }
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
-        binding.mainAbout.mainCard.apply {
-            setOnClickListener {
-                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
-            }
-            contentDescription = getString(R.string.hint_external_webpage)
+        vm.openFAQUrlEvent.observe2(this) {
+            ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
         }
 
         vm.popupEvents.observe2(this) { event ->
@@ -97,9 +107,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
-            if (it) {
-                showRiskLevelLoweredDialog()
-            }
+            if (it) showRiskLevelLoweredDialog()
+        }
+        vm.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
+            if (!showDialog) return@observe2
+            deviceTimeIncorrectDialog.show { vm.userHasAcknowledgedIncorrectDeviceTime() }
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
@@ -108,7 +120,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
-        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun showRemoveTestDialog() {
@@ -124,92 +136,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         )
         DialogHelper.showDialog(removeTestDialog).apply {
             getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
-        }
-    }
-
-    private fun setupRiskCard() {
-        binding.riskCard.setOnClickListener {
-            doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-        }
-        binding.riskCardContent.apply {
-            riskCardButtonUpdate.setOnClickListener {
-                vm.refreshDiagnosisKeys()
-            }
-            riskCardButtonEnableTracing.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
-            }
-        }
-    }
-
-    private fun setupTestResultCard(deviceUiState: NetworkRequestWrapper<DeviceUIState, Throwable>) {
-        binding.mainTestUnregistered.apply {
-            val navDirection = HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
-            submissionStatusCardUnregistered.setOnClickListener { doNavigate(navDirection) }
-            submissionStatusCardUnregisteredButton.setOnClickListener { doNavigate(navDirection) }
-        }
-
-        // Test is not positive (pending, negative, invalid)
-        binding.mainTestResult.apply {
-            val navDirection = if (deviceUiState is NetworkRequestWrapper.RequestSuccessful) {
-                when (deviceUiState.data) {
-                    DeviceUIState.PAIRED_NEGATIVE -> HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultNegativeFragment()
-                    DeviceUIState.PAIRED_ERROR,
-                    DeviceUIState.PAIRED_REDEEMED -> HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultInvalidFragment()
-                    else -> HomeFragmentDirections
-                        .actionMainFragmentToSubmissionTestResultPendingFragment()
-                }
-            } else {
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment()
-            }
-
-            submissionStatusCardContent.setOnClickListener { doNavigate(navDirection) }
-            submissionStatusCardContentButton.setOnClickListener { doNavigate(navDirection) }
-        }
-
-        // Test is positive
-        binding.mainTestPositive.apply {
-            val navDirection = HomeFragmentDirections
-                .actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment()
-
-            submissionStatusCardPositive.setOnClickListener { doNavigate(navDirection) }
-            submissionStatusCardPositiveButton.setOnClickListener { doNavigate(navDirection) }
-        }
-
-        binding.mainTestFailed.apply {
-            setOnClickListener {
-                vm.removeTestPushed()
-            }
-        }
-        binding.mainTestReady.apply {
-            val navDirections = HomeFragmentDirections
-                .actionMainFragmentToSubmissionTestResultAvailableFragment()
-
-            submissionStatusCardReady.setOnClickListener { doNavigate(navDirections) }
-            submissionStatusCardReadyButton.setOnClickListener { doNavigate(navDirections) }
-        }
-    }
-
-    private fun setupToolbar() {
-        binding.mainHeaderShare.buttonIcon.apply {
-            contentDescription = getString(R.string.button_share)
-            setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToMainSharingFragment())
-            }
-        }
-
-        binding.mainHeaderOptionsMenu.buttonIcon.apply {
-            contentDescription = getString(R.string.button_menu)
-            setOnClickListener { homeMenu.showMenuFor(it) }
-        }
-    }
-
-    private fun setupDiaryCard() {
-        binding.contactDiaryCard.apply {
-            contactDiaryCardHomescreenButton.setOnClickListener { vm.moveToContactDiary() }
-            contactDiaryHomescreenCard.setOnClickListener { vm.moveToContactDiary() }
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 
@@ -225,7 +152,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         )
 
         DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
         }
     }
 }

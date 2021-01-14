@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ForegroundState
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
@@ -33,6 +33,10 @@ class TestResultAvailableNotification @Inject constructor(
             notificationId = NotificationConstants.TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
             pendingIntent = pendingIntent
         )
+    }
+
+    fun cancelTestResultNotification() {
+        notificationHelper.cancelCurrentNotification(NotificationConstants.TEST_RESULT_AVAILABLE_NOTIFICATION_ID)
     }
 
     /**

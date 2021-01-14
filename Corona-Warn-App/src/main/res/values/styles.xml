@@ -5,9 +5,10 @@
         <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="alertDialogTheme">@style/dialog</item>
+        <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -51,8 +52,28 @@
     <!-- Main Application -->
     <style name="AppTheme.Main" parent="AppTheme.NoActionBar" />
 
-    <style name="actionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+    <style name="CWAToolbar" parent="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+        <item name="colorPrimary">@color/colorSurface1</item>
         <item name="android:background">@color/colorSurface1</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="CWAToolbar.Menu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="CWAToolbar.BackArrow">
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="navigationContentDescription">@string/accessibility_back</item>
+    </style>
+
+    <style name="CWAToolbar.Close">
+        <item name="navigationIcon">@drawable/ic_close</item>
+        <item name="navigationContentDescription">@string/accessibility_close</item>
     </style>
 
     <!-- Default dialog -->
@@ -142,11 +163,11 @@
     </style>
 
     <style name="rowSettings" parent="@style/row">
-        <item name="android:paddingStart">@dimen/match_constraint</item>
+        <item name="android:paddingStart">0dp</item>
     </style>
 
     <style name="rowOverview" parent="@style/row">
-        <item name="android:paddingStart">@dimen/match_constraint</item>
+        <item name="android:paddingStart">0dp</item>
         <item name="android:paddingTop">@dimen/spacing_tiny</item>
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
@@ -154,15 +175,24 @@
     <!-- ####################################
                     Card
     ###################################### -->
-    <style name="card">
+    <style name="Card">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/card_light</item>
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
-    <style name="cardNoPadding" parent="card">
+    <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
+    </style>
+
+    <style name="GreyCard" parent="Card.NoPadding">
+        <item name="android:tint">@color/card_dark</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
+
+    <style name="GreyCard.Ripple">
+        <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
 
     <style name="cardTracing">
@@ -186,10 +216,6 @@
     <style name="targetLayout">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-    </style>
-
-    <style name="cardGrey">
-        <item name="android:background">@drawable/card_dark</item>
     </style>
 
     <!-- ####################################
@@ -370,6 +396,10 @@
 
     <style name="contactDiaryCard">
         <item name="android:background">@drawable/contact_diary_card</item>
+    </style>
+
+    <style name="contactDiaryCardRipple">
+        <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
 </resources>

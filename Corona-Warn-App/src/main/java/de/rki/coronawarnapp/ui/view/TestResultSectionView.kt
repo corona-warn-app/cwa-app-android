@@ -9,12 +9,13 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.formatter.formatTestResult
-import kotlinx.android.synthetic.main.view_test_result_section.view.*
 import java.util.Date
 
 /**
@@ -26,30 +27,34 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
+    private val binding: ViewTestResultSectionBinding
 
     init {
         inflate(context, R.layout.view_test_result_section, this)
+        binding = ViewTestResultSectionBinding.bind(this)
         context.withStyledAttributes(attrs, R.styleable.TestResultSection) {
-            test_result_section_headline.text =
+            binding.testResultSectionHeadline.text =
                 getText(R.styleable.TestResultSection_test_result_section_headline)
-            test_result_section_content.text =
+            binding.testResultSectionContent.text =
                 getText(R.styleable.TestResultSection_test_result_section_content)
-            test_result_section_registered_at_text.text =
+            binding.testResultSectionRegisteredAtText.text =
                 getText(R.styleable.TestResultSection_test_result_section_registered_at_text)
             val resultIconId = getResourceId(R.styleable.TestResultSection_test_result_section_status_icon, 0)
             if (resultIconId != 0) {
                 val drawable = getDrawable(context, resultIconId)
-                test_result_section_status_icon.setImageDrawable(drawable)
+                binding.testResultSectionStatusIcon.setImageDrawable(drawable)
             }
         }
     }
 
     fun setTestResultSection(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?, registeredAt: Date?) {
-        test_result_section_headline.text = context.getString(R.string.test_result_card_headline)
-        test_result_section_registered_at_text.text = formatTestResultRegisteredAtText(registeredAt)
-        val testResultIcon = formatTestStatusIcon(uiState)
-        test_result_section_status_icon.setImageDrawable(testResultIcon)
-        test_result_section_content.text = formatTestResultSectionContent(uiState)
+        binding.apply {
+            testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+            testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(registeredAt)
+            val testResultIcon = formatTestStatusIcon(uiState)
+            testResultSectionStatusIcon.setImageDrawable(testResultIcon)
+            testResultSectionContent.text = formatTestResultSectionContent(uiState)
+        }
     }
 
     private fun formatTestStatusIcon(uiState: NetworkRequestWrapper<DeviceUIState, Throwable>?): Drawable? {
@@ -63,7 +68,7 @@ constructor(
                 DeviceUIState.PAIRED_REDEEMED -> R.drawable.ic_test_result_illustration_invalid
                 else -> R.drawable.ic_test_result_illustration_invalid
             }
-        }.let { context.getDrawable(it) }
+        }.let { context.getDrawableCompat(it) }
     }
 
     private fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
@@ -82,7 +87,7 @@ constructor(
 
                 DeviceUIState.PAIRED_POSITIVE,
                 DeviceUIState.PAIRED_POSITIVE_TELETAN,
-                DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+                DeviceUIState.PAIRED_NEGATIVE -> SpannableString(formatTestResult(context, uiState))
                 else -> SpannableString("")
             }
         }

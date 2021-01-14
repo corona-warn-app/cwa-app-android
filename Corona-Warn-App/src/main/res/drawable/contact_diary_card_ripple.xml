@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+android:color="?android:attr/colorControlHighlight">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContactDiaryListItemPressed" />
+            <corners android:radius="@dimen/radius_card" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/radius_card" />
+            <solid android:color="@color/colorContactDiaryListItem" />
+        </shape>
+    </item>
+</ripple>

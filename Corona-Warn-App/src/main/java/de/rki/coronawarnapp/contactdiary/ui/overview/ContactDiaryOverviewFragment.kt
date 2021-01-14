@@ -2,10 +2,15 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import android.os.Bundle
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
+import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -19,22 +24,23 @@ import javax.inject.Inject
 class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    @Inject lateinit var contactDiaryOverviewMenu: ContactDiaryOverviewMenu
     private val vm: ContactDiaryOverviewViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOverviewFragmentBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ContactDiaryOverviewAdapter {
-            vm.onItemPress(it)
-        }
+        val adapter = ContactDiaryOverviewAdapter(
+            { it.toFormattedDay(requireContext().getLocale()) },
+            { it.toFormattedDayForAccessibility(requireContext().getLocale()) },
+            { vm.onItemPress(it) }
+        )
 
-        setupToolbar()
+        setupMenu(binding.toolbar)
 
         binding.apply {
             contactDiaryOverviewRecyclerview.adapter = adapter
 
-            contactDiaryOverviewHeader.contactDiaryHeaderButtonBack.buttonIcon.setOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 vm.onBackButtonPress()
             }
         }
@@ -62,6 +68,11 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
     private fun exportLocationsAndPersons(exportString: String) {
         Timber.d("exportLocationsAndPersons(exportString=$exportString)")
         activity?.let { activity ->
@@ -78,11 +89,37 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         }
     }
 
-    private fun setupToolbar() {
-
-        binding.contactDiaryOverviewHeader.contactDiaryHeaderOptionsMenu.buttonIcon.apply {
-            contentDescription = getString(R.string.button_menu)
-            setOnClickListener { contactDiaryOverviewMenu.showMenuFor(it) }
+    private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
+        inflateMenu(R.menu.menu_contact_diary_overview)
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_contact_diary_information -> {
+                    doNavigate(
+                        ContactDiaryOverviewFragmentDirections
+                            .actionContactDiaryOverviewFragmentToContactDiaryOnboardingFragment()
+                    )
+                    true
+                }
+                R.id.menu_contact_diary_export_entries -> {
+                    vm.onExportPress(context)
+                    true
+                }
+                R.id.menu_contact_diary_edit_persons -> {
+                    doNavigate(
+                        ContactDiaryOverviewFragmentDirections
+                            .actionContactDiaryOverviewFragmentToContactDiaryEditPersonsFragment()
+                    )
+                    true
+                }
+                R.id.menu_contact_diary_edit_locations -> {
+                    doNavigate(
+                        ContactDiaryOverviewFragmentDirections
+                            .actionContactDiaryOverviewFragmentToContactDiaryEditLocationsFragment()
+                    )
+                    true
+                }
+                else -> onOptionsItemSelected(it)
+            }
         }
     }
 }

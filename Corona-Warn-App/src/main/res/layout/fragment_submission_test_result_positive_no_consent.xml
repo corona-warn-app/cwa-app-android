@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_layout"
         android:contentDescription="@string/submission_test_result_headline"
@@ -15,7 +13,7 @@
         <include
             android:id="@+id/submission_test_result_consent_given_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,8 +22,8 @@
             app:title="@{@string/submission_test_result_consent_given_heading}" />
 
         <ScrollView
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +40,7 @@
 
                 <de.rki.coronawarnapp.ui.view.TestResultSectionView
                     android:id="@+id/submission_test_result_section"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:focusable="true"
@@ -55,7 +53,7 @@
                     android:id="@+id/submission_test_result_positive_no_consent_subtitle"
                     style="@style/headline5"
                     android:accessibilityHeading="true"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/submission_test_result_positive_no_consent_subtitle"
@@ -69,18 +67,18 @@
                     android:layout_width="@dimen/circle_icon_big"
                     android:layout_height="@dimen/circle_icon_big"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:src="@drawable/ic_submission_share"
-                    android:tint="@color/colorStableLight"
                     android:background="@drawable/circle"
                     android:backgroundTint="@color/button_red"
-                    android:padding="@dimen/circle_icon_padding"
                     android:importantForAccessibility="no"
+                    android:padding="@dimen/circle_icon_padding"
+                    android:src="@drawable/ic_submission_share"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:tint="@color/colorStableLight" />
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_text_1"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
@@ -106,7 +104,7 @@
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_text_2"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
@@ -131,7 +129,7 @@
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_text_3"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
@@ -148,7 +146,7 @@
         <Button
             android:id="@+id/submission_test_result_positive_no_consent_button_warn_others"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_normal"
             android:text="@string/submission_test_result_positive_no_consent_button_warn_others"
@@ -159,7 +157,7 @@
         <Button
             android:id="@+id/submission_test_result_positive_no_consent_button_abort"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_normal"
             android:text="@string/submission_test_result_positive_no_consent_button_abort"

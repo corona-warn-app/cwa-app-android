@@ -166,7 +166,8 @@ class TaskController @Inject constructor(
                     state.job.getCompleted()
                 } else {
                     Timber.tag(TAG).e(error, "Task failed: %s", state)
-                    if (state.config.errorHandling == TaskFactory.Config.ErrorHandling.ALERT) {
+                    val errorHandling = state.request.errorHandling ?: state.config.errorHandling
+                    if (errorHandling == TaskFactory.Config.ErrorHandling.ALERT) {
                         error.report(ExceptionCategory.INTERNAL)
                     }
                     error.reportProblem(tag = state.request.type.simpleName)

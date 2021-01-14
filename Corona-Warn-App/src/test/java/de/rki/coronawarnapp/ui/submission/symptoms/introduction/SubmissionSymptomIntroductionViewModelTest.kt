@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -28,14 +29,15 @@ import testhelpers.preferences.mockFlowPreference
 class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var autoSubmission: AutoSubmission
     private val currentSymptoms = mockFlowPreference<Symptoms?>(null)
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { submissionRepository.isSubmissionRunning } returns flowOf(false)
-        coEvery { submissionRepository.startSubmission() } just Runs
+        every { autoSubmission.isSubmissionRunning } returns flowOf(false)
+        coEvery { autoSubmission.runSubmissionNow() } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
@@ -46,7 +48,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
     private fun createViewModel() = SubmissionSymptomIntroductionViewModel(
         dispatcherProvider = TestDispatcherProvider,
-        submissionRepository = submissionRepository
+        submissionRepository = submissionRepository,
+        autoSubmission = autoSubmission
     )
 
     @Test
@@ -88,7 +91,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             )
         }
 
-        coVerify { submissionRepository.startSubmission() }
+        coVerify { autoSubmission.runSubmissionNow() }
     }
 
     @Test
@@ -110,15 +113,15 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         currentSymptoms.value shouldBe null
 
         coVerifySequence {
-            submissionRepository.isSubmissionRunning
-            submissionRepository.startSubmission()
+            autoSubmission.isSubmissionRunning
+            autoSubmission.runSubmissionNow()
         }
     }
 
     @Test
     fun `submission shows upload dialog`() {
         val uploadStatus = MutableStateFlow(false)
-        every { submissionRepository.isSubmissionRunning } returns uploadStatus
+        every { autoSubmission.isSubmissionRunning } returns uploadStatus
         createViewModel().apply {
             showUploadDialog.observeForever { }
             showUploadDialog.value shouldBe false

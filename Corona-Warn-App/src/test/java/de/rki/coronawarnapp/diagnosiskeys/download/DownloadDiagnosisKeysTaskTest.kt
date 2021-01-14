@@ -66,6 +66,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
             every { maxExposureDetectionsPerUTCDay } returns 5
             every { minTimeBetweenDetections } returns Duration.standardHours(24 / 6)
             every { diagnosisKeysDataMapping } returns diagnosisKeyDataMapping
+            every { isDeviceTimeCorrect } returns true
         }
         coEvery { appConfigProvider.getAppConfig() } returns appConfig
 
@@ -140,7 +141,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `execution is skipped if last detection was recent via`() = runBlockingTest {
+    fun `execution is skipped if last detection was recent`() = runBlockingTest {
         // Last detection was at T+2h
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(2))
 
@@ -152,6 +153,18 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
+            enfClient.provideDiagnosisKeys(any(), any())
+        }
+    }
+
+    @Test
+    fun `execution is NOT skipped if last detection is in our future`() = runBlockingTest {
+        // Last detection was at T, i.e. our time is now T-1h, so it was in our future.
+        every { timeStamper.nowUTC } returns Instant.EPOCH.minus(Duration.standardHours(1).plus(1))
+
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
+
+        coVerify {
             enfClient.provideDiagnosisKeys(any(), any())
         }
     }
@@ -198,6 +211,22 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         coVerifySequence {
             enfClient.isTracingEnabled
             enfClient.latestTrackedExposureDetection()
+            enfClient.provideDiagnosisKeys(any(), any())
+        }
+    }
+
+    @Test
+    fun `we do not submit keys if device time is incorrect`() = runBlockingTest {
+        every { appConfig.isDeviceTimeCorrect } returns false
+        every { appConfig.localOffset } returns Duration.standardHours(5)
+
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
+
+        coVerifySequence {
+            enfClient.isTracingEnabled
+        }
+
+        coVerify(exactly = 0) {
             enfClient.provideDiagnosisKeys(any(), any())
         }
     }

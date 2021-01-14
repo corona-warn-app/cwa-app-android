@@ -21,6 +21,7 @@
 
     <!-- Text -->
     <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorTextPrimary1Inverted">#FFFFFF</color>
     <color name="colorTextPrimary1Stable">#17191A</color>
     <color name="colorTextPrimary1InvertedStable">#FFFFFF</color>
     <color name="colorTextPrimary2">#9917191A</color>
@@ -30,7 +31,7 @@
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
-    <color name="colorTextTint">#007FAD</color>
+    <color name="colorTextTint">@color/colorAccent</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -43,12 +44,14 @@
     <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
 
     <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccent">#007FAD</color>
+    <color name="colorAccentTintButton">@color/colorAccent</color>
     <color name="colorAccentTintButtonPressed">#02759E</color>
-    <color name="colorAccentTintIcon">#007FAD</color>
+    <color name="colorAccentTintIcon">@color/colorAccent</color>
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorCrashReporter">@color/colorTextSemanticNeutral</color>
 
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
@@ -60,13 +63,15 @@
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
 
-    <!-- Calendar -->
-    <color name="colorCalendarSelectedDayBackground">@color/cwaGrayHighlight</color>
-    <color name="colorCalendarTodayBorder">#007FAD</color>
-    <color name="colorCalendarTodayText">#007FAD</color>
+    <!-- Symptoms / Calendar -->
+    <color name="colorCalendarBackgroundSelected">@color/colorTextSemanticNeutral</color>
+    <color name="colorCalendarBackgroundUnselected">@color/colorSurface2</color>
+    <color name="colorCalendarTextSelected">@color/colorTextPrimary1Inverted</color>
+    <color name="colorCalendarTextUnselected">@color/colorTextPrimary1</color>
+    <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
+    <color name="colorCalendarTodayBorder">@color/colorAccent</color>
+    <color name="colorCalendarTodayText">@color/colorAccent</color>
     <color name="colorCalendarMonthText">#DE000000</color>
-    <color name="colorCalendarLayoutFocusOn">@color/cwaGrayHighlight</color>
-    <color name="colorCalendarLayoutFocusOff">#F5F5F5</color>
 
     <!-- Contact Diary -->
     <color name="colorContactDiaryListItem">#F5F5F5</color>

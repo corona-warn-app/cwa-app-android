@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -10,6 +11,7 @@ import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,7 +24,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 
@@ -34,14 +36,28 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
         persons.map { contactDiaryPerson ->
             if (dayElement.any { it.contactDiaryPerson.personId == contactDiaryPerson.personId }) {
-                SelectableItem(true, contactDiaryPerson)
+                SelectableItem(
+                    true,
+                    contactDiaryPerson,
+                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    DESELECT_ACTION_DESCRIPTION,
+                    SELECT_ACTION_DESCRIPTION
+                )
             } else {
-                SelectableItem(false, contactDiaryPerson)
+                SelectableItem(
+                    false,
+                    contactDiaryPerson,
+                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
+                    SELECT_ACTION_DESCRIPTION,
+                    DESELECT_ACTION_DESCRIPTION
+                )
             }
         }
     }.asLiveData()
 
-    fun personSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch(coroutineExceptionHandler) {
+    fun onPersonSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch(coroutineExceptionHandler) {
         if (!item.selected) {
             contactDiaryRepository.addPersonEncounter(
                 DefaultContactDiaryPersonEncounter(
@@ -56,12 +72,14 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         }
     }
 
-    companion object {
-        private val TAG = ContactDiaryPersonListViewModel::class.java.simpleName
-    }
-
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<ContactDiaryPersonListViewModel> {
         fun create(selectedDay: String): ContactDiaryPersonListViewModel
     }
 }
+
+private val TAG = ContactDiaryPersonListViewModel::class.java.simpleName
+private const val SELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_selected
+private const val UNSELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_unselected
+private const val SELECT_ACTION_DESCRIPTION = R.string.accessibility_action_select
+private const val DESELECT_ACTION_DESCRIPTION = R.string.accessibility_action_deselect

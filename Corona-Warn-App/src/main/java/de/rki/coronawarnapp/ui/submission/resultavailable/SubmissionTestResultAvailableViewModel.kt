@@ -8,7 +8,8 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -20,7 +21,8 @@ import timber.log.Timber
 class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
-    submissionRepository: SubmissionRepository
+    submissionRepository: SubmissionRepository,
+    private val autoSubmission: AutoSubmission
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -33,6 +35,9 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
         override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+            Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
+            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+
             routeToScreen.postValue(
                 SubmissionTestResultAvailableFragmentDirections
                     .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()

@@ -25,7 +25,7 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:importantForAccessibility="no"
             android:scaleType="centerInside"
-            android:src="@{FormatterSubmissionHelper.formatCountryIsoTagToFlagDrawable(submissionCountry.countryCode), default=@drawable/ic_submission_country_flag_ireland}"
+            android:src="@{FormatterSubmissionHelper.formatCountryIsoTagToFlagDrawable(context, submissionCountry.countryCode), default=@drawable/ic_submission_country_flag_ireland}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

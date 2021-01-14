@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
+import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.playbook.BackgroundNoise
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -40,10 +41,13 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         viewModel.scanStatusValue.value shouldBe ScanStatus.STARTED
 
+        QRCodeCensor.lastGUID = null
+
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
         viewModel.validateTestGUID("https://localhost/?$guid")
         viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.SUCCESS, it.value) }
+        QRCodeCensor.lastGUID = guid
 
         // invalid guid
         viewModel.validateTestGUID("https://no-guid-here")

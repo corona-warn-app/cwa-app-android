@@ -6,8 +6,6 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
         <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
@@ -52,7 +50,7 @@
                 android:layout_height="@dimen/icon_size_settings"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                android:tint="@{color}"
+                app:tint="@{color}"
                 app:layout_constraintBottom_toBottomOf="@id/settings_row_header"
                 app:layout_constraintStart_toStartOf="@+id/guideline_icon"
                 app:layout_constraintTop_toTopOf="@id/settings_row_header" />

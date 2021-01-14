@@ -10,17 +10,17 @@
     android:layout_height="wrap_content">
         
     <FrameLayout
-        android:layout_width="@dimen/match_constraint"
-        android:layout_height="@dimen/match_constraint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/submission_consent_your_consent_subsection_headline"
         app:layout_constraintBottom_toBottomOf="@id/submission_consent_your_consent_subsection_third_point"
-        style="@style/cardGrey"/>
+        style="@style/GreyCard" />
 
     <TextView
         android:id="@+id/submission_consent_your_consent_subsection_headline"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/submission_consent_your_consent_subsection_headline"
         android:paddingTop="@dimen/spacing_normal"
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/submission_consent_your_consent_subsection_tapping_agree"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         app:layout_constraintTop_toBottomOf="@+id/submission_consent_your_consent_subsection_headline"
@@ -42,7 +42,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_consent_your_consent_subsection_first_point"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/spacing_normal"
         app:layout_constraintTop_toBottomOf="@id/submission_consent_your_consent_subsection_tapping_agree"
@@ -57,7 +57,7 @@
         <TextView
             android:id="@+id/submission_consent_your_consent_subsection_first_point_text"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/bullet_point_spacing_after"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/submission_consent_your_consent_subsection_second_point"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/spacing_normal"
             app:layout_constraintTop_toBottomOf="@id/submission_consent_your_consent_subsection_first_point"
@@ -84,7 +84,7 @@
             <TextView
                 android:id="@+id/submission_consent_your_consent_subsection_second_point_text"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/bullet_point_spacing_after"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
     <TextView
         android:id="@+id/submission_consent_your_consent_subsection_third_point"
         style="@style/subtitle"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bullet_point_size"
         android:paddingStart="@dimen/spacing_normal"
@@ -110,7 +110,7 @@
 
     <include layout="@layout/view_bullet_point_text"
         android:id="@+id/submission_consent_main_first_point"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -120,7 +120,7 @@
 
     <include layout="@layout/view_bullet_point_text"
         android:id="@+id/submission_consent_main_second_point"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -129,7 +129,7 @@
 
     <include layout="@layout/view_bullet_point_text"
         android:id="@+id/submission_consent_main_third_point"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/submission_consent_main_second_point"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -139,7 +139,7 @@
 
     <include layout="@layout/view_bullet_point_text"
         android:id="@+id/submission_consent_main_fourth_point"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/submission_consent_main_third_point"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"

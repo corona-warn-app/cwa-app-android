@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -33,8 +33,8 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val personListAdapter = ContactDiaryPersonListAdapter {
-            viewModel.personSelectionChanged(it)
+        val personListAdapter = ContactDiaryPersonListAdapter() {
+            viewModel.onPersonSelectionChanged(it)
         }
 
         binding.contactDiaryPersonListRecyclerView.apply {
@@ -48,8 +48,7 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
 
         viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
-
-            binding.contactDiaryPersonListNoItemsGroup.setInvisible(it.isNotEmpty())
+            binding.contactDiaryPersonListNoItemsGroup.isGone = it.isNotEmpty()
         }
     }
 }

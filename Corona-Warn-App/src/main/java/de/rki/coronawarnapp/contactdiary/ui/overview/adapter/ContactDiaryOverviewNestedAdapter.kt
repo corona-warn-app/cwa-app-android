@@ -1,37 +1,45 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import de.rki.coronawarnapp.databinding.IncludeContactDiaryOverviewNestedItemBinding
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
+import de.rki.coronawarnapp.ui.lists.BaseAdapter
+import de.rki.coronawarnapp.util.lists.BindableVH
 
-class ContactDiaryOverviewNestedAdapter :
-    RecyclerView.Adapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
+class ContactDiaryOverviewNestedAdapter(
+    private val element: ListItem,
+    private val onItemSelectionListener: (ListItem) -> Unit
+) : BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
 
     private val dataList: MutableList<ListItem.Data> = mutableListOf()
 
     fun setItems(dataList: List<ListItem.Data>) {
-        this.dataList.clear()
-        this.dataList += dataList
+        this.dataList.clearAndAddAll(dataList)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NestedItemViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return NestedItemViewHolder(IncludeContactDiaryOverviewNestedItemBinding.inflate(inflater, parent, false))
-    }
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): NestedItemViewHolder = NestedItemViewHolder(parent)
 
-    override fun onBindViewHolder(holder: NestedItemViewHolder, position: Int) {
-        holder.bind(dataList[position])
+    override fun onBindBaseVH(holder: NestedItemViewHolder, position: Int, payloads: MutableList<Any>) {
+        holder.bind(dataList[position], payloads)
     }
 
     override fun getItemCount(): Int = dataList.size
 
-    class NestedItemViewHolder(private val viewBinding: IncludeContactDiaryOverviewNestedItemBinding) :
-        RecyclerView.ViewHolder(viewBinding.root) {
-        fun bind(data: ListItem.Data) {
-            viewBinding.contactDiaryOverviewElementImage.setImageResource(data.drawableId)
-            viewBinding.contactDiaryOverviewElementName.text = data.text
-        }
+    inner class NestedItemViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.contact_diary_overview_nested_list_item, parent),
+        BindableVH<ListItem.Data, ContactDiaryOverviewNestedListItemBinding> {
+        override val viewBinding:
+            Lazy<ContactDiaryOverviewNestedListItemBinding> =
+            lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
+
+        override val onBindData:
+            ContactDiaryOverviewNestedListItemBinding.(item: ListItem.Data, payloads: List<Any>) -> Unit =
+            { key, _ ->
+                contactDiaryOverviewElementImage.setImageResource(key.drawableId)
+                contactDiaryOverviewElementName.text = key.text
+                contactDiaryOverviewElementNestedContainer.setOnClickListener { onItemSelectionListener(element) }
+            }
     }
 }

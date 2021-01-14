@@ -5,10 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
-import kotlinx.android.synthetic.main.view_step_entry.view.step_entry_icon
-import kotlinx.android.synthetic.main.view_step_entry.view.step_entry_line
 
 /**
  * The [StepEntry] displays one step in a sequence. Children can be added to define the content.
@@ -28,10 +27,10 @@ open class StepEntry @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.StepEntry) {
             val icon = getDrawable(R.styleable.StepEntry_step_entry_icon)
-            step_entry_icon.setImageDrawable(icon)
+            findViewById<ImageView>(R.id.step_entry_icon).setImageDrawable(icon)
 
             val isFinal = getBoolean(R.styleable.StepEntry_step_entry_final, false)
-            step_entry_line.visibility = if (isFinal) {
+            findViewById<View>(R.id.step_entry_line).visibility = if (isFinal) {
                 View.INVISIBLE
             } else {
                 View.VISIBLE
