@@ -220,6 +220,7 @@ jobs:
       - run-gradle-cmd:
           desc: connectedAndroidTest
           cmd: "connectedAndroidTest"
+          no_output_timeout: 30m
 
   device_screenshots:
     resource_class: xlarge
