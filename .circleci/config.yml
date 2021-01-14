@@ -219,7 +219,7 @@ jobs:
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
       - store_artifacts:
-          path: Pixel2-29-de_DE-portrait
+          path: ${CIRCLE_ARTIFACTS}/Pixel2-29-de_DE-portrait
           destination: Pixel2-29-de_DE-portrait
 
   device_screenshots:
