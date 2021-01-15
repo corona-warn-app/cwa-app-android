@@ -9,13 +9,13 @@ import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 /**
@@ -28,7 +28,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     private val notificationHelper: NotificationHelper,
-    private val submissionRepository: SubmissionRepository
+    private val submissionSettings: SubmissionSettings,
+    private val submissionService: SubmissionService
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -59,7 +60,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
             Timber.tag(TAG).d(" $id Running worker.")
             val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-            val testResult = submissionRepository.asyncRequestTestResult(registrationToken)
+            val testResult = submissionService.asyncRequestTestResult(registrationToken)
             initiateTestResultAvailableNotification(testResult)
         } catch (e: Exception) {
             result = Result.retry()
@@ -70,12 +71,12 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
-    private suspend fun abortConditionsMet(): Boolean {
+    private fun abortConditionsMet(): Boolean {
         if (LocalData.isTestResultAvailableNotificationSent()) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
         }
-        if (submissionRepository.hasViewedTestResult.first()) {
+        if (submissionSettings.hasViewedTestResult.value) {
             Timber.tag(TAG).d("$id: Test result has already been viewed.")
             return true
         }
