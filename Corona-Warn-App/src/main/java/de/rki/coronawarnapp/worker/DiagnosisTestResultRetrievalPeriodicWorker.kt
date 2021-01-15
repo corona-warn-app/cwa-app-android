@@ -56,12 +56,12 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             if (abortConditionsMet()) {
                 Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
+            } else {
+                Timber.tag(TAG).d(" $id Running worker.")
+                val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+                val testResult = submissionService.asyncRequestTestResult(registrationToken)
+                initiateTestResultAvailableNotification(testResult)
             }
-
-            Timber.tag(TAG).d(" $id Running worker.")
-            val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-            val testResult = submissionService.asyncRequestTestResult(registrationToken)
-            initiateTestResultAvailableNotification(testResult)
         } catch (e: Exception) {
             result = Result.retry()
         }
@@ -87,7 +87,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             ) >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
         ) {
             Timber.tag(TAG)
-                .d(" $id Maximum days of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
+                .d(" $id Maximum of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
             return true
         }
 
