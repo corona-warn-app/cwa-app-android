@@ -25,7 +25,7 @@ class StatisticsParser @Inject constructor() {
             )
         }
 
-        val mappedItems: List<StatsItem> = parsed.keyFigureCardsList.mapNotNull { rawCard ->
+        val mappedItems: Set<StatsItem> = parsed.keyFigureCardsList.mapNotNull { rawCard ->
             try {
                 val updatedAt = Instant.ofEpochMilli(rawCard.header.updatedAt)
                 val keyFigures = rawCard.keyFiguresList
@@ -42,7 +42,7 @@ class StatisticsParser @Inject constructor() {
                 Timber.tag(TAG).e("Failed to parse raw card: %s", rawCard)
                 null
             }
-        }
+        }.toSet()
 
         val orderedItems = parsed.cardIdSequenceList.mapNotNull { cardId ->
             mappedItems.singleOrNull { it.cardType.id == cardId }.also {
