@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.statistics.source
 
 import dagger.Lazy
 import dagger.Reusable
-import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
-import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
@@ -11,6 +9,7 @@ import de.rki.coronawarnapp.util.security.VerificationKeys
 import okhttp3.Cache
 import retrofit2.HttpException
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 @Reusable
@@ -35,11 +34,11 @@ class StatisticsServer @Inject constructor(
             val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
 
             if (exportBinary == null || exportSignature == null) {
-                throw ApplicationConfigurationInvalidException(message = "Unknown files: ${fileMap.keys}")
+                throw IOException("Unknown files: ${fileMap.keys}")
             }
 
             if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
-                throw ApplicationConfigurationCorruptException()
+                throw InvalidStatisticsSignatureException(message = "Statistics signature did not match.")
             }
 
             exportBinary
