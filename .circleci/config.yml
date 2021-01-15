@@ -252,6 +252,7 @@ jobs:
               --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
               --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
+              --directories-to-pull /sdcard,/data
           no_output_timeout: 30m
       - run:
           name: Install gsutil dependency and copy test results data
