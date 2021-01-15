@@ -58,9 +58,21 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                 stopWorker()
             } else {
                 Timber.tag(TAG).d(" $id Running worker.")
+
                 val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
                 val testResult = submissionService.asyncRequestTestResult(registrationToken)
-                initiateTestResultAvailableNotification(testResult)
+                Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
+
+                if (testResult == TestResult.NEGATIVE ||
+                    testResult == TestResult.POSITIVE ||
+                    testResult == TestResult.INVALID
+                ) {
+                    sendTestResultAvailableNotification(testResult)
+                    cancelRiskLevelScoreNotification()
+                    Timber.tag(TAG)
+                        .d("$id: Test Result available - notification sent & risk level notification canceled")
+                    stopWorker()
+                }
             }
         } catch (e: Exception) {
             result = Result.retry()
@@ -94,34 +106,15 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return false
     }
 
-    /**
-     * Notification Initiation
-     *
-     * If the returned Test Result is Negative, Positive or Invalid
-     * The Background polling  will be stopped
-     * and a notification is shown, but only if the App is not in foreground
-     *
-     * @see LocalData.isTestResultAvailableNotificationSent
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     * @see TestResult
-     */
-    private suspend fun initiateTestResultAvailableNotification(testResult: TestResult) {
+    private suspend fun sendTestResultAvailableNotification(testResult: TestResult) {
+        testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
+        LocalData.isTestResultAvailableNotificationSent(true)
+    }
 
-        Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
-        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
-            testResult == TestResult.INVALID
-        ) {
-            testResultAvailableNotificationService.showTestResultAvailableNotification(testResult)
-
-            notificationHelper.cancelCurrentNotification(
-                NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
-            )
-
-            Timber.tag(TAG).d("$id: Test Result available - notification issued & risk level notification canceled")
-            LocalData.isTestResultAvailableNotificationSent(true)
-            stopWorker()
-        }
-        Timber.tag(TAG).d(" $id Test Result Notification Initiated")
+    private fun cancelRiskLevelScoreNotification() {
+        notificationHelper.cancelCurrentNotification(
+            NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
+        )
     }
 
     /**

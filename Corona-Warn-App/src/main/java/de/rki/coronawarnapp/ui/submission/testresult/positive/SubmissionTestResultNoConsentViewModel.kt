@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 
 class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService
 ) : CWAViewModel() {
 
     val uiState: LiveData<TestResultUIState> = combine(
