@@ -17,8 +17,6 @@ import timber.log.Timber
  */
 object LocalData {
 
-    private val TAG: String? = LocalData::class.simpleName
-
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
@@ -235,7 +233,7 @@ object LocalData {
      *
      * @return boolean
      */
-    fun isTestResultNotificationAvailableSent(): Boolean {
+    fun isTestResultAvailableNotificationSent(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_test_result_notification),
@@ -249,7 +247,7 @@ object LocalData {
      *
      * @param value boolean
      */
-    fun isTestResultNotificationAvailableSent(value: Boolean) =
+    fun isTestResultAvailableNotificationSent(value: Boolean) =
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
@@ -355,18 +353,6 @@ object LocalData {
     )
 
     /**
-     * Toggles the decision if background jobs are enabled
-     *
-     */
-    fun toggleBackgroundJobEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_job_allowed),
-            !isBackgroundJobEnabled()
-        )
-    }
-
-    /**
      * Gets the boolean if the user has mobile data enabled
      *
      * @return
@@ -375,18 +361,6 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed),
         false
     )
-
-    /**
-     * Toggles the boolean if the user has mobile data enabled
-     *
-     */
-    fun toggleMobileDataEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_mobile_data_allowed),
-            !isMobileDataEnabled()
-        )
-    }
 
     /****************************************************
      * SUBMISSION DATA
@@ -516,6 +490,7 @@ object LocalData {
         }
 
     fun clear() {
+        // TODO Shouldn't here be logic????
         Timber.w("LocalData.clear()")
     }
 }

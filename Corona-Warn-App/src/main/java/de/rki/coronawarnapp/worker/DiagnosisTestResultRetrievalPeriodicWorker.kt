@@ -35,7 +35,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      * If background job is running for less than 21 days, testResult is checked.
      * If the job is running for more than 21 days, the job will be stopped
      *
-     * @see LocalData.isTestResultNotificationAvailableSent
+     * @see LocalData.isTestResultAvailableNotificationSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      */
     override suspend fun doWork(): Result {
@@ -71,7 +71,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     }
 
     private suspend fun abortConditionsMet(): Boolean {
-        if (LocalData.isTestResultNotificationAvailableSent()) {
+        if (LocalData.isTestResultAvailableNotificationSent()) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
         }
@@ -100,7 +100,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      * The Background polling  will be stopped
      * and a notification is shown, but only if the App is not in foreground
      *
-     * @see LocalData.isTestResultNotificationAvailableSent
+     * @see LocalData.isTestResultAvailableNotificationSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      * @see TestResult
      */
@@ -117,7 +117,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             )
 
             Timber.tag(TAG).d("$id: Test Result available - notification issued & risk level notification canceled")
-            LocalData.isTestResultNotificationAvailableSent(true)
+            LocalData.isTestResultAvailableNotificationSent(true)
             stopWorker()
         }
         Timber.tag(TAG).d(" $id Test Result Notification Initiated")
