@@ -47,9 +47,7 @@ class StatisticsParserTest : BaseTest() {
 
     @Test
     fun `handle empty statistics data`() {
-        val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
-
-        }.build().toByteArray()
+        val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData()
     }
 
