@@ -2,7 +2,6 @@ package testhelpers
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
-import android.os.Environment
 import android.util.Log
 import tools.fastlane.screengrab.ScreenshotCallback
 import tools.fastlane.screengrab.file.Chmod
@@ -14,7 +13,7 @@ class CWScreenshotCallback : ScreenshotCallback {
     override fun screenshotCaptured(screenshotName: String, screenshot: Bitmap) {
         try {
             val directory =
-                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)?.absolutePath.toString(), "screenshots")
+                File("/sdcard", "screenshots")
             if (!directory.exists()) {
                 directory.mkdirs()
             }

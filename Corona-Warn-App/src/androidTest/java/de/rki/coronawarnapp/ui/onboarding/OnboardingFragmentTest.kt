@@ -4,7 +4,6 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -29,7 +28,7 @@ import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {
 
-//    @Rule
+    //    @Rule
 //    @JvmField
 //    val localeTestRule = LocaleTestRule()
 //
@@ -64,9 +63,12 @@ class OnboardingFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(OnboardingFragment::class.simpleName)
+        Screengrab.screenshot(
+            OnboardingFragment::class.simpleName, UiAutomatorScreenshotStrategy(),
+            CWScreenshotCallback()
+        )
 
-        onView(withId(R.id.onboarding_easy_language)).perform(scrollTo(), click())
+        onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
         Screengrab.screenshot(
             OnboardingFragment::class.simpleName.plus("2"),
             UiAutomatorScreenshotStrategy(),
