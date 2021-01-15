@@ -14,7 +14,7 @@ class CWADateTimeFormatPatternFactoryTest {
 
     @Test
     fun `pattern for bulgarian date`() {
-        Locale("bg", "BG").shortDatePattern() shouldBe "d.MM.yy г."
+        Locale("bg", "BG").shortDatePattern() shouldBe "d.MM.yy 'г'."
     }
 
     @Test
