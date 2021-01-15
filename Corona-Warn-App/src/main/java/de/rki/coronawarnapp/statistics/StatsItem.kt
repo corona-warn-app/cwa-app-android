@@ -105,7 +105,7 @@ data class SevenDayRValue(
     override val keyFigures: List<KeyFigure>
 ) : StatsItem(cardType = Type.SEVEN_DAY_RVALUE) {
 
-    val sevenDayValue: KeyFigure
+    val reproductionNumber: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
 
     override fun requireValidity() {

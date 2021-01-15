@@ -116,7 +116,7 @@ class StatisticsDataTest {
         stats.apply {
             cardType shouldBe StatsItem.Type.SEVEN_DAY_RVALUE
             cardType.id shouldBe 4
-            sevenDayValue.value shouldBe 1.0
+            reproductionNumber.value shouldBe 1.0
         }
 
         stats.requireValidity()
