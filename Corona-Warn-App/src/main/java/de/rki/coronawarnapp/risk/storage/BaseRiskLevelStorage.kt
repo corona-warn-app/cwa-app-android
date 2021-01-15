@@ -135,8 +135,19 @@ abstract class BaseRiskLevelStorage constructor(
         deletedOrphanedExposureWindows()
     }
 
+    override val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>> by lazy {
+        aggregatedRiskPerDateResultTables.allEntries()
+            .map {
+                it.map { persistedAggregatedRiskPerDateResult ->
+                    persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
+                }
+            }
+            .shareLatest(tag = TAG, scope = scope)
+    }
+
     private suspend fun insertAggregatedRiskPerDateResults(
-        aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
+        aggregatedRiskPerDateResults:
+        List<AggregatedRiskPerDateResult>
     ) {
         Timber.d("insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=$aggregatedRiskPerDateResults)")
         try {
