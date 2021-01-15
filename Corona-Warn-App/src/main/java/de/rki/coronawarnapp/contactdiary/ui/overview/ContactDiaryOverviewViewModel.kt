@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.SingleLiveEvent
@@ -25,7 +27,8 @@ import java.util.Locale
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
     taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
-    contactDiaryRepository: ContactDiaryRepository
+    contactDiaryRepository: ContactDiaryRepository,
+    riskLevelStorage: RiskLevelStorage
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
@@ -36,12 +39,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
 
+    private val riskLevelPerDateFlow = riskLevelStorage.aggregatedRiskPerDateResults
+
     val listItems = combine(
         flowOf(dates),
         locationVisitsFlow,
-        personEncountersFlow
-    ) { dateList, locationVisitList, personEncounterList ->
-        createListItemList(dateList, locationVisitList, personEncounterList)
+        personEncountersFlow,
+        riskLevelPerDateFlow
+    ) { dateList, locationVisitList, personEncounterList, riskLevelPerDateList ->
+        createListItemList(dateList, locationVisitList, personEncounterList, riskLevelPerDateList)
     }.asLiveData()
 
     init {
@@ -56,7 +62,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private fun createListItemList(
         dateList: List<LocalDate>,
         locationVisitList: List<ContactDiaryLocationVisit>,
-        personEncounterList: List<ContactDiaryPersonEncounter>
+        personEncounterList: List<ContactDiaryPersonEncounter>,
+        riskLevelPerDateList: List<AggregatedRiskPerDateResult>
     ): List<ListItem> {
         Timber.v(
             "createListItemList(dateList=$dateList, " +
@@ -69,6 +76,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                     .apply {
                         data.addPersonEncountersForDate(personEncounterList, date)
                         data.addLocationVisitsForDate(locationVisitList, date)
+                        riskLevel = riskLevelPerDateList.firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == it }
                     }
             }
     }

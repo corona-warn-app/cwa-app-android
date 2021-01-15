@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 class ContactDiaryOverviewAdapter(
     private val dateFormatter: (LocalDate) -> String,
@@ -49,6 +50,8 @@ class ContactDiaryOverviewAdapter(
                 contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(item) }
                 contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
                 nestedItemAdapter.setItems(item.data)
+                item.riskLevel?.let { Timber.i("Risk is ${it.riskLevel.name} for ${item.date}") }
+                    ?: run { Timber.i("No risk level found for ${item.date}") }
             }
     }
 }
