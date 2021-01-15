@@ -32,22 +32,7 @@ fun Context.getLocale(): Locale {
     }
 }
 
-private fun patternEntry(locale: Locale): Pair<Locale, String> = Pair(locale, "EEEE, ${locale.shortDatePattern()}")
-
-private val pattern_german: String
-
-private val patterns = mapOf(
-    patternEntry(Locale.GERMANY).apply { pattern_german = second },
-    patternEntry(Locale.UK),
-    patternEntry(Locale.US),
-    patternEntry(Locale("bg", "BG")),
-    patternEntry(Locale("pl", "PL")),
-    patternEntry(Locale("bg", "BG")),
-    patternEntry(Locale("ro", "RO")),
-    patternEntry(Locale("tr", "TR"))
-)
-
-fun LocalDate.toFormattedDay(locale: Locale): String = toString(patterns[locale] ?: pattern_german, locale)
+fun LocalDate.toFormattedDay(locale: Locale): String = toString("EEEE, ${locale.shortDatePattern()}", locale)
 
 fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
     // Use two different methods to get the final date format (Weekday, Longdate)
