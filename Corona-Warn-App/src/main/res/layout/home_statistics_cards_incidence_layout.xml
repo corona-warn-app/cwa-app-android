@@ -16,7 +16,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:focusable="false"
-            android:text="Warnende Personen"
+            android:text="Incidence"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

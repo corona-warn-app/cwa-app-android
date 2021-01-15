@@ -24,6 +24,5 @@ class IncidenceCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         item.stats as IncidenceStats
-
     }
 }
