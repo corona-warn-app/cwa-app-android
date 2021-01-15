@@ -9,6 +9,7 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
+import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.util.Locale
@@ -31,12 +32,22 @@ fun Context.getLocale(): Locale {
     }
 }
 
-fun LocalDate.toFormattedDay(locale: Locale): String {
-    // Use two different methods to get the final date format (Weekday, Shortdate)
-    // because the custom pattern of toString() does not localize characters like "/" or "."
-    return "${toString("EEEE", locale)}, " +
-        DateTimeFormat.shortDate().withLocale(locale).print(this)
-}
+private fun patternEntry(locale: Locale): Pair<Locale, String> = Pair(locale, "EEEE, ${locale.shortDatePattern()}")
+
+private val pattern_german: String
+
+private val patterns = mapOf(
+    patternEntry(Locale.GERMANY).apply { pattern_german = second },
+    patternEntry(Locale.UK),
+    patternEntry(Locale.US),
+    patternEntry(Locale("bg", "BG")),
+    patternEntry(Locale("pl", "PL")),
+    patternEntry(Locale("bg", "BG")),
+    patternEntry(Locale("ro", "RO")),
+    patternEntry(Locale("tr", "TR"))
+)
+
+fun LocalDate.toFormattedDay(locale: Locale): String = toString(patterns[locale] ?: pattern_german, locale)
 
 fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
     // Use two different methods to get the final date format (Weekday, Longdate)
