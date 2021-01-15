@@ -11,7 +11,7 @@ class ContactDiaryDateFormatterExtensionTest {
     fun `format bulgarian date`() {
         LocalDate("2021-01-01").toFormattedDay(
             Locale("bg", "BG")
-        ) shouldBe "петък, 1.01.21 г."
+        ) shouldBe "Петък, 1.01.21 г."
     }
 
     @Test
@@ -40,7 +40,7 @@ class ContactDiaryDateFormatterExtensionTest {
     fun `format romanian date`() {
         LocalDate("2021-01-05").toFormattedDay(
             Locale("ro", "RO")
-        ) shouldBe "marți, 05.01.2021"
+        ) shouldBe "marţi, 05.01.2021"
     }
 
     @Test
