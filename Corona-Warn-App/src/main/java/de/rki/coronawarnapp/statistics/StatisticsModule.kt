@@ -6,7 +6,6 @@ import dagger.Provides
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.statistics.source.StatisticsApiV1
-import de.rki.coronawarnapp.statistics.source.StatisticsCacheDir
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -15,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -22,21 +22,26 @@ class StatisticsModule {
 
     @Singleton
     @Provides
-    @StatisticsCacheDir
-    fun statisticsCacheDir(
+    @Statistics
+    fun cacheDir(
         @AppContext context: Context
     ): File = File(context.cacheDir, "statistics")
 
     @Singleton
     @Provides
-    fun provideStatisticsApi(
+    @Statistics
+    fun httpCache(
+        @Statistics cacheDir: File
+    ): Cache = Cache(File(cacheDir, "cache_http"), DEFAULT_CACHE_SIZE)
+
+    @Singleton
+    @Provides
+    fun api(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory,
-        @StatisticsCacheDir cacheDir: File
+        @Statistics cache: Cache
     ): StatisticsApiV1 {
-        val cache = Cache(File(cacheDir, "cache_http"), DEFAULT_CACHE_SIZE)
-
         val configHttpClient = client.newBuilder().apply {
             cache(cache)
             connectTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
@@ -58,3 +63,8 @@ class StatisticsModule {
         private val HTTP_TIMEOUT = Duration.standardSeconds(10)
     }
 }
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Statistics

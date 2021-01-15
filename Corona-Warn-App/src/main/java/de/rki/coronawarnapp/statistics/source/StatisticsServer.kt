@@ -4,9 +4,11 @@ import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.VerificationKeys
+import okhttp3.Cache
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,7 +16,8 @@ import javax.inject.Inject
 @Reusable
 class StatisticsServer @Inject constructor(
     private val api: Lazy<StatisticsApiV1>,
-    private val verificationKeys: VerificationKeys
+    private val verificationKeys: VerificationKeys,
+    @Statistics val cache: Cache
 ) {
 
     suspend fun getRawStatistics(): ByteArray {
@@ -45,7 +48,7 @@ class StatisticsServer @Inject constructor(
 
     fun clear() {
         Timber.d("clear()")
-        TODO("Not yet implemented")
+        cache.evictAll()
     }
 
     companion object {

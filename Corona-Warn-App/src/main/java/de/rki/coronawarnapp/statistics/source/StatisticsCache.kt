@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.source
 
+import de.rki.coronawarnapp.statistics.Statistics
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -7,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class StatisticsCache @Inject constructor(
-    @StatisticsCacheDir cacheDir: File
+    @Statistics cacheDir: File
 ) {
 
     private val cacheFile = File(cacheDir, "cache_raw")

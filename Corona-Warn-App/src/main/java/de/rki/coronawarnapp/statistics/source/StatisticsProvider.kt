@@ -19,7 +19,7 @@ import javax.inject.Singleton
 class StatisticsProvider @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val server: StatisticsServer,
-    private val cache: StatisticsCache,
+    private val localCache: StatisticsCache,
     private val parser: StatisticsParser,
     foregroundState: ForegroundState,
     dispatcherProvider: DispatcherProvider
@@ -55,7 +55,7 @@ class StatisticsProvider @Inject constructor(
 
     private fun fromCache(): StatisticsData? = try {
         Timber.tag(TAG).d("fromCache()")
-        cache.load()?.let { parser.parse(it) }?.also {
+        localCache.load()?.let { parser.parse(it) }?.also {
             Timber.tag(TAG).d("Parsed from cache: %s", it)
         }
     } catch (e: Exception) {
@@ -68,7 +68,7 @@ class StatisticsProvider @Inject constructor(
         val rawData = server.getRawStatistics()
         return parser.parse(rawData).also {
             Timber.tag(TAG).d("Parsed from server: %s", it)
-            cache.save(rawData)
+            localCache.save(rawData)
         }
     }
 
@@ -86,7 +86,8 @@ class StatisticsProvider @Inject constructor(
 
     suspend fun clear() {
         Timber.d("clear()")
-        cache.save(null)
+        server.clear()
+        localCache.save(null)
         statisticsData.updateBlocking {
             StatisticsData()
         }
