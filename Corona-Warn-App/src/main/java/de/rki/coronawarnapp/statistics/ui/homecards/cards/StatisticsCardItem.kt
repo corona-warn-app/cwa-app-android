@@ -8,5 +8,5 @@ data class StatisticsCardItem(
     val onHelpAction: (StatsItem) -> Unit
 ) : HasStableId {
 
-    override val stableId: Long = stats.cardId.toLong()
+    override val stableId: Long = stats.cardType.id.toLong()
 }
