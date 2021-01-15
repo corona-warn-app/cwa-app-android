@@ -27,11 +27,11 @@ class StatisticsCache @Inject constructor(
             }
             return
         }
-        cacheFile.writeBytes(data)
         if (cacheFile.exists()) {
             Timber.tag(TAG).d("Overwriting with new data (size=%d)", data.size)
         }
         cacheFile.parentFile?.mkdirs()
+        cacheFile.writeBytes(data)
     }
 
     companion object {
