@@ -181,7 +181,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.initialPollingForTestResultTimeStamp(0L)
         LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.isTestResultNotificationSent(false)
+        LocalData.isTestResultNotificationAvailableSent(false)
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {

@@ -84,7 +84,7 @@ object BackgroundWorkScheduler {
             notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
         if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-            LocalData.registrationToken() != null && !LocalData.isTestResultNotificationSent()
+            LocalData.registrationToken() != null && !LocalData.isTestResultNotificationAvailableSent()
         ) {
             WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
             LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())

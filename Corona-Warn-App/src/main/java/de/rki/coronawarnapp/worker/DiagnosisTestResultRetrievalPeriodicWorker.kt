@@ -35,7 +35,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      * If background job is running for less than 21 days, testResult is checked.
      * If the job is running for more than 21 days, the job will be stopped
      *
-     * @see LocalData.isTestResultNotificationSent
+     * @see LocalData.isTestResultNotificationAvailableSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      */
     override suspend fun doWork(): Result {
@@ -51,20 +51,16 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         }
         var result = Result.success()
         try {
-            if (TimeAndDateExtensions.calculateDays(
-                    LocalData.initialPollingForTestResultTimeStamp(),
-                    System.currentTimeMillis()
-                ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
-            ) {
-                Timber.tag(TAG).d(" $id maximum days not exceeded")
-                val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-                val testResult = submissionRepository.asyncRequestTestResult(registrationToken)
-                initiateNotification(testResult)
-                Timber.tag(TAG).d(" $id Test Result Notification Initiated")
-            } else {
+
+            if (abortConditionsMet()) {
+                Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
-                Timber.tag(TAG).d(" $id worker stopped")
             }
+
+            Timber.tag(TAG).d(" $id Running worker.")
+            val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+            val testResult = submissionRepository.asyncRequestTestResult(registrationToken)
+            initiateTestResultAvailableNotification(testResult)
         } catch (e: Exception) {
             result = Result.retry()
         }
@@ -74,6 +70,29 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
+    private suspend fun abortConditionsMet(): Boolean {
+        if (LocalData.isTestResultNotificationAvailableSent()) {
+            Timber.tag(TAG).d("$id: Notification already sent.")
+            return true
+        }
+        if (submissionRepository.hasViewedTestResult.first()) {
+            Timber.tag(TAG).d("$id: Test result has already been viewed.")
+            return true
+        }
+
+        if (TimeAndDateExtensions.calculateDays(
+                LocalData.initialPollingForTestResultTimeStamp(),
+                System.currentTimeMillis()
+            ) >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
+        ) {
+            Timber.tag(TAG)
+                .d(" $id Maximum days of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
+            return true
+        }
+
+        return false
+    }
+
     /**
      * Notification Initiation
      *
@@ -81,19 +100,12 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
      * The Background polling  will be stopped
      * and a notification is shown, but only if the App is not in foreground
      *
-     * @see LocalData.isTestResultNotificationSent
+     * @see LocalData.isTestResultNotificationAvailableSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      * @see TestResult
      */
-    private suspend fun initiateNotification(testResult: TestResult) {
-        if (LocalData.isTestResultNotificationSent() || LocalData.submissionWasSuccessful()) {
-            Timber.tag(TAG).d("$id: Notification already sent or there was a successful submission")
-            return
-        }
-        if (submissionRepository.hasViewedTestResult.first()) {
-            Timber.tag(TAG).d("$id: No notification scheduled. Test result has already been viewed.")
-            return
-        }
+    private suspend fun initiateTestResultAvailableNotification(testResult: TestResult) {
+
         Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
@@ -105,9 +117,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             )
 
             Timber.tag(TAG).d("$id: Test Result available - notification issued & risk level notification canceled")
-            LocalData.isTestResultNotificationSent(true)
+            LocalData.isTestResultNotificationAvailableSent(true)
             stopWorker()
         }
+        Timber.tag(TAG).d(" $id Test Result Notification Initiated")
     }
 
     /**

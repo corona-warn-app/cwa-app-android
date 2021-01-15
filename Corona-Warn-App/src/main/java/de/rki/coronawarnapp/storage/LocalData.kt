@@ -235,7 +235,7 @@ object LocalData {
      *
      * @return boolean
      */
-    fun isTestResultNotificationSent(): Boolean {
+    fun isTestResultNotificationAvailableSent(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_test_result_notification),
@@ -249,7 +249,7 @@ object LocalData {
      *
      * @param value boolean
      */
-    fun isTestResultNotificationSent(value: Boolean) =
+    fun isTestResultNotificationAvailableSent(value: Boolean) =
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
