@@ -63,7 +63,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{FormatterStatistics.getPrimaryLabel(stats.updatedAt)}"
+            android:text="@{FormatterStatistics.getPrimaryLabel(stats.updatedAt, context)}"
             tools:text="Gestern" />
 
         <TextView
