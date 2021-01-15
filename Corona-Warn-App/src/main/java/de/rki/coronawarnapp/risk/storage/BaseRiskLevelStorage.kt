@@ -12,9 +12,12 @@ import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import org.joda.time.LocalDate
 import timber.log.Timber
 
 abstract class BaseRiskLevelStorage constructor(
@@ -26,7 +29,10 @@ abstract class BaseRiskLevelStorage constructor(
     private val database by lazy { riskResultDatabaseFactory.create() }
     internal val riskResultsTables by lazy { database.riskResults() }
     internal val exposureWindowsTables by lazy { database.exposureWindows() }
-    internal val aggregatedRiskPerDateResultTables by lazy { database.aggregatedRiskPerDate() }
+    internal val aggregatedRiskPerDateResultTables by lazy {
+        database.aggregatedRiskPerDate()
+            .also { scope.launch(Dispatchers.IO) { removeOldAggregatedRiskPerDateResult() } }
+    }
 
     abstract val storedResultLimit: Int
 
@@ -137,25 +143,35 @@ abstract class BaseRiskLevelStorage constructor(
 
     override val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>> by lazy {
         aggregatedRiskPerDateResultTables.allEntries()
-            .map {
-                it.map { persistedAggregatedRiskPerDateResult ->
-                    persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
-                }
+            .map { it.map { persistedAggregatedRiskPerDateResult ->
+                persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult() }
             }
             .shareLatest(tag = TAG, scope = scope)
     }
 
     private suspend fun insertAggregatedRiskPerDateResults(
-        aggregatedRiskPerDateResults:
-        List<AggregatedRiskPerDateResult>
+        aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
     ) {
-        Timber.d("insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=$aggregatedRiskPerDateResults)")
+        Timber.d(
+            "insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=$aggregatedRiskPerDateResults)"
+        )
         try {
-            aggregatedRiskPerDateResultTables.insertRisk(
-                aggregatedRiskPerDateResults.map { it.toPersistedAggregatedRiskPerDateResult() }
-            )
+            aggregatedRiskPerDateResultTables.insertRisk(aggregatedRiskPerDateResults.map {
+                it.toPersistedAggregatedRiskPerDateResult()
+            })
         } catch (e: Exception) {
             Timber.e(e, "Failed to store risk level per date results")
+        }
+    }
+
+    private suspend fun removeOldAggregatedRiskPerDateResult() {
+        Timber.d("removeOldAggregatedRiskPerDateResult()")
+        try {
+            val dayTwoWeeksAgo = LocalDate.now().minusWeeks(2).toDateTimeAtStartOfDay().toInstant()
+            Timber.i("$dayTwoWeeksAgo is two weeks ago from today")
+            aggregatedRiskPerDateResultTables.deleteOlderThan(dayTwoWeeksAgo.millis)
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to delete old risk level")
         }
     }
 

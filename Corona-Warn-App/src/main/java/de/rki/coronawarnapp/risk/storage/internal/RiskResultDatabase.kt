@@ -93,8 +93,8 @@ abstract class RiskResultDatabase : RoomDatabase() {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertRisk(persistedAggregatedRiskPerDateResults: List<PersistedAggregatedRiskPerDateResult>)
 
-        @Query("DELETE FROM riskperdate WHERE dateMillisSinceEpoch NOT IN(SELECT dateMillisSinceEpoch FROM riskperdate ORDER BY dateMillisSinceEpoch DESC LIMIT 14)")
-        suspend fun dropOldest()
+        @Query("DELETE FROM riskperdate WHERE dateMillisSinceEpoch < :dateMillisSinceEpoch")
+        suspend fun deleteOlderThan(dateMillisSinceEpoch: Long)
     }
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
