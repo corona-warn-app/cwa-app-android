@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.statusbar
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 sealed class TracingHeaderState {
     abstract fun getTracingDescription(c: Context): String
@@ -22,7 +23,7 @@ sealed class TracingHeaderState {
         override fun getTracingAnimation(c: Context): Int =
             R.drawable.ic_settings_tracing_bluetooth_inactive
 
-        override fun getTracingTint(c: Context): Int = c.getColor(
+        override fun getTracingTint(c: Context): Int = c.getColorCompat(
             R.color.colorTextSemanticRed
         )
     }
@@ -38,7 +39,7 @@ sealed class TracingHeaderState {
         override fun getTracingAnimation(c: Context): Int =
             R.drawable.ic_settings_location_inactive_small
 
-        override fun getTracingTint(c: Context): Int = c.getColor(
+        override fun getTracingTint(c: Context): Int = c.getColorCompat(
             R.color.colorTextSemanticRed
         )
     }
@@ -54,7 +55,7 @@ sealed class TracingHeaderState {
         override fun getTracingAnimation(c: Context): Int =
             R.drawable.ic_settings_tracing_inactive
 
-        override fun getTracingTint(c: Context): Int = c.getColor(
+        override fun getTracingTint(c: Context): Int = c.getColorCompat(
             R.color.colorTextSemanticRed
         )
     }
@@ -70,7 +71,7 @@ sealed class TracingHeaderState {
         override fun getTracingAnimation(c: Context): Int =
             R.raw.ic_settings_tracing_animated
 
-        override fun getTracingTint(c: Context): Int = c.getColor(
+        override fun getTracingTint(c: Context): Int = c.getColorCompat(
             R.color.colorAccentTintIcon
         )
     }

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -46,7 +47,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     private val homeAdapter = HomeAdapter()
 
-    @Suppress("LongMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -136,7 +136,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
         DialogHelper.showDialog(removeTestDialog).apply {
             getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 
@@ -152,7 +152,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
 
         DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
         }
     }
 }

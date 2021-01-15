@@ -19,7 +19,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     private val contactDiaryRepository: ContactDiaryRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, ex ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 
@@ -28,10 +28,10 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
     val navigationEvent = SingleLiveEvent<NavigationEvent>()
 
-    val isButtonEnabled = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }
+    val isButtonEnabled = contactDiaryRepository.locations.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
-    val isListVisible = contactDiaryRepository.locations.map { !it.isNullOrEmpty() }
+    val isListVisible = contactDiaryRepository.locations.map { it.isNotEmpty() }
         .asLiveData(dispatcherProvider.IO)
 
     fun onDeleteAllLocationsClick() {

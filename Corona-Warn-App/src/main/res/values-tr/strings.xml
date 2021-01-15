@@ -81,10 +81,6 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- NOTR -->
-    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
     <!-- XTXT: Notification channel name for os settings -->
     <string name="notification_name">"Corona-Warn-App"</string>
     <!-- XTXT: Notification channel description for os settings -->
@@ -378,6 +374,16 @@
     <string name="risk_lowered_dialog_button_cancel">"Daha Fazla"</string>
 
     <!-- ####################################
+           Outdated Device Time
+    ###################################### -->
+    <!-- XHED: incorrect device time - dialog/notification headline -->
+    <string name="device_time_incorrect_dialog_headline">"Maruz Kalma Denetimi Yapılamıyor"</string>
+    <!-- XTXT: incorrect device time - dialog/notification content -->
+    <string name="device_time_incorrect_dialog_body">"Cihazınızın saati geçerli saat ile eşleşmiyor. Dolayısıyla risk durumunuz şu anda kontrol edilemiyor. Lütfen cihazınızın ayarlarında doğru saati ayarlayın."</string>
+    <!-- XBUT: incorrect device time - dialog confirm -->
+    <string name="device_time_incorrect_dialog_button_confirm">"Tamam"</string>
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 
@@ -579,7 +585,7 @@
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">"Bildirimler devre dışı bırakıldı"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"COVID-19 risk durumu ile ilgili otomatik bildirimlere izin ver"</string>
+    <string name="settings_notifications_body_description">"COVID-19 risk durumunuz ile ilgili otomatik bildirimlere izin verin."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Hangi konularda bildirim almaya devam etmek istediğinizi belirtin."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
@@ -632,8 +638,10 @@
     <string name="settings_background_priority_headline">"Risk Durumunu Otomatik Olarak Güncelle"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz uygulama risk durumunuzu sürekli olarak belirleyebilir. Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
+    <!-- XACT: settings(background priority) - on - illustration description -->
+    <string name="settings_background_priority_on_illustration_description">"Bir elde akıllı telefon duruyor, telefonda \"Yenileme etkin\" simgesi görülebiliyor."</string>
+    <!-- XACT: settings(background priority) - off - illustration description -->
+    <string name="settings_background_priority_off_illustration_description">"Bir elde akıllı telefon duruyor, telefonda \"Yenileme etkin değil\" simgesi görülebiliyor."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Önceliklendirilmiş arka plan aktivitesini cihaz ayarları bölümünden etkinleştirebilir ve devre dışı bırakabilirsiniz."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -725,6 +733,27 @@
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında baskıyı temsil eden bir bölüm bulunuyor."</string>
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title">"Hata Raporu"</string>
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation">"Bu seçenek, uygulama davranışını bir metin dosyasına kaydeder. Bir hata meydana gelmeden önce bu seçenek etkinleştirilirse geliştiricilerin sorunu çözmesine yardımcı olmak için bu raporu sunabilirsiniz.\nBu seçeneği etkinleştirilmiş durumda bırakırsanız yüksek depolama alanı gereklilikleri oluşacaktır. Seçeneği devre dışı bırakırsanız hata raporu silinir."</string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning">"Lütfen hata raporlarının hassas veriler içerebileceğini unutmayın (örneğin, test sonucu ya da temas güncesi girişleri). Bu nedenle bu hata raporlarını herkese açık şekilde paylaşmamanız gerekir."</string>
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording">"Başlat"</string>
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording">"Sil"</string>
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log">"Paylaş"</string>
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording">"Kayıt Etkin"</string>
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording">"Etkin Değil"</string>
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"Geçerli boyut: %1$s (sıkıştırılmamış)"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title">"CWA Hata Raporunu Paylaş"</string>
 
     <!-- ####################################
               Interoperability
@@ -914,7 +943,6 @@
     <string name="submission_test_result_consent_given_breakup_button">"Çıkış"</string>
 
 
-
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN gir"</string>
@@ -932,7 +960,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Sonraki"</string>
-    
+
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Test Sonucunu Al"</string>
@@ -1195,7 +1223,7 @@
         <item>"Hâlâ kendinizi iyi hissetmiyor musunuz? Kendinizi kötü hissediyorsanız ve/veya belirtileriniz kötüleştiyse lütfen aile hekiminizle iletişime geçin."</item>
         <item>"Kendinizi yeniden iyi hissedene dek evde kalın. Başka bir enfeksiyon nedeniyle bağışıklığınız zayıflamışken koronavirüse (SARS-CoV-2) yakalanırsanız ciddi bir hastalıkla karşılaşabilirsiniz."</item>
         <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin."</item>
-        <item>"Belirtileriniz kötüleşirse ilave SARS-CoV-2 testi yapılması gerekebilir."</item>
+        <item>"Belirtileriniz kötüleşirse başka bir SARS-CoV-2 testinin yapılması gerekebilir."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->

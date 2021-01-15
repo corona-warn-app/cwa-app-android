@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.tan
 
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import androidx.annotation.DimenRes
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
-import kotlinx.android.synthetic.main.view_tan_input_edittext.view.*
+import de.rki.coronawarnapp.util.getDrawableCompat
 import java.util.Locale
 import kotlin.math.max
 
@@ -45,6 +46,8 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
     private val lineSpacing: Int
 
+    private var tanInputEditText: EditText
+
     init {
         // add "hidden" edittext for input handling
         inflate(context, R.layout.view_tan_input_edittext, this)
@@ -56,23 +59,24 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         lineSpacing = getDimension(R.dimen.submission_tan_line_spacing).toInt()
 
-        tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
+        tanInputEditText = findViewById<EditText>(R.id.tan_input_edittext).apply {
+            filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
+            doOnTextChanged { text, _, _, _ -> updateTan(text ?: "") }
+        }
 
-        // register listener
-        tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text ?: "") }
         setOnClickListener { showKeyboard() }
 
         // initially show the keyboard
-        Handler().postDelayed(
+        Handler(Looper.getMainLooper()).postDelayed(
             { showKeyboard() },
             KEYBOARD_TRIGGER_DELAY
         )
     }
 
     private fun showKeyboard() {
-        if (tan_input_edittext.requestFocus()) {
+        if (tanInputEditText.requestFocus()) {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(tan_input_edittext, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(tanInputEditText, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
@@ -96,12 +100,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         val text = digitAtIndex(i)
         tanDigit.text = text
         tanDigit.background = when {
-            text == EMPTY_STRING -> resources.getDrawable(R.drawable.tan_input_digit, null)
-            Tan.isTanCharacterValid(text) -> resources.getDrawable(
-                R.drawable.tan_input_digit_entered,
-                null
-            )
-            else -> resources.getDrawable(R.drawable.tan_input_digit_error, null)
+            text == EMPTY_STRING -> resources.getDrawableCompat(R.drawable.tan_input_digit)
+            Tan.isTanCharacterValid(text) -> resources.getDrawableCompat(R.drawable.tan_input_digit_entered)
+            else -> resources.getDrawableCompat(R.drawable.tan_input_digit_error)
         }
 
         tanDigit.setTextColor(

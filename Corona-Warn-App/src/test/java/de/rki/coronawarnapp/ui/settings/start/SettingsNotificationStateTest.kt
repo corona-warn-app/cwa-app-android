@@ -2,12 +2,16 @@ package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
@@ -22,9 +26,10 @@ class SettingsNotificationStateTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkObject(ContextExtensions)
         every { context.getString(any()) } returns ""
-        every { context.getColor(any()) } returns 0
-        every { context.getDrawable(any()) } returns mockk()
+        every { context.getColorCompat(any()) } returns 0
+        every { context.getDrawableCompat(any()) } returns mockk()
     }
 
     @AfterEach
@@ -72,14 +77,14 @@ class SettingsNotificationStateTest : BaseTest() {
             isNotificationsRiskEnabled = true,
             isNotificationsTestEnabled = true
         ).getNotificationIconColor(context)
-        verify { context.getColor(R.color.colorAccentTintIcon) }
+        verify { context.getColorCompat(R.color.colorAccentTintIcon) }
 
         SettingsNotificationState(
             isNotificationsEnabled = false,
             isNotificationsRiskEnabled = true,
             isNotificationsTestEnabled = true
         ).getNotificationIconColor(context)
-        verify { context.getColor(R.color.colorTextSemanticRed) }
+        verify { context.getColorCompat(R.color.colorTextSemanticRed) }
     }
 
     @Test
@@ -89,14 +94,18 @@ class SettingsNotificationStateTest : BaseTest() {
             isNotificationsRiskEnabled = true,
             isNotificationsTestEnabled = true
         ).getNotificationIcon(context)
-        verify { context.getDrawable(R.drawable.ic_settings_notification_active) }
+        verify { context.getDrawableCompat(R.drawable.ic_settings_notification_active) }
 
         SettingsNotificationState(
             isNotificationsEnabled = false,
             isNotificationsRiskEnabled = true,
             isNotificationsTestEnabled = true
         ).getNotificationIcon(context)
-        verify { context.getDrawable(R.drawable.ic_settings_notification_inactive) }
+        verify {
+            context.getDrawableCompat(
+                R.drawable.ic_settings_notification_inactive
+            )
+        }
     }
 
     @Test

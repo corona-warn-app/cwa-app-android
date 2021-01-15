@@ -31,21 +31,21 @@
             tools:text="@string/risk_card_low_risk_headline"
             tools:textColor="@color/colorStableLight" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_forward"
-            android:tint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorStableLight"
             tools:tint="@color/colorStableLight" />
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_contact"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:icon="@drawable/ic_risk_card_contact"
@@ -59,7 +59,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/row_saved_days"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
             <TextView
                 android:id="@+id/risk_card_row_saved_days_body"
                 style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:layout_marginBottom="@dimen/spacing_tiny"
@@ -99,7 +99,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_time_fetched"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_time_fetched"
             android:text="@{state.getTimeFetched(context)}"
@@ -114,7 +114,7 @@
             android:id="@+id/update_action"
             style="@style/buttonLight"
             gone="@{!state.showUpdateButton}"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/risk_card_button_update"

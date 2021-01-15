@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
@@ -59,26 +60,15 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
 
     private fun updateButtons(symptomIndication: Symptoms.Indication?) {
         binding.targetButtonApply.apply {
-            setTextColor(formatSymptomButtonTextStyleByState(symptomIndication, Symptoms.Indication.POSITIVE))
-            backgroundTintList = ColorStateList.valueOf(
-                formatSymptomBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE)
-            )
+            handleColors(symptomIndication, Symptoms.Indication.POSITIVE)
             setOnClickListener { viewModel.onPositiveSymptomIndication() }
         }
         binding.targetButtonReject.apply {
-            setTextColor(formatSymptomButtonTextStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE))
-            backgroundTintList = ColorStateList.valueOf(
-                formatSymptomBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE)
-            )
+            handleColors(symptomIndication, Symptoms.Indication.NEGATIVE)
             setOnClickListener { viewModel.onNegativeSymptomIndication() }
         }
         binding.targetButtonVerify.apply {
-            setTextColor(formatSymptomButtonTextStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION))
-            backgroundTintList =
-                ColorStateList.valueOf(
-                    formatSymptomBackgroundButtonStyleByState(symptomIndication, Symptoms.Indication.NO_INFORMATION)
-                )
-
+            handleColors(symptomIndication, Symptoms.Indication.NO_INFORMATION)
             setOnClickListener { viewModel.onNoInformationSymptomIndication() }
         }
 
@@ -93,6 +83,12 @@ class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submiss
             )
             setOnClickListener { viewModel.onNextClicked() }
         }
+    }
+
+    private fun Button.handleColors(symptomIndication: Symptoms.Indication?, state: Symptoms.Indication) {
+        setTextColor(formatSymptomButtonTextStyleByState(context, symptomIndication, state))
+        backgroundTintList =
+            ColorStateList.valueOf(formatSymptomBackgroundButtonStyleByState(context, symptomIndication, state))
     }
 
     override fun onResume() {

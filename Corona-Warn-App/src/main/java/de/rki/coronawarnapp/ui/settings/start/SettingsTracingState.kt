@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 sealed class SettingsTracingState {
 
@@ -15,10 +17,10 @@ sealed class SettingsTracingState {
 
     object BluetoothDisabled : SettingsTracingState() {
         override fun getTracingIconColor(context: Context): Int =
-            context.getColor(R.color.colorTextSemanticRed)
+            context.getColorCompat(R.color.colorTextSemanticRed)
 
         override fun getTracingIcon(context: Context): Drawable? =
-            context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive)
+            context.getDrawableCompat(R.drawable.ic_settings_tracing_bluetooth_inactive)
 
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_restricted)
@@ -26,10 +28,10 @@ sealed class SettingsTracingState {
 
     object LocationDisabled : SettingsTracingState() {
         override fun getTracingIconColor(context: Context): Int =
-            context.getColor(R.color.colorTextSemanticRed)
+            context.getColorCompat(R.color.colorTextSemanticRed)
 
         override fun getTracingIcon(context: Context): Drawable? =
-            context.getDrawable(R.drawable.ic_settings_location_inactive_small)
+            context.getDrawableCompat(R.drawable.ic_settings_location_inactive_small)
 
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_inactive)
@@ -37,10 +39,10 @@ sealed class SettingsTracingState {
 
     object TracingActive : SettingsTracingState() {
         override fun getTracingIconColor(context: Context): Int =
-            context.getColor(R.color.colorAccentTintIcon)
+            context.getColorCompat(R.color.colorAccentTintIcon)
 
         override fun getTracingIcon(context: Context): Drawable? =
-            context.getDrawable(R.drawable.ic_settings_tracing_active_small)
+            context.getDrawableCompat(R.drawable.ic_settings_tracing_active_small)
 
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_active)
@@ -48,10 +50,10 @@ sealed class SettingsTracingState {
 
     object TracingInActive : SettingsTracingState() {
         override fun getTracingIconColor(context: Context): Int =
-            context.getColor(R.color.colorTextSemanticRed)
+            context.getColorCompat(R.color.colorTextSemanticRed)
 
         override fun getTracingIcon(context: Context): Drawable? =
-            context.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
+            context.getDrawableCompat(R.drawable.ic_settings_tracing_inactive_small)
 
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_inactive)
