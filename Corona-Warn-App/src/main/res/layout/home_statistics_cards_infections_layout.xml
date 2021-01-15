@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterStatistics" />
+
+        <variable
+            name="stats"
+            type="de.rki.coronawarnapp.statistics.InfectionStats" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,13 +21,119 @@
         <TextView
             android:id="@+id/title"
             style="@style/headline5"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="Infections"
+            android:layout_marginEnd="16dp"
+            android:focusable="false"
+            android:text="Bestätigte Neuinfektionen"
+            app:layout_constraintEnd_toStartOf="@id/statistics_card_header_icon"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_infection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutFlow" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/layoutFlow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginEnd="24dp"
+            app:constraint_referenced_ids="primaryLabel,primaryValue,secondaryLabel,secondaryValue,tertiaryLabel,tertiaryValue"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalBias="0"
+            app:flow_maxElementsWrap="1"
+            app:flow_wrapMode="chain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/primaryLabel"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{FormatterStatistics.getPrimaryLabel(stats.updatedAt)}"
+            tools:text="Gestern" />
+
+        <TextView
+            android:id="@+id/primaryValue"
+            style="@style/StatisticsCardPrimaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{FormatterStatistics.getPrimaryData(stats.keyFigures)}"
+            tools:text="14.714" />
+
+        <TextView
+            android:id="@+id/secondaryLabel"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="7-Tage-Mittelwert" />
+
+        <TextView
+            android:id="@+id/secondaryValue"
+            style="@style/StatisticsCardSecondaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{FormatterStatistics.getSecondaryData(stats.keyFigures)}"
+            tools:text="11.981" />
+
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trendArrowView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintBottom_toBottomOf="@id/secondaryValue"
+            app:layout_constraintStart_toEndOf="@id/secondaryValue"
+            app:layout_constraintTop_toTopOf="@id/secondaryValue" />
+
+        <TextView
+            android:id="@+id/tertiaryLabel"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="Gesamt" />
+
+        <TextView
+            android:id="@+id/tertiaryValue"
+            style="@style/StatisticsCardSecondaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{FormatterStatistics.getTertiaryData(stats.keyFigures)}"
+            tools:text="429.181" />
+
+        <TextView
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="bundesweite Neuinfektionen"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/statistics_card_header_icon"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:padding="0dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_statistics_info"
+            app:layout_constraintBottom_toBottomOf="@+id/main_card_header_headline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

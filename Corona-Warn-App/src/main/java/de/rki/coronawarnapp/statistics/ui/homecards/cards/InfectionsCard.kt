@@ -24,5 +24,6 @@ class InfectionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         item.stats as InfectionStats
+        viewBinding.value.stats = item.stats
     }
 }
