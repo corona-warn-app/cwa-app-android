@@ -13,23 +13,36 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.Screenshot
+import testhelpers.SystemUIDemoModeRule
+import testhelpers.captureScreenshot
+import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionDispatcherFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: SubmissionDispatcherViewModel
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
+
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
+
+    private fun createViewModel() = SubmissionDispatcherViewModel()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(object : SubmissionDispatcherViewModel.Factory {
-            override fun create(): SubmissionDispatcherViewModel = viewModel
+            override fun create(): SubmissionDispatcherViewModel = createViewModel()
         })
     }
 
@@ -43,7 +56,8 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         launchFragment<SubmissionDispatcherFragment>()
     }
 
-    @Test fun testEventQRClicked() {
+    @Test
+    fun testEventQRClicked() {
         val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
@@ -52,7 +66,8 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         // TODO verify result
     }
 
-    @Test fun testEventTeleClicked() {
+    @Test
+    fun testEventTeleClicked() {
         val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
@@ -61,13 +76,24 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         // TODO verify result
     }
 
-    @Test fun testEventTanClicked() {
+    @Test
+    fun testEventTanClicked() {
         val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
 
         // TODO verify result
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment() {
+        captureScreenshot<SubmissionDispatcherFragment>()
+        onView(withId(R.id.submission_dispatcher_tan_tele))
+            .perform(scrollTo())
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(SubmissionDispatcherFragment::class.simpleName.plus("2"))
     }
 }
 
