@@ -8,13 +8,19 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragmentTestModule
+import de.rki.coronawarnapp.ui.submission.SubmissionConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionDispatcherTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionQRScanFragmentModule
+import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultConsentGivenTestModule
+import de.rki.coronawarnapp.ui.submission.SubmissionTestResultNoConsentModel
+import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestAvailableModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
+import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestNegativeModule
+import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 
 @Module(
@@ -31,10 +37,16 @@ import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
         SubmissionDispatcherTestModule::class,
         SubmissionTanTestModule::class,
         SubmissionTestResultTestModule::class,
+        SubmissionTestResultTestNegativeModule::class,
+        SubmissionTestResultTestAvailableModule::class,
+        SubmissionTestResultNoConsentModel::class,
         SubmissionTestResultConsentGivenTestModule::class,
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionContactTestModule::class,
         SubmissionQRScanFragmentModule::class,
+        SubmissionConsentFragmentTestModule::class,
+        SubmissionYourConsentFragmentTestModule::class,
+        SubmissionSymptomCalendarFragmentTestModule::class,
         // Tracing
         TracingDetailsFragmentTestTestModule::class
     ]
