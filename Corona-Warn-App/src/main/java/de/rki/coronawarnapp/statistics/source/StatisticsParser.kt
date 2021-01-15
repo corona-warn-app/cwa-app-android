@@ -37,6 +37,7 @@ class StatisticsParser @Inject constructor() {
                     null -> null.also { Timber.tag(TAG).e("Unknown statistics type: %s", rawCard) }
                 }.also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
+                    it?.requireValidity()
                 }
             } catch (e: Exception) {
                 Timber.tag(TAG).e("Failed to parse raw card: %s", rawCard)

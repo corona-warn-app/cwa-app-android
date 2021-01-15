@@ -70,7 +70,9 @@ class StatisticsParserTest : BaseTest() {
         val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
             addCardIdSequence(3)
             addCardIdSequence(1)
-            addKeyFigureCards(KeyFigureCardOuterClass.KeyFigureCard.newBuilder())
+            INFECTION_PROTO.toBuilder().apply {
+                removeKeyFigures(2)
+            }.build().let { addKeyFigureCards(it) }
             addKeyFigureCards(KEYSUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
