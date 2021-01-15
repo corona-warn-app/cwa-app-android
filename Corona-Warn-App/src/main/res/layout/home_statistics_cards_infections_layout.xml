@@ -27,7 +27,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:focusable="false"
-            android:text="Bestätigte Neuinfektionen"
+            android:text="@string/statistics_card_infections_title"
             app:layout_constraintEnd_toStartOf="@id/statistics_card_header_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:text="7-Tage-Mittelwert" />
+            android:text="@string/statistics_card_infections_secondary_label" />
 
         <TextView
             android:id="@+id/secondaryValue"
@@ -104,7 +104,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Gesamt" />
+            android:text="@string/statistics_card_infections_tertiary_label" />
 
         <TextView
             android:id="@+id/tertiaryValue"
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="8dp"
-            android:text="bundesweite Neuinfektionen"
+            android:text="@string/statistics_card_infections_bottom_text"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
@@ -132,7 +132,6 @@
             android:padding="0dp"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_statistics_info"
-            app:layout_constraintBottom_toBottomOf="@+id/main_card_header_headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
