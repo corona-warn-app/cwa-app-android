@@ -490,7 +490,7 @@ object LocalData {
         }
 
     fun clear() {
-        // TODO Shouldn't here be logic????
+        // If you make use of a FlowPreference, you need to manually clear it here
         Timber.w("LocalData.clear()")
     }
 }
