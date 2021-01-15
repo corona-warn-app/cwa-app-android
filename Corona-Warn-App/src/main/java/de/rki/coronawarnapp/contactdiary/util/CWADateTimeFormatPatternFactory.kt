@@ -6,24 +6,34 @@ import java.util.Locale
 object CWADateTimeFormatPatternFactory {
 
     fun Locale.shortDatePattern(): String {
-        DateTimeFormat.patternForStyle("S-", this).fixYear().also {
+        val language = language
+        DateTimeFormat.patternForStyle("S-", this).normalizeYear().apply {
             /**
              * since results differ depending on the implementation of the underlying platform,
              * we make sure that we get, what we expect
              */
             return when {
-                (this == Locale.UK || this.language.equals("pl", true)) && it.contains("yyyy").not() ->
-                    it.replace("yy", "yyyy")
-                this.language == "tr" -> it.noLeadingZeroInDayOfMonth()
-                this.language == "bg" -> (if (it.endsWith('.')) it else "$it 'г'.").noLeadingZeroInDayOfMonth()
-                else -> it
+                fourDigitYearRequired && !yearHas4Digits -> makeYear4Digits()
+                language == "tr" -> noLeadingZeroInDayOfMonth()
+                language == "bg" -> ensureYearSuffixAbbrev().noLeadingZeroInDayOfMonth()
+                else -> this
             }
         }
     }
 
+    private fun String.ensureYearSuffixAbbrev() = (if (endsWith('.')) this else "$this 'г'.")
+
+    private val String.yearHas4Digits: Boolean
+        get() = contains("yyyy")
+
+    private fun String.makeYear4Digits() = replace("yy", "yyyy")
+
+    private val Locale.fourDigitYearRequired: Boolean
+        get() = this == Locale.UK || this.language.equals("pl", true)
+
     private fun String.noLeadingZeroInDayOfMonth() = replace("dd", "d")
 
-    private fun String.fixYear() =
+    private fun String.normalizeYear() =
         if (this.contains("y") && this.contains("yy").not()) {
             replace("y", "yyyy")
         } else {
