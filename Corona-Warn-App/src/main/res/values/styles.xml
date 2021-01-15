@@ -413,16 +413,16 @@
     <style name="StatisticsCardPrimaryTitle" parent="headline5" />
 
     <style name="StatisticsCardValueLabel" parent="subtitle">
-        <item name="textColor">@color/colorStatisticsValueLabel</item>
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
     </style>
 
     <style name="StatisticsCardTitleCaption">
-        <item name="textColor">@color/colorStatisticsValueLabel</item>
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
         <item name="android:textSize">@dimen/font_small</item>
     </style>
 
-    <style name="StatisticsCardPrimaryValue" parent="subtitle">
-        <item name="textColor">@color/colorStatisticsPrimaryValue</item>
+    <style name="StatisticsCardPrimaryValue">
+        <item name="android:textColor">@color/colorStatisticsPrimaryValue</item>
         <item name="android:textSize">@dimen/font_huge</item>
     </style>
 
