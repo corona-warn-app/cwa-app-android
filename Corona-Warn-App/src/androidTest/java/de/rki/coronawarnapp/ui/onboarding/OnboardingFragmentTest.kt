@@ -24,10 +24,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
-import tools.fastlane.screengrab.ScreenshotStrategy
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
-import tools.fastlane.screengrab.locale.LocaleTestRule
-import java.util.jar.Manifest
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {

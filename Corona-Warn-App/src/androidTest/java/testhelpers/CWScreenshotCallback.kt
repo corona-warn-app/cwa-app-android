@@ -14,7 +14,7 @@ class CWScreenshotCallback : ScreenshotCallback {
     override fun screenshotCaptured(screenshotName: String, screenshot: Bitmap) {
         try {
             val directory =
-                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)?.absolutePath.toString() , "screenshots")
+                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)?.absolutePath.toString(), "screenshots")
             if (!directory.exists()) {
                 directory.mkdirs()
             }
