@@ -10,7 +10,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 object LocalScreenshotCallback : ScreenshotCallback {
-    private const val ROOT_DIRECTORY = "/data/local/tmp"
+    private const val ROOT_DIRECTORY = "/sdcard"
     private const val SCREENSHOTS_DIRECTORY = "screenshots"
     private const val SCREENSHOT_FORMAT = ".png"
     private const val IMAGE_QUALITY = 100
