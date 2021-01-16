@@ -55,20 +55,16 @@ class SubmissionContactFragmentTest : BaseUITest() {
 
     @Test
     fun testContactCallClicked() {
-        val scenario = launchFragmentInContainer<SubmissionContactFragment>()
+        launchFragmentInContainer<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_call))
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test
     fun testContactEnterTanClicked() {
-        val scenario = launchFragmentInContainer<SubmissionContactFragment>()
+        launchFragmentInContainer<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test

@@ -58,32 +58,26 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventQRClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test
     fun testEventTeleClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test
     fun testEventTanClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer<SubmissionDispatcherFragment>()
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test
