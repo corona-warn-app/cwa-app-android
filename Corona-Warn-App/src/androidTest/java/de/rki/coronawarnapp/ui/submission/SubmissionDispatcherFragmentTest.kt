@@ -20,10 +20,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -87,7 +87,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(SubmissionDispatcherFragment::class.simpleName.plus("2"))
+        ScreenShotter.capture<SubmissionDispatcherFragment>("2")
     }
 }
 

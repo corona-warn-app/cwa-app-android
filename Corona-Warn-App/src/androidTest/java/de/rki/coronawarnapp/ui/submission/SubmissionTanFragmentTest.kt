@@ -25,11 +25,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -87,7 +87,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click())
             .perform(closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(SubmissionTanFragment::class.simpleName)
+        ScreenShotter.capture<SubmissionTanFragment>()
     }
 
     @Test
@@ -98,7 +98,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click())
             .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_done"))
+        ScreenShotter.capture<SubmissionTanFragment>("_done")
     }
 
     @Test
@@ -109,7 +109,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click())
             .perform(typeText("AC9U0"), closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_invalid"))
+        ScreenShotter.capture<SubmissionTanFragment>("_invalid")
     }
 }
 
