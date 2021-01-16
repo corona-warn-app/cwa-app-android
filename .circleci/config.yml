@@ -255,7 +255,6 @@ jobs:
               --os-version-ids 29 \
               --locales en_US,de_DE,tr_TR,bg_BG,pl_PL,ro_RO \
               --orientations portrait \
-              --directories-to-pull /sdcard/screenshots
           no_output_timeout: 30m
       - run:
           name: Install gsutil dependency and copy test results data
