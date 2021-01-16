@@ -220,7 +220,7 @@ jobs:
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
       - run-gradle-cmd:
           desc: connectedAndroidTest
-          cmd: "connectedAndroidTest"
+          cmd: "connectedAndroidTest --info"
 
   device_screenshots:
     resource_class: xlarge
