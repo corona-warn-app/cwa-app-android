@@ -17,13 +17,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.CWScreenshotCallback
 import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
-import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {
@@ -63,17 +61,10 @@ class OnboardingFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(
-            OnboardingFragment::class.simpleName, UiAutomatorScreenshotStrategy(),
-            CWScreenshotCallback()
-        )
+        ScreenShotter.takeScreenshot<OnboardingFragment>()
 
         onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
-        Screengrab.screenshot(
-            OnboardingFragment::class.simpleName.plus("2"),
-            UiAutomatorScreenshotStrategy(),
-            CWScreenshotCallback()
-        )
+        ScreenShotter.takeScreenshot<OnboardingFragment>("2")
     }
 }
 
