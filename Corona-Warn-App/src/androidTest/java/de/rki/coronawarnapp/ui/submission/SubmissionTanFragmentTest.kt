@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
@@ -10,6 +11,7 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -49,6 +51,12 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
+    @get:Rule
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -70,13 +78,11 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTanNextClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTanFragment>()
-        ViewActions.closeSoftKeyboard()
+        launchFragmentInContainer<SubmissionTanFragment>()
+        closeSoftKeyboard()
         onView(withId(R.id.submission_tan_button_enter))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test

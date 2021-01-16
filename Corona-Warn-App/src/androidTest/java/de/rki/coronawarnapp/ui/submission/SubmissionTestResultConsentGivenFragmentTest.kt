@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
@@ -7,8 +8,11 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -51,6 +55,12 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
+    @get:Rule
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
     private lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 
     @Before
@@ -89,7 +99,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
         }
         // Verify that performing a click prompts the correct Navigation action
-        onView(ViewMatchers.withId(R.id.submission_test_result_button_consent_given_continue)).perform(ViewActions.click())
+        onView(withId(R.id.submission_test_result_button_consent_given_continue)).perform(click())
         verify {
             mockNavController.navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
         }

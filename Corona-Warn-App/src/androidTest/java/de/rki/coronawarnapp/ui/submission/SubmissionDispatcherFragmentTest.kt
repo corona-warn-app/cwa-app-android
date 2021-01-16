@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
@@ -7,6 +8,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -36,14 +38,22 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
+    @get:Rule
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
     private fun createViewModel() = SubmissionDispatcherViewModel()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(object : SubmissionDispatcherViewModel.Factory {
-            override fun create(): SubmissionDispatcherViewModel = createViewModel()
-        })
+        setupMockViewModel(
+            object : SubmissionDispatcherViewModel.Factory {
+                override fun create(): SubmissionDispatcherViewModel = createViewModel()
+            }
+        )
     }
 
     @After
