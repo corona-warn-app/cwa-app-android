@@ -17,9 +17,9 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
@@ -61,7 +61,7 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingDeltaInteroperabilityFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(OnboardingDeltaInteroperabilityFragment::class.simpleName)
+        ScreenShotter.capture<OnboardingDeltaInteroperabilityFragment>()
     }
 }
 

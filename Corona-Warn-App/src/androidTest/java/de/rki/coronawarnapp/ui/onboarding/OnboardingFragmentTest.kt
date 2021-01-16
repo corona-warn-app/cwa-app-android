@@ -22,14 +22,15 @@ import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {
 
-    //    @Rule
-//    @JvmField
-//    val localeTestRule = LocaleTestRule()
-//
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
+
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
@@ -61,10 +62,10 @@ class OnboardingFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.takeScreenshot<OnboardingFragment>()
+        ScreenShotter.capture<OnboardingFragment>()
 
         onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
-        ScreenShotter.takeScreenshot<OnboardingFragment>("2")
+        ScreenShotter.capture<OnboardingFragment>("2")
     }
 }
 

@@ -7,22 +7,20 @@ import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 
 object ScreenShotter {
 
-    inline fun <reified T> takeScreenshot(suffix: String = "") {
+    inline fun <reified T> capture(suffix: String = "") {
         val contentResolver =
             InstrumentationRegistry.getInstrumentation().targetContext.contentResolver
         val testLabSetting = Settings.System.getString(contentResolver, "firebase.test.lab")
 
-        val screenshotName = T::class.simpleName + suffix
+        val screenshotName = T::class.simpleName.plus(suffix)
         if ("true" == testLabSetting) {
             Screengrab.screenshot(
                 screenshotName,
                 UiAutomatorScreenshotStrategy(),
-                SDCardScreenshotCallback
+                LocalScreenshotCallback
             )
         } else {
             Screengrab.screenshot(screenshotName)
         }
     }
 }
-
-

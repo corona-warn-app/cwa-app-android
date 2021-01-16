@@ -25,11 +25,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -118,10 +119,9 @@ class TracingDetailsFragmentTest : BaseUITest() {
     }
 
     private fun captureScreenshot(nameSuffix: String) {
-        val name = TracingDetailsFragment::class.simpleName + "_" + nameSuffix
         launchFragmentInContainer2<TracingDetailsFragment>()
-        Thread.sleep(2000) // TODO use constant when EXPOSUREAPP-2950 is merged
-        Screengrab.screenshot(name)
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        ScreenShotter.capture<TracingDetailsFragment>("_$nameSuffix")
     }
 }
 

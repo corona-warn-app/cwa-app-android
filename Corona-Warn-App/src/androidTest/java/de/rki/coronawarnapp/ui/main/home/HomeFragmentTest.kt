@@ -41,13 +41,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.recyclerScrollTo
 import timber.log.Timber
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -114,7 +114,7 @@ class HomeFragmentTest : BaseUITest() {
         captureScreenshot("low_risk")
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
+        ScreenShotter.capture<HomeFragment>("low_risk_2")
     }
 
     @Screenshot
@@ -218,10 +218,9 @@ class HomeFragmentTest : BaseUITest() {
     }
 
     private fun captureScreenshot(nameSuffix: String) {
-        val name = HomeFragment::class.simpleName + "_" + nameSuffix
         launchFragmentInContainer2<HomeFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(name)
+        ScreenShotter.capture<HomeFragment>("_$nameSuffix")
     }
 
     private fun itemsLiveData(
