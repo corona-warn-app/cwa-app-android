@@ -251,12 +251,12 @@ jobs:
               --environment-variables clearPackageData=true \
               --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
-              --device model=Pixel2,version=28,locale=de_DE,orientation=portrait \
-              --device model=Pixel2,version=28,locale=en_US,orientation=portrait \
-              --device model=Pixel2,version=28,locale=tr_TR,orientation=portrait \
-              --device model=Pixel2,version=28,locale=bg_BG,orientation=portrait \
-              --device model=Pixel2,version=28,locale=pl_PL,orientation=portrait \
-              --device model=Pixel2,version=28,locale=ro_RO,orientation=portrait \
+              --device model=Pixel2,version=29,locale=de_DE,orientation=portrait \
+              --device model=Pixel2,version=29,locale=en_US,orientation=portrait \
+              --device model=Pixel2,version=29,locale=tr_TR,orientation=portrait \
+              --device model=Pixel2,version=29,locale=bg_BG,orientation=portrait \
+              --device model=Pixel2,version=29,locale=pl_PL,orientation=portrait \
+              --device model=Pixel2,version=29,locale=ro_RO,orientation=portrait \
               --directories-to-pull /sdcard/screenshots
           no_output_timeout: 30m
       - run:
