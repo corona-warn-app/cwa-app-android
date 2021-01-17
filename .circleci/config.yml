@@ -260,12 +260,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-de_DE-portrait/artifacts/sdcard/screenshots ${CIRCLE_ARTIFACTS}/artifacts/flame-29-de_DE-portrait
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-en_US-portrait/artifacts/sdcard/screenshots ${CIRCLE_ARTIFACTS}/artifacts/flame-29-en_US-portrait
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-tr_TR-portrait/artifacts/sdcard/screenshots ${CIRCLE_ARTIFACTS}/artifacts/flame-29-tr_TR-portrait
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-pl_PL-portrait/artifacts/sdcard/screenshots ${CIRCLE_ARTIFACTS}/artifacts/flame-29-pl_PL-portrait
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-ro_RO-portrait/artifacts/sdcard/screenshots ${CIRCLE_ARTIFACTS}/artifacts/flame-29-ro_RO-portrait
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-bg_BG-portrait/artifacts/sdcard/screenshots ${CIRCLE_ARTIFACTS}/artifacts/flame-29-bg_BG-portrait
+            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-de_DE-portrait ${CIRCLE_ARTIFACTS}/artifacts/flame-29-de_DE-portrait
       - store_artifacts:
           path: "$CIRCLE_ARTIFACTS/artifacts"
           destination: artifacts
