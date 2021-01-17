@@ -260,10 +260,10 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -6` ${CIRCLE_ARTIFACTS}/ | true
+            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-*/artifacts/sdcard/screenshots` ${CIRCLE_ARTIFACTS}/ | true
       - store_artifacts:
-          path: "$CIRCLE_ARTIFACTS/${BUCKETDIR}"
-          destination: BUCKETDIR
+          path: "$CIRCLE_ARTIFACTS/artifacts"
+          destination: artifacts
 
   lint_device_release_check:
     executor: android/android
