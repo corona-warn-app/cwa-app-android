@@ -260,7 +260,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-de_DE-portrait ${CIRCLE_ARTIFACTS}/ | true
+            sudo gsutil -m cp -r -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame-29-de_DE-portrait ${CIRCLE_ARTIFACTS}/ | true
       - store_artifacts:
           path: "$CIRCLE_ARTIFACTS/artifacts"
           destination: artifacts
