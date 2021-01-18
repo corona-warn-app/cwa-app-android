@@ -480,10 +480,7 @@ workflows:
 
   signed_build:
     jobs:
-      - device_for_testers_release_unit_tests
       - quick_build_device_for_testers_signed:
-          requires:
-            - device_for_testers_release_unit_tests
           filters:
             tags:
               only:
