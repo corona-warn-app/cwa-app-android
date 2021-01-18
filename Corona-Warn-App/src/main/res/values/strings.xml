@@ -1354,7 +1354,7 @@
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Tage-Mittelwert"</string>
     <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage."</string>
+    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage"</string>
     <!-- XHED: Explanation screen period total subtitle -->
     <string name="statistics_explanation_period_total_subtitle">"Gesamt"</string>
     <!-- XTXT: Explanation screen period total text -->
