@@ -402,18 +402,33 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
-    <style name="StatisticsCardInfoButton" parent="TextAppearance.AppCompat.Button" />
+    <style name="StatisticsCardInfoButton" parent="buttonIcon">
+        <item name="android:height">@dimen/circle_icon_big</item>
+        <item name="android:width">@dimen/circle_icon_big</item>
+        <item name="android:src">@drawable/ic_info</item>
+        <item name="android:padding">@dimen/circle_icon_big_padding</item>
+        <item name="android:contentDescription">@string/statistics_info_button</item>
+    </style>
 
-    <style name="StatisticsCardPrimaryTitle" parent="TextAppearance.AppCompat.Subhead" />
+    <style name="StatisticsCardPrimaryTitle" parent="headline5" />
 
-    <style name="StatisticsCardValueLabel" parent="TextAppearance.AppCompat.Body1" />
+    <style name="StatisticsCardValueLabel" parent="subtitle">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+    </style>
 
-    <style name="StatisticsCardTitleCaption" parent="TextAppearance.AppCompat.Caption" />
+    <style name="StatisticsCardTitleCaption">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
 
-    <style name="StatisticsCardPrimaryValue" parent="TextAppearance.AppCompat.Body2" />
+    <style name="StatisticsCardPrimaryValue">
+        <item name="android:textColor">@color/colorStatisticsPrimaryValue</item>
+        <item name="android:textSize">@dimen/font_huge</item>
+    </style>
 
-    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2" />
-
-    <style name="TrendArrowView" />
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
 
 </resources>
