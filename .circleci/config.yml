@@ -309,7 +309,9 @@ jobs:
       - run-emulator-api29
       - run:
           name: Run fastlane screengrab
-          command: "bundle exec fastlane screengrab"
+          command: |
+            for i in {1..5}; do bundle exec fastlane screengrab && break || sleep 15; done
+          no_output_timeout: 30m
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
       - store_artifacts:
@@ -481,20 +483,20 @@ workflows:
   #            - quick_build_device_release_no_tests
   #            - device_release_unit_tests
 
-  check_buildtype_device_for_testers:
-    jobs:
-      #      - detekt
-      #      - lint_device_for_testers_release_check
-      #      - ktlint_device_for_testers_release_check
-      #      - quick_build_device_for_testers_release_no_tests
-      #      - device_for_testers_release_unit_tests
-      - device_instrumentation_tests
-  #          requires:
-  #            - quick_build_device_for_testers_release_no_tests
-  #            - device_for_testers_release_unit_tests
-  #            - lint_device_for_testers_release_check
-  #            - ktlint_device_for_testers_release_check
-  #            - detekt
+  #  check_buildtype_device_for_testers:
+  #    jobs:
+  #      #      - detekt
+  #      #      - lint_device_for_testers_release_check
+  #      #      - ktlint_device_for_testers_release_check
+  #      #      - quick_build_device_for_testers_release_no_tests
+  #      #      - device_for_testers_release_unit_tests
+  #      - device_instrumentation_tests
+  #  #          requires:
+  #  #            - quick_build_device_for_testers_release_no_tests
+  #  #            - device_for_testers_release_unit_tests
+  #  #            - lint_device_for_testers_release_check
+  #  #            - ktlint_device_for_testers_release_check
+  #  #            - detekt
 
   signed_build:
     jobs:
