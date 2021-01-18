@@ -28,10 +28,10 @@ import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {
 
-    //    @Rule
-//    @JvmField
-//    val localeTestRule = LocaleTestRule()
-//
+    @Rule
+    @JvmField
+    val localeTestRule = LocaleTestRule()
+
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
