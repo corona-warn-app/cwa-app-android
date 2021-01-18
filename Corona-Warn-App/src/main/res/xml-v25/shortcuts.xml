@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="shortcut_contact_diary"
+        android:enabled="true"
+        android:icon="@drawable/ic_diary_book"
+        android:shortcutShortLabel="@string/app_shortcut_contact_diary_title"
+        android:shortcutLongLabel="@string/app_shortcut_contact_diary_desc">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="de.rki.coronawarnapp"
+            android:targetClass="de.rki.coronawarnapp.ui.launcher.LauncherActivity">
+
+            <extra android:name="SHORTCUT_TYPE" android:value="CONTACT_DIARY" />
+        </intent>
+    </shortcut>
+</shortcuts>

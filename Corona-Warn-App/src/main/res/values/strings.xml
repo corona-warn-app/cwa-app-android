@@ -1768,6 +1768,11 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Cancel"</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">""</string>
+    <!-- XDES: Message for the contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_desc">""</string>
+
     <!-- XTXT: Empty label for an activity -->
     <string name="empty_string_to_avoid_toolbar_announcement" translatable="false">""</string>
 

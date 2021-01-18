@@ -62,6 +62,6 @@ class LauncherActivityViewModelTest {
 
         val vm = createViewModel()
 
-        vm.events.value shouldBe LauncherEvent.GoToMainActivity
+        vm.events.value shouldBe LauncherEvent.GoToAppShortcutOrMainActivity
     }
 }

@@ -6,8 +6,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
+import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -32,8 +34,12 @@ class LauncherActivity : AppCompatActivity() {
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
-                LauncherEvent.GoToMainActivity -> {
-                    MainActivity.start(this)
+                LauncherEvent.GoToAppShortcutOrMainActivity -> {
+                    when (evaluateAppShortcuts()) {
+                        AppShortcuts.CONTACT_DIARY -> ContactDiaryActivity.start(this)
+                        else -> MainActivity.start(this)
+                    }
+
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
@@ -53,5 +59,18 @@ class LauncherActivity : AppCompatActivity() {
                 ContextCompat.startActivity(this, intent, null)
             }
             .show()
+    }
+
+    private fun evaluateAppShortcuts(): AppShortcuts? {
+        return if(intent.hasExtra(KEY_SHORTCUT_TYPE)) {
+            val extra = intent.getStringExtra(KEY_SHORTCUT_TYPE)!!
+            AppShortcuts.valueOf(extra)
+        } else {
+            null
+        }
+    }
+
+    companion object {
+        private const val KEY_SHORTCUT_TYPE = "SHORTCUT_TYPE"
     }
 }
