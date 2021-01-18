@@ -50,7 +50,7 @@ commands:
     steps:
       - run:
           name: << parameters.desc >>
-          command: ./gradlew << parameters.cmd >>
+          command: ./gradlew -PdisablePreDex << parameters.cmd >>
           no_output_timeout: 30m
           environment:
             JVM_OPTS: -Xmx2048m
@@ -97,6 +97,66 @@ commands:
           command: |
             sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+
+  setup-android-macos:
+    description: "Setup Android environment on macOS executor"
+    steps:
+      - run:
+          name: Set ANDROID_SDK_ROOT environment variable
+          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
+      - restore_cache:
+          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
+      - run:
+          name: Install android tools
+          command: |
+            sh .circleci/setup-android.sh
+            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
+            source $BASH_ENV
+            sdkmanager --list
+      - save_cache:
+          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
+          paths:
+            - /Users/distiller/android-tools
+
+  run-emulator-api29:
+    description: "Setup and start an API29 emulator"
+    steps:
+      - run:
+          name: Create AVD
+          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
+      - run:
+          name: Start AVD
+          command: emulator @Pixel_3a_API_29 -no-window -no-audio
+          background: true
+          no_output_timeout: 30m
+      - run:
+          name: Wait for emulator
+          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+
+  run-emulator-api23:
+    description: "Setup and start an API23 emulator"
+    steps:
+      - run:
+          name: Create AVD
+          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_23" --package "system-images;android-23;google_apis;x86_64"
+      - run:
+          name: Start AVD
+          command: emulator @Pixel_3a_API_23 -no-window -no-audio
+          background: true
+          no_output_timeout: 30m
+      - run:
+          name: Wait for emulator
+          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+
+  kill-all-emulators:
+    description: "Kill all running emulators"
+    steps:
+      - run:
+          name: Create AVD
+          command: adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
 
 #######################
 # Jobs section
@@ -188,42 +248,23 @@ jobs:
       xcode: "11.2.0"
     steps:
       - checkout
-      - run:
-          name: set ANDROID_SDK_ROOT
-          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
-      - restore_cache:
-          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
-      - run:
-          name: Install android tools
-          command: |
-            sh .circleci/setup-android.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
-            source $BASH_ENV
-            sdkmanager --list
-      - save_cache:
-          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
-          paths:
-            - /Users/distiller/android-tools
-      - run:
-          name: Create AVD
-          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
-      - run:
-          name: start AVD
-          command: emulator @Pixel_3a_API_29 -no-window -no-audio
-          background: true
-          no_output_timeout: 30m
-      - run:
-          name: Wait for emulator
-          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+      - setup-android-macos
+      - run-emulator-api29
       - run-gradle-cmd:
           desc: Run instrumentation test command
           cmd: |
             :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
             --info \
             -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
+      - kill-all-emulators
+      - run-emulator-api23
+      - run-gradle-cmd:
+          desc: Run instrumentation test command
+          cmd: |
+            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
+            --info \
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
+      - kill-all-emulators
 
   device_screenshots:
     resource_class: xlarge
