@@ -62,6 +62,17 @@
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">Start Page</string>
 
+
+    <!-- XTXT: Title for contact diary overview screen high risk information -->
+    <string name="contact_diary_high_risk_title"></string>
+    <!-- XTXT: Title for contact diary overview screen low risk information -->
+    <string name="contact_diary_low_risk_title"></string>
+    <!-- XTXT: Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body"></string>
+    <!-- XTXT: Extended Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body_extended"></string>
+
+
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"A closed book with a bookmark"</string>
     <!-- XTXT: content description of contact journal header image on onboarding screen -->
