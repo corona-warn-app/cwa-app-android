@@ -21,18 +21,18 @@
             style="@style/StatisticsCardPrimaryTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/statistics_title_reproduction"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/primary_value_label"
+            android:id="@+id/primary_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/statistics_reproduction_title"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,12 +43,13 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/primary_value_label"
+            app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="1,04" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trend_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_tiny"
@@ -57,16 +58,32 @@
             app:layout_constraintTop_toTopOf="@id/primary_value" />
 
         <TextView
-            android:id="@+id/secondary_value_label"
+            android:id="@+id/secondary_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_normal"
             android:text="@string/statistics_reproduction_average"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
+
+        <ImageView
+            android:id="@+id/illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="28dp"
+            android:src="@drawable/ic_7_day_r_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/secondary_label"
+            app:layout_constraintTop_toBottomOf="@id/primary_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

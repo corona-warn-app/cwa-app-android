@@ -23,6 +23,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
         item: StatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        item.stats as SevenDayRValue
+        val reproductionNumber = (item.stats as SevenDayRValue).reproductionNumber
+        primaryValue.text = reproductionNumber.toString()
+        trendView.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
     }
 }
