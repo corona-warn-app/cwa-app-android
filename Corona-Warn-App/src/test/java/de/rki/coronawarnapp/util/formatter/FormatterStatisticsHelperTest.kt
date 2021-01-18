@@ -38,16 +38,31 @@ class FormatterStatisticsHelperTest {
 
     @Test
     fun `formatStatisticsDate test`() {
-        formatStatisticsDate(context = context,localDate = today) shouldBe context.getString(R.string.statistics_primary_value_today)
-        formatStatisticsDate(context = context,localDate = yesterday) shouldBe (context.getString(R.string.statistics_primary_value_yesterday))
-        formatStatisticsDate(context = context,localDate = LocalDate("2021-01-02")) shouldBe "Samstag, 02.01.21"
+        formatStatisticsDate(
+            context = context,
+            localDate = today
+        ) shouldBe context.getString(R.string.statistics_primary_value_today)
+        formatStatisticsDate(
+            context = context,
+            localDate = yesterday
+        ) shouldBe (context.getString(R.string.statistics_primary_value_yesterday))
+        formatStatisticsDate(context = context, localDate = LocalDate("2021-01-02")) shouldBe "Samstag, 02.01.21"
     }
 
     @Test
     fun `formatStatisticsDateInterval test`() {
-        formatStatisticsDateInterval(context = context,localDate = today) shouldBe context.getString(R.string.statistics_primary_value_until_today)
-        formatStatisticsDateInterval(context = context,localDate = yesterday) shouldBe (context.getString(R.string.statistics_primary_value_until_yesterday))
-        formatStatisticsDateInterval(context = context,localDate = LocalDate("2021-01-02")) shouldBe "Samstag, 02.01.21"
+        formatStatisticsDateInterval(
+            context = context,
+            localDate = today
+        ) shouldBe context.getString(R.string.statistics_primary_value_until_today)
+        formatStatisticsDateInterval(
+            context = context,
+            localDate = yesterday
+        ) shouldBe (context.getString(R.string.statistics_primary_value_until_yesterday))
+        formatStatisticsDateInterval(
+            context = context,
+            localDate = LocalDate("2021-01-02")
+        ) shouldBe "Samstag, 02.01.21"
     }
 
     @After

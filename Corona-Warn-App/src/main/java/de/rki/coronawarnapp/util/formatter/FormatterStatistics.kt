@@ -39,5 +39,3 @@ fun formatStatisticsDateInterval(localDate: LocalDate, context: Context): String
         }
     }
 }
-
-
