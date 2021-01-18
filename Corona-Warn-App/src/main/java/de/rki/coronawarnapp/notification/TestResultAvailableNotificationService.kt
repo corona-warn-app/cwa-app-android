@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Provider
 
-class TestResultAvailableNotification @Inject constructor(
+class TestResultAvailableNotificationService @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
     private val notificationHelper: NotificationHelper
 ) {
 
-    suspend fun showTestResultNotification(testResult: TestResult) {
+    suspend fun showTestResultAvailableNotification(testResult: TestResult) {
         if (foregroundState.isInForeground.first()) return
 
         val pendingIntent = navDeepLinkBuilderProvider.get().apply {
@@ -35,7 +35,7 @@ class TestResultAvailableNotification @Inject constructor(
         )
     }
 
-    fun cancelTestResultNotification() {
+    fun cancelTestResultAvailableNotification() {
         notificationHelper.cancelCurrentNotification(NotificationConstants.TEST_RESULT_AVAILABLE_NOTIFICATION_ID)
     }
 

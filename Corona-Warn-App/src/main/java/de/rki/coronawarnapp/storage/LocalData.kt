@@ -17,8 +17,6 @@ import timber.log.Timber
  */
 object LocalData {
 
-    private val TAG: String? = LocalData::class.simpleName
-
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
@@ -235,7 +233,7 @@ object LocalData {
      *
      * @return boolean
      */
-    fun isTestResultNotificationSent(): Boolean {
+    fun isTestResultAvailableNotificationSent(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_test_result_notification),
@@ -249,7 +247,7 @@ object LocalData {
      *
      * @param value boolean
      */
-    fun isTestResultNotificationSent(value: Boolean) =
+    fun isTestResultAvailableNotificationSent(value: Boolean) =
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
@@ -338,7 +336,7 @@ object LocalData {
         }
 
     private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
-    var numberOfRemainingPositiveTestResultReminders: Int
+    var numberOfRemainingSharePositiveTestResultReminders: Int
         get() = getSharedPreferenceInstance().getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
         set(value) = getSharedPreferenceInstance().edit(true) {
             putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)
@@ -355,18 +353,6 @@ object LocalData {
     )
 
     /**
-     * Toggles the decision if background jobs are enabled
-     *
-     */
-    fun toggleBackgroundJobEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_job_allowed),
-            !isBackgroundJobEnabled()
-        )
-    }
-
-    /**
      * Gets the boolean if the user has mobile data enabled
      *
      * @return
@@ -375,18 +361,6 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed),
         false
     )
-
-    /**
-     * Toggles the boolean if the user has mobile data enabled
-     *
-     */
-    fun toggleMobileDataEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_mobile_data_allowed),
-            !isMobileDataEnabled()
-        )
-    }
 
     /****************************************************
      * SUBMISSION DATA
@@ -516,6 +490,7 @@ object LocalData {
         }
 
     fun clear() {
+        // If you make use of a FlowPreference, you need to manually clear it here
         Timber.w("LocalData.clear()")
     }
 }

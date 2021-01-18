@@ -38,7 +38,7 @@ Only start working on the Pull Request after the team assigned the issue to you 
 
 The following rule governs code contributions:
 
-* Contributions must be licensed under the [Apache 2.0 License](LICENSE)
+* Contributions must be licensed under the [Apache 2.0 License](./LICENSE)
 
 ## Contributing Documentation
 
@@ -46,7 +46,7 @@ You are welcome to contribute documentation to the project.
 
 The following rule governs documentation contributions:
 
-* Contributions must be licensed under the same license as code, the [Apache 2.0 License](LICENSE)
+* Contributions must be licensed under the same license as code, the [Apache 2.0 License](./LICENSE)
 
 ## Issues and Planning
 
@@ -55,5 +55,3 @@ The following rule governs documentation contributions:
 * Please provide as much context as possible when you open an issue. The information you provide must be comprehensive enough to reproduce that issue for the assignee. Therefore, contributors should use but aren't restricted to the issue template provided by the project maintainers.
 
 * When creating an issue, try using one of our issue templates which already contain some guidelines on which content is expected to process the issue most efficiently. If no template applies, you can of course also create an issue from scratch.
-
-* Please apply one or more applicable [labels](https://github.com/corona-warn-app/cwa-app-android/labels) to your issue so that all community members are able to cluster the issues better.

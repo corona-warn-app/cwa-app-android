@@ -37,14 +37,10 @@ class ContactDiaryOverviewAdapter(
         override val viewBinding: Lazy<ContactDiaryOverviewListItemBinding> =
             lazy { ContactDiaryOverviewListItemBinding.bind(itemView) }
 
-        private val nestedItemAdapter = ContactDiaryOverviewNestedAdapter()
-
-        init {
-            viewBinding.value.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
-        }
-
         override val onBindData: ContactDiaryOverviewListItemBinding.(item: ListItem, payloads: List<Any>) -> Unit =
             { item, _ ->
+                val nestedItemAdapter = ContactDiaryOverviewNestedAdapter(item, onItemSelectionListener)
+                viewBinding.value.contactDiaryOverviewNestedRecyclerView.adapter = nestedItemAdapter
                 contactDiaryOverviewElementName.text = dateFormatter(item.date)
                 contactDiaryOverviewElementName.contentDescription = dateFormatterForAccessibility(item.date)
                 contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(item) }

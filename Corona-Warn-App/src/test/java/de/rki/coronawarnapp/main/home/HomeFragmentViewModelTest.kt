@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
@@ -51,10 +52,11 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var submissionStateProvider: SubmissionStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var statisticsProvider: StatisticsProvider
 
     @BeforeEach
     fun setup() {
@@ -70,6 +72,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { submissionRepository.hasViewedTestResult } returns flowOf(true)
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
+        coEvery { statisticsProvider.current } returns emptyFlow()
     }
 
     @AfterEach
@@ -82,12 +85,13 @@ class HomeFragmentViewModelTest : BaseTest() {
         errorResetTool = errorResetTool,
         tracingStatus = generalTracingStatus,
         tracingRepository = tracingRepository,
-        testResultNotificationService = testResultNotificationService,
+        shareTestResultNotificationService = shareTestResultNotificationService,
         submissionRepository = submissionRepository,
         submissionStateProvider = submissionStateProvider,
         tracingStateProviderFactory = tracingStateProviderFactory,
         cwaSettings = cwaSettings,
-        appConfigProvider = appConfigProvider
+        appConfigProvider = appConfigProvider,
+        statisticsProvider = statisticsProvider
     )
 
     @Test
@@ -141,12 +145,12 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { submissionRepository.deviceUIStateFlow } returns flowOf(
             NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE)
         )
-        every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
+        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
 
         runBlocking {
             createInstance().apply {
                 observeTestResultToSchedulePositiveTestResultReminder()
-                verify { testResultNotificationService.schedulePositiveTestResultReminder() }
+                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
             }
         }
     }
@@ -156,12 +160,12 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { submissionRepository.deviceUIStateFlow } returns flowOf(
             NetworkRequestWrapper.RequestSuccessful(PAIRED_POSITIVE_TELETAN)
         )
-        every { testResultNotificationService.schedulePositiveTestResultReminder() } returns Unit
+        every { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() } returns Unit
 
         runBlocking {
             createInstance().apply {
                 observeTestResultToSchedulePositiveTestResultReminder()
-                verify { testResultNotificationService.schedulePositiveTestResultReminder() }
+                verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
             }
         }
     }

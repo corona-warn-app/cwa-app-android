@@ -15,13 +15,9 @@ class SystemUIDemoModeRule : TestRule {
     override fun apply(base: Statement, description: Description): Statement =
         object : Statement() {
             override fun evaluate() {
-                try {
-                    helper.enter()
-                    base.evaluate()
-                    helper.exit()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                helper.enter()
+                base.evaluate()
+                helper.exit()
             }
         }
 }

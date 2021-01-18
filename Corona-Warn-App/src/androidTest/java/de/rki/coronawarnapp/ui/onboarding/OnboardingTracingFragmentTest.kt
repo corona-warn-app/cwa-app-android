@@ -1,14 +1,9 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.fragment.app.testing.launchFragment
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
@@ -17,12 +12,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.spyk
+import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
@@ -56,6 +53,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         )
 
         every { viewModelSpy.resetTracing() } just Runs
+        every { interopRepo.countryList } returns flowOf()
 
         setupMockViewModel(object : OnboardingTracingFragmentViewModel.Factory {
             override fun create(): OnboardingTracingFragmentViewModel = viewModelSpy
@@ -77,8 +75,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         val simpleName = OnboardingTracingFragment::class.simpleName
         launchFragmentInContainer2<OnboardingTracingFragment>()
-        // Check any view to make sure screenshot is not blank
-        onView(withId(R.id.onboarding_button_next)).check(matches(isDisplayed()))
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(simpleName)
     }
 }
