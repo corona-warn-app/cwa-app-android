@@ -41,8 +41,7 @@ internal class StatisticsNumberValueFormatterTest {
 
         every { context.getLocale() } returns locale
 
-        StatisticsNumberValueFormatter
-            .getFormattedNumberValue(context, value, decimals) shouldBe expected
+        formatStatisticalValue(context, value, decimals) shouldBe expected
     }
 
     companion object {
