@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import android.content.Context
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.R
@@ -11,6 +13,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.SingleLiveEvent
@@ -68,7 +71,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         Timber.v(
             "createListItemList(dateList=$dateList, " +
                 "locationVisitList=$locationVisitList, " +
-                "personEncounterList=$personEncounterList)"
+                "personEncounterList=$personEncounterList)" +
+                "riskLevelPerDateList=$riskLevelPerDateList"
         )
         return dateList
             .map {
@@ -76,9 +80,31 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                     .apply {
                         data.addPersonEncountersForDate(personEncounterList, date)
                         data.addLocationVisitsForDate(locationVisitList, date)
-                        riskLevel = riskLevelPerDateList.firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == it }
+                        risk = riskLevelPerDateList
+                            .firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == it }
+                            ?.toRisk(data.isEmpty())
                     }
             }
+    }
+
+    private fun AggregatedRiskPerDateResult.toRisk(noLocationOrPerson: Boolean): ListItem.Risk {
+        @StringRes val title: Int
+        @DrawableRes val drawableId: Int
+
+        @StringRes val body: Int = when (noLocationOrPerson) {
+            true -> R.string.contact_diary_risk_body
+            false -> R.string.contact_diary_risk_body_extended
+        }
+
+        if (this.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH) {
+            title = R.string.contact_diary_high_risk_title
+            drawableId = R.drawable.ic_high_risk_alert
+        } else {
+            title = R.string.contact_diary_low_risk_title
+            drawableId = R.drawable.ic_low_risk_alert
+        }
+
+        return ListItem.Risk(title, body, drawableId)
     }
 
     private fun MutableList<ListItem.Data>.addPersonEncountersForDate(

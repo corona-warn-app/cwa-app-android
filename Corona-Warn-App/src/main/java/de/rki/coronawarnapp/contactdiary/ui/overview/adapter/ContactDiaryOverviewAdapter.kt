@@ -5,12 +5,9 @@ import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
-import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.lists.BindableVH
 import org.joda.time.LocalDate
-import timber.log.Timber
 
 class ContactDiaryOverviewAdapter(
     private val dateFormatter: (LocalDate) -> String,
@@ -55,27 +52,14 @@ class ContactDiaryOverviewAdapter(
                 contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
                 nestedItemAdapter.setItems(item.data)
 
-                item.riskLevel?.let {
-                    contactDiaryOverviewNestedListItemRisk.apply {
+                contactDiaryOverviewNestedListItemRisk.apply {
+                    item.risk?.let {
                         this.contactDiaryOverviewRiskItem.isGone = false
-
-                        if (it.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH) {
-                            this.contactDiaryOverviewRiskItemImage.setImageDrawable(context.getDrawableCompat(R.drawable.ic_high_risk_alert))
-                            this.contactDiaryOverviewItemRiskTitle.text =
-                                context.getString(R.string.contact_diary_high_risk_title)
-                        } else {
-                            this.contactDiaryOverviewRiskItemImage.setImageDrawable(context.getDrawableCompat(R.drawable.ic_low_risk_alert))
-                            this.contactDiaryOverviewItemRiskTitle.text =
-                                context.getString(R.string.contact_diary_low_risk_title)
-                        }
-
-                        this.contactDiaryOverviewItemRiskBody.text = if (item.data.isEmpty()) {
-                            context.getString(R.string.contact_diary_risk_body)
-                        } else {
-                            context.getString(R.string.contact_diary_risk_body_extended)
-                        }
-                    }
-                } ?: run { contactDiaryOverviewNestedListItemRisk.contactDiaryOverviewRiskItem.isGone = true }
+                        this.contactDiaryOverviewItemRiskTitle.text = context.getString(it.title)
+                        this.contactDiaryOverviewItemRiskBody.text = context.getString(it.body)
+                        this.contactDiaryOverviewRiskItemImage.setImageResource(it.drawableId)
+                    } ?: run { this.contactDiaryOverviewRiskItem.isGone = true }
+                }
             }
     }
 }
