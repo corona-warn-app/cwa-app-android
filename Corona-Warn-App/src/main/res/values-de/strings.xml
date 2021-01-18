@@ -1300,6 +1300,9 @@
     <!-- XTXT: Text displayed in the bottom of submission statistics card-->
     <string name="statistics_card_submission_bottom_text">"bundesweit warnende Personen"</string>
 
+    <!-- XACT: Description for the decimal separator symbol that is pronounced when the screen reader reads decimal values -->
+    <string name="statistics_value_decimal_separator_description">"Komma"</string>
+
     <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
     <string name="statistics_primary_value_today">"Heute"</string>
     <!-- XTXT: Timestamp refers to yesterday's date in submission and infections cards -->
