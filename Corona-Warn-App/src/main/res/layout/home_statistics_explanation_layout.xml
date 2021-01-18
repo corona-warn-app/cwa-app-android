@@ -85,6 +85,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/guideline_start"
+                android:layout_marginEnd="@dimen/guideline_end"
                 android:orientation="vertical"
                 android:focusable="true">
 
@@ -97,6 +99,83 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_title"
+                    android:text="@string/statistics_explanation_confirmed_new_infection_title"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_text"
+                    android:text="@string/statistics_explanation_confirmed_new_infection_text"/>
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_warned_persons_title"
+                    android:text="@string/statistics_explanation_warned_persons_title"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_warned_persons_text"
+                    android:text="@string/statistics_explanation_warned_persons_text"/>
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
+                    android:text="@string/statistics_explanation_seven_day_incidence_title"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
+                    android:text="@string/statistics_explanation_seven_day_incidence_text"/>
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_title"
+                    android:text="@string/statistics_explanation_seven_day_r_value_title"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_text"
+                    android:text="@string/statistics_explanation_seven_day_r_value_text"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginTop="43dp"
+                    android:background="@color/colorHairline" />
 
             </LinearLayout>
 
