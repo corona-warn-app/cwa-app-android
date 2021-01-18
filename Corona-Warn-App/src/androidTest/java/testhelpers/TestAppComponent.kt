@@ -11,7 +11,8 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         MockViewModelModule::class,
-        FragmentTestModuleRegistrar::class
+        FragmentTestModuleRegistrar::class,
+        TestAndroidModule::class
     ]
 )
 @Singleton
