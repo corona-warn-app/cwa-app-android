@@ -26,15 +26,17 @@ class StatisticsCardPaddingDecorator(
         when (itemPosition) {
             0 -> {
                 outRect.left = resources.getDimensionPixelSize(startPadding)
-                outRect.right = distance / 2
+                if (adapter?.itemCount == 1) {
+                    outRect.right = resources.getDimensionPixelSize(endPadding)
+                } else {
+                    outRect.right = distance
+                }
             }
             (adapter?.itemCount ?: Int.MAX_VALUE) - 1 -> {
-                outRect.left = distance / 2
                 outRect.right = resources.getDimensionPixelSize(endPadding)
             }
             else -> {
-                outRect.left = distance / 2
-                outRect.right = distance / 2
+                outRect.right = distance
             }
         }
     }
