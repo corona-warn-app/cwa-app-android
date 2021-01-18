@@ -28,7 +28,8 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     val uiState = displayedDay.map { day ->
         UIState(
             dayText = { day.toFormattedDay(it.getLocale()) },
-            dayTextContentDescription = { day.toFormattedDayForAccessibility(it.getLocale()) + it.getString(R.string.accessibility_day_view_header) })
+            dayTextContentDescription = { day.toFormattedDayForAccessibility(it.getLocale()) +
+                it.getString(R.string.accessibility_day_view_header) })
     }.asLiveData()
 
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
