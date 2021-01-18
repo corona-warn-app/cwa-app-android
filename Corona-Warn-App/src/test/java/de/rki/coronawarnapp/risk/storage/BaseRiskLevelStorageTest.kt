@@ -1,17 +1,22 @@
 package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRiskLevelResultDao
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRisklevelResult
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testRisklevelResultWithAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
+import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.AggregatedRiskPerDateResultDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWindowsDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -42,6 +47,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var database: RiskResultDatabase
     @MockK lateinit var riskResultTables: RiskResultsDao
     @MockK lateinit var exposureWindowTables: ExposureWindowsDao
+    @MockK lateinit var aggregatedRiskPerDateResultDao: AggregatedRiskPerDateResultDao
     @MockK lateinit var riskLevelResultMigrator: RiskLevelResultMigrator
 
     @BeforeEach
@@ -51,6 +57,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { databaseFactory.create() } returns database
         every { database.riskResults() } returns riskResultTables
         every { database.exposureWindows() } returns exposureWindowTables
+        every { database.aggregatedRiskPerDate() } returns aggregatedRiskPerDateResultDao
         every { database.clearAllTables() } just Runs
 
         coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
@@ -62,6 +69,10 @@ class BaseRiskLevelStorageTest : BaseTest() {
         coEvery { riskResultTables.deleteOldest(any()) } returns 7
 
         every { exposureWindowTables.allEntries() } returns emptyFlow()
+
+        every { aggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
+        coEvery { aggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
+        coEvery { aggregatedRiskPerDateResultDao.deleteOlderThan(any()) } just Runs
     }
 
     @AfterEach
@@ -87,6 +98,23 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         override suspend fun deletedOrphanedExposureWindows() {
             onDeletedOrphanedExposureWindows()
+        }
+    }
+
+    @Test
+    fun `aggregatedRiskPerDateResults are returned from database and mapped`() {
+        val testPersistedAggregatedRiskPerDateResultFlow = flowOf(listOf(testPersistedAggregatedRiskPerDateResult))
+        every { aggregatedRiskPerDateResultDao.allEntries() } returns testPersistedAggregatedRiskPerDateResultFlow
+
+        runBlockingTest {
+            val instance = createInstance()
+            val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
+            allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow
+            allEntries.first().map { it.toAggregatedRiskPerDateResult() } shouldBe listOf(testAggregatedRiskPerDateResult)
+
+            val aggregatedRiskPerDateResults = instance.aggregatedRiskPerDateResults.first()
+            aggregatedRiskPerDateResults shouldNotBe listOf(testPersistedAggregatedRiskPerDateResult)
+            aggregatedRiskPerDateResults shouldBe listOf(testAggregatedRiskPerDateResult)
         }
     }
 
@@ -246,6 +274,20 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskResultTables.deleteOldest(instance.storedResultLimit)
             mockStoreWindows.invoke(any(), testRisklevelResult)
             mockDeleteOrphanedWindows.invoke()
+        }
+
+        coVerify(exactly = 0) {
+            aggregatedRiskPerDateResultDao.insertRisk(any())
+        }
+    }
+
+    @Test
+    fun `storing aggregatedRiskPerDateResults works`() = runBlockingTest {
+        val instance = createInstance()
+        instance.storeResult(testRisklevelResultWithAggregatedRiskPerDateResult)
+
+        coVerify {
+            aggregatedRiskPerDateResultDao.insertRisk(any())
         }
     }
 
