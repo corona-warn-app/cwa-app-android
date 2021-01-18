@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.retention
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -27,6 +28,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var contactDiaryRepository: DefaultContactDiaryRepository
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     private val testDates = arrayListOf<String>("2020-08-20T14:00:00.000Z",
         "2020-08-20T13:00:00.000Z",
@@ -49,7 +51,8 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     private fun createInstance() = ContactDiaryRetentionCalculation(
         timeStamper = timeStamper,
-        repository = contactDiaryRepository
+        repository = contactDiaryRepository,
+        riskLevelStorage = riskLevelStorage
     )
 
     @Test

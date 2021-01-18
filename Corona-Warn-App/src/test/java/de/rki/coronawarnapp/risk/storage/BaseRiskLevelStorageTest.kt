@@ -72,7 +72,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         every { aggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
         coEvery { aggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
-        coEvery { aggregatedRiskPerDateResultDao.deleteOlderThan(any()) } just Runs
     }
 
     @AfterEach

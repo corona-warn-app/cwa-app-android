@@ -37,6 +37,8 @@ interface RiskLevelStorage {
      */
     val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>>
 
+    suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>)
+
     suspend fun storeResult(result: RiskLevelResult)
 
     suspend fun clear()

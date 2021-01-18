@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk.storage.internal
 import android.content.Context
 import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -93,8 +94,8 @@ abstract class RiskResultDatabase : RoomDatabase() {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertRisk(persistedAggregatedRiskPerDateResults: List<PersistedAggregatedRiskPerDateResult>)
 
-        @Query("DELETE FROM riskperdate WHERE dateMillisSinceEpoch < :dateMillisSinceEpoch")
-        suspend fun deleteOlderThan(dateMillisSinceEpoch: Long)
+        @Delete
+        suspend fun delete(persistedAggregatedRiskPerDateResults: List<PersistedAggregatedRiskPerDateResult>)
     }
 
     class Factory @Inject constructor(@AppContext private val context: Context) {

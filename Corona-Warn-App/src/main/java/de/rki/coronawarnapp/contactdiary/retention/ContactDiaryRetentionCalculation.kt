@@ -4,6 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.Days
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @Reusable
 class ContactDiaryRetentionCalculation @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val repository: DefaultContactDiaryRepository
+    private val repository: DefaultContactDiaryRepository,
+    private val riskLevelStorage: RiskLevelStorage
 ) {
 
     fun getDaysDiff(dateSaved: LocalDate): Int {
@@ -30,11 +32,12 @@ class ContactDiaryRetentionCalculation @Inject constructor(
         return list.filter { entity -> RETENTION_DAYS < getDaysDiff(entity.date) }
     }
 
+    fun filterByDate(date: LocalDate): Boolean = RETENTION_DAYS < getDaysDiff(date).also { Timber.d("Days diff: $it") }
+
     suspend fun clearObsoleteContactDiaryLocationVisits() {
         val list = repository.locationVisits.first()
         Timber.d("Contact Diary Location Visits total count: ${list.size}")
-        val toDeleteList =
-            list.filter { entity -> RETENTION_DAYS < getDaysDiff(entity.date).also { Timber.d("Days diff: $it") } }
+        val toDeleteList = list.filter { entity -> filterByDate(entity.date) }
         Timber.d("Contact Diary Location Visits to be deleted: ${toDeleteList.size}")
         repository.deleteLocationVisits(toDeleteList)
     }
@@ -42,10 +45,17 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     suspend fun clearObsoleteContactDiaryPersonEncounters() {
         val list = repository.personEncounters.first()
         Timber.d("Contact Diary Persons Encounters total count: ${list.size}")
-        val toDeleteList =
-            list.filter { entity -> RETENTION_DAYS < getDaysDiff(entity.date).also { Timber.d("Days diff: $it") } }
+        val toDeleteList = list.filter { entity -> filterByDate(entity.date) }
         Timber.d("Contact Diary Persons Encounters to be deleted: ${toDeleteList.size}")
         repository.deletePersonEncounters(toDeleteList)
+    }
+
+    suspend fun clearObsoleteRiskPerDate() {
+        val list = riskLevelStorage.aggregatedRiskPerDateResults.first()
+        Timber.d("Aggregated Risk Per Date Results total count: ${list.size}")
+        val toDeleteList = list.filter { risk -> filterByDate(risk.day) }
+        Timber.d("AggregatedRiskPerDateResult to be deleted count: ${toDeleteList.size}")
+        riskLevelStorage.deleteAggregatedRiskPerDateResults(toDeleteList)
     }
 
     companion object {
