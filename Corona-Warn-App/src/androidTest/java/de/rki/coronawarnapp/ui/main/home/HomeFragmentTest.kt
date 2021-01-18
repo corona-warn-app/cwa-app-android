@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import android.Manifest
-import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
