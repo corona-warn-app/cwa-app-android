@@ -104,8 +104,9 @@
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
             android:id="@+id/trendArrowView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@id/secondaryValue"
             app:layout_constraintStart_toEndOf="@id/secondaryValue"
             app:layout_constraintTop_toTopOf="@id/secondaryValue" />
@@ -137,7 +138,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
-            android:contentDescription="Info"
+            android:contentDescription="@string/statistics_info_button"
             android:id="@+id/statistics_card_info_button"
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="56dp"

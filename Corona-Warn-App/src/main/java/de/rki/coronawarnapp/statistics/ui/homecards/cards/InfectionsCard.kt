@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.databinding.HomeStatisticsCardsInfectionsLayoutBindi
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
+import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class InfectionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsInfectionsLayoutBinding>(
@@ -25,16 +26,16 @@ class InfectionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
         with(item.stats as InfectionStats) {
-            viewBinding.value.newInfectionsLabel = "Heute"
+            viewBinding.value.newInfectionsLabel = getPrimaryLabel(context)
 
             viewBinding.value.newInfections =
                 formatStatisticalValue(context, newInfections.value, newInfections.decimals)
-
             viewBinding.value.sevenDayAverage =
                 formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
-
             viewBinding.value.total =
                 formatStatisticalValue(context, total.value, total.decimals)
+
+            viewBinding.value.trendArrowView.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
     }
 }
