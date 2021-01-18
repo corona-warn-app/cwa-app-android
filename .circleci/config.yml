@@ -489,7 +489,7 @@ workflows:
       - ktlint_device_for_testers_release_check
       - quick_build_device_for_testers_release_no_tests
       - device_for_testers_release_unit_tests
-      - device_instrumentation_tests
+      - device_instrumentation_tests:
         requires:
           - quick_build_device_for_testers_release_no_tests
           - device_for_testers_release_unit_tests
