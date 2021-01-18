@@ -132,7 +132,7 @@ commands:
           name: Start API29 AVD
           command: emulator @Pixel_3a_API_29 -no-window -no-audio
           background: true
-          no_output_timeout: 30m
+          no_output_timeout: 60m
       - run:
           name: Wait for API29 emulator
           command: |
@@ -150,7 +150,7 @@ commands:
           name: Start API23 AVD
           command: emulator @Pixel_3a_API_23 -no-window -no-audio
           background: true
-          no_output_timeout: 30m
+          no_output_timeout: 60m
       - run:
           name: Wait for API23 emulator
           command: |
@@ -312,8 +312,7 @@ jobs:
           command: |
             for i in {1..5}; do bundle exec fastlane screengrab && break || sleep 15; done
           no_output_timeout: 30m
-      - store_test_results:
-          path: Corona-Warn-App/build/outputs/androidTest-results
+      - kill-all-emulators
       - store_artifacts:
           path: fastlane/metadata/android
           destination: screenshots
@@ -468,35 +467,35 @@ workflows:
   version: 2
   check_buildtype_device:
     jobs:
-      #      - detekt
-      #      - lint_device_release_check
-      #      - ktlint_device_release_check
-      #      - quick_build_device_release_no_tests
-      #      - device_release_unit_tests
-      #      - run_sonar:
-      #          requires:
-      #            - device_release_unit_tests
+      - detekt
+      - lint_device_release_check
+      - ktlint_device_release_check
+      - quick_build_device_release_no_tests
+      - device_release_unit_tests
+      - run_sonar:
+          requires:
+            - device_release_unit_tests
       - device_screenshots
-  #          requires:
-  #            - lint_device_release_check
-  #            - ktlint_device_release_check
-  #            - quick_build_device_release_no_tests
-  #            - device_release_unit_tests
+        requires:
+          - lint_device_release_check
+          - ktlint_device_release_check
+          - quick_build_device_release_no_tests
+          - device_release_unit_tests
 
-  #  check_buildtype_device_for_testers:
-  #    jobs:
-  #      #      - detekt
-  #      #      - lint_device_for_testers_release_check
-  #      #      - ktlint_device_for_testers_release_check
-  #      #      - quick_build_device_for_testers_release_no_tests
-  #      #      - device_for_testers_release_unit_tests
-  #      - device_instrumentation_tests
-  #  #          requires:
-  #  #            - quick_build_device_for_testers_release_no_tests
-  #  #            - device_for_testers_release_unit_tests
-  #  #            - lint_device_for_testers_release_check
-  #  #            - ktlint_device_for_testers_release_check
-  #  #            - detekt
+    check_buildtype_device_for_testers:
+      jobs:
+        - detekt
+        - lint_device_for_testers_release_check
+        - ktlint_device_for_testers_release_check
+        - quick_build_device_for_testers_release_no_tests
+        - device_for_testers_release_unit_tests
+        - device_instrumentation_tests
+          requires:
+            - quick_build_device_for_testers_release_no_tests
+            - device_for_testers_release_unit_tests
+            - lint_device_for_testers_release_check
+            - ktlint_device_for_testers_release_check
+            - detekt
 
   signed_build:
     jobs:
