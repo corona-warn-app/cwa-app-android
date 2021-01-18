@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -36,7 +37,8 @@ class DataReset @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
     private var contactDiarySettings: ContactDiarySettings,
-    private val cwaSettings: CWASettings
+    private val cwaSettings: CWASettings,
+    private val statisticsProvider: StatisticsProvider
 ) {
 
     private val mutex = Mutex()
@@ -67,6 +69,8 @@ class DataReset @Inject constructor(
 
         // Clear contact diary database
         contactDiaryRepository.clear()
+
+        statisticsProvider.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

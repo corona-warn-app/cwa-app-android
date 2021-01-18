@@ -1309,6 +1309,9 @@
     <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
     <string name="statistics_primary_value_until_yesterday">"Bis gestern"</string>
 
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"Mio."</string>
+
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Kennzahlen"</string>
@@ -1343,7 +1346,7 @@
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Tage-Mittelwert"</string>
     <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage."</string>
+    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage"</string>
     <!-- XHED: Explanation screen period total subtitle -->
     <string name="statistics_explanation_period_total_subtitle">"Gesamt"</string>
     <!-- XTXT: Explanation screen period total text -->
