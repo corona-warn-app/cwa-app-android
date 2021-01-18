@@ -125,30 +125,30 @@ commands:
     description: "Setup and start an API29 emulator"
     steps:
       - run:
-          name: Create AVD
+          name: Create API29 AVD
           command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
       - run:
-          name: Start AVD
+          name: Start API29 AVD
           command: emulator @Pixel_3a_API_29 -no-window -no-audio
           background: true
           no_output_timeout: 30m
       - run:
-          name: Wait for emulator
+          name: Wait for API29 emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
 
   run-emulator-api23:
     description: "Setup and start an API23 emulator"
     steps:
       - run:
-          name: Create AVD
+          name: Create API23 AVD
           command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_23" --package "system-images;android-23;google_apis;x86_64"
       - run:
-          name: Start AVD
+          name: Start API23 AVD
           command: emulator @Pixel_3a_API_23 -no-window -no-audio
           background: true
           no_output_timeout: 30m
       - run:
-          name: Wait for emulator
+          name: Wait for API23 emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
 
   kill-all-emulators:
@@ -156,7 +156,11 @@ commands:
     steps:
       - run:
           name: Kill all emulators
-          command: adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+          command: |
+            adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+            sleep 5
+            adb kill-server
+            sleep 5
 
 #######################
 # Jobs section
@@ -243,7 +247,7 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
 
-  device_for_testers_instrumentation_tests:
+  device_instrumentation_tests:
     macos:
       xcode: "11.2.0"
     steps:
@@ -256,7 +260,8 @@ jobs:
             :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
             --info \
             --continue \
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
       - kill-all-emulators
       - run-emulator-api23
       - run-gradle-cmd:
@@ -265,7 +270,8 @@ jobs:
             :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
             --info \
             --continue \
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
       - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
@@ -470,7 +476,7 @@ workflows:
       #      - ktlint_device_for_testers_release_check
       #      - quick_build_device_for_testers_release_no_tests
       #      - device_for_testers_release_unit_tests
-      - device_for_testers_instrumentation_tests
+      - device_instrumentation_tests
   #          requires:
   #            - quick_build_device_for_testers_release_no_tests
   #            - device_for_testers_release_unit_tests
