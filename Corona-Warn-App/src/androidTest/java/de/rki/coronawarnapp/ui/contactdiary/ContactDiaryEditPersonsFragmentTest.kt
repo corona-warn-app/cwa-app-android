@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.ui.contactdiary
 
+import android.Manifest
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -19,12 +21,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -36,6 +38,12 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
+
+    @get:Rule
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
 
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     private lateinit var viewModel: ContactDiaryEditPersonsViewModel
@@ -72,7 +80,7 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
         every { viewModel.personsLiveData } returns MutableLiveData(PERSONS_EDIT_LIST)
         launchFragmentInContainer2<ContactDiaryEditPersonsFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryEditPersonsFragment::class.simpleName)
+        ScreenShotter.capture<ContactDiaryEditPersonsFragment>()
     }
 }
 
