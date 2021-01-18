@@ -115,10 +115,13 @@ commands:
     steps:
       - run:
           name: Create API29 AVD
-          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
+          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_2_API_29" --package "system-images;android-29;google_apis;x86_64"
       - run:
           name: Start API29 AVD
-          command: emulator @Pixel_3a_API_29 -no-window -no-audio -no-boot-anim -skin 1080x1920
+          command: |
+            emulator @Pixel_2_API_29 \
+            -no-window -no-audio -no-boot-anim \
+            -skin pixel_2 -skindir "$ANDROID_SDK_ROOT/skins"
           background: true
           no_output_timeout: 60m
       - run:
@@ -133,10 +136,13 @@ commands:
     steps:
       - run:
           name: Create API23 AVD
-          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_23" --package "system-images;android-23;google_apis;x86_64"
+          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_2_API_23" --package "system-images;android-23;google_apis;x86_64"
       - run:
           name: Start API23 AVD
-          command: emulator @Pixel_3a_API_23 -no-window -no-audio -no-boot-anim -skin 1080x1920
+          command: |
+            emulator @Pixel_2_API_23 \
+            -no-window -no-audio -no-boot-anim \
+            -skin pixel_2 -skindir "$ANDROID_SDK_ROOT/skins"
           background: true
           no_output_timeout: 60m
       - run:
@@ -153,9 +159,9 @@ commands:
           name: Kill all emulators
           command: |
             adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
-            sleep 5
+            sleep 2
             adb kill-server
-            sleep 5
+            sleep 2
 
 #######################
 # Jobs section
@@ -413,7 +419,7 @@ jobs:
       #            --continue \
       #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
       #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      #      - kill-all-emulators
+      - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
 
