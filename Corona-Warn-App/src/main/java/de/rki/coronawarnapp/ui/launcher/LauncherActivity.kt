@@ -62,7 +62,7 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun evaluateAppShortcuts(): AppShortcuts? {
-        return if(intent.hasExtra(KEY_SHORTCUT_TYPE)) {
+        return if (intent.hasExtra(KEY_SHORTCUT_TYPE)) {
             val extra = intent.getStringExtra(KEY_SHORTCUT_TYPE)!!
             AppShortcuts.valueOf(extra)
         } else {
