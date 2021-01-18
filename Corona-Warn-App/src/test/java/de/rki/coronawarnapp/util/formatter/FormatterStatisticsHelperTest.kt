@@ -26,12 +26,12 @@ class FormatterStatisticsHelperTest {
     @MockK
     private lateinit var context: Context
 
-    private val slot = slot<String>()
     private val today = Instant()
     private val yesterday = DateTime().minusDays(1).toInstant()
 
     @Before
     fun setUp() {
+        val slot = slot<String>()
         MockKAnnotations.init(this)
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
         with(context) {
