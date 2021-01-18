@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -56,7 +55,7 @@ class OnboardingFragmentTest : BaseUITest() {
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(OnboardingFragment::class.simpleName)
 
-        onView(withId(R.id.onboarding_easy_language)).perform(scrollTo(), click())
+        onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
         Screengrab.screenshot(OnboardingFragment::class.simpleName.plus("2"))
     }
 }
