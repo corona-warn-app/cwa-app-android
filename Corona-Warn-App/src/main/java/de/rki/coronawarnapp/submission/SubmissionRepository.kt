@@ -49,6 +49,7 @@ class SubmissionRepository @Inject constructor(
 
     // to be used by new submission flow screens
     fun giveConsentToSubmission() {
+        Timber.d("giveConsentToSubmission()")
         submissionSettings.hasGivenConsent.update {
             true
         }
@@ -56,6 +57,7 @@ class SubmissionRepository @Inject constructor(
 
     // to be used by new submission flow screens
     fun revokeConsentToSubmission() {
+        Timber.d("revokeConsentToSubmission()")
         submissionSettings.hasGivenConsent.update {
             false
         }
@@ -63,6 +65,7 @@ class SubmissionRepository @Inject constructor(
 
     // to be set to true once the user has opened and viewed their test result
     fun setViewedTestResult() {
+        Timber.d("setViewedTestResult()")
         submissionSettings.hasViewedTestResult.update {
             true
         }
@@ -161,6 +164,9 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
+    suspend fun asyncRequestTestResult(registrationToken: String): TestResult =
+        submissionService.asyncRequestTestResult(registrationToken)
+
     private suspend fun fetchTestResult(registrationToken: String): DeviceUIState = try {
         val testResult = submissionService.asyncRequestTestResult(registrationToken)
         updateTestResult(testResult)
@@ -178,7 +184,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.initialPollingForTestResultTimeStamp(0L)
         LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.isTestResultNotificationSent(false)
+        LocalData.isTestResultAvailableNotificationSent(false)
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {

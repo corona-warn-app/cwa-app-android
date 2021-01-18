@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submission_test_result_invalid), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SubmissionTestResultInvalidViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SubmissionTestResultInvalidViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentSubmissionTestResultInvalidBinding by viewBindingLazy()
 
@@ -33,11 +33,11 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
 
-        vm.testResult.observe2(this) {
+        viewModel.testResult.observe2(this) {
             binding.submissionTestResultSection.setTestResultSection(it.deviceUiState, it.testResultReceivedDate)
         }
 
-        vm.routeToScreen.observe2(this) { navDirections ->
+        viewModel.routeToScreen.observe2(this) { navDirections ->
             navDirections?.let { doNavigate(it) } ?: popBackStack()
         }
     }
@@ -45,6 +45,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        viewModel.onTestOpened()
     }
 
     private fun removeTestAfterConfirmation() {
@@ -55,7 +56,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             R.string.submission_test_result_dialog_remove_test_button_positive,
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                vm.deregisterTestFromDevice()
+                viewModel.deregisterTestFromDevice()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
