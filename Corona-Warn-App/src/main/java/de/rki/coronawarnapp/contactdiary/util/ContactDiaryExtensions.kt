@@ -9,6 +9,7 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
+import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.util.Locale
@@ -31,12 +32,7 @@ fun Context.getLocale(): Locale {
     }
 }
 
-fun LocalDate.toFormattedDay(locale: Locale): String {
-    // Use two different methods to get the final date format (Weekday, Shortdate)
-    // because the custom pattern of toString() does not localize characters like "/" or "."
-    return "${toString("EEEE", locale)}, " +
-        DateTimeFormat.shortDate().withLocale(locale).print(this)
-}
+fun LocalDate.toFormattedDay(locale: Locale): String = toString("EEEE, ${locale.shortDatePattern()}", locale)
 
 fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
     // Use two different methods to get the final date format (Weekday, Longdate)
