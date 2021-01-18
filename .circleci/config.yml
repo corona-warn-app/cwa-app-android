@@ -120,7 +120,7 @@ commands:
       - save_cache:
           key: android=tools-v1-{{ checksum ".circleci/install-android-sdk.sh" }}-{{ arch }}
           paths:
-            - /Users/distiller/android-tools
+            - /Users/distiller/android-sdk
 
   run-emulator-api29:
     description: "Setup and start an API29 emulator"
