@@ -110,8 +110,8 @@ commands:
           name: Install Android SDK
           command: |
             sh .circleci/install-android-sdk.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/tools/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             source $BASH_ENV

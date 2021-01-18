@@ -9,7 +9,7 @@ cd $ANDROID_SDK_ROOT
 curl https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -o cmdline-tools.zip
 
 unzip cmdline-tools.zip -d $ANDROID_SDK_ROOT/cmdline-tools
-mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/tools
+mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
 
 mkdir -p "$ANDROID_SDK_ROOT/licenses"
 
@@ -17,7 +17,7 @@ echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_SDK_ROOT/licenses/an
 echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK_ROOT/licenses/android-sdk-preview-license"
 echo "d975f751698a77b662f1254ddbeed3901e976f5a" > "$ANDROID_SDK_ROOT/licenses/intel-android-extra-license"
 
-SDKMANAGER=$ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager
+SDKMANAGER=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager
 
 $SDKMANAGER "platform-tools"
 $SDKMANAGER "platforms;android-29"
