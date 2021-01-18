@@ -114,6 +114,7 @@ commands:
             echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH'  >> $BASH_ENV
             source $BASH_ENV
             sdkmanager --list
       - save_cache:
@@ -137,6 +138,7 @@ commands:
           command: |
             adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
             adb devices
+            sleep 5
 
   run-emulator-api23:
     description: "Setup and start an API23 emulator"
@@ -154,6 +156,7 @@ commands:
           command: |
             adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
             adb devices
+            sleep 5
 
   kill-all-emulators:
     description: "Kill all emulators"
@@ -303,14 +306,7 @@ jobs:
           cmd: |
             :Corona-Warn-App:assembleDebug \
             :Corona-Warn-App:assembleAndroidTest
-      - run:
-          name: Create API29 AVD
-          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
-      - run:
-          name: Start API29 AVD
-          command: emulator @Pixel_3a_API_29 -no-window -no-audio
-          background: true
-          no_output_timeout: 30m
+      - run-emulator-api29
       - run:
           name: Run fastlane screengrab
           command: "bundle exec fastlane screengrab"
