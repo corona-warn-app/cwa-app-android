@@ -475,7 +475,7 @@ workflows:
       - run_sonar:
         requires:
           - device_release_unit_tests
-      - device_screenshots
+      - device_screenshots:
         requires:
           - lint_device_release_check
           - ktlint_device_release_check
