@@ -83,7 +83,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ListItem.Data(
                     R.drawable.ic_contact_diary_person_item,
                     personEncounter.contactDiaryPerson.fullName,
-                    "Person"
+                    ListItem.Type.PERSON
                 )
             }
     }
@@ -98,7 +98,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ListItem.Data(
                     R.drawable.ic_contact_diary_location_item,
                     locationVisit.contactDiaryLocation.locationName,
-                    "Location"
+                    ListItem.Type.LOCATION
                 )
             }
     }
