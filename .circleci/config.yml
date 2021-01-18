@@ -101,23 +101,23 @@ commands:
   setup-android-macos:
     description: "Setup Android environment on macOS executor"
     steps:
+      - restore_cache:
+          key: android=tools-v1-{{ checksum ".circleci/install-android-sdk.sh" }}-{{ arch }}
       - run:
           name: Set ANDROID_SDK_ROOT environment variable
-          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-tools'  >> $BASH_ENV
-      - restore_cache:
-          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
+          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-sdk'  >> $BASH_ENV
       - run:
-          name: Install android tools
+          name: Install Android SDK
           command: |
-            sh .circleci/setup-android.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
+            sh .circleci/install-android-sdk.sh
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/tools/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             source $BASH_ENV
             sdkmanager --list
       - save_cache:
-          key: android=tools-v1-{{ checksum ".circleci/setup-android.sh" }}-{{ arch }}
+          key: android=tools-v1-{{ checksum ".circleci/install-android-sdk.sh" }}-{{ arch }}
           paths:
             - /Users/distiller/android-tools
 

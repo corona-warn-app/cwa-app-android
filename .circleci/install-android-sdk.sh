@@ -8,7 +8,8 @@ mkdir -p $ANDROID_SDK_ROOT
 cd $ANDROID_SDK_ROOT
 curl https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -o cmdline-tools.zip
 
-unzip cmdline-tools.zip
+unzip cmdline-tools.zip -d $ANDROID_SDK_ROOT/cmdline-tools
+mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/tools
 
 mkdir -p "$ANDROID_SDK_ROOT/licenses"
 
