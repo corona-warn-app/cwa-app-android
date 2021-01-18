@@ -111,6 +111,8 @@
     <string name="accessibility_location_selected">Ort %s ist ausgewählt</string>
     <!-- XTXT: person is selected (description for screen readers) -->
     <string name="accessibility_person_selected">Person %s ist ausgewählt</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Tagesansicht"</string>
 
     <!-- XTXT: Select (description for screen readers) -->
     <string name="accessibility_action_select">Auswählen</string>
