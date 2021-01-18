@@ -22,15 +22,17 @@ class StatisticsCardPaddingDecorator(
         val resources = parent.context.resources
 
         val adapter = parent.adapter
+        val distance = resources.getDimensionPixelSize(cardDistance)
         when (itemPosition) {
             0 -> {
                 outRect.left = resources.getDimensionPixelSize(startPadding)
+                outRect.right = distance / 2
             }
             (adapter?.itemCount ?: Int.MAX_VALUE) - 1 -> {
+                outRect.left = distance / 2
                 outRect.right = resources.getDimensionPixelSize(endPadding)
             }
             else -> {
-                val distance = resources.getDimensionPixelSize(cardDistance)
                 outRect.left = distance / 2
                 outRect.right = distance / 2
             }

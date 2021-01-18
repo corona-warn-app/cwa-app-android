@@ -8,4 +8,5 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground"
     app:cardCornerRadius="@dimen/radius_card"
-    app:cardElevation="@dimen/elevation_strong" />
+    android:layout_marginVertical="@dimen/spacing_tiny"
+    app:cardElevation="@dimen/elevation_weak" />

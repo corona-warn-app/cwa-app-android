@@ -65,8 +65,8 @@
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginVertical="@dimen/spacing_normal"
             android:text="@string/statistics_reproduction_average"
-            app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
@@ -75,15 +75,15 @@
             android:id="@+id/illustration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_normal"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginHorizontal="36dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:src="@drawable/ic_7_day_r_value"
+            android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@id/secondary_label"
-            app:layout_constraintTop_toBottomOf="@id/primary_title" />
+            app:layout_constraintTop_toBottomOf="@id/primary_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
