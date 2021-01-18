@@ -30,7 +30,7 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(day))
         }
         is SevenDayRValue -> when (day) {
-            today -> context.getString(R.string.statistics_primary_value_curret)
+            today -> context.getString(R.string.statistics_primary_value_current)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(day))
         }

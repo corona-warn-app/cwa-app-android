@@ -36,7 +36,7 @@ class FormatterStatisticsHelperTest {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
         with(context) {
             every { context.getLocale() } returns Locale.GERMANY
-            every { getString(R.string.statistics_primary_value_curret) } returns CURRENT
+            every { getString(R.string.statistics_primary_value_current) } returns CURRENT
             every { getString(R.string.statistics_primary_value_today) } returns TODAY
             every { getString(R.string.statistics_primary_value_yesterday) } returns YESTERDAY
             every { getString(R.string.statistics_primary_value_until_today) } returns UNTIL_TODAY
