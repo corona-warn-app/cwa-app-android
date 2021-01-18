@@ -270,7 +270,6 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
 
-
   device_screenshots:
     macos:
       xcode: "11.2.0"
@@ -445,6 +444,7 @@ workflows:
   version: 2
     check_buildtype_device:
       jobs:
+        - device_screenshots
         #      - detekt
         #      - lint_device_release_check
         #      - ktlint_device_release_check
@@ -453,7 +453,7 @@ workflows:
         #      - run_sonar:
         #          requires:
         #            - device_release_unit_tests
-        - device_screenshots
+  #        - device_screenshots
   #          requires:
   #            - lint_device_release_check
   #            - ktlint_device_release_check
