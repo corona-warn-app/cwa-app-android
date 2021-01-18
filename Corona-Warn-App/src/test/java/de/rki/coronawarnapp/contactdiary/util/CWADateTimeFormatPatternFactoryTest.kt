@@ -41,5 +41,4 @@ class CWADateTimeFormatPatternFactoryTest {
     fun `pattern for turkish date`() {
         Locale("tr", "TR").shortDatePattern() shouldBe "d.MM.yyyy"
     }
-
 }

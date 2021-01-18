@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.contactdiary.util
 
-import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import org.joda.time.format.DateTimeFormat
 import java.util.Locale
 
@@ -16,5 +15,4 @@ object CWADateTimeFormatPatternFactory {
         this == Locale("tr", "TR") -> "d.MM.yyyy"
         else -> DateTimeFormat.patternForStyle("S-", this)
     }
-
 }
