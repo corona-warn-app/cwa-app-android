@@ -6,10 +6,12 @@ import java.util.Locale
 
 object StatisticsNumberValueFormatter {
 
-    fun getFormattedNumberValue(value: Double,
-                                decimals: Int,
-                                locale: Locale,
-                                suffixMillion: String): String {
+    fun getFormattedNumberValue(
+        value: Double,
+        decimals: Int,
+        locale: Locale,
+        suffixMillion: String
+    ): String {
 
         // return strings like "12.7 Mio" for large values
         if (value >= 10_000_000) {
