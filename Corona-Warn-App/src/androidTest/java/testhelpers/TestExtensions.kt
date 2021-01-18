@@ -37,3 +37,14 @@ inline fun <reified F : Fragment> captureScreenshot(
     Thread.sleep(SCREENSHOT_DELAY_TIME)
     ScreenShotter.capture<F>(suffix)
 }
+
+/**
+ * Launches Fragment in Activity.
+ * Same as [androidx.fragment.app.testing.launchFragment] except that it defaults
+ * the theme to [R.style.AppTheme].
+ */
+inline fun <reified F : Fragment> launchFragment2(
+    fragmentArgs: Bundle? = null,
+    @StyleRes themeResId: Int = R.style.AppTheme,
+    factory: FragmentFactory? = null
+) = FragmentScenario.launch(F::class.java, fragmentArgs, themeResId, factory)
