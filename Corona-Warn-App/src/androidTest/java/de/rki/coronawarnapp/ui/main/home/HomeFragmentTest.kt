@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
@@ -32,6 +33,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.spyk
+import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -95,12 +97,12 @@ class HomeFragmentTest : BaseUITest() {
         clearAllViewModels()
     }
 
-//    @Test
-//    fun onResumeCallsRefresh() {
-//        // AppTheme is required here to prevent xml inflation crash
-//        launchFragment<HomeFragment>(themeResId = R.style.AppTheme)
-//        verify(exactly = 1) { viewModel.refreshRequiredData() }
-//    }
+    @Test
+    fun onResumeCallsRefresh() {
+        // AppTheme is required here to prevent xml inflation crash
+        launchFragment<HomeFragment>(themeResId = R.style.AppTheme)
+        verify(exactly = 1) { viewModel.refreshRequiredData() }
+    }
 
     @Screenshot
     @Test

@@ -134,7 +134,9 @@ commands:
           no_output_timeout: 30m
       - run:
           name: Wait for API29 emulator
-          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+          command: |
+            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+            adb devices
 
   run-emulator-api23:
     description: "Setup and start an API23 emulator"
@@ -149,7 +151,9 @@ commands:
           no_output_timeout: 30m
       - run:
           name: Wait for API23 emulator
-          command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+          command: |
+            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+            adb devices
 
   kill-all-emulators:
     description: "Kill all emulators"
@@ -262,17 +266,17 @@ jobs:
             --continue \
             -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
             -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      - kill-all-emulators
-      - run-emulator-api23
-      - run-gradle-cmd:
-          desc: Run instrumentation test command
-          cmd: |
-            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
-            --info \
-            --continue \
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
-            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      - kill-all-emulators
+      #      - kill-all-emulators
+      #      - run-emulator-api23
+      #      - run-gradle-cmd:
+      #          desc: Run instrumentation test command
+      #          cmd: |
+      #            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
+      #            --info \
+      #            --continue \
+      #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+      #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
+      #      - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
 
