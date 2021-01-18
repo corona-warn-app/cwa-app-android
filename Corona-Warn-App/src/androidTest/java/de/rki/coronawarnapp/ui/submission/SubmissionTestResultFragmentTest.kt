@@ -10,7 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
@@ -42,7 +42,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
     @Rule
     @JvmField
@@ -61,7 +61,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider,
-                testResultNotificationService,
+                shareTestResultNotificationService,
                 submissionRepository
             )
         )
