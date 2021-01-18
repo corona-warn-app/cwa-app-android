@@ -20,11 +20,9 @@ object StatisticsNumberValueFormatter {
         }
 
         return when (decimals) {
-            (-1) -> DecimalFormat("#", DecimalFormatSymbols(locale))
-            0 -> DecimalFormat("#,###", DecimalFormatSymbols(locale))
+            in Int.MIN_VALUE..0 -> DecimalFormat("#,###", DecimalFormatSymbols(locale))
             1 -> DecimalFormat("#,###.#", DecimalFormatSymbols(locale))
-            2 -> DecimalFormat("#,###.##", DecimalFormatSymbols(locale))
-            else -> DecimalFormat.getNumberInstance(locale)
+            else -> DecimalFormat("#,###.##", DecimalFormatSymbols(locale))
         }.format(value)
     }
 }
