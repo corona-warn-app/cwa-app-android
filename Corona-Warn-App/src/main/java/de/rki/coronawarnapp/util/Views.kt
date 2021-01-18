@@ -54,3 +54,27 @@ fun TextView.setUrl(@StringRes textRes: Int, label: String, url: String) {
         }
     }
 }
+
+fun TextView.setUrl(@StringRes textRes: Int, @StringRes labelRes: Int, @StringRes urlRes: Int) {
+    val url = context.getString(urlRes)
+    val label = context.getString(labelRes)
+    context.getString(textRes).also {
+        val indexOf = it.indexOf(label)
+        if (indexOf > 0) {
+            setText(
+                SpannableString(it).apply {
+                    setSpan(
+                        URLSpan(url),
+                        indexOf,
+                        indexOf + label.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                },
+                TextView.BufferType.SPANNABLE
+            )
+            movementMethod = LinkMovementMethod.getInstance()
+        } else {
+            text = it
+        }
+    }
+}

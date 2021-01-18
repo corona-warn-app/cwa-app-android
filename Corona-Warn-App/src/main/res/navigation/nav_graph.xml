@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
+            app:destination="@id/statisticsExplanationFragment" />
     </fragment>
 
     <fragment
@@ -218,6 +221,14 @@
             android:id="@+id/action_riskDetailsFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/statisticsExplanationFragment"
+        android:name="de.rki.coronawarnapp.statistics.ui.StatisticsExplanationFragment"
+        android:label="@layout/fragment_statistics_explanation"
+        tools:layout="@layout/fragment_statistics_explanation" />
+
     <!-- Submission -->
     <fragment
         android:id="@+id/submissionDispatcherFragment"

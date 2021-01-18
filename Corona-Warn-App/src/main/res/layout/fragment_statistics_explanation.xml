@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_your_consent_container"
+        android:id="@+id/statistics_explanation_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/submission_your_consent_title"
+        android:contentDescription="@string/statistics_explanation_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.yourconsent.SubmissionYourConsentFragment">
+        tools:context=".statistics.ui.StatisticsExplanationFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/statistics_explanation_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="21dp"
-            android:paddingBottom="@dimen/spacing_tiny"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -177,6 +176,7 @@
                     android:text="@string/statistics_explanation_seven_day_r_value_title" />
 
                 <TextView
+                    android:id="@+id/statistics_explanation_seven_day_r_value_text"
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -323,10 +323,15 @@
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:focusable="true">
 
-                    <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+                    <ImageView
                         android:id="@+id/statistics_explanation_trend_increasing_arrow"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_statistics_trend_negative"
+                        android:contentDescription="@string/statistics_explanation_trend_increasing_title"
+                        android:padding="1dp"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -342,11 +347,16 @@
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_increasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_increasing_arrow" />
 
-                    <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+                    <ImageView
                         android:id="@+id/statistics_explanation_trend_decreasing_arrow"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="28dp"
+                        android:background="@drawable/bg_statistics_trend_positive"
+                        android:contentDescription="@string/statistics_explanation_trend_decreasing_title"
+                        android:padding="1dp"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_increasing_arrow"
                         app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_increasing_title" />
 
@@ -362,11 +372,16 @@
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_decreasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_decreasing_arrow" />
 
-                    <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+                    <ImageView
                         android:id="@+id/statistics_explanation_trend_stable_arrow"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="28dp"
+                        android:background="@drawable/bg_statistics_trend_neutral"
+                        android:contentDescription="@string/statistics_explanation_trend_stable_title"
+                        android:padding="1dp"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_decreasing_arrow"
                         app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_decreasing_title" />
 
