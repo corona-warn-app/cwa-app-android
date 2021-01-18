@@ -27,18 +27,6 @@ commands:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
 
-  require-version-bump:
-    description: "Require version bump for binary assembling"
-    steps:
-      - run:
-          name: "Check if assemble required"
-          command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
-              circleci-agent step halt
-              echo "Skipping job"
-            fi
-
   run-gradle-cmd:
     description: "Running gradle command with environment options"
     parameters:
@@ -182,7 +170,6 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - require-version-bump
       - run-gradle-cmd:
           desc: Quick Build
           cmd: "assembleDeviceRelease"
@@ -200,7 +187,6 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - require-version-bump
       - run-gradle-cmd:
           desc: Quick Build
           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
@@ -346,6 +332,7 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+
   lint_device_for_testers_release_check:
     executor: android/android
     resource_class: xlarge
@@ -472,6 +459,7 @@ workflows:
       - ktlint_device_release_check
       - quick_build_device_release_no_tests
       - device_release_unit_tests
+      - device_instrumentation_tests
       - run_sonar:
           requires:
             - device_release_unit_tests
@@ -489,20 +477,19 @@ workflows:
       - ktlint_device_for_testers_release_check
       - quick_build_device_for_testers_release_no_tests
       - device_for_testers_release_unit_tests
-      - device_instrumentation_tests:
-          requires:
-            - quick_build_device_for_testers_release_no_tests
-            - device_for_testers_release_unit_tests
-            - lint_device_for_testers_release_check
-            - ktlint_device_for_testers_release_check
-            - detekt
 
   signed_build:
     jobs:
+      - device_for_testers_release_unit_tests
       - quick_build_device_for_testers_signed:
+          requires:
+            - device_for_testers_release_unit_tests
           filters:
             tags:
               only:
                 - /^v.*/
             branches:
               ignore: /.*/
+      - device_screenshots:
+          requires:
+            - quick_build_device_for_testers_signed
