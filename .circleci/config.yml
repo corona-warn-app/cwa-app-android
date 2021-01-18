@@ -482,20 +482,20 @@ workflows:
           - quick_build_device_release_no_tests
           - device_release_unit_tests
 
-    check_buildtype_device_for_testers:
-      jobs:
-        - detekt
-        - lint_device_for_testers_release_check
-        - ktlint_device_for_testers_release_check
-        - quick_build_device_for_testers_release_no_tests
-        - device_for_testers_release_unit_tests
-        - device_instrumentation_tests
-          requires:
-            - quick_build_device_for_testers_release_no_tests
-            - device_for_testers_release_unit_tests
-            - lint_device_for_testers_release_check
-            - ktlint_device_for_testers_release_check
-            - detekt
+  check_buildtype_device_for_testers:
+    jobs:
+      - detekt
+      - lint_device_for_testers_release_check
+      - ktlint_device_for_testers_release_check
+      - quick_build_device_for_testers_release_no_tests
+      - device_for_testers_release_unit_tests
+      - device_instrumentation_tests
+        requires:
+          - quick_build_device_for_testers_release_no_tests
+          - device_for_testers_release_unit_tests
+          - lint_device_for_testers_release_check
+          - ktlint_device_for_testers_release_check
+          - detekt
 
   signed_build:
     jobs:
