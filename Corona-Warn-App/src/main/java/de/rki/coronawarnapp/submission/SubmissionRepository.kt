@@ -164,6 +164,9 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
+    suspend fun asyncRequestTestResult(registrationToken: String): TestResult =
+        submissionService.asyncRequestTestResult(registrationToken)
+
     private suspend fun fetchTestResult(registrationToken: String): DeviceUIState = try {
         val testResult = submissionService.asyncRequestTestResult(registrationToken)
         updateTestResult(testResult)
@@ -181,7 +184,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.initialPollingForTestResultTimeStamp(0L)
         LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.isTestResultNotificationSent(false)
+        LocalData.isTestResultAvailableNotificationSent(false)
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
