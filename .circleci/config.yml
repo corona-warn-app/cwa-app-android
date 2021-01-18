@@ -283,16 +283,15 @@ jobs:
           paths:
             - vendor/bundle
       - setup-android-macos
-      - run-emulator-api29
       - run-gradle-cmd:
-          desc: Run instrumentation test command
+          desc: Build APKs for screenshots
           cmd: |
             :Corona-Warn-App:assembleDebug \
             :Corona-Warn-App:assembleAndroidTest
+      - run-emulator-api29
       - run:
           name: Run fastlane screengrab
           command: "bundle exec fastlane screengrab"
-      - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
       - store_artifacts:
