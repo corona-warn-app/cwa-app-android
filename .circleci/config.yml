@@ -268,7 +268,7 @@ jobs:
             -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
       - kill-all-emulators
       - store_test_results:
-          path: Corona-Warn-App/build/test-results
+          path: Corona-Warn-App/build/outputs/androidTest-results
 
   device_screenshots:
     macos:
@@ -284,6 +284,11 @@ jobs:
             - vendor/bundle
       - setup-android-macos
       - run-emulator-api29
+      - run-gradle-cmd:
+          desc: Run instrumentation test command
+          cmd: |
+            :Corona-Warn-App:assembleDebug \
+            :Corona-Warn-App:assembleAndroidTest
       - run:
           name: Run fastlane screengrab
           command: "bundle exec fastlane screengrab"
