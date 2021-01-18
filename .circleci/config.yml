@@ -219,8 +219,11 @@ jobs:
           name: Wait for emulator
           command: adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
       - run-gradle-cmd:
-          desc: connectedAndroidTest
-          cmd: "connectedAndroidTest --info"
+          desc: Run instrumentation test command
+          cmd: |
+            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
+            --info \
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
 
   device_screenshots:
     resource_class: xlarge
