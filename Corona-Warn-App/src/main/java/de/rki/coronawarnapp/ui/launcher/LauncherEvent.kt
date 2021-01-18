@@ -4,7 +4,7 @@ import android.content.Intent
 
 sealed class LauncherEvent {
     object GoToOnboarding : LauncherEvent()
-    object GoToMainActivity : LauncherEvent()
+    object GoToAppShortcutOrMainActivity : LauncherEvent()
     data class ShowUpdateDialog(
         val updateIntent: Intent
     ) : LauncherEvent()

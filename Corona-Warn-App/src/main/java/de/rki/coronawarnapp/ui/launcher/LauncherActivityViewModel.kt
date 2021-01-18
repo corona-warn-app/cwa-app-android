@@ -20,8 +20,8 @@ class LauncherActivityViewModel @AssistedInject constructor(
             val updateResult = updateChecker.checkForUpdate()
             when {
                 updateResult.isUpdateNeeded -> LauncherEvent.ShowUpdateDialog(updateResult.updateIntent?.invoke()!!)
-                LocalData.isOnboarded() -> LauncherEvent.GoToMainActivity
-                else -> LauncherEvent.GoToOnboarding
+                !LocalData.isOnboarded() -> LauncherEvent.GoToOnboarding
+                else -> LauncherEvent.GoToAppShortcutOrMainActivity
             }.let { events.postValue(it) }
         }
     }

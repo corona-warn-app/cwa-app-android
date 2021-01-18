@@ -1497,4 +1497,9 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">Kontakt-Tagebuch</string>
+    <!-- XDES: Message for the contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_desc">Kontakt-Tagebuch öffnen</string>
+
 </resources>
