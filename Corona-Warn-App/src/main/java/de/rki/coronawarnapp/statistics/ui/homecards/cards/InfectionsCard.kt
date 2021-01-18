@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsInfectionsLayoutBinding
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
+import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 
 class InfectionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsInfectionsLayoutBinding>(
@@ -22,8 +23,18 @@ class InfectionsCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsInfectionsLayoutBinding.(
         item: StatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
-        item.stats as InfectionStats
-        viewBinding.value.stats = item.stats
+    ) -> Unit = { item, _ ->
+        with(item.stats as InfectionStats) {
+            viewBinding.value.newInfectionsLabel = "Heute"
+
+            viewBinding.value.newInfections =
+                formatStatisticalValue(context, newInfections.value, newInfections.decimals)
+
+            viewBinding.value.sevenDayAverage =
+                formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
+
+            viewBinding.value.total =
+                formatStatisticalValue(context, total.value, total.decimals)
+        }
     }
 }

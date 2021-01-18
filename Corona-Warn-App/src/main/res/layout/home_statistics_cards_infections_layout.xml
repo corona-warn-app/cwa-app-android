@@ -5,11 +5,21 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterStatistics" />
+        <variable
+            name="newInfectionsLabel"
+            type="String" />
 
         <variable
-            name="stats"
-            type="de.rki.coronawarnapp.statistics.InfectionStats" />
+            name="newInfections"
+            type="String" />
+
+        <variable
+            name="sevenDayAverage"
+            type="String" />
+
+        <variable
+            name="total"
+            type="String" />
 
     </data>
 
@@ -25,14 +35,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="0dp"
             android:focusable="false"
             android:text="@string/statistics_card_infections_title"
-            app:layout_constraintEnd_toStartOf="@id/statistics_card_header_icon"
+            app:layout_constraintEnd_toStartOf="@id/statistics_card_info_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:importantForAccessibility="no"
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +74,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{FormatterStatistics.getPrimaryLabel(stats.updatedAt, context)}"
+            android:text="@{newInfectionsLabel}"
             tools:text="Gestern" />
 
         <TextView
@@ -71,7 +82,8 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{FormatterStatistics.getPrimaryData(stats.keyFigures)}"
+            android:includeFontPadding="false"
+            android:text="@{newInfections}"
             tools:text="14.714" />
 
         <TextView
@@ -79,7 +91,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
+            android:paddingTop="8dp"
             android:text="@string/statistics_card_infections_secondary_label" />
 
         <TextView
@@ -87,7 +99,7 @@
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{FormatterStatistics.getSecondaryData(stats.keyFigures)}"
+            android:text="@{sevenDayAverage}"
             tools:text="11.981" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
@@ -111,27 +123,28 @@
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{FormatterStatistics.getTertiaryData(stats.keyFigures)}"
+            android:text="@{total}"
             tools:text="429.181" />
 
         <TextView
             style="@style/StatisticsCardValueLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="8dp"
             android:text="@string/statistics_card_infections_bottom_text"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <ImageView
-            android:id="@+id/statistics_card_header_icon"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
-            android:padding="0dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_statistics_info"
+        <ImageButton
+            android:contentDescription="Info"
+            android:id="@+id/statistics_card_info_button"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
