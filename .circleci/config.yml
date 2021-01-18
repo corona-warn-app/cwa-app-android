@@ -442,18 +442,17 @@ jobs:
 #######################
 workflows:
   version: 2
-    check_buildtype_device:
-      jobs:
-        - device_screenshots
-        #      - detekt
-        #      - lint_device_release_check
-        #      - ktlint_device_release_check
-        #      - quick_build_device_release_no_tests
-        #      - device_release_unit_tests
-        #      - run_sonar:
-        #          requires:
-        #            - device_release_unit_tests
-  #        - device_screenshots
+  check_buildtype_device:
+    jobs:
+      #      - detekt
+      #      - lint_device_release_check
+      #      - ktlint_device_release_check
+      #      - quick_build_device_release_no_tests
+      #      - device_release_unit_tests
+      #      - run_sonar:
+      #          requires:
+      #            - device_release_unit_tests
+      - device_screenshots
   #          requires:
   #            - lint_device_release_check
   #            - ktlint_device_release_check
