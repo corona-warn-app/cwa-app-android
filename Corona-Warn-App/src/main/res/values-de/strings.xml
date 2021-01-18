@@ -1598,4 +1598,11 @@
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">durchschnittliche Ansteckungen pro infizierter Person</string>
 
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">Trend steigend</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">Trend fallend</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">Trend stabil</string>
+
 </resources>
