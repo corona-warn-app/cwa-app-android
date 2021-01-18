@@ -118,7 +118,7 @@ commands:
           command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_29" --package "system-images;android-29;google_apis;x86_64"
       - run:
           name: Start API29 AVD
-          command: emulator @Pixel_3a_API_29 -no-window -no-audio
+          command: emulator @Pixel_3a_API_29 -no-window -no-audio -no-boot-anim -skin 1080x1920
           background: true
           no_output_timeout: 60m
       - run:
@@ -136,7 +136,7 @@ commands:
           command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_3a_API_23" --package "system-images;android-23;google_apis;x86_64"
       - run:
           name: Start API23 AVD
-          command: emulator @Pixel_3a_API_23 -no-window -no-audio
+          command: emulator @Pixel_3a_API_23 -no-window -no-audio -no-boot-anim -skin 1080x1920
           background: true
           no_output_timeout: 60m
       - run:
@@ -162,6 +162,21 @@ commands:
 # Tasks that get executed
 #######################
 jobs:
+  detekt:
+    executor: android/android
+    resource_class: medium
+    working_directory: ~/project
+    steps:
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
+      - run-gradle-cmd:
+          desc: Detekt check
+          cmd: ":Corona-Warn-App:detekt"
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+
   quick_build_device_release_no_tests:
     executor: android/android
     resource_class: xlarge
@@ -196,7 +211,7 @@ jobs:
           path: Corona-Warn-App/build/reports
           destination: reports
 
-  device_release_unit_tests:
+  unit_tests_device_release:
     executor: android/android
     resource_class: xlarge
     working_directory: ~/project
@@ -220,7 +235,7 @@ jobs:
           paths:
             - ./project
 
-  device_for_testers_release_unit_tests:
+  unit_tests_device_for_testers_release:
     executor: android/android
     resource_class: xlarge
     working_directory: ~/project
@@ -240,69 +255,6 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
 
-  device_instrumentation_tests:
-    macos:
-      xcode: "11.2.0"
-    steps:
-      - checkout
-      - setup-android-macos
-      - run-gradle-cmd:
-          desc: Build Apks for instrumentation test
-          cmd: |
-            :Corona-Warn-App:assembleDeviceDebug \
-            :Corona-Warn-App:assembleDeviceDebugAndroidTest
-      - run-emulator-api29
-      - run-gradle-cmd:
-          desc: Run instrumentation tests on device
-          cmd: |
-            :Corona-Warn-App:connectedDeviceDebugAndroidTest \
-            --info \
-            --continue \
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
-            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      #      - kill-all-emulators
-      #      - run-emulator-api23
-      #      - run-gradle-cmd:
-      #          desc: Run instrumentation test command
-      #          cmd: |
-      #            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
-      #            --info \
-      #            --continue \
-      #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
-      #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      #      - kill-all-emulators
-      - store_test_results:
-          path: Corona-Warn-App/build/outputs/androidTest-results
-
-  device_screenshots:
-    macos:
-      xcode: "11.2.0"
-    steps:
-      - checkout
-      - restore_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
-      - run: bundle check || bundle install --path vendor/bundle
-      - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - setup-android-macos
-      - run-gradle-cmd:
-          desc: Build APKs for screenshots
-          cmd: |
-            :Corona-Warn-App:assembleDebug \
-            :Corona-Warn-App:assembleAndroidTest
-      - run-emulator-api29
-      - run:
-          name: Run fastlane screengrab
-          command: |
-            for i in {1..5}; do bundle exec fastlane screengrab && break || sleep 15; done
-          no_output_timeout: 30m
-      - kill-all-emulators
-      - store_artifacts:
-          path: fastlane/metadata/android
-          destination: screenshots
-
   lint_device_release_check:
     executor: android/android
     resource_class: xlarge
@@ -314,21 +266,6 @@ jobs:
       - run-gradle-cmd:
           desc: Lint check deviceRelease
           cmd: ":Corona-Warn-App:lintDeviceRelease -i"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-
-  ktlint_device_release_check:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Ktlint check deviceRelease
-          cmd: ":Corona-Warn-App:ktlintDeviceReleaseCheck"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -348,6 +285,21 @@ jobs:
           path: Corona-Warn-App/build/reports
           destination: reports
 
+  ktlint_device_release_check:
+    executor: android/android
+    resource_class: medium
+    working_directory: ~/project
+    steps:
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
+      - run-gradle-cmd:
+          desc: Ktlint check deviceRelease
+          cmd: ":Corona-Warn-App:ktlintDeviceReleaseCheck"
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+
   ktlint_device_for_testers_release_check:
     executor: android/android
     resource_class: medium
@@ -359,21 +311,6 @@ jobs:
       - run-gradle-cmd:
           desc: Ktlint check deviceForTestersRelease
           cmd: ":Corona-Warn-App:ktlintDeviceForTestersReleaseCheck"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-
-  detekt:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Detekt check
-          cmd: ":Corona-Warn-App:detekt"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -446,6 +383,70 @@ jobs:
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
 
+  instrumentation_tests_device:
+    macos:
+      xcode: "11.2.0"
+    steps:
+      - checkout
+      - setup-android-macos
+      - run-gradle-cmd:
+          desc: Build Apks for instrumentation test
+          cmd: |
+            :Corona-Warn-App:assembleDeviceDebug \
+            :Corona-Warn-App:assembleDeviceDebugAndroidTest
+      - run-emulator-api29
+      - run-gradle-cmd:
+          desc: Run instrumentation tests on device
+          cmd: |
+            :Corona-Warn-App:connectedDeviceDebugAndroidTest \
+            --info \
+            --continue \
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
+      #      - kill-all-emulators
+      #      - run-emulator-api23
+      #      - run-gradle-cmd:
+      #          desc: Run instrumentation test command
+      #          cmd: |
+      #            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
+      #            --info \
+      #            --continue \
+      #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+      #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
+      #      - kill-all-emulators
+      - store_test_results:
+          path: Corona-Warn-App/build/outputs/androidTest-results
+
+  device_screenshots:
+    macos:
+      xcode: "11.2.0"
+    steps:
+      - checkout
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - setup-android-macos
+      - run-gradle-cmd:
+          desc: Build APKs for screenshots
+          cmd: |
+            :Corona-Warn-App:assembleDebug \
+            :Corona-Warn-App:assembleAndroidTest
+      - run-emulator-api29
+      - run:
+          name: Run fastlane screengrab
+          command: |
+            for i in {1..5}; do bundle exec fastlane screengrab && break || sleep 15; done
+          no_output_timeout: 30m
+      - kill-all-emulators
+      - store_artifacts:
+          path: fastlane/metadata/android
+          destination: screenshots
+
+
 #######################
 # Workflow section
 # Job execution orders
@@ -458,17 +459,17 @@ workflows:
       - lint_device_release_check
       - ktlint_device_release_check
       - quick_build_device_release_no_tests
-      - device_release_unit_tests
-      - device_instrumentation_tests
+      - unit_tests_device_release
+      - instrumentation_tests_device
       - run_sonar:
           requires:
-            - device_release_unit_tests
-      - device_screenshots:
-          requires:
-            - lint_device_release_check
-            - ktlint_device_release_check
-            - quick_build_device_release_no_tests
-            - device_release_unit_tests
+            - unit_tests_device_release
+      - device_screenshots
+  #          requires:
+  #            - lint_device_release_check
+  #            - ktlint_device_release_check
+  #            - quick_build_device_release_no_tests
+  #            - unit_tests_device_release
 
   check_buildtype_device_for_testers:
     jobs:
@@ -476,7 +477,7 @@ workflows:
       - lint_device_for_testers_release_check
       - ktlint_device_for_testers_release_check
       - quick_build_device_for_testers_release_no_tests
-      - device_for_testers_release_unit_tests
+      - unit_tests_device_for_testers_release
 
   signed_build:
     jobs:
