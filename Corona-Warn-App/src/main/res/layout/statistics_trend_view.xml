@@ -7,6 +7,7 @@
         android:id="@+id/trend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="1dp"
         android:background="@drawable/bg_statistics_trend_neutral"
         android:scaleType="center"
         android:src="@drawable/ic_trend_stable" />

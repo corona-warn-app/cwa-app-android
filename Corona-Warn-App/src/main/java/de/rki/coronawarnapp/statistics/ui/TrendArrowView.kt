@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.statistics.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
@@ -14,24 +17,27 @@ class TrendArrowView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
+
+    private val imageView: ImageView
 
     init {
-        scaleType = ScaleType.CENTER
-        setTrend(INCREASING, NEGATIVE)
+        LayoutInflater.from(context)
+            .inflate(R.layout.statistics_trend_view, this, true)
+        imageView = findViewById(R.id.trend)
     }
 
     fun setTrend(
         trend: KeyFigureCardOuterClass.KeyFigure.Trend,
         trendSemantic: KeyFigureCardOuterClass.KeyFigure.TrendSemantic
     ) {
-        rotation = when (trend) {
+        imageView.rotation = when (trend) {
             INCREASING -> -45F
             DECREASING -> 45F
             else -> 0F
         }
 
-        background = ContextCompat.getDrawable(
+        imageView.background = ContextCompat.getDrawable(
             context, when (trendSemantic) {
                 POSITIVE -> R.drawable.bg_statistics_trend_positive
                 NEGATIVE -> R.drawable.bg_statistics_trend_negative
