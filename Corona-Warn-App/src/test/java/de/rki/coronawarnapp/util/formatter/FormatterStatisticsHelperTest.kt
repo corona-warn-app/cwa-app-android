@@ -29,10 +29,10 @@ class FormatterStatisticsHelperTest {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
         with(context) {
             every { context.getLocale() } returns Locale.GERMANY
-            every { getString(R.string.statistics_primary_value_today) } returns R.string.statistics_primary_value_today.toString()
-            every { getString(R.string.statistics_primary_value_yesterday) } returns R.string.statistics_primary_value_yesterday.toString()
-            every { getString(R.string.statistics_primary_value_until_today) } returns R.string.statistics_primary_value_until_today.toString()
-            every { getString(R.string.statistics_primary_value_until_yesterday) } returns R.string.statistics_primary_value_until_yesterday.toString()
+            every { getString(R.string.statistics_primary_value_today) } returns TODAY
+            every { getString(R.string.statistics_primary_value_yesterday) } returns YESTERDAY
+            every { getString(R.string.statistics_primary_value_until_today) } returns UNTIL_TODAY
+            every { getString(R.string.statistics_primary_value_until_yesterday) } returns UNTIL_YESTERDAY
         }
     }
 
@@ -41,11 +41,11 @@ class FormatterStatisticsHelperTest {
         formatStatisticsDate(
             context = context,
             localDate = today
-        ) shouldBe context.getString(R.string.statistics_primary_value_today)
+        ) shouldBe TODAY
         formatStatisticsDate(
             context = context,
             localDate = yesterday
-        ) shouldBe (context.getString(R.string.statistics_primary_value_yesterday))
+        ) shouldBe YESTERDAY
         formatStatisticsDate(context = context, localDate = LocalDate("2021-01-02")) shouldBe "Samstag, 02.01.21"
     }
 
@@ -54,11 +54,11 @@ class FormatterStatisticsHelperTest {
         formatStatisticsDateInterval(
             context = context,
             localDate = today
-        ) shouldBe context.getString(R.string.statistics_primary_value_until_today)
+        ) shouldBe UNTIL_TODAY
         formatStatisticsDateInterval(
             context = context,
             localDate = yesterday
-        ) shouldBe (context.getString(R.string.statistics_primary_value_until_yesterday))
+        ) shouldBe UNTIL_YESTERDAY
         formatStatisticsDateInterval(
             context = context,
             localDate = LocalDate("2021-01-02")
@@ -68,5 +68,12 @@ class FormatterStatisticsHelperTest {
     @After
     fun cleanUp() {
         unmockkAll()
+    }
+
+    companion object {
+        private const val TODAY = "Today"
+        private const val YESTERDAY = "Yesterday"
+        private const val UNTIL_TODAY = "Until today"
+        private const val UNTIL_YESTERDAY = "Until yesterday"
     }
 }
