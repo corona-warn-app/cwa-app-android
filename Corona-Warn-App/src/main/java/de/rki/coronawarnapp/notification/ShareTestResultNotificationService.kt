@@ -14,16 +14,16 @@ import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import javax.inject.Inject
 
-class TestResultNotificationService @Inject constructor(
+class ShareTestResultNotificationService @Inject constructor(
     @AppContext private val context: Context,
     private val timeStamper: TimeStamper,
     private val notificationHelper: NotificationHelper
 ) {
 
-    fun schedulePositiveTestResultReminder() {
-        if (LocalData.numberOfRemainingPositiveTestResultReminders < 0) {
+    fun scheduleSharePositiveTestResultReminder() {
+        if (LocalData.numberOfRemainingSharePositiveTestResultReminders < 0) {
             Timber.v("Schedule positive test result notification")
-            LocalData.numberOfRemainingPositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
+            LocalData.numberOfRemainingSharePositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
             notificationHelper.scheduleRepeatingNotification(
                 timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
                 POSITIVE_RESULT_NOTIFICATION_INTERVAL,
@@ -34,9 +34,9 @@ class TestResultNotificationService @Inject constructor(
         }
     }
 
-    fun showPositiveTestResultNotification(notificationId: Int) {
-        if (LocalData.numberOfRemainingPositiveTestResultReminders > 0) {
-            LocalData.numberOfRemainingPositiveTestResultReminders -= 1
+    fun showSharePositiveTestResultNotification(notificationId: Int) {
+        if (LocalData.numberOfRemainingSharePositiveTestResultReminders > 0) {
+            LocalData.numberOfRemainingSharePositiveTestResultReminders -= 1
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)
                 .setComponentName(MainActivity::class.java)
@@ -54,14 +54,14 @@ class TestResultNotificationService @Inject constructor(
         }
     }
 
-    fun cancelPositiveTestResultNotification() {
+    fun cancelSharePositiveTestResultNotification() {
         notificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID)
         Timber.v("Future positive test result notifications have been canceled")
     }
 
-    fun resetPositiveTestResultNotification() {
-        cancelPositiveTestResultNotification()
-        LocalData.numberOfRemainingPositiveTestResultReminders = Int.MIN_VALUE
+    fun resetSharePositiveTestResultNotification() {
+        cancelSharePositiveTestResultNotification()
+        LocalData.numberOfRemainingSharePositiveTestResultReminders = Int.MIN_VALUE
         Timber.v("Positive test result notification counter has been reset")
     }
 }

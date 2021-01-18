@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.WorkManager
 import dagger.Module
@@ -63,4 +65,9 @@ class AndroidModule {
     @Provides
     @Singleton
     fun activityManager(@AppContext context: Context): ActivityManager = context.getSystemService()!!
+
+    @Provides
+    @Singleton
+    @ProcessLifecycle
+    fun procressLifecycleOwner(): LifecycleOwner = ProcessLifecycleOwner.get()
 }
