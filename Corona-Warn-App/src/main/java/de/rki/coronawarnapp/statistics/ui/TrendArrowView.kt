@@ -31,18 +31,28 @@ class TrendArrowView @JvmOverloads constructor(
         trend: KeyFigureCardOuterClass.KeyFigure.Trend,
         trendSemantic: KeyFigureCardOuterClass.KeyFigure.TrendSemantic
     ) {
-        imageView.rotation = when (trend) {
-            INCREASING -> -45F
-            DECREASING -> 45F
-            else -> 0F
-        }
-
-        imageView.background = ContextCompat.getDrawable(
-            context, when (trendSemantic) {
-                POSITIVE -> R.drawable.bg_statistics_trend_positive
-                NEGATIVE -> R.drawable.bg_statistics_trend_negative
-                else -> R.drawable.bg_statistics_trend_neutral
+        with(imageView) {
+            rotation = when (trend) {
+                INCREASING -> -45F
+                DECREASING -> 45F
+                else -> 0F
             }
-        )
+
+            background = ContextCompat.getDrawable(
+                context, when (trendSemantic) {
+                    POSITIVE -> R.drawable.bg_statistics_trend_positive
+                    NEGATIVE -> R.drawable.bg_statistics_trend_negative
+                    else -> R.drawable.bg_statistics_trend_neutral
+                }
+            )
+
+            contentDescription = context.getString(
+                when (trend) {
+                    INCREASING -> R.string.statistics_trend_increasing
+                    DECREASING -> R.string.statistics_trend_decreasing
+                    else -> R.string.statistics_trend_stable
+                }
+            )
+        }
     }
 }

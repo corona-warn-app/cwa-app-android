@@ -1308,6 +1308,10 @@
     <string name="statistics_primary_value_until_today">"Bis heute"</string>
     <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
     <string name="statistics_primary_value_until_yesterday">"Bis gestern"</string>
+    <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
+    <string name="statistics_primary_value_current">"Aktuell"</string>
+    <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
+    <string name="statistics_primary_value_until">"Bis %s"</string>
 
     <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
     <string name="statistics_value_suffix_million">"Mio."</string>
@@ -1597,5 +1601,12 @@
     <string name="statistics_reproduction_title">Aktuell</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">durchschnittliche Ansteckungen pro infizierter Person</string>
+
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">Trend steigend</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">Trend fallend</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">Trend stabil</string>
 
 </resources>
