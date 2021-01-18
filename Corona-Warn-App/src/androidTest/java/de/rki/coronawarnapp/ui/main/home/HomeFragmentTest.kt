@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
@@ -44,6 +43,7 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.recyclerScrollTo
 import timber.log.Timber
@@ -99,8 +99,7 @@ class HomeFragmentTest : BaseUITest() {
 
     @Test
     fun onResumeCallsRefresh() {
-        // AppTheme is required here to prevent xml inflation crash
-        launchFragment<HomeFragment>(themeResId = R.style.AppTheme)
+        launchFragment2<HomeFragment>()
         verify(exactly = 1) { viewModel.refreshRequiredData() }
     }
 
