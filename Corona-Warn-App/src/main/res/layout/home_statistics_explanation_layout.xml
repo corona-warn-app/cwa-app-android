@@ -172,10 +172,119 @@
                     android:text="@string/statistics_explanation_seven_day_r_value_text"/>
 
                 <View
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="43dp"
                     android:background="@color/colorHairline" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_legend_title"
+                    android:text="@string/statistics_explanation_legend_title"/>
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_title"
+                    android:text="@string/statistics_explanation_period_title"/>
+
+                <TextView
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_yesterday_subtitle"
+                    android:text="@string/statistics_explanation_period_yesterday_subtitle"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_yesterday_text"
+                    android:text="@string/statistics_explanation_period_yesterday_text"/>
+
+                <TextView
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_seven_day_subtitle"
+                    android:text="@string/statistics_explanation_period_seven_day_subtitle"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_seven_day_text"
+                    android:text="@string/statistics_explanation_period_seven_day_text"/>
+
+                <TextView
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_total_subtitle"
+                    android:text="@string/statistics_explanation_period_total_subtitle"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_period_total_text"
+                    android:text="@string/statistics_explanation_period_total_text"/>
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="47dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_trend_title"
+                    android:text="@string/statistics_explanation_trend_title"/>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_trend_text"
+                    android:text="@string/statistics_explanation_trend_text"/>
+
+                <TextView
+                    style="@style/headline6"
+                    android:textSize="14sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/statistics_explanation_trend_icons_title"
+                    android:text="@string/statistics_explanation_trend_icons_title"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true">
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
