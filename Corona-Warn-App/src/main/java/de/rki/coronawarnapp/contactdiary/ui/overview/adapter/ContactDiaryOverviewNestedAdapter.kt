@@ -39,6 +39,10 @@ class ContactDiaryOverviewNestedAdapter(
             { key, _ ->
                 contactDiaryOverviewElementImage.setImageResource(key.drawableId)
                 contactDiaryOverviewElementName.text = key.text
+                contactDiaryOverviewElementName.contentDescription = if (key.type == "Location") context.getString(R.string.accessibility_location, key.text) else context.getString(R.string.accessibility_person, key.text)
+
+
+
                 contactDiaryOverviewElementNestedContainer.setOnClickListener { onItemSelectionListener(element) }
             }
     }
