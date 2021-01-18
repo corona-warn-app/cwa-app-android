@@ -28,3 +28,8 @@ data class KeySubmissionsStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigureCardOuterClass.KeyFigure>
 ) : StatsItem(cardId = 3)
+
+data class ReproductionNumberStats(
+    override val updatedAt: Instant,
+    override val keyFigures: List<KeyFigureCardOuterClass.KeyFigure>
+) : StatsItem(cardId = 4)

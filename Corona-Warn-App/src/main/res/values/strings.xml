@@ -1316,6 +1316,10 @@
     <string name="statistics_primary_value_until_today">"Bis heute"</string>
     <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
     <string name="statistics_primary_value_until_yesterday">"Bis gestern"</string>
+    <!-- XTXT: Timestamp refers to todays's date in incident card -->
+    <string name="statistics_primary_value_curret">"Current"</string>
+    <!-- XTXT: Timestamp refers to todays's date in incident card -->
+    <string name="statistics_primary_value_until">"Bis %s"</string>
 
     <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
     <string name="statistics_value_suffix_million">"Mio."</string>
