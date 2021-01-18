@@ -1309,7 +1309,7 @@
     <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
     <string name="statistics_primary_value_until_yesterday">"Bis gestern"</string>
     <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
-    <string name="statistics_primary_value_curret">"Aktuell"</string>
+    <string name="statistics_primary_value_current">"Aktuell"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Bis %s"</string>
 
