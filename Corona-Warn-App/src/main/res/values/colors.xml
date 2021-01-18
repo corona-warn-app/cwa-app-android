@@ -78,4 +78,7 @@
     <color name="colorContactDiaryListItemPressed">#D7D7D7</color>
     <color name="colorContactDiaryBackground">#FFFFFF</color>
 
+    <!-- Statistics -->
+    <color name="colorStatisticsValueLabel">#747576</color>
+    <color name="colorStatisticsPrimaryValue">#000000</color>
 </resources>
