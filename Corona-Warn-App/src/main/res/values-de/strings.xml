@@ -1309,6 +1309,9 @@
     <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
     <string name="statistics_primary_value_until_yesterday">"Bis gestern"</string>
 
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"Mio."</string>
+
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Kennzahlen"</string>
@@ -1343,7 +1346,7 @@
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Tage-Mittelwert"</string>
     <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage."</string>
+    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage"</string>
     <!-- XHED: Explanation screen period total subtitle -->
     <string name="statistics_explanation_period_total_subtitle">"Gesamt"</string>
     <!-- XTXT: Explanation screen period total text -->
@@ -1585,5 +1588,14 @@
     <string name="submission_test_result_positive_no_consent_dialog_negative_button">Nicht warnen</string>
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
+
+    <!-- XTXT: Statistics information (Accessibilty) -->
+    <string name="statistics_info_button">"Weitere Informationen"</string>
+    <!-- XHED: Title for statistics reproduction card -->
+    <string name="statistics_title_reproduction">7-Tage-R-Wert</string>
+    <!-- XTXT: Label for statistics reproduction card -->
+    <string name="statistics_reproduction_title">Aktuell</string>
+    <!-- XTXT: Caption for statistics reproduction card -->
+    <string name="statistics_reproduction_average">durchschnittliche Ansteckungen pro infizierter Person</string>
 
 </resources>
