@@ -48,6 +48,14 @@
             app:layout_constraintTop_toBottomOf="@id/primary_value_label"
             tools:text="1,04" />
 
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/primary_value"
+            app:layout_constraintStart_toEndOf="@id/primary_value"
+            app:layout_constraintTop_toTopOf="@id/primary_value" />
+
         <TextView
             android:id="@+id/secondary_value_label"
             style="@style/StatisticsCardValueLabel"
