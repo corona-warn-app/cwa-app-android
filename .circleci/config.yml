@@ -473,8 +473,8 @@ workflows:
       - quick_build_device_release_no_tests
       - device_release_unit_tests
       - run_sonar:
-          requires:
-            - device_release_unit_tests
+        requires:
+          - device_release_unit_tests
       - device_screenshots
         requires:
           - lint_device_release_check
