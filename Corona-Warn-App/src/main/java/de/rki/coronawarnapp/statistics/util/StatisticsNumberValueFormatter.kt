@@ -1,22 +1,25 @@
 package de.rki.coronawarnapp.statistics.util
 
+import android.content.Context
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.Locale
 
 object StatisticsNumberValueFormatter {
 
     fun getFormattedNumberValue(
+        context: Context,
         value: Double,
-        decimals: Int,
-        locale: Locale,
-        suffixMillion: String
+        decimals: Int
     ): String {
+
+        val locale = context.getLocale()
 
         // return strings like "12.7 Mio" for large values
         if (value >= 10_000_000) {
             return DecimalFormat("#,###.0", DecimalFormatSymbols(locale))
-                .format(value / 1_000_000) + " $suffixMillion"
+                .format(value / 1_000_000) + " ${context.getString(R.string.statistics_value_suffix_million)}"
         }
 
         return when (decimals) {
