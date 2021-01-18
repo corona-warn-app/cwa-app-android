@@ -41,7 +41,7 @@ class DeadmanNotificationScheduler @Inject constructor(
         // Create unique work and enqueue
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.KEEP,
             workBuilder.buildPeriodicWork()
         )
     }
