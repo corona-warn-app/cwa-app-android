@@ -1,102 +1,99 @@
 package de.rki.coronawarnapp.statistics.source
 
-import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
-import de.rki.coronawarnapp.statistics.IncidenceStats
-import de.rki.coronawarnapp.statistics.InfectionStats
-import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.StatisticsData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.device.ForegroundState
+import de.rki.coronawarnapp.util.flow.HotDataFlow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.launch
-import org.joda.time.Instant
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StatisticsProvider @Inject constructor() {
+class StatisticsProvider @Inject constructor(
+    @AppScope private val scope: CoroutineScope,
+    private val server: StatisticsServer,
+    private val localCache: StatisticsCache,
+    private val parser: StatisticsParser,
+    foregroundState: ForegroundState,
+    dispatcherProvider: DispatcherProvider
+) {
 
-    private val currentInternal = MutableStateFlow(StatisticsData(items = emptyList()))
-    val current: Flow<StatisticsData> = currentInternal.filterNotNull()
+    private val statisticsData = HotDataFlow(
+        loggingTag = TAG,
+        scope = scope,
+        coroutineContext = dispatcherProvider.IO,
+        sharingBehavior = SharingStarted.Lazily
+    ) {
+        try {
+            fromCache() ?: fromServer()
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to get data from server.")
+            StatisticsData()
+        }
+    }
+
+    val current: Flow<StatisticsData> = statisticsData.data
 
     init {
-        // Mock data
-        GlobalScope.launch(context = Dispatchers.IO) {
-            val statisticsData = StatisticsData(
-                items = listOf(
-                    InfectionStats(
-                        updatedAt = Instant.ofEpochMilli(1604839761),
-                        keyFigures = listOf(
-                            KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                                value = 14714.0
-                                decimals = 0
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                                trendSemantic =
-                                    KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                            }.build(),
-                            KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
-                                value = 11981.0
-                                decimals = 0
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
-                                trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                            }.build(), KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
-                                value = 429181.0
-                                decimals = 0
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                                trendSemantic =
-                                    KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                            }.build()
-                        )
-                    ),
-                    IncidenceStats(
-                        updatedAt = Instant.ofEpochMilli(1604839761),
-                        keyFigures = listOf(
-                            KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                                value = 98.9
-                                decimals = 1
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                                trendSemantic =
-                                    KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                            }.build()
-                        )
-                    ),
-                    KeySubmissionsStats(
-                        updatedAt = Instant.ofEpochMilli(1604839761),
-                        keyFigures = listOf(
-                            KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                                value = 1514.0
-                                decimals = 0
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                                trendSemantic =
-                                    KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                            }.build(),
-                            KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
-                                value = 1812.0
-                                decimals = 0
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.DECREASING
-                                trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                            }.build(),
-                            KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                                rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
-                                value = 20922.0
-                                decimals = 0
-                                trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                                trendSemantic =
-                                    KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                            }.build()
-                        )
-                    )
-                )
-            )
-            currentInternal.emit(statisticsData)
+        foregroundState.isInForeground
+            .onEach {
+                if (it) {
+                    Timber.tag(TAG).d("App moved to foreground triggering statistics update.")
+                    triggerUpdate()
+                }
+            }
+            .catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
+            .launchIn(scope)
+    }
+
+    private fun fromCache(): StatisticsData? = try {
+        Timber.tag(TAG).d("fromCache()")
+        localCache.load()?.let { parser.parse(it) }?.also {
+            Timber.tag(TAG).d("Parsed from cache: %s", it)
         }
+    } catch (e: Exception) {
+        Timber.tag(TAG).w(e, "Failed to parse cached data.")
+        null
+    }
+
+    private suspend fun fromServer(): StatisticsData {
+        Timber.tag(TAG).d("fromServer()")
+        val rawData = server.getRawStatistics()
+        return parser.parse(rawData).also {
+            Timber.tag(TAG).d("Parsed from server: %s", it)
+            localCache.save(rawData)
+        }
+    }
+
+    fun triggerUpdate() {
+        Timber.tag(TAG).d("triggerUpdate()")
+        statisticsData.updateSafely {
+            try {
+                fromServer()
+            } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Failed to update statistics.")
+                this@updateSafely // return previous data
+            }
+        }
+    }
+
+    suspend fun clear() {
+        Timber.d("clear()")
+        server.clear()
+        localCache.save(null)
+        statisticsData.updateBlocking {
+            StatisticsData()
+        }
+    }
+
+    companion object {
+        const val TAG = "StatisticsProvider"
     }
 }

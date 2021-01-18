@@ -81,4 +81,7 @@
     <!-- Statistics -->
     <color name="colorStatisticsValueLabel">#747576</color>
     <color name="colorStatisticsPrimaryValue">#000000</color>
+    <color name="colorStatisticsTrendPositive">#2E854B</color>
+    <color name="colorStatisticsTrendNegative">#C11633</color>
+    <color name="colorStatisticsTrendNeutral">#5D6F80</color>
 </resources>
