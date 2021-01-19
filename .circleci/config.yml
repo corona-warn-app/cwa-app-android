@@ -38,17 +38,17 @@ commands:
     steps:
       - run:
           name: << parameters.desc >>
-          command: |
-            ./gradlew -PdisablePreDex --no-daemon --max-workers=4 \
+          command: >
+            ./gradlew -PdisablePreDex --no-daemon --max-workers=4
             << parameters.cmd >>
           no_output_timeout: 30m
           environment:
             JVM_OPTS: -Xmx4096m
-            GRADLE_OPTS: |
-              -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError \
-              -Dorg.gradle.caching=true \
-              -Dorg.gradle.configureondemand=true \
-              -Dkotlin.compiler.execution.strategy=in-process \
+            GRADLE_OPTS: >
+              -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
+              -Dorg.gradle.caching=true
+              -Dorg.gradle.configureondemand=true
+              -Dkotlin.compiler.execution.strategy=in-process
               -Dkotlin.incremental=false
 
   run-gradle-cmd-test-splitting:
@@ -65,17 +65,17 @@ commands:
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
       - run:
           name: << parameters.desc >>
-          command: |
-            ./gradlew -PdisablePreDex --no-daemon --max-workers=4 \
-            << parameters.cmd >> \
+          command: >
+            ./gradlew -PdisablePreDex --no-daemon --max-workers=4
+            << parameters.cmd >>
             -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
             JVM_OPTS: -Xmx4096m
-            GRADLE_OPTS: |
-              -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError \
-              -Dorg.gradle.caching=true \
-              -Dorg.gradle.configureondemand=true \
-              -Dkotlin.compiler.execution.strategy=in-process \
+            GRADLE_OPTS: >
+              -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
+              -Dorg.gradle.caching=true
+              -Dorg.gradle.configureondemand=true
+              -Dkotlin.compiler.execution.strategy=in-process
               -Dkotlin.incremental=false
 
   skip-for-external-pull-requests:
