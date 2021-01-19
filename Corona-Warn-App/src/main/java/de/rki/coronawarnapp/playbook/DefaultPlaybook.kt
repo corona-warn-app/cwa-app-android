@@ -92,7 +92,7 @@ class DefaultPlaybook @Inject constructor(
         // fake verification
         ignoreExceptions { verificationServer.retrieveTanFake() }
 
-        // submitKeysToServer cloud throw BadRequestException too.
+        // submitKeysToServer could throw BadRequestException too.
         try {
             // real submission
             if (authCode != null) {
