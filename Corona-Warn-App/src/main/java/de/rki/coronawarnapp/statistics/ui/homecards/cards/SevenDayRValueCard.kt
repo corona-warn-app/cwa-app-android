@@ -27,5 +27,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
         val reproductionNumber = (item.stats as SevenDayRValue).reproductionNumber
         primaryValue.text = formatStatisticalValue(context, reproductionNumber.value, 2)
         trendView.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
+        infoStatistics.setOnClickListener {
+            // TODO navigate to statistics info
+        }
     }
 }
