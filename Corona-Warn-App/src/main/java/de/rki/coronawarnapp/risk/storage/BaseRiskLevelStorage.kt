@@ -139,15 +139,15 @@ abstract class BaseRiskLevelStorage constructor(
         aggregatedRiskPerDateResultTables.allEntries()
             .map { it.map {
                 persistedAggregatedRiskPerDateResult ->
-                persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult() }
-            }
+                persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
+            } }
             .shareLatest(tag = TAG, scope = scope)
     }
 
     private suspend fun insertAggregatedRiskPerDateResults(
         aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
     ) {
-        Timber.d("insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=$aggregatedRiskPerDateResults)")
+        Timber.d("insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=%s)", aggregatedRiskPerDateResults)
         try {
             aggregatedRiskPerDateResultTables.insertRisk(aggregatedRiskPerDateResults.map {
                 it.toPersistedAggregatedRiskPerDateResult()
@@ -158,7 +158,7 @@ abstract class BaseRiskLevelStorage constructor(
     }
 
     override suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>) {
-        Timber.d("deleteAggregatedRiskPerDateResults(results=$results)")
+        Timber.d("deleteAggregatedRiskPerDateResults(results=%s)", results)
         try {
             aggregatedRiskPerDateResultTables.delete(results.map { it.toPersistedAggregatedRiskPerDateResult() })
         } catch (e: Exception) {
