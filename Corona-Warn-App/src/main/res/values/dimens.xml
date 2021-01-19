@@ -34,6 +34,7 @@
 
     <!-- default spacing for guidelines -->
     <dimen name="guideline_card">12dp</dimen>
+    <dimen name="guideline_statistics_card_content">96dp</dimen>
     <dimen name="guideline_start">@dimen/spacing_normal</dimen>
     <dimen name="guideline_end">@dimen/spacing_normal</dimen>
     <dimen name="guideline_top">@dimen/spacing_normal</dimen>
@@ -61,6 +62,7 @@
     <!-- general -->
     <dimen name="radius_button">@dimen/spacing_tiny</dimen>
     <dimen name="radius_card">4dp</dimen>
+    <dimen name="radius_info_button">@dimen/spacing_huge</dimen>
     <dimen name="icon_size">20dp</dimen>
     <dimen name="icon_size_risk_card">40dp</dimen>
     <dimen name="icon_size_main_card">40dp</dimen>
