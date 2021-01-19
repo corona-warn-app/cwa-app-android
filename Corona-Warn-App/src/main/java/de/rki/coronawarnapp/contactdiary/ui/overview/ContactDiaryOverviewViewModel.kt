@@ -51,7 +51,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         riskLevelPerDateFlow
     ) { dateList, locationVisitList, personEncounterList, riskLevelPerDateList ->
         createListItemList(dateList, locationVisitList, personEncounterList, riskLevelPerDateList)
-    }.asLiveData()
+    }.asLiveData(dispatcherProvider.Default)
 
     init {
         taskController.submit(
