@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.inject.Provider
 
-class TestResultAvailableNotificationTest {
+class TestResultAvailableNotificationServiceTest {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
@@ -53,7 +53,7 @@ class TestResultAvailableNotificationTest {
         clearAllMocks()
     }
 
-    fun createInstance() = TestResultAvailableNotification(
+    fun createInstance() = TestResultAvailableNotificationService(
         context = context,
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
@@ -76,7 +76,7 @@ class TestResultAvailableNotificationTest {
     fun `test notification in foreground`() = runBlockingTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
 
-        createInstance().showTestResultNotification(TestResult.POSITIVE)
+        createInstance().showTestResultAvailableNotification(TestResult.POSITIVE)
 
         verify(exactly = 0) { navDeepLinkBuilderProvider.get() }
     }
@@ -95,7 +95,7 @@ class TestResultAvailableNotificationTest {
 
         val instance = createInstance()
 
-        instance.showTestResultNotification(TestResult.POSITIVE)
+        instance.showTestResultAvailableNotification(TestResult.POSITIVE)
 
         verifyOrder {
             navDeepLinkBuilderProvider.get()

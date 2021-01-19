@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.util.worker
 
+import android.content.Context
 import androidx.work.ListenableWorker
+import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -8,11 +10,13 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.notification.TestResultAvailableNotification
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.AssistedInjectModule
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
@@ -100,8 +104,16 @@ class MockProvider {
     fun exposureSummaryRepository(): RiskLevelStorage = mockk()
 
     @Provides
-    fun testResultAvailableNotification(): TestResultAvailableNotification = mockk()
+    fun testResultAvailableNotification(): TestResultAvailableNotificationService = mockk()
 
     @Provides
     fun notificationHelper(): NotificationHelper = mockk()
+
+    @Provides
+    @AppContext
+    fun context(): Context = mockk()
+
+    @Provides
+    @BaseGson
+    fun baseGson(): Gson = mockk()
 }
