@@ -26,7 +26,8 @@ class KeySubmissionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
         with(item.stats as KeySubmissionsStats) {
-            viewBinding.value.keySubmissionsLabel = getPrimaryLabel(context)
+            keySubmissionsLabel = getPrimaryLabel(context)
+            trendArrowView.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
 
             viewBinding.value.keySubmissions =
                 formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals)
@@ -34,8 +35,6 @@ class KeySubmissionsCard(parent: ViewGroup) :
                 formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             viewBinding.value.total =
                 formatStatisticalValue(context, total.value, total.decimals)
-
-            viewBinding.value.trendArrowView.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
     }
 }
