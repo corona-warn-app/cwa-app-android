@@ -82,6 +82,9 @@
     <dimen name="circle_icon_big_padding">8dp</dimen>
     <dimen name="behavior_bullet_point_size">16dp</dimen>
 
+    <dimen name="button_icon">48dp</dimen>
+    <dimen name="button_icon_padding">12dp</dimen>
+
     <!-- todo illustration sizes -->
 
     <!-- Submission -->
