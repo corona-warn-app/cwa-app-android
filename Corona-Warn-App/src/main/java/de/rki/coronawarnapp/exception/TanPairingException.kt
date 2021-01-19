@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.exception
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
 
