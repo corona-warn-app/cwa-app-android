@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.contactdiary.retention
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
+import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -17,6 +19,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
@@ -70,6 +73,22 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     }
 
     @Test
+    fun `filter by date`() {
+        val localDate = DateTime.parse("2020-08-20T23:00:00.000Z").toLocalDate()
+
+        val instance = createInstance()
+
+        instance.filterByDate(localDate) shouldBe false
+        instance.filterByDate(localDate.minusDays(5)) shouldBe false
+        instance.filterByDate(localDate.minusDays(10)) shouldBe false
+        instance.filterByDate(localDate.minusDays(15)) shouldBe false
+        instance.filterByDate(localDate.minusDays(16)) shouldBe false
+        instance.filterByDate(localDate.minusDays(17)) shouldBe true
+        instance.filterByDate(localDate.minusDays(20)) shouldBe true
+        instance.filterByDate(localDate.minusDays(25)) shouldBe true
+    }
+
+    @Test
     fun `test location visit deletion`() = runBlockingTest {
         val list: List<ContactDiaryLocationVisit> = testDates.map { createContactDiaryLocationVisit(Instant.parse(it)) }
 
@@ -107,4 +126,25 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         every { personEncounter.date } returns LocalDate(date)
         return personEncounter
     }
+
+    @Test
+    fun `test risk per date results`() = runBlockingTest {
+        val instance = createInstance()
+        val list: List<AggregatedRiskPerDateResult> = testDates.map { createAggregatedRiskPerDateResult(Instant.parse(it)) }
+        val filteredList = list.filter { instance.filterByDate(it.day) }
+
+        every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(list)
+        coEvery { riskLevelStorage.deleteAggregatedRiskPerDateResults(any()) } just runs
+
+        filteredList.size shouldBe 1
+        instance.clearObsoleteRiskPerDate()
+        coVerify { riskLevelStorage.deleteAggregatedRiskPerDateResults(filteredList) }
+    }
+
+    private fun createAggregatedRiskPerDateResult(date: Instant) = AggregatedRiskPerDateResult(
+        dateMillisSinceEpoch = date.millis,
+        riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
+        minimumDistinctEncountersWithLowRisk = 0,
+        minimumDistinctEncountersWithHighRisk = 0
+    )
 }
