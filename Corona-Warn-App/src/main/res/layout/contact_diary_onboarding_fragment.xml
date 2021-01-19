@@ -146,7 +146,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
                     app:body="@{@string/contact_diary_onboarding_functionality_sixth_section}"
-                    app:icon="@{@drawable/ic_exclamation}"
+                    app:icon="@{@drawable/ic_high_risk_alert}"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_fifth_section" />
