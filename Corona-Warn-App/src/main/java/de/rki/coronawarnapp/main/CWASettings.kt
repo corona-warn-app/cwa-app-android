@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
+import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import javax.inject.Inject
 
 /**
@@ -24,13 +25,10 @@ class CWASettings @Inject constructor(
         get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
         set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
 
-    var hasAppBeenUpdated: Boolean
-        get() = prefs.getBoolean(APP_UPDATE_PERFORMED, false)
-        set(value) = prefs.edit { putBoolean(APP_UPDATE_PERFORMED, value) }
-
-    var lastAppVersion: Long
-        get() = prefs.getLong(LAST_APP_VERSION, DEF_APP_VERSION.toLong())
-        set(value) = prefs.edit { putLong(LAST_APP_VERSION, value) }
+    val lastAppVersion = prefs.createFlowPreference(
+        key = LAST_APP_VERSION,
+        defaultValue = DEF_APP_VERSION
+    )
 
     fun clear() {
         prefs.clearAndNotify()
@@ -38,8 +36,7 @@ class CWASettings @Inject constructor(
 
     companion object {
         private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
-        private const val APP_UPDATE_PERFORMED = "update.performed"
         private const val LAST_APP_VERSION = "last.installed.version"
-        private const val DEF_APP_VERSION = 1.06
+        private const val DEF_APP_VERSION = 1.0.toLong()
     }
 }

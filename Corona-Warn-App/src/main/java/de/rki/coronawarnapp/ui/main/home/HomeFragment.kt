@@ -103,6 +103,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentEvents.GoToContactDiary -> {
                     context?.let { ContactDiaryActivity.start(it) }
                 }
+
+                HomeFragmentEvents.ShowNewReleaseFragment -> {
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment())
+                }
             }
         }
 

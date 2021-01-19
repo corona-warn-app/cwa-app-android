@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -109,8 +110,18 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     }
                 }
             }
+            if (cwaSettings.lastAppVersion.value < BuildConfigWrap.VERSION_CODE) {
+                if (LocalData.isOnboarded() && LocalData.onboardingCompletedTimestamp()
+                        ?.let { compareOnboardingTimestamps(it) } == true
+                ) {
+                    postValue(HomeFragmentEvents.ShowNewReleaseFragment)
+                }
+            }
         }
     }
+
+    private fun compareOnboardingTimestamps(onboardingTimestamp: Long): Boolean =
+        System.currentTimeMillis() - onboardingTimestamp > 10000
 
     val showIncorrectDeviceTimeDialog by lazy {
         var wasDeviceTimeDialogShown = false

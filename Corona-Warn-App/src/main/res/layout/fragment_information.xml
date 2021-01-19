@@ -116,6 +116,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/information_contact"
                     app:subtitle="@{@string/debugging_debuglog_title}" />
 
+                <include
+                    android:id="@+id/information_release"
+                    layout="@layout/include_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal"
+                    app:subtitle="@{@string/release_info_header}" />
+
                 <TextView
                     android:id="@+id/information_version"
                     style="@style/body2Medium"

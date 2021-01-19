@@ -120,5 +120,10 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
+        binding.informationRelease.mainRow.setOnClickListener {
+            doNavigate(
+                InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment()
+            )
+        }
     }
 }

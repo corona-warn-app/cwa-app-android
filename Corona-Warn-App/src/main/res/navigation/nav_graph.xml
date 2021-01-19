@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newReleaseInfoFragment"
+            app:destination="@id/newReleaseInfoFragment" />
     </fragment>
 
     <fragment
@@ -171,6 +174,9 @@
         <action
             android:id="@+id/action_informationFragment_to_debuglogFragment"
             app:destination="@id/debuglogFragment" />
+        <action
+            android:id="@+id/action_informationFragment_to_newReleaseInfoFragment"
+            app:destination="@id/newReleaseInfoFragment" />
     </fragment>
 
     <fragment
@@ -486,4 +492,15 @@
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
         android:label="DebuglogFragment" />
+
+    <!-- New Release -->
+    <fragment
+        android:id="@+id/newReleaseInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment"
+        android:label="NewReleaseInfoFragment" >
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_pop"
+            app:popUpTo="@id/newReleaseInfoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
