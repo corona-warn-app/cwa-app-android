@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="0dp"
             android:text="@string/statistics_card_submission_title"
             app:layout_constraintEnd_toStartOf="@id/statistics_card_info_button"
             app:layout_constraintStart_toStartOf="parent"
