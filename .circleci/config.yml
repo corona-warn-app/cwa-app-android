@@ -128,7 +128,7 @@ commands:
   run-emulator-for-api:
     parameters:
       apilevel:
-        type: string
+        type: integer
     description: "Setup and start emulator for API<< parameters.apilevel >>"
     steps:
       - run:
