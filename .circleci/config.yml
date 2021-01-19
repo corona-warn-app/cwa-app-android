@@ -39,7 +39,7 @@ commands:
       - run:
           name: << parameters.desc >>
           command: >
-            ./gradlew -PdisablePreDex --no-daemon --max-workers=4
+            ./gradlew -PdisablePreDex
             << parameters.cmd >>
           no_output_timeout: 30m
           environment:
@@ -66,7 +66,7 @@ commands:
       - run:
           name: << parameters.desc >>
           command: >
-            ./gradlew -PdisablePreDex --no-daemon --max-workers=4
+            ./gradlew -PdisablePreDex
             << parameters.cmd >>
             -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
@@ -133,20 +133,22 @@ commands:
     steps:
       - run:
           name: Create emulator AVD
-          command: |
-            echo "no" | avdmanager --verbose create avd --force \
-            --name "emulator_API<< parameters.apilevel >>" \
+          command: >
+            echo "no" | avdmanager --verbose create avd --force
+            --name "emulator_API<< parameters.apilevel >>"
             --package "system-images;android-<< parameters.apilevel >>;google_apis;x86_64"
       - run:
           name: Configure emulator settings
           command: |
             cd $HOME/.android/avd/emulator_API<< parameters.apilevel >>.avd
+            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=560/g' config.ini
+            sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=2880/g' config.ini
+            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1440/g' config.ini
             sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
       - run:
           name: Start emulator AVD
-          command: |
-            emulator @emulator_API<< parameters.apilevel >> \
-            -no-window -no-audio -no-boot-anim
+          command: >
+            emulator @emulator_API<< parameters.apilevel >> -no-window -no-audio -no-boot-anim
           background: true
           no_output_timeout: 60m
       - run:
@@ -161,9 +163,9 @@ commands:
     steps:
       - run:
           name: Create emulator AVD
-          command: |
-            echo "no" | avdmanager --verbose create avd --force \
-            --name "ScreenshotEmulator" \
+          command: >
+            echo "no" | avdmanager --verbose create avd --force
+            --name "ScreenshotEmulator"
             --package "system-images;android-29;google_apis;x86_64"
       - run:
           name: Configure emulator settings
@@ -175,9 +177,8 @@ commands:
             sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
       - run:
           name: Start emulator
-          command: |
-            emulator @ScreenshotEmulator \
-            -no-window -no-audio -no-boot-anim
+          command: >
+            emulator @ScreenshotEmulator -no-window -no-audio -no-boot-anim
           background: true
           no_output_timeout: 60m
       - run:
@@ -433,18 +434,17 @@ jobs:
       - setup-android-macos
       - run-gradle-cmd:
           desc: Build Apks for instrumentation test
-          cmd: |
-            :Corona-Warn-App:assembleDeviceDebug \
+          cmd: >
+            :Corona-Warn-App:assembleDeviceDebug
             :Corona-Warn-App:assembleDeviceDebugAndroidTest
       - run-emulator-for-api:
           apilevel: 29
       - run-gradle-cmd:
           desc: Run instrumentation tests on device
-          cmd: |
-            :Corona-Warn-App:connectedDeviceDebugAndroidTest \
-            --info \
-            --continue \
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+          cmd: >
+            :Corona-Warn-App:connectedDeviceDebugAndroidTest
+            --info --continue
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
             -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
       #      - kill-all-emulators
       #      - run-emulator-api23
@@ -476,8 +476,8 @@ jobs:
       - setup-android-macos
       - run-gradle-cmd:
           desc: Build APKs for screenshots
-          cmd: |
-            :Corona-Warn-App:assembleDebug \
+          cmd: >
+            :Corona-Warn-App:assembleDebug
             :Corona-Warn-App:assembleAndroidTest
       - run-emulator-for-screenshots
       - run:
