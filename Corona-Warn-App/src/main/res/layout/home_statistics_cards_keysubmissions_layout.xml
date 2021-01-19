@@ -7,11 +7,11 @@
     <data>
 
         <variable
-            name="newInfectionsLabel"
+            name="keySubmissionsLabel"
             type="String" />
 
         <variable
-            name="newInfections"
+            name="keySubmissions"
             type="String" />
 
         <variable
@@ -74,7 +74,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{newInfectionsLabel}"
+            android:text="@{keySubmissions}"
             tools:text="Gestern" />
 
         <TextView
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="@{newInfections}"
+            android:text="@{keySubmissions}"
             tools:text="14.714" />
 
         <TextView

@@ -26,9 +26,9 @@ class KeySubmissionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
         with(item.stats as KeySubmissionsStats) {
-            viewBinding.value.newInfectionsLabel = getPrimaryLabel(context)
+            viewBinding.value.keySubmissionsLabel = getPrimaryLabel(context)
 
-            viewBinding.value.newInfections =
+            viewBinding.value.keySubmissions =
                 formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals)
             viewBinding.value.sevenDayAverage =
                 formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
