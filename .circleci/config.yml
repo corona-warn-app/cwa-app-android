@@ -27,18 +27,6 @@ commands:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
 
-  require-version-bump:
-    description: "Require version bump for binary assembling"
-    steps:
-      - run:
-          name: "Check if assemble required"
-          command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
-              circleci-agent step halt
-              echo "Skipping job"
-            fi
-
   run-gradle-cmd:
     description: "Running gradle command with environment options"
     parameters:
@@ -50,7 +38,8 @@ commands:
     steps:
       - run:
           name: << parameters.desc >>
-          command: ./gradlew << parameters.cmd >>
+          command: ./gradlew -PdisablePreDex << parameters.cmd >>
+          no_output_timeout: 30m
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -97,11 +86,137 @@ commands:
             sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
 
+  setup-android-macos:
+    description: "Setup Android environment on macOS executor"
+    steps:
+      - restore_cache:
+          key: android=tools-v1-{{ checksum ".circleci/install-android-sdk.sh" }}-{{ arch }}
+      - run:
+          name: Set ANDROID_SDK_ROOT environment variable
+          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-sdk'  >> $BASH_ENV
+      - run:
+          name: Install Android SDK
+          command: |
+            sh .circleci/install-android-sdk.sh
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH'  >> $BASH_ENV
+            source $BASH_ENV
+            sdkmanager --list
+      - save_cache:
+          key: android=tools-v1-{{ checksum ".circleci/install-android-sdk.sh" }}-{{ arch }}
+          paths:
+            - /Users/distiller/android-sdk
+
+  run-emulator-api29:
+    description: "Setup and start an API29 emulator"
+    steps:
+      - run:
+          name: Create API29 AVD
+          command: |
+            echo "no" | avdmanager --verbose create avd --force \
+            --name "Pixel_2_API_29" \
+            --package "system-images;android-29;google_apis;x86_64"
+      - run:
+          name: Start API29 AVD
+          command: |
+            emulator @Pixel_2_API_29 \
+            -no-window -no-audio -no-boot-anim
+          background: true
+          no_output_timeout: 60m
+      - run:
+          name: Wait for API29 emulator
+          command: |
+            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+            adb devices
+            sleep 5
+
+  run-emulator-api23:
+    description: "Setup and start an API23 emulator"
+    steps:
+      - run:
+          name: Create API23 AVD
+          command: |
+            echo "no" | avdmanager --verbose create avd --force \
+            --name "Pixel_2_API_23" \
+            --package "system-images;android-23;google_apis;x86_64"
+      - run:
+          name: Start API23 AVD
+          command: |
+            emulator @Pixel_2_API_23 \
+            -no-window -no-audio -no-boot-anim
+          background: true
+          no_output_timeout: 60m
+      - run:
+          name: Wait for API23 emulator
+          command: |
+            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+            adb devices
+            sleep 5
+
+  run-emulator-for-screenshots:
+    description: "Setup and start screenshot emulator"
+    steps:
+      - run:
+          name: Create ScreenshotEmulator AVD
+          command: |
+            echo "no" | avdmanager --verbose create avd --force \
+            --name "ScreenshotEmulator" \
+            --package "system-images;android-29;google_apis;x86_64"
+      - run:
+          name: Configure emulator dimensions
+          command: |
+            cd $HOME/.android/avd/ScreenshotEmulator.avd
+            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=420/g' config.ini
+            sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=1920/g' config.ini
+            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1080/g' config.ini
+      - run:
+          name: Start ScreenshotEmulator AVD
+          command: |
+            emulator @ScreenshotEmulator \
+            -no-window -no-audio -no-boot-anim
+          background: true
+          no_output_timeout: 60m
+      - run:
+          name: Wait for ScreenshotEmulator emulator
+          command: |
+            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+            adb devices
+            sleep 5
+
+  kill-all-emulators:
+    description: "Kill all emulators"
+    steps:
+      - run:
+          name: Kill all emulators
+          command: |
+            adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+            sleep 2
+            adb kill-server
+            sleep 2
+
 #######################
 # Jobs section
 # Tasks that get executed
 #######################
 jobs:
+  detekt:
+    executor: android/android
+    resource_class: medium
+    working_directory: ~/project
+    steps:
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
+      - run-gradle-cmd:
+          desc: Detekt check
+          cmd: ":Corona-Warn-App:detekt"
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+
   quick_build_device_release_no_tests:
     executor: android/android
     resource_class: xlarge
@@ -110,7 +225,6 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - require-version-bump
       - run-gradle-cmd:
           desc: Quick Build
           cmd: "assembleDeviceRelease"
@@ -128,7 +242,6 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - require-version-bump
       - run-gradle-cmd:
           desc: Quick Build
           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
@@ -138,7 +251,7 @@ jobs:
           path: Corona-Warn-App/build/reports
           destination: reports
 
-  device_release_unit_tests:
+  unit_tests_device_release:
     executor: android/android
     resource_class: xlarge
     working_directory: ~/project
@@ -162,7 +275,7 @@ jobs:
           paths:
             - ./project
 
-  device_for_testers_release_unit_tests:
+  unit_tests_device_for_testers_release:
     executor: android/android
     resource_class: xlarge
     working_directory: ~/project
@@ -182,87 +295,6 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
 
-  device_for_testers_instrumentation_tests:
-    resource_class: xlarge
-    docker:
-      - image: circleci/android:api-28
-    steps:
-      - skip-for-external-pull-requests
-      - setup-google-cloud
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run:
-          name: "Build app APK "
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebug
-      - run:
-          name: "Build instrumentation test APK"
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest
-      - run:
-          name: Test with Firebase Test Lab
-          command: |
-            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
-            echo "Using bucketdir $BUCKETDIR"
-            sudo gcloud firebase test android run \
-              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
-              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
-              --results-dir ${BUCKETDIR} \
-              --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
-              --environment-variables clearPackageData=true \
-              --test-targets "notAnnotation testhelpers.Screenshot" \
-              --timeout 20m \
-              --device model=Pixel2,version=29,locale=de_DE,orientation=portrait
-          no_output_timeout: 30m
-      - run:
-          name: Install gsutil dependency and copy test results data
-          command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
-      - store_artifacts:
-          path: "$CIRCLE_ARTIFACTS/Pixel2-29-de_DE-portrait"
-          destination: Pixel2-29-de_DE-portrait
-
-  device_screenshots:
-    resource_class: xlarge
-    docker:
-      - image: circleci/android:api-28
-    steps:
-      - skip-for-external-pull-requests
-      - setup-google-cloud
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run:
-          name: "Build app APK "
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceDebug
-      - run:
-          name: "Build instrumentation test APK"
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceDebugAndroidTest
-      - run:
-          name: Test with Firebase Test Lab
-          command: |
-            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
-            echo "Using bucketdir $BUCKETDIR"
-            sudo gcloud firebase test android run \
-              --app Corona-Warn-App/build/outputs/apk/device/debug/*.apk \
-              --test Corona-Warn-App/build/outputs/apk/androidTest/device/debug/*.apk \
-              --results-dir ${BUCKETDIR} \
-              --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
-              --environment-variables clearPackageData=true \
-              --test-targets "annotation testhelpers.Screenshot" \
-              --timeout 20m \
-              --device model=Pixel2,version=28,locale=de_DE,orientation=portrait \
-              --directories-to-pull /sdcard
-          no_output_timeout: 30m
-      - run:
-          name: Install gsutil dependency and copy test results data
-          command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
-      - store_artifacts:
-          path: "$CIRCLE_ARTIFACTS/Pixel2-29-de_DE-portrait"
-          destination: Pixel2-29-de_DE-portrait
-
   lint_device_release_check:
     executor: android/android
     resource_class: xlarge
@@ -274,6 +306,21 @@ jobs:
       - run-gradle-cmd:
           desc: Lint check deviceRelease
           cmd: ":Corona-Warn-App:lintDeviceRelease -i"
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+
+  lint_device_for_testers_release_check:
+    executor: android/android
+    resource_class: xlarge
+    working_directory: ~/project
+    steps:
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
+      - run-gradle-cmd:
+          desc: Lint check deviceForTestersRelease
+          cmd: ":Corona-Warn-App:lintDeviceForTestersRelease -i"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -292,20 +339,6 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-  lint_device_for_testers_release_check:
-    executor: android/android
-    resource_class: xlarge
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Lint check deviceForTestersRelease
-          cmd: ":Corona-Warn-App:lintDeviceForTestersRelease -i"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
 
   ktlint_device_for_testers_release_check:
     executor: android/android
@@ -318,21 +351,6 @@ jobs:
       - run-gradle-cmd:
           desc: Ktlint check deviceForTestersRelease
           cmd: ":Corona-Warn-App:ktlintDeviceForTestersReleaseCheck"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-
-  detekt:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Detekt check
-          cmd: ":Corona-Warn-App:detekt"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -405,6 +423,70 @@ jobs:
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
 
+  instrumentation_tests_device:
+    macos:
+      xcode: "11.2.0"
+    steps:
+      - checkout
+      - setup-android-macos
+      - run-gradle-cmd:
+          desc: Build Apks for instrumentation test
+          cmd: |
+            :Corona-Warn-App:assembleDeviceDebug \
+            :Corona-Warn-App:assembleDeviceDebugAndroidTest
+      - run-emulator-api29
+      - run-gradle-cmd:
+          desc: Run instrumentation tests on device
+          cmd: |
+            :Corona-Warn-App:connectedDeviceDebugAndroidTest \
+            --info \
+            --continue \
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
+      #      - kill-all-emulators
+      #      - run-emulator-api23
+      #      - run-gradle-cmd:
+      #          desc: Run instrumentation test command
+      #          cmd: |
+      #            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
+      #            --info \
+      #            --continue \
+      #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
+      #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
+      - kill-all-emulators
+      - store_test_results:
+          path: Corona-Warn-App/build/outputs/androidTest-results
+
+  device_screenshots:
+    macos:
+      xcode: "11.2.0"
+    steps:
+      - checkout
+      - restore_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - setup-android-macos
+      - run-gradle-cmd:
+          desc: Build APKs for screenshots
+          cmd: |
+            :Corona-Warn-App:assembleDebug \
+            :Corona-Warn-App:assembleAndroidTest
+      - run-emulator-for-screenshots
+      - run:
+          name: Run fastlane screengrab
+          command: |
+            for i in {1..5}; do bundle exec fastlane screengrab && break || sleep 15; done
+          no_output_timeout: 30m
+      - kill-all-emulators
+      - store_artifacts:
+          path: fastlane/metadata/android
+          destination: screenshots
+
+
 #######################
 # Workflow section
 # Job execution orders
@@ -417,16 +499,17 @@ workflows:
       - lint_device_release_check
       - ktlint_device_release_check
       - quick_build_device_release_no_tests
-      - device_release_unit_tests
+      - unit_tests_device_release
+      - instrumentation_tests_device
       - run_sonar:
           requires:
-            - device_release_unit_tests
-      - device_screenshots:
-          requires:
-            - lint_device_release_check
-            - ktlint_device_release_check
-            - quick_build_device_release_no_tests
-            - device_release_unit_tests
+            - unit_tests_device_release
+      - device_screenshots
+  #          requires:
+  #            - lint_device_release_check
+  #            - ktlint_device_release_check
+  #            - quick_build_device_release_no_tests
+  #            - unit_tests_device_release
 
   check_buildtype_device_for_testers:
     jobs:
@@ -434,14 +517,7 @@ workflows:
       - lint_device_for_testers_release_check
       - ktlint_device_for_testers_release_check
       - quick_build_device_for_testers_release_no_tests
-      - device_for_testers_release_unit_tests
-      - device_for_testers_instrumentation_tests:
-          requires:
-            - quick_build_device_for_testers_release_no_tests
-            - device_for_testers_release_unit_tests
-            - lint_device_for_testers_release_check
-            - ktlint_device_for_testers_release_check
-            - detekt
+      - unit_tests_device_for_testers_release
 
   signed_build:
     jobs:
@@ -452,3 +528,6 @@ workflows:
                 - /^v.*/
             branches:
               ignore: /.*/
+      - device_screenshots:
+          requires:
+            - quick_build_device_for_testers_signed
