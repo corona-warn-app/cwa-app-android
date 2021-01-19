@@ -34,22 +34,21 @@
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="0dp"
-            android:focusable="false"
             android:text="@string/statistics_card_infections_title"
             app:layout_constraintEnd_toStartOf="@id/statistics_card_info_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/spacing_tiny"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_infection"
+            android:src="@drawable/ic_main_illustration_infection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/layoutFlow" />
 
@@ -57,9 +56,9 @@
             android:id="@+id/layoutFlow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/guideline_statistics_card_content"
+            android:layout_marginEnd="@dimen/card_padding"
             app:constraint_referenced_ids="primaryLabel,primaryValue,secondaryLabel,secondaryValue,tertiaryLabel,tertiaryValue"
             app:flow_horizontalAlign="start"
             app:flow_horizontalBias="0"
@@ -92,7 +91,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/spacing_tiny"
             android:text="@string/statistics_card_infections_secondary_label" />
 
         <TextView
@@ -107,7 +106,7 @@
             android:id="@+id/trendArrowView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/spacing_tiny"
             app:layout_constraintBottom_toBottomOf="@id/secondaryValue"
             app:layout_constraintStart_toEndOf="@id/secondaryValue"
             app:layout_constraintTop_toTopOf="@id/secondaryValue" />
@@ -117,7 +116,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/spacing_tiny"
             android:text="@string/statistics_card_infections_tertiary_label" />
 
         <TextView
@@ -132,18 +131,18 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/spacing_tiny"
             android:text="@string/statistics_card_infections_bottom_text"
-            android:textSize="12sp"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
             android:id="@+id/statistics_card_info_button"
             style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_margin="4dp"
+            android:layout_width="@dimen/radius_info_button"
+            android:layout_height="@dimen/radius_info_button"
+            android:layout_margin="@dimen/spacing_mega_tiny"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/statistics_info_button"
             android:src="@drawable/ic_info"
