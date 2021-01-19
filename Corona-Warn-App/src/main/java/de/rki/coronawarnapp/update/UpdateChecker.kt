@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.main.CWASettings
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,6 +51,13 @@ class UpdateChecker @Inject constructor(
         )
         Timber.tag(TAG).e("needs update:$needsImmediateUpdate")
         return needsImmediateUpdate
+    }
+
+    private fun hasAppBeenUpdated(): Boolean {
+        val cwaSettings: CWASettings
+        val currentVersion = BuildConfigWrap.VERSION_CODE
+
+        val lastSavedVersion = cwaSettings.lastAppVersion
     }
 
     private fun createUpdateAction(): () -> Intent = {

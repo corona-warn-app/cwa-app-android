@@ -24,11 +24,22 @@ class CWASettings @Inject constructor(
         get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
         set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
 
+    var hasAppBeenUpdated: Boolean
+        get() = prefs.getBoolean(APP_UPDATE_PERFORMED, false)
+        set(value) = prefs.edit { putBoolean(APP_UPDATE_PERFORMED, value) }
+
+    var lastAppVersion: Long
+        get() = prefs.getLong(LAST_APP_VERSION, DEF_APP_VERSION.toLong())
+        set(value) = prefs.edit { putLong(LAST_APP_VERSION, value) }
+
     fun clear() {
         prefs.clearAndNotify()
     }
 
     companion object {
         private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
+        private const val APP_UPDATE_PERFORMED = "update.performed"
+        private const val LAST_APP_VERSION = "last.installed.version"
+        private const val DEF_APP_VERSION = 1.06
     }
 }
