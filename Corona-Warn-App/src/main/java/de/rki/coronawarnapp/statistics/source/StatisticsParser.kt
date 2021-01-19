@@ -27,7 +27,7 @@ class StatisticsParser @Inject constructor() {
 
         val mappedItems: Set<StatsItem> = parsed.keyFigureCardsList.mapNotNull { rawCard ->
             try {
-                val updatedAt = Instant.ofEpochMilli(rawCard.header.updatedAt)
+                val updatedAt = Instant.ofEpochSecond(rawCard.header.updatedAt)
                 val keyFigures = rawCard.keyFiguresList
                 when (StatsItem.Type.values().singleOrNull { it.id == rawCard.header.cardId }) {
                     StatsItem.Type.INFECTION -> InfectionStats(updatedAt = updatedAt, keyFigures = keyFigures)

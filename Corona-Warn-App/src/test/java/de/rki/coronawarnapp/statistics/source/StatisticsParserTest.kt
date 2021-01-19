@@ -171,7 +171,7 @@ class StatisticsParserTest : BaseTest() {
         }.build()
 
         val INFECTION_STATS = InfectionStats(
-            updatedAt = Instant.ofEpochMilli(123456778890),
+            updatedAt = Instant.ofEpochSecond(123456778890),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
@@ -216,7 +216,7 @@ class StatisticsParserTest : BaseTest() {
         }.build()
 
         val INCIDENCE_STATS = IncidenceStats(
-            updatedAt = Instant.ofEpochMilli(1604839761),
+            updatedAt = Instant.ofEpochSecond(1604839761),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
@@ -262,7 +262,7 @@ class StatisticsParserTest : BaseTest() {
         }.build()
 
         val KEYSUBMISSION_STATS = KeySubmissionsStats(
-            updatedAt = Instant.ofEpochMilli(0),
+            updatedAt = Instant.ofEpochSecond(0),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
@@ -308,7 +308,7 @@ class StatisticsParserTest : BaseTest() {
         }.build()
 
         val SEVENDAYRVALUE_STATS = SevenDayRValue(
-            updatedAt = Instant.ofEpochMilli(1604839761),
+            updatedAt = Instant.ofEpochSecond(1604839761),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
