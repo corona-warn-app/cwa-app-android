@@ -38,11 +38,18 @@ commands:
     steps:
       - run:
           name: << parameters.desc >>
-          command: ./gradlew -PdisablePreDex << parameters.cmd >>
+          command: |
+            ./gradlew -PdisablePreDex --no-daemon --max-workers=4 \
+            << parameters.cmd >>
           no_output_timeout: 30m
           environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+            JVM_OPTS: -Xmx4096m
+            GRADLE_OPTS: |
+              -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError \
+              -Dorg.gradle.caching=true \
+              -Dorg.gradle.configureondemand=true \
+              -Dkotlin.compiler.execution.strategy=in-process \
+              -Dkotlin.incremental=false
 
   run-gradle-cmd-test-splitting:
     description: "Running gradle command with environment options and test splitting"
@@ -58,10 +65,18 @@ commands:
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
       - run:
           name: << parameters.desc >>
-          command: ./gradlew << parameters.cmd >> -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
+          command: |
+            ./gradlew -PdisablePreDex --no-daemon --max-workers=4 \
+            << parameters.cmd >> \
+            -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+            JVM_OPTS: -Xmx4096m
+            GRADLE_OPTS: |
+              -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError \
+              -Dorg.gradle.caching=true \
+              -Dorg.gradle.configureondemand=true \
+              -Dkotlin.compiler.execution.strategy=in-process \
+              -Dkotlin.incremental=false
 
   skip-for-external-pull-requests:
     description: "Skip for external pull requests due to missing access to secrets."
@@ -110,47 +125,32 @@ commands:
           paths:
             - /Users/distiller/android-sdk
 
-  run-emulator-api29:
-    description: "Setup and start an API29 emulator"
+  run-emulator-for-api:
+    parameters:
+      apilevel:
+        type: string
+    description: "Setup and start emulator for API<< parameters.apilevel >>"
     steps:
       - run:
-          name: Create API29 AVD
+          name: Create emulator AVD
           command: |
             echo "no" | avdmanager --verbose create avd --force \
-            --name "Pixel_2_API_29" \
-            --package "system-images;android-29;google_apis;x86_64"
+            --name "emulator_API<< parameters.apilevel >>" \
+            --package "system-images;android-<< parameters.apilevel >>;google_apis;x86_64"
       - run:
-          name: Start API29 AVD
+          name: Configure emulator settings
           command: |
-            emulator @Pixel_2_API_29 \
+            cd $HOME/.android/avd/emulator_API<< parameters.apilevel >>.avd
+            sed -i '' -e 's/hw.ramSize=[0-9]*/hhw.ramSize=1024/g' config.ini
+      - run:
+          name: Start emulator AVD
+          command: |
+            emulator @emulator_API<< parameters.apilevel >> \
             -no-window -no-audio -no-boot-anim
           background: true
           no_output_timeout: 60m
       - run:
-          name: Wait for API29 emulator
-          command: |
-            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
-            adb devices
-            sleep 5
-
-  run-emulator-api23:
-    description: "Setup and start an API23 emulator"
-    steps:
-      - run:
-          name: Create API23 AVD
-          command: |
-            echo "no" | avdmanager --verbose create avd --force \
-            --name "Pixel_2_API_23" \
-            --package "system-images;android-23;google_apis;x86_64"
-      - run:
-          name: Start API23 AVD
-          command: |
-            emulator @Pixel_2_API_23 \
-            -no-window -no-audio -no-boot-anim
-          background: true
-          no_output_timeout: 60m
-      - run:
-          name: Wait for API23 emulator
+          name: Wait for emulator
           command: |
             adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
             adb devices
@@ -160,20 +160,21 @@ commands:
     description: "Setup and start screenshot emulator"
     steps:
       - run:
-          name: Create ScreenshotEmulator AVD
+          name: Create emulator AVD
           command: |
             echo "no" | avdmanager --verbose create avd --force \
             --name "ScreenshotEmulator" \
             --package "system-images;android-29;google_apis;x86_64"
       - run:
-          name: Configure emulator dimensions
+          name: Configure emulator settings
           command: |
             cd $HOME/.android/avd/ScreenshotEmulator.avd
             sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=420/g' config.ini
             sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=1920/g' config.ini
             sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1080/g' config.ini
+            sed -i '' -e 's/hw.ramSize=[0-9]*/hhw.ramSize=1024/g' config.ini
       - run:
-          name: Start ScreenshotEmulator AVD
+          name: Start emulator
           command: |
             emulator @ScreenshotEmulator \
             -no-window -no-audio -no-boot-anim
@@ -434,7 +435,8 @@ jobs:
           cmd: |
             :Corona-Warn-App:assembleDeviceDebug \
             :Corona-Warn-App:assembleDeviceDebugAndroidTest
-      - run-emulator-api29
+      - run-emulator-for-api:
+          apilevel: 29
       - run-gradle-cmd:
           desc: Run instrumentation tests on device
           cmd: |
