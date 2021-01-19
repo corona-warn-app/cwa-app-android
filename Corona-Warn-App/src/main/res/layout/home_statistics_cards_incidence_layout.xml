@@ -5,20 +5,86 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <TextView
             android:id="@+id/title"
-            style="@style/headline5"
+            style="@style/StatisticsCardPrimaryTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:focusable="false"
-            android:text="Incidence"
+            android:text="@string/statistics_card_incidence_title"
+            app:layout_constraintEnd_toStartOf="@id/icon_info"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon_info"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/value_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:focusable="false"
+            android:text="@string/statistics_explanation_seven_day_incidence_title"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/value_primary"
+            style="@style/StatisticsCardPrimaryValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="0dp"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/value_label"
+            tools:text="98,9" />
+
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trendArrowView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/value_primary"
+            app:layout_constraintStart_toEndOf="@id/value_primary"
+            app:layout_constraintTop_toTopOf="@id/value_primary" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="62dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_statistics_incidence" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="26dp"
+            android:focusable="false"
+            android:text="@string/statistics_card_incidence_value_description"
+            app:layout_constraintEnd_toStartOf="@id/icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/value_primary" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
