@@ -111,17 +111,22 @@ class DefaultPlaybook @Inject constructor(
             }
         } catch (exception: BadRequestException) {
             propagateException(
-                TanPairingException("Invalid payload or missing header", exception)
+                TanPairingException(
+                    code = exception.statusCode,
+                    message = "Invalid payload or missing header",
+                    cause = exception
+                )
             )
         }
     }
 
     /**
-     * Distinguish BadRequestException to present more insightful message to the end user.
+     * Distinguish BadRequestException to present more insightful message to the end user
      */
     private fun wrapException(exception: Exception?) = when (exception) {
         is BadRequestException -> TanPairingException(
-            message = "Tan has been retrieved before for this registration token.",
+            code = exception.statusCode,
+            message = "Tan has been retrieved before for this registration token",
             cause = exception
         )
         else -> exception

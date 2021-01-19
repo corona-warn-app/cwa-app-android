@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.http.playbook
 
+import de.rki.coronawarnapp.exception.TanPairingException
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.playbook.DefaultPlaybook
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.submission.server.SubmissionServer
@@ -8,6 +10,7 @@ import de.rki.coronawarnapp.verification.server.VerificationKeyType
 import de.rki.coronawarnapp.verification.server.VerificationServer
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -99,6 +102,42 @@ class DefaultPlaybookTest : BaseTest() {
             verificationServer.retrieveTan(any())
             verificationServer.retrieveTanFake()
             submissionServer.submitKeysToServer(any())
+        }
+    }
+
+    @Test
+    fun `tan retrieval throws human readable exception`(): Unit = runBlocking {
+        coEvery { verificationServer.retrieveTan(any()) } throws BadRequestException(null)
+        try {
+            createPlaybook().submit(
+                Playbook.SubmissionData(
+                    registrationToken = "token",
+                    temporaryExposureKeys = listOf(),
+                    consentToFederation = true,
+                    visistedCountries = listOf("DE")
+                )
+            )
+        } catch (e: Exception) {
+            e.shouldBeInstanceOf<TanPairingException>()
+            e.message shouldBe "Tan has been retrieved before for this registration token"
+        }
+    }
+
+    @Test
+    fun `keys submission throws human readable exception`(): Unit = runBlocking {
+        coEvery { submissionServer.submitKeysToServer(any()) } throws BadRequestException(null)
+        try {
+            createPlaybook().submit(
+                Playbook.SubmissionData(
+                    registrationToken = "token",
+                    temporaryExposureKeys = listOf(),
+                    consentToFederation = true,
+                    visistedCountries = listOf("DE")
+                )
+            )
+        } catch (e: Exception) {
+            e.shouldBeInstanceOf<TanPairingException>()
+            e.message shouldBe "Invalid payload or missing header"
         }
     }
 
