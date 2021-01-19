@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsSevendayrvalueLayoutBinding
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentDirections
 
 class SevenDayRValueCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsSevendayrvalueLayoutBinding>(
