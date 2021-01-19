@@ -27,7 +27,12 @@ class StatisticsHomeCard(
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = statsAdapter
                 itemAnimator = DefaultItemAnimator()
-                addItemDecoration(StatisticsCardPaddingDecorator(startPadding = R.dimen.spacing_small))
+                addItemDecoration(
+                    StatisticsCardPaddingDecorator(
+                        startPadding = R.dimen.spacing_small,
+                        cardDistance = R.dimen.spacing_tiny
+                    )
+                )
             }
             PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
         }
