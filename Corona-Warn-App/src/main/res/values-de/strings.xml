@@ -1291,14 +1291,12 @@
     <string name="statistics_card_infections_secondary_label">"7-Tage-Mittelwert"</string>
     <!-- XTXT: Label in infections statistics card that is displayed above the tertiary value-->
     <string name="statistics_card_infections_tertiary_label">"Gesamt"</string>
-    <!-- XTXT: Text displayed in the bottom of infections statistics card-->
-    <string name="statistics_card_infections_bottom_text">"bundesweite Neuinfektionen"</string>
 
     <!-- Incidence statistics card -->
     <!-- XHED: Title for submission statistics card -->
     <string name="statistics_card_submission_title">"Warnende Personen"</string>
     <!-- XTXT: Text displayed in the bottom of submission statistics card-->
-    <string name="statistics_card_submission_bottom_text">"bundesweit warnende Personen"</string>
+    <string name="statistics_card_submission_bottom_text">"über die Corona-Warn-App"</string>
 
     <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
     <string name="statistics_primary_value_today">"Heute"</string>
