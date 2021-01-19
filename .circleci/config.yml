@@ -43,7 +43,7 @@ commands:
             << parameters.cmd >>
           no_output_timeout: 30m
           environment:
-            JVM_OPTS: -Xmx4096m
+            JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: >
               -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
               -Dorg.gradle.caching=true
@@ -70,7 +70,7 @@ commands:
             << parameters.cmd >>
             -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
-            JVM_OPTS: -Xmx4096m
+            JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: >
               -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
               -Dorg.gradle.caching=true
@@ -141,7 +141,7 @@ commands:
           name: Configure emulator settings
           command: |
             cd $HOME/.android/avd/emulator_API<< parameters.apilevel >>.avd
-            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1024/g' config.ini
+            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
       - run:
           name: Start emulator AVD
           command: |
@@ -169,10 +169,10 @@ commands:
           name: Configure emulator settings
           command: |
             cd $HOME/.android/avd/ScreenshotEmulator.avd
-            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=420/g' config.ini
-            sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=1920/g' config.ini
-            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1080/g' config.ini
-            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1024/g' config.ini
+            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=560/g' config.ini
+            sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=2880/g' config.ini
+            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1440/g' config.ini
+            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
       - run:
           name: Start emulator
           command: |
