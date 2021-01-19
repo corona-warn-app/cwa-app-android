@@ -32,7 +32,6 @@ interface RiskLevelStorage {
     /**
      * Risk level per date/day
      * Used by contact diary overview
-     * Can be up to 14 Items.
      * Item with newest date first.
      */
     val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>>
