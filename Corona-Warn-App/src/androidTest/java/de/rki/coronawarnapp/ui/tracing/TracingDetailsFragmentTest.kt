@@ -25,6 +25,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
@@ -120,7 +121,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
     private fun captureScreenshot(nameSuffix: String) {
         val name = TracingDetailsFragment::class.simpleName + "_" + nameSuffix
         launchFragmentInContainer2<TracingDetailsFragment>()
-        Thread.sleep(2000) // TODO use constant when EXPOSUREAPP-2950 is merged
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(name)
     }
 }
