@@ -141,7 +141,7 @@ commands:
           name: Configure emulator settings
           command: |
             cd $HOME/.android/avd/emulator_API<< parameters.apilevel >>.avd
-            sed -i '' -e 's/hw.ramSize=[0-9]*/hhw.ramSize=1024/g' config.ini
+            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1024/g' config.ini
       - run:
           name: Start emulator AVD
           command: |
@@ -172,7 +172,7 @@ commands:
             sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=420/g' config.ini
             sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=1920/g' config.ini
             sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1080/g' config.ini
-            sed -i '' -e 's/hw.ramSize=[0-9]*/hhw.ramSize=1024/g' config.ini
+            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1024/g' config.ini
       - run:
           name: Start emulator
           command: |
