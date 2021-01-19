@@ -78,14 +78,14 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
         val instance = createInstance()
 
-        instance.filterByDate(localDate) shouldBe false
-        instance.filterByDate(localDate.minusDays(5)) shouldBe false
-        instance.filterByDate(localDate.minusDays(10)) shouldBe false
-        instance.filterByDate(localDate.minusDays(15)) shouldBe false
-        instance.filterByDate(localDate.minusDays(16)) shouldBe false
-        instance.filterByDate(localDate.minusDays(17)) shouldBe true
-        instance.filterByDate(localDate.minusDays(20)) shouldBe true
-        instance.filterByDate(localDate.minusDays(25)) shouldBe true
+        instance.isOutOfRetention(localDate) shouldBe false
+        instance.isOutOfRetention(localDate.minusDays(5)) shouldBe false
+        instance.isOutOfRetention(localDate.minusDays(10)) shouldBe false
+        instance.isOutOfRetention(localDate.minusDays(15)) shouldBe false
+        instance.isOutOfRetention(localDate.minusDays(16)) shouldBe false
+        instance.isOutOfRetention(localDate.minusDays(17)) shouldBe true
+        instance.isOutOfRetention(localDate.minusDays(20)) shouldBe true
+        instance.isOutOfRetention(localDate.minusDays(25)) shouldBe true
     }
 
     @Test
@@ -131,7 +131,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     fun `test risk per date results`() = runBlockingTest {
         val instance = createInstance()
         val list: List<AggregatedRiskPerDateResult> = testDates.map { createAggregatedRiskPerDateResult(Instant.parse(it)) }
-        val filteredList = list.filter { instance.filterByDate(it.day) }
+        val filteredList = list.filter { instance.isOutOfRetention(it.day) }
 
         every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(list)
         coEvery { riskLevelStorage.deleteAggregatedRiskPerDateResults(any()) } just runs
