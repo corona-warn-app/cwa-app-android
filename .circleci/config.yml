@@ -115,13 +115,15 @@ commands:
     steps:
       - run:
           name: Create API29 AVD
-          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_2_API_29" --package "system-images;android-29;google_apis;x86_64"
+          command: |
+            echo "no" | avdmanager --verbose create avd --force \
+            --name "Pixel_2_API_29" \
+            --package "system-images;android-29;google_apis;x86_64"
       - run:
           name: Start API29 AVD
           command: |
             emulator @Pixel_2_API_29 \
-            -no-window -no-audio -no-boot-anim \
-            -skin pixel_2 -skindir "$ANDROID_SDK_ROOT/skins"
+            -no-window -no-audio -no-boot-anim
           background: true
           no_output_timeout: 60m
       - run:
@@ -136,17 +138,49 @@ commands:
     steps:
       - run:
           name: Create API23 AVD
-          command: echo "no" | avdmanager --verbose create avd --force --name "Pixel_2_API_23" --package "system-images;android-23;google_apis;x86_64"
+          command: |
+            echo "no" | avdmanager --verbose create avd --force \
+            --name "Pixel_2_API_23" \
+            --package "system-images;android-23;google_apis;x86_64"
       - run:
           name: Start API23 AVD
           command: |
             emulator @Pixel_2_API_23 \
-            -no-window -no-audio -no-boot-anim \
-            -skin pixel_2 -skindir "$ANDROID_SDK_ROOT/skins"
+            -no-window -no-audio -no-boot-anim
           background: true
           no_output_timeout: 60m
       - run:
           name: Wait for API23 emulator
+          command: |
+            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
+            adb devices
+            sleep 5
+
+  run-emulator-for-screenshots:
+    description: "Setup and start screenshot emulator"
+    steps:
+      - run:
+          name: Create ScreenshotEmulator AVD
+          command: |
+            echo "no" | avdmanager --verbose create avd --force \
+            --name "ScreenshotEmulator" \
+            --package "system-images;android-29;google_apis;x86_64"
+      - run:
+          name: Configure emulator dimensions
+          command: |
+            cd $HOME/.android/avd/ScreenshotEmulator.avd
+            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=420/g' config.ini
+            sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=1920/g' config.ini
+            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1080/g' config.ini
+      - run:
+          name: Start ScreenshotEmulator AVD
+          command: |
+            emulator @ScreenshotEmulator \
+            -no-window -no-audio -no-boot-anim
+          background: true
+          no_output_timeout: 60m
+      - run:
+          name: Wait for ScreenshotEmulator emulator
           command: |
             adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
             adb devices
@@ -441,7 +475,7 @@ jobs:
           cmd: |
             :Corona-Warn-App:assembleDebug \
             :Corona-Warn-App:assembleAndroidTest
-      - run-emulator-api29
+      - run-emulator-for-screenshots
       - run:
           name: Run fastlane screengrab
           command: |
