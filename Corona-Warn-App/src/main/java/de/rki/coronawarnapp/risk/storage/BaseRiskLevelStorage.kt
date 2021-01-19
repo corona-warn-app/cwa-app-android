@@ -137,14 +137,21 @@ abstract class BaseRiskLevelStorage constructor(
 
     override val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>> by lazy {
         aggregatedRiskPerDateResultTables.allEntries()
-            .map { it.map { persistedAggregatedRiskPerDateResult -> persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult() } }
+            .map { it.map {
+                persistedAggregatedRiskPerDateResult ->
+                persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult() }
+            }
             .shareLatest(tag = TAG, scope = scope)
     }
 
-    private suspend fun insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>) {
+    private suspend fun insertAggregatedRiskPerDateResults(
+        aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
+    ) {
         Timber.d("insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=$aggregatedRiskPerDateResults)")
         try {
-            aggregatedRiskPerDateResultTables.insertRisk(aggregatedRiskPerDateResults.map { it.toPersistedAggregatedRiskPerDateResult() })
+            aggregatedRiskPerDateResultTables.insertRisk(aggregatedRiskPerDateResults.map {
+                it.toPersistedAggregatedRiskPerDateResult()
+            })
         } catch (e: Exception) {
             Timber.e(e, "Failed to store risk level per date results")
         }
