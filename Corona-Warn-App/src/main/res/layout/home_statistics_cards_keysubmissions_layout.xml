@@ -74,7 +74,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{keySubmissions}"
+            android:text="@{keySubmissionsLabel}"
             tools:text="Gestern" />
 
         <TextView
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:text="@{keySubmissions}"
-            tools:text="14.714" />
+            tools:text="1.514" />
 
         <TextView
             android:id="@+id/secondaryLabel"
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{sevenDayAverage}"
-            tools:text="11.981" />
+            tools:text="1.812" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
             android:id="@+id/trendArrowView"
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{total}"
-            tools:text="429.181" />
+            tools:text="20.992" />
 
         <TextView
             style="@style/StatisticsCardValueLabel"
