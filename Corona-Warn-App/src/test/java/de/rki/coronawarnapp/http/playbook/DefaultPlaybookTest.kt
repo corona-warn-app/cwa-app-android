@@ -119,6 +119,7 @@ class DefaultPlaybookTest : BaseTest() {
             )
         } catch (e: Exception) {
             e.shouldBeInstanceOf<TanPairingException>()
+            e.cause.shouldBeInstanceOf<BadRequestException>()
             e.message shouldBe "Tan has been retrieved before for this registration token"
         }
     }
@@ -137,6 +138,7 @@ class DefaultPlaybookTest : BaseTest() {
             )
         } catch (e: Exception) {
             e.shouldBeInstanceOf<TanPairingException>()
+            e.cause.shouldBeInstanceOf<BadRequestException>()
             e.message shouldBe "Invalid payload or missing header"
         }
     }
