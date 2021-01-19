@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/statistics_explanation_title"
-        android:fillViewport="true"
         tools:context=".statistics.ui.StatisticsExplanationFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:focusable="true"
                 app:icon="@{@drawable/ic_close}"
                 app:iconDescription="@{@string/accessibility_back}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +39,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="6dp"
                 android:accessibilityHeading="true"
+                android:focusable="true"
                 android:text="@string/statistics_explanation_title"
                 app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
                 app:layout_constraintTop_toTopOf="@+id/statistics_explanation_header_button_back"
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="3dp"
-                android:accessibilityHeading="true"
+                android:focusable="true"
                 android:text="@string/statistics_explanation_subtitle"
                 app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
                 app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_title"
@@ -102,7 +103,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
                 android:orientation="vertical">
 
                 <ImageView
@@ -110,8 +110,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="31dp"
                     android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_illustration_description"
+                    android:focusable="true"
                     android:src="@drawable/ic_illustration_statistics_explanation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -122,10 +123,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="41dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_confirmed_new_infection_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_confirmed_new_infection_title" />
 
                 <TextView
@@ -135,8 +136,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_confirmed_new_infection_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_confirmed_new_infection_text" />
 
                 <TextView
@@ -146,8 +147,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_warned_persons_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_warned_persons_title" />
 
                 <TextView
@@ -157,8 +158,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_warned_persons_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_warned_persons_text" />
 
                 <TextView
@@ -168,8 +169,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_seven_day_incidence_title" />
 
                 <TextView
@@ -179,8 +180,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_seven_day_incidence_text" />
 
                 <TextView
@@ -190,8 +191,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_seven_day_r_value_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_seven_day_r_value_title" />
 
                 <TextView
@@ -202,8 +203,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_seven_day_r_value_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_seven_day_r_value_text" />
 
                 <View
@@ -219,8 +220,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="45dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_legend_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_legend_title" />
 
                 <TextView
@@ -230,8 +231,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_title" />
 
                 <TextView
@@ -241,8 +242,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_yesterday_subtitle"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_yesterday_subtitle" />
 
                 <TextView
@@ -252,8 +253,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_yesterday_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_yesterday_text" />
 
                 <TextView
@@ -263,8 +264,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_seven_day_subtitle"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_seven_day_subtitle" />
 
                 <TextView
@@ -274,8 +275,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_seven_day_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_seven_day_text" />
 
                 <TextView
@@ -285,8 +286,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_total_subtitle"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_total_subtitle" />
 
                 <TextView
@@ -296,8 +297,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_period_total_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_period_total_text" />
 
                 <TextView
@@ -307,8 +308,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="47dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_trend_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_trend_title" />
 
                 <TextView
@@ -318,8 +319,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_trend_text"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_trend_text" />
 
                 <TextView
@@ -329,8 +330,8 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="35dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_trend_icons_title"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_trend_icons_title"
                     android:textSize="14sp" />
 
@@ -339,8 +340,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="25dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:focusable="true">
+                    android:layout_marginEnd="@dimen/guideline_end">
 
                     <ImageView
                         android:id="@+id/statistics_explanation_trend_increasing_arrow"
@@ -349,6 +349,7 @@
                         android:background="@drawable/bg_statistics_trend_negative"
                         android:contentDescription="@string/statistics_explanation_trend_increasing_title"
                         android:padding="1dp"
+                        android:rotation="-45"
                         android:scaleType="center"
                         android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="parent"
@@ -360,8 +361,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="34dp"
-                        android:accessibilityHeading="true"
                         android:contentDescription="@string/statistics_explanation_trend_increasing_title"
+                        android:focusable="true"
                         android:text="@string/statistics_explanation_trend_increasing_title"
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_increasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_increasing_arrow" />
@@ -374,6 +375,7 @@
                         android:background="@drawable/bg_statistics_trend_positive"
                         android:contentDescription="@string/statistics_explanation_trend_decreasing_title"
                         android:padding="1dp"
+                        android:rotation="45"
                         android:scaleType="center"
                         android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_increasing_arrow"
@@ -385,8 +387,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="34dp"
-                        android:accessibilityHeading="true"
                         android:contentDescription="@string/statistics_explanation_trend_decreasing_title"
+                        android:focusable="true"
                         android:text="@string/statistics_explanation_trend_decreasing_title"
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_decreasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_decreasing_arrow" />
@@ -410,8 +412,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="34dp"
-                        android:accessibilityHeading="true"
                         android:contentDescription="@string/statistics_explanation_trend_stable_title"
+                        android:focusable="true"
                         android:text="@string/statistics_explanation_trend_stable_title"
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_stable_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_stable_arrow" />
@@ -426,8 +428,8 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:layout_marginBottom="23dp"
-                    android:accessibilityHeading="true"
                     android:contentDescription="@string/statistics_explanation_trend_description"
+                    android:focusable="true"
                     android:text="@string/statistics_explanation_trend_description" />
 
             </LinearLayout>

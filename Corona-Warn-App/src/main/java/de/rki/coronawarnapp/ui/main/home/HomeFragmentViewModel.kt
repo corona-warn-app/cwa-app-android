@@ -225,7 +225,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { }))
+                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation) }))
             }
 
             add(submissionItem)
