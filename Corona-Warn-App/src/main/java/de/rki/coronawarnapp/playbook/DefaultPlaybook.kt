@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.playbook
 
+import de.rki.coronawarnapp.exception.TanPairingException
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
@@ -103,8 +105,19 @@ class DefaultPlaybook @Inject constructor(
         } else {
             submissionServer.submitKeysToServerFake()
             coroutineScope.launch { followUpPlaybooks() }
-            propagateException(exception)
+            propagateException(wrapException(exception))
         }
+    }
+
+    /**
+     * Distinguish BadRequestException to present more insightful message to the end user.
+     */
+    private fun wrapException(exception: Exception?) = when (exception) {
+        is BadRequestException -> TanPairingException(
+            exception.statusCode,
+            BadRequestException(message = "Tan has been retrieved before for this registration token.")
+        )
+        else -> exception
     }
 
     private suspend fun dummy(launchFollowUp: Boolean) {
