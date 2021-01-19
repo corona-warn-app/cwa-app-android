@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <data>
+
+        <variable
+            name="newInfectionsLabel"
+            type="String" />
+
+        <variable
+            name="newInfections"
+            type="String" />
+
+        <variable
+            name="sevenDayAverage"
+            type="String" />
+
+        <variable
+            name="total"
+            type="String" />
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <TextView
@@ -13,12 +34,121 @@
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:focusable="false"
-            android:text="Key Submissions"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="0dp"
+            android:text="@string/statistics_card_submission_title"
+            app:layout_constraintEnd_toStartOf="@id/statistics_card_info_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/background_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_main_illustration_warnende_personen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutFlow" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/layoutFlow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/guideline_statistics_card_content"
+            android:layout_marginEnd="@dimen/card_padding"
+            app:constraint_referenced_ids="primaryLabel,primaryValue,secondaryLabel,secondaryValue,tertiaryLabel,tertiaryValue"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalBias="0"
+            app:flow_maxElementsWrap="1"
+            app:flow_wrapMode="chain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/primaryLabel"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{newInfectionsLabel}"
+            tools:text="Gestern" />
+
+        <TextView
+            android:id="@+id/primaryValue"
+            style="@style/StatisticsCardPrimaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="@{newInfections}"
+            tools:text="14.714" />
+
+        <TextView
+            android:id="@+id/secondaryLabel"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:text="@string/statistics_card_infections_secondary_label" />
+
+        <TextView
+            android:id="@+id/secondaryValue"
+            style="@style/StatisticsCardSecondaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{sevenDayAverage}"
+            tools:text="11.981" />
+
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trendArrowView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/secondaryValue"
+            app:layout_constraintStart_toEndOf="@id/secondaryValue"
+            app:layout_constraintTop_toTopOf="@id/secondaryValue" />
+
+        <TextView
+            android:id="@+id/tertiaryLabel"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:text="@string/statistics_card_infections_tertiary_label" />
+
+        <TextView
+            android:id="@+id/tertiaryValue"
+            style="@style/StatisticsCardSecondaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{total}"
+            tools:text="429.181" />
+
+        <TextView
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:text="@string/statistics_card_submission_bottom_text"
+            android:textSize="@dimen/font_small"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/statistics_card_info_button"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="@dimen/radius_info_button"
+            android:layout_height="@dimen/radius_info_button"
+            android:layout_margin="@dimen/spacing_mega_tiny"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/statistics_info_button"
+            android:src="@drawable/ic_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
