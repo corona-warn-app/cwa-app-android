@@ -13,14 +13,14 @@ typealias NotificationId = Int
 
 class NotificationReceiver : BroadcastReceiver() {
 
-    @Inject lateinit var testResultNotificationService: TestResultNotificationService
+    @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
         when (val notificationId = intent.getIntExtra(NOTIFICATION_ID, Int.MIN_VALUE)) {
             POSITIVE_RESULT_NOTIFICATION_ID -> {
                 Timber.tag(TAG).v("NotificationReceiver received intent to show a positive test result notification")
-                testResultNotificationService.showPositiveTestResultNotification(notificationId)
+                shareTestResultNotificationService.showSharePositiveTestResultNotification(notificationId)
             }
             else ->
                 Timber.tag(TAG).d("NotificationReceiver received an undefined notificationId: %s", notificationId)

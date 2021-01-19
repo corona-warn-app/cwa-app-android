@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/contactDiaryCardRipple"
         android:id="@+id/contact_diary_person_list_item"
+        style="@style/contactDiaryCardRipple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/spacing_huge">
@@ -30,7 +30,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/contact_diary_person_list_item_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/full_names" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

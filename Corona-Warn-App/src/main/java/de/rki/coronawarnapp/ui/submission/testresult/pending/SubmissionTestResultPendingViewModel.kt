@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -16,7 +17,9 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -24,7 +27,7 @@ import timber.log.Timber
 
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -85,9 +88,10 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         }
         .asLiveData(context = dispatcherProvider.Default)
 
-    fun onTestOpened() {
-        submissionRepository.setViewedTestResult()
-    }
+    val cwaWebExceptionLiveData = submissionRepository.deviceUIStateFlow
+        .filterIsInstance<NetworkRequestWrapper.RequestFailed<DeviceUIState, CwaWebException>>()
+        .map { it.error }
+        .asLiveData()
 
     fun observeTestResultToSchedulePositiveTestResultReminder() = launch {
         submissionRepository.deviceUIStateFlow
@@ -96,14 +100,13 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
     }
 
     fun deregisterTestFromDevice() {
         Timber.d("deregisterTestFromDevice()")
         launch {
             submissionRepository.removeTestFromDevice()
-
             routeToScreen.postValue(null)
         }
     }
