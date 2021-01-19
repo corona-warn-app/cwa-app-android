@@ -51,7 +51,7 @@ open class CwaSuccessResponseWithCodeMismatchNotSupportedError(statusCode: Int, 
 open class CwaInformationalNotSupportedError(statusCode: Int, message: String?) : CwaWebException(statusCode, message)
 open class CwaRedirectNotSupportedError(statusCode: Int, message: String?) : CwaWebException(statusCode, message)
 
-class BadRequestException(message: String?) : CwaClientError(400, message)
+open class BadRequestException(message: String?) : CwaClientError(400, message)
 class UnauthorizedException(message: String?) : CwaClientError(401, message)
 class ForbiddenException(message: String?) : CwaClientError(403, message)
 class NotFoundException(message: String?) : CwaClientError(404, message)

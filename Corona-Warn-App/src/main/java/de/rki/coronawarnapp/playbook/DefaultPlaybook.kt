@@ -15,6 +15,7 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.contracts.contract
 
 @Singleton
 class DefaultPlaybook @Inject constructor(
@@ -92,20 +93,27 @@ class DefaultPlaybook @Inject constructor(
         // fake verification
         ignoreExceptions { verificationServer.retrieveTanFake() }
 
-        // real submission
-        if (authCode != null) {
-            val serverSubmissionData = SubmissionServer.SubmissionData(
-                authCode = authCode,
-                keyList = data.temporaryExposureKeys,
-                consentToFederation = data.consentToFederation,
-                visistedCountries = data.visistedCountries
+        // submitKeysToServer cloud throw BadRequestException too.
+        try {
+            // real submission
+            if (authCode != null) {
+                val serverSubmissionData = SubmissionServer.SubmissionData(
+                    authCode = authCode,
+                    keyList = data.temporaryExposureKeys,
+                    consentToFederation = data.consentToFederation,
+                    visistedCountries = data.visistedCountries
+                )
+                submissionServer.submitKeysToServer(serverSubmissionData)
+                coroutineScope.launch { followUpPlaybooks() }
+            } else {
+                submissionServer.submitKeysToServerFake()
+                coroutineScope.launch { followUpPlaybooks() }
+                propagateException(wrapException(exception))
+            }
+        } catch (exception: BadRequestException) {
+            propagateException(
+                TanPairingException("Invalid payload or missing header", exception)
             )
-            submissionServer.submitKeysToServer(serverSubmissionData)
-            coroutineScope.launch { followUpPlaybooks() }
-        } else {
-            submissionServer.submitKeysToServerFake()
-            coroutineScope.launch { followUpPlaybooks() }
-            propagateException(wrapException(exception))
         }
     }
 
@@ -114,8 +122,8 @@ class DefaultPlaybook @Inject constructor(
      */
     private fun wrapException(exception: Exception?) = when (exception) {
         is BadRequestException -> TanPairingException(
-            exception.statusCode,
-            BadRequestException(message = "Tan has been retrieved before for this registration token.")
+            message = "Tan has been retrieved before for this registration token.",
+            cause = exception
         )
         else -> exception
     }
