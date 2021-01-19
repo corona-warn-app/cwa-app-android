@@ -25,6 +25,11 @@ class KeySubmissionsCard(parent: ViewGroup) :
         item: StatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+
+        statisticsCardInfoButton.setOnClickListener {
+            item.onHelpAction.invoke(item.stats)
+        }
+
         with(item.stats as KeySubmissionsStats) {
             keySubmissionsLabel = getPrimaryLabel(context)
             trendArrowView.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
