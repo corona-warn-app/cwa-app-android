@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/interoperability_illustration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -114,10 +114,10 @@
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_illustration_description"
                     android:focusable="true"
-                    android:src="@drawable/ic_illustration_statistics_explanation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_illustration_statistics_explanation" />
 
                 <TextView
                     style="@style/headline5"
@@ -343,7 +343,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="@dimen/guideline_end">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/statistics_explanation_trend_increasing_arrow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -352,9 +352,9 @@
                         android:padding="1dp"
                         android:rotation="-45"
                         android:scaleType="center"
-                        android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_trend_stable" />
 
                     <TextView
                         android:id="@+id/statistics_explanation_trend_increasing_title"
@@ -368,7 +368,7 @@
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_increasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_increasing_arrow" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/statistics_explanation_trend_decreasing_arrow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -378,9 +378,9 @@
                         android:padding="1dp"
                         android:rotation="45"
                         android:scaleType="center"
-                        android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_increasing_arrow"
-                        app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_increasing_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_increasing_title"
+                        app:srcCompat="@drawable/ic_trend_stable" />
 
                     <TextView
                         android:id="@+id/statistics_explanation_trend_decreasing_title"
@@ -394,7 +394,7 @@
                         app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_decreasing_arrow"
                         app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_decreasing_arrow" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/statistics_explanation_trend_stable_arrow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -403,9 +403,9 @@
                         android:contentDescription="@string/statistics_explanation_trend_stable_title"
                         android:padding="1dp"
                         android:scaleType="center"
-                        android:src="@drawable/ic_trend_stable"
                         app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_decreasing_arrow"
-                        app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_decreasing_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_decreasing_title"
+                        app:srcCompat="@drawable/ic_trend_stable" />
 
                     <TextView
                         android:id="@+id/statistics_explanation_trend_stable_title"

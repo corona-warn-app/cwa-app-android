@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
@@ -62,14 +63,7 @@ fun TextView.setUrl(@StringRes textRes: Int, @StringRes labelRes: Int, @StringRe
         val indexOf = it.indexOf(label)
         if (indexOf > 0) {
             setText(
-                SpannableString(it).apply {
-                    setSpan(
-                        URLSpan(url),
-                        indexOf,
-                        indexOf + label.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                },
+                SpannableStringBuilder(it).urlSpan(indexOf, indexOf + label.length, url),
                 TextView.BufferType.SPANNABLE
             )
             movementMethod = LinkMovementMethod.getInstance()
