@@ -19,7 +19,9 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage
 ) {
 
-    fun isOutOfRetention(date: LocalDate): Boolean = RETENTION_DAYS < getDaysDiff(date).also { Timber.d("Days diff: $it") }
+    fun isOutOfRetention(date: LocalDate): Boolean = RETENTION_DAYS < getDaysDiff(date).also {
+        Timber.d("Days diff: $it")
+    }
 
     fun getDaysDiff(dateSaved: LocalDate): Int {
         val today = LocalDate(timeStamper.nowUTC)
