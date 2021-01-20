@@ -89,18 +89,6 @@ commands:
               circleci step halt
             fi
 
-  setup-google-cloud:
-    description: "Setup Google Cloud access."
-    steps:
-      - run:
-          name: Store Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
-      - run:
-          name: Authorize gcloud and set config defaults
-          command: |
-            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-
   setup-android-macos:
     description: "Setup Android environment on macOS executor"
     steps:
@@ -185,6 +173,21 @@ commands:
             adb kill-server
             sleep 2
 
+  compress-path:
+    parameters:
+      input:
+        type: string
+      output:
+        type: string
+    description: "Compress << parameters.input >> to << parameters.output >>"
+    steps:
+      - run:
+          name: Compress files
+          command: >
+            zip -r
+            << parameters.output >>
+            << parameters.input >>
+
 #######################
 # Jobs section
 # Tasks that get executed
@@ -253,15 +256,18 @@ jobs:
           cmd: ":Corona-Warn-App:testDeviceReleaseUnitTest -i"
       - save-gradle-cache
       - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
           root: /home/circleci
           paths:
             - ./project
+      - compress-path:
+          input: ./Corona-Warn-App/build/reports
+          output: /tmp/unit_tests_device_release.zip
+      - store_artifacts:
+          path: /tmp/unit_tests_device_release.zip
+          destination: zips/unit_tests_device_release.zip
 
   unit_tests_device_for_testers_release:
     executor: android/android
@@ -277,11 +283,15 @@ jobs:
           cmd: ":Corona-Warn-App:testDeviceForTestersReleaseUnitTest"
       - save-gradle-cache
       - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+      - compress-path:
+          input: ./Corona-Warn-App/build/reports
+          output: /tmp/unit_tests_device_for_testers_release.zip
+      - store_artifacts:
+          path: /tmp/unit_tests_device_for_testers_release.zip
+          destination: zips/unit_tests_device_for_testers_release.zip
+
 
   lint_device_release_check:
     executor: android/android
@@ -432,19 +442,15 @@ jobs:
             --info --continue
             -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
             -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      #      - kill-all-emulators
-      #      - run-emulator-api23
-      #      - run-gradle-cmd:
-      #          desc: Run instrumentation test command
-      #          cmd: |
-      #            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
-      #            --info \
-      #            --continue \
-      #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
-      #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
       - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
+      - compress-path:
+          input: ./Corona-Warn-App/build/reports
+          output: /tmp/instrumentation_tests_device.zip
+      - store_artifacts:
+          path: /tmp/instrumentation_tests_device.zip
+          destination: zips/instrumentation_tests_device.zip
 
   device_screenshots:
     macos:
@@ -476,7 +482,12 @@ jobs:
       - store_artifacts:
           path: fastlane/metadata/android
           destination: screenshots
-
+      - compress-path:
+          input: ./fastlane/metadata/android
+          output: /tmp/device_screenshots.zip
+      - store_artifacts:
+          path: /tmp/device_screenshots.zip
+          destination: zips/device_screenshots.zip
 
 #######################
 # Workflow section

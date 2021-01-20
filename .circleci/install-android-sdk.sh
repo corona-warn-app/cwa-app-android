@@ -24,7 +24,6 @@ $SDKMANAGER "platforms;android-29"
 $SDKMANAGER "build-tools;29.0.3"
 $SDKMANAGER "ndk-bundle"
 $SDKMANAGER "system-images;android-29;google_apis;x86_64"
-$SDKMANAGER "system-images;android-23;google_apis;x86_64"
 $SDKMANAGER "emulator"
 
 echo "y" | sudo $SDKMANAGER --install "ndk;21.2.6472646" --sdk_root=${ANDROID_SDK_ROOT}
