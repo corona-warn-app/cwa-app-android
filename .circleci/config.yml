@@ -246,9 +246,6 @@ jobs:
           cmd: ":Corona-Warn-App:testDeviceReleaseUnitTest -i"
       - save-gradle-cache
       - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
@@ -256,7 +253,7 @@ jobs:
           paths:
             - ./project
       - compress-path:
-          input: ./Corona-Warn-App/build/test-results
+          input: ./Corona-Warn-App/build/reports
           output: /tmp/unit_tests_device_release.zip
       - store_artifacts:
           path: /tmp/unit_tests_device_release.zip
@@ -276,11 +273,15 @@ jobs:
           cmd: ":Corona-Warn-App:testDeviceForTestersReleaseUnitTest"
       - save-gradle-cache
       - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+      - compress-path:
+          input: ./Corona-Warn-App/build/reports
+          output: /tmp/unit_tests_device_for_testers_release.zip
+      - store_artifacts:
+          path: /tmp/unit_tests_device_for_testers_release.zip
+          destination: zips/unit_tests_device_for_testers_release.zip
+
 
   lint_device_release_check:
     executor: android/android
@@ -435,7 +436,7 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
       - compress-path:
-          input: ./Corona-Warn-App/build/outputs/androidTest-results
+          input: ./Corona-Warn-App/build/reports
           output: /tmp/instrumentation_tests_device.zip
       - store_artifacts:
           path: /tmp/instrumentation_tests_device.zip
@@ -477,7 +478,6 @@ jobs:
       - store_artifacts:
           path: /tmp/device_screenshots.zip
           destination: zips/device_screenshots.zip
-
 
 #######################
 # Workflow section
