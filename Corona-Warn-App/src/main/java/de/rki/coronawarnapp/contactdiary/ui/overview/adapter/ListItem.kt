@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import org.joda.time.LocalDate
 
 data class ListItem(
