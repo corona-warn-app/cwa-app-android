@@ -187,6 +187,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>
 
     companion object {
-        const val DAY_COUNT = 14
+        // Today + 14 days
+        const val DAY_COUNT = 15
     }
 }

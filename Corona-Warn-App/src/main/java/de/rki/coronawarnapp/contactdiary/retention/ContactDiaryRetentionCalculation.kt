@@ -32,8 +32,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
         return list.filter { entity -> RETENTION_DAYS < getDaysDiff(entity.date) }
     }
 
-    fun isOutOfRetention(date: LocalDate): Boolean =
-        RETENTION_DAYS < getDaysDiff(date).also { Timber.d("Days diff: $it") }
+    fun isOutOfRetention(date: LocalDate): Boolean = RETENTION_DAYS < getDaysDiff(date).also { Timber.d("Days diff: $it") }
 
     suspend fun clearObsoleteContactDiaryLocationVisits() {
         val list = repository.locationVisits.first()
@@ -61,7 +60,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
 
     companion object {
         /**
-         * Contact diary data retention in days 14+2
+         * Contact diary data retention in days 15+1
          */
         const val RETENTION_DAYS = 16
     }
