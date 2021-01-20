@@ -163,6 +163,21 @@ commands:
             adb kill-server
             sleep 2
 
+  compress-path:
+    parameters:
+      input:
+        type: string
+      output:
+        type: string
+    description: "Compress << parameters.input >> to << parameters.output >>"
+    steps:
+      - run:
+          name: Compress files
+          command: >
+            zip -r
+            << parameters.output >>
+            << parameters.input >>
+
 #######################
 # Jobs section
 # Tasks that get executed
@@ -240,6 +255,12 @@ jobs:
           root: /home/circleci
           paths:
             - ./project
+      - compress-path:
+          input: Corona-Warn-App/build/test-results
+          output: /tmp/unit_tests_device_release-$CIRCLE_SHA1.zip
+      - store_artifacts:
+          path: /tmp/unit_tests_device_release-$CIRCLE_SHA1.zip
+          destination: zips
 
   unit_tests_device_for_testers_release:
     executor: android/android
@@ -275,6 +296,12 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+      - compress-path:
+          input: Corona-Warn-App/build/test-results
+          output: /tmp/lint_device_release_check-$CIRCLE_SHA1.zip
+      - store_artifacts:
+          path: /tmp/lint_device_release_check-$CIRCLE_SHA1.zip
+          destination: zips
 
   lint_device_for_testers_release_check:
     executor: android/android
