@@ -6,6 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:layout_height="@dimen/statistics_card_height"
+        tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <TextView
@@ -33,9 +35,13 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="16dp"
             android:focusable="false"
             android:text="@string/statistics_explanation_seven_day_incidence_title"
+            tools:text="Bis gestern"
+            app:layout_constraintBottom_toTopOf="@+id/value_primary"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0.3"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -45,8 +51,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="0dp"
             android:focusable="false"
+            app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/value_label"
             tools:text="98,9" />
@@ -65,11 +71,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:layout_marginBottom="62dp"
             android:importantForAccessibility="no"
-            app:layout_constraintStart_toEndOf="@id/description"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/value_label"
+            app:layout_constraintStart_toEndOf="@id/description"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.68"
             app:srcCompat="@drawable/ic_statistics_incidence" />
 
         <TextView
@@ -78,9 +85,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="16dp"
             android:focusable="false"
             android:text="@string/statistics_card_incidence_value_description"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/value_primary" />
