@@ -19,21 +19,19 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage
 ) {
 
+    fun isOutOfRetention(date: LocalDate): Boolean = RETENTION_DAYS < getDaysDiff(date).also { Timber.d("Days diff: $it") }
+
     fun getDaysDiff(dateSaved: LocalDate): Int {
         val today = LocalDate(timeStamper.nowUTC)
         return Days.daysBetween(dateSaved, today).days
     }
 
     fun filterContactDiaryLocationVisits(list: List<ContactDiaryLocationVisit>): List<ContactDiaryLocationVisit> {
-        return list.filter { entity -> RETENTION_DAYS < getDaysDiff(entity.date) }
+        return list.filter { entity -> isOutOfRetention(entity.date) }
     }
 
     fun filterContactDiaryPersonEncounters(list: List<ContactDiaryPersonEncounter>): List<ContactDiaryPersonEncounter> {
-        return list.filter { entity -> RETENTION_DAYS < getDaysDiff(entity.date) }
-    }
-
-    fun isOutOfRetention(date: LocalDate): Boolean = RETENTION_DAYS < getDaysDiff(date).also {
-        Timber.d("Days diff: $it")
+        return list.filter { entity -> isOutOfRetention(entity.date) }
     }
 
     suspend fun clearObsoleteContactDiaryLocationVisits() {
