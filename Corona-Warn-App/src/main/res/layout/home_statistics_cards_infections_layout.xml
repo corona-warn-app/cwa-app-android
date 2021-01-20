@@ -129,7 +129,6 @@
         <ImageButton
             android:id="@+id/statistics_card_info_button"
             style="@style/StatisticsCardInfoButton"
-            android:layout_margin="@dimen/spacing_tiny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

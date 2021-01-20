@@ -4,17 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
-        android:layout_height="328dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
-
-        <ImageView
-            android:id="@+id/info_statistics"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/primary_title"
@@ -33,10 +25,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:text="@string/statistics_reproduction_title"
+            android:layout_marginTop="@dimen/guideline_statistics_card_content"
+            tools:text="@string/statistics_reproduction_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/primary_title" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/primary_value"
@@ -44,6 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
+            android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="1,04" />
@@ -70,7 +63,7 @@
             app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/illustration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,6 +73,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/secondary_label"
             app:layout_constraintTop_toBottomOf="@id/primary_label" />
+
+        <ImageButton
+            android:id="@+id/info_statistics"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

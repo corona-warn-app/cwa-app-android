@@ -21,24 +21,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/icon_info"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/value_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/guideline_statistics_card_content"
             android:focusable="false"
             android:text="@string/statistics_explanation_seven_day_incidence_title"
             app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/value_primary"
@@ -48,6 +40,7 @@
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="0dp"
             android:focusable="false"
+            android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/value_label"
             tools:text="98,9" />
@@ -61,7 +54,7 @@
             app:layout_constraintStart_toEndOf="@id/value_primary"
             app:layout_constraintTop_toTopOf="@id/value_primary" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,12 +71,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:focusable="false"
             android:text="@string/statistics_card_incidence_value_description"
             app:layout_constraintEnd_toStartOf="@id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/value_primary" />
+
+        <ImageButton
+            android:id="@+id/icon_info"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
