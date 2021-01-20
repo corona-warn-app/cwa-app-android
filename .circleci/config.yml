@@ -434,6 +434,12 @@ jobs:
       - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
+      - compress-path:
+          input: ./Corona-Warn-App/build/outputs/androidTest-results
+          output: /tmp/instrumentation_tests_device.zip
+      - store_artifacts:
+          path: /tmp/instrumentation_tests_device.zip
+          destination: zips/instrumentation_tests_device.zip
 
   device_screenshots:
     macos:
