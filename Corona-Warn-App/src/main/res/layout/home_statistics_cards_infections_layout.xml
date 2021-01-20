@@ -27,6 +27,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:layout_height="@dimen/statistics_card_height"
+        tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <TextView
@@ -45,7 +47,7 @@
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/spacing_small"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_main_illustration_infection"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +131,6 @@
         <ImageButton
             android:id="@+id/statistics_card_info_button"
             style="@style/StatisticsCardInfoButton"
-            android:layout_margin="@dimen/spacing_tiny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
