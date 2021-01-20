@@ -485,7 +485,6 @@ workflows:
           requires:
             - unit_tests_device_release
       - instrumentation_tests_device
-      - device_screenshots
 
   check_buildtype_device_for_testers:
     jobs:
