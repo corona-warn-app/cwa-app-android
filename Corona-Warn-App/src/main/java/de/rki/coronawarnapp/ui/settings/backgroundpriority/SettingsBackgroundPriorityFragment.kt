@@ -38,7 +38,7 @@ class SettingsBackgroundPriorityFragment : Fragment(R.layout.fragment_settings_b
 
     override fun onResume() {
         super.onResume()
-        binding.settingsBackgroundPriorityContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.settingsBackgroundPriorityContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {
