@@ -6,17 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_height="@dimen/statistics_card_height"
-        tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
-
-        <ImageView
-            android:id="@+id/info_statistics"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/primary_title"
@@ -35,13 +25,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="16dp"
-            android:text="@string/statistics_reproduction_title"
-            app:layout_constraintBottom_toTopOf="@+id/primary_value"
+            android:layout_marginTop="@dimen/guideline_statistics_card_content"
+            tools:text="@string/statistics_reproduction_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/primary_title"
-            app:layout_constraintVertical_bias="0.3"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/primary_value"
@@ -49,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            app:layout_constraintBottom_toTopOf="@+id/secondary_label"
+            android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="1,04" />
@@ -69,26 +56,31 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_tiny"
             android:text="@string/statistics_reproduction_average"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/primary_value"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintEnd_toStartOf="@id/illustration"
+            app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/illustration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
-            android:importantForAccessibility="no"
             android:src="@drawable/ic_7_day_r_value"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.68" />
+            app:layout_constraintStart_toEndOf="@id/secondary_label"
+            app:layout_constraintTop_toBottomOf="@id/primary_label" />
+
+        <ImageButton
+            android:id="@+id/info_statistics"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

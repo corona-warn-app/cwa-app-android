@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
-import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 
 class SevenDayRValueCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsSevendayrvalueLayoutBinding>(
@@ -32,10 +31,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
         }
 
         val reproductionNumber = (item.stats as SevenDayRValue).reproductionNumber
-        val valueString = formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals)
-
         primaryLabel.text = item.stats.getPrimaryLabel(context)
-        primaryValue.text = getLocalizedSpannableString(context, valueString)
+        primaryValue.text = formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals)
         trendView.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
     }
 }
