@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
-        android:layout_height="328dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="@dimen/statistics_card_height"
+        tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <ImageView
