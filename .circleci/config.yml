@@ -260,7 +260,7 @@ jobs:
           output: /tmp/unit_tests_device_release.zip
       - store_artifacts:
           path: /tmp/unit_tests_device_release.zip
-          destination: zips
+          destination: zips/unit_tests_device_release.zip
 
   unit_tests_device_for_testers_release:
     executor: android/android
@@ -326,12 +326,6 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-      - compress-path:
-          input: ./Corona-Warn-App/build/reports
-          output: /tmp/ktlint_device_release_check.zip
-      - store_artifacts:
-          path: /tmp/ktlint_device_release_check.zip
-          destination: zips
 
   ktlint_device_for_testers_release_check:
     executor: android/android
@@ -471,6 +465,12 @@ jobs:
       - store_artifacts:
           path: fastlane/metadata/android
           destination: screenshots
+      - compress-path:
+          input: ./fastlane/metadata/android
+          output: /tmp/device_screenshots.zip
+      - store_artifacts:
+          path: /tmp/device_screenshots.zip
+          destination: zips/device_screenshots.zip
 
 
 #######################
