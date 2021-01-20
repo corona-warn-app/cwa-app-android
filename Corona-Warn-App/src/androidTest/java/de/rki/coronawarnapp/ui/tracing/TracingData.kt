@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
-import org.joda.time.Duration
 import org.joda.time.Instant
 
 object TracingData {
@@ -95,10 +94,7 @@ object TracingData {
             PeriodLoggedBox.Item(activeTracingDaysInRetentionPeriod = 5),
             DetailsIncreasedRiskBox.Item(
                 riskState = RiskState.INCREASED_RISK,
-                lastEncounterDaysAgo = Duration(
-                    Instant.EPOCH,
-                    Instant.now()
-                ).standardDays.toInt()
+                lastEncounteredAt = Instant.now()
             )
         )
     )
