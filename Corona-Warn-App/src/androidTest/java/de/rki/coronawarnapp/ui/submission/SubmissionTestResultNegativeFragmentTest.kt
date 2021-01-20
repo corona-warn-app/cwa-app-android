@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
@@ -33,6 +34,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
 
     @Rule
     @JvmField
@@ -51,7 +53,8 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionTestResultNegativeViewModel(
                 TestDispatcherProvider,
-                submissionRepository
+                submissionRepository,
+                testResultAvailableNotificationService
             )
         )
 

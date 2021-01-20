@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.databinding.HomeStatisticsCardsSevendayrvalueLayoutB
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
+import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 
 class SevenDayRValueCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsSevendayrvalueLayoutBinding>(
@@ -25,7 +26,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val reproductionNumber = (item.stats as SevenDayRValue).reproductionNumber
-        primaryValue.text = formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals)
+        val valueString = formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals)
+        primaryValue.text = getLocalizedSpannableString(context, valueString)
         trendView.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
         infoStatistics.setOnClickListener {
             item.onHelpAction.invoke(item.stats)

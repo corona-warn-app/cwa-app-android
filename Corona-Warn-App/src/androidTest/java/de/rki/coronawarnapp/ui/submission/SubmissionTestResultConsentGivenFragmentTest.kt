@@ -12,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -43,6 +44,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
 
     @Rule
     @JvmField
@@ -61,6 +63,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                 SubmissionTestResultConsentGivenViewModel(
                     submissionRepository,
                     autoSubmission,
+                    testResultAvailableNotificationService,
                     TestDispatcherProvider
                 )
             )
