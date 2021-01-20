@@ -14,22 +14,26 @@ object DiaryData {
     val LIST_ITEMS = listOf(
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
-            "Max Mustermann"
+            "Max Mustermann",
+            ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
-            "Erika Mustermann"
+            "Erika Mustermann",
+            ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
-            "Fitnessstudio"
+            "Fitnessstudio",
+            ListItem.Type.LOCATION
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
-            "Supermarket"
+            "Supermarket",
+            ListItem.Type.LOCATION
         )
     )
 
