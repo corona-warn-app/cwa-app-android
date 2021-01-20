@@ -47,7 +47,7 @@
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/spacing_small"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_main_illustration_warnende_personen"
             app:layout_constraintEnd_toEndOf="parent"

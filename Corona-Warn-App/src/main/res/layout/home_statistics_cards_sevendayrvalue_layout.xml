@@ -62,10 +62,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_tiny"
             android:text="@string/statistics_reproduction_average"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/primary_value"
@@ -77,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
             android:src="@drawable/ic_7_day_r_value"
+            android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/primary_label" />
 
