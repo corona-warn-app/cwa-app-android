@@ -10,6 +10,14 @@
         tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
+        <ImageView
+            android:id="@+id/info_statistics"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/primary_title"
             style="@style/StatisticsCardPrimaryTitle"
@@ -27,11 +35,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/guideline_statistics_card_content"
+            android:layout_marginTop="16dp"
             android:text="@string/statistics_reproduction_title"
             app:layout_constraintBottom_toTopOf="@+id/primary_value"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/primary_title"
             app:layout_constraintVertical_bias="0.3"
             app:layout_constraintVertical_chainStyle="packed" />
 
@@ -41,7 +49,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:includeFontPadding="false"
             app:layout_constraintBottom_toTopOf="@+id/secondary_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
@@ -62,31 +69,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/spacing_tiny"
             android:text="@string/statistics_reproduction_average"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/illustration"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/primary_value"
             app:layout_constraintVertical_bias="0.0" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/illustration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_7_day_r_value"
-            android:layout_marginTop="@dimen/spacing_small"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/primary_label" />
-
-        <ImageButton
-            android:id="@+id/info_statistics"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.68" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
