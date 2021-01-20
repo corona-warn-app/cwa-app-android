@@ -73,7 +73,7 @@
             gone="@{!state.inDetailsMode}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_risk_card_calendar"
+            android:icon="@drawable/ic_risk_card_circle"
             android:text="@{state.getRiskActiveTracingDaysInRetentionPeriod(context)}"
             android:textColor="@color/colorTextPrimary1InvertedStable"
             app:compatIconTint="@color/colorStableLight"
