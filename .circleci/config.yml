@@ -89,18 +89,6 @@ commands:
               circleci step halt
             fi
 
-  setup-google-cloud:
-    description: "Setup Google Cloud access."
-    steps:
-      - run:
-          name: Store Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
-      - run:
-          name: Authorize gcloud and set config defaults
-          command: |
-            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-
   setup-android-macos:
     description: "Setup Android environment on macOS executor"
     steps:
@@ -422,16 +410,6 @@ jobs:
             --info --continue
             -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
             -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      #      - kill-all-emulators
-      #      - run-emulator-api23
-      #      - run-gradle-cmd:
-      #          desc: Run instrumentation test command
-      #          cmd: |
-      #            :Corona-Warn-App:connectedDeviceForTestersDebugAndroidTest \
-      #            --info \
-      #            --continue \
-      #            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot \
-      #            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
       - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
