@@ -257,9 +257,9 @@ jobs:
             - ./project
       - compress-path:
           input: ./Corona-Warn-App/build/test-results
-          output: /tmp/unit_tests_device_release-$CIRCLE_SHA1.zip
+          output: /tmp/unit_tests_device_release.zip
       - store_artifacts:
-          path: /tmp/unit_tests_device_release-$CIRCLE_SHA1.zip
+          path: /tmp/unit_tests_device_release.zip
           destination: zips
 
   unit_tests_device_for_testers_release:
@@ -328,9 +328,9 @@ jobs:
           destination: reports
       - compress-path:
           input: ./Corona-Warn-App/build/reports
-          output: /tmp/ktlint_device_release_check-$CIRCLE_SHA1.zip
+          output: /tmp/ktlint_device_release_check.zip
       - store_artifacts:
-          path: /tmp/ktlint_device_release_check-$CIRCLE_SHA1.zip
+          path: /tmp/ktlint_device_release_check.zip
           destination: zips
 
   ktlint_device_for_testers_release_check:
