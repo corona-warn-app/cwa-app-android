@@ -1500,4 +1500,8 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Cancel"</string>
 
+    <!-- XTXT: Empty label for an activity -->
+    <string name="empty_string_to_avoid_toolbar_announcement" translatable="false">""</string>
+
+
 </resources>
