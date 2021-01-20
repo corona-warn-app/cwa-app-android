@@ -45,7 +45,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
     @Before
     fun setUp() {
         LocalData.registrationToken("test token")
-        LocalData.isTestResultNotificationSent(false)
+        LocalData.isTestResultAvailableNotificationSent(false)
         mockkObject(LocalData)
         mockkObject(BackgroundWorkScheduler)
 
@@ -179,12 +179,12 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
         val workInfo = workManager.getWorkInfoById(request.id).get()
         if (isCancelTest) {
             assertThat(workInfo.state, `is`((WorkInfo.State.CANCELLED)))
-            assertThat(LocalData.isTestResultNotificationSent(), `is`(false))
+            assertThat(LocalData.isTestResultAvailableNotificationSent(), `is`(false))
         } else {
             when (result) {
                 TestResult.POSITIVE, TestResult.NEGATIVE, TestResult.INVALID -> {
                     assertThat(workInfo.state, `is`((WorkInfo.State.CANCELLED)))
-                    assertThat(LocalData.isTestResultNotificationSent(), `is`(true))
+                    assertThat(LocalData.isTestResultAvailableNotificationSent(), `is`(true))
                 }
                 TestResult.PENDING -> {
                     assertThat(workInfo.runAttemptCount, `is`(0))

@@ -12,7 +12,6 @@
         android:id="@+id/settings_background_priority_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/settings_background_priority_title"
         android:focusable="true">
 
         <include
@@ -20,6 +19,8 @@
             layout="@layout/include_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/settings_background_priority_title"
+            android:focusable="true"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
