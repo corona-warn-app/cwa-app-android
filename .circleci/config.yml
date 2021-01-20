@@ -146,9 +146,19 @@ commands:
             sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1440/g' config.ini
             sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
       - run:
+          name: Check host state
+          command: |
+            emulator -accel-check
+            emulator -version
+      - run:
           name: Start emulator AVD
           command: >
-            emulator @emulator_API<< parameters.apilevel >> -no-window -no-audio -no-boot-anim
+            emulator @emulator_API<< parameters.apilevel >>
+            -no-window
+            -no-audio
+            -no-boot-anim
+            -memory 2048
+            -nojni
           background: true
           no_output_timeout: 60m
       - run:
