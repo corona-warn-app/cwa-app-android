@@ -15,25 +15,25 @@ object DiaryData {
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Max Mustermann",
-            type = ListItem.Type.PERSON
+            ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Erika Mustermann",
-            type = ListItem.Type.PERSON
+            ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
             "Fitnessstudio",
-            type = ListItem.Type.LOCATION
+            ListItem.Type.LOCATION
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
             "Supermarket",
-            type = ListItem.Type.LOCATION
+            ListItem.Type.LOCATION
         )
     )
 
