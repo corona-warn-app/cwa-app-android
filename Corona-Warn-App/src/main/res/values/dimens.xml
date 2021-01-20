@@ -145,6 +145,6 @@
     <!-- Contact Diary -->
     <dimen name="contact_diary_list_item">64dp</dimen>
     <dimen name="contact_diary_nested_recyclerview_margin">60dp</dimen>
-    <dimen name="statistics_card_height">328dp</dimen>
+    <dimen name="statistics_card_height">352dp</dimen>
     <dimen name="statistics_card_width">300dp</dimen>
 </resources>
