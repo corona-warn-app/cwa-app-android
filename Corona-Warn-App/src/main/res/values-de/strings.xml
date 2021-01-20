@@ -1367,6 +1367,10 @@
     <string name="statistics_explanation_trend_stable_title">"Trend stabil"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Die Bewertung des Trends bei den warnenden Personen ändert sich je nach Infektionslage. Deshalb wird dieser Trend immer neutral dargestellt."</string>
+    <!-- XTXT: Explains user about statistics: URL -->
+    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/de/faq/#further_details"</string>
+    <!-- XACT: Statistics explanation illustration description -->
+    <string name="statistics_explanation_illustration_description">"Abstrakte Darstellung eines Smartphones mit vier Platzhaltern für Informationen"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

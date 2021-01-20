@@ -226,7 +226,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
             add(submissionItem)
 
             if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { }))
+                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
+                    popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                }))
             }
 
             add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
