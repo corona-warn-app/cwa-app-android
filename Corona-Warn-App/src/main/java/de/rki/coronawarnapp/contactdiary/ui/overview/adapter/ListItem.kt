@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import org.joda.time.LocalDate
 
 data class ListItem(
@@ -12,7 +13,8 @@ data class ListItem(
 
     data class Data(
         @DrawableRes val drawableId: Int,
-        val text: String
+        val text: String,
+        val type: Type
     )
 
     data class Risk(
@@ -20,4 +22,8 @@ data class ListItem(
         @StringRes val body: Int,
         @DrawableRes val drawableId: Int
     )
+
+    enum class Type {
+        LOCATION, PERSON
+    }
 }

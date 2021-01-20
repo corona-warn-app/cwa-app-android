@@ -36,6 +36,10 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
             { key, _ ->
                 contactDiaryOverviewElementImage.setImageResource(key.drawableId)
                 contactDiaryOverviewElementName.text = key.text
+                contactDiaryOverviewElementName.contentDescription = when (key.type) {
+                    ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.text)
+                    ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.text)
+                }
             }
     }
 }
