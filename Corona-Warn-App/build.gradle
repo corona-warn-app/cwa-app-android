@@ -196,6 +196,12 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+
+        // Using orchestration toegether with mockk on x86 (32bit) emulator images crashes
+        // Leaving this in here as reminder
+        // https://github.com/android/android-test/issues/352
+        // https://github.com/mockk/mockk/issues/466
+        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     kapt {
@@ -317,9 +323,11 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
 
     def assisted_injection_version = "0.6.0"
     compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_injection_version"
