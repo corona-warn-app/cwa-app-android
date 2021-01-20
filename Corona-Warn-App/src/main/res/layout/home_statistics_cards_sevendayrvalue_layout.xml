@@ -5,7 +5,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="@dimen/statistics_card_height"
+        tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <TextView
@@ -25,10 +27,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/guideline_statistics_card_content"
-            tools:text="@string/statistics_reproduction_title"
+            android:layout_marginTop="16dp"
+            android:text="@string/statistics_reproduction_title"
+            app:layout_constraintBottom_toTopOf="@+id/primary_value"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/primary_title"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/primary_value"
@@ -37,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:includeFontPadding="false"
+            app:layout_constraintBottom_toTopOf="@+id/secondary_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="1,04" />
@@ -56,12 +62,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/spacing_tiny"
             android:text="@string/statistics_reproduction_average"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/illustration"
-            app:layout_constraintTop_toBottomOf="@id/primary_value" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/primary_value"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/illustration"
@@ -69,10 +77,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
             android:src="@drawable/ic_7_day_r_value"
-            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/secondary_label"
-            app:layout_constraintTop_toBottomOf="@id/primary_label" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.68" />
 
         <ImageButton
             android:id="@+id/info_statistics"
