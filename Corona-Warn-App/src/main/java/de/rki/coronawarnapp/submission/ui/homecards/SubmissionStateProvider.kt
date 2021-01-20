@@ -68,7 +68,7 @@ class SubmissionStateProvider @Inject constructor(
 
         fun isFetching(): Boolean =
             isDeviceRegistered && when (deviceUiState) {
-                is NetworkRequestWrapper.RequestFailed -> deviceUiState.error is CwaServerError
+                is NetworkRequestWrapper.RequestFailed -> false
                 is NetworkRequestWrapper.RequestStarted -> true
                 is NetworkRequestWrapper.RequestIdle -> true
                 else -> false
@@ -112,11 +112,13 @@ class SubmissionStateProvider @Inject constructor(
             }
 
         fun isPending(): Boolean =
-            deviceUiState.withSuccess(false) {
-                when (it) {
-                    DeviceUIState.PAIRED_ERROR, DeviceUIState.PAIRED_NO_RESULT -> true
-                    else -> false
+            when (deviceUiState) {
+                is NetworkRequestWrapper.RequestFailed -> true
+                is NetworkRequestWrapper.RequestSuccessful -> {
+                    deviceUiState.data == DeviceUIState.PAIRED_ERROR ||
+                        deviceUiState.data == DeviceUIState.PAIRED_NO_RESULT
                 }
+                else -> false
             }
     }
 }

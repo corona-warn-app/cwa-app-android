@@ -9,6 +9,11 @@ data class ListItem(
 
     data class Data(
         val drawableId: Int,
-        val text: String
+        val text: String,
+        val type: Type
     )
+
+    enum class Type {
+        LOCATION, PERSON
+    }
 }

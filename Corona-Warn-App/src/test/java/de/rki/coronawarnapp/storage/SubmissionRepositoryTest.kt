@@ -99,7 +99,7 @@ class SubmissionRepositoryTest {
         every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
         every { LocalData.initialTestResultReceivedTimestamp(any()) } just Runs
         every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
-        every { LocalData.isTestResultNotificationSent(any()) } just Runs
+        every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
 
         submissionRepository.removeTestFromDevice()
 
@@ -109,7 +109,7 @@ class SubmissionRepositoryTest {
             LocalData.initialPollingForTestResultTimeStamp(0L)
             LocalData.initialTestResultReceivedTimestamp(0L)
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
-            LocalData.isTestResultNotificationSent(false)
+            LocalData.isTestResultAvailableNotificationSent(false)
         }
     }
 

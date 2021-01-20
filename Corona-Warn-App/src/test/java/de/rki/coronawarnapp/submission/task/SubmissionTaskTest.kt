@@ -4,8 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.notification.TestResultAvailableNotification
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.storage.LocalData
@@ -48,8 +48,8 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tekHistoryCalculations: ExposureKeyHistoryCalculations
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var submissionSettings: SubmissionSettings
-    @MockK lateinit var testResultNotificationService: TestResultNotificationService
-    @MockK lateinit var testResultAvailableNotification: TestResultAvailableNotification
+    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+    @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
     @MockK lateinit var autoSubmission: AutoSubmission
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
@@ -100,8 +100,8 @@ class SubmissionTaskTest : BaseTest() {
 
         coEvery { playbook.submit(any()) } just Runs
 
-        every { testResultNotificationService.cancelPositiveTestResultNotification() } just Runs
-        every { testResultAvailableNotification.cancelTestResultNotification() } just Runs
+        every { shareTestResultNotificationService.cancelSharePositiveTestResultNotification() } just Runs
+        every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
         every { autoSubmission.updateMode(any()) } just Runs
 
@@ -114,10 +114,10 @@ class SubmissionTaskTest : BaseTest() {
         tekHistoryCalculations = tekHistoryCalculations,
         tekHistoryStorage = tekHistoryStorage,
         submissionSettings = submissionSettings,
-        testResultNotificationService = testResultNotificationService,
+        shareTestResultNotificationService = shareTestResultNotificationService,
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
-        testResultAvailableNotification = testResultAvailableNotification
+        testResultAvailableNotificationService = testResultAvailableNotificationService
     )
 
     @Test
@@ -155,8 +155,8 @@ class SubmissionTaskTest : BaseTest() {
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
 
-            testResultNotificationService.cancelPositiveTestResultNotification()
-            testResultAvailableNotification.cancelTestResultNotification()
+            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
+            testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
     }
 
@@ -205,7 +205,7 @@ class SubmissionTaskTest : BaseTest() {
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
             settingSymptomsPreference.update(any())
-            testResultNotificationService.cancelPositiveTestResultNotification()
+            shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             autoSubmission.updateMode(any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
