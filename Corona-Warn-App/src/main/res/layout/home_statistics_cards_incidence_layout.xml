@@ -85,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="16dp"
             android:focusable="false"
             android:text="@string/statistics_card_incidence_value_description"
             app:layout_constraintBottom_toBottomOf="parent"
