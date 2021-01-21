@@ -110,12 +110,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     }
                 }
             }
-            if (cwaSettings.lastAppVersion.value < BuildConfigWrap.VERSION_CODE) {
-                if (LocalData.isOnboarded() && LocalData.onboardingCompletedTimestamp()
-                        ?.let { compareOnboardingTimestamps(it) } == true
-                ) {
-                    postValue(HomeFragmentEvents.ShowNewReleaseFragment)
-                }
+            if (cwaSettings.lastAppVersion.value < BuildConfigWrap.VERSION_CODE &&
+                LocalData.isOnboarded() && LocalData.onboardingCompletedTimestamp()
+                    ?.let { compareOnboardingTimestamps(it) } == true
+            ) {
+                postValue(HomeFragmentEvents.ShowNewReleaseFragment)
             }
         }
     }
