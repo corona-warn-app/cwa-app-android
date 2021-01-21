@@ -37,8 +37,8 @@ class DeadmanNotificationScheduler @Inject constructor(
      * Enqueue background deadman notification onetime work
      * Do -NOT- Replace with new if older work exists.
      * As this will result in the notification spam seen in the past
-     * because running a new check every time the app is opened,
-     * spawns a notification every time the last check 
+     * because running a new check every time the app is opened
+     * spawns a notification every time the last check
      * was more than 35 Hours ago.
      */
     fun schedulePeriodic() {
