@@ -1128,7 +1128,7 @@
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Zadzwoń na infolinię i poproś o numer TAN"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"Najpierw zadzwoń na infolinię i poproś o numer TAN. Numer infolinii to +49 800 7540002. Godziny pracy: od poniedziałku do piątku od 8:00 do 22:00 oraz w sobotę i niedzielę od 10:00 do 22:00. Połączenie jest bezpłatne."</string>
+    <string name="submission_contact_step_1_content">"Najpierw zadzwoń na infolinię i poproś o numer TAN. Numer infolinii to 0800 7540002. Godziny pracy: od poniedziałku do piątku od 8:00 do 22:00 oraz w sobotę i niedzielę od 10:00 do 22:00. Połączenie jest bezpłatne."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Następnie zarejestruj test przy użyciu numeru TAN w aplikacji."</string>
 

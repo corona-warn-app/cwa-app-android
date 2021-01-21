@@ -1128,7 +1128,7 @@
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Yardım hattını arayın ve TAN talep edin"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"İlk adımda yardım hattını arayıp TAN\'nizi talep edersiniz. +49 800 7540002 numaralı telefondan yardım hattına ulaşabilirsiniz. Mesai saatleri, Pazartesi - Cuma 8.00 ile 22.00 ve Cumartesi ve Pazar günleri 10.00 ile 22.00 arasıdır. Arama ücretsizdir."</string>
+    <string name="submission_contact_step_1_content">"İlk adımda yardım hattını arayıp TAN\'nizi talep edersiniz. 0800 7540002 numaralı telefondan yardım hattına ulaşabilirsiniz. Mesai saatleri, Pazartesi - Cuma 8.00 ile 22.00 ve Cumartesi ve Pazar günleri 10.00 ile 22.00 arasıdır. Arama ücretsizdir."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"İkinci adımda, TAN\'nizi kullanarak testinizi uygulamaya kaydedersiniz."</string>
 
