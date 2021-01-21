@@ -47,7 +47,6 @@ class StatisticsHomeCard(
         }.let { statsAdapter.update(it) }
     }
 
-    @Suppress("EqualsOrHashCode") // ignore warning: custom implementation of hashCode() not needed
     data class Item(
         val data: StatisticsData,
         val onHelpAction: (StatsItem) -> Unit
@@ -55,7 +54,6 @@ class StatisticsHomeCard(
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 
         // ignore onHelpAction so that view is not re-drawn when only the onHelpAction click listener is updated
-        // Auto-generated
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -66,6 +64,12 @@ class StatisticsHomeCard(
             if (stableId != other.stableId) return false
 
             return true
+        }
+
+        override fun hashCode(): Int {
+            var result = data.hashCode()
+            result = 31 * result + stableId.hashCode()
+            return result
         }
     }
 }
