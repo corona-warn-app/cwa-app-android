@@ -113,6 +113,8 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/submission_done_button_done"
             app:layout_constraintBottom_toBottomOf="parent"
