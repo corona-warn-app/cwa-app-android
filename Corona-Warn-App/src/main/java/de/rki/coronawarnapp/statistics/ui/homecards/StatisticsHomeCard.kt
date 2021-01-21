@@ -24,13 +24,15 @@ class StatisticsHomeCard(
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
             statisticsRecyclerview.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(false)
                 adapter = statsAdapter
+                layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
                     StatisticsCardPaddingDecorator(
                         startPadding = R.dimen.spacing_small,
-                        cardDistance = R.dimen.spacing_tiny
+                        cardDistance = R.dimen.spacing_tiny,
+                        verticalPadding = R.dimen.spacing_tiny
                     )
                 )
             }
