@@ -41,7 +41,7 @@ class DetailsIncreasedRiskBox(
 
         fun getRiskDetailsRiskLevelBody(context: Context): String {
             val date = lastEncounteredAt.toLocalDate().toString("dd.MM.yyyy")
-            return context.resources.getString(R.string.risk_details_information_body_increased_risk, date)
+            return context.resources.getString(R.string.risk_details_information_body_increased_risk_date, date)
         }
     }
 }
