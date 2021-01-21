@@ -1,15 +1,17 @@
 package de.rki.coronawarnapp.ui.calendar
 
-import dagger.Reusable
+import android.content.Context
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
-import javax.inject.Inject
 
-@Reusable
-class CalendarCalculation @Inject constructor() {
+class CalendarCalculation constructor(private val context: Context) {
+
+    private val locale: Locale
+        get() = context.getLocale()
 
     /**
      * Get month text view text
@@ -42,19 +44,19 @@ class CalendarCalculation @Inject constructor() {
     fun getMonthText(firstDate: LocalDate, lastDate: LocalDate): String {
         val monthText = StringBuilder()
         // Append first date month as it would always be displayed
-        monthText.append(firstDate.monthOfYear().getAsText(Locale.getDefault()))
+        monthText.append(firstDate.monthOfYear().getAsText(locale))
         if (firstDate.monthOfYear() != lastDate.monthOfYear()) {
             // Different month
             if (firstDate.year() == lastDate.year()) {
                 // Same year (Case 1)
                 monthText.append(" - ")
-                    .append(lastDate.monthOfYear().getAsText(Locale.getDefault()))
+                    .append(lastDate.monthOfYear().getAsText(locale))
             } else {
                 // Different year (Case 2)
                 monthText.append(" ")
                     .append(firstDate.year().get())
                     .append(" - ")
-                    .append(lastDate.monthOfYear().getAsText(Locale.getDefault()))
+                    .append(lastDate.monthOfYear().getAsText(locale))
             }
             // Append last date year
             monthText.append(" ")
