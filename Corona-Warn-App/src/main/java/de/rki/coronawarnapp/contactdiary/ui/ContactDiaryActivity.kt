@@ -37,7 +37,7 @@ class ContactDiaryActivity : AppCompatActivity(), HasAndroidInjector {
         val navInflater = navController.navInflater
         val graph = navInflater.inflate(R.navigation.contact_diary_nav_graph)
 
-        if (settings.isOnboarded.value && settings.isExtendedOnboarded.value) {
+        if (settings.onboardingStatus == ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12) {
             graph.startDestination = R.id.contactDiaryOverviewFragment
         } else {
             graph.startDestination = R.id.contactDiaryOnboardingFragment

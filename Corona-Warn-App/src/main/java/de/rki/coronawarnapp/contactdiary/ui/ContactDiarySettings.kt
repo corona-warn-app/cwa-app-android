@@ -16,20 +16,25 @@ class ContactDiarySettings @Inject constructor(
         context.getSharedPreferences("contact_diary_localdata", Context.MODE_PRIVATE)
     }
 
-    val isOnboarded = prefs.createFlowPreference(
-        key = "contact_diary_onboarded",
-        defaultValue = false
+    private val onboardingStatusOrder = prefs.createFlowPreference(
+        key = "contact_diary_onboardingstatus",
+        defaultValue = -1
     )
 
-    /**
-     * onboarding must be presented again, if not yet shown including additional hints
-     */
-    val isExtendedOnboarded = prefs.createFlowPreference(
-        key = "contact_diary_onboarded_extended",
-        defaultValue = false
-    )
+    var onboardingStatus: OnboardingStatus
+        get() {
+            val order = onboardingStatusOrder.value
+            return OnboardingStatus.values().find { it.order == order } ?: OnboardingStatus.NOT_ONBOARDED
+        }
+        set(value) = onboardingStatusOrder.update { value.order }
 
     fun clear() {
         prefs.clearAndNotify()
+    }
+
+    enum class OnboardingStatus(val order: Int) {
+        NOT_ONBOARDED(-1),
+        RISK_STATUS_1_12(0),
+        FUTURE_CHANGE_1_13(1)
     }
 }
