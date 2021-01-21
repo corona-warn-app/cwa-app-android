@@ -10,7 +10,7 @@ class StatisticsCardPaddingDecorator(
     @DimenRes val startPadding: Int,
     @DimenRes val verticalPadding: Int,
     @DimenRes val endPadding: Int = startPadding,
-    @DimenRes val cardDistance: Int = startPadding,
+    @DimenRes val cardDistance: Int = startPadding
 ) : ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {

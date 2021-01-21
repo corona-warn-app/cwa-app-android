@@ -10,7 +10,8 @@ class StatisticsLayoutManager : LinearLayoutManager {
     constructor(context: Context?) : super(context)
 
     constructor(
-        context: Context?, @RecyclerView.Orientation orientation: Int,
+        context: Context?,
+        @RecyclerView.Orientation orientation: Int,
         reverseLayout: Boolean
     ) : super(context, orientation, reverseLayout)
 
