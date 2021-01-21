@@ -1122,7 +1122,7 @@
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"Enter TAN"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
-    <string name="submission_contact_step_1_body">"Call the nationwide hotline and ask for a TAN:"</string>
+    <string name="submission_contact_step_1_body">"Call the nationwide hotline and request a TAN:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"0800 7540002"</string>
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
