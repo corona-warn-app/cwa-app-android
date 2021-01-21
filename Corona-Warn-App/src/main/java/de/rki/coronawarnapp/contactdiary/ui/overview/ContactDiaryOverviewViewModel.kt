@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 
 import android.content.Context
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
@@ -149,7 +150,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     // According to tech spec german locale only
     private fun LocalDate.toFormattedString(): String = toString("dd.MM.yyyy", Locale.GERMAN)
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryOverviewViewModel>
 
     companion object {

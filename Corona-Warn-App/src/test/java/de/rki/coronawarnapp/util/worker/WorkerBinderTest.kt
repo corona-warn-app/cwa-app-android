@@ -15,10 +15,8 @@ import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
