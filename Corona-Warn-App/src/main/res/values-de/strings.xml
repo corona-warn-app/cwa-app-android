@@ -963,6 +963,9 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Weiter"</string>
+    <!-- YTXT: Description for illustration in submission onboarding-->
+    <string name="submission_intro_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
+
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
