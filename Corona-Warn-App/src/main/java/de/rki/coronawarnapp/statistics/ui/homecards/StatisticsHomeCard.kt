@@ -52,5 +52,24 @@ class StatisticsHomeCard(
         val onHelpAction: (StatsItem) -> Unit
     ) : HomeItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
+
+        // ignore onHelpAction so that view is not re-drawn when only the onHelpAction click listener is updated
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Item
+
+            if (data != other.data) return false
+            if (stableId != other.stableId) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = data.hashCode()
+            result = 31 * result + stableId.hashCode()
+            return result
+        }
     }
 }
