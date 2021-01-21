@@ -22,6 +22,7 @@ object LocalData {
 
     private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
         "preference_has_risk_status_lowered"
+
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -346,16 +347,15 @@ object LocalData {
      * SUBMISSION DATA
      ****************************************************/
 
+    private const val PREFERENCE_REGISTRATION_TOKEN = "preference_registration_token"
+
     /**
      * Gets the registration token that is needed for the submission process
      *
      * @return the registration token
      */
-    fun registrationToken(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_registration_token),
-        null
-    )
+    fun registrationToken(): String? = getSharedPreferenceInstance()
+        .getString(PREFERENCE_REGISTRATION_TOKEN, null)
 
     /**
      * Sets the registration token that is needed for the submission process
@@ -364,11 +364,7 @@ object LocalData {
      */
     fun registrationToken(value: String?) {
         getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_registration_token),
-                value
-            )
+            putString(PREFERENCE_REGISTRATION_TOKEN, value)
         }
     }
 
