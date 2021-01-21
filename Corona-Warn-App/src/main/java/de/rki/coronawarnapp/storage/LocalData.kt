@@ -421,7 +421,7 @@ object LocalData {
             )
         }
 
-    fun devicePairingSuccessfulTimestamp(): Long? {
+    fun devicePairingSuccessfulTimestamp(): Long {
         return getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_device_pairing_successful_time),
