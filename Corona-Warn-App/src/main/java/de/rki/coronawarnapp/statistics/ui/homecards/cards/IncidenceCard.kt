@@ -25,19 +25,19 @@ class IncidenceCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsIncidenceLayoutBinding.(
         item: StatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { item, _ ->
 
-        iconInfo.setOnClickListener {
+        infoStatistics.setOnClickListener {
             item.onHelpAction.invoke(item.stats)
         }
 
-        val sevenDayIncidence = (item.stats as IncidenceStats).sevenDayIncidence
-
-        valueLabel.text = item.stats.getPrimaryLabel(context)
-
-        val formattedValue = formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals)
-        valuePrimary.text = getLocalizedSpannableString(context, formattedValue)
-
-        trendArrowView.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+        with(item.stats as IncidenceStats) {
+            primaryLabel.text = getPrimaryLabel(context)
+            primaryValue.text = getLocalizedSpannableString(
+                context,
+                formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals)
+            )
+            trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+        }
     }
 }

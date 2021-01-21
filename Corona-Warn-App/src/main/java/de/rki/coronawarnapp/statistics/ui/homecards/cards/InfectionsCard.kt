@@ -26,20 +26,16 @@ class InfectionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        statisticsCardInfoButton.setOnClickListener {
+        infoStatistics.setOnClickListener {
             item.onHelpAction.invoke(item.stats)
         }
 
         with(item.stats as InfectionStats) {
-            newInfectionsLabel = getPrimaryLabel(context)
-            trendArrowView.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
-
-            viewBinding.value.newInfections =
-                formatStatisticalValue(context, newInfections.value, newInfections.decimals)
-            viewBinding.value.sevenDayAverage =
-                formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
-            viewBinding.value.total =
-                formatStatisticalValue(context, total.value, total.decimals)
+            primaryLabel.text = getPrimaryLabel(context)
+            primaryValue.text = formatStatisticalValue(context, newInfections.value, newInfections.decimals)
+            secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
+            tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
+            trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
     }
 }
