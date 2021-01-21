@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.playbook
 
+import de.rki.coronawarnapp.exception.TanPairingException
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
@@ -90,21 +92,44 @@ class DefaultPlaybook @Inject constructor(
         // fake verification
         ignoreExceptions { verificationServer.retrieveTanFake() }
 
-        // real submission
-        if (authCode != null) {
-            val serverSubmissionData = SubmissionServer.SubmissionData(
-                authCode = authCode,
-                keyList = data.temporaryExposureKeys,
-                consentToFederation = data.consentToFederation,
-                visistedCountries = data.visistedCountries
+        // submitKeysToServer could throw BadRequestException too.
+        try {
+            // real submission
+            if (authCode != null) {
+                val serverSubmissionData = SubmissionServer.SubmissionData(
+                    authCode = authCode,
+                    keyList = data.temporaryExposureKeys,
+                    consentToFederation = data.consentToFederation,
+                    visistedCountries = data.visistedCountries
+                )
+                submissionServer.submitKeysToServer(serverSubmissionData)
+                coroutineScope.launch { followUpPlaybooks() }
+            } else {
+                submissionServer.submitKeysToServerFake()
+                coroutineScope.launch { followUpPlaybooks() }
+                propagateException(wrapException(exception))
+            }
+        } catch (exception: BadRequestException) {
+            propagateException(
+                TanPairingException(
+                    code = exception.statusCode,
+                    message = "Invalid payload or missing header",
+                    cause = exception
+                )
             )
-            submissionServer.submitKeysToServer(serverSubmissionData)
-            coroutineScope.launch { followUpPlaybooks() }
-        } else {
-            submissionServer.submitKeysToServerFake()
-            coroutineScope.launch { followUpPlaybooks() }
-            propagateException(exception)
         }
+    }
+
+    /**
+     * Distinguish BadRequestException to present more insightful message to the end user
+     */
+    private fun wrapException(exception: Exception?) = when (exception) {
+        is BadRequestException -> TanPairingException(
+            code = exception.statusCode,
+            message = "Tan has been retrieved before for this registration token",
+            cause = exception
+        )
+        else -> exception
     }
 
     private suspend fun dummy(launchFollowUp: Boolean) {
