@@ -342,26 +342,6 @@ object LocalData {
             putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)
         }
 
-    /**
-     * Gets the decision if background jobs are enabled
-     *
-     * @return
-     */
-    fun isBackgroundJobEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_job_allowed),
-        false
-    )
-
-    /**
-     * Gets the boolean if the user has mobile data enabled
-     *
-     * @return
-     */
-    fun isMobileDataEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed),
-        false
-    )
-
     /****************************************************
      * SUBMISSION DATA
      ****************************************************/
