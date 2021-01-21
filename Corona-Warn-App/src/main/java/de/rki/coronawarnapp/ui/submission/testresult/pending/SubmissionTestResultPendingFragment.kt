@@ -137,10 +137,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     private fun buildErrorDialog(exception: CwaWebException) = DialogHelper.DialogInstance(
         requireActivity(),
         R.string.submission_error_dialog_web_generic_error_title,
-        getString(
-            R.string.submission_error_dialog_web_generic_network_error_body,
-            exception.statusCode
-        ),
+        getString(R.string.submission_error_dialog_web_generic_network_error_body),
         R.string.submission_error_dialog_web_generic_error_button_positive,
         null,
         true,
