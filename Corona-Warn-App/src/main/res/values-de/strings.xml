@@ -769,7 +769,7 @@
     <!-- XHED: Dialog title for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_title">"Fehler"</string>
     <!-- XMSG: Dialog body for generic web request network error with status code -->
-    <string name="submission_error_dialog_web_generic_network_error_body">"Es ist ein Verbindungsfehler aufgetreten (%1$d). Bitte versuchen Sie es erneut."</string>
+    <string name="submission_error_dialog_web_generic_network_error_body">"Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind."</string>
     <!-- XMSG: Dialog body for generic web request error without status code -->
     <string name="submission_error_dialog_web_generic_error_body">"Es ist ein Verbindungsfehler aufgetreten. Bitte versuchen Sie es erneut."</string>
     <!-- XBUT: Positive button for generic web request error -->
