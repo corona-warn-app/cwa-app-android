@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +30,10 @@ class StatisticsProvider @Inject constructor(
         loggingTag = TAG,
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
-        sharingBehavior = SharingStarted.Lazily
+        sharingBehavior = SharingStarted.WhileSubscribed(
+            stopTimeoutMillis = Duration.standardSeconds(5).millis,
+            replayExpirationMillis = 0
+        )
     ) {
         try {
             fromCache() ?: fromServer()
@@ -84,13 +88,10 @@ class StatisticsProvider @Inject constructor(
         }
     }
 
-    suspend fun clear() {
+    fun clear() {
         Timber.d("clear()")
         server.clear()
         localCache.save(null)
-        statisticsData.updateBlocking {
-            StatisticsData()
-        }
     }
 
     companion object {

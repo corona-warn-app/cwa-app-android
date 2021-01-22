@@ -124,7 +124,7 @@ class StatisticsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `clear deletes cache and current flow`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear deletes cache`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         val testCollector = instance.current.test(startOnScope = this)
@@ -136,7 +136,5 @@ class StatisticsProviderTest : BaseTest() {
             server.clear()
             localCache.save(null)
         }
-
-        testCollector.latestValue shouldBe StatisticsData()
     }
 }
