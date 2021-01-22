@@ -232,7 +232,8 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             mostRecentDateWithLowRisk = mostRecentDateWithLowRisk,
             mostRecentDateWithHighRisk = mostRecentDateWithHighRisk,
             numberOfDaysWithLowRisk = numberOfDaysWithLowRisk,
-            numberOfDaysWithHighRisk = numberOfDaysWithHighRisk
+            numberOfDaysWithHighRisk = numberOfDaysWithHighRisk,
+            aggregatedRiskPerDateResults = exposureHistory
         )
     }
 
