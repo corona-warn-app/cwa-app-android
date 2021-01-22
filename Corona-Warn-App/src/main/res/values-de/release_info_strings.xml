@@ -7,7 +7,7 @@
     <!-- XHED: Title for the release info screen -->
     <string name="release_info_header">"Neue Funktionen"</string>
     <!-- XHED: Version title for the release info screen -->
-    <string name="release_info_version_title">"Release <xliff:g id="release_app_version" example="1.12">"%1$s"</xliff:g></string>
+    <string name="release_info_version_title">"Release %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body">"Mit diesem Update stellen wir Ihnen neben Fehlerbehebungen auch neue und erweiterte Funktionen zur Verfügung."</string>
     <!-- XTXT: Encounter history title for the release info screen -->
