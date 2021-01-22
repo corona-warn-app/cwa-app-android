@@ -1,97 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_height="@dimen/statistics_card_height"
+        android:layout_height="wrap_content"
+        tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/background_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_statistics_incidence"
+            android:paddingStart="0dp"
+            android:paddingEnd="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/flow_layout" />
+
         <TextView
             android:id="@+id/title"
-            style="@style/StatisticsCardPrimaryTitle"
+            style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/statistics_card_incidence_title"
-            app:layout_constraintEnd_toStartOf="@id/icon_info"
+            android:text="@string/statistics_explanation_seven_day_incidence_title"
+            app:layout_constraintEnd_toStartOf="@id/info_statistics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/icon_info"
+        <TextView
+            android:id="@+id/primary_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Bis gestern" />
+
+        <TextView
+            android:id="@+id/primary_value"
+            style="@style/StatisticsCardPrimaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            tools:text="98,9" />
+
+        <TextView
+            android:id="@+id/secondary_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_normal"
+            android:text="@string/statistics_card_incidence_value_description" />
+
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trend_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/primary_value"
+            app:layout_constraintStart_toEndOf="@id/primary_value"
+            app:layout_constraintTop_toTopOf="@id/primary_value" />
+
+        <ImageButton
+            android:id="@+id/info_statistics"
             style="@style/StatisticsCardInfoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/value_label"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:focusable="false"
-            android:text="@string/statistics_explanation_seven_day_incidence_title"
-            tools:text="Bis gestern"
-            app:layout_constraintBottom_toTopOf="@+id/value_primary"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0.3"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/guideline_statistics_card_content" />
 
-        <TextView
-            android:id="@+id/value_primary"
-            style="@style/StatisticsCardPrimaryValue"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/content_barrier"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="title,horizontal_guideline" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/card_padding"
-            android:focusable="false"
-            app:layout_constraintBottom_toTopOf="@+id/description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/value_label"
-            tools:text="98,9" />
-
-        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
-            android:id="@+id/trendArrowView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_tiny"
-            app:layout_constraintBottom_toBottomOf="@id/value_primary"
-            app:layout_constraintStart_toEndOf="@id/value_primary"
-            app:layout_constraintTop_toTopOf="@id/value_primary" />
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_normal"
-            android:importantForAccessibility="no"
+            android:paddingBottom="@dimen/spacing_small"
+            app:constraint_referenced_ids="primary_label,primary_value,secondary_label"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalBias="0"
+            app:flow_maxElementsWrap="1"
+            app:flow_wrapMode="chain"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/description"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.68"
-            app:srcCompat="@drawable/ic_statistics_incidence" />
-
-        <TextView
-            android:id="@+id/description"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="16dp"
-            android:focusable="false"
-            android:text="@string/statistics_card_incidence_value_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/icon"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/value_primary" />
+            app:layout_constraintTop_toTopOf="@id/content_barrier" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
