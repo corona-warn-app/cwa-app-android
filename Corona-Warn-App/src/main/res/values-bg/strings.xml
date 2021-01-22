@@ -352,9 +352,6 @@
     <string name="risk_details_explanation_dialog_title">"Информация относно функционалността за регистриране на излагания на риск"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
-
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Вашият статус на риск"</string>
     <!-- YTXT: risk details - deadman notification text -->
