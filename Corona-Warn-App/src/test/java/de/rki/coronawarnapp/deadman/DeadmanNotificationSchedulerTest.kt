@@ -36,7 +36,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         every {
             workManager.enqueueUniquePeriodicWork(
                 DeadmanNotificationScheduler.PERIODIC_WORK_NAME,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 any()
             )
         } returns operation
@@ -104,7 +104,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         verifySequence {
             workManager.enqueueUniquePeriodicWork(
                 DeadmanNotificationScheduler.PERIODIC_WORK_NAME,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 periodicWorkRequest
             )
         }
