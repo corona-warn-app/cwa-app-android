@@ -11,7 +11,8 @@ data class AggregatedRiskResult(
     val mostRecentDateWithLowRisk: Instant?,
     val mostRecentDateWithHighRisk: Instant?,
     val numberOfDaysWithLowRisk: Int,
-    val numberOfDaysWithHighRisk: Int
+    val numberOfDaysWithHighRisk: Int,
+    var aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>? = null
 ) {
 
     fun isIncreasedRisk(): Boolean = totalRiskLevel == ProtoRiskLevel.HIGH
