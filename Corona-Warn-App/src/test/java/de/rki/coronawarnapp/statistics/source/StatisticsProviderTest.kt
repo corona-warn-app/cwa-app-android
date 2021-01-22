@@ -20,7 +20,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.asDispatcherProvider
+import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 import testhelpers.coroutines.test
 import java.io.IOException
@@ -66,7 +66,7 @@ class StatisticsProviderTest : BaseTest() {
         localCache = localCache,
         parser = parser,
         foregroundState = foregroundState,
-        dispatcherProvider = scope.asDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider
     )
 
     @Test
