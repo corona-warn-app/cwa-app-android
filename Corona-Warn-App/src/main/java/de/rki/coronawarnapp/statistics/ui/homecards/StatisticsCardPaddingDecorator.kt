@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 class StatisticsCardPaddingDecorator(
     @DimenRes val startPadding: Int,
+    @DimenRes val verticalPadding: Int,
     @DimenRes val endPadding: Int = startPadding,
     @DimenRes val cardDistance: Int = startPadding
 ) : ItemDecoration() {
@@ -22,18 +23,24 @@ class StatisticsCardPaddingDecorator(
         val resources = parent.context.resources
 
         val adapter = parent.adapter
+        val distance = resources.getDimensionPixelSize(cardDistance)
         when (itemPosition) {
             0 -> {
                 outRect.left = resources.getDimensionPixelSize(startPadding)
+                if (adapter?.itemCount == 1) {
+                    outRect.right = resources.getDimensionPixelSize(endPadding)
+                } else {
+                    outRect.right = distance
+                }
             }
             (adapter?.itemCount ?: Int.MAX_VALUE) - 1 -> {
                 outRect.right = resources.getDimensionPixelSize(endPadding)
             }
             else -> {
-                val distance = resources.getDimensionPixelSize(cardDistance)
-                outRect.left = distance / 2
-                outRect.right = distance / 2
+                outRect.right = distance
             }
         }
+        outRect.bottom = resources.getDimensionPixelSize(verticalPadding)
+        outRect.top = resources.getDimensionPixelSize(verticalPadding)
     }
 }
