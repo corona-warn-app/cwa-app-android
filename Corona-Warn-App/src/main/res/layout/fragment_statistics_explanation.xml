@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/statistics_explanation_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/statistics_explanation_title"
+        tools:context=".statistics.ui.StatisticsExplanationFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/statistics_explanation_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/statistics_explanation_header_button_back"
+                layout="@layout/include_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:focusable="true"
+                app:icon="@{@drawable/ic_close}"
+                app:iconDescription="@{@string/accessibility_back}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/statistics_explanation_header_title"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/statistics_explanation_title"
+                app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
+                app:layout_constraintTop_toTopOf="@+id/statistics_explanation_header_button_back"
+                tools:text="@string/statistics_explanation_title" />
+
+            <TextView
+                android:id="@+id/statistics_explanation_header_subtitle"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:focusable="true"
+                android:text="@string/statistics_explanation_subtitle"
+                app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
+                app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_title"
+                tools:text="@string/statistics_explanation_subtitle" />
+
+            <View
+                android:id="@+id/statistics_explanation_header_subtitle_divider"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginTop="13dp"
+                android:background="@color/colorHairline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_subtitle" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="14dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_title"
+            app:layout_constraintVertical_bias="1.0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/interoperability_illustration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="31dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_illustration_description"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_illustration_statistics_explanation" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="41dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_confirmed_new_infection_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_confirmed_new_infection_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_warned_persons_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_warned_persons_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_warned_persons_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_warned_persons_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_incidence_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_incidence_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_r_value_title" />
+
+                <TextView
+                    android:id="@+id/statistics_explanation_seven_day_r_value_text"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_r_value_text" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginTop="43dp"
+                    android:background="@color/colorHairline" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_legend_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_legend_title" />
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_title" />
+
+                <TextView
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_yesterday_subtitle"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_yesterday_subtitle" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_yesterday_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_yesterday_text" />
+
+                <TextView
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_seven_day_subtitle"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_seven_day_subtitle" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_seven_day_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_seven_day_text" />
+
+                <TextView
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_total_subtitle"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_total_subtitle" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_period_total_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_period_total_text" />
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="47dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_trend_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_trend_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_trend_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_trend_text" />
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_trend_icons_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_trend_icons_title"
+                    android:textSize="14sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="@dimen/guideline_end">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/statistics_explanation_trend_increasing_arrow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_statistics_trend_negative"
+                        android:contentDescription="@string/statistics_explanation_trend_increasing_title"
+                        android:padding="1dp"
+                        android:rotation="-45"
+                        android:scaleType="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_trend_stable" />
+
+                    <TextView
+                        android:id="@+id/statistics_explanation_trend_increasing_title"
+                        style="@style/body2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:contentDescription="@string/statistics_explanation_trend_increasing_title"
+                        android:focusable="true"
+                        android:text="@string/statistics_explanation_trend_increasing_title"
+                        app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_increasing_arrow"
+                        app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_increasing_arrow" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/statistics_explanation_trend_decreasing_arrow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:background="@drawable/bg_statistics_trend_positive"
+                        android:contentDescription="@string/statistics_explanation_trend_decreasing_title"
+                        android:padding="1dp"
+                        android:rotation="45"
+                        android:scaleType="center"
+                        app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_increasing_arrow"
+                        app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_increasing_title"
+                        app:srcCompat="@drawable/ic_trend_stable" />
+
+                    <TextView
+                        android:id="@+id/statistics_explanation_trend_decreasing_title"
+                        style="@style/body2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:contentDescription="@string/statistics_explanation_trend_decreasing_title"
+                        android:focusable="true"
+                        android:text="@string/statistics_explanation_trend_decreasing_title"
+                        app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_decreasing_arrow"
+                        app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_decreasing_arrow" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/statistics_explanation_trend_stable_arrow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:background="@drawable/bg_statistics_trend_neutral"
+                        android:contentDescription="@string/statistics_explanation_trend_stable_title"
+                        android:padding="1dp"
+                        android:scaleType="center"
+                        app:layout_constraintStart_toStartOf="@+id/statistics_explanation_trend_decreasing_arrow"
+                        app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_trend_decreasing_title"
+                        app:srcCompat="@drawable/ic_trend_stable" />
+
+                    <TextView
+                        android:id="@+id/statistics_explanation_trend_stable_title"
+                        style="@style/body2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:contentDescription="@string/statistics_explanation_trend_stable_title"
+                        android:focusable="true"
+                        android:text="@string/statistics_explanation_trend_stable_title"
+                        app:layout_constraintStart_toEndOf="@+id/statistics_explanation_trend_stable_arrow"
+                        app:layout_constraintTop_toTopOf="@+id/statistics_explanation_trend_stable_arrow" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginBottom="23dp"
+                    android:contentDescription="@string/statistics_explanation_trend_description"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_trend_description" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
