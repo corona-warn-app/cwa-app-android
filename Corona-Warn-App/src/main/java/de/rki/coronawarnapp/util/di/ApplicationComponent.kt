@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
+import de.rki.coronawarnapp.statistics.StatisticsModule
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.task.SubmissionTaskModule
 import de.rki.coronawarnapp.task.TaskController
@@ -69,7 +70,8 @@ import javax.inject.Singleton
         BugReportingSharedModule::class,
         SerializationModule::class,
         WorkerBinder::class,
-        ContactDiaryRootModule::class
+        ContactDiaryRootModule::class,
+        StatisticsModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
