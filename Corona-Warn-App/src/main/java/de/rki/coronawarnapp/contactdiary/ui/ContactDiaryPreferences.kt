@@ -18,7 +18,7 @@ class ContactDiaryPreferences @Inject constructor(
 
     val onboardingStatusOrder = prefs.createFlowPreference(
         key = "contact_diary_onboardingstatus",
-        defaultValue = -1
+        defaultValue = ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED.ordinal
     )
 
     fun clear() {
