@@ -1460,7 +1460,7 @@
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Kullanım koşullarını görüntüle"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Kullanım Koşulları ve gizlilik bildirimi \"Uygulama Bilgileri\" başlığındaki menüde ve uygulama mağazanızdaki uygulama açıklamasında yer almaktadır. Değişiklikler, uygulamayı nasıl kullandığınızı etkilemeyecektir. Uygulamayı kullanmaya devam eder veya uygulamayı yeniden açarsanız güncellenen Kullanım Koşullarını kabul ettiğinizi varsayacağız."</string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Kullanım koşulları ve gizlilik bildirimi \"Uygulama Bilgileri\" başlığındaki menüde ve uygulama mağazanızdaki uygulama açıklamasında yer almaktadır. Değişiklikler, uygulamayı nasıl kullandığınızı etkilemeyecektir. Uygulamayı kullanmaya devam eder veya uygulamayı yeniden açarsanız güncellenen kullanım koşullarını kabul ettiğinizi varsayacağız."</string>
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Ülkeler Arası\nMaruz Kalma Günlüğü"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
