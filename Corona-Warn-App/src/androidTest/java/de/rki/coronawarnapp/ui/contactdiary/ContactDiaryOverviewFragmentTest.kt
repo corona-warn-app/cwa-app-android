@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LIST_ITEMS
 import io.mockk.MockKAnnotations
@@ -42,6 +43,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
 
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     private lateinit var viewModel: ContactDiaryOverviewViewModel
 
@@ -52,7 +54,8 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
             ContactDiaryOverviewViewModel(
                 taskController = taskController,
                 dispatcherProvider = TestDispatcherProvider,
-                contactDiaryRepository = contactDiaryRepository
+                contactDiaryRepository = contactDiaryRepository,
+                riskLevelStorage = riskLevelStorage
             )
         )
 
