@@ -7,10 +7,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBindin
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 
-class ContactDiaryOverviewNestedAdapter(
-    private val element: ListItem,
-    private val onItemSelectionListener: (ListItem) -> Unit
-) : BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
+class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
 
     private val dataList: MutableList<ListItem.Data> = mutableListOf()
 
@@ -42,10 +39,7 @@ class ContactDiaryOverviewNestedAdapter(
                 contactDiaryOverviewElementName.contentDescription = when (key.type) {
                     ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.text)
                     ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.text)
-                    else -> key.text
                 }
-
-                contactDiaryOverviewElementNestedContainer.setOnClickListener { onItemSelectionListener(element) }
             }
     }
 }
