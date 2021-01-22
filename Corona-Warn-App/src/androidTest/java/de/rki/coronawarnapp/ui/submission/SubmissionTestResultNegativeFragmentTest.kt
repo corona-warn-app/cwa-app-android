@@ -52,7 +52,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultNegativeViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 submissionRepository,
                 testResultAvailableNotificationService
             )

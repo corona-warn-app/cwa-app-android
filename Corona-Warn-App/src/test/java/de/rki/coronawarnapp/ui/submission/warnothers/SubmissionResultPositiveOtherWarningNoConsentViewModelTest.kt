@@ -47,7 +47,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     }
 
     private fun createViewModel() = SubmissionResultPositiveOtherWarningNoConsentViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission,
         enfClient = enfClient,
