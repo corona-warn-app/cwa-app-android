@@ -6,6 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * A custom RecyclerView.LayoutManager implementation that extends
+ * the height of items to match RecyclerView. 
+**/
 class StatisticsLayoutManager : LinearLayoutManager {
     constructor(context: Context?) : super(context)
 
