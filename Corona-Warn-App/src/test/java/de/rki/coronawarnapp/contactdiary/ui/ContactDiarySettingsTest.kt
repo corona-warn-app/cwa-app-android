@@ -21,19 +21,28 @@ class ContactDiarySettingsTest {
 
     @Test
     fun `not onboarded`() {
-        every { intPreference.value } returns -1
+        every { intPreference.value } returns 0
         ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
     }
 
     @Test
-    fun `bad preference`() {
+    fun `bad preference values`() {
         every { intPreference.value } returns 42
+        ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+
+        every { intPreference.value } returns -42
+        ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+
+        every { intPreference.value } returns Int.MAX_VALUE
+        ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+
+        every { intPreference.value } returns Int.MIN_VALUE
         ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
     }
 
     @Test
     fun `onboarded`() {
-        every { intPreference.value } returns 0
+        every { intPreference.value } returns 1
         ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
     }
 }
