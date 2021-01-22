@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.ui.submission
 
 import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -23,9 +23,7 @@ import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -36,6 +34,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
+import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
 
@@ -55,6 +54,10 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     private lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 
+    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+        setGraph(R.navigation.nav_graph)
+    }
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -67,9 +70,11 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                     TestDispatcherProvider
                 )
             )
-        setupMockViewModel(object : SubmissionTestResultConsentGivenViewModel.Factory {
-            override fun create(): SubmissionTestResultConsentGivenViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultConsentGivenViewModel.Factory {
+                override fun create(): SubmissionTestResultConsentGivenViewModel = viewModel
+            }
+        )
     }
 
     @After
@@ -84,18 +89,11 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
-
-        val mockNavController = mockk<NavController>()
-        val scenario = launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>()
-
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>().onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navController)
         }
         // Verify that performing a click prompts the correct Navigation action
-        onView(ViewMatchers.withId(R.id.submission_test_result_button_consent_given_continue)).perform(ViewActions.click())
-        verify {
-            mockNavController.navigate(R.id.action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment)
-        }
+        onView(withId(R.id.submission_test_result_button_consent_given_continue)).perform(click())
     }
 
     @Test
