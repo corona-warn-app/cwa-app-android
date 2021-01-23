@@ -119,7 +119,7 @@
     <!-- XTXT: person is selected (description for screen readers) -->
     <string name="accessibility_person_selected">"Person %s is selected"</string>
     <!-- XTXT: Day View headline (description for screen readers) -->
-    <string name="accessibility_day_view_header"></string>
+    <string name="accessibility_day_view_header">"Day View"</string>
 
     <!-- XTXT: Select (description for screen readers) -->
     <string name="accessibility_action_select">"Select"</string>
