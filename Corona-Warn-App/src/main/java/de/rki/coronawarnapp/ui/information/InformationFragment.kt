@@ -124,7 +124,6 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment(true)
             )
-
         }
     }
 }
