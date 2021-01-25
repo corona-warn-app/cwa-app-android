@@ -7,9 +7,11 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper
@@ -122,8 +124,9 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         }
         binding.informationRelease.mainRow.setOnClickListener {
             doNavigate(
-                InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment()
+                InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment(true)
             )
+
         }
     }
 }

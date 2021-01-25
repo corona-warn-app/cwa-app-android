@@ -105,7 +105,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }
 
                 HomeFragmentEvents.ShowNewReleaseFragment -> {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment())
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false))
                 }
                 HomeFragmentEvents.GoToStatisticsExplanation -> {
                     doNavigate(
