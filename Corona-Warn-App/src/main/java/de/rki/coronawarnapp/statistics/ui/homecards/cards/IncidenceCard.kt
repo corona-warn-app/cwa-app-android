@@ -5,6 +5,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsIncidenceLayoutBinding
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
+import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
+import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
+import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class IncidenceCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsIncidenceLayoutBinding>(
@@ -22,7 +25,19 @@ class IncidenceCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsIncidenceLayoutBinding.(
         item: StatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
-        item.stats as IncidenceStats
+    ) -> Unit = { item, _ ->
+
+        infoStatistics.setOnClickListener {
+            item.onHelpAction.invoke(item.stats)
+        }
+
+        with(item.stats as IncidenceStats) {
+            primaryLabel.text = getPrimaryLabel(context)
+            primaryValue.text = getLocalizedSpannableString(
+                context,
+                formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals)
+            )
+            trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+        }
     }
 }
