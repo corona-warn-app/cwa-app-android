@@ -1403,6 +1403,9 @@
     <string name="errors_risk_detection_limit_reached_title">"Limit bereits erreicht"</string>
     <!-- XTXT: error dialog - Error description when the provideDiagnosisKeys quota limit was reached. -->
     <string name="errors_risk_detection_limit_reached_description">"Heute sind keine weiteren Risiko-Überprüfungen möglich, weil das von Ihrem Betriebssystem festgelegte Limit von Risiko-Überprüfungen pro Tag bereits erreicht ist. Bitte überprüfen Sie Ihren Risikostatus morgen wieder."</string>
+    <!-- XTXT: error dialog - Error description when the ssl certificate is deactivated on the device. -->
+    <string name="errors_ssl_certificate_deactivated">"Bitte aktivieren Sie das SYSTEM Sicherheitszertifikat T-Systems Enterprise Services GmbH, T-TeleSec GlobalRoot Class 2 auf Ihrem Gerät. Mehr Informationen finden Sie in den FAQs auf https://coronawarn.app unter „URSACHE 2001“."</string>
+
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
