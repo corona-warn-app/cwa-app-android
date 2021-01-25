@@ -15,6 +15,7 @@
             android:id="@+id/submission_dispatcher_header"
             layout="@layout/include_header"
             android:layout_width="0dp"
+            android:focusable="true"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,12 +35,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
                 android:paddingBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:id="@+id/submission_dispatcher_illustration"
                     android:layout_width="0dp"
+                    android:contentDescription="@string/submission_intro_illustration_description"
+                    android:focusable="true"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_illustration_test"
                     app:layout_constraintEnd_toEndOf="parent"
