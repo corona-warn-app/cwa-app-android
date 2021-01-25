@@ -349,9 +349,6 @@
     <string name="risk_details_explanation_dialog_title">"Information zur Funktionsweise der Risiko-Ermittlung"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
-
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Ihr Risikostatus"</string>
     <!-- YTXT: risk details - deadman notification text -->
@@ -1403,6 +1400,9 @@
     <string name="errors_risk_detection_limit_reached_title">"Limit bereits erreicht"</string>
     <!-- XTXT: error dialog - Error description when the provideDiagnosisKeys quota limit was reached. -->
     <string name="errors_risk_detection_limit_reached_description">"Heute sind keine weiteren Risiko-Überprüfungen möglich, weil das von Ihrem Betriebssystem festgelegte Limit von Risiko-Überprüfungen pro Tag bereits erreicht ist. Bitte überprüfen Sie Ihren Risikostatus morgen wieder."</string>
+    <!-- XTXT: error dialog - Error description when the ssl certificate is deactivated on the device. -->
+    <string name="errors_ssl_certificate_deactivated">"Bitte aktivieren Sie das SYSTEM Sicherheitszertifikat T-Systems Enterprise Services GmbH, T-TeleSec GlobalRoot Class 2 auf Ihrem Gerät. Mehr Informationen finden Sie in den FAQs auf https://coronawarn.app unter „URSACHE 2001“."</string>
+
     <!-- ####################################
                Generic Error Messages
         ###################################### -->

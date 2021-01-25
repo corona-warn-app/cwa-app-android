@@ -247,7 +247,7 @@ class HomeFragmentTest : BaseUITest() {
 
     private fun homeFragmentViewModelSpy() = spyk(
         HomeFragmentViewModel(
-            dispatcherProvider = TestDispatcherProvider,
+            dispatcherProvider = TestDispatcherProvider(),
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,

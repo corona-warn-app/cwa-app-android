@@ -47,7 +47,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     }
 
     private fun createViewModel() = SubmissionSymptomIntroductionViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository,
         autoSubmission = autoSubmission
     )
