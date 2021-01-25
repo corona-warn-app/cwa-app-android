@@ -124,14 +124,14 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     private fun setupViewModels() {
         viewModel = spyk(
             ContactDiaryDayViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 selectedDay
             )
         )
 
         personListViewModel = spyk(
             ContactDiaryPersonListViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 selectedDay,
                 contactDiaryRepository
             )
@@ -139,7 +139,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
 
         locationListViewModel = spyk(
             ContactDiaryLocationListViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 selectedDay,
                 contactDiaryRepository
             )

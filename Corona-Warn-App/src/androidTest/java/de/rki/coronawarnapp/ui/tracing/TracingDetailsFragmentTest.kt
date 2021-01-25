@@ -58,7 +58,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             TracingDetailsFragmentViewModel(
-                dispatcherProvider = TestDispatcherProvider,
+                dispatcherProvider = TestDispatcherProvider(),
                 tracingStatus = tracingStatus,
                 backgroundModeStatus = backgroundModeStatus,
                 riskLevelStorage = riskLevelStorage,

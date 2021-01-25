@@ -762,7 +762,7 @@
     <!-- XHED: Dialog title for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_title">"Fehler"</string>
     <!-- XMSG: Dialog body for generic web request network error with status code -->
-    <string name="submission_error_dialog_web_generic_network_error_body">"Es ist ein Verbindungsfehler aufgetreten (%1$d). Bitte versuchen Sie es erneut."</string>
+    <string name="submission_error_dialog_web_generic_network_error_body">"Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind."</string>
     <!-- XMSG: Dialog body for generic web request error without status code -->
     <string name="submission_error_dialog_web_generic_error_body">"Es ist ein Verbindungsfehler aufgetreten. Bitte versuchen Sie es erneut."</string>
     <!-- XBUT: Positive button for generic web request error -->
@@ -954,6 +954,9 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Weiter"</string>
+    <!-- YTXT: Description for illustration in submission onboarding-->
+    <string name="submission_intro_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
+
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->

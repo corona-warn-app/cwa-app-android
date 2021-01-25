@@ -52,7 +52,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
     override fun onResume() {
         super.onResume()
-        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {

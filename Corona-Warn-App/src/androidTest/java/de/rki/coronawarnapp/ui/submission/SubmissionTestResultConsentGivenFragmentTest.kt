@@ -70,7 +70,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                     submissionRepository,
                     autoSubmission,
                     testResultAvailableNotificationService,
-                    TestDispatcherProvider
+                    TestDispatcherProvider()
                 )
             )
         setupMockViewModel(
