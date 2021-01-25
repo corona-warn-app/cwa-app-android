@@ -122,6 +122,7 @@ commands:
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH'  >> $BASH_ENV
             source $BASH_ENV
+            sdkmanager --update
             sdkmanager --list
       - save_cache:
           key: android-sdk-v1-{{ arch }}-{{ checksum ".circleci/install-android-sdk.sh" }}
