@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ui.release
 
 import android.content.Context
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.environment.BuildConfigWrap
@@ -40,6 +41,6 @@ class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
 
     fun setNextButtonVisibility(isInfoScreen: Boolean) = !isInfoScreen
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<NewReleaseInfoFragmentViewModel>
 }
