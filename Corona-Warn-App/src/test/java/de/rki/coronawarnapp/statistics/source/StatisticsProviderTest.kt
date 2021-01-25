@@ -66,7 +66,7 @@ class StatisticsProviderTest : BaseTest() {
         localCache = localCache,
         parser = parser,
         foregroundState = foregroundState,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test
