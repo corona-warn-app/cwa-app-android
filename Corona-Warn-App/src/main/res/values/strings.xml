@@ -970,6 +970,8 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
+    <!-- YTXT: Description for illustration in submission onboarding-->
+    <string name="submission_intro_illustration_description"></string>
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
@@ -1418,6 +1420,9 @@
     <string name="errors_risk_detection_limit_reached_title">"Limit already reached"</string>
     <!-- XTXT: error dialog - Error description when the provideDiagnosisKeys quota limit was reached. -->
     <string name="errors_risk_detection_limit_reached_description">"No more exposure checks possible today, as you have reached the maximum number of checks per day defined by your operating system. Please check your risk status again tomorrow."</string>
+    <!-- XTXT: error dialog - Error description when the ssl certificate is deactivated on the device. -->
+    <string name="errors_ssl_certificate_deactivated">"Bitte aktivieren Sie das SYSTEM Sicherheitszertifikat T-Systems Enterprise Services GmbH, T-TeleSec GlobalRoot Class 2 auf Ihrem Gerät. Mehr Informationen finden Sie in den FAQs auf https://coronawarn.app unter „URSACHE 2001“."</string>
+
     <!-- ####################################
                Generic Error Messages
         ###################################### -->

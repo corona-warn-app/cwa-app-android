@@ -5,13 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LIST_ITEMS
+import de.rki.coronawarnapp.ui.contactdiary.DiaryData.DATA_ITEMS
+import de.rki.coronawarnapp.ui.contactdiary.DiaryData.HIGH_RISK
+import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LOW_RISK
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -53,7 +56,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
         viewModel = spyk(
             ContactDiaryOverviewViewModel(
                 taskController = taskController,
-                dispatcherProvider = TestDispatcherProvider,
+                dispatcherProvider = TestDispatcherProvider(),
                 contactDiaryRepository = contactDiaryRepository,
                 riskLevelStorage = riskLevelStorage
             )
@@ -91,7 +94,8 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                 .map { LocalDate.now().minusDays(it) }
                 .map {
                     ListItem(it).apply {
-                        data.apply { addAll(LIST_ITEMS) }
+                        data.addAll(DATA_ITEMS)
+                        risk = if (it.dayOfYear % 2 == 0) HIGH_RISK else LOW_RISK
                     }
                 }
         )

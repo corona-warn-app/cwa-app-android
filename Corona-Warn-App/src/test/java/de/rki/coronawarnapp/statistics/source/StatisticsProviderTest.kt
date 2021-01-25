@@ -20,7 +20,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
+import testhelpers.asDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 import testhelpers.coroutines.test
 import java.io.IOException
@@ -66,7 +66,7 @@ class StatisticsProviderTest : BaseTest() {
         localCache = localCache,
         parser = parser,
         foregroundState = foregroundState,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = scope.asDispatcherProvider()
     )
 
     @Test
@@ -136,5 +136,29 @@ class StatisticsProviderTest : BaseTest() {
             server.clear()
             localCache.save(null)
         }
+    }
+
+    @Test
+    fun `subscription flow timeout is 5 seconds`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance(this)
+        var testCollector1 = instance.current.test(startOnScope = this)
+        var testCollector2 = instance.current.test(startOnScope = this)
+
+        advanceUntilIdle()
+        coVerify(exactly = 1) { localCache.load() }
+
+        testCollector1.cancel()
+        testCollector2.cancel()
+
+        advanceTimeBy(6000)
+
+        testCollector1 = instance.current.test(startOnScope = this)
+        testCollector2 = instance.current.test(startOnScope = this)
+
+        advanceUntilIdle()
+        coVerify(exactly = 2) { localCache.load() }
+
+        testCollector1.cancel()
+        testCollector2.cancel()
     }
 }

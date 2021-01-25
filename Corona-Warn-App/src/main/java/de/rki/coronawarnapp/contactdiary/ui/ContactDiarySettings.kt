@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui
 
+import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.ui.submission.testresult.pending
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -122,7 +123,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         )
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultPendingViewModel>
 
     companion object {

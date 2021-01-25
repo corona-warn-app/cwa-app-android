@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -68,7 +69,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @Test
     fun testContactEnterTanClicked() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
-        navController.setGraph(R.navigation.nav_graph)
+        runOnUiThread { navController.setGraph(R.navigation.nav_graph) }
         launchFragmentInContainer2<SubmissionContactFragment>().onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }

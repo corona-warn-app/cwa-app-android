@@ -81,7 +81,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         errorResetTool = errorResetTool,
         tracingStatus = generalTracingStatus,
         tracingRepository = tracingRepository,

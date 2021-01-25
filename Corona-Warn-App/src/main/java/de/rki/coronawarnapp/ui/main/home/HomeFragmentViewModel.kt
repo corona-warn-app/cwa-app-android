@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
@@ -305,6 +306,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
 }
