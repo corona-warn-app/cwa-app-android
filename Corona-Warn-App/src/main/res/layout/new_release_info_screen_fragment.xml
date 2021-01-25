@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/new_release_info_screen_container"
+        android:contentDescription="@string/release_info_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/new_release_info_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/CWAToolbar.Close"
+            android:background="@color/colorBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/release_info_header" />
+
+        <ScrollView
+            android:id="@+id/new_release_info_scrollview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintBottom_toTopOf="@+id/new_release_info_next_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_release_info_toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/new_release_info_illustration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/release_info_header"
+                    android:focusable="true"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:src="@drawable/ic_new_release_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_new_release_info" />
+
+                <TextView
+                    android:id="@+id/new_release_info_headline"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/release_info_version_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/new_release_info_illustration"
+                    tools:text="@string/release_info_version_title" />
+
+                <TextView
+                    android:id="@+id/new_release_info_body"
+                    style="@style/subtitleMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/release_info_version_body"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/new_release_info_headline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@string/release_info_version_body" />
+
+                <TextView
+                    android:id="@+id/new_release_info_encounter_history_title"
+                    style="@style/subtitleBoldSixteen"
+                    android:accessibilityHeading="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:text="@string/release_info_encounter_history_title"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/bullet_point_encounter"
+                    app:layout_constraintTop_toBottomOf="@id/new_release_info_body"
+                    tools:text="@string/release_info_encounter_history_title"/>
+
+                <ImageView
+                    android:id="@+id/bullet_point_encounter"
+                    android:layout_width="@dimen/bullet_point_size"
+                    android:layout_height="@dimen/bullet_point_size"
+                    android:src="@drawable/bullet_point"
+                    android:importantForAccessibility="no"
+                    android:layout_marginTop="@dimen/spacing_mega_tiny"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/new_release_info_encounter_history_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/new_release_info_encounter_history_title" />
+
+                <TextView
+                    android:id="@+id/new_release_info_encounter_history_body"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:focusable="true"
+                    android:text="@string/release_info_encounter_history_body"
+                    app:layout_constraintTop_toBottomOf="@+id/new_release_info_encounter_history_title"
+                    app:layout_constraintStart_toStartOf="@+id/new_release_info_encounter_history_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@string/release_info_encounter_history_body"/>
+
+                <TextView
+                    android:id="@+id/new_release_info_statistics_title"
+                    style="@style/subtitleBoldSixteen"
+                    android:accessibilityHeading="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:text="@string/release_info_statistics_title"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/bullet_point_statistics"
+                    app:layout_constraintTop_toBottomOf="@id/new_release_info_encounter_history_body"
+                    tools:text="@string/release_info_statistics_title"/>
+
+                <ImageView
+                    android:id="@+id/bullet_point_statistics"
+                    android:layout_width="@dimen/bullet_point_size"
+                    android:layout_height="@dimen/bullet_point_size"
+                    android:src="@drawable/bullet_point"
+                    android:importantForAccessibility="no"
+                    android:layout_marginTop="@dimen/spacing_mega_tiny"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/new_release_info_statistics_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/new_release_info_statistics_title" />
+
+                <TextView
+                    android:id="@+id/new_release_info_statistics_body"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:focusable="true"
+                    android:text="@string/release_info_statistics_body"
+                    app:layout_constraintTop_toBottomOf="@+id/new_release_info_statistics_title"
+                    app:layout_constraintStart_toStartOf="@+id/new_release_info_statistics_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@string/release_info_statistics_body"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <android.widget.Button
+            android:id="@+id/new_release_info_next_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:text="@string/release_info_continue_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/release_info_continue_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

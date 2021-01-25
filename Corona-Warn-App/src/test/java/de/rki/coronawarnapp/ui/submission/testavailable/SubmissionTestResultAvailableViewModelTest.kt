@@ -46,7 +46,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     private fun createViewModel(): SubmissionTestResultAvailableViewModel = SubmissionTestResultAvailableViewModel(
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission
     )

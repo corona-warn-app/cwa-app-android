@@ -41,6 +41,8 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">"Sie können hinzugefügte Personen und Orte jederzeit wieder aus dem Tagebuch entfernen. Tagebuch-Einträge werden nach 16 Tagen automatisch gelöscht."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"Sie können Ihr Kontakt-Tagebuch im Textformat exportieren. So können Sie bei Bedarf Ihre Einträge ausdrucken, bearbeiten oder dem Gesundheitsamt zur Verfügung stellen."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section">"Die angezeigten Risiko-Begegnungen müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen. Bitte ziehen Sie keine falschen Rückschlüsse."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
@@ -111,22 +113,24 @@
     <string name="contact_diary_delete_person_title">"Wollen Sie wirklich diese Person entfernen?"</string>
 
     <!-- XTXT: location (description for screen readers) -->
-    <string name="accessibility_location">Ort %s</string>
+    <string name="accessibility_location">"Ort %s"</string>
     <!-- XTXT: person (description for screen readers) -->
-    <string name="accessibility_person">Person %s</string>
+    <string name="accessibility_person">"Person %s"</string>
     <!-- XTXT: location is not selected (description for screen readers) -->
-    <string name="accessibility_location_unselected">Ort %s ist nicht ausgewählt</string>
+    <string name="accessibility_location_unselected">"Ort %s ist nicht ausgewählt"</string>
     <!-- XTXT: person is not selected (description for screen readers) -->
-    <string name="accessibility_person_unselected">Person %s ist nicht ausgewählt</string>
+    <string name="accessibility_person_unselected">"Person %s ist nicht ausgewählt"</string>
     <!-- XTXT: location is selected (description for screen readers) -->
-    <string name="accessibility_location_selected">Ort %s ist ausgewählt</string>
+    <string name="accessibility_location_selected">"Ort %s ist ausgewählt"</string>
     <!-- XTXT: person is selected (description for screen readers) -->
-    <string name="accessibility_person_selected">Person %s ist ausgewählt</string>
+    <string name="accessibility_person_selected">"Person %s ist ausgewählt"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Tagesansicht"</string>
 
     <!-- XTXT: Select (description for screen readers) -->
-    <string name="accessibility_action_select">Auswählen</string>
+    <string name="accessibility_action_select">"Auswählen"</string>
     <!-- XTXT: Deselect (description for screen readers) -->
-    <string name="accessibility_action_deselect">Auswahl aufheben</string>
+    <string name="accessibility_action_deselect">"Auswahl aufheben"</string>
     <!-- XTXT: Edit (description for screen readers) -->
-    <string name="accessibility_edit">Bearbeiten</string>
+    <string name="accessibility_edit">"Bearbeiten"</string>
 </resources>

@@ -41,6 +41,8 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">"You can remove entries for people and places from your journal at any time. Journal entries will be deleted automatically after 16 days."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"You can export your contact journal in plain text format and then print out the entries, edit them, or provide them to your public health authority as needed."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section"></string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Contact Journal"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
@@ -129,6 +131,8 @@
     <string name="accessibility_location_selected">"Place %s is selected"</string>
     <!-- XTXT: person is selected (description for screen readers) -->
     <string name="accessibility_person_selected">"Person %s is selected"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header"></string>
 
     <!-- XTXT: Select (description for screen readers) -->
     <string name="accessibility_action_select">"Select"</string>

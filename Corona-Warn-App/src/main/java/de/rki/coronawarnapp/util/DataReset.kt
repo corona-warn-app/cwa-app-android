@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -35,8 +36,9 @@ class DataReset @Inject constructor(
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
-    private var contactDiarySettings: ContactDiarySettings,
-    private val cwaSettings: CWASettings
+    private var contactDiaryPreferences: ContactDiaryPreferences,
+    private val cwaSettings: CWASettings,
+    private val statisticsProvider: StatisticsProvider
 ) {
 
     private val mutex = Mutex()
@@ -62,11 +64,13 @@ class DataReset @Inject constructor(
         exposureDetectionTracker.clear()
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
-        contactDiarySettings.clear()
+        contactDiaryPreferences.clear()
         cwaSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()
+
+        statisticsProvider.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

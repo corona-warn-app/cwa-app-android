@@ -6,13 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
+import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
-import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsItemProvider
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -24,23 +25,20 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
 import timber.log.Timber
 
 class SettingsTracingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    tracingDetailsItemProvider: TracingDetailsItemProvider,
     tracingStatus: GeneralTracingStatus,
+    tracingRepository: TracingRepository,
     private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = tracingDetailsItemProvider.state
-        .mapNotNull { items ->
-            items.firstOrNull { it is PeriodLoggedBox.Item } as? PeriodLoggedBox.Item
-        }
+    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = tracingRepository.activeTracingDaysInRetentionPeriod
+        .map { PeriodLoggedBox.Item(activeTracingDaysInRetentionPeriod = it.toInt()) }
         .onEach { Timber.v("logginPeriod onEach") }
         .asLiveData(dispatcherProvider.Main)
 
@@ -125,6 +123,6 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         object ManualCheckingDialog : Event()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsTracingFragmentViewModel>
 }

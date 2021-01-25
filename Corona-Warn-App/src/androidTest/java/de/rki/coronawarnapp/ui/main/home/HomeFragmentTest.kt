@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
@@ -11,7 +10,8 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
@@ -44,6 +44,7 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.recyclerScrollTo
 import timber.log.Timber
@@ -58,10 +59,11 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var submissionStateProvider: SubmissionStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var statisticsProvider: StatisticsProvider
 
     private lateinit var viewModel: HomeFragmentViewModel
 
@@ -99,8 +101,7 @@ class HomeFragmentTest : BaseUITest() {
 
     @Test
     fun onResumeCallsRefresh() {
-        // AppTheme is required here to prevent xml inflation crash
-        launchFragment<HomeFragment>(themeResId = R.style.AppTheme)
+        launchFragment2<HomeFragment>()
         verify(exactly = 1) { viewModel.refreshRequiredData() }
     }
 
@@ -246,16 +247,17 @@ class HomeFragmentTest : BaseUITest() {
 
     private fun homeFragmentViewModelSpy() = spyk(
         HomeFragmentViewModel(
-            dispatcherProvider = TestDispatcherProvider,
+            dispatcherProvider = TestDispatcherProvider(),
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,
-            testResultNotificationService = testResultNotificationService,
+            shareTestResultNotificationService = shareTestResultNotificationService,
             appConfigProvider = appConfigProvider,
             tracingStatus = tracingStatus,
             submissionRepository = submissionRepository,
             submissionStateProvider = submissionStateProvider,
-            cwaSettings = cwaSettings
+            cwaSettings = cwaSettings,
+            statisticsProvider = statisticsProvider
         )
     )
 }

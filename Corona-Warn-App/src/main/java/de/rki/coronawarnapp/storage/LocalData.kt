@@ -17,13 +17,12 @@ import timber.log.Timber
  */
 object LocalData {
 
-    private val TAG: String? = LocalData::class.simpleName
-
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
     private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
         "preference_has_risk_status_lowered"
+
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -235,7 +234,7 @@ object LocalData {
      *
      * @return boolean
      */
-    fun isTestResultNotificationSent(): Boolean {
+    fun isTestResultAvailableNotificationSent(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_test_result_notification),
@@ -249,7 +248,7 @@ object LocalData {
      *
      * @param value boolean
      */
-    fun isTestResultNotificationSent(value: Boolean) =
+    fun isTestResultAvailableNotificationSent(value: Boolean) =
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
@@ -338,70 +337,25 @@ object LocalData {
         }
 
     private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
-    var numberOfRemainingPositiveTestResultReminders: Int
+    var numberOfRemainingSharePositiveTestResultReminders: Int
         get() = getSharedPreferenceInstance().getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
         set(value) = getSharedPreferenceInstance().edit(true) {
             putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)
         }
 
-    /**
-     * Gets the decision if background jobs are enabled
-     *
-     * @return
-     */
-    fun isBackgroundJobEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_job_allowed),
-        false
-    )
-
-    /**
-     * Toggles the decision if background jobs are enabled
-     *
-     */
-    fun toggleBackgroundJobEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_job_allowed),
-            !isBackgroundJobEnabled()
-        )
-    }
-
-    /**
-     * Gets the boolean if the user has mobile data enabled
-     *
-     * @return
-     */
-    fun isMobileDataEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed),
-        false
-    )
-
-    /**
-     * Toggles the boolean if the user has mobile data enabled
-     *
-     */
-    fun toggleMobileDataEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_mobile_data_allowed),
-            !isMobileDataEnabled()
-        )
-    }
-
     /****************************************************
      * SUBMISSION DATA
      ****************************************************/
+
+    private const val PREFERENCE_REGISTRATION_TOKEN = "preference_registration_token"
 
     /**
      * Gets the registration token that is needed for the submission process
      *
      * @return the registration token
      */
-    fun registrationToken(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_registration_token),
-        null
-    )
+    fun registrationToken(): String? = getSharedPreferenceInstance()
+        .getString(PREFERENCE_REGISTRATION_TOKEN, null)
 
     /**
      * Sets the registration token that is needed for the submission process
@@ -410,11 +364,7 @@ object LocalData {
      */
     fun registrationToken(value: String?) {
         getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_registration_token),
-                value
-            )
+            putString(PREFERENCE_REGISTRATION_TOKEN, value)
         }
     }
 
@@ -447,7 +397,7 @@ object LocalData {
             )
         }
 
-    fun devicePairingSuccessfulTimestamp(): Long? {
+    fun devicePairingSuccessfulTimestamp(): Long {
         return getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_device_pairing_successful_time),
@@ -516,6 +466,7 @@ object LocalData {
         }
 
     fun clear() {
+        // If you make use of a FlowPreference, you need to manually clear it here
         Timber.w("LocalData.clear()")
     }
 }

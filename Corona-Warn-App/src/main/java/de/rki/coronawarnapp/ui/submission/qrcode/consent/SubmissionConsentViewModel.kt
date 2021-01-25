@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -34,6 +35,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDataPrivacy)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionConsentViewModel>
 }

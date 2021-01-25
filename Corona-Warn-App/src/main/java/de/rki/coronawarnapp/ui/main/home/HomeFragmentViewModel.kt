@@ -3,10 +3,11 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -73,7 +74,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStateProviderFactory: TracingStateProvider.Factory,
     submissionStateProvider: SubmissionStateProvider,
     private val tracingRepository: TracingRepository,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider,
@@ -217,18 +218,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
-                TestPositive,
-                SubmissionDone -> {
+                TestPositive, SubmissionDone -> {
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
             }
 
-            if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { }))
-            }
-
             add(submissionItem)
+
+            if (statsData.isDataAvailable) {
+                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
+                    popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                }))
+            }
 
             add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
 
@@ -249,7 +251,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     }
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
@@ -300,6 +302,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
 }

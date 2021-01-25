@@ -5,11 +5,13 @@ import android.content.Intent
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -24,7 +26,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val enfClient: ENFClient,
     private val autoSubmission: AutoSubmission,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
-    interoperabilityRepository: InteroperabilityRepository
+    interoperabilityRepository: InteroperabilityRepository,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -75,6 +78,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onConsentButtonClicked() {
+        submissionRepository.giveConsentToSubmission()
         launch {
             if (enfClient.isTracingEnabled.first()) {
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
@@ -95,7 +99,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
         fun create(): SubmissionResultPositiveOtherWarningNoConsentViewModel
     }

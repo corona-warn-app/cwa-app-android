@@ -690,9 +690,9 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Технически въпроси:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
-    <string name="information_contact_button_phone">"+49 800 7540001"</string>
+    <string name="information_contact_button_phone">"0800 7540001"</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
-    <string name="information_contact_phone_call_number">"+49 800 7540001"</string>
+    <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Нашият екип за обслужване на клиенти е готов да Ви помогне."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -1115,9 +1115,9 @@
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Обадете се на горещата линия и поискайте ТАН код:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number_display">"+49 800 7540002"</string>
+    <string name="submission_contact_number_display">"0800 7540002"</string>
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"+49 800 7540002"</string>
+    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Регистрирайте теста, като въведете ТАН кода в приложението."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1128,7 +1128,7 @@
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Обадете се на горещата линия и поискайте ТАН код"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"В първата стъпка се обаждате на горещата линия, за да заявите ТАН код. Телефонният номер е +49 800 7540002. Работното време е от 8:00 до 22:00 ч. от понеделник до петък и от 10:00 до 22:00 ч в събота и неделя . Обаждането е безплатно."</string>
+    <string name="submission_contact_step_1_content">"В първата стъпка се обаждате на горещата линия, за да заявите ТАН код. Телефонният номер е 0800 7540002. Работното време е от 8:00 до 22:00 ч. от понеделник до петък и от 10:00 до 22:00 ч в събота и неделя . Обаждането е безплатно."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Във втората стъпка регистрирате теста си, като въвеждате ТАН кода в приложението."</string>
 

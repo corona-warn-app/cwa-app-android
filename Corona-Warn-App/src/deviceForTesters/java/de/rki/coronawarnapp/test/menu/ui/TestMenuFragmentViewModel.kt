@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.test.menu.ui
 
 import androidx.lifecycle.MutableLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
@@ -36,6 +37,6 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
         showTestScreenEvent.postValue(it)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<TestMenuFragmentViewModel>
 }
