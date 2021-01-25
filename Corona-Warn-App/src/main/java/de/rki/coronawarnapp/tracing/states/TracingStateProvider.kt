@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.tracing.states
 
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
@@ -97,7 +98,7 @@ class TracingStateProvider @AssistedInject constructor(
         .onEach { Timber.d("TracingStateProvider FLOW emission: %s", it) }
         .onCompletion { Timber.v("TracingStateProvider FLOW completed.") }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory {
         fun create(isDetailsMode: Boolean): TracingStateProvider
     }

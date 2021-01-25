@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
@@ -58,7 +59,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
         Timber.tag(TAG).d("$id: worker stopped")
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : InjectedWorkerFactory<BackgroundNoisePeriodicWorker>
 
     companion object {
