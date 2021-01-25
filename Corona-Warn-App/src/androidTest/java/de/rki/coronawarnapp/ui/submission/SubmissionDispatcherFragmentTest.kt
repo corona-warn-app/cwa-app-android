@@ -8,6 +8,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -41,8 +42,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     private fun createViewModel() = SubmissionDispatcherViewModel()
 
-    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
-        setGraph(R.navigation.nav_graph)
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        runOnUiThread { setGraph(R.navigation.nav_graph) }
     }
 
     @Before
