@@ -110,6 +110,8 @@
     <string name="accessibility_location_selected">"Yer %s seçildi"</string>
     <!-- XTXT: person is selected (description for screen readers) -->
     <string name="accessibility_person_selected">"Kişi %s seçildi"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Gün Görünümü"</string>
 
     <!-- XTXT: Select (description for screen readers) -->
     <string name="accessibility_action_select">"Seç"</string>
