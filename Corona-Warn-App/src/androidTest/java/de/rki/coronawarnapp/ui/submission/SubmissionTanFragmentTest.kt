@@ -36,7 +36,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
 
     private fun createViewModel() = SubmissionTanViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository
     )
 

@@ -53,7 +53,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel =
-            spyk(SubmissionSymptomIntroductionViewModel(TestDispatcherProvider, submissionRepository, autoSubmission))
+            spyk(SubmissionSymptomIntroductionViewModel(TestDispatcherProvider(), submissionRepository, autoSubmission))
         with(viewModel) {
             every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }
