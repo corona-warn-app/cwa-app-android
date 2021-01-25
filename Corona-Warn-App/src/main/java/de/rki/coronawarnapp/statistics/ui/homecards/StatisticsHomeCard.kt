@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.StatisticsData
@@ -23,11 +24,19 @@ class StatisticsHomeCard(
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
             statisticsRecyclerview.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(false)
                 adapter = statsAdapter
+                layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 itemAnimator = DefaultItemAnimator()
-                addItemDecoration(StatisticsCardPaddingDecorator(startPadding = R.dimen.spacing_small))
+                addItemDecoration(
+                    StatisticsCardPaddingDecorator(
+                        startPadding = R.dimen.spacing_small,
+                        cardDistance = R.dimen.spacing_tiny,
+                        verticalPadding = R.dimen.spacing_tiny
+                    )
+                )
             }
+            PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
         }
     }
 
@@ -45,5 +54,24 @@ class StatisticsHomeCard(
         val onHelpAction: (StatsItem) -> Unit
     ) : HomeItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
+
+        // ignore onHelpAction so that view is not re-drawn when only the onHelpAction click listener is updated
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Item
+
+            if (data != other.data) return false
+            if (stableId != other.stableId) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = data.hashCode()
+            result = 31 * result + stableId.hashCode()
+            return result
+        }
     }
 }
