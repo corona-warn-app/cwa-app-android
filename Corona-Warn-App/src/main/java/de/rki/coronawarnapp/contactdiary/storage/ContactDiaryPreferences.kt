@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.contactdiary.ui
+package de.rki.coronawarnapp.contactdiary.storage
 
 import android.content.Context
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
