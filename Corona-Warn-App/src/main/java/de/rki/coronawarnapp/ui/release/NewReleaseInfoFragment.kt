@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.release
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -43,7 +42,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
             binding.newReleaseInfoHeadline.text = it
         }
 
-        if(args.comesFromInfoScreen){
+        if (args.comesFromInfoScreen) {
             vm.navigationIcon.observe2(this) {
                 binding.newReleaseInfoToolbar.navigationIcon = it
             }

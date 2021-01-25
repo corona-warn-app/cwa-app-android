@@ -40,7 +40,6 @@ class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
 
     fun setNextButtonVisibility(isInfoScreen: Boolean) = !isInfoScreen
 
-
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<NewReleaseInfoFragmentViewModel>
 }
