@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -31,6 +29,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -69,15 +68,14 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionSymptomIntroductionFragment>()
+        launchFragment2<SubmissionSymptomIntroductionFragment>()
     }
 
     @Test
     fun testSymptomNextClicked() {
-        val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
+        launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(click())
-        // TODO verify result
     }
 
     @Test

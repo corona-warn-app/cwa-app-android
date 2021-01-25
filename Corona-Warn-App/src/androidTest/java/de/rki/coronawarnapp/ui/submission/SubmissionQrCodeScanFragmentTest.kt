@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.launchFragment2
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionQrCodeScanFragmentTest : BaseUITest() {
@@ -34,7 +34,7 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionQRCodeScanFragment>()
+        launchFragment2<SubmissionQRCodeScanFragment>()
     }
 }
 

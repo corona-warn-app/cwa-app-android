@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.tracing
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -29,6 +28,7 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -82,7 +82,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
 
     @Test
     fun launch_tracing_details() {
-        launchFragment<TracingDetailsFragment>()
+        launchFragment2<TracingDetailsFragment>()
     }
 
     @Screenshot

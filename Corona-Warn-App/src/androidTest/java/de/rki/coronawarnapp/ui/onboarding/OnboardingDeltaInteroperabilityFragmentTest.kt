@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -17,6 +16,7 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -53,7 +53,7 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<OnboardingDeltaInteroperabilityFragment>()
+        launchFragment2<OnboardingDeltaInteroperabilityFragment>()
     }
 
     @Screenshot
