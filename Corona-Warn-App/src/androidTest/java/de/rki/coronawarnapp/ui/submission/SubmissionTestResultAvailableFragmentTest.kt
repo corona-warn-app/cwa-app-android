@@ -50,7 +50,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 tekHistoryUpdaterFactory,
                 submissionRepository,
                 autoSubmission
