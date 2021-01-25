@@ -970,6 +970,8 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
+    <!-- YTXT: Description for illustration in submission onboarding-->
+    <string name="submission_intro_illustration_description"></string>
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
