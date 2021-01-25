@@ -7,17 +7,17 @@
     <!-- XHED: Title for the release info screen -->
     <string name="release_info_header"/>
     <!-- XHED: Version title for the release info screen -->
-    <string name="release_info_version_title">"Release <xliff:g id="release_app_version" example="1.12">"%1$d"</xliff:g></string>
+    <string name="release_info_version_title">"Release "%1$d"</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body" />
     <!-- XTXT: Encounter history title for the release info screen -->
-    <string name="release_info_encounter_history_title" />
+    <string name="release_info_1_12_encounter_history_title" />
     <!-- XTXT: Encounter history body for the release info screen -->
-    <string name="release_info_encounter_history_body" />
+    <string name="release_info_1_12_encounter_history_body" />
     <!-- XTXT: Statistics title for the release info screen -->
-    <string name="release_info_statistics_title" />
+    <string name="release_info_1_12_statistics_title" />
     <!-- XTXT: Statistics body for the release info screen -->
-    <string name="release_info_statistics_body" />
+    <string name="release_info_1_12_statistics_body" />
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button" />
 

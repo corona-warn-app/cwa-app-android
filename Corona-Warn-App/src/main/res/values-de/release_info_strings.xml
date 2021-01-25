@@ -7,17 +7,17 @@
     <!-- XHED: Title for the release info screen -->
     <string name="release_info_header">"Neue Funktionen"</string>
     <!-- XHED: Version title for the release info screen -->
-    <string name="release_info_version_title">"Release <xliff:g id="release_app_version" example="1.12">"%1$d"</xliff:g></string>
+    <string name="release_info_version_title">"Release "%1$d"</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body">"Mit diesem Update stellen wir Ihnen neben Fehlerbehebungen auch neue und erweiterte Funktionen zur Verfügung."</string>
     <!-- XTXT: Encounter history title for the release info screen -->
-    <string name="release_info_encounter_history_title">"Begegnungshistorie"</string>
+    <string name="release_info_1_12_encounter_history_title">"Begegnungshistorie"</string>
     <!-- XTXT: Encounter history body for the release info screen -->
-    <string name="release_info_encounter_history_body">"Sie können in Ihrem Kontakt-Tagebuch sehen, an welchen Tagen Sie ein niedriges oder erhöhtes Risiko aufgrund der von der App ausgewerteten Begegnungen hatten. Sie können damit Personen warnen, die Sie an diesen Tagen begleitet haben, wenn diese die Corona-Warn-App nicht nutzen. Diese Personen waren möglicherweise einem vergleichbaren Risiko ausgesetzt. Die Personen und Orte in Ihrem Kontakt-Tagebuch müssen nicht in Zusammenhang mit den angezeigten Risiko-Begegnungen stehen."</string>
+    <string name="release_info_1_12_encounter_history_body">"Sie können in Ihrem Kontakt-Tagebuch sehen, an welchen Tagen Sie ein niedriges oder erhöhtes Risiko aufgrund der von der App ausgewerteten Begegnungen hatten. Sie können damit Personen warnen, die Sie an diesen Tagen begleitet haben, wenn diese die Corona-Warn-App nicht nutzen. Diese Personen waren möglicherweise einem vergleichbaren Risiko ausgesetzt. Die Personen und Orte in Ihrem Kontakt-Tagebuch müssen nicht in Zusammenhang mit den angezeigten Risiko-Begegnungen stehen."</string>
     <!-- XTXT: Statistics title for the release info screen -->
-    <string name="release_info_statistics_title">"Statistiken"</string>
+    <string name="release_info_1_12_statistics_title">"Statistiken"</string>
     <!-- XTXT: Statistics body for the release info screen -->
-    <string name="release_info_statistics_body">"Sie bekommen einen Überblick mit aktuellen Kennzahlen zum Infektionsgeschehen in Deutschland."</string>
+    <string name="release_info_1_12_statistics_body">"Sie bekommen einen Überblick mit aktuellen Kennzahlen zum Infektionsgeschehen in Deutschland."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Weiter"</string>
 
