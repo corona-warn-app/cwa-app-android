@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.tracing.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -100,6 +101,6 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         tracingRepository.refreshDiagnosisKeys()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<TracingDetailsFragmentViewModel>
 }
