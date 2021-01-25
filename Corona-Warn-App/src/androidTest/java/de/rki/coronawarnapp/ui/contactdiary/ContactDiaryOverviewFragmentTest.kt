@@ -53,7 +53,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
         viewModel = spyk(
             ContactDiaryOverviewViewModel(
                 taskController = taskController,
-                dispatcherProvider = TestDispatcherProvider,
+                dispatcherProvider = TestDispatcherProvider(),
                 contactDiaryRepository = contactDiaryRepository,
                 riskLevelStorage = riskLevelStorage
             )
