@@ -6,8 +6,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
-import de.rki.coronawarnapp.environment.BuildConfigWrap
-import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -20,8 +18,6 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    @Inject lateinit var settings: CWASettings
-
     private val vm: NewReleaseInfoFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: NewReleaseInfoScreenFragmentBinding by viewBindingLazy()
 
@@ -29,12 +25,12 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             newReleaseInfoNextButton.setOnClickListener {
-                userHasReadReleaseNotes()
+                vm.userHasReadReleaseNotes()
                 vm.onNextButtonClick()
             }
 
             newReleaseInfoToolbar.setNavigationOnClickListener {
-                userHasReadReleaseNotes()
+                vm.userHasReadReleaseNotes()
                 vm.onNextButtonClick()
             }
         }
@@ -48,10 +44,6 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
                 doNavigate(NewReleaseInfoFragmentDirections.actionNewReleaseInfoFragmentPop())
             }
         }
-    }
-
-    fun userHasReadReleaseNotes() {
-        settings.lastAppVersion.update { BuildConfigWrap.VERSION_CODE }
     }
 
     override fun onResume() {

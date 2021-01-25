@@ -25,8 +25,8 @@ class CWASettings @Inject constructor(
         get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
         set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
 
-    val lastAppVersion = prefs.createFlowPreference(
-        key = LAST_APP_VERSION,
+    val lastChangelogVersion = prefs.createFlowPreference(
+        key = LAST_CHANGELOG_VERSION,
         defaultValue = DEFAULT_APP_VERSION
     )
 
@@ -36,7 +36,7 @@ class CWASettings @Inject constructor(
 
     companion object {
         private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
-        private const val LAST_APP_VERSION = "last.installed.version"
-        private const val DEFAULT_APP_VERSION = 1.0.toLong()
+        private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
+        private const val DEFAULT_APP_VERSION = 1L
     }
 }

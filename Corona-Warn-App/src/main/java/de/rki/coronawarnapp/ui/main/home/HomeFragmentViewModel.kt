@@ -110,17 +110,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     }
                 }
             }
-            if (cwaSettings.lastAppVersion.value < BuildConfigWrap.VERSION_CODE &&
-                LocalData.isOnboarded() && LocalData.onboardingCompletedTimestamp()
-                    ?.let { compareOnboardingTimestamps(it) } == true
-            ) {
+            if (cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE) {
                 postValue(HomeFragmentEvents.ShowNewReleaseFragment)
             }
         }
     }
-
-    private fun compareOnboardingTimestamps(onboardingTimestamp: Long): Boolean =
-        System.currentTimeMillis() - onboardingTimestamp > 10000
 
     val showIncorrectDeviceTimeDialog by lazy {
         var wasDeviceTimeDialogShown = false
