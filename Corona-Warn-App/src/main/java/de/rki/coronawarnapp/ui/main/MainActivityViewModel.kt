@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.main
 
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
@@ -65,6 +66,6 @@ class MainActivityViewModel @AssistedInject constructor(
         }
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<MainActivityViewModel>
 }
