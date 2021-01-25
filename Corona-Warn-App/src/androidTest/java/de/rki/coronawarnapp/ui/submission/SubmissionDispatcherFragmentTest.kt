@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -23,6 +25,8 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -38,12 +42,20 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     private fun createViewModel() = SubmissionDispatcherViewModel()
 
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        runOnUiThread { setGraph(R.navigation.nav_graph) }
+    }
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(object : SubmissionDispatcherViewModel.Factory {
-            override fun create(): SubmissionDispatcherViewModel = createViewModel()
-        })
+        setupMockViewModel(
+            object : SubmissionDispatcherViewModel.Factory {
+                override fun create(): SubmissionDispatcherViewModel = createViewModel()
+            }
+        )
     }
 
     @After
@@ -53,37 +65,37 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionDispatcherFragment>()
+        launchFragment2<SubmissionDispatcherFragment>()
     }
 
     @Test
     fun testEventQRClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test
     fun testEventTeleClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test
     fun testEventTanClicked() {
-        val scenario = launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test

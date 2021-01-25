@@ -196,6 +196,12 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+
+        // Using orchestration together with mockk on x86 (32bit) emulator images crashes
+        // Leaving this in here as reminder
+        // https://github.com/android/android-test/issues/352
+        // https://github.com/mockk/mockk/issues/466
+        // execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     kapt {
@@ -291,12 +297,13 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
 
     // ANDROID STANDARD
+    def nav_version = "2.3.2"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.work:work-runtime-ktx:2.5.0-beta02'
@@ -312,18 +319,16 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
 
     // DAGGER
-    def dagger_version = "2.30.1"
+    def dagger_version = "2.31.2"
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-
-    def assisted_injection_version = "0.6.0"
-    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_injection_version"
-    kapt "com.squareup.inject:assisted-inject-processor-dagger2:$assisted_injection_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
 
     // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
@@ -376,6 +381,7 @@ dependencies {
     debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
 
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Play Services
     implementation 'com.google.android.play:core:1.9.0'

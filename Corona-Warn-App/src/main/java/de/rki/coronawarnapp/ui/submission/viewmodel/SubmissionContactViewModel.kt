@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -22,6 +23,6 @@ class SubmissionContactViewModel @AssistedInject constructor() : CWAViewModel() 
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTAN)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionContactViewModel>
 }

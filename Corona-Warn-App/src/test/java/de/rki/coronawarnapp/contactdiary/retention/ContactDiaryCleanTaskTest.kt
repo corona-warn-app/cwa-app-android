@@ -25,6 +25,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
         coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } returns Unit
         coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } returns Unit
+        coEvery { retentionCalculation.clearObsoleteRiskPerDate() } returns Unit
     }
 
     @AfterEach
@@ -43,6 +44,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
         coVerifyOrder {
             retentionCalculation.clearObsoleteContactDiaryLocationVisits()
             retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
+            retentionCalculation.clearObsoleteRiskPerDate()
         }
         result shouldNotBe null
     }
@@ -54,7 +56,10 @@ class ContactDiaryCleanTaskTest : BaseTest() {
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
-        coVerify(exactly = 0) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }
+        coVerify(exactly = 0) {
+            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
+            retentionCalculation.clearObsoleteRiskPerDate()
+        }
         result shouldNotBe null
     }
 
@@ -64,8 +69,27 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
 
-        coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
-        coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }
+        coVerify(exactly = 1) {
+            retentionCalculation.clearObsoleteContactDiaryLocationVisits()
+            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
+        }
+        coVerify(exactly = 0) { retentionCalculation.clearObsoleteRiskPerDate() }
+
+        result shouldNotBe null
+    }
+
+    @Test
+    fun `risk per date fails`() = runBlockingTest {
+        coEvery { retentionCalculation.clearObsoleteRiskPerDate() } throws Exception()
+
+        val result = assertThrows<Exception> { createInstance().run(mockk()) }
+
+        coVerify(exactly = 1) {
+            retentionCalculation.clearObsoleteContactDiaryLocationVisits()
+            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
+            retentionCalculation.clearObsoleteRiskPerDate()
+        }
+
         result shouldNotBe null
     }
 
@@ -77,7 +101,10 @@ class ContactDiaryCleanTaskTest : BaseTest() {
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
-        coVerify(exactly = 0) { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() }
+        coVerify(exactly = 0) {
+            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
+            retentionCalculation.clearObsoleteRiskPerDate()
+        }
         result shouldNotBe null
     }
 }

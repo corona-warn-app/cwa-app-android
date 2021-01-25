@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -217,18 +218,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
-                TestPositive,
-                SubmissionDone -> {
+                TestPositive, SubmissionDone -> {
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
             }
 
-            if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { }))
-            }
-
             add(submissionItem)
+
+            if (statsData.isDataAvailable) {
+                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
+                    popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                }))
+            }
 
             add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
 
@@ -300,6 +302,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
 }
