@@ -80,7 +80,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
             ).toBundle()
         )
 
-        onView(ViewMatchers.withId(R.id.symptom_button_next))
+        onView(ViewMatchers.withId(R.id.target_button_verify))
             .perform(ViewActions.scrollTo())
 
         Thread.sleep(SCREENSHOT_DELAY_TIME)
