@@ -1408,7 +1408,6 @@
     <string name="errors_not_enough_device_storage">"You do not have sufficient free memory."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
     <string name="errors_communication_with_api">"Error during communication with Google interface"</string>
-    <string name="errors_communication_with_api_test">"Test ABC"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
