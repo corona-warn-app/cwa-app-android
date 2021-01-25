@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import androidx.lifecycle.MutableLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -97,6 +98,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionQRCodeScanViewModel>
 }

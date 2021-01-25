@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.ui.submission.testresult.negative
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -45,7 +46,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultNegativeViewModel>
 
     companion object {
