@@ -525,5 +525,9 @@ workflows:
             branches:
               ignore: /.*/
       - device_screenshots:
-          requires:
-            - quick_build_device_for_testers_signed
+          filters:
+            tags:
+              only:
+                - /^v.*/
+            branches:
+              ignore: /.*/
