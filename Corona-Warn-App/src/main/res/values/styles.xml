@@ -119,18 +119,18 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="buttonReset" parent="@style/button">
+    <style name="buttonReset" parent="button">
         <item name="android:backgroundTint">@color/button_red</item>
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="buttonLight" parent="@style/button">
+    <style name="buttonLight" parent="button">
         <item name="android:backgroundTint">@color/button_light</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="buttonIcon">
-        <item name="android:background">@drawable/circle</item>
+        <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
     </style>
 
@@ -144,7 +144,7 @@
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
 
-    <style name="switchBase" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+    <style name="switchBase" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="android:colorControlActivated">@color/colorAccentTintIcon</item>
     </style>
 
@@ -406,6 +406,35 @@
 
     <style name="contactDiaryCardRipple">
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
+    </style>
+
+    <style name="StatisticsCardInfoButton" parent="buttonIcon">
+        <item name="android:height">@dimen/button_icon</item>
+        <item name="android:width">@dimen/button_icon</item>
+        <item name="android:src">@drawable/ic_info</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:contentDescription">@string/statistics_info_button</item>
+    </style>
+
+    <style name="StatisticsCardPrimaryTitle" parent="headline5" />
+
+    <style name="StatisticsCardValueLabel" parent="subtitle">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+    </style>
+
+    <style name="StatisticsCardTitleCaption">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+    <style name="StatisticsCardPrimaryValue">
+        <item name="android:textColor">@color/colorStatisticsPrimaryValue</item>
+        <item name="android:textSize">@dimen/font_huge</item>
+    </style>
+
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
 </resources>

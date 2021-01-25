@@ -110,6 +110,8 @@
     <string name="accessibility_location_selected">"Miejsce %s nie zostało wybrane"</string>
     <!-- XTXT: person is selected (description for screen readers) -->
     <string name="accessibility_person_selected">"Osoba %s nie została wybrana"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Wgląd dzienny"</string>
 
     <!-- XTXT: Select (description for screen readers) -->
     <string name="accessibility_action_select">"Wybierz"</string>
