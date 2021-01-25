@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ui.settings.backgroundpriority
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -21,6 +22,6 @@ class SettingsBackgroundPriorityFragmentViewModel @AssistedInject constructor(
             }
             .asLiveData(dispatcherProvider.Default)
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsBackgroundPriorityFragmentViewModel>
 }
