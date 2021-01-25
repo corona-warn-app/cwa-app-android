@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui
 
+import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
