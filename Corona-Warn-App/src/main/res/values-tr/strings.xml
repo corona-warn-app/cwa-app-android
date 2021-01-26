@@ -1274,6 +1274,104 @@
     <string name="submission_your_consent_agreement_details">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
 
     <!-- ####################################
+         Statistics
+    ###################################### -->
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for incident statistics card -->
+    <string name="statistics_card_incidence_title">"7 Günlük Olay"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
+    <string name="statistics_card_incidence_value_description">"her 100.000 vatandaşta onaylanan yeni enfeksiyon sayısı"</string>
+
+    <!-- Infections statistics card -->
+    <!-- XHED: Title for infections statistics card -->
+    <string name="statistics_card_infections_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the secondary value-->
+    <string name="statistics_card_infections_secondary_label">"7 Günlük Ortalama"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the tertiary value-->
+    <string name="statistics_card_infections_tertiary_label">"Toplam"</string>
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for submission statistics card -->
+    <string name="statistics_card_submission_title">"Uygulama Kullanıcılarının Uyarıları"</string>
+    <!-- XTXT: Text displayed in the bottom of submission statistics card-->
+    <string name="statistics_card_submission_bottom_text">"Corona-Warn-App Hakkında"</string>
+
+    <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
+    <string name="statistics_primary_value_today">"Bugün"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in submission and infections cards -->
+    <string name="statistics_primary_value_yesterday">"Dün"</string>
+    <!-- XTXT: Timestamp refers to today's date in incident card -->
+    <string name="statistics_primary_value_until_today">"Bugüne kadar"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
+    <string name="statistics_primary_value_until_yesterday">"Düne kadar"</string>
+    <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
+    <string name="statistics_primary_value_current">"Şu Anda"</string>
+    <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
+    <string name="statistics_primary_value_until">"%s tarihine kadar"</string>
+
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"milyon"</string>
+
+    <!-- Explanation screen -->
+    <!-- XHED: Explanation screen title -->
+    <string name="statistics_explanation_title">"Önemli Değerler"</string>
+    <!-- XHED: Explanation screen subtitle -->
+    <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
+    <!-- XHED: Explanation screen confirmed new infections title -->
+    <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
+    <!-- XTXT: Explanation screen confirmed new infections text -->
+    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı koyulan ve RKI’ye bildirilen kişi sayısı"</string>
+    <!-- XHED: Explanation screen warned persons title -->
+    <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
+    <!-- XTXT: Explanation screen warned persons text -->
+    <string name="statistics_explanation_warned_persons_text">"Koronavirüs tanısı koyulan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
+    <!-- XHED: Explanation screen seven day incidence title -->
+    <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
+    <!-- XTXT: Explanation screen seven day incidence text -->
+    <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı"</string>
+    <!-- XHED: Explanation screen seven day r-value title -->
+    <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
+    <!-- XTXT: Explanation screen seven day r-value text -->
+    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır.\n\nDaha fazla bilgi için\nistatistiklere ilişkin SSS bölümüne bakın."</string>
+    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <string name="statistics_explanation_seven_day_r_link_label">"SSS bölümüne bakın."</string>
+    <!-- XHED: Explanation screen legend title -->
+    <string name="statistics_explanation_legend_title">"Açıklama"</string>
+    <!-- XHED: Explanation screen period title -->
+    <string name="statistics_explanation_period_title">"Dönem"</string>
+    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <string name="statistics_explanation_period_yesterday_subtitle">"Dün/Düne kadar"</string>
+    <!-- XTXT: Explanation screen period yesterday text -->
+    <string name="statistics_explanation_period_yesterday_text">"Önceki güne ait/önceki güne kadar olan sayıdır. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <!-- XHED: Explanation screen period seven day subtitle -->
+    <string name="statistics_explanation_period_seven_day_subtitle">"7 Günlük Ortalama"</string>
+    <!-- XTXT: Explanation screen period seven day text -->
+    <string name="statistics_explanation_period_seven_day_text">"Son 7 güne ait ortalama değer"</string>
+    <!-- XHED: Explanation screen period total subtitle -->
+    <string name="statistics_explanation_period_total_subtitle">"Toplam"</string>
+    <!-- XTXT: Explanation screen period total text -->
+    <string name="statistics_explanation_period_total_text">"Yıl başından ya da uygulamanın kullanıma sunulmasından itibaren toplam sayı (15 Haziran 2020)"</string>
+    <!-- XHED: Explanation screen trend title -->
+    <string name="statistics_explanation_trend_title">"Trend"</string>
+    <!-- YTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend_text">"Ok yönü trendin arttığını, azaldığını ya da sabit kaldığını belirtir. Sabit kalması, önceki güne göre %1’den az veya önceki haftaya göre %5’ten az sapma olduğu anlamına gelir. Renk ise bu trendin pozitif (yeşil), negatif (kırmızı) ya da nötr (gri) olduğunu belirtir. Trend için, önceki güne ait değer iki gün önceki değerle karşılaştırılır ya da 7 günlük trendler için son 7 güne ait ortalama değer ondan önceki 7 güne ait ortalama değerle karşılaştırılır."</string>
+    <!-- XHED: Explanation screen trend icons title -->
+    <string name="statistics_explanation_trend_icons_title">"Şu trendler gösterilebilir:"</string>
+    <!-- XHED: Explanation screen trend increasing title -->
+    <string name="statistics_explanation_trend_increasing_title">"Trend: Yukarı"</string>
+    <!-- XHED: Explanation screen trend decreasing title -->
+    <string name="statistics_explanation_trend_decreasing_title">"Trend: Aşağı"</string>
+    <!-- XHED: Explanation screen trend stable title -->
+    <string name="statistics_explanation_trend_stable_title">"Trend: Sabit"</string>
+    <!-- XHED: Explanation screen trend description -->
+    <string name="statistics_explanation_trend_description">"Uygulama kullanıcıları tarafından yapılan uyarılara ilişkin trend değerlendirmesi geçerli enfeksiyon seviyesine göre değişiklik gösterir. Bu nedenle trend her zaman nötr olarak görüntülenir."</string>
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
+    <!-- XACT: Statistics explanation illustration description -->
+    <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
+
+    <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
     <!-- XACT: back button-->
@@ -1495,5 +1593,21 @@
     <string name="submission_test_result_positive_no_consent_dialog_negative_button">"Diğer kullanıcıları uyarma"</string>
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"İptal"</string>
+
+    <!-- XTXT: Statistics information (Accessibilty) -->
+    <string name="statistics_info_button">"Daha fazla bilgi"</string>
+    <!-- XHED: Title for statistics reproduction card -->
+    <string name="statistics_title_reproduction">"7 Günlük R Değeri"</string>
+    <!-- XTXT: Label for statistics reproduction card -->
+    <string name="statistics_reproduction_title">"Şu Anda"</string>
+    <!-- XTXT: Caption for statistics reproduction card -->
+    <string name="statistics_reproduction_average">"enfekte olan kişi başına ortalama enfeksiyon sayısı"</string>
+
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">"Trend: Yukarı"</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">"Trend: Aşağı"</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">"Trend: Sabit"</string>
 
 </resources>
