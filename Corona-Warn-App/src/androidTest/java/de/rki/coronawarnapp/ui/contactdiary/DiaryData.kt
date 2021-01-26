@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.util.ui.toLazyString
 
 object DiaryData {
 
-    val LIST_ITEMS = listOf(
+    val DATA_ITEMS = listOf(
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Max Mustermann",
@@ -35,6 +35,18 @@ object DiaryData {
             "Supermarket",
             ListItem.Type.LOCATION
         )
+    )
+
+    val HIGH_RISK = ListItem.Risk(
+        R.string.contact_diary_risk_body,
+        R.string.contact_diary_high_risk_title,
+        R.drawable.ic_high_risk_alert
+    )
+
+    val LOW_RISK = ListItem.Risk(
+        R.string.contact_diary_risk_body,
+        R.string.contact_diary_low_risk_title,
+        R.drawable.ic_low_risk_alert
     )
 
     val LOCATIONS: List<SelectableItem<ContactDiaryLocation>> = listOf(

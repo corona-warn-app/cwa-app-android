@@ -9,6 +9,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -54,8 +55,10 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     private lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 
-    private val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
-        setGraph(R.navigation.nav_graph)
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        runOnUiThread { setGraph(R.navigation.nav_graph) }
     }
 
     @Before
@@ -67,7 +70,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                     submissionRepository,
                     autoSubmission,
                     testResultAvailableNotificationService,
-                    TestDispatcherProvider
+                    TestDispatcherProvider()
                 )
             )
         setupMockViewModel(

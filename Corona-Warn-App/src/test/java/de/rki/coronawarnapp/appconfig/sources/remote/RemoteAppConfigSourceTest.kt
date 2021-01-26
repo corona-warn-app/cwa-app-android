@@ -73,7 +73,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         server = configServer,
         storage = configStorage,
         parser = configParser,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test

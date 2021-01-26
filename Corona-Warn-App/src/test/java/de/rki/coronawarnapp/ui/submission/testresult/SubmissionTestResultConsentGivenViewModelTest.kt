@@ -29,7 +29,7 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
 
     private fun createViewModel() = SubmissionTestResultConsentGivenViewModel(
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         autoSubmission = autoSubmission,
         testResultAvailableNotificationService = testResultAvailableNotificationService
     )

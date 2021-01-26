@@ -60,7 +60,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 shareTestResultNotificationService,
                 submissionRepository
             )

@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -118,7 +119,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : InjectedWorkerFactory<DiagnosisTestResultRetrievalPeriodicWorker>
 
     companion object {
