@@ -64,6 +64,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var statisticsProvider: StatisticsProvider
 
     private lateinit var viewModel: HomeFragmentViewModel
 
@@ -247,7 +248,7 @@ class HomeFragmentTest : BaseUITest() {
 
     private fun homeFragmentViewModelSpy() = spyk(
         HomeFragmentViewModel(
-            dispatcherProvider = TestDispatcherProvider,
+            dispatcherProvider = TestDispatcherProvider(),
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,

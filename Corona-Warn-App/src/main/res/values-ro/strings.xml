@@ -158,20 +158,20 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Expuneri cu risc redus într-o zi"</item>
         <item quantity="other">"Expuneri cu risc redus în %1$d de zile"</item>
-        <item quantity="zero">"Expuneri cu risc redus în %1$d zile"</item>
-        <item quantity="two">"Expuneri cu risc redus în %1$d zile"</item>
+        <item quantity="zero">"Expuneri cu risc redus în %1$d de zile"</item>
+        <item quantity="two">"Expuneri cu risc redus în %1$d de zile"</item>
         <item quantity="few">"Expuneri cu risc redus în %1$d zile"</item>
-        <item quantity="many">"Expuneri cu risc redus în %1$d zile"</item>
+        <item quantity="many">"Expuneri cu risc redus în %1$d de zile"</item>
     </plurals>
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Expuneri cu risc crescut într-o zi"</item>
         <item quantity="other">"Expuneri cu risc crescut în %1$d de zile"</item>
-        <item quantity="zero">"Expuneri cu risc crescut în %1$d zile"</item>
-        <item quantity="two">"Expuneri cu risc crescut în %1$d zile"</item>
+        <item quantity="zero">"Expuneri cu risc crescut în %1$d de zile"</item>
+        <item quantity="two">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="few">"Expuneri cu risc crescut în %1$d zile"</item>
-        <item quantity="many">"Expuneri cu risc crescut în %1$d zile"</item>
+        <item quantity="many">"Expuneri cu risc crescut în %1$d de zile"</item>
     </plurals>
     <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
     <string name="risk_card_high_risk_most_recent_body">"Cel mai recent pe %1$s"</string>
@@ -332,10 +332,10 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
         <item quantity="other">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="zero">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="two">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
+        <item quantity="zero">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
+        <item quantity="two">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
         <item quantity="few">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="many">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
+        <item quantity="many">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe smartphone-ul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
@@ -562,10 +562,10 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Înregistrarea în jurnal a expunerilor a fost activă o zi.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
         <item quantity="other">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="zero">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="two">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
+        <item quantity="zero">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
+        <item quantity="two">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
         <item quantity="few">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="many">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
+        <item quantity="many">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Trei persoane și-au activat pe smartphone înregistrarea în jurnal a expunerilor, ceea ce va duce la înregistrarea întâlnirilor lor."</string>
@@ -690,9 +690,9 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Hotline tehnic:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
-    <string name="information_contact_button_phone">"+49 800 7540001"</string>
+    <string name="information_contact_button_phone">"0800 7540001"</string>
     <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
-    <string name="information_contact_phone_call_number">"+49 800 7540001"</string>
+    <string name="information_contact_phone_call_number">"0800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Serviciul clienți vă stă la dispoziție."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -1115,9 +1115,9 @@
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Sunați la hotline și solicitați un TAN:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number_display">"+49 800 7540002"</string>
+    <string name="submission_contact_number_display">"0800 7540002"</string>
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"+49 800 7540002"</string>
+    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Înregistrați testul introducând codul TAN în aplicație."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1128,7 +1128,7 @@
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Sunați la hotline și solicitați un TAN"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"Primul pas: sunați la hotline și solicitați codul dvs. TAN. Puteți contacta hotline-ul la numărul de telefon +49 800 7540002. Programul de lucru este: luni - vineri, 08:00 - 22.00 și sâmbătă - duminică, 10:00 - 22:00. Apelul este gratuit."</string>
+    <string name="submission_contact_step_1_content">"Primul pas: sunați la hotline și solicitați codul dvs. TAN. Puteți contacta hotline-ul la numărul de telefon 0800 7540002. Programul de lucru este: luni - vineri, 08:00 - 22.00 și sâmbătă - duminică, 10:00 - 22:00. Apelul este gratuit."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Al doilea pas: înregistrați-vă testul cu codul dvs. TAN în aplicație."</string>
 
@@ -1460,7 +1460,7 @@
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Afișare condiții de utilizare"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Condițiile de utilizare și înștiințarea privind confidențialitatea pot fi găsite, de asemenea, în meniu la „Informații aplicație”, dar și în descrierea aplicației din App Store. Modificările nu vor afecta modul în care utilizați aplicația. Dacă veți continua să utilizați aplicația sau dacă o redeschideți, vom presupune că sunteți de acord cu Condițiile de utilizare actualizate."</string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Condițiile de utilizare și înștiințarea privind confidențialitatea pot fi găsite, de asemenea, în meniu la „Informații aplicație”, dar și în descrierea aplicației din App Store. Modificările nu vor afecta modul în care utilizați aplicația. Dacă veți continua să utilizați aplicația sau dacă o redeschideți, vom presupune că sunteți de acord cu condițiile de utilizare actualizate."</string>
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Înregistrare transnațională\na expunerilor în jurnal"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->

@@ -114,7 +114,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `tracing status check is forwaded to the right module`() = runBlocking {
+    fun `tracing status check is forwarded to the right module`() = runBlocking {
         every { tracingStatus.isTracingEnabled } returns flowOf(true)
 
         val client = createClient()
@@ -126,7 +126,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `locationless scanning support check is forwaded to the right module`() = runBlocking {
+    fun `locationless scanning support check is forwarded to the right module`() = runBlocking {
         every { scanningSupport.isLocationLessScanningSupported } returns flowOf(true)
 
         val client = createClient()
@@ -285,7 +285,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `enf version check is forwaded to the right module`() = runBlocking {
+    fun `enf version check is forwarded to the right module`() = runBlocking {
         coEvery { enfVersion.getENFClientVersion() } returns Long.MAX_VALUE
 
         createClient().getENFClientVersion() shouldBe Long.MAX_VALUE
