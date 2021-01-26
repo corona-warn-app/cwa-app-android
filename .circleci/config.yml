@@ -478,6 +478,7 @@ jobs:
             BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
             echo "Using bucketdir $BUCKETDIR"
             sudo gcloud firebase test android run \
+              --type instrumentation \
               --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
               --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
               --results-dir ${BUCKETDIR} \
