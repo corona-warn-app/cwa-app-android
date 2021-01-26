@@ -46,7 +46,7 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
         viewModel = spyk(
             ContactDiaryEditPersonsViewModel(
                 contactDiaryRepository,
-                TestDispatcherProvider
+                TestDispatcherProvider()
             )
         )
         setupMockViewModel(

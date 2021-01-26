@@ -158,20 +158,20 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Expuneri cu risc redus într-o zi"</item>
         <item quantity="other">"Expuneri cu risc redus în %1$d de zile"</item>
-        <item quantity="zero">"Expuneri cu risc redus în %1$d zile"</item>
-        <item quantity="two">"Expuneri cu risc redus în %1$d zile"</item>
+        <item quantity="zero">"Expuneri cu risc redus în %1$d de zile"</item>
+        <item quantity="two">"Expuneri cu risc redus în %1$d de zile"</item>
         <item quantity="few">"Expuneri cu risc redus în %1$d zile"</item>
-        <item quantity="many">"Expuneri cu risc redus în %1$d zile"</item>
+        <item quantity="many">"Expuneri cu risc redus în %1$d de zile"</item>
     </plurals>
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Expuneri cu risc crescut într-o zi"</item>
         <item quantity="other">"Expuneri cu risc crescut în %1$d de zile"</item>
-        <item quantity="zero">"Expuneri cu risc crescut în %1$d zile"</item>
-        <item quantity="two">"Expuneri cu risc crescut în %1$d zile"</item>
+        <item quantity="zero">"Expuneri cu risc crescut în %1$d de zile"</item>
+        <item quantity="two">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="few">"Expuneri cu risc crescut în %1$d zile"</item>
-        <item quantity="many">"Expuneri cu risc crescut în %1$d zile"</item>
+        <item quantity="many">"Expuneri cu risc crescut în %1$d de zile"</item>
     </plurals>
     <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
     <string name="risk_card_high_risk_most_recent_body">"Cel mai recent pe %1$s"</string>
@@ -332,10 +332,10 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
         <item quantity="other">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="zero">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="two">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
+        <item quantity="zero">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
+        <item quantity="two">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
         <item quantity="few">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="many">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
+        <item quantity="many">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe smartphone-ul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
@@ -562,10 +562,10 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Înregistrarea în jurnal a expunerilor a fost activă o zi.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
         <item quantity="other">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="zero">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="two">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
+        <item quantity="zero">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
+        <item quantity="two">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
         <item quantity="few">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="many">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
+        <item quantity="many">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Trei persoane și-au activat pe smartphone înregistrarea în jurnal a expunerilor, ceea ce va duce la înregistrarea întâlnirilor lor."</string>
@@ -1274,6 +1274,104 @@
     <string name="submission_your_consent_agreement_details">"Informații detaliate privind Prelucrarea datelor și Consimțământul dvs."</string>
 
     <!-- ####################################
+         Statistics
+    ###################################### -->
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for incident statistics card -->
+    <string name="statistics_card_incidence_title">"Incidența pe 7 zile"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
+    <string name="statistics_card_incidence_value_description">"infecții noi confirmate la 100.000 de locuitori"</string>
+
+    <!-- Infections statistics card -->
+    <!-- XHED: Title for infections statistics card -->
+    <string name="statistics_card_infections_title">"Infecții noi confirmate"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the secondary value-->
+    <string name="statistics_card_infections_secondary_label">"Media pe 7 zile"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the tertiary value-->
+    <string name="statistics_card_infections_tertiary_label">"Total"</string>
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for submission statistics card -->
+    <string name="statistics_card_submission_title">"Avertizări de la utilizatorii aplicației"</string>
+    <!-- XTXT: Text displayed in the bottom of submission statistics card-->
+    <string name="statistics_card_submission_bottom_text">"Despre aplicația Corona-Warn"</string>
+
+    <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
+    <string name="statistics_primary_value_today">"Astăzi"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in submission and infections cards -->
+    <string name="statistics_primary_value_yesterday">"Ieri"</string>
+    <!-- XTXT: Timestamp refers to today's date in incident card -->
+    <string name="statistics_primary_value_until_today">"Până astăzi"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
+    <string name="statistics_primary_value_until_yesterday">"Până ieri"</string>
+    <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
+    <string name="statistics_primary_value_current">"Curentă"</string>
+    <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
+    <string name="statistics_primary_value_until">"Până %s"</string>
+
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"milion(e)"</string>
+
+    <!-- Explanation screen -->
+    <!-- XHED: Explanation screen title -->
+    <string name="statistics_explanation_title">"Indicatori"</string>
+    <!-- XHED: Explanation screen subtitle -->
+    <string name="statistics_explanation_subtitle">"Explicarea statisticii"</string>
+    <!-- XHED: Explanation screen confirmed new infections title -->
+    <string name="statistics_explanation_confirmed_new_infection_title">"Infecții noi confirmate"</string>
+    <!-- XTXT: Explanation screen confirmed new infections text -->
+    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI"</string>
+    <!-- XHED: Explanation screen warned persons title -->
+    <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
+    <!-- XTXT: Explanation screen warned persons text -->
+    <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus și care i-au avertizat pe ceilalți prin aplicație"</string>
+    <!-- XHED: Explanation screen seven day incidence title -->
+    <string name="statistics_explanation_seven_day_incidence_title">"Incidența pe 7 zile"</string>
+    <!-- XTXT: Explanation screen seven day incidence text -->
+    <string name="statistics_explanation_seven_day_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori"</string>
+    <!-- XHED: Explanation screen seven day r-value title -->
+    <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
+    <!-- XTXT: Explanation screen seven day r-value text -->
+    <string name="statistics_explanation_seven_day_r_value_text">"Numărul de reproducție R indică câte persoane a infectat mai departe, în medie, o persoană infectată. Valoarea curentă ia în considerare cel mult ultimele 5 zile.\n\nPentru alte informații, consultați\nîntrebările frecvente despre statistică."</string>
+    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <string name="statistics_explanation_seven_day_r_link_label">"Întrebări frecvente despre statistică."</string>
+    <!-- XHED: Explanation screen legend title -->
+    <string name="statistics_explanation_legend_title">"Legendă"</string>
+    <!-- XHED: Explanation screen period title -->
+    <string name="statistics_explanation_period_title">"Perioadă de timp"</string>
+    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <string name="statistics_explanation_period_yesterday_subtitle">"Ieri/Până ieri"</string>
+    <!-- XTXT: Explanation screen period yesterday text -->
+    <string name="statistics_explanation_period_yesterday_text">"Numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
+    <!-- XHED: Explanation screen period seven day subtitle -->
+    <string name="statistics_explanation_period_seven_day_subtitle">"Media pe 7 zile"</string>
+    <!-- XTXT: Explanation screen period seven day text -->
+    <string name="statistics_explanation_period_seven_day_text">"Valoarea medie din ultimele 7 zile"</string>
+    <!-- XHED: Explanation screen period total subtitle -->
+    <string name="statistics_explanation_period_total_subtitle">"Total"</string>
+    <!-- XTXT: Explanation screen period total text -->
+    <string name="statistics_explanation_period_total_text">"Numărul total de la începutul anului sau de la lansarea aplicației (15 iunie 2020)"</string>
+    <!-- XHED: Explanation screen trend title -->
+    <string name="statistics_explanation_trend_title">"Tendință"</string>
+    <!-- YTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1\% în comparație cu ziua precedentă sau de 5\% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri). Tendința compară valoarea din ziua precedentă cu valoarea de acum două zile sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din ultimele 7 zile anterioare acesteia."</string>
+    <!-- XHED: Explanation screen trend icons title -->
+    <string name="statistics_explanation_trend_icons_title">"Pot fi afișate următoarele tendințe:"</string>
+    <!-- XHED: Explanation screen trend increasing title -->
+    <string name="statistics_explanation_trend_increasing_title">"Tendință: ascendentă"</string>
+    <!-- XHED: Explanation screen trend decreasing title -->
+    <string name="statistics_explanation_trend_decreasing_title">"Tendință: descendentă"</string>
+    <!-- XHED: Explanation screen trend stable title -->
+    <string name="statistics_explanation_trend_stable_title">"Tendință: constantă"</string>
+    <!-- XHED: Explanation screen trend description -->
+    <string name="statistics_explanation_trend_description">"Evaluarea tendinței pentru avertizările de către utilizatorii aplicației se modifică în funcție de nivelul de infectare curent, de aceea această tendință este afișată întotdeauna ca neutră."</string>
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
+    <!-- XACT: Statistics explanation illustration description -->
+    <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
+
+    <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
     <!-- XACT: back button-->
@@ -1460,7 +1558,7 @@
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Afișare condiții de utilizare"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Condițiile de utilizare și înștiințarea privind confidențialitatea pot fi găsite, de asemenea, în meniu la „Informații aplicație”, dar și în descrierea aplicației din App Store. Modificările nu vor afecta modul în care utilizați aplicația. Dacă veți continua să utilizați aplicația sau dacă o redeschideți, vom presupune că sunteți de acord cu Condițiile de utilizare actualizate."</string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Condițiile de utilizare și înștiințarea privind confidențialitatea pot fi găsite, de asemenea, în meniu la „Informații aplicație”, dar și în descrierea aplicației din App Store. Modificările nu vor afecta modul în care utilizați aplicația. Dacă veți continua să utilizați aplicația sau dacă o redeschideți, vom presupune că sunteți de acord cu condițiile de utilizare actualizate."</string>
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Înregistrare transnațională\na expunerilor în jurnal"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
@@ -1495,5 +1593,21 @@
     <string name="submission_test_result_positive_no_consent_dialog_negative_button">"Nu îi avertizați pe ceilalți"</string>
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Anulare"</string>
+
+    <!-- XTXT: Statistics information (Accessibilty) -->
+    <string name="statistics_info_button">"Informații suplimentare"</string>
+    <!-- XHED: Title for statistics reproduction card -->
+    <string name="statistics_title_reproduction">"Valoarea R pe 7 zile"</string>
+    <!-- XTXT: Label for statistics reproduction card -->
+    <string name="statistics_reproduction_title">"Curentă"</string>
+    <!-- XTXT: Caption for statistics reproduction card -->
+    <string name="statistics_reproduction_average">"infecții medii de la fiecare persoană infectată"</string>
+
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">"Tendință: ascendentă"</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">"Tendință: descendentă"</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">"Tendință: constantă"</string>
 
 </resources>

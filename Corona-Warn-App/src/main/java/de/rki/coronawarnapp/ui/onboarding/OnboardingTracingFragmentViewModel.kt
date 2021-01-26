@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
@@ -88,7 +89,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
         tracingPermissionHelper.handleActivityResult(requestCode, resultCode, data)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<OnboardingTracingFragmentViewModel>
 
     companion object {

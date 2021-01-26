@@ -56,7 +56,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
     private fun createInstance(scope: CoroutineScope) = DefaultExposureDetectionTracker(
         scope = scope,
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         storage = storage,
         timeStamper = timeStamper,
         appConfigProvider = configProvider
