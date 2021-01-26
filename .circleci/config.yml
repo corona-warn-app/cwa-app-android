@@ -66,7 +66,6 @@ commands:
               -Dkotlin.compiler.execution.strategy=in-process
               -Dkotlin.incremental=false
 
-
   run-gradle-cmd-test-splitting:
     description: "Running gradle command with environment options and test splitting"
     parameters:
@@ -94,7 +93,6 @@ commands:
               -Dkotlin.compiler.execution.strategy=in-process
               -Dkotlin.incremental=false
 
-
   skip-for-external-pull-requests:
     description: "Skip for external pull requests due to missing access to secrets."
     steps:
@@ -105,7 +103,6 @@ commands:
               echo "Nothing to do for forked PRs, so marking this step successful"
               circleci step halt
             fi
-
 
   setup-android-macos:
     description: "Setup Android environment on macOS executor"
@@ -180,7 +177,6 @@ commands:
             adb shell settings put global transition_animation_scale 0
             adb shell settings put global animator_duration_scale 0
 
-
   kill-all-emulators:
     description: "Kill all emulators"
     steps:
@@ -191,8 +187,6 @@ commands:
             sleep 2
             adb kill-server
             sleep 2
-
-
 
   compress-path:
     parameters:
@@ -500,7 +494,7 @@ jobs:
             sudo pip install -U crcmod
             sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  ~/project/firebase | true
       - store_test_results:
-          path: ~/project/firebase/flame-29-de_DE-portrait/test_result_1.xml
+          path: ~/project/firebase/flame-29-de_DE-portrait
       - compress-path:
           input: ~/project/firebase/flame-29-de_DE-portrait/*.xml
           output: /tmp/instrumentation_tests_device.zip
