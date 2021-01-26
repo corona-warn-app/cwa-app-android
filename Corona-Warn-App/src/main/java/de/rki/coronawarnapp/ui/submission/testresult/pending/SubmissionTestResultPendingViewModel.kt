@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.ui.submission.testresult.pending
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -26,7 +28,7 @@ import timber.log.Timber
 
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -59,8 +61,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
             testResultReceivedDate = resultDate
         )
     }
-
-    val testState = testResultFlow
+    val testState: LiveData<TestResultUIState> = testResultFlow
         .onEach { testResultUIState ->
             testResultUIState.deviceUiState.withSuccess { deviceState ->
                 when (deviceState) {
@@ -100,7 +101,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN
                 }
             }
-            .also { testResultNotificationService.schedulePositiveTestResultReminder() }
+            .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
     }
 
     fun deregisterTestFromDevice() {
@@ -122,7 +123,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         )
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultPendingViewModel>
 
     companion object {

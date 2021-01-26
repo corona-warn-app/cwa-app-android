@@ -6,7 +6,6 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -39,7 +38,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
 
     private fun createViewModel() = SubmissionTanViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository
     )
 
@@ -80,7 +79,6 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragmentInContainer<SubmissionTanFragment>()
         closeSoftKeyboard()
         onView(withId(R.id.submission_tan_button_enter))
-            .perform(scrollTo())
             .perform(click())
     }
 

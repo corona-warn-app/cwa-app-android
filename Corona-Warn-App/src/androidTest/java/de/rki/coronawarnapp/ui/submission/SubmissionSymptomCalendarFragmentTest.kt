@@ -61,7 +61,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionSymptomCalendarViewModel(
                 Symptoms.Indication.POSITIVE,
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 submissionRepository,
                 autoSubmission
             )

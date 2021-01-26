@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_AssistedFactory
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_Factory_Impl
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
 import io.mockk.MockKAnnotations
@@ -33,7 +33,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultAvailableViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater_AssistedFactory
+    @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater_Factory_Impl
     @MockK lateinit var autoSubmission: AutoSubmission
 
     @Rule
@@ -58,7 +58,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 tekHistoryUpdaterFactory,
                 submissionRepository,
                 autoSubmission

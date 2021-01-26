@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.ui.sheets.location
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
@@ -92,7 +93,7 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         private val TAG = ContactDiaryLocationBottomSheetDialogViewModel::class.java.simpleName
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : CWAViewModelFactory<ContactDiaryLocationBottomSheetDialogViewModel> {
         fun create(addedAt: String?): ContactDiaryLocationBottomSheetDialogViewModel
     }

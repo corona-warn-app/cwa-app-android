@@ -5,8 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
@@ -238,7 +239,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         testSettings.fakeExposureWindows.update { newMode }
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : CWAViewModelFactory<TestRiskLevelCalculationFragmentCWAViewModel> {
         fun create(
             handle: SavedStateHandle,

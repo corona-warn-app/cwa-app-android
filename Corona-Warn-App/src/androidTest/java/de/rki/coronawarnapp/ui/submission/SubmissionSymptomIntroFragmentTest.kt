@@ -61,7 +61,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel =
-            spyk(SubmissionSymptomIntroductionViewModel(TestDispatcherProvider, submissionRepository, autoSubmission))
+            spyk(SubmissionSymptomIntroductionViewModel(TestDispatcherProvider(), submissionRepository, autoSubmission))
         with(viewModel) {
             every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }
@@ -84,9 +84,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     fun testSymptomNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
-            .perform(scrollTo())
             .perform(click())
-
         // TODO verify result
     }
 
@@ -94,7 +92,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment() {
         captureScreenshot<SubmissionSymptomIntroductionFragment>()
-        onView(withId(R.id.symptom_button_next))
+        onView(withId(R.id.target_button_verify))
             .perform(scrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         ScreenShotter.capture<SubmissionSymptomIntroductionFragment>("2")

@@ -56,7 +56,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
             OnboardingTracingFragmentViewModel(
                 interoperabilityRepository = interopRepo,
                 tracingPermissionHelperFactory = factory,
-                dispatcherProvider = TestDispatcherProvider
+                dispatcherProvider = TestDispatcherProvider()
             )
         )
 

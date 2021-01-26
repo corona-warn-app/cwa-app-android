@@ -1,11 +1,12 @@
 package de.rki.coronawarnapp.ui.settings
 
 import com.google.android.gms.common.api.ApiException
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.DataReset
@@ -17,7 +18,7 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 class SettingsResetViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val dataReset: DataReset,
-    private val testResultNotificationService: TestResultNotificationService,
+    private val shareTestResultNotificationService: ShareTestResultNotificationService,
     private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -45,7 +46,7 @@ class SettingsResetViewModel @AssistedInject constructor(
                     ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
                 )
             }
-            testResultNotificationService.resetPositiveTestResultNotification()
+            shareTestResultNotificationService.resetSharePositiveTestResultNotification()
 
             dataReset.clearAllLocalData()
             clickEvent.postValue(SettingsEvents.GoToOnboarding)
@@ -56,6 +57,6 @@ class SettingsResetViewModel @AssistedInject constructor(
         private val TAG: String? = SettingsResetFragment::class.simpleName
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsResetViewModel>
 }

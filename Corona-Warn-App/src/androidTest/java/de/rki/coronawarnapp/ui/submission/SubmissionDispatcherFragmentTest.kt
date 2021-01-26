@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.Manifest
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -22,10 +22,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -38,13 +40,13 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
-
     private fun createViewModel() = SubmissionDispatcherViewModel()
+
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        runOnUiThread { setGraph(R.navigation.nav_graph) }
+    }
 
     @Before
     fun setup() {
@@ -63,12 +65,14 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionDispatcherFragment>()
+        launchFragment2<SubmissionDispatcherFragment>()
     }
 
     @Test
     fun testEventQRClicked() {
-        launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click())
@@ -76,7 +80,9 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTeleClicked() {
-        launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click())
@@ -84,10 +90,14 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTanClicked() {
-        launchFragmentInContainer<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
+
+        // TODO verify result
     }
 
     @Test
@@ -97,7 +107,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<SubmissionDispatcherFragment>("2")
+        Screengrab.screenshot(SubmissionDispatcherFragment::class.simpleName.plus("2"))
     }
 }
 

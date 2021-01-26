@@ -1,19 +1,14 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.Manifest
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.notification.TestResultNotificationService
+import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
@@ -37,6 +32,8 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
 
@@ -45,7 +42,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testResultNotificationService: TestResultNotificationService
+    @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
     @Rule
     @JvmField
@@ -53,12 +50,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setup() {
@@ -69,19 +60,28 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
-                TestDispatcherProvider,
-                testResultNotificationService,
+                TestDispatcherProvider(),
+                shareTestResultNotificationService,
                 submissionRepository
             )
         )
 
         with(viewModel) {
             every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
+            every { consentGiven } returns MutableLiveData(true)
+            every { testState } returns MutableLiveData(
+                TestResultUIState(
+                    deviceUiState = NetworkRequestWrapper.RequestSuccessful(data = DeviceUIState.PAIRED_POSITIVE),
+                    testResultReceivedDate = Date()
+                )
+            )
         }
 
-        setupMockViewModel(object : SubmissionTestResultPendingViewModel.Factory {
-            override fun create(): SubmissionTestResultPendingViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultPendingViewModel.Factory {
+                override fun create(): SubmissionTestResultPendingViewModel = viewModel
+            }
+        )
     }
 
     @After
@@ -91,38 +91,20 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTestResultPendingFragment>()
+        launchFragment2<SubmissionTestResultPendingFragment>()
     }
 
     @Test
     fun testEventPendingRefreshClicked() {
-        launchFragmentInContainer<SubmissionTestResultPendingFragment>()
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
         onView(withId(R.id.submission_test_result_button_pending_refresh))
-            .perform(scrollTo())
             .perform(click())
     }
 
     @Test
     fun testEventPendingRemoveClicked() {
-        launchFragmentInContainer<SubmissionTestResultPendingFragment>()
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
         onView(withId(R.id.submission_test_result_button_pending_remove_test))
-            .perform(scrollTo())
-            .perform(click())
-    }
-
-    @Test
-    fun testEventInvalidRemoveClicked() {
-        launchFragmentInContainer<SubmissionTestResultPendingFragment>()
-        onView(withId(R.id.submission_test_result_button_invalid_remove_test))
-            .perform(scrollTo())
-            .perform(click())
-    }
-
-    @Test
-    fun testEventNegativeRemoveClicked() {
-        launchFragmentInContainer<SubmissionTestResultPendingFragment>()
-        onView(withId(R.id.submission_test_result_button_negative_remove_test))
-            .perform(scrollTo())
             .perform(click())
     }
 

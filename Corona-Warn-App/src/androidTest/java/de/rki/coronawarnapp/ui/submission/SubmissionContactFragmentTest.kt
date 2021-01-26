@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.Manifest
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -23,6 +23,8 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -35,20 +37,16 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
-
     private fun createViewModel() = SubmissionContactViewModel()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        setupMockViewModel(object : SubmissionContactViewModel.Factory {
-            override fun create(): SubmissionContactViewModel = createViewModel()
-        })
+        setupMockViewModel(
+            object : SubmissionContactViewModel.Factory {
+                override fun create(): SubmissionContactViewModel = createViewModel()
+            }
+        )
     }
 
     @After
@@ -58,19 +56,24 @@ class SubmissionContactFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionContactFragment>()
+        launchFragment2<SubmissionContactFragment>()
     }
 
     @Test
     fun testContactCallClicked() {
-        launchFragmentInContainer<SubmissionContactFragment>()
+        launchFragmentInContainer2<SubmissionContactFragment>()
         onView(withId(R.id.submission_contact_button_call))
             .perform(click())
     }
 
     @Test
     fun testContactEnterTanClicked() {
-        launchFragmentInContainer<SubmissionContactFragment>()
+        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        runOnUiThread { navController.setGraph(R.navigation.nav_graph) }
+        launchFragmentInContainer2<SubmissionContactFragment>().onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
     }
