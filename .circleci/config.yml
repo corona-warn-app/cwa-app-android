@@ -500,7 +500,7 @@ jobs:
             sudo pip install -U crcmod
             sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  ~/project/firebase | true
       - store_test_results:
-          path: ~/project/firebase/flame-29-de_DE-portrait/*.xml
+          path: ~/project/firebase/flame-29-de_DE-portrait/test_result_1.xml
       - compress-path:
           input: ~/project/firebase/flame-29-de_DE-portrait/*.xml
           output: /tmp/instrumentation_tests_device.zip
