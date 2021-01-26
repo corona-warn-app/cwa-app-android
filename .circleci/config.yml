@@ -490,13 +490,16 @@ jobs:
               --orientations portrait
           no_output_timeout: 30m
       - run:
+          name: Create directory to store test results
+          command: mkdir firebase
+      - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+            sudo gsutil -m cp -r -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*" /firebase/
       - store_artifacts:
-          path: "$CIRCLE_ARTIFACTS/flame"
-          destination: flame
+          path: firebase/
+          destination: /firebase/
 
 
   device_screenshots:
