@@ -22,7 +22,7 @@ fun formatStatisticalValue(
 
     return when (decimals) {
         in Int.MIN_VALUE..0 -> DecimalFormat("#,###", DecimalFormatSymbols(locale))
-        1 -> DecimalFormat("#,###.#", DecimalFormatSymbols(locale))
+        1 -> DecimalFormat("#,###.0", DecimalFormatSymbols(locale))
         else -> DecimalFormat("#,###.##", DecimalFormatSymbols(locale))
     }.format(value)
 }
