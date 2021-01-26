@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
@@ -61,6 +62,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
+    @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var appConfigProvider: AppConfigProvider
 
     private lateinit var viewModel: HomeFragmentViewModel
@@ -254,7 +256,8 @@ class HomeFragmentTest : BaseUITest() {
             tracingStatus = tracingStatus,
             submissionRepository = submissionRepository,
             submissionStateProvider = submissionStateProvider,
-            cwaSettings = cwaSettings
+            cwaSettings = cwaSettings,
+            statisticsProvider = statisticsProvider
         )
     )
 }
