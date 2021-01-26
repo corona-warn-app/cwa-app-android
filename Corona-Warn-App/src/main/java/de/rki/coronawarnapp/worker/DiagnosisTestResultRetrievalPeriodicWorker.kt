@@ -126,4 +126,3 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         private val TAG = DiagnosisTestResultRetrievalPeriodicWorker::class.java.simpleName
     }
 }
-
