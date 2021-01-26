@@ -467,10 +467,7 @@ jobs:
       - run-gradle-cmd:
           desc: Run instrumentation tests on device
           cmd: >
-            :Corona-Warn-App:connectedDeviceDebugAndroidTest
-            --info --continue
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
-            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
+            for i in {1..5}; do :Corona-Warn-App:connectedDeviceDebugAndroidTest --info --continue -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true && break || sleep 15; done
       - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
