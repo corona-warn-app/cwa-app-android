@@ -45,14 +45,11 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = spyk(
-            SubmissionTestResultNoConsentViewModel(submissionRepository, testResultAvailableNotificationService)
-        )
-        setupMockViewModel(
-            object : SubmissionTestResultNoConsentViewModel.Factory {
-                override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
-            }
-        )
+        viewModel =
+            spyk(SubmissionTestResultNoConsentViewModel(submissionRepository, testResultAvailableNotificationService))
+        setupMockViewModel(object : SubmissionTestResultNoConsentViewModel.Factory {
+            override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
+        })
     }
 
     @After

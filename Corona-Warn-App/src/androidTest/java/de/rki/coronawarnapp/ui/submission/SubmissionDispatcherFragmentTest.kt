@@ -96,8 +96,6 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
-
-        // TODO verify result
     }
 
     @Test

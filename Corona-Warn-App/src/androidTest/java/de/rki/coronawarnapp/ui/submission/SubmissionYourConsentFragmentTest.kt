@@ -43,16 +43,11 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf()
-        viewModel = SubmissionYourConsentViewModel(
-            TestDispatcherProvider(),
-            interoperabilityRepository,
-            submissionRepository
-        )
-        setupMockViewModel(
-            object : SubmissionYourConsentViewModel.Factory {
-                override fun create(): SubmissionYourConsentViewModel = viewModel
-            }
-        )
+        viewModel =
+            SubmissionYourConsentViewModel(TestDispatcherProvider(), interoperabilityRepository, submissionRepository)
+        setupMockViewModel(object : SubmissionYourConsentViewModel.Factory {
+            override fun create(): SubmissionYourConsentViewModel = viewModel
+        })
     }
 
     @After

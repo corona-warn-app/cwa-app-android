@@ -15,8 +15,4 @@
         android:name="android.permission.CHANGE_CONFIGURATION"
         tools:ignore="ProtectedPermissions" />
 
-    <application
-        android:requestLegacyExternalStorage="true"
-        tools:node="merge" />
-
 </manifest>
