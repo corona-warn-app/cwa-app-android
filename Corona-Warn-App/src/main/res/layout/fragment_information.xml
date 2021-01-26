@@ -36,13 +36,23 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/information_about"
+                    android:id="@+id/information_release"
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:subtitle="@{@string/release_info_header}" />
+
+                <include
+                    android:id="@+id/information_about"
+                    layout="@layout/include_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/information_release"
                     app:subtitle="@{@string/information_about_title}" />
 
                 <include
@@ -115,16 +125,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact"
                     app:subtitle="@{@string/debugging_debuglog_title}" />
-
-                <include
-                    android:id="@+id/information_release"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_legal"
-                    app:subtitle="@{@string/release_info_header}" />
 
                 <TextView
                     android:id="@+id/information_version"
