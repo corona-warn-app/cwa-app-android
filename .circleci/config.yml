@@ -457,6 +457,7 @@ jobs:
 
   instrumentation_tests_device:
     resource_class: xlarge
+    working_directory: ~/project
     docker:
       - image: circleci/android:api-28
     steps:
@@ -490,14 +491,15 @@ jobs:
               --orientations portrait
           no_output_timeout: 30m
       - run:
+          name: Create directory to store test results
+          command: mkdir /project/firebase
+      - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  ${CIRCLE_ARTIFACTS}/ | true
+            sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  /project/firebase | true
       - store_artifacts:
-          path: "$CIRCLE_ARTIFACTS/flame-29-de_DE-portrait"
-          destination: flame-29-de_DE-portrait
-
+          path: /project/firebase/flame-29-de_DE-portrait
 
   device_screenshots:
     macos:
