@@ -163,7 +163,7 @@ class StatisticsCardsTest : BaseUITest() {
 
     private fun homeFragmentViewModelSpy() = spyk(
         HomeFragmentViewModel(
-            dispatcherProvider = TestDispatcherProvider,
+            dispatcherProvider = TestDispatcherProvider(),
             errorResetTool = errorResetTool,
             tracingRepository = tracingRepository,
             tracingStateProviderFactory = tracingStateProviderFactory,
@@ -200,7 +200,7 @@ class StatisticsCardsTest : BaseUITest() {
                 )
             },
             cache = cache,
-            verificationKeys = verificationKeys,
+            verificationKeys = verificationKeys
         )
 
         return runBlocking {

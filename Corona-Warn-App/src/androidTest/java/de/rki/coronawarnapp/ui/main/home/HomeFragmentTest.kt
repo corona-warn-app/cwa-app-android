@@ -62,7 +62,6 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cwaSettings: CWASettings
-    @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
 
