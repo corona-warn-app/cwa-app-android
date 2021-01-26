@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.Manifest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -43,7 +41,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
@@ -51,6 +48,7 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.recyclerScrollTo
 import timber.log.Timber
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -75,12 +73,6 @@ class HomeFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setup() {
@@ -123,7 +115,7 @@ class HomeFragmentTest : BaseUITest() {
         captureScreenshot("low_risk")
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<HomeFragment>("low_risk_2")
+        Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
     }
 
     @Screenshot
@@ -227,9 +219,10 @@ class HomeFragmentTest : BaseUITest() {
     }
 
     private fun captureScreenshot(nameSuffix: String) {
+        val name = HomeFragment::class.simpleName + "_" + nameSuffix
         launchFragmentInContainer2<HomeFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<HomeFragment>("_$nameSuffix")
+        Screengrab.screenshot(name)
     }
 
     private fun itemsLiveData(

@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.ui.contactdiary
 
-import android.Manifest
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -35,13 +33,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
 import java.util.Locale
@@ -55,12 +53,6 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
 
@@ -122,11 +114,11 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
             themeResId = R.style.AppTheme_ContactDiary
         )
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<ContactDiaryDayFragment>("_$suffix")
+        Screengrab.screenshot(ContactDiaryDayFragment::class.simpleName.plus("_$suffix"))
 
         onView(withId(R.id.contact_diary_day_tab_layout)).perform(selectTabAtPosition(1))
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<ContactDiaryDayFragment>("_${suffix}_2")
+        Screengrab.screenshot(ContactDiaryDayFragment::class.simpleName.plus("_${suffix}_2"))
     }
 
     private fun setupViewModels() {

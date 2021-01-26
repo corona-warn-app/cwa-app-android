@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
 import de.rki.coronawarnapp.R
+import tools.fastlane.screengrab.Screengrab
 
 /** Delay time before taking screenshot
  */
@@ -33,9 +34,10 @@ inline fun <reified F : Fragment> captureScreenshot(
     @StyleRes themeResId: Int = R.style.AppTheme,
     factory: FragmentFactory? = null
 ) {
+    val name = F::class.simpleName.plus(suffix)
     launchFragmentInContainer2<F>(fragmentArgs, themeResId, factory)
     Thread.sleep(SCREENSHOT_DELAY_TIME)
-    ScreenShotter.capture<F>(suffix)
+    Screengrab.screenshot(name)
 }
 
 /**

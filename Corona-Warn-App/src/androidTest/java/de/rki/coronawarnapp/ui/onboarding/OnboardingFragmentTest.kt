@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -17,10 +15,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -32,12 +30,6 @@ class OnboardingFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setUp() {
@@ -61,10 +53,10 @@ class OnboardingFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<OnboardingFragment>()
+        Screengrab.screenshot(OnboardingFragment::class.simpleName)
 
         onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
-        ScreenShotter.capture<OnboardingFragment>("2")
+        Screengrab.screenshot(OnboardingFragment::class.simpleName.plus("2"))
     }
 }
 

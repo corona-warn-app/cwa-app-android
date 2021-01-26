@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.Manifest
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -27,11 +25,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -46,12 +44,6 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     private lateinit var viewModel: SubmissionSymptomCalendarViewModel
 
@@ -88,11 +80,11 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
             ).toBundle()
         )
 
-        onView(ViewMatchers.withId(R.id.target_button_verify))
+        onView(ViewMatchers.withId(R.id.symptom_button_next))
             .perform(ViewActions.scrollTo())
 
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<SubmissionSymptomCalendarFragment>("2")
+        Screengrab.screenshot(SubmissionSymptomCalendarFragment::class.simpleName.plus("2"))
     }
 }
 

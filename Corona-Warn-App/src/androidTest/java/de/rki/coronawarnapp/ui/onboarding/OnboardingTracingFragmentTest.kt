@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
@@ -22,11 +20,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -41,12 +39,6 @@ class OnboardingTracingFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setup() {
@@ -81,9 +73,10 @@ class OnboardingTracingFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
+        val simpleName = OnboardingTracingFragment::class.simpleName
         launchFragmentInContainer2<OnboardingTracingFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<OnboardingTracingFragment>()
+        Screengrab.screenshot(simpleName)
     }
 }
 

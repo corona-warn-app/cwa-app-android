@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
@@ -9,7 +8,6 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -25,11 +23,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -48,12 +46,6 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setup() {
@@ -90,7 +82,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click())
             .perform(closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<SubmissionTanFragment>()
+        Screengrab.screenshot(SubmissionTanFragment::class.simpleName)
     }
 
     @Test
@@ -101,7 +93,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click())
             .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<SubmissionTanFragment>("_done")
+        Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_done"))
     }
 
     @Test
@@ -112,7 +104,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
             .perform(click())
             .perform(typeText("AC9U0"), closeSoftKeyboard())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<SubmissionTanFragment>("_invalid")
+        Screengrab.screenshot(SubmissionTanFragment::class.simpleName.plus("_invalid"))
     }
 }
 

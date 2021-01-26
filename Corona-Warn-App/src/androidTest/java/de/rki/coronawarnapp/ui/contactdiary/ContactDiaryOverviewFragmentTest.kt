@@ -1,10 +1,8 @@
 package de.rki.coronawarnapp.ui.contactdiary
 
-import android.Manifest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -28,12 +26,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -44,12 +42,6 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
@@ -92,7 +84,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
         every { viewModel.listItems } returns itemLiveData()
         launchFragmentInContainer2<ContactDiaryOverviewFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<ContactDiaryOverviewFragment>()
+        Screengrab.screenshot(ContactDiaryOverviewFragment::class.simpleName)
     }
 
     private fun itemLiveData(): LiveData<List<ListItem>> =

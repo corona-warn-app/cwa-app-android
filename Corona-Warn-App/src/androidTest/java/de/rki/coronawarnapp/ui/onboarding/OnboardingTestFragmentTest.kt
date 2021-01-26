@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import android.Manifest
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import org.junit.After
@@ -15,9 +13,9 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragmentInContainer2
+import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import testhelpers.SCREENSHOT_DELAY_TIME
-import testhelpers.ScreenShotter
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingTestFragmentTest : BaseUITest() {
@@ -28,12 +26,6 @@ class OnboardingTestFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setup() {
@@ -57,7 +49,7 @@ class OnboardingTestFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingTestFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
-        ScreenShotter.capture<OnboardingTestFragment>()
+        Screengrab.screenshot(OnboardingTestFragment::class.simpleName)
     }
 }
 
