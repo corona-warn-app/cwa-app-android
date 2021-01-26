@@ -122,7 +122,6 @@ commands:
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH'  >> $BASH_ENV
             source $BASH_ENV
-            sdkmanager --update
             sdkmanager --list
       - save_cache:
           key: android-sdk-v1-{{ arch }}-{{ checksum ".circleci/install-android-sdk.sh" }}
@@ -145,16 +144,10 @@ commands:
           name: Configure emulator settings
           command: |
             cd $HOME/.android/avd/emulator_API<< parameters.apilevel >>.avd
-            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=440/g' config.ini
+            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=560/g' config.ini
             sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=2880/g' config.ini
-            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1080/g' config.ini
+            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1440/g' config.ini
             sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
-            sed -i '' -e 's/hw.gpu.enabled=[a-z]*/hw.gpu.enabled=yes/g' config.ini
-            sed -i '' -e 's/hw.gpu.mode=[a-z]*/hw.gpu.mode=auto/g' config.ini
-            sed -i '' -e 's/hw.cpu.ncore=[0-9]*/hw.cpu.ncore=4/g' config.ini
-            sed -i '' -e 's/hw.cpu.arch=[a-z0-9_]*/hw.cpu.arch=x86_64/g' config.ini
-            sed -i '' -e 's/hw.accelerometer=[a-z]*/hw.accelerometer=yes/g' config.ini
-            sed -i '' -e 's/hw.arc=[a-z]*/hw.arc=false/g' config.ini
       - run:
           name: Check host state
           command: |
@@ -169,9 +162,6 @@ commands:
             -no-boot-anim
             -memory 2048
             -nojni
-            -wipe-data
-            -logcat *:e
-            -timezone Europe/Berlin
           background: true
           no_output_timeout: 60m
       - run:
@@ -467,7 +457,10 @@ jobs:
       - run-gradle-cmd:
           desc: Run instrumentation tests on device
           cmd: >
-            for i in {1..5}; do :Corona-Warn-App:connectedDeviceDebugAndroidTest --info --continue -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true && break || sleep 15; done
+            :Corona-Warn-App:connectedDeviceDebugAndroidTest
+            --info --continue
+            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
+            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
       - kill-all-emulators
       - store_test_results:
           path: Corona-Warn-App/build/outputs/androidTest-results
