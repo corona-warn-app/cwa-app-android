@@ -3,11 +3,13 @@ package de.rki.coronawarnapp.notification
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -20,6 +22,11 @@ class TestResultAvailableNotificationService @Inject constructor(
 
     suspend fun showTestResultAvailableNotification(testResult: TestResult) {
         if (foregroundState.isInForeground.first()) return
+
+        if (!LocalData.isNotificationsTestEnabled) {
+            Timber.i("Don't show test result available notification because user doesn't want to be informed")
+            return
+        }
 
         val pendingIntent = navDeepLinkBuilderProvider.get().apply {
             setGraph(R.navigation.nav_graph)
