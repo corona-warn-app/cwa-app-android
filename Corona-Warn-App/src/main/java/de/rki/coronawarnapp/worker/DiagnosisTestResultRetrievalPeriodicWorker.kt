@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.squareup.inject.assisted.Assisted
@@ -19,7 +20,7 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
 /**
- * Diagnosis Test Result Periodic retrieval
+ * Diagnosis test result retrieval by periodic polling
  *
  * @see BackgroundWorkScheduler
  */
@@ -32,13 +33,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private val submissionService: SubmissionService
 ) : CoroutineWorker(context, workerParams) {
 
-    /**
-     * If background job is running for less than 21 days, testResult is checked.
-     * If the job is running for more than 21 days, the job will be stopped
-     *
-     * @see LocalData.isTestResultAvailableNotificationSent
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     */
     override suspend fun doWork(): Result {
         Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
 
@@ -53,7 +47,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         var result = Result.success()
         try {
 
-            if (abortConditionsMet()) {
+            if (abortConditionsMet(System.currentTimeMillis())) {
                 Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
             } else {
@@ -74,7 +68,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                     stopWorker()
                 }
             }
-        } catch (e: Exception) {
+        } catch (ex: Exception) {
             result = Result.retry()
         }
 
@@ -83,7 +77,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
-    private fun abortConditionsMet(): Boolean {
+    @VisibleForTesting
+    fun abortConditionsMet(currentMillis: Long): Boolean {
         if (LocalData.isTestResultAvailableNotificationSent()) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
@@ -95,7 +90,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
         if (TimeAndDateExtensions.calculateDays(
                 LocalData.initialPollingForTestResultTimeStamp(),
-                System.currentTimeMillis()
+                currentMillis
             ) >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
         ) {
             Timber.tag(TAG)
@@ -117,12 +112,6 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         )
     }
 
-    /**
-     * Stops the Background Polling worker
-     *
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     * @see BackgroundWorkScheduler.stop
-     */
     private fun stopWorker() {
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
@@ -136,3 +125,4 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         private val TAG = DiagnosisTestResultRetrievalPeriodicWorker::class.java.simpleName
     }
 }
+
