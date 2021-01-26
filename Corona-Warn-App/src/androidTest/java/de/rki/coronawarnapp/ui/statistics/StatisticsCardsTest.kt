@@ -66,7 +66,7 @@ import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
-class StatisticsTest : BaseUITest() {
+class StatisticsCardsTest : BaseUITest() {
 
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var tracingStatus: GeneralTracingStatus
@@ -123,7 +123,7 @@ class StatisticsTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun capture_screenshot_low_risk() {
+    fun capture_screenshot() {
         launchFragmentInContainer2<HomeFragment>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
