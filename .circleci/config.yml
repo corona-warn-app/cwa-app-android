@@ -116,11 +116,11 @@ commands:
           name: Install Android SDK
           command: |
             sh .circleci/install-android-sdk.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH' >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH' >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH' >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH' >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH' >> $BASH_ENV
             source $BASH_ENV
             sdkmanager --list
       - save_cache:
@@ -466,9 +466,13 @@ jobs:
           desc: Build instrumentation test APK
           cmd: ":Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest"
       - run:
+          name: Setup Testlab environment
+          command: |
+            echo 'export BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
           name: Test with Firebase Test Lab
           command: |
-            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
             echo "Using bucketdir $BUCKETDIR"
             sudo gcloud firebase test android run \
               --type instrumentation \
