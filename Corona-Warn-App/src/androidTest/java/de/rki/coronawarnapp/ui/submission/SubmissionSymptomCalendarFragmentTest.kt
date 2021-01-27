@@ -18,6 +18,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -69,6 +70,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test
@@ -80,7 +82,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
             ).toBundle()
         )
 
-        onView(ViewMatchers.withId(R.id.symptom_button_next))
+        onView(ViewMatchers.withId(R.id.target_button_verify))
             .perform(ViewActions.scrollTo())
 
         Thread.sleep(SCREENSHOT_DELAY_TIME)
