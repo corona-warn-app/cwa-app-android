@@ -53,18 +53,6 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `symptom indication is not written to settings`() {
-        createViewModel().apply {
-            onPositiveSymptomIndication()
-            onNegativeSymptomIndication()
-            onNoInformationSymptomIndication()
-            onNextClicked()
-        }
-
-        verify(exactly = 0) { submissionRepository.currentSymptoms }
-    }
-
-    @Test
     fun `positive symptom indication is forwarded using navigation arguments`() {
         createViewModel().apply {
             onPositiveSymptomIndication()
@@ -95,15 +83,19 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `no information symptom indication leads to cancel dialog`() {
+    fun `no information symptom indication leads to submission`() {
         createViewModel().apply {
             onNoInformationSymptomIndication()
             onNextClicked()
-            navigation.value shouldBe null
-            showCancelDialog.value shouldBe Unit
+            navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+            currentSymptoms.value shouldBe Symptoms(
+                startOfSymptoms = null,
+                symptomIndication = Symptoms.Indication.NO_INFORMATION
+            )
         }
 
-        verify(exactly = 0) { submissionRepository.currentSymptoms }
+        coVerify { autoSubmission.runSubmissionNow() }
     }
 
     @Test
