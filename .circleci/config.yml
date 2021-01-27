@@ -468,8 +468,9 @@ jobs:
       - run:
           name: Setup Testlab environment
           command: |
-            echo 'export BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"' >> $BASH_ENV
+            echo "export BUCKETDIR=\"`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}\"" >> $BASH_ENV
             source $BASH_ENV
+            echo "$BUCKETDIR is setup."
       - run:
           name: Test with Firebase Test Lab
           command: |
@@ -496,7 +497,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} firebase-results | true
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} firebase-results
       - store_test_results:
           path: ./firebase-results/flame-29-de_DE-portrait
       - compress-path:
