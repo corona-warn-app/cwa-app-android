@@ -492,7 +492,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  firebase-results | true
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} firebase-results | true
       - store_test_results:
           path: ./firebase-results/flame-29-de_DE-portrait
       - compress-path:
