@@ -118,48 +118,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@string/release_info_1_12_encounter_history_body"/>
 
-                <TextView
-                    android:id="@+id/new_release_info_statistics_title"
-                    style="@style/subtitleBoldSixteen"
-                    android:accessibilityHeading="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
-                    android:text="@string/release_info_1_12_statistics_title"
-                    android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/bullet_point_statistics"
-                    app:layout_constraintTop_toBottomOf="@id/new_release_info_encounter_history_body"
-                    tools:text="@string/release_info_1_12_statistics_title"/>
-
-                <ImageView
-                    android:id="@+id/bullet_point_statistics"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:src="@drawable/bullet_point"
-                    android:importantForAccessibility="no"
-                    android:layout_marginTop="@dimen/spacing_mega_tiny"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/new_release_info_statistics_title"
-                    app:layout_constraintBottom_toBottomOf="@+id/new_release_info_statistics_title" />
-
-                <TextView
-                    android:id="@+id/new_release_info_statistics_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:focusable="true"
-                    android:text="@string/release_info_1_12_statistics_body"
-                    app:layout_constraintTop_toBottomOf="@+id/new_release_info_statistics_title"
-                    app:layout_constraintStart_toStartOf="@+id/new_release_info_statistics_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="@string/release_info_1_12_statistics_body"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
