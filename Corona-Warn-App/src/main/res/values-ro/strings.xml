@@ -1295,7 +1295,7 @@
     <!-- XHED: Title for submission statistics card -->
     <string name="statistics_card_submission_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Text displayed in the bottom of submission statistics card-->
-    <string name="statistics_card_submission_bottom_text">"Despre aplicația Corona-Warn"</string>
+    <string name="statistics_card_submission_bottom_text">"prin aplicația Corona-Warn"</string>
 
     <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
     <string name="statistics_primary_value_today">"Astăzi"</string>
