@@ -451,9 +451,6 @@ jobs:
 
   instrumentation_tests_device:
     resource_class: xlarge
-    requires:
-      - ktlint_device_release_check
-      - detekt
     docker:
       - image: circleci/android:api-28
     steps:
@@ -563,6 +560,9 @@ workflows:
           requires:
             - unit_tests_device_release
       - instrumentation_tests_device
+        requires:
+          - ktlint_device_release_check
+          - detekt
 
   check_buildtype_device_for_testers:
     jobs:
