@@ -26,6 +26,7 @@ class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<NewReleaseInfoFragmentNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
+        settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
         routeToScreen.postValue(NewReleaseInfoFragmentNavigationEvents.NavigateToMainActivity)
     }
 
@@ -36,12 +37,6 @@ class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
     val navigationIcon = flowOf(
         context.getDrawableCompat(R.drawable.ic_back)
     ).asLiveData(context = dispatcherProvider.Default)
-
-    fun userHasReadReleaseNotes() {
-        settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-    }
-
-    fun setNextButtonVisibility(isInfoScreen: Boolean) = !isInfoScreen
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<NewReleaseInfoFragmentViewModel>

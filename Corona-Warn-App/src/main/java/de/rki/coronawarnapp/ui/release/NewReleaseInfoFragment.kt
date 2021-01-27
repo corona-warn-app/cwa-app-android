@@ -28,12 +28,10 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             newReleaseInfoNextButton.setOnClickListener {
-                vm.userHasReadReleaseNotes()
                 vm.onNextButtonClick()
             }
 
             newReleaseInfoToolbar.setNavigationOnClickListener {
-                vm.userHasReadReleaseNotes()
                 vm.onNextButtonClick()
             }
         }
