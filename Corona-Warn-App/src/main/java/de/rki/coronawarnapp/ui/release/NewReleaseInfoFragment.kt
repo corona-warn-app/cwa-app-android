@@ -39,7 +39,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         }
 
         vm.appVersion.observe2(this) {
-            binding.newReleaseInfoHeadline.text = it
+            binding.newReleaseInfoHeadline.text = it.get(requireContext())
         }
 
         if (args.comesFromInfoScreen) {
