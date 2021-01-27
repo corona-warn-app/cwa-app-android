@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -109,6 +110,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         postValue(ShowErrorResetDialog)
                     }
                 }
+            }
+            if (cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE) {
+                postValue(HomeFragmentEvents.ShowNewReleaseFragment)
             }
         }
     }
