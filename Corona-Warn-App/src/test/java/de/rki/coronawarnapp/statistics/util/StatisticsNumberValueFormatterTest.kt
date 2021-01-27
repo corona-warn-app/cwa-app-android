@@ -56,6 +56,7 @@ internal class StatisticsNumberValueFormatterTest {
             Arguments.of(12.3456, 2, Locale.GERMANY, "12,35"),
 
             Arguments.of(1.0036, 1, Locale.GERMANY, "1,0"),
+            Arguments.of(1.0036, 2, Locale.GERMANY, "1,00"),
 
             Arguments.of(12.3456, 1, Locale.UK, "12.3"),
 
