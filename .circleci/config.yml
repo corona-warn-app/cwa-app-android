@@ -203,6 +203,20 @@ commands:
             << parameters.output >>
             << parameters.input >>
 
+
+
+  setup-google-cloud:
+    description: "Setup Google Cloud access."
+    steps:
+      - run:
+          name: Store Google Service Account
+          command: echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
+      - run:
+          name: Authorize gcloud and set config defaults
+          command: |
+            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+
 #######################
 # Jobs section
 # Tasks that get executed
@@ -306,7 +320,6 @@ jobs:
       - store_artifacts:
           path: /tmp/unit_tests_device_for_testers_release.zip
           destination: zips/unit_tests_device_for_testers_release.zip
-
 
   lint_device_release_check:
     executor: android/android
@@ -437,35 +450,53 @@ jobs:
             --form "file=@${fileName}" \
 
   instrumentation_tests_device:
-    macos:
-      xcode: "12.3.0"
-    resource_class: large
+    resource_class: xlarge
+    docker:
+      - image: circleci/android:api-28
     steps:
+      - skip-for-external-pull-requests
+      - setup-google-cloud
       - checkout
-      - setup-android-macos
       - restore-gradle-cache
-      - restore-android-build-cache-macos
+      - restore-android-build-cache
       - run-gradle-cmd:
-          desc: Build Apks for instrumentation test
-          cmd: >
-            :Corona-Warn-App:assembleDeviceDebug
-            :Corona-Warn-App:assembleDeviceDebugAndroidTest
-      - save-gradle-cache
-      - save-android-build-cache-macos
-      - run-emulator-for-api:
-          apilevel: 29
+          desc: Build app APK
+          cmd: ":Corona-Warn-App:assembleDeviceForTestersDebug"
       - run-gradle-cmd:
-          desc: Run instrumentation tests on device
-          cmd: >
-            :Corona-Warn-App:connectedDeviceDebugAndroidTest
-            --info --continue
-            -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
-            -Pandroid.testInstrumentationRunnerArguments.clearPackageData=true
-      - kill-all-emulators
+          desc: Build instrumentation test APK
+          cmd: ":Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest"
+      - run:
+          name: Test with Firebase Test Lab
+          command: |
+            BUCKETDIR="`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}"
+            echo "Using bucketdir $BUCKETDIR"
+            sudo gcloud firebase test android run \
+              --type instrumentation \
+              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
+              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --results-dir ${BUCKETDIR} \
+              --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
+              --environment-variables clearPackageData=true \
+              --test-targets "notAnnotation testhelpers.Screenshot" \
+              --timeout 20m \
+              --device-ids flame \
+              --os-version-ids 29 \
+              --locales de_DE \
+              --orientations portrait \
+              --no-record-video
+          no_output_timeout: 30m
+      - run:
+          name: Create directory to store test results
+          command: mkdir firebase-results
+      - run:
+          name: Install gsutil dependency and copy test results data
+          command: |
+            sudo pip install -U crcmod
+            sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  firebase-results | true
       - store_test_results:
-          path: Corona-Warn-App/build/outputs/androidTest-results
+          path: ./firebase-results/flame-29-de_DE-portrait
       - compress-path:
-          input: ./Corona-Warn-App/build/reports
+          input: ./firebase-results/flame-29-de_DE-portrait/*.xml
           output: /tmp/instrumentation_tests_device.zip
       - store_artifacts:
           path: /tmp/instrumentation_tests_device.zip
@@ -528,7 +559,10 @@ workflows:
       - run_sonar:
           requires:
             - unit_tests_device_release
-      - instrumentation_tests_device
+      - instrumentation_tests_device:
+          requires:
+            - ktlint_device_release_check
+            - detekt
 
   check_buildtype_device_for_testers:
     jobs:
