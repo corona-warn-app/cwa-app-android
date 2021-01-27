@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
@@ -25,6 +24,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -35,6 +35,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
@@ -83,11 +84,12 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTestResultConsentGivenFragment>()
+        launchFragment2<SubmissionTestResultConsentGivenFragment>()
     }
 
     @Test
