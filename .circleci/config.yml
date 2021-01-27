@@ -559,7 +559,7 @@ workflows:
       - run_sonar:
           requires:
             - unit_tests_device_release
-      - instrumentation_tests_device
+      - instrumentation_tests_device:
           requires:
             - ktlint_device_release_check
             - detekt
