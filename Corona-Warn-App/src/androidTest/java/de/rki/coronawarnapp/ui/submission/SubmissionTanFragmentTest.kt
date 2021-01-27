@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -16,6 +14,7 @@ import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,6 +25,7 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -59,16 +59,17 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTanFragment>()
+        launchFragment2<SubmissionTanFragment>()
     }
 
     @Test
     fun testEventTanNextClicked() {
-        launchFragmentInContainer<SubmissionTanFragment>()
+        launchFragmentInContainer2<SubmissionTanFragment>()
         closeSoftKeyboard()
         onView(withId(R.id.submission_tan_button_enter))
             .perform(click())

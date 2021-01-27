@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import io.mockk.MockKAnnotations
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -61,6 +62,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test
