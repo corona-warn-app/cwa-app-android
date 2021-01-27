@@ -451,7 +451,9 @@ jobs:
 
   instrumentation_tests_device:
     resource_class: xlarge
-    working_directory: ~/project
+    requires:
+      - ktlint_device_release_check
+      - detekt
     docker:
       - image: circleci/android:api-28
     steps:
@@ -460,12 +462,12 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: "Build app APK "
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebug
-      - run:
-          name: "Build instrumentation test APK"
-          command: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest
+      - run-gradle-cmd:
+          desc: Build app APK
+          cmd: ":Corona-Warn-App:assembleDeviceForTestersDebug"
+      - run-gradle-cmd:
+          desc: Build instrumentation test APK
+          cmd: ":Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest"
       - run:
           name: Test with Firebase Test Lab
           command: |
@@ -488,16 +490,16 @@ jobs:
           no_output_timeout: 30m
       - run:
           name: Create directory to store test results
-          command: mkdir ~/project/firebase
+          command: mkdir firebase-results
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  ~/project/firebase | true
+            sudo gsutil -m cp -R -U "`sudo gsutil ls gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR} | tail -1`*"  firebase-results | true
       - store_test_results:
-          path: ~/project/firebase/flame-29-de_DE-portrait
+          path: ./firebase-results/flame-29-de_DE-portrait
       - compress-path:
-          input: ~/project/firebase/flame-29-de_DE-portrait/*.xml
+          input: ./firebase-results/flame-29-de_DE-portrait/*.xml
           output: /tmp/instrumentation_tests_device.zip
       - store_artifacts:
           path: /tmp/instrumentation_tests_device.zip
