@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
+import de.rki.coronawarnapp.appconfig.SurveyConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,7 +15,8 @@ class ConfigParser @Inject constructor(
     private val cwaConfigMapper: CWAConfig.Mapper,
     private val keyDownloadConfigMapper: KeyDownloadConfig.Mapper,
     private val exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper,
-    private val exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper
+    private val exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper,
+    private val surveyConfigMapper: SurveyConfig.Mapper,
 ) {
 
     fun parse(configBytes: ByteArray): ConfigMapping = try {
@@ -24,7 +26,8 @@ class ConfigParser @Inject constructor(
                 cwaConfig = cwaConfigMapper.map(it),
                 keyDownloadConfig = keyDownloadConfigMapper.map(it),
                 exposureDetectionConfig = exposureDetectionConfigMapper.map(it),
-                exposureWindowRiskCalculationConfig = exposureWindowRiskCalculationConfigMapper.map(it)
+                exposureWindowRiskCalculationConfig = exposureWindowRiskCalculationConfigMapper.map(it),
+                survey = surveyConfigMapper.map(it)
             )
         }
     } catch (e: Exception) {
