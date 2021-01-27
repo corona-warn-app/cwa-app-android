@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
@@ -15,6 +14,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
@@ -31,7 +31,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     private val notificationHelper: NotificationHelper,
     private val submissionSettings: SubmissionSettings,
-    private val submissionService: SubmissionService
+    private val submissionService: SubmissionService,
+    private val timeStamper: TimeStamper
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -48,7 +49,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         var result = Result.success()
         try {
 
-            if (abortConditionsMet(System.currentTimeMillis())) {
+            if (abortConditionsMet(timeStamper.nowUTC.millis)) {
                 Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
             } else {
@@ -78,8 +79,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
-    @VisibleForTesting
-    fun abortConditionsMet(currentMillis: Long): Boolean {
+    private fun abortConditionsMet(currentMillis: Long): Boolean {
         if (LocalData.isTestResultAvailableNotificationSent()) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true

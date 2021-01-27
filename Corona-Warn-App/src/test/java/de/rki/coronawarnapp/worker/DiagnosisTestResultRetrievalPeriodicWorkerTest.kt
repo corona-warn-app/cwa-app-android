@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -30,6 +31,7 @@ import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -45,14 +47,16 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var operation: Operation
+    @MockK lateinit var timeStamper: TimeStamper
     @RelaxedMockK lateinit var workerParams: WorkerParameters
-    private val now = System.currentTimeMillis()
+    private val currentInstant = Instant.ofEpochSecond(1611764225)
     private val registrationToken = "test token"
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         every { submissionSettings.hasViewedTestResult.value } returns false
+        every { timeStamper.nowUTC } returns currentInstant
 
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent
@@ -62,37 +66,12 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         mockkObject(LocalData)
         every { LocalData.registrationToken() } returns registrationToken
         every { LocalData.isTestResultAvailableNotificationSent() } returns false
-        every { LocalData.initialPollingForTestResultTimeStamp() } returns now
+        every { LocalData.initialPollingForTestResultTimeStamp() } returns currentInstant.millis
         every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
         every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
 
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() } returns operation
-    }
-
-    @Test
-    fun testAbortWhenMaxDaysExceeded() {
-        val past = now - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() + 1).daysToMilliseconds()
-        every { LocalData.initialPollingForTestResultTimeStamp() } returns past
-        val worker = createWorker()
-        val isAbort = worker.abortConditionsMet(now)
-        assert(isAbort)
-    }
-
-    @Test
-    fun testAbortWhenNotificationSent() {
-        every { LocalData.isTestResultAvailableNotificationSent() } returns true
-        val worker = createWorker()
-        val isAbort = worker.abortConditionsMet(now)
-        assert(isAbort)
-    }
-
-    @Test
-    fun testAbortWhenResultHasBeenViewed() {
-        every { submissionSettings.hasViewedTestResult.value } returns true
-        val worker = createWorker()
-        val isAbort = worker.abortConditionsMet(now)
-        assert(isAbort)
     }
 
     @Test
@@ -102,7 +81,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
-            coVerify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
             assert(result is ListenableWorker.Result.Success)
         }
     }
@@ -114,7 +93,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
             val worker = createWorker()
             val result = worker.doWork()
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
-            coVerify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
             assert(result is ListenableWorker.Result.Success)
         }
     }
@@ -122,13 +101,13 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @Test
     fun testStopWorkerWhenMaxDaysExceeded() {
         runBlockingTest {
-            val past = now - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() + 1).daysToMilliseconds()
-            every { LocalData.initialPollingForTestResultTimeStamp() } returns past
+            val past =
+                currentInstant - (BackgroundConstants.POLLING_VALIDITY_MAX_DAYS.toLong() + 1).daysToMilliseconds()
+            every { LocalData.initialPollingForTestResultTimeStamp() } returns past.millis
             val worker = createWorker()
             val result = worker.doWork()
-            verify { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
             coVerify(exactly = 0) { submissionService.asyncRequestTestResult(any()) }
-            coVerify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            verify(exactly = 1) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
             result shouldBe ListenableWorker.Result.success()
         }
     }
@@ -238,12 +217,25 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         }
     }
 
+    @Test
+    fun testRetryWhenExceptionIsThrown() {
+        runBlockingTest {
+            coEvery { submissionService.asyncRequestTestResult(registrationToken) } throws Exception()
+            val worker = createWorker()
+            val result = worker.doWork()
+            coVerify(exactly = 1) { submissionService.asyncRequestTestResult(any()) }
+            coVerify(exactly = 0) { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() }
+            result shouldBe ListenableWorker.Result.retry()
+        }
+    }
+
     private fun createWorker() = DiagnosisTestResultRetrievalPeriodicWorker(
         context,
         workerParams,
         testResultAvailableNotificationService,
         notificationHelper,
         submissionSettings,
-        submissionService
+        submissionService,
+        timeStamper
     )
 }
