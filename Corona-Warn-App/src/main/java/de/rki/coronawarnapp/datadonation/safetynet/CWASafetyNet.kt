@@ -12,7 +12,7 @@ class CWASafetyNet @Inject constructor() : DeviceAttestation {
             override val accessControlProtoBuf: PpacAndroid.PPACAndroid = PpacAndroid.PPACAndroid.getDefaultInstance()
 
             override fun requirePass(requirements: SafetyNetRequirements) {
-                throw SafetyNetException("TODO")
+                // Passed
             }
         }
     }
