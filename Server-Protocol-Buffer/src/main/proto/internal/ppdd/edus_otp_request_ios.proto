@@ -1,0 +1,13 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+import "internal/ppdd/ppac_ios.proto";
+import "internal/ppdd/edus_otp.proto";
+
+message EDUSOneTimePasswordRequestIOS {
+
+  PPACIOS authentication = 1;
+
+  EDUSOneTimePassword payload = 2;
+}
