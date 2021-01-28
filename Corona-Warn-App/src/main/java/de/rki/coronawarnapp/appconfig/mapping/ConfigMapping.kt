@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
+import de.rki.coronawarnapp.appconfig.SurveyConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 
 interface ConfigMapping :
@@ -14,4 +15,6 @@ interface ConfigMapping :
 
     @Deprecated("Try to access a more specific config type, avoid the RAW variant.")
     val rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid
+
+    val survey: SurveyConfig
 }

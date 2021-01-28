@@ -5,7 +5,9 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SAFETYNET_API_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SUBMISSION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
@@ -29,7 +31,9 @@ class EnvironmentSetup @Inject constructor(
         SUBMISSION("SUBMISSION_CDN_URL"),
         VERIFICATION("VERIFICATION_CDN_URL"),
         DOWNLOAD("DOWNLOAD_CDN_URL"),
-        VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION")
+        VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
+        DATA_DONATION("DATA_DONATION_CDN_URL"),
+        SAFETYNET_API_KEY("SAFETYNET_API_KEY")
     }
 
     enum class Type(val rawKey: String) {
@@ -100,12 +104,17 @@ class EnvironmentSetup @Inject constructor(
         get() = getEnvironmentValue(VERIFICATION).asString
     val downloadCdnUrl: String
         get() = getEnvironmentValue(DOWNLOAD).asString
+    val dataDonationCdnUrl: String
+        get() = getEnvironmentValue(DATA_DONATION).asString
 
     val appConfigVerificationKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString
 
     val useEuropeKeyPackageFiles: Boolean
         get() = getEnvironmentValue(USE_EUR_KEY_PKGS).asBoolean
+
+    val safetyNetApiKey: String
+        get() = getEnvironmentValue(SAFETYNET_API_KEY).asString
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
