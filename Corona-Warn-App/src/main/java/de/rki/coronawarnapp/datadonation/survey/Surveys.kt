@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.datadonation.survey
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import java.net.URL
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,11 +15,15 @@ class Surveys @Inject constructor(
     val availableSurveys: Flow<Collection<Type>> = emptyFlow()
 
     suspend fun requestDetails(type: Type): Survey {
-        TODO()
+        // TODO
+        return Survey(
+            type = Type.HIGH_RISK_ENCOUNTER,
+            surveyLink = ""
+        )
     }
 
     suspend fun resetSurvey(type: Type) {
-        TODO()
+        // TODO
     }
 
     enum class Type {
@@ -29,7 +32,6 @@ class Surveys @Inject constructor(
 
     data class Survey(
         val type: Type,
-        val otp: String,
-        val surveyLink: URL
+        val surveyLink: String
     )
 }
