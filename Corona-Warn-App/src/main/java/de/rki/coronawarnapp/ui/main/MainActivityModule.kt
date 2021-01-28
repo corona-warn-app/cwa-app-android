@@ -4,6 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionModule
+import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryStorageModule
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUIModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
