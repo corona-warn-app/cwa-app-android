@@ -1,0 +1,11 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+
+message PPACAndroid {
+  
+  string safetyNetJws = 1;
+
+  string salt = 2;
+}
