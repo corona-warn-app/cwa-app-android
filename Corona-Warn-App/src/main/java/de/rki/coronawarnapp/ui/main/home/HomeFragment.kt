@@ -97,21 +97,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         onPositive = { vm.errorResetDialogDismissed() }
                     )
                 }
-                HomeFragmentEvents.ShowDeleteTestDialog -> {
-                    showRemoveTestDialog()
-                }
-                HomeFragmentEvents.GoToContactDiary -> {
-                    context?.let { ContactDiaryActivity.start(it) }
-                }
+                HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
 
-                HomeFragmentEvents.ShowNewReleaseFragment -> {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false))
-                }
-                HomeFragmentEvents.GoToStatisticsExplanation -> {
-                    doNavigate(
-                        HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
-                    )
-                }
+                HomeFragmentEvents.ShowNewReleaseFragment -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false)
+                )
+
+                HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
+                )
             }
         }
 
