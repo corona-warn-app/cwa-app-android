@@ -9,11 +9,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.util.CWADebug
@@ -21,6 +24,7 @@ import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -62,7 +66,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (CWADebug.isDeviceForTestersBuild) {
             vm.showEnvironmentHint.observe(this) {
@@ -76,6 +82,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.showEnergyOptimizedEnabledForBackground.observe(this) {
             showEnergyOptimizedEnabledForBackground()
         }
+
+        binding.mainBottomNavigation.setupWithNavController(
+            supportFragmentManager.findNavController(R.id.nav_host_fragment)
+        )
     }
 
     /**

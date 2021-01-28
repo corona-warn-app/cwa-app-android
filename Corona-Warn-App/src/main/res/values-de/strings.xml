@@ -1609,5 +1609,8 @@
     <string name="statistics_trend_decreasing">Trend fallend</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">Trend stabil</string>
-
+    <!-- XHED: Title for bottombar main screen title -->
+    <string name="bottom_bar_main_tile">Home</string>
+    <!-- XHED: Title for bottombar diary screen title -->
+    <string name="bottom_bar_diary_tile">Dairy</string>
 </resources>
