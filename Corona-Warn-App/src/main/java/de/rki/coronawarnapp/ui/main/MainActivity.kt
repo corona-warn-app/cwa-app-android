@@ -9,16 +9,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
@@ -39,8 +41,6 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
-        private val TAG: String? = MainActivity::class.simpleName
-
         fun start(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java))
         }
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @Inject lateinit var settings: ContactDiarySettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -83,9 +84,21 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             showEnergyOptimizedEnabledForBackground()
         }
 
-        binding.mainBottomNavigation.setupWithNavController(
-            supportFragmentManager.findNavController(R.id.nav_host_fragment)
-        )
+        val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
+        binding.mainBottomNavigation.setupWithNavController2(
+            navController
+        ) {
+            startNestedGraphDestination(navController)
+        }
+    }
+
+    private fun startNestedGraphDestination(navController: NavController) {
+        val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
+        nestedGraph.startDestination = if (settings.isOnboardingDone) {
+            R.id.contactDiaryOverviewFragment
+        } else {
+            R.id.contactDiaryOnboardingFragment
+        }
     }
 
     /**

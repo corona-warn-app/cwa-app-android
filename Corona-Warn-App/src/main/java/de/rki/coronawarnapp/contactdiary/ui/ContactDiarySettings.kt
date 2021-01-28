@@ -14,6 +14,8 @@ class ContactDiarySettings @Inject constructor(val preferences: ContactDiaryPref
         }
         set(value) = preferences.onboardingStatusOrder.update { value.order }
 
+    inline val isOnboardingDone get() = onboardingStatus == OnboardingStatus.RISK_STATUS_1_12
+
     enum class OnboardingStatus(val order: Int) {
         NOT_ONBOARDED(0),
         RISK_STATUS_1_12(1)
