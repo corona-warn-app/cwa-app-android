@@ -50,7 +50,7 @@
     </style>
 
     <!-- Main Application -->
-    <style name="AppTheme.Main" parent="Theme.MaterialComponents.NoActionBar.Bridge" />
+    <style name="AppTheme.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
 
     <style name="CWAToolbar" parent="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
         <item name="colorPrimary">@color/colorSurface1</item>
