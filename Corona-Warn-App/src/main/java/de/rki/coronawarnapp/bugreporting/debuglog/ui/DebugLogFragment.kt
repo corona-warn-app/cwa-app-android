@@ -56,7 +56,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         binding.apply {
             toggleRecording.setOnClickListener { vm.toggleRecording() }
             shareRecording.setOnClickListener { vm.shareRecording() }
-            toolbar.setNavigationOnClickListener { popBackStack() }
         }
     }
 }
