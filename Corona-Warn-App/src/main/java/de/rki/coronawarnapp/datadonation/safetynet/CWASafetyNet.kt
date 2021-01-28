@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.safetynet
 
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,10 +9,7 @@ import javax.inject.Singleton
 class CWASafetyNet @Inject constructor() : DeviceAttestation {
     override suspend fun attest(request: DeviceAttestation.Request): DeviceAttestation.Result {
         return object : DeviceAttestation.Result {
-            override val nonce: ByteArray
-                get() = ByteArray(1)
-            override val salt: ByteArray
-                get() = ByteArray(1)
+            override val accessControlProtoBuf: PpacAndroid.PPACAndroid = PpacAndroid.PPACAndroid.getDefaultInstance()
 
             override fun requirePass(requirements: SafetyNetRequirements) {
                 throw SafetyNetException("TODO")
