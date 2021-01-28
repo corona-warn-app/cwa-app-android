@@ -17,22 +17,18 @@ class Analytics @Inject constructor(
     val isEnabled: Boolean = true
 
     suspend fun submitAnalyticsData() {
-        val request: DonorModule.Request = TODO()
-        // Collect data from all donor modules
-        val contributions = donorModules.map { it.beginDonation(request) }
-        val ppaContainer: Any = TODO("protobuf")
-
-        contributions.forEach {
-            it.injectData(ppaContainer)
-        }
-
-        val success = trySubmission(ppaContainer)
-        contributions.forEach {
-            it.finishDonation(success)
-        }
-    }
-
-    private fun trySubmission(ppaContainer: Any): Boolean {
-        TODO()
+//        val request: DonorModule.Request = ...
+//        // Collect data from all donor modules
+//        val contributions = donorModules.map { it.beginDonation(request) }
+//        val ppaContainer: Any = ...
+//
+//        contributions.forEach {
+//            it.injectData(ppaContainer)
+//        }
+//
+//        val success = trySubmission(ppaContainer)
+//        contributions.forEach {
+//            it.finishDonation(success)
+//        }
     }
 }

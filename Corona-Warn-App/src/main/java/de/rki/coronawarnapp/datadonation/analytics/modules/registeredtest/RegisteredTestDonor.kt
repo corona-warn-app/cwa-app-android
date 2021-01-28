@@ -8,6 +8,15 @@ import javax.inject.Singleton
 class RegisteredTestDonor @Inject constructor() : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        TODO("Not yet implemented")
+        // TODO
+        return object : DonorModule.Contribution {
+            override suspend fun injectData(protobufContainer: Any) {
+                // TODO
+            }
+
+            override suspend fun finishDonation(successful: Boolean) {
+                // TODO
+            }
+        }
     }
 }
