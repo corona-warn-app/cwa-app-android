@@ -1,0 +1,21 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/ppdd_ppac_parameters.proto";
+
+message PPDDEventDrivenUserSurveyParametersIOS {
+  PPDDEventDrivenUserSurveyParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersIOS ppac = 2;
+}
+
+message PPDDEventDrivenUserSurveyParametersAndroid {
+  PPDDEventDrivenUserSurveyParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersAndroid ppac = 2;
+}
+
+message PPDDEventDrivenUserSurveyParametersCommon {
+  string otpQueryParameterName = 1;
+  bool surveyOnHighRiskEnabled = 2;
+  string surveyOnHighRiskUrl = 3;
+}
