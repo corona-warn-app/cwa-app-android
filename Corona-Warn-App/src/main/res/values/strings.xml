@@ -171,15 +171,18 @@
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
-        <item quantity="one">"Exposures on one day with increased risk"</item>
+        <item quantity="one">"Exposures on %1$d day with increased risk"</item>
         <item quantity="other">"Exposures on %1$d days with increased risk"</item>
         <item quantity="zero">"Exposures on %1$d days with increased risk"</item>
         <item quantity="two">"Exposures on %1$d days with increased risk"</item>
         <item quantity="few">"Exposures on %1$d days with increased risk"</item>
         <item quantity="many">"Exposures on %1$d days with increased risk"</item>
     </plurals>
+
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk and single day of encounters -->
+    <string name="risk_card_high_risk_most_recent_body_encounter_on_single_day">"Am %1$s"</string>
     <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
-    <string name="risk_card_high_risk_most_recent_body">"Most recently on %1$s"</string>
+    <string name="risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day">"Most recently on %1$s"</string>
 
     <!-- ####################################
               Risk Card - Progress

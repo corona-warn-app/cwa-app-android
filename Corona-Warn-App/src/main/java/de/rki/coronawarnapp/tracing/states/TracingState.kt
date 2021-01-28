@@ -74,8 +74,15 @@ data class IncreasedRisk(
         if (lastEncounterAt == null) return null
         // caution! lastEncounterAt is null after migration from 1.7.x -> 1.8.x
         // see RiskLevelResultMigrator.kt
+
+        val stringRes = if (daysWithEncounters == 1) {
+            R.string.risk_card_high_risk_most_recent_body_encounter_on_single_day
+        } else {
+            R.string.risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day
+        }
+
         return c.getString(
-            R.string.risk_card_high_risk_most_recent_body,
+            stringRes,
             lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
         )
     }
