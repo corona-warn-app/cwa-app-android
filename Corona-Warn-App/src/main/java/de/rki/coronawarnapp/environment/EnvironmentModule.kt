@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.environment
 
 import dagger.Module
+import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNModule
 import de.rki.coronawarnapp.environment.verification.VerificationCDNModule
@@ -9,7 +10,8 @@ import de.rki.coronawarnapp.environment.verification.VerificationCDNModule
     includes = [
         DownloadCDNModule::class,
         SubmissionCDNModule::class,
-        VerificationCDNModule::class
+        VerificationCDNModule::class,
+        DataDonationCDNModule::class
     ]
 )
 class EnvironmentModule
