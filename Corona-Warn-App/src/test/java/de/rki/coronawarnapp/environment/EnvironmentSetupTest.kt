@@ -71,6 +71,8 @@ class EnvironmentSetupTest : BaseTest() {
                 submissionCdnUrl shouldBe "https://submission-${env.rawKey}"
                 verificationCdnUrl shouldBe "https://verification-${env.rawKey}"
                 appConfigVerificationKey shouldBe "12345678-${env.rawKey}"
+                safetyNetApiKey shouldBe "placeholder-${env.rawKey}"
+                dataDonationCdnUrl shouldBe "https://placeholder-${env.rawKey}"
             }
         }
     }
@@ -125,7 +127,9 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.VERIFICATION.rawKey shouldBe "VERIFICATION_CDN_URL"
         EnvironmentSetup.EnvKey.DOWNLOAD.rawKey shouldBe "DOWNLOAD_CDN_URL"
         EnvironmentSetup.EnvKey.VERIFICATION_KEYS.rawKey shouldBe "PUB_KEYS_SIGNATURE_VERIFICATION"
-        EnvironmentSetup.EnvKey.values().size shouldBe 5
+        EnvironmentSetup.EnvKey.DATA_DONATION.rawKey shouldBe "DATA_DONATION_CDN_URL"
+        EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
+        EnvironmentSetup.EnvKey.values().size shouldBe 7
     }
 
     companion object {
@@ -143,6 +147,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-PROD",
                     "DOWNLOAD_CDN_URL": "https://download-PROD",
                     "VERIFICATION_CDN_URL": "https://verification-PROD",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-PROD",
+                    "SAFETYNET_API_KEY": "placeholder-PROD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD"
                 },
                 "DEV": {
@@ -150,6 +156,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-DEV",
                     "DOWNLOAD_CDN_URL": "https://download-DEV",
                     "VERIFICATION_CDN_URL": "https://verification-DEV",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-DEV",
+                    "SAFETYNET_API_KEY": "placeholder-DEV",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV"
                 },
                 "INT": {
@@ -157,6 +165,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-INT",
                     "DOWNLOAD_CDN_URL": "https://download-INT",
                     "VERIFICATION_CDN_URL": "https://verification-INT",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-INT",
+                    "SAFETYNET_API_KEY": "placeholder-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT"
                 },
                 "INT-FED": {
@@ -164,6 +174,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-INT-FED",
                     "DOWNLOAD_CDN_URL": "https://download-INT-FED",
                     "VERIFICATION_CDN_URL": "https://verification-INT-FED",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-INT-FED",
+                    "SAFETYNET_API_KEY": "placeholder-INT-FED",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT-FED"
                 },
                 "WRU": {
@@ -171,6 +183,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-WRU",
                     "DOWNLOAD_CDN_URL": "https://download-WRU",
                     "VERIFICATION_CDN_URL": "https://verification-WRU",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-WRU",
+                    "SAFETYNET_API_KEY": "placeholder-WRU",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU"
                 },
                 "WRU-XD": {
@@ -178,6 +192,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-WRU-XD",
                     "DOWNLOAD_CDN_URL": "https://download-WRU-XD",
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XD",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-WRU-XD",
+                    "SAFETYNET_API_KEY": "placeholder-WRU-XD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD"
                 },
                 "WRU-XA": {
@@ -185,6 +201,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SUBMISSION_CDN_URL": "https://submission-WRU-XA",
                     "DOWNLOAD_CDN_URL": "https://download-WRU-XA",
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XA",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-WRU-XA",
+                    "SAFETYNET_API_KEY": "placeholder-WRU-XA",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA"
                 }
             }
