@@ -54,6 +54,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -86,6 +87,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
+    val reenableRiskEvent = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -229,6 +231,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             add(submissionItem)
+
+            if (submissionState == SubmissionDone) {
+                add(ReenableRiskCard.Item(onClickAction = { reenableRiskEvent.postValue(Unit) }))
+            }
 
             if (statsData.isDataAvailable) {
                 add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
