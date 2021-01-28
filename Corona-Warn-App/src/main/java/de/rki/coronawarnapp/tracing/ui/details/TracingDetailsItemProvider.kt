@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
@@ -53,23 +54,27 @@ class TracingDetailsItemProvider @Inject constructor(
                 )
             }.also { add(it) }
 
-            if (latestCalc.riskState != RiskState.CALCULATION_FAILED) {
+            if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
                     activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt()
                 ).also { add(it) }
             }
 
-            when (latestCalc.riskState) {
-                RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
-                    riskState = latestCalc.riskState,
-                    matchedKeyCount = latestCalc.matchedKeyCount
-                )
-                RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
-                    riskState = latestCalc.riskState,
-                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
-                )
-                RiskState.CALCULATION_FAILED -> DetailsFailedCalculationBox.Item
-            }.also { add(it) }
+            if (status == Status.TRACING_INACTIVE) {
+                add(DetailsFailedCalculationBox.Item)
+            } else {
+                when (latestCalc.riskState) {
+                    RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
+                        riskState = latestCalc.riskState,
+                        matchedKeyCount = latestCalc.matchedKeyCount
+                    )
+                    RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
+                        riskState = latestCalc.riskState,
+                        lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
+                    )
+                    RiskState.CALCULATION_FAILED -> DetailsFailedCalculationBox.Item
+                }.also { add(it) }
+            }
         }
     }
         .onStart { Timber.v("TracingDetailsState FLOW start") }
