@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.environment.datadonation
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.http.HttpClientDefault
@@ -22,10 +21,8 @@ class DataDonationCDNModule : BaseEnvironmentModule() {
     @Singleton
     @DataDonationCDNServerUrl
     @Provides
-    fun provideDownloadServerUrl(environment: EnvironmentSetup): String {
+    fun provideDonationServerUrl(environment: EnvironmentSetup): String {
         val url = environment.dataDonationCdnUrl
         return requireValidUrl(url)
     }
-
-    fun provideDiagnosisHomeCountry(): LocationCode = LocationCode("DE")
 }
