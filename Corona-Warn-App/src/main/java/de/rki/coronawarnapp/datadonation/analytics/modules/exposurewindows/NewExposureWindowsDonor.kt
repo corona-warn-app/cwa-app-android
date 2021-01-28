@@ -7,7 +7,7 @@ import javax.inject.Singleton
 @Singleton
 class NewExposureWindowsDonor @Inject constructor() : DonorModule {
 
-    override suspend fun startDonation(request: DonorModule.Request): DonorModule.Contribution {
+    override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         return CollectedData(
             protobuf = TODO(),
             onContributionFinished = { success ->
@@ -24,7 +24,7 @@ class NewExposureWindowsDonor @Inject constructor() : DonorModule {
             TODO("Add this specific protobuf to the top level protobuf container")
         }
 
-        override suspend fun finishContribution(successful: Boolean) {
+        override suspend fun finishDonation(successful: Boolean) {
             onContributionFinished(successful)
         }
     }

@@ -19,7 +19,7 @@ class Analytics @Inject constructor(
     suspend fun submitAnalyticsData() {
         val request: DonorModule.Request = TODO()
         // Collect data from all donor modules
-        val contributions = donorModules.map { it.startDonation(request) }
+        val contributions = donorModules.map { it.beginDonation(request) }
         val ppaContainer: Any = TODO("protobuf")
 
         contributions.forEach {
@@ -28,7 +28,7 @@ class Analytics @Inject constructor(
 
         val success = trySubmission(ppaContainer)
         contributions.forEach {
-            it.finishContribution(success)
+            it.finishDonation(success)
         }
     }
 

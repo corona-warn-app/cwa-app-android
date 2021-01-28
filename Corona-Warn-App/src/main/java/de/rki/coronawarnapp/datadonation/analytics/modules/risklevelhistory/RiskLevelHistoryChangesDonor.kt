@@ -7,7 +7,7 @@ import javax.inject.Singleton
 @Singleton
 class RiskLevelHistoryChangesDonor @Inject constructor() : DonorModule {
 
-    override suspend fun startDonation(request: DonorModule.Request): DonorModule.Contribution {
+    override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         TODO("Not yet implemented")
     }
 }

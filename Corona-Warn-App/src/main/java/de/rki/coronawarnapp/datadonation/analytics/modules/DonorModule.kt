@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules
 
 interface DonorModule {
 
-    suspend fun startDonation(request: Request): Contribution
+    suspend fun beginDonation(request: Request): Contribution
 
     /**
      * Data that the modules may need to fullfil the request
@@ -27,6 +27,6 @@ interface DonorModule {
          * If the submission failed, i.e. network issues, the donor module may collect their data for the next attempt.
          * If the submission was sucessful, the module may discard the data as it was submitted.
          */
-        suspend fun finishContribution(successful: Boolean)
+        suspend fun finishDonation(successful: Boolean)
     }
 }
