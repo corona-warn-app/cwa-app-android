@@ -20,6 +20,7 @@ class Surveys @Inject constructor(
     }
 
     suspend fun resetSurvey(type: Type) {
+        TODO()
     }
 
     enum class Type {

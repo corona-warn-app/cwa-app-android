@@ -16,7 +16,7 @@ class ConfigParser @Inject constructor(
     private val keyDownloadConfigMapper: KeyDownloadConfig.Mapper,
     private val exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper,
     private val exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper,
-    private val surveyConfigMapper: SurveyConfig.Mapper,
+    private val surveyConfigMapper: SurveyConfig.Mapper
 ) {
 
     fun parse(configBytes: ByteArray): ConfigMapping = try {
