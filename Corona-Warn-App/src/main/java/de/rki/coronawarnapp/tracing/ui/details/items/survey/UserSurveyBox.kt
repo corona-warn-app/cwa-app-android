@@ -17,18 +17,14 @@ class UserSurveyBox(
 ) {
 
     override val viewBinding: Lazy<TracingDetailsAccessSurveyCardBinding> = lazy {
-        TracingDetailsAccessSurveyCardBinding.inflate(
-            layoutInflater,
-            itemView.findViewById(R.id.box_container),
-            true
-        )
+        TracingDetailsAccessSurveyCardBinding.bind(itemView)
     }
 
     override val onBindData: TracingDetailsAccessSurveyCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { _, _ ->
-        this.tracingDetailsSurveyCardButton.setOnClickListener {
+        tracingDetailsSurveyCardButton.setOnClickListener {
             Toast.makeText(
                 context,
                 "Still WIP ;)",
