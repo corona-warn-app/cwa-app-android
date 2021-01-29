@@ -36,11 +36,29 @@ class NewReleaseInfoViewModelTest {
     }
 
     @Test
-    fun testCountryList() {
+    fun testGetInfoItem() {
         val item1 = NewReleaseInfoItem("title", "body")
         val item2 = NewReleaseInfoItem("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body, item2.body)
         viewModel.getItems(titles, bodies) shouldBe listOf(item1, item2)
+    }
+
+    @Test
+    fun testGetInfoItemTitleMissing() {
+        val item1 = NewReleaseInfoItem("title", "body")
+        val item2 = NewReleaseInfoItem("title2", "body2")
+        val titles = arrayOf(item1.title)
+        val bodies = arrayOf(item1.body, item2.body)
+        viewModel.getItems(titles, bodies) shouldBe listOf(item1)
+    }
+
+    @Test
+    fun testGetInfoItemBodyMissing() {
+        val item1 = NewReleaseInfoItem("title", "body")
+        val item2 = NewReleaseInfoItem("title2", "body2")
+        val titles = arrayOf(item1.title, item2.title)
+        val bodies = arrayOf(item1.body)
+        viewModel.getItems(titles, bodies) shouldBe listOf(item1)
     }
 }
