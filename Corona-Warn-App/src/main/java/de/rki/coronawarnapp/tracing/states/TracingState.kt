@@ -114,6 +114,16 @@ data class LowRisk(
         )
     }
 
+    fun getRiskContactBodyDescription(c: Context): String = if (daysWithEncounters == 0) {
+        c.getString(R.string.risk_card_low_risk_no_encounters_body)
+    } else {
+        c.resources.getQuantityString(
+            R.plurals.risk_card_low_risk_encounter_days_body_description,
+            daysWithEncounters,
+            daysWithEncounters
+        )
+    }
+
     fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String =
         if (activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays()) {
             c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
