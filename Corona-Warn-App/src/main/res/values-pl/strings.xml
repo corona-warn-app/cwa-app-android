@@ -1351,7 +1351,7 @@
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Kierunek strzałki wskazuje, czy trend rośnie, maleje, czy też pozostaje stabilny, czyli wykazuje odchylenie mniejsze niż 1\\% w porównaniu z poprzednim dniem lub 5\\% w porównaniu z poprzednim tygodniem. Kolor wskazuje, że trend jest pozytywny (zielony), negatywny (czerwony) lub neutralny (szary). Trend ustala się poprzez porównanie wartości z poprzedniego dnia z wartością sprzed dwóch dni. W przypadku trendów 7-dniowych porównywana jest średnia wartość z ostatnich 7 dni ze średnią wartością z 7 dni je poprzedzających."</string>
+    <string name="statistics_explanation_trend_text">"Kierunek strzałki wskazuje, czy trend rośnie, maleje, czy też pozostaje stabilny, czyli wykazuje odchylenie mniejsze niż 1\% w porównaniu z poprzednim dniem lub 5\% w porównaniu z poprzednim tygodniem. Kolor wskazuje, że trend jest pozytywny (zielony), negatywny (czerwony) lub neutralny (szary). Trend ustala się poprzez porównanie wartości z poprzedniego dnia z wartością sprzed dwóch dni. W przypadku trendów 7-dniowych porównywana jest średnia wartość z ostatnich 7 dni ze średnią wartością z 7 dni je poprzedzających."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Można przedstawić następujące trendy:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
