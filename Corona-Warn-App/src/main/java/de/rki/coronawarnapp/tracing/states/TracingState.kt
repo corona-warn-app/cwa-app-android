@@ -60,6 +60,16 @@ data class IncreasedRisk(
         )
     }
 
+    fun getRiskContactBodyDescription(c: Context): String = if (daysWithEncounters == 0) {
+        ""
+    } else {
+        c.resources.getQuantityString(
+            R.plurals.risk_card_high_risk_encounter_days_body_description,
+            daysWithEncounters,
+            daysWithEncounters
+        )
+    }
+
     fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String {
         if (!isInDetailsMode) return ""
 
