@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
@@ -149,7 +147,7 @@ class MainActivityTest : BaseUITest() {
         )
 
         captureHomeFragment("low_risk")
-        Espresso.onView(ViewMatchers.withId(R.id.recycler_view)).perform(recyclerScrollTo())
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
     }
