@@ -16,27 +16,19 @@ internal data class AttestationContainer(
         }.build()
 
     override fun requirePass(reqs: SafetyNetRequirements) {
-        val body = report.body
-
-        if (reqs.requireBasicIntegrity && body.get("basicIntegrity")?.asBoolean != true) {
+        if (reqs.requireBasicIntegrity && !report.basicIntegrity) {
             throw SafetyNetException(Type.BASIC_INTEGRITY_REQUIRED, "Requirement 'basicIntegrity' not met.")
         }
 
-        if (reqs.requireCTSProfileMatch && body.get("ctsProfileMatch")?.asBoolean != true) {
+        if (reqs.requireCTSProfileMatch && !report.ctsProfileMatch) {
             throw SafetyNetException(Type.CTS_PROFILE_MATCH_REQUIRED, "Requirement 'ctsProfileMatch' not met.")
         }
 
-        val evaluationType = body
-            .get("evaluationType")
-            ?.asString
-            ?.split(",")
-            ?.map { it.trim() }
-            ?: emptyList()
-        if (reqs.requireBasicIntegrity && !evaluationType.contains("BASIC")) {
+        if (reqs.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
             throw SafetyNetException(Type.EVALUATION_TYPE_BASIC_REQUIRED, "Requirement 'BASIC' not met.")
         }
 
-        if (reqs.requireEvaluationTypeHardwareBacked && !evaluationType.contains("HARDWARE_BACKED")) {
+        if (reqs.requireEvaluationTypeHardwareBacked && !report.evaluationTypes.contains("HARDWARE_BACKED")) {
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED,
                 "Requirement 'HARDWARE_BACKED' not met."

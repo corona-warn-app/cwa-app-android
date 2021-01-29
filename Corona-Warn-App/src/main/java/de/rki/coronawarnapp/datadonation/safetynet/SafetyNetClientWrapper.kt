@@ -86,6 +86,15 @@ class SafetyNetClientWrapper @Inject constructor(
         val body: JsonObject,
         val signature: ByteArray
     ) {
+        val nonce: String? = body.get("nonce")?.asString
+
+        val apkPackageName: String? = body.get("apkPackageName")?.asString
+
+        val basicIntegrity: Boolean = body.get("basicIntegrity")?.asBoolean == true
+        val ctsProfileMatch = body.get("ctsProfileMatch")?.asBoolean == true
+
+        val evaluationTypes = body.get("evaluationType")?.asString
+            ?.split(",")?.map { it.trim() } ?: emptyList()
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
