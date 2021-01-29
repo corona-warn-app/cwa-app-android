@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/colorBrandSecondary</item>
         <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="alertDialogTheme">@style/DialogTheme</item>
+        <item name="alertDialogTheme">@style/DialogAlertTheme</item>
         <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
     </style>
 
@@ -12,7 +12,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="dialogTheme">@style/DialogTheme</item>
-        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.MaterialComponents.BottomSheetDialog</item>
+        <item name="bottomSheetDialogTheme">
+            @style/ThemeOverlay.MaterialComponents.BottomSheetDialog
+        </item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -71,6 +73,20 @@
 
     <style name="DialogButtonTheme" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/colorAccentTintButton</item>
+    </style>
+
+    <!-- Alert Dialog Theme-->
+    <style name="DialogAlertTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextTint</item>
+    </style>
+
+    <style name="dialogNegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
     <!-- ####################################
@@ -217,6 +233,7 @@
     <style name="headline5Tint" parent="@style/headline5">
         <item name="android:textColor">@color/colorTextTint</item>
     </style>
+
     <style name="headline5Bold" parent="@style/TextAppearance.MaterialComponents.Headline5">
         <item name="android:textStyle">bold</item>
     </style>
