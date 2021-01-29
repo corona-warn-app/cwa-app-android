@@ -85,9 +85,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
-        binding.mainBottomNavigation.setupWithNavController2(
-            navController
-        ) {
+        binding.mainBottomNavigation.setupWithNavController2(navController) {
             startNestedGraphDestination(navController)
         }
     }
