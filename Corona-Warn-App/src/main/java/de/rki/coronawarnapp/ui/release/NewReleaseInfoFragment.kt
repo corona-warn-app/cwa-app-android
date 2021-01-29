@@ -2,15 +2,19 @@ package de.rki.coronawarnapp.ui.release
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.NewReleaseInfoItemBinding
 import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
+import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -31,32 +35,63 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
                 vm.onNextButtonClick()
             }
 
-            newReleaseInfoToolbar.setNavigationOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 vm.onNextButtonClick()
             }
-        }
 
-        vm.appVersion.observe2(this) {
-            binding.newReleaseInfoHeadline.text = it.get(requireContext())
-        }
+            headline.text = vm.title.get(requireContext())
 
-        if (args.comesFromInfoScreen) {
-            vm.navigationIcon.observe2(this) {
-                binding.newReleaseInfoToolbar.navigationIcon = it
+            newReleaseInfoNextButton.isGone = args.comesFromInfoScreen
+
+            if (args.comesFromInfoScreen) {
+                toolbar.setNavigationIcon(R.drawable.ic_back)
             }
-        }
 
-        binding.newReleaseInfoNextButton.isGone = args.comesFromInfoScreen
+            recyclerView.adapter = ItemAdapter(getItems())
+        }
 
         vm.routeToScreen.observe2(this) {
-            if (it is NewReleaseInfoFragmentNavigationEvents.NavigateToMainActivity) {
-                doNavigate(NewReleaseInfoFragmentDirections.actionNewReleaseInfoFragmentPop())
+            if (it is NewReleaseInfoFragmentNavigationEvents.CloseScreen) {
+                popBackStack()
             }
         }
+    }
+
+    private fun getItems(): List<NewReleaseInfoItem> {
+        val titles = resources.getStringArray(R.array.new_release_title)
+        val textBodies = resources.getStringArray(R.array.new_release_body)
+        return vm.getItems(titles, textBodies)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.newReleaseInfoScreenContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
+}
+
+private class ItemAdapter(
+    private val items: List<NewReleaseInfoItem>
+) : BaseAdapter<ItemAdapter.ViewHolder>() {
+
+    inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.new_release_info_item, parent),
+        BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
+        override val viewBinding:
+            Lazy<NewReleaseInfoItemBinding> =
+            lazy { NewReleaseInfoItemBinding.bind(itemView) }
+
+        override val onBindData:
+            NewReleaseInfoItemBinding.(item: NewReleaseInfoItem, payloads: List<Any>) -> Unit =
+            { item, _ ->
+                title.text = item.title
+                body.text = item.body
+            }
+    }
+
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)
+
+    override fun onBindBaseVH(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        holder.bind(items[position], payloads)
+    }
+
+    override fun getItemCount() = items.size
 }

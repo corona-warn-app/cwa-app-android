@@ -1633,4 +1633,7 @@
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Steady"</string>
 
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">Änderungen zum Release finden Sie in den App-Einstellungen unter dem Menüpunkt „Neue Funktionen”.</string>
+
 </resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string-array name="new_release_title">
+        <item>Link auf RKI-Umfrage</item>
+        <item>Einwilligung zur Datenspende (optional)</item>
+        <item>Anpassungen der Risiko-Karten</item>
+        <item>Fortführung der Risiko-Ermittlung nach Teilung der Zufalls-IDs</item>
+        <item>Einführung von Registerkarten</item>
+        <item>Mehr Informationen zum Testablauf</item>
+    </string-array>
+
+    <string-array name="new_release_body">
+        <item>Wenn Sie ein erhöhtes Risiko haben, können Sie aus der App heraus eine Umfrage des Robert-Koch-Instituts aufrufen und daran teilnehmen.</item>
+        <item>Sie bekommen einen Überblick mit aktuellen Kennzahlen zum Infektionsgeschehen in Deutschland.</item>
+        <item>Die Texte auf den Risiko-Karten wurden leicht angepasst.</item>
+        <item>Nachdem Sie Ihre verschlüsselten Zufalls-IDs geteilt haben können Sie entscheiden, ob und wann Sie die Risiko-Ermittlung wieder einschalten möchten.</item>
+        <item>Es gibt nun eine eigene Registerkarte für das Kontakt-Tagebuch. Somit können Sie schneller auf Ihr Tagebuch zugreifen und vom Kontakt-Tagebuch wieder zurück auf die Startseite der App wechseln.</item>
+        <item>Die App enthält nun detaillierte Informationen zum Testablauf.</item>
+    </string-array>
+
+</resources>
