@@ -51,8 +51,11 @@ fun BottomNavigationView.setupWithNavController2(
                     navController.removeOnDestinationChangedListener(this)
                     return
                 }
-                bottomView.isVisible = destination.id == R.id.mainFragment ||
-                    destination.id == R.id.contactDiaryOverviewFragment
+                val visible = destination.id in listOf(
+                    R.id.mainFragment,
+                    R.id.contactDiaryOverviewFragment
+                )
+                bottomView.isVisible = visible
             }
         }
     )
