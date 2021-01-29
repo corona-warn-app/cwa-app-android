@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.release
+package de.rki.coronawarnapp.release
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,18 +13,18 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
-class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
+class NewReleaseInfoViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val settings: CWASettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val routeToScreen: SingleLiveEvent<NewReleaseInfoFragmentNavigationEvents> = SingleLiveEvent()
+    val routeToScreen: SingleLiveEvent<NewReleaseInfoNavigationEvents> = SingleLiveEvent()
 
     val title = R.string.release_info_version_title.toResolvingString(BuildConfig.VERSION_NAME)
 
     fun onNextButtonClick() {
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        routeToScreen.postValue(NewReleaseInfoFragmentNavigationEvents.CloseScreen)
+        routeToScreen.postValue(NewReleaseInfoNavigationEvents.CloseScreen)
     }
 
     fun getItems(titles: Array<String>, bodies: Array<String>): List<NewReleaseInfoItem> {
@@ -41,5 +41,5 @@ class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<NewReleaseInfoFragmentViewModel>
+    interface Factory : SimpleCWAViewModelFactory<NewReleaseInfoViewModel>
 }

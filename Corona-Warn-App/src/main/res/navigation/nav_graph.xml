@@ -503,7 +503,7 @@
     <!-- New Release -->
     <fragment
         android:id="@+id/newReleaseInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment"
+        android:name="de.rki.coronawarnapp.release.NewReleaseInfoFragment"
         android:label="NewReleaseInfoFragment" >
         <action
             android:id="@+id/action_newReleaseInfoFragment_pop"

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.release
+package de.rki.coronawarnapp.release
 
 data class NewReleaseInfoItem(
     val title: String,
