@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingProgressBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -41,6 +42,7 @@ class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH
             TypedVHCreatorMod({ data[it] is DetailsFailedCalculationBox.Item }) { DetailsFailedCalculationBox(it) },
             TypedVHCreatorMod({ data[it] is DetailsIncreasedRiskBox.Item }) { DetailsIncreasedRiskBox(it) },
             TypedVHCreatorMod({ data[it] is DetailsLowRiskBox.Item }) { DetailsLowRiskBox(it) },
+            TypedVHCreatorMod({ data[it] is UserSurveyBox.Item }) { UserSurveyBox(it) },
             TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
             TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
             TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },

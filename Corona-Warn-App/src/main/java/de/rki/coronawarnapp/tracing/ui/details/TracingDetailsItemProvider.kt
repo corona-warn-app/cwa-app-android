@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBo
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
@@ -52,6 +53,10 @@ class TracingDetailsItemProvider @Inject constructor(
                     riskState = latestCalc.riskState
                 )
             }.also { add(it) }
+
+            if (latestCalc.riskState == RiskState.INCREASED_RISK) {
+                add(UserSurveyBox.Item())
+            }
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED) {
                 PeriodLoggedBox.Item(
