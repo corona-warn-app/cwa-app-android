@@ -224,7 +224,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
-                TestPositive, SubmissionDone -> {
+                TestPositive, is SubmissionDone -> {
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
@@ -232,8 +232,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
             add(submissionItem)
 
-            if (submissionState == SubmissionDone) {
-                add(ReenableRiskCard.Item(onClickAction = { reenableRiskEvent.postValue(Unit) }))
+            if (submissionState is SubmissionDone) {
+                add(
+                    ReenableRiskCard.Item(
+                        state = submissionState,
+                        onClickAction = { reenableRiskEvent.postValue(Unit) })
+                )
             }
 
             if (statsData.isDataAvailable) {

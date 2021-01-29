@@ -1203,7 +1203,7 @@
     <!-- XHED: Card title for re-enable risk card -->
     <string name="reenable_risk_card_title">"Risiko-Überprüfung beendet"</string>
     <!-- YTXT: Body text for test registration date -->
-    <string name="reenable_risk_card_test_registration_string">"Test registriert am %1$d"</string>
+    <string name="reenable_risk_card_test_registration_string">"Test registriert am %s"</string>
     <!-- YTXT: Description text for re-enable risk card -->
     <string name="reenable_risk_card_description_text">"Die automatische Risiko-Überprüfung wurde beendet, weil Sie sich aufgrund Ihres positiven Tests aktuell in Isolation befinden. Sie können die Risiko-Überprüfung jederzeit wieder einschalten. Ihr registrierter Test wird dann automatisch gelöscht."</string>
     <!-- XBUT: Button for re-enabling risk calculation -->
