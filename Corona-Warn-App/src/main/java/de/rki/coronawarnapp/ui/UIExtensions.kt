@@ -51,7 +51,7 @@ fun BottomNavigationView.setupWithNavController2(
                 }
 
                 bottomView.isVisible = destination.id == R.id.mainFragment ||
-                    destination.parent?.id == R.id.contact_diary_nav_graph
+                    destination.id == R.id.contactDiaryOverviewFragment
             }
         }
     )
