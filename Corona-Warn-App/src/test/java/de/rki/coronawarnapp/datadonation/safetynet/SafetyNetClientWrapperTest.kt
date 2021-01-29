@@ -96,6 +96,18 @@ class SafetyNetClientWrapperTest : BaseTest() {
     }
 
     @Test
+    fun `an empty jwsResult is an error`() {
+        every { report.jwsResult } returns null
+
+        runBlockingTest {
+            val exception = shouldThrow<SafetyNetException> {
+                createInstance().attest("hodl".toByteArray())
+            }
+            exception.type shouldBe SafetyNetException.Type.ATTESTATION_FAILED
+        }
+    }
+
+    @Test
     fun `api key is retrieved on each call`() {
         every { environmentSetup.safetyNetApiKey } returns "wow"
 
