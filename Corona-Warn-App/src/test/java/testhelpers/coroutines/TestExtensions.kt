@@ -9,6 +9,10 @@ import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
+/**
+ * If you have a test that uses a coroutine that never stops, you may use this.
+ */
+
 @ExperimentalCoroutinesApi // Since 1.2.1, tentatively till 1.3.0
 fun TestCoroutineScope.runBlockingTest2(
     ignoreActive: Boolean = false,

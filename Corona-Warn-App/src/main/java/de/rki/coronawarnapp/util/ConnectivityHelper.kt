@@ -1,25 +1,18 @@
 package de.rki.coronawarnapp.util
 
-import android.app.ActivityManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * Helper for connectivity statuses.
  */
 object ConnectivityHelper {
     private val TAG: String? = ConnectivityHelper::class.simpleName
-
-    private val backgroundPrioritization by lazy {
-        AppInjector.component.connectivityHelperInjection.backgroundPrioritization
-    }
 
     /**
      * Unregister network state change callback.
@@ -76,37 +69,6 @@ object ConnectivityHelper {
     }
 
     /**
-     * For API level 28+ check if background is restricted
-     * Else always return false
-     *
-     * @param context the context
-     *
-     * @return Boolean
-     */
-    // TODO Can be replaced by **[BackgroundModeStatus]** at somepoint
-    fun isBackgroundRestricted(context: Context): Boolean {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            activityManager.isBackgroundRestricted
-        } else false
-    }
-
-    /**
-     * Background jobs are enabled only if the background activity prioritization is enabled and
-     * the background activity is not restricted
-     *
-     * @param context the context
-     *
-     * @return Boolean
-     *
-     * @see isBackgroundRestricted
-     */
-    // TODO Can be replaced by **[BackgroundModeStatus]** at somepoint
-    fun autoModeEnabled(context: Context): Boolean {
-        return !isBackgroundRestricted(context) || backgroundPrioritization.isBackgroundActivityPrioritized
-    }
-
-    /**
      * Get network enabled status.
      *
      * @return current network status
@@ -136,7 +98,7 @@ object ConnectivityHelper {
          */
         abstract fun onNetworkUnavailable()
 
-        override fun onAvailable(network: Network?) {
+        override fun onAvailable(network: Network) {
             onNetworkAvailable()
         }
 
@@ -144,7 +106,7 @@ object ConnectivityHelper {
             onNetworkUnavailable()
         }
 
-        override fun onLost(network: Network?) {
+        override fun onLost(network: Network) {
             onNetworkUnavailable()
         }
     }

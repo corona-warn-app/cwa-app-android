@@ -12,3 +12,5 @@
 /test_environments.json
 *.jks
 /keystore.properties
+.local/*
+fastlane/metadata

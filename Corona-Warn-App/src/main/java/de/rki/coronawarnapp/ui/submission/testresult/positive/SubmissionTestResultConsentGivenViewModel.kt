@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -16,10 +18,12 @@ import timber.log.Timber
 
 class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
+    private val autoSubmission: AutoSubmission,
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val showUploadDialog = submissionRepository.isSubmissionRunning
+    val showUploadDialog = autoSubmission.isSubmissionRunning
         .asLiveData(context = dispatcherProvider.Default)
 
     val uiState: LiveData<TestResultUIState> = combine(
@@ -38,6 +42,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     fun onTestOpened() {
         submissionRepository.setViewedTestResult()
+        testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
     fun onContinuePressed() {
@@ -49,16 +54,21 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
         showCancelDialog.postValue(Unit)
     }
 
-    fun cancelTestSubmission() {
+    fun onCancelConfirmed() {
         launch {
             try {
-                submissionRepository.startSubmission()
+                autoSubmission.runSubmissionNow()
             } catch (e: Exception) {
-                Timber.e(e, "cancelTestSubmission() failed.")
+                Timber.e(e, "onCancelConfirmed() failed.")
             } finally {
                 routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
             }
         }
+    }
+
+    fun onNewUserActivity() {
+        Timber.d("onNewUserActivity()")
+        autoSubmission.updateLastSubmissionUserActivity()
     }
 
     @AssistedInject.Factory

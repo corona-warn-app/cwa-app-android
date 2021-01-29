@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ui.settings.start
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -39,10 +41,10 @@ class SettingsTracingStateTest : BaseTest() {
     fun `bluetooth disabled`() {
         SettingsTracingState.BluetoothDisabled.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextPrimary3) }
+            verify { context.getColorCompat(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_active_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_tracing_bluetooth_inactive) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_restricted) }
@@ -53,10 +55,10 @@ class SettingsTracingStateTest : BaseTest() {
     fun `location disabled`() {
         SettingsTracingState.LocationDisabled.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { context.getColorCompat(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_location_inactive_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_location_inactive_small) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_inactive) }
@@ -67,10 +69,10 @@ class SettingsTracingStateTest : BaseTest() {
     fun `tracing inactive`() {
         SettingsTracingState.TracingInActive.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorTextSemanticRed) }
+            verify { context.getColorCompat(R.color.colorTextSemanticRed) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_inactive_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_tracing_inactive_small) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_inactive) }
@@ -81,10 +83,10 @@ class SettingsTracingStateTest : BaseTest() {
     fun `tracing active`() {
         SettingsTracingState.TracingActive.apply {
             getTracingIconColor(context)
-            verify { context.getColor(R.color.colorAccentTintIcon) }
+            verify { context.getColorCompat(R.color.colorAccentTintIcon) }
 
             getTracingIcon(context)
-            verify { context.getDrawable(R.drawable.ic_settings_tracing_active_small) }
+            verify { context.getDrawableCompat(R.drawable.ic_settings_tracing_active_small) }
 
             getTracingStatusText(context)
             verify { context.getString(R.string.settings_tracing_status_active) }

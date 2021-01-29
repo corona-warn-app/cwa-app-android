@@ -9,8 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
-import de.rki.coronawarnapp.contactdiary.util.showKeyboard
+import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonBottomSheetFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -67,7 +66,7 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             viewModel.textChanged(it.toString())
         }
 
-        binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { v, actionId, event ->
+        binding.contactDiaryPersonBottomSheetTextInputEditText.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 IME_ACTION_DONE -> {
                     if (viewModel.isValid.value == true) {
@@ -79,7 +78,7 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             }
         }
 
-        binding.contactDiaryPersonBottomSheetTextInputEditText.showKeyboard()
+        binding.contactDiaryPersonBottomSheetTextInputEditText.focusAndShowKeyboard()
 
         viewModel.shouldClose.observe2(this) {
             dismiss()
@@ -89,11 +88,6 @@ class ContactDiaryPersonBottomSheetDialogFragment : BottomSheetDialogFragment(),
             binding.contactDiaryPersonBottomSheetTextInputLayout.isErrorEnabled = isValid
             binding.contactDiaryPersonBottomSheetSaveButton.isEnabled = isValid
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        hideKeyboard()
     }
 
     override fun onDestroyView() {

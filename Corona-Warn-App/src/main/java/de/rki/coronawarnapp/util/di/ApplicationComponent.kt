@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
+import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
+import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.contactdiary.ContactDiaryRootModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -22,15 +24,13 @@ import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
-import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.statistics.StatisticsModule
 import de.rki.coronawarnapp.submission.SubmissionModule
-import de.rki.coronawarnapp.submission.SubmissionTaskModule
+import de.rki.coronawarnapp.submission.task.SubmissionTaskModule
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.ui.ActivityBinder
-import de.rki.coronawarnapp.util.ConnectivityHelperInjection
-import de.rki.coronawarnapp.util.UtilModule
 import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.CoroutineModule
@@ -53,7 +53,6 @@ import javax.inject.Singleton
         ServiceBinder::class,
         ActivityBinder::class,
         RiskModule::class,
-        UtilModule::class,
         DeviceModule::class,
         ENFModule::class,
         HttpModule::class,
@@ -68,16 +67,14 @@ import javax.inject.Singleton
         TaskModule::class,
         DeviceForTestersModule::class,
         BugReportingModule::class,
+        BugReportingSharedModule::class,
         SerializationModule::class,
         WorkerBinder::class,
-        ContactDiaryRootModule::class
+        ContactDiaryRootModule::class,
+        StatisticsModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
-
-    val connectivityHelperInjection: ConnectivityHelperInjection
-
-    val settingsRepository: SettingsRepository
 
     val keyCacheRepository: KeyCacheRepository
 
@@ -95,6 +92,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     @AppScope val appScope: AppCoroutineScope
 
     val bugReporter: BugReporter
+
+    fun inject(logger: DebugLogger)
 
     @Component.Factory
     interface Factory {

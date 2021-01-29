@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -21,8 +23,10 @@ import timber.log.Timber
 class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
+    private val autoSubmission: AutoSubmission,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
-    interoperabilityRepository: InteroperabilityRepository
+    interoperabilityRepository: InteroperabilityRepository,
+    private val submissionRepository: SubmissionRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -38,6 +42,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
         override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+            Timber.d("onTEKAvailable(tek.size=%d)", teks.size)
+            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+
             routeToScreen.postValue(
                 SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                     .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
@@ -70,6 +77,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onConsentButtonClicked() {
+        submissionRepository.giveConsentToSubmission()
         launch {
             if (enfClient.isTracingEnabled.first()) {
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()

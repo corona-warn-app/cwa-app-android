@@ -20,7 +20,7 @@
         <include
             android:id="@+id/information_legal_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,8 +29,8 @@
             app:title="@{@string/information_legal_title}" />
 
         <ScrollView
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
@@ -70,7 +70,7 @@
                 <include
                     android:id="@+id/information_legal_divider_contact"
                     layout="@layout/include_divider"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:focusable="true"
@@ -80,7 +80,7 @@
 
                 <TextView
                     android:id="@+id/information_legal_headline_contact"
-                    style="@style/headline5"
+                    style="@style/headline6"
                     android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 <include
                     android:id="@+id/information_legal_contact_form"
                     layout="@layout/include_contact_form"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
@@ -117,7 +117,7 @@
                 <include
                     android:id="@+id/information_legal_divider_taxid"
                     layout="@layout/include_divider"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
@@ -126,7 +126,7 @@
 
                 <TextView
                     android:id="@+id/information_legal_headline_taxid"
-                    style="@style/headline5"
+                    style="@style/headline6"
                     android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

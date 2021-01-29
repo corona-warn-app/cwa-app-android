@@ -81,10 +81,6 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- NOTR -->
-    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
     <!-- XTXT: Notification channel name for os settings -->
     <string name="notification_name">"Corona-Warn-App"</string>
     <!-- XTXT: Notification channel description for os settings -->
@@ -162,8 +158,8 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Narażenia z niskim ryzykiem w ciągu jednego dnia"</item>
         <item quantity="other">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
-        <item quantity="zero">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
-        <item quantity="two">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
+        <item quantity="zero">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
+        <item quantity="two">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
         <item quantity="few">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
         <item quantity="many">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
     </plurals>
@@ -172,8 +168,8 @@
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Narażenia w ciągu jednego dnia z podwyższonym ryzykiem"</item>
         <item quantity="other">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="zero">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
-        <item quantity="two">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
+        <item quantity="zero">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
+        <item quantity="two">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
         <item quantity="few">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="many">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
     </plurals>
@@ -336,8 +332,8 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dzień temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
         <item quantity="other">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dnia temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
-        <item quantity="zero">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
-        <item quantity="two">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
+        <item quantity="zero">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dnia temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
+        <item quantity="two">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dnia temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
         <item quantity="few">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
         <item quantity="many">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</item>
     </plurals>
@@ -376,6 +372,16 @@
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
     <!-- XBUT: risk lowered - dialog cancel -->
     <string name="risk_lowered_dialog_button_cancel">"Więcej"</string>
+
+    <!-- ####################################
+           Outdated Device Time
+    ###################################### -->
+    <!-- XHED: incorrect device time - dialog/notification headline -->
+    <string name="device_time_incorrect_dialog_headline">"Sprawdzanie narażeń jest niemożliwe"</string>
+    <!-- XTXT: incorrect device time - dialog/notification content -->
+    <string name="device_time_incorrect_dialog_body">"Czas ustawiony w urządzeniu nie zgadza się z aktualnym czasem. W rezultacie nie można teraz sprawdzić Twojego ryzyka. Ustaw prawidłowy czas w ustawieniach urządzenia."</string>
+    <!-- XBUT: incorrect device time - dialog confirm -->
+    <string name="device_time_incorrect_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
               Onboarding
@@ -556,8 +562,8 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Rejestrowanie narażenia jest aktywne od jednego dnia.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
         <item quantity="other">"Rejestrowanie narażenia jest aktywne od %1$s dnia.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
-        <item quantity="zero">"Rejestrowanie narażenia jest aktywne od %1$s dni.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
-        <item quantity="two">"Rejestrowanie narażenia jest aktywne od %1$s dni.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
+        <item quantity="zero">"Rejestrowanie narażenia jest aktywne od %1$s dnia.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
+        <item quantity="two">"Rejestrowanie narażenia jest aktywne od %1$s dnia.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
         <item quantity="few">"Rejestrowanie narażenia jest aktywne od %1$s dni.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
         <item quantity="many">"Rejestrowanie narażenia jest aktywne od %1$s dni.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestrowanie narażenia jest aktywowane na stałe."</item>
     </plurals>
@@ -632,8 +638,10 @@
     <string name="settings_background_priority_headline">"Zaktualizuj automatycznie status ryzyka"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Jeśli aktywujesz priorytetowe działanie w tle, aplikacja będzie mogła ustalić Twój status ryzyka w dowolnym momencie. Powoduje to wyłączenie optymalizacji żywotności baterii tylko dla aplikacji Corona-Warn-App."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
+    <!-- XACT: settings(background priority) - on - illustration description -->
+    <string name="settings_background_priority_on_illustration_description">"Trzymany w dłoni smartfon, na którym widać ikonę „Odświeżanie aktywne”."</string>
+    <!-- XACT: settings(background priority) - off - illustration description -->
+    <string name="settings_background_priority_off_illustration_description">"Trzymany w dłoni smartfon, na którym widać ikonę „Odświeżanie nieaktywne”."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Możesz aktywować i dezaktywować priorytetowe działanie w tle w ustawieniach urządzenia."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -725,6 +733,27 @@
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"W ręce trzymany jest smartfon z dużą ilością tekstu na ekranie. Obok tekstu znajduje się symbol paragrafu reprezentujący impressum."</string>
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title">"Raport o błędach"</string>
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation">"Ta opcja umożliwia rejestrowanie zachowania aplikacji w pliku tekstowym. Jeśli zostanie ona aktywowana przed wystąpieniem błędu, będziesz mieć możliwość udostępnienia tego raportu, aby pomóc programistom rozwiązać problem.\nPozostawienie tej opcji w stanie aktywności wiąże się z dużym zapotrzebowaniem na pamięć. Jeśli ją wyłączysz, raport o błędach zostanie usunięty."</string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning">"Należy pamiętać, że raporty o błędach mogą zawierać dane wrażliwe (takie jak wynik testu lub wpisy dziennika kontaktów). Z tego względu takie raporty nie powinny być udostępniane publicznie."</string>
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording">"Uruchom"</string>
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording">"Usuń"</string>
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log">"Udostępnij"</string>
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording">"Nagrywanie aktywne"</string>
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording">"Nieaktywne"</string>
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"Bieżący rozmiar: %1$s (nieskompresowane)"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title">"Udostępnij raport o błędach CWA"</string>
 
     <!-- ####################################
               Interoperability
@@ -914,7 +943,6 @@
     <string name="submission_test_result_consent_given_breakup_button">"Zakończ"</string>
 
 
-
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"Wpisz TAN"</string>
@@ -932,7 +960,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Dalej"</string>
-    
+
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Pobierz wynik testu"</string>
@@ -1195,7 +1223,7 @@
         <item>"Nadal nie czujesz się dobrze? Jeśli czujesz się bardzo słabo i/lub objawy się nasiliły, skontaktuj się z lekarzem rodzinnym."</item>
         <item>"Pozostań w domu, dopóki nie poczujesz się znowu dobrze. Zarażenie się koronawirusem (SARS-CoV-2) w stanie osłabienia przez inną infekcję może prowadzić do poważnej choroby."</item>
         <item>"Nie idź do pracy, jeśli nie czujesz się dobrze, aby nie stwarzać zagrożenia dla innych osób."</item>
-        <item>"Jeśli objawy nasilą się, może być konieczne wykonanie kolejnego testu SARS-CoV-2."</item>
+        <item>"Jeśli objawy nasilą się, może być konieczne wykonanie kolejnego testu na SARS-CoV-2."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -1244,6 +1272,104 @@
     <string name="submission_your_consent_agreement_title"><b>"Zgoda"</b></string>
     <!-- XTXT: Your consent screen detailed information -->
     <string name="submission_your_consent_agreement_details">"Szczegółowe informacje na temat przetwarzania danych i Twojej zgodzie"</string>
+
+    <!-- ####################################
+         Statistics
+    ###################################### -->
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for incident statistics card -->
+    <string name="statistics_card_incidence_title">"7-dniowa zapadalność"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
+    <string name="statistics_card_incidence_value_description">"potwierdzone nowe zakażenia na 100 000 mieszkańców"</string>
+
+    <!-- Infections statistics card -->
+    <!-- XHED: Title for infections statistics card -->
+    <string name="statistics_card_infections_title">"Potwierdzone nowe zakażenia"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the secondary value-->
+    <string name="statistics_card_infections_secondary_label">"7-dniowa średnia"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the tertiary value-->
+    <string name="statistics_card_infections_tertiary_label">"Suma"</string>
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for submission statistics card -->
+    <string name="statistics_card_submission_title">"Ostrzeżenia od użytkowników aplikacji"</string>
+    <!-- XTXT: Text displayed in the bottom of submission statistics card-->
+    <string name="statistics_card_submission_bottom_text">"za pośrednictwem Corona-Warn-App"</string>
+
+    <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
+    <string name="statistics_primary_value_today">"Dzisiaj"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in submission and infections cards -->
+    <string name="statistics_primary_value_yesterday">"Wczoraj"</string>
+    <!-- XTXT: Timestamp refers to today's date in incident card -->
+    <string name="statistics_primary_value_until_today">"Do dzisiaj"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
+    <string name="statistics_primary_value_until_yesterday">"Do wczoraj"</string>
+    <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
+    <string name="statistics_primary_value_current">"Aktualnie"</string>
+    <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
+    <string name="statistics_primary_value_until">"Do %s"</string>
+
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"mln"</string>
+
+    <!-- Explanation screen -->
+    <!-- XHED: Explanation screen title -->
+    <string name="statistics_explanation_title">"Wskaźniki"</string>
+    <!-- XHED: Explanation screen subtitle -->
+    <string name="statistics_explanation_subtitle">"Objaśnienie statystyk"</string>
+    <!-- XHED: Explanation screen confirmed new infections title -->
+    <string name="statistics_explanation_confirmed_new_infection_title">"Potwierdzone nowe zakażenia"</string>
+    <!-- XTXT: Explanation screen confirmed new infections text -->
+    <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób ze zdiagnozowanym zakażeniem koronawirusem zgłoszonych do RKI"</string>
+    <!-- XHED: Explanation screen warned persons title -->
+    <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
+    <!-- XTXT: Explanation screen warned persons text -->
+    <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji"</string>
+    <!-- XHED: Explanation screen seven day incidence title -->
+    <string name="statistics_explanation_seven_day_incidence_title">"7-dniowa zapadalność"</string>
+    <!-- XTXT: Explanation screen seven day incidence text -->
+    <string name="statistics_explanation_seven_day_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców"</string>
+    <!-- XHED: Explanation screen seven day r-value title -->
+    <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
+    <!-- XTXT: Explanation screen seven day r-value text -->
+    <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraża przeciętna osoba zakażona. Bieżąca wartość uwzględnia dane z ostatnich 5 dni.\n\nWięcej informacji znajdziesz w\nodpowiedziach na często zadawane pytania dotyczące statystyk."</string>
+    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <string name="statistics_explanation_seven_day_r_link_label">"Często zadawane pytania dotyczące statystyk."</string>
+    <!-- XHED: Explanation screen legend title -->
+    <string name="statistics_explanation_legend_title">"Legenda"</string>
+    <!-- XHED: Explanation screen period title -->
+    <string name="statistics_explanation_period_title">"Okres"</string>
+    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <string name="statistics_explanation_period_yesterday_subtitle">"Wczoraj/do wczoraj"</string>
+    <!-- XTXT: Explanation screen period yesterday text -->
+    <string name="statistics_explanation_period_yesterday_text">"Liczba dotycząca dnia poprzedniego/okresu do dnia poprzedniego. Jeśli dane liczbowe za poprzedni dzień nie są jeszcze dostępne, wyświetlana jest ostatnia data, dla której istnieją dane."</string>
+    <!-- XHED: Explanation screen period seven day subtitle -->
+    <string name="statistics_explanation_period_seven_day_subtitle">"7-dniowa średnia"</string>
+    <!-- XTXT: Explanation screen period seven day text -->
+    <string name="statistics_explanation_period_seven_day_text">"Średnia wartość z ostatnich 7 dni"</string>
+    <!-- XHED: Explanation screen period total subtitle -->
+    <string name="statistics_explanation_period_total_subtitle">"Suma"</string>
+    <!-- XTXT: Explanation screen period total text -->
+    <string name="statistics_explanation_period_total_text">"Łączna liczba od początku roku lub wprowadzenia aplikacji na rynek (15 czerwca 2020 r.)"</string>
+    <!-- XHED: Explanation screen trend title -->
+    <string name="statistics_explanation_trend_title">"Trend"</string>
+    <!-- YTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend_text">"Kierunek strzałki wskazuje, czy trend rośnie, maleje, czy też pozostaje stabilny, czyli wykazuje odchylenie mniejsze niż 1\% w porównaniu z poprzednim dniem lub 5\% w porównaniu z poprzednim tygodniem. Kolor wskazuje, że trend jest pozytywny (zielony), negatywny (czerwony) lub neutralny (szary). Trend ustala się poprzez porównanie wartości z poprzedniego dnia z wartością sprzed dwóch dni. W przypadku trendów 7-dniowych porównywana jest średnia wartość z ostatnich 7 dni ze średnią wartością z 7 dni je poprzedzających."</string>
+    <!-- XHED: Explanation screen trend icons title -->
+    <string name="statistics_explanation_trend_icons_title">"Można przedstawić następujące trendy:"</string>
+    <!-- XHED: Explanation screen trend increasing title -->
+    <string name="statistics_explanation_trend_increasing_title">"Trend: Rosnący"</string>
+    <!-- XHED: Explanation screen trend decreasing title -->
+    <string name="statistics_explanation_trend_decreasing_title">"Trend: Malejący"</string>
+    <!-- XHED: Explanation screen trend stable title -->
+    <string name="statistics_explanation_trend_stable_title">"Trend: Stabilny"</string>
+    <!-- XHED: Explanation screen trend description -->
+    <string name="statistics_explanation_trend_description">"Ocena trendu dotyczącego ostrzeżeń wysyłanych przez użytkowników aplikacji zmienia się w zależności od aktualnych poziomów zakażenia, dlatego trend ten jest zawsze wyświetlany jako neutralny."</string>
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
+    <!-- XACT: Statistics explanation illustration description -->
+    <string name="statistics_explanation_illustration_description">"Abstrakcyjne zdjęcie smartfona z czterema symbolami zastępczymi do celów informacyjnych"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
@@ -1432,7 +1558,7 @@
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Wyświetl warunki korzystania"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Warunki korzystania i oświadczenie o ochronie prywatności znajdują się w menu w sekcji „Informacje o aplikacji” oraz w opisie aplikacji w Twoim sklepie z aplikacjami. Zmiany nie będą miały wpływu na korzystanie przez Ciebie z aplikacji. Dalsze korzystanie z aplikacji lub jej ponowne otwarcie będzie oznaczać akceptację zaktualizowanych Warunków korzystania."</string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Warunki korzystania i oświadczenie o ochronie prywatności znajdują się w menu w sekcji „Informacje o aplikacji” oraz w opisie aplikacji w Twoim sklepie z aplikacjami. Zmiany nie będą miały wpływu na korzystanie przez Ciebie z aplikacji. Dalsze korzystanie z aplikacji lub jej ponowne otwarcie będzie oznaczać akceptację zaktualizowanych warunków korzystania."</string>
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
@@ -1467,5 +1593,21 @@
     <string name="submission_test_result_positive_no_consent_dialog_negative_button">"Nie ostrzegaj innych"</string>
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Anuluj"</string>
+
+    <!-- XTXT: Statistics information (Accessibilty) -->
+    <string name="statistics_info_button">"Więcej informacji"</string>
+    <!-- XHED: Title for statistics reproduction card -->
+    <string name="statistics_title_reproduction">"7-dniowa wartość R"</string>
+    <!-- XTXT: Label for statistics reproduction card -->
+    <string name="statistics_reproduction_title">"Aktualnie"</string>
+    <!-- XTXT: Caption for statistics reproduction card -->
+    <string name="statistics_reproduction_average">"średnia liczba zakażeń przez zakażoną osobę"</string>
+
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">"Trend: Rosnący"</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">"Trend: Malejący"</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">"Trend: Stabilny"</string>
 
 </resources>

@@ -7,15 +7,16 @@
 
         <ImageView
             android:id="@+id/contact_diary_person_bottom_sheet_close_button"
-            android:layout_width="@dimen/circle_icon_big"
-            android:layout_height="@dimen/circle_icon_big"
-            android:layout_marginStart="@dimen/spacing_normal"
+            style="@style/buttonIcon"
+            android:layout_width="@dimen/button_icon"
+            android:layout_height="@dimen/button_icon"
+            android:layout_marginStart="@dimen/spacing_tiny"
             android:layout_marginTop="@dimen/spacing_small"
-            android:src="@drawable/ic_close"
             android:contentDescription="@string/accessibility_close"
+            android:src="@drawable/ic_close"
+            android:padding="@dimen/spacing_mega_tiny"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/buttonIcon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/contact_diary_person_bottom_sheet_title"
@@ -30,26 +31,26 @@
 
         <ImageView
             android:id="@+id/contact_diary_person_bottom_sheet_delete_button"
-            android:layout_width="@dimen/circle_icon_big"
-            android:layout_height="@dimen/circle_icon_big"
-            android:layout_marginEnd="@dimen/spacing_normal"
+            style="@style/buttonIcon"
+            android:layout_width="@dimen/button_icon"
+            android:layout_height="@dimen/button_icon"
             android:layout_marginTop="@dimen/spacing_small"
-            android:padding="@dimen/circle_icon_big_padding"
-            android:src="@drawable/ic_baseline_delete"
+            android:layout_marginEnd="@dimen/spacing_tiny"
             android:contentDescription="@string/contact_diary_delete_icon_content_description"
+            android:padding="@dimen/button_icon_padding"
+            android:src="@drawable/ic_baseline_delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/buttonIcon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contact_diary_person_bottom_sheet_text_input_layout"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
+            android:hint="@string/contact_diary_person_bottom_sheet_text_input_hint"
             app:counterEnabled="true"
             app:counterMaxLength="250"
-            android:hint="@string/contact_diary_person_bottom_sheet_text_input_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_person_bottom_sheet_close_button">
@@ -58,15 +59,15 @@
                 android:id="@+id/contact_diary_person_bottom_sheet_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:imeOptions="actionDone"/>
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <android.widget.Button
             android:id="@+id/contact_diary_person_bottom_sheet_save_button"
             style="@style/buttonPrimary"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"

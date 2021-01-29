@@ -1,22 +1,3 @@
-/******************************************************************************
- * Corona-Warn-App                                                            *
- *                                                                            *
- * SAP SE and all other contributors /                                        *
- * copyright owners license this file to you under the Apache                 *
- * License, Version 2.0 (the "License"); you may not use this                 *
- * file except in compliance with the License.                                *
- * You may obtain a copy of the License at                                    *
- *                                                                            *
- * http://www.apache.org/licenses/LICENSE-2.0                                 *
- *                                                                            *
- * Unless required by applicable law or agreed to in writing,                 *
- * software distributed under the License is distributed on an                *
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY                     *
- * KIND, either express or implied.  See the License for the                  *
- * specific language governing permissions and limitations                    *
- * under the License.                                                         *
- ******************************************************************************/
-
 package de.rki.coronawarnapp.util
 
 import android.annotation.SuppressLint
@@ -26,11 +7,13 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.sync.Mutex
@@ -42,6 +25,7 @@ import javax.inject.Singleton
 /**
  * Helper for supplying functionality regarding Data Retention
  */
+@Suppress("LongParameterList")
 @Singleton
 class DataReset @Inject constructor(
     @AppContext private val context: Context,
@@ -52,7 +36,9 @@ class DataReset @Inject constructor(
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
-    private var contactDiarySettings: ContactDiarySettings
+    private var contactDiarySettings: ContactDiarySettings,
+    private val cwaSettings: CWASettings,
+    private val statisticsProvider: StatisticsProvider
 ) {
 
     private val mutex = Mutex()
@@ -79,9 +65,12 @@ class DataReset @Inject constructor(
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
         contactDiarySettings.clear()
+        cwaSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()
+
+        statisticsProvider.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

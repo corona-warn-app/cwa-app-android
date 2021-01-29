@@ -3,28 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
         <variable
-            name="settingsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
+            name="state"
+            type="de.rki.coronawarnapp.ui.settings.backgroundpriority.BackgroundPriorityState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_background_priority_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/settings_background_priority_title"
         android:focusable="true">
 
         <include
             android:id="@+id/settings_background_priority_header"
             layout="@layout/include_header"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/settings_background_priority_title"
+            android:focusable="true"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,8 +28,8 @@
             app:title="@{@string/settings_background_priority_title}" />
 
         <ScrollView
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/match_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,12 +43,12 @@
                 <include
                     android:id="@+id/settings_background_priority_header_details"
                     layout="@layout/include_information_details"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:body="@{@string/settings_background_priority_body}"
                     app:headline="@{@string/settings_background_priority_headline}"
-                    app:illustration="@{@drawable/ic_settings_illustration_reset}"
-                    app:illustrationDescription="@{@string/settings_background_priority_illustration_description}"
+                    app:illustration="@{state.getHeaderIllustration(context)}"
+                    app:illustrationDescription="@{state.getHeaderIllustrationDescription(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -68,28 +64,28 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_background_priority_header_details">
 
-                        <TextView
-                            android:id="@+id/settings_row_background_priority_header_subtitle"
-                            style="@style/subtitle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_background_priority_title"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/settings_row_background_priority_header_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_background_priority_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/settings_row_background_priority_header_body"
-                            style="@style/body2Medium"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_mega_tiny"
-                            android:accessibilityLiveRegion="assertive"
-                            android:text="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isBackgroundPriorityEnabled())}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority_header_subtitle" />
+                    <TextView
+                        android:id="@+id/settings_row_background_priority_header_body"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:accessibilityLiveRegion="assertive"
+                        android:text="@{state.getButtonStateLabel(context)}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority_header_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,7 +102,7 @@
                 <include
                     android:id="@+id/settings_tracing_status_connection"
                     layout="@layout/include_tracing_status_card"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     app:body="@{@string/settings_background_priority_card_body}"

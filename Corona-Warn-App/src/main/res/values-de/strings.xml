@@ -82,10 +82,6 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- NOTR -->
-    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
     <!-- XTXT: Notification channel name for os settings -->
     <string name="notification_name">"Corona-Warn-App"</string>
     <!-- XTXT: Notification channel description for os settings -->
@@ -379,6 +375,16 @@
     <string name="risk_lowered_dialog_button_cancel">"Mehr"</string>
 
     <!-- ####################################
+           Outdated Device Time
+    ###################################### -->
+    <!-- XHED: incorrect device time - dialog/notification headline -->
+    <string name="device_time_incorrect_dialog_headline">"Risiko-Überprüfung nicht möglich"</string>
+    <!-- XTXT: incorrect device time - dialog/notification content -->
+    <string name="device_time_incorrect_dialog_body">"Die auf Ihrem Smartphone eingestellte Uhrzeit entspricht nicht der aktuellen Uhrzeit. Deshalb kann Ihr Risiko im Moment nicht überprüft werden. Bitte passen Sie die Uhrzeit in den Einstellungen Ihres Smartphones an."</string>
+    <!-- XBUT: incorrect device time - dialog confirm -->
+    <string name="device_time_incorrect_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 
@@ -580,7 +586,7 @@
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">"Mitteilungen sind deaktiviert"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu COVID-19-Risikostatus."</string>
+    <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu Ihrem COVID-19-Risikostatus."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Legen Sie fest, zu welchen Themen Sie informiert bleiben möchten."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
@@ -633,8 +639,10 @@
     <string name="settings_background_priority_headline">"Risikostatus immer automatisch aktualisieren"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität einschalten, kann die App Ihren Risikostatus immer automatisch prüfen. Damit wird die Optimierung des Akku-Verbrauchs ausschließlich für die Corona-Warn-App deaktiviert."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description" />
+    <!-- XACT: settings(background priority) - on - illustration description -->
+    <string name="settings_background_priority_on_illustration_description">"Eine Hand hält ein Smartphone, auf dem ein Symbol für „Aktualisierung ist aktiv" zu sehen ist." </string>
+    <!-- XACT: settings(background priority) - off - illustration description -->
+    <string name="settings_background_priority_off_illustration_description">"Eine Hand hält ein Smartphone, auf dem ein Symbol für „Aktualisierung ist nicht aktiv" zu sehen ist."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Sie können die priorisierte Hintergrundaktivität in den Einstellungen Ihres Smartphones ein- beziehungsweise ausschalten."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -726,6 +734,27 @@
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Paragraphenzeichen als Symbol für das Impressum."</string>
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title">"Fehlerbericht"</string>
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation">"Durch diese Option wird das App-Verhalten in einer Textdatei protokolliert. Ist die Option aktiviert bevor ein Fehler auftritt, können Sie diesen Bericht zur Verfügung stellen, um die Entwickler bei der Problemlösung zu unterstützen.\nEine dauerhafte Aktivierung dieser Option führt zu hohem Speicherbedarf. Der Fehlerbericht wird durch Deaktivieren der Option gelöscht."</string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten sensible Daten (z.B. Testergebnis oder Kontakt-Tagebuch-Einträge) enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording">"Starten"</string>
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording">"Löschen"</string>
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log">"Teilen"</string>
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording">"Aufzeichnung läuft"</string>
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording">"Inaktiv"</string>
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"Derzeitige Größe: %1$s (unkomprimiert)"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title">"CWA Fehlerbericht teilen"</string>
 
     <!-- ####################################
               Interoperability
@@ -910,10 +939,9 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Vielen Dank, dass Sie mithelfen, die Verbreitung von Corona zu bekämpfen."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body">"<b>Ihre Mitmenschen werden jetzt gewarnt.</b> <br/><br/>Bitte helfen Sie nun, die Genauigkeit der Warnungen zu verbessern. Geben Sie hierfür im nächsten Schritt an, wann Sie erstmals Symptome hatten. Sie können diesen Schritt jederzeit abbrechen."</string>
+    <string name="submission_test_result_consent_given_body">"<b>Ihre Mitmenschen werden jetzt gewarnt.</b> <br /><br />Bitte helfen Sie nun, die Genauigkeit der Warnungen zu verbessern. Geben Sie hierfür im nächsten Schritt an, wann Sie erstmals Symptome hatten. Sie können diesen Schritt jederzeit abbrechen."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Beenden"</string>
-
 
 
     <!-- Submission Tan -->
@@ -933,7 +961,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Weiter"</string>
-    
+
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Testergebnis abrufen"</string>
@@ -946,7 +974,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Test mit QR-Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokuments scannen."</string>
+    <string name="submission_dispatcher_qr_card_text">"Registrieren Sie Ihren Test, indem Sie den QR-Code Ihres Testdokuments scannen."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN-Eingabe"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -964,8 +992,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen vor einer möglichen Infektion gewarnt werden.\n\nHierfür können Sie Ihre eigenen Zufalls-IDs der letzten 14 Tage und optional auch Angaben zum ersten Auftreten von eventuellen Corona-Symptomen an den von den teilnehmenden Ländern gemeinsam betriebenen 
-        Server übertragen. Von dort werden Ihre Zufalls-IDs und eventuelle weitere Angaben an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. So können die anderen Nutzer, mit denen Sie Kontakt hatten, vor einer eventuellen Ansteckung gewarnt werden.\n\nEs werden nur Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen vor einer möglichen Infektion gewarnt werden.\n\nHierfür können Sie Ihre eigenen Zufalls-IDs der letzten 14 Tage und optional auch Angaben zum ersten Auftreten von eventuellen Corona-Symptomen an den von den teilnehmenden Ländern gemeinsam betriebenen Server übertragen. Von dort werden Ihre Zufalls-IDs und eventuelle weitere Angaben an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. So können die anderen Nutzer, mit denen Sie Kontakt hatten, vor einer eventuellen Ansteckung gewarnt werden.\n\nEs werden nur Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1197,7 +1224,7 @@
         <item>"Sie haben trotzdem gesundheitliche Beschwerden? Wenn Sie sich sehr krank fühlen und/oder Ihre Beschwerden sich verschlechtert haben, wenden Sie sich bitte an Ihre Hausarztpraxis."</item>
         <item>"Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen."</item>
         <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden."</item>
-        <item>"Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteres SARS-CoV-2-Tests bestehen."</item>
+        <item>"Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -1246,6 +1273,104 @@
     <string name="submission_your_consent_agreement_title">"<b>Einverständnis</b>"</string>
     <!-- XTXT: Your consent screen detailed information -->
     <string name="submission_your_consent_agreement_details">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
+
+    <!-- ####################################
+         Statistics
+    ###################################### -->
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for incident statistics card -->
+    <string name="statistics_card_incidence_title">"7-Tage-Inzidenz"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
+    <string name="statistics_card_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
+
+    <!-- Infections statistics card -->
+    <!-- XHED: Title for infections statistics card -->
+    <string name="statistics_card_infections_title">"Bestätigte Neuinfektionen"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the secondary value-->
+    <string name="statistics_card_infections_secondary_label">"7-Tage-Mittelwert"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the tertiary value-->
+    <string name="statistics_card_infections_tertiary_label">"Gesamt"</string>
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for submission statistics card -->
+    <string name="statistics_card_submission_title">"Warnende Personen"</string>
+    <!-- XTXT: Text displayed in the bottom of submission statistics card-->
+    <string name="statistics_card_submission_bottom_text">"über die Corona-Warn-App"</string>
+
+    <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
+    <string name="statistics_primary_value_today">"Heute"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in submission and infections cards -->
+    <string name="statistics_primary_value_yesterday">"Gestern"</string>
+    <!-- XTXT: Timestamp refers to today's date in incident card -->
+    <string name="statistics_primary_value_until_today">"Bis heute"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
+    <string name="statistics_primary_value_until_yesterday">"Bis gestern"</string>
+    <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
+    <string name="statistics_primary_value_current">"Aktuell"</string>
+    <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
+    <string name="statistics_primary_value_until">"Bis %s"</string>
+
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"Mio."</string>
+
+    <!-- Explanation screen -->
+    <!-- XHED: Explanation screen title -->
+    <string name="statistics_explanation_title">"Kennzahlen"</string>
+    <!-- XHED: Explanation screen subtitle -->
+    <string name="statistics_explanation_subtitle">"Erklärung der Statistiken"</string>
+    <!-- XHED: Explanation screen confirmed new infections title -->
+    <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
+    <!-- XTXT: Explanation screen confirmed new infections text -->
+    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen"</string>
+    <!-- XHED: Explanation screen warned persons title -->
+    <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
+    <!-- XTXT: Explanation screen warned persons text -->
+    <string name="statistics_explanation_warned_persons_text">"Anzahl der Corona-positiv getesteten Personen, die mithilfe der App ihre Mitmenschen gewarnt haben"</string>
+    <!-- XHED: Explanation screen seven day incidence title -->
+    <string name="statistics_explanation_seven_day_incidence_title">"7-Tage-Inzidenz"</string>
+    <!-- XTXT: Explanation screen seven day incidence text -->
+    <string name="statistics_explanation_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner"</string>
+    <!-- XHED: Explanation screen seven day r-value title -->
+    <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
+    <!-- XTXT: Explanation screen seven day r-value text -->
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen.\n\nWeitere Informationen finden Sie in der\nFAQ zu den Statistiken."</string>
+    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <string name="statistics_explanation_seven_day_r_link_label">"FAQ zu den Statistiken."</string>
+    <!-- XHED: Explanation screen legend title -->
+    <string name="statistics_explanation_legend_title">"Legende"</string>
+    <!-- XHED: Explanation screen period title -->
+    <string name="statistics_explanation_period_title">"Zeitraum"</string>
+    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <string name="statistics_explanation_period_yesterday_subtitle">"Gestern / Bis gestern"</string>
+    <!-- XTXT: Explanation screen period yesterday text -->
+    <string name="statistics_explanation_period_yesterday_text">"Zahl für den Vortag / bis zum Vortag. Wenn für den Vortag noch keine Zahl vorliegt, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <!-- XHED: Explanation screen period seven day subtitle -->
+    <string name="statistics_explanation_period_seven_day_subtitle">"7-Tage-Mittelwert"</string>
+    <!-- XTXT: Explanation screen period seven day text -->
+    <string name="statistics_explanation_period_seven_day_text">"Mittelwert der vergangenen 7 Tage"</string>
+    <!-- XHED: Explanation screen period total subtitle -->
+    <string name="statistics_explanation_period_total_subtitle">"Gesamt"</string>
+    <!-- XTXT: Explanation screen period total text -->
+    <string name="statistics_explanation_period_total_text">"Gesamtzahl seit Jahresbeginn 2020 bzw. Einführung der App (15. Juni 2020)"</string>
+    <!-- XHED: Explanation screen trend title -->
+    <string name="statistics_explanation_trend_title">"Trend"</string>
+    <!-- YTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung von weniger als 1\% im Vortagesvergleich bzw. 5\% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau). Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage."</string>
+    <!-- XHED: Explanation screen trend icons title -->
+    <string name="statistics_explanation_trend_icons_title">"Folgende Trends können angezeigt werden:"</string>
+    <!-- XHED: Explanation screen trend increasing title -->
+    <string name="statistics_explanation_trend_increasing_title">"Trend steigend"</string>
+    <!-- XHED: Explanation screen trend decreasing title -->
+    <string name="statistics_explanation_trend_decreasing_title">"Trend fallend"</string>
+    <!-- XHED: Explanation screen trend stable title -->
+    <string name="statistics_explanation_trend_stable_title">"Trend stabil"</string>
+    <!-- XHED: Explanation screen trend description -->
+    <string name="statistics_explanation_trend_description">"Die Bewertung des Trends bei den warnenden Personen ändert sich je nach Infektionslage. Deshalb wird dieser Trend immer neutral dargestellt."</string>
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/de/faq/#further_details"</string>
+    <!-- XACT: Statistics explanation illustration description -->
+    <string name="statistics_explanation_illustration_description">"Abstrakte Darstellung eines Smartphones mit vier Platzhaltern für Informationen"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
@@ -1355,7 +1480,7 @@
     <!-- XHED: Country Entry for Spain -->
     <string name="country_name_es">Spanien</string>
     <!-- XHED: Country Entry for Finland -->
-    <string name="country_name_fi">Finland</string>
+    <string name="country_name_fi">Finnland</string>
     <!-- XHED: Country Entry for France -->
     <string name="country_name_fr">Frankreich</string>
     <!-- XHED: Country Entry for Great Britain -->
@@ -1469,5 +1594,21 @@
     <string name="submission_test_result_positive_no_consent_dialog_negative_button">Nicht warnen</string>
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
+
+    <!-- XTXT: Statistics information (Accessibilty) -->
+    <string name="statistics_info_button">"Weitere Informationen"</string>
+    <!-- XHED: Title for statistics reproduction card -->
+    <string name="statistics_title_reproduction">7-Tage-R-Wert</string>
+    <!-- XTXT: Label for statistics reproduction card -->
+    <string name="statistics_reproduction_title">Aktuell</string>
+    <!-- XTXT: Caption for statistics reproduction card -->
+    <string name="statistics_reproduction_average">durchschnittliche Ansteckungen pro infizierter Person</string>
+
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">Trend steigend</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">Trend fallend</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">Trend stabil</string>
 
 </resources>

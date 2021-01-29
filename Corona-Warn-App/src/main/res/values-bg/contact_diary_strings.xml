@@ -97,4 +97,26 @@
     <string name="contact_diary_delete_location_title">"Наистина ли искате да изтриете това място?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Наистина ли искате да изтриете това лице?"</string>
+
+    <!-- XTXT: location (description for screen readers) -->
+    <string name="accessibility_location">"Място %s"</string>
+    <!-- XTXT: person (description for screen readers) -->
+    <string name="accessibility_person">"Лице %s"</string>
+    <!-- XTXT: location is not selected (description for screen readers) -->
+    <string name="accessibility_location_unselected">"Място %s не е избрано"</string>
+    <!-- XTXT: person is not selected (description for screen readers) -->
+    <string name="accessibility_person_unselected">"Лице %s не е избрано"</string>
+    <!-- XTXT: location is selected (description for screen readers) -->
+    <string name="accessibility_location_selected">"Място %s е избрано"</string>
+    <!-- XTXT: person is selected (description for screen readers) -->
+    <string name="accessibility_person_selected">"Лице %s е избрано"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Дневен изглед"</string>
+
+    <!-- XTXT: Select (description for screen readers) -->
+    <string name="accessibility_action_select">"Избор"</string>
+    <!-- XTXT: Deselect (description for screen readers) -->
+    <string name="accessibility_action_deselect">"Отмяна на избора"</string>
+    <!-- XTXT: Edit (description for screen readers) -->
+    <string name="accessibility_edit">"Редактиране"</string>
 </resources>

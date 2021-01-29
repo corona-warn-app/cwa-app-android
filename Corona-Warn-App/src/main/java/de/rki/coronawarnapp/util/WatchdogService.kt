@@ -3,16 +3,20 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.PowerManager
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.di.ProcessLifecycle
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -21,7 +25,9 @@ import javax.inject.Singleton
 @Singleton
 class WatchdogService @Inject constructor(
     @AppContext private val context: Context,
-    private val taskController: TaskController
+    private val taskController: TaskController,
+    private val backgroundModeStatus: BackgroundModeStatus,
+    @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner
 ) {
 
     private val powerManager by lazy {
@@ -32,14 +38,15 @@ class WatchdogService @Inject constructor(
     }
 
     fun launch() {
+        val isAutoModeEnable = runBlocking { backgroundModeStatus.isAutoModeEnabled.first() }
         // Only do this if the background jobs are enabled
-        if (!ConnectivityHelper.autoModeEnabled(context)) {
+        if (!isAutoModeEnable) {
             Timber.tag(TAG).d("Background jobs are not enabled, aborting.")
             return
         }
 
         Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
-        ProcessLifecycleOwner.get().lifecycleScope.launch {
+        processLifecycleOwner.lifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing

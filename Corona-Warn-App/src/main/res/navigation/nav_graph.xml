@@ -12,7 +12,7 @@
         android:id="@+id/mainFragment"
         android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/home_fragment_layout">
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
+            app:destination="@id/statisticsExplanationFragment" />
     </fragment>
 
     <fragment
@@ -94,7 +97,7 @@
 
     <fragment
         android:id="@+id/settingsTracingFragment"
-        android:name="de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragment"
+        android:name="de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing">
         <action
@@ -130,7 +133,7 @@
 
     <fragment
         android:id="@+id/settingsBackgroundPriorityFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsBackgroundPriorityFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.backgroundpriority.SettingsBackgroundPriorityFragment"
         android:label="SettingsBackgroundPriorityFragment"
         tools:layout="@layout/fragment_settings_background_priority" />
 
@@ -168,6 +171,9 @@
         <action
             android:id="@+id/action_informationFragment_to_informationTechnicalFragment"
             app:destination="@id/informationTechnicalFragment" />
+        <action
+            android:id="@+id/action_informationFragment_to_debuglogFragment"
+            app:destination="@id/debuglogFragment" />
     </fragment>
 
     <fragment
@@ -208,13 +214,21 @@
 
     <fragment
         android:id="@+id/riskDetailsFragment"
-        android:name="de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragment"
-        android:label="@layout/fragment_risk_details"
-        tools:layout="@layout/fragment_risk_details">
+        android:name="de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragment"
+        android:label="@layout/tracing_details_fragment_layout"
+        tools:layout="@layout/tracing_details_fragment_layout">
         <action
             android:id="@+id/action_riskDetailsFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/statisticsExplanationFragment"
+        android:name="de.rki.coronawarnapp.statistics.ui.StatisticsExplanationFragment"
+        android:label="@layout/fragment_statistics_explanation"
+        tools:layout="@layout/fragment_statistics_explanation" />
+
     <!-- Submission -->
     <fragment
         android:id="@+id/submissionDispatcherFragment"
@@ -479,4 +493,8 @@
         android:name="de.rki.coronawarnapp.ui.submission.testresult.invalid.SubmissionTestResultInvalidFragment"
         android:label="SubmissionTestResultInvalidFragment"
         tools:layout="@layout/fragment_submission_test_result_invalid" />
+    <fragment
+        android:id="@+id/debuglogFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
+        android:label="DebuglogFragment" />
 </navigation>

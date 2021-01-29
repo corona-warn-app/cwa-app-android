@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/submission_done_text"
             style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_done_body"
             android:focusable="true"
@@ -28,7 +28,7 @@
             android:id="@+id/submission_done_subtitle"
             style="@style/headline5"
             android:accessibilityHeading="true"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_done_subtitle"
@@ -40,7 +40,7 @@
         <include
             android:id="@+id/submission_done_contagious"
             layout="@layout/include_submission_behaviour_row"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_done_contagious}"
@@ -52,7 +52,7 @@
         <include
             android:id="@+id/submission_done_isolate"
             layout="@layout/include_submission_behaviour_row"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_done_isolate}"
@@ -63,7 +63,7 @@
 
         <include
             layout="@layout/include_submission_done_further_info"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"

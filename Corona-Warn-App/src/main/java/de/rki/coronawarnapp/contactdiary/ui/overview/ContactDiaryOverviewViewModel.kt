@@ -82,7 +82,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .map { personEncounter ->
                 ListItem.Data(
                     R.drawable.ic_contact_diary_person_item,
-                    personEncounter.contactDiaryPerson.fullName
+                    personEncounter.contactDiaryPerson.fullName,
+                    ListItem.Type.PERSON
                 )
             }
     }
@@ -96,7 +97,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .map { locationVisit ->
                 ListItem.Data(
                     R.drawable.ic_contact_diary_location_item,
-                    locationVisit.contactDiaryLocation.locationName
+                    locationVisit.contactDiaryLocation.locationName,
+                    ListItem.Type.LOCATION
                 )
             }
     }
@@ -139,7 +141,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         }
     }
 
-    private fun List<String>.addToStringBuilder(sb: StringBuilder, dateString: String) = sorted()
+    private fun List<String>.addToStringBuilder(sb: StringBuilder, dateString: String) = sortedBy {
+        it.toLowerCase(Locale.ROOT)
+    }
         .forEach { sb.appendLine("$dateString $it") }
 
     // According to tech spec german locale only

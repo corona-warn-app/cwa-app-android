@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -11,8 +12,8 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
-import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -75,39 +76,21 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
     private fun updateButtons(symptomStart: Symptoms.StartOf?) {
         binding.apply {
             calendarButtonSevenDays.apply {
-                setTextColor(
-                    formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays)
-                )
-                backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays)
-                )
+                handleColors(symptomStart, Symptoms.StartOf.LastSevenDays)
                 setOnClickListener { viewModel.onLastSevenDaysStart() }
             }
 
             calendarButtonOneTwoWeeks.apply {
-                setTextColor(
-                    formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
-                )
-                backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
-                )
+                handleColors(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo)
                 setOnClickListener { viewModel.onOneToTwoWeeksAgoStart() }
             }
 
             calendarButtonMoreThanTwoWeeks.apply {
-                setTextColor(
-                    formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
-                )
-                backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
-                )
+                handleColors(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks)
                 setOnClickListener { viewModel.onMoreThanTwoWeeksStart() }
             }
             targetButtonVerify.apply {
-                setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.NoInformation))
-                backgroundTintList = ColorStateList.valueOf(
-                    formatCalendarBackgroundButtonStyleByState(symptomStart, Symptoms.StartOf.NoInformation)
-                )
+                handleColors(symptomStart, Symptoms.StartOf.NoInformation)
                 setOnClickListener { viewModel.onNoInformationStart() }
             }
 
@@ -116,5 +99,17 @@ class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_
                 setOnClickListener { viewModel.onDone() }
             }
         }
+    }
+
+    private fun Button.handleColors(symptomStart: Symptoms.StartOf?, state: Symptoms.StartOf) {
+        setTextColor(formatSymptomButtonTextStyleByState(context, symptomStart, state))
+        backgroundTintList = ColorStateList.valueOf(
+            formatSymptomBackgroundButtonStyleByState(context, symptomStart, state)
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onNewUserActivity()
     }
 }

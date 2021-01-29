@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
@@ -15,7 +16,8 @@ import timber.log.Timber
 
 class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
@@ -37,6 +39,11 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
 
             routeToScreen.postValue(null)
         }
+    }
+
+    fun onTestOpened() {
+        submissionRepository.setViewedTestResult()
+        testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
     @AssistedInject.Factory

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -25,74 +24,53 @@
             type="CharSequence" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/information_details_header_illustration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            bind:cwaContentDescription="@{illustrationDescription}"
-            android:focusable="true"
-            android:src="@{illustration}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_illustration_tracing_on"
-            tools:ignore="ContentDescription" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/information_details_header_illustration">
+            android:focusable="true"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            android:scaleType="centerCrop"
+            android:src="@{illustration}"
+            bind:cwaContentDescription="@{illustrationDescription}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_submission_illustration_hotline" />
 
-            <TextView
-                android:id="@+id/information_details_header_headline"
-                style="@style/headline5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:accessibilityHeading="true"
-                android:focusable="true"
-                android:text="@{headline}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/settings_title" />
+        <TextView
+            android:id="@+id/information_details_header_headline"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
+            android:focusable="true"
+            android:text="@{headline}"
+            android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
+            tools:text="@string/settings_title" />
 
-            <TextView
-                android:id="@+id/information_details_header_body"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:focusable="true"
-                android:text="@{body}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
-                android:autoLink="all"
-                android:textColorLink="@color/colorTextTint"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/information_details_header_headline"
-                tools:text="@string/settings_title" />
+        <TextView
+            android:id="@+id/information_details_header_body"
+            style="@style/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:autoLink="all"
+            android:focusable="true"
+            android:text="@{body}"
+            android:textColorLink="@color/colorTextTint"
+            android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
+            tools:text="@tools:sample/lorem/random" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </layout>

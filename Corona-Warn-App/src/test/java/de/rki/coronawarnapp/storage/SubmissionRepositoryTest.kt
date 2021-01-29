@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.storage
 
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -88,7 +89,6 @@ class SubmissionRepositoryTest {
         submissionSettings = submissionSettings,
         submissionService = submissionService,
         timeStamper = timeStamper,
-        taskController = taskController,
         tekHistoryStorage = tekHistoryStorage
     )
 
@@ -97,8 +97,9 @@ class SubmissionRepositoryTest {
         val submissionRepository = createInstance(scope = this)
 
         every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs
+        every { LocalData.initialTestResultReceivedTimestamp(any()) } just Runs
         every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
-        every { LocalData.isTestResultNotificationSent(any()) } just Runs
+        every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
 
         submissionRepository.removeTestFromDevice()
 
@@ -106,8 +107,9 @@ class SubmissionRepositoryTest {
             LocalData.registrationToken(null)
             LocalData.devicePairingSuccessfulTimestamp(0L)
             LocalData.initialPollingForTestResultTimeStamp(0L)
+            LocalData.initialTestResultReceivedTimestamp(0L)
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
-            LocalData.isTestResultNotificationSent(false)
+            LocalData.isTestResultAvailableNotificationSent(false)
         }
     }
 

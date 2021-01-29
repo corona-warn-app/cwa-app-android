@@ -73,7 +73,7 @@ object BackgroundWorkScheduler {
     fun startWorkScheduler() {
         val notificationBody = StringBuilder()
         notificationBody.append("Jobs starting: ")
-        if (LocalData.numberOfSuccessfulSubmissions() > 0) return
+        if (LocalData.submissionWasSuccessful()) return
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         logWorkActiveStatus(
             WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
@@ -84,7 +84,7 @@ object BackgroundWorkScheduler {
             notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
         if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-            LocalData.registrationToken() != null && !LocalData.isTestResultNotificationSent()
+            LocalData.registrationToken() != null && !LocalData.isTestResultAvailableNotificationSent()
         ) {
             WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
             LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())

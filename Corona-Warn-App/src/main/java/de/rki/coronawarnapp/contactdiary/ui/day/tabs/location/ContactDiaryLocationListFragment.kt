@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.setInvisible
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -34,7 +34,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
         super.onViewCreated(view, savedInstanceState)
 
         val locationListAdapter = ContactDiaryLocationListAdapter {
-            viewModel.locationSelectionChanged(it)
+            viewModel.onLocationSelectionChanged(it)
         }
 
         binding.contactDiaryLocationListRecyclerView.apply {
@@ -48,8 +48,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
 
         viewModel.uiList.observe2(this) {
             locationListAdapter.update(it)
-
-            binding.contactDiaryLocationListNoItemsGroup.setInvisible(it.isNotEmpty())
+            binding.contactDiaryLocationListNoItemsGroup.isGone = it.isNotEmpty()
         }
     }
 }

@@ -81,10 +81,6 @@
     <!-- ####################################
                Notification
     ###################################### -->
-    <!-- NOTR -->
-    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
     <!-- XTXT: Notification channel name for os settings -->
     <string name="notification_name">"Corona-Warn-App"</string>
     <!-- XTXT: Notification channel description for os settings -->
@@ -378,6 +374,16 @@
     <string name="risk_lowered_dialog_button_cancel">"Daha Fazla"</string>
 
     <!-- ####################################
+           Outdated Device Time
+    ###################################### -->
+    <!-- XHED: incorrect device time - dialog/notification headline -->
+    <string name="device_time_incorrect_dialog_headline">"Maruz Kalma Denetimi Yapılamıyor"</string>
+    <!-- XTXT: incorrect device time - dialog/notification content -->
+    <string name="device_time_incorrect_dialog_body">"Cihazınızın saati geçerli saat ile eşleşmiyor. Dolayısıyla risk durumunuz şu anda kontrol edilemiyor. Lütfen cihazınızın ayarlarında doğru saati ayarlayın."</string>
+    <!-- XBUT: incorrect device time - dialog confirm -->
+    <string name="device_time_incorrect_dialog_button_confirm">"Tamam"</string>
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 
@@ -579,7 +585,7 @@
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">"Bildirimler devre dışı bırakıldı"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"COVID-19 risk durumu ile ilgili otomatik bildirimlere izin ver"</string>
+    <string name="settings_notifications_body_description">"COVID-19 risk durumunuz ile ilgili otomatik bildirimlere izin verin."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Hangi konularda bildirim almaya devam etmek istediğinizi belirtin."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
@@ -632,8 +638,10 @@
     <string name="settings_background_priority_headline">"Risk Durumunu Otomatik Olarak Güncelle"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz uygulama risk durumunuzu sürekli olarak belirleyebilir. Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
+    <!-- XACT: settings(background priority) - on - illustration description -->
+    <string name="settings_background_priority_on_illustration_description">"Bir elde akıllı telefon duruyor, telefonda \"Yenileme etkin\" simgesi görülebiliyor."</string>
+    <!-- XACT: settings(background priority) - off - illustration description -->
+    <string name="settings_background_priority_off_illustration_description">"Bir elde akıllı telefon duruyor, telefonda \"Yenileme etkin değil\" simgesi görülebiliyor."</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Önceliklendirilmiş arka plan aktivitesini cihaz ayarları bölümünden etkinleştirebilir ve devre dışı bırakabilirsiniz."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -725,6 +733,27 @@
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında baskıyı temsil eden bir bölüm bulunuyor."</string>
+
+    <!-- XHED: Headline for debug log screen -->
+    <string name="debugging_debuglog_title">"Hata Raporu"</string>
+    <!-- YTXT: Description for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation">"Bu seçenek, uygulama davranışını bir metin dosyasına kaydeder. Bir hata meydana gelmeden önce bu seçenek etkinleştirilirse geliştiricilerin sorunu çözmesine yardımcı olmak için bu raporu sunabilirsiniz.\nBu seçeneği etkinleştirilmiş durumda bırakırsanız yüksek depolama alanı gereklilikleri oluşacaktır. Seçeneği devre dışı bırakırsanız hata raporu silinir."</string>
+    <!-- YTXT: Warning regarding downsides of recording a log file -->
+    <string name="debugging_debuglog_intro_warning">"Lütfen hata raporlarının hassas veriler içerebileceğini unutmayın (örneğin, test sonucu ya da temas güncesi girişleri). Bu nedenle bu hata raporlarını herkese açık şekilde paylaşmamanız gerekir."</string>
+    <!-- XBUT: Button text to start the log recording -->
+    <string name="debugging_debuglog_action_start_recording">"Başlat"</string>
+    <!-- XBUT: Button text to stop the log recording -->
+    <string name="debugging_debuglog_action_stop_recording">"Sil"</string>
+    <!-- XBUT: Button text to share the log recording -->
+    <string name="debugging_debuglog_action_share_log">"Paylaş"</string>
+    <!-- YTXT: Status text if a debug log is being recorded -->
+    <string name="debugging_debuglog_status_recording">"Kayıt Etkin"</string>
+    <!-- YTXT: Status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_not_recording">"Etkin Değil"</string>
+    <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
+    <string name="debugging_debuglog_status_additional_infos">"Geçerli boyut: %1$s (sıkıştırılmamış)"</string>
+    <!-- XHED: Title for native sharing dialog -->
+    <string name="debugging_debuglog_sharing_dialog_title">"CWA Hata Raporunu Paylaş"</string>
 
     <!-- ####################################
               Interoperability
@@ -914,7 +943,6 @@
     <string name="submission_test_result_consent_given_breakup_button">"Çıkış"</string>
 
 
-
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN gir"</string>
@@ -932,7 +960,7 @@
     <!-- Submission Intro -->
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Sonraki"</string>
-    
+
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Test Sonucunu Al"</string>
@@ -1195,7 +1223,7 @@
         <item>"Hâlâ kendinizi iyi hissetmiyor musunuz? Kendinizi kötü hissediyorsanız ve/veya belirtileriniz kötüleştiyse lütfen aile hekiminizle iletişime geçin."</item>
         <item>"Kendinizi yeniden iyi hissedene dek evde kalın. Başka bir enfeksiyon nedeniyle bağışıklığınız zayıflamışken koronavirüse (SARS-CoV-2) yakalanırsanız ciddi bir hastalıkla karşılaşabilirsiniz."</item>
         <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin."</item>
-        <item>"Belirtileriniz kötüleşirse ilave SARS-CoV-2 testi yapılması gerekebilir."</item>
+        <item>"Belirtileriniz kötüleşirse başka bir SARS-CoV-2 testinin yapılması gerekebilir."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -1244,6 +1272,104 @@
     <string name="submission_your_consent_agreement_title"><b>"Onay"</b></string>
     <!-- XTXT: Your consent screen detailed information -->
     <string name="submission_your_consent_agreement_details">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
+
+    <!-- ####################################
+         Statistics
+    ###################################### -->
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for incident statistics card -->
+    <string name="statistics_card_incidence_title">"7 Günlük Olay"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
+    <string name="statistics_card_incidence_value_description">"her 100.000 vatandaşta onaylanan yeni enfeksiyon sayısı"</string>
+
+    <!-- Infections statistics card -->
+    <!-- XHED: Title for infections statistics card -->
+    <string name="statistics_card_infections_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the secondary value-->
+    <string name="statistics_card_infections_secondary_label">"7 Günlük Ortalama"</string>
+    <!-- XTXT: Label in infections statistics card that is displayed above the tertiary value-->
+    <string name="statistics_card_infections_tertiary_label">"Toplam"</string>
+
+    <!-- Incidence statistics card -->
+    <!-- XHED: Title for submission statistics card -->
+    <string name="statistics_card_submission_title">"Uygulama Kullanıcılarının Uyarıları"</string>
+    <!-- XTXT: Text displayed in the bottom of submission statistics card-->
+    <string name="statistics_card_submission_bottom_text">"Corona-Warn-App üzerinden"</string>
+
+    <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
+    <string name="statistics_primary_value_today">"Bugün"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in submission and infections cards -->
+    <string name="statistics_primary_value_yesterday">"Dün"</string>
+    <!-- XTXT: Timestamp refers to today's date in incident card -->
+    <string name="statistics_primary_value_until_today">"Bugüne kadar"</string>
+    <!-- XTXT: Timestamp refers to yesterday's date in incident card -->
+    <string name="statistics_primary_value_until_yesterday">"Düne kadar"</string>
+    <!-- XTXT: Timestamp refers to today's date in Reproduction Number card -->
+    <string name="statistics_primary_value_current">"Şu Anda"</string>
+    <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
+    <string name="statistics_primary_value_until">"%s tarihine kadar"</string>
+
+    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
+    <string name="statistics_value_suffix_million">"milyon"</string>
+
+    <!-- Explanation screen -->
+    <!-- XHED: Explanation screen title -->
+    <string name="statistics_explanation_title">"Önemli Değerler"</string>
+    <!-- XHED: Explanation screen subtitle -->
+    <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
+    <!-- XHED: Explanation screen confirmed new infections title -->
+    <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
+    <!-- XTXT: Explanation screen confirmed new infections text -->
+    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı koyulan ve RKI’ye bildirilen kişi sayısı"</string>
+    <!-- XHED: Explanation screen warned persons title -->
+    <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
+    <!-- XTXT: Explanation screen warned persons text -->
+    <string name="statistics_explanation_warned_persons_text">"Koronavirüs tanısı koyulan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
+    <!-- XHED: Explanation screen seven day incidence title -->
+    <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
+    <!-- XTXT: Explanation screen seven day incidence text -->
+    <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı"</string>
+    <!-- XHED: Explanation screen seven day r-value title -->
+    <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
+    <!-- XTXT: Explanation screen seven day r-value text -->
+    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır.\n\nDaha fazla bilgi için\nistatistiklere ilişkin SSS bölümüne bakın."</string>
+    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <string name="statistics_explanation_seven_day_r_link_label">"SSS bölümüne bakın."</string>
+    <!-- XHED: Explanation screen legend title -->
+    <string name="statistics_explanation_legend_title">"Açıklama"</string>
+    <!-- XHED: Explanation screen period title -->
+    <string name="statistics_explanation_period_title">"Dönem"</string>
+    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <string name="statistics_explanation_period_yesterday_subtitle">"Dün/Düne kadar"</string>
+    <!-- XTXT: Explanation screen period yesterday text -->
+    <string name="statistics_explanation_period_yesterday_text">"Önceki güne ait/önceki güne kadar olan sayıdır. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <!-- XHED: Explanation screen period seven day subtitle -->
+    <string name="statistics_explanation_period_seven_day_subtitle">"7 Günlük Ortalama"</string>
+    <!-- XTXT: Explanation screen period seven day text -->
+    <string name="statistics_explanation_period_seven_day_text">"Son 7 güne ait ortalama değer"</string>
+    <!-- XHED: Explanation screen period total subtitle -->
+    <string name="statistics_explanation_period_total_subtitle">"Toplam"</string>
+    <!-- XTXT: Explanation screen period total text -->
+    <string name="statistics_explanation_period_total_text">"Yıl başından ya da uygulamanın kullanıma sunulmasından itibaren toplam sayı (15 Haziran 2020)"</string>
+    <!-- XHED: Explanation screen trend title -->
+    <string name="statistics_explanation_trend_title">"Trend"</string>
+    <!-- YTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend_text">"Ok yönü trendin arttığını, azaldığını ya da sabit kaldığını belirtir. Sabit kalması, önceki güne göre %1’den az veya önceki haftaya göre %5’ten az sapma olduğu anlamına gelir. Renk ise bu trendin pozitif (yeşil), negatif (kırmızı) ya da nötr (gri) olduğunu belirtir. Trend için, önceki güne ait değer iki gün önceki değerle karşılaştırılır ya da 7 günlük trendler için son 7 güne ait ortalama değer ondan önceki 7 güne ait ortalama değerle karşılaştırılır."</string>
+    <!-- XHED: Explanation screen trend icons title -->
+    <string name="statistics_explanation_trend_icons_title">"Şu trendler gösterilebilir:"</string>
+    <!-- XHED: Explanation screen trend increasing title -->
+    <string name="statistics_explanation_trend_increasing_title">"Trend: Yukarı"</string>
+    <!-- XHED: Explanation screen trend decreasing title -->
+    <string name="statistics_explanation_trend_decreasing_title">"Trend: Aşağı"</string>
+    <!-- XHED: Explanation screen trend stable title -->
+    <string name="statistics_explanation_trend_stable_title">"Trend: Sabit"</string>
+    <!-- XHED: Explanation screen trend description -->
+    <string name="statistics_explanation_trend_description">"Uygulama kullanıcıları tarafından yapılan uyarılara ilişkin trend değerlendirmesi geçerli enfeksiyon seviyesine göre değişiklik gösterir. Bu nedenle trend her zaman nötr olarak görüntülenir."</string>
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
+    <!-- XACT: Statistics explanation illustration description -->
+    <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
@@ -1432,7 +1558,7 @@
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Kullanım koşullarını görüntüle"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Kullanım Koşulları ve gizlilik bildirimi \"Uygulama Bilgileri\" başlığındaki menüde ve uygulama mağazanızdaki uygulama açıklamasında yer almaktadır. Değişiklikler, uygulamayı nasıl kullandığınızı etkilemeyecektir. Uygulamayı kullanmaya devam eder veya uygulamayı yeniden açarsanız güncellenen Kullanım Koşullarını kabul ettiğinizi varsayacağız."</string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Kullanım koşulları ve gizlilik bildirimi \"Uygulama Bilgileri\" başlığındaki menüde ve uygulama mağazanızdaki uygulama açıklamasında yer almaktadır. Değişiklikler, uygulamayı nasıl kullandığınızı etkilemeyecektir. Uygulamayı kullanmaya devam eder veya uygulamayı yeniden açarsanız güncellenen kullanım koşullarını kabul ettiğinizi varsayacağız."</string>
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">"Ülkeler Arası\nMaruz Kalma Günlüğü"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
@@ -1467,5 +1593,21 @@
     <string name="submission_test_result_positive_no_consent_dialog_negative_button">"Diğer kullanıcıları uyarma"</string>
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"İptal"</string>
+
+    <!-- XTXT: Statistics information (Accessibilty) -->
+    <string name="statistics_info_button">"Daha fazla bilgi"</string>
+    <!-- XHED: Title for statistics reproduction card -->
+    <string name="statistics_title_reproduction">"7 Günlük R Değeri"</string>
+    <!-- XTXT: Label for statistics reproduction card -->
+    <string name="statistics_reproduction_title">"Şu Anda"</string>
+    <!-- XTXT: Caption for statistics reproduction card -->
+    <string name="statistics_reproduction_average">"enfekte olan kişi başına ortalama enfeksiyon sayısı"</string>
+
+    <!-- XTXT: Statistics trend increasing (Accessibilty) -->
+    <string name="statistics_trend_increasing">"Trend: Yukarı"</string>
+    <!-- XTXT: Statistics trend decreasing (Accessibilty) -->
+    <string name="statistics_trend_decreasing">"Trend: Aşağı"</string>
+    <!-- XTXT: Statistics trend stable (Accessibilty) -->
+    <string name="statistics_trend_stable">"Trend: Sabit"</string>
 
 </resources>

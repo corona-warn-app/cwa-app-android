@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText">
-
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
-        <variable
-            name="showRiskStatusCard"
-            type="Boolean" />
-
-        <variable
-            name="settingsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
-
-        <variable
-            name="tracingCard"
-            type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
-    </data>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,7 +16,7 @@
 
             <LinearLayout
                 android:id="@+id/environment_container"
-                style="@style/card"
+                style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -63,24 +42,6 @@
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:orientation="vertical" />
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/test_risk_card"
-                style="@style/card"
-                gone="@{showRiskStatusCard == null || !showRiskStatusCard}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
-                android:backgroundTintMode="src_over"
-                android:focusable="true">
-
-                <include
-                    android:id="@+id/risk_card_content"
-                    layout="@layout/include_risk_card_content"
-                    app:tracingCard="@{tracingCard}" />
-
-            </FrameLayout>
 
             <Button
                 android:id="@+id/button_calculate_risk_level"

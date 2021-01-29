@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="state"
+            type="de.rki.coronawarnapp.tracing.states.TracingFailed" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSurface1"
+        android:padding="@dimen/card_padding">
+
+        <TextView
+            android:id="@+id/risk_card_header_headline"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:accessibilityHeading="true"
+            android:text="@string/risk_card_check_failed_no_internet_headline"
+            app:layout_constraintEnd_toStartOf="@+id/risk_card_header_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/risk_card_header_icon"
+            gone="@{state.isInDetailsMode}"
+            android:layout_width="@dimen/icon_size_risk_card"
+            android:layout_height="@dimen/icon_size_risk_card"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_forward"
+            app:tint="@color/colorTextPrimary1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/risk_card_body"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/risk_card_check_failed_no_internet_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_card_header_headline" />
+
+        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+            android:id="@+id/risk_card_row_saved_risk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:icon="@drawable/ic_risk_card_saved_risk"
+            android:text="@{state.getLastRiskState(context)}"
+            android:textColor="@color/colorTextPrimary1"
+            app:compatIconTint="@color/colorSemanticNeutralRisk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_card_body"
+            tools:text="@string/risk_card_no_calculation_possible_body_saved_risk" />
+
+        <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
+            android:id="@+id/risk_card_row_time_fetched"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_risk_card_time_fetched"
+            android:text="@{state.getTimeFetched(context)}"
+            android:textColor="@color/colorTextPrimary1"
+            app:compatIconTint="@color/colorSemanticNeutralRisk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_risk"
+            tools:text="@string/risk_card_body_not_yet_fetched" />
+
+        <Button
+            android:id="@+id/risk_card_button_update"
+            style="@style/buttonPrimary"
+            gone="@{!state.showRestartButton}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/risk_card_check_failed_no_internet_restart_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_card_row_time_fetched" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -39,7 +39,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
     private var isCanceled = false
 
-    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): Task.Result {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
@@ -71,6 +70,11 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val requestedCountries = arguments.requestedCountries
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
             throwIfCancelled()
+
+            if (!exposureConfig.isDeviceTimeCorrect) {
+                Timber.tag(TAG).w("Aborting, Device time is incorrect, offset=%s", exposureConfig.localOffset)
+                return object : Task.Result {}
+            }
 
             val now = timeStamper.nowUTC
 
@@ -135,9 +139,23 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         trackedDetections: Collection<TrackedExposureDetection>
     ): Boolean {
         val lastDetection = trackedDetections.maxByOrNull { it.startedAt }
-        val nextDetectionAt = lastDetection?.startedAt?.plus(exposureConfig.minTimeBetweenDetections)
+        if (lastDetection == null) {
+            Timber.tag(TAG).d("No previous detections exist, don't abort.")
+            return false
+        }
 
-        return (nextDetectionAt != null && now.isBefore(nextDetectionAt)).also {
+        if (lastDetection.startedAt.isAfter(now.plus(Duration.standardHours(1)))) {
+            Timber.tag(TAG).w("Last detection happened in our future? Don't abort as precaution.")
+            return false
+        }
+
+        val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections)
+
+        Duration(now, nextDetectionAt).also {
+            Timber.tag(TAG).d("Next detection is available in %d min", it.standardMinutes)
+        }
+
+        return (now.isBefore(nextDetectionAt)).also {
             if (it) Timber.tag(TAG).w("Aborting. Last detection is recent: %s (now=%s)", lastDetection, now)
         }
     }

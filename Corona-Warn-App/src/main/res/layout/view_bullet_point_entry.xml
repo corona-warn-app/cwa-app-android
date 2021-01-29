@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/bullet_point_content"
         style="@style/subtitle"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bullet_point_spacing_after"
         app:layout_constraintEnd_toEndOf="parent"

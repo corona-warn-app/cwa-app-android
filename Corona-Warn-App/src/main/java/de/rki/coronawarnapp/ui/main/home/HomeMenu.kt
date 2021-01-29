@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.content.Context
-import android.view.View
-import android.widget.PopupMenu
+import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
+import android.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -13,16 +12,20 @@ import javax.inject.Inject
 class HomeMenu @Inject constructor(
     private val homeFragment: HomeFragment
 ) {
-    private val context: Context = homeFragment.requireContext()
 
     private val navController: NavController
         get() = homeFragment.findNavController()
 
-    fun showMenuFor(view: View) = PopupMenu(context, view).apply {
-        inflate(R.menu.menu_main)
+    fun setupMenu(toolbar: Toolbar) = toolbar.apply {
+        inflateMenu(R.menu.menu_main)
         menu.findItem(R.id.menu_test).isVisible = CWADebug.isDeviceForTestersBuild
+        menu.findItem(R.id.menu_share).setShowAsAction(SHOW_AS_ACTION_ALWAYS)
         setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
+                R.id.menu_share -> {
+                    navController.doNavigate(HomeFragmentDirections.actionMainFragmentToMainSharingFragment())
+                    true
+                }
                 R.id.menu_help -> {
                     navController.doNavigate(HomeFragmentDirections.actionMainFragmentToMainOverviewFragment())
                     true
@@ -42,5 +45,5 @@ class HomeMenu @Inject constructor(
                 else -> homeFragment.onOptionsItemSelected(it)
             }
         }
-    }.show()
+    }
 }

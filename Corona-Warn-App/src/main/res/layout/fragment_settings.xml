@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
         <variable
             name="tracingState"
             type="de.rki.coronawarnapp.ui.settings.start.SettingsTracingState" />
@@ -84,11 +81,11 @@
                 <include
                     android:id="@+id/settings_background_priority"
                     layout="@layout/include_setting_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:body="@{@string/settings_background_priority_body_description}"
                     app:color="@{backgroundState.getBackgroundPriorityIconColor(context)}"
-                    app:icon="@{backgroundState.getBackgroindPriorityIcon(context)}"
+                    app:icon="@{backgroundState.getBackgroundPriorityIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_notifications"

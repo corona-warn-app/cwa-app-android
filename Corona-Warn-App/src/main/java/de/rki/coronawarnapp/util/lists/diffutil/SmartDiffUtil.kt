@@ -27,7 +27,7 @@ class AsyncDiffer<T : HasStableId>(
     compareItemContent: (T, T) -> Boolean = { i1, i2 -> i1 == i2 },
     determinePayload: (T, T) -> Any? = { i1, i2 ->
         when {
-            i1 is HasPayloadDiffer && i1::class.java.isInstance(i2) -> i1.diffPayload(i1, i2)
+            i1 is HasPayloadDiffer && i1::class == i2::class -> i1.diffPayload(i1, i2)
             else -> null
         }
     }

@@ -77,6 +77,7 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        viewModel.onNewUserActivity()
     }
 
     private fun setButtonOnClickListener() {
@@ -98,7 +99,7 @@ class SubmissionTestResultConsentGivenFragment : Fragment(R.layout.fragment_subm
             setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
             setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
             setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
-                viewModel.cancelTestSubmission()
+                viewModel.onCancelConfirmed()
             }
             setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ ->
                 // NOOP

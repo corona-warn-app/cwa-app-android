@@ -60,7 +60,7 @@
     <!-- XTXT: Subtitle for contact diary overview screen -->
     <string name="contact_diary_overview_subtitle">"Write down the people you have met and places you have visited."</string>
     <!-- XTXT: Header for contact diary overview screen -->
-    <string name="contact_diary_overview_header">"Start Page"</string>
+    <string name="contact_diary_overview_header">Start Page</string>
 
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"A closed book with a bookmark"</string>
@@ -105,4 +105,27 @@
     <string name="contact_diary_export_intro_one" translatable="false">"Kontakte der letzten 14 Tage (%1$s - %2$s)"</string>
     <!-- XTXT: Intro text  for the contact journal email export part two-->
     <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
+
+    <!-- XTXT: location (description for screen readers) -->
+    <string name="accessibility_location">"Place %s"</string>
+    <!-- XTXT: person (description for screen readers) -->
+    <string name="accessibility_person">"Person %s"</string>
+    <!-- XTXT: location is not selected (description for screen readers) -->
+    <string name="accessibility_location_unselected">"Place %s is not selected"</string>
+    <!-- XTXT: person is not selected (description for screen readers) -->
+    <string name="accessibility_person_unselected">"Person %s is not selected"</string>
+    <!-- XTXT: location is selected (description for screen readers) -->
+    <string name="accessibility_location_selected">"Place %s is selected"</string>
+    <!-- XTXT: person is selected (description for screen readers) -->
+    <string name="accessibility_person_selected">"Person %s is selected"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Day View"</string>
+
+    <!-- XTXT: Select (description for screen readers) -->
+    <string name="accessibility_action_select">"Select"</string>
+    <!-- XTXT: Deselect (description for screen readers) -->
+    <string name="accessibility_action_deselect">"Cancel Selection"</string>
+    <!-- XTXT: Edit (description for screen readers) -->
+    <string name="accessibility_edit">"Edit"</string>
+
 </resources>

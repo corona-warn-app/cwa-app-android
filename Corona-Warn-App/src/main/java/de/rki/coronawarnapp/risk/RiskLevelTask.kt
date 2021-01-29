@@ -16,9 +16,9 @@ import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -48,7 +48,6 @@ class RiskLevelTask @Inject constructor(
 
     private var isCanceled = false
 
-    @Suppress("LongMethod")
     override suspend fun run(arguments: Task.Arguments): RiskLevelTaskResult = try {
         Timber.d("Running with arguments=%s", arguments)
 
@@ -76,6 +75,14 @@ class RiskLevelTask @Inject constructor(
     private suspend fun determineRiskLevelResult(configData: ConfigData): RiskLevelTaskResult {
         val nowUTC = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
+        }
+
+        if (!configData.isDeviceTimeCorrect) {
+            Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
+            return RiskLevelTaskResult(
+                calculatedAt = nowUTC,
+                failureReason = FailureReason.INCORRECT_DEVICE_TIME
+            )
         }
 
         if (!isNetworkEnabled(context)) {
