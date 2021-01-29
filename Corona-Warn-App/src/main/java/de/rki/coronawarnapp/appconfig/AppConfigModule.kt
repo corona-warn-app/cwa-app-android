@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.appconfig
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
+import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
@@ -67,6 +68,10 @@ class AppConfigModule {
     @Provides
     fun surveyMapper(mapper: SurveyConfigMapper):
         SurveyConfig.Mapper = mapper
+
+    @Provides
+    fun analyticsMapper(mapper: AnalyticsConfigMapper):
+        AnalyticsConfig.Mapper = mapper
 
     companion object {
         private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
@@ -16,7 +17,8 @@ class ConfigParser @Inject constructor(
     private val keyDownloadConfigMapper: KeyDownloadConfig.Mapper,
     private val exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper,
     private val exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper,
-    private val surveyConfigMapper: SurveyConfig.Mapper
+    private val surveyConfigMapper: SurveyConfig.Mapper,
+    private val analyticsConfigMapper: AnalyticsConfig.Mapper
 ) {
 
     fun parse(configBytes: ByteArray): ConfigMapping = try {
@@ -27,7 +29,8 @@ class ConfigParser @Inject constructor(
                 keyDownloadConfig = keyDownloadConfigMapper.map(it),
                 exposureDetectionConfig = exposureDetectionConfigMapper.map(it),
                 exposureWindowRiskCalculationConfig = exposureWindowRiskCalculationConfigMapper.map(it),
-                survey = surveyConfigMapper.map(it)
+                survey = surveyConfigMapper.map(it),
+                analytics = analyticsConfigMapper.map(it)
             )
         }
     } catch (e: Exception) {
