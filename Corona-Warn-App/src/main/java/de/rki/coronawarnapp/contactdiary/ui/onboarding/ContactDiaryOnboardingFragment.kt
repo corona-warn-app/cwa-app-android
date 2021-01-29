@@ -32,10 +32,6 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 vm.onNextButtonClick()
             }
 
-            toolbar.setNavigationOnClickListener {
-                vm.onBackButtonPress()
-            }
-
             contactDiaryOnboardingPrivacyInformation.setOnClickListener {
                 vm.onPrivacyButtonPress()
             }

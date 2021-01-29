@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -32,6 +33,10 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+
+        binding.toolbar.setNavigationOnClickListener {
+            popBackStack()
+        }
 
         binding.deleteButton.setOnClickListener { viewModel.onDeleteAllLocationsClick() }
 
