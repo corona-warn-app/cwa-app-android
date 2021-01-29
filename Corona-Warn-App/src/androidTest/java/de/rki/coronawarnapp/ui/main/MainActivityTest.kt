@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.Provides
@@ -12,11 +14,16 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
+import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -25,10 +32,12 @@ import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
 import de.rki.coronawarnapp.submission.ui.homecards.TestSubmissionDoneCard
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
+import de.rki.coronawarnapp.ui.contactdiary.DiaryData
 import de.rki.coronawarnapp.ui.main.home.HomeData
 import de.rki.coronawarnapp.ui.main.home.HomeFragment
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
@@ -50,6 +59,7 @@ import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -61,12 +71,14 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.recyclerScrollTo
+import testhelpers.selectBottomNavTab
 import timber.log.Timber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest : BaseUITest() {
+    // HomeFragment mocks
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
@@ -77,11 +89,21 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
+
+    // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
     @MockK lateinit var tracingStateProvider: TracingStateProvider
+
+    // ContactDiaryOverviewFragment mocks
+    @MockK lateinit var taskController: TaskController
+    @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
+
+    // ViewModels
     private lateinit var mainActivityViewModel: MainActivityViewModel
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
+    private lateinit var contactDiaryOverviewViewModel: ContactDiaryOverviewViewModel
 
     @Rule
     @JvmField
@@ -102,9 +124,10 @@ class MainActivityTest : BaseUITest() {
         every { LocalData.isBackgroundCheckDone() } returns true
         every { LocalData.submissionWasSuccessful() } returns false
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
-
+        // Setup ViewModels
         setupActivityViewModel()
         setupHomeFragmentViewModel()
+        setupContactDiaryOverviewViewModel()
     }
 
     @After
@@ -114,18 +137,18 @@ class MainActivityTest : BaseUITest() {
     }
 
     @Test
-    fun launchActivity() {
+    fun launchMainActivity() {
         launchActivity<MainActivity>()
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_low_risk() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentLowRisk() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.LOW_RISK_ITEM
         )
 
-        captureScreenshot("low_risk")
+        captureHomeFragment("low_risk")
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view)).perform(recyclerScrollTo())
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
@@ -133,112 +156,129 @@ class MainActivityTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun capture_screenshot_increased_risk() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentIncreasedRisk() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.INCREASED_RISK_ITEM
         )
-        captureScreenshot("increased_risk")
+        captureHomeFragment("increased_risk")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_tracing_disabled() {
+    fun captureHomeFragmentTracingDisabled() {
         every { homeFragmentViewModel.tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingInActive)
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.TRACING_DISABLED_ITEM
         )
-        captureScreenshot("tracing_disabled")
+        captureHomeFragment("tracing_disabled")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_tracing_progress_downloading() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTracingProgressDownloading() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.TRACING_PROGRESS_ITEM
         )
-        captureScreenshot("progress_downloading")
+        captureHomeFragment("progress_downloading")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_tracing_failed() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTracingFailed() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.TRACING_FAILED_ITEM
         )
-        captureScreenshot("tracing_failed")
+        captureHomeFragment("tracing_failed")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_submission_done() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestSubmissionDone() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_SUBMISSION_DONE_ITEM
         )
-        captureScreenshot("submission_done")
+        captureHomeFragment("submission_done")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_error() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestError() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_ERROR_ITEM
         )
-        captureScreenshot("test_error")
+        captureHomeFragment("test_error")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_fetching() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestFetching() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_FETCHING_ITEM
         )
-        captureScreenshot("test_fetching")
+        captureHomeFragment("test_fetching")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_invalid() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestInvalid() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_INVALID_ITEM
         )
-        captureScreenshot("test_invalid")
+        captureHomeFragment("test_invalid")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_negative() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestNegative() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_NEGATIVE_ITEM
         )
-        captureScreenshot("test_negative")
+        captureHomeFragment("test_negative")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_positive() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestPositive() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_POSITIVE_ITEM
         )
-        captureScreenshot("test_positive")
+        captureHomeFragment("test_positive")
     }
 
     @Screenshot
     @Test
-    fun capture_screenshot_test_pending() {
-        every { homeFragmentViewModel.homeItems } returns itemsLiveData(
+    fun captureHomeFragmentTestPending() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItem = HomeData.Submission.TEST_PENDING_ITEM
         )
-        captureScreenshot("test_pending")
+        captureHomeFragment("test_pending")
     }
 
-    private fun captureScreenshot(nameSuffix: String) {
+    @Screenshot
+    @Test
+    fun captureContactDiaryOverviewFragment() {
+        every { contactDiaryOverviewViewModel.listItems } returns contactDiaryOverviewItemLiveData()
+        launchActivity<MainActivity>()
+        onView(withId(R.id.main_bottom_navigation))
+            .perform(selectBottomNavTab(R.id.contact_diary_nav_graph))
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(ContactDiaryOverviewFragment::class.simpleName)
+
+        onView(withId(R.id.contact_diary_overview_recyclerview))
+            .perform(recyclerScrollTo(1))
+        Thread.sleep(SCREENSHOT_DELAY_TIME)
+        Screengrab.screenshot(ContactDiaryOverviewFragment::class.simpleName)
+    }
+
+    private fun captureHomeFragment(nameSuffix: String) {
         val name = HomeFragment::class.simpleName + "_" + nameSuffix
         launchActivity<MainActivity>()
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(name)
     }
 
-    private fun itemsLiveData(
+    // LiveData item for fragments
+    private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM,
         submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM
     ): LiveData<List<HomeItem>> =
@@ -257,8 +297,20 @@ class MainActivityTest : BaseUITest() {
             }
         )
 
-    // Helpers
-    private fun mainActivityViewModel() = spyk(
+    private fun contactDiaryOverviewItemLiveData(): LiveData<List<ListItem>> =
+        MutableLiveData(
+            (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
+                .map { LocalDate.now().minusDays(it) }
+                .map {
+                    ListItem(it).apply {
+                        data.addAll(DiaryData.DATA_ITEMS)
+                        risk = if (it.dayOfYear % 2 == 0) DiaryData.HIGH_RISK else DiaryData.LOW_RISK
+                    }
+                }
+        )
+
+    // ViewModels creators
+    private fun mainActivityViewModelSpy() = spyk(
         MainActivityViewModel(
             dispatcherProvider = TestDispatcherProvider(),
             environmentSetup = environmentSetup,
@@ -281,6 +333,30 @@ class MainActivityTest : BaseUITest() {
             statisticsProvider = statisticsProvider
         )
     )
+
+    private fun contactDiaryOverviewViewModelSpy() = spyk(
+        ContactDiaryOverviewViewModel(
+            taskController = taskController,
+            dispatcherProvider = TestDispatcherProvider(),
+            contactDiaryRepository = contactDiaryRepository,
+            riskLevelStorage = riskLevelStorage
+        )
+    )
+
+    // Setup ViewModels
+    private fun setupContactDiaryOverviewViewModel() {
+        every { contactDiaryRepository.locationVisits } returns flowOf()
+        every { contactDiaryRepository.personEncounters } returns flowOf()
+        every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf()
+        every { taskController.submit(any()) } just Runs
+
+        contactDiaryOverviewViewModel = contactDiaryOverviewViewModelSpy()
+        setupMockViewModel(
+            object : ContactDiaryOverviewViewModel.Factory {
+                override fun create(): ContactDiaryOverviewViewModel = contactDiaryOverviewViewModel
+            }
+        )
+    }
 
     private fun setupHomeFragmentViewModel() {
         every { tracingStatus.generalStatus } returns flowOf()
@@ -308,7 +384,7 @@ class MainActivityTest : BaseUITest() {
     }
 
     private fun setupActivityViewModel() {
-        mainActivityViewModel = mainActivityViewModel()
+        mainActivityViewModel = mainActivityViewModelSpy()
         every { mainActivityViewModel.doBackgroundNoiseCheck() } just Runs
         setupMockViewModel(
             object : MainActivityViewModel.Factory {
@@ -343,5 +419,7 @@ class MainProviderModule {
         }
 
     @Provides
-    fun settings(): ContactDiarySettings = mockk(relaxed = true)
+    fun settings(): ContactDiarySettings = mockk<ContactDiarySettings>(relaxed = true).apply {
+        every { onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+    }
 }

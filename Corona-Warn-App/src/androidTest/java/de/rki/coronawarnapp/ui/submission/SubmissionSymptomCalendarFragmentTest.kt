@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.ui.submission
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -82,8 +82,8 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
             ).toBundle()
         )
 
-        onView(ViewMatchers.withId(R.id.target_button_verify))
-            .perform(ViewActions.scrollTo())
+        onView(withId(R.id.target_button_verify))
+            .perform(scrollTo())
 
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(SubmissionSymptomCalendarFragment::class.simpleName.plus("2"))
