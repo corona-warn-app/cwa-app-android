@@ -2,9 +2,12 @@ package de.rki.coronawarnapp.datadonation.safetynet
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -17,6 +20,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
+import org.joda.time.Duration
+import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,12 +32,16 @@ import kotlin.random.Random
 class CWASafetyNetTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var googleApiVersion: GoogleApiVersion
     @MockK lateinit var safetyNetClientWrapper: SafetyNetClientWrapper
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var clientReport: SafetyNetClientWrapper.Report
     @MockK lateinit var secureRandom: SecureRandom
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var cwaSettings: CWASettings
+
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var appConfigData: ConfigData
 
     private val defaultPayload = "Computer says no.".toByteArray()
     private val firstSalt = "LMK0jFCu/lOzl07ZHmtOqQ==".decodeBase64()!!
@@ -57,6 +66,12 @@ class CWASafetyNetTest : BaseTest() {
         every { googleApiVersion.isPlayServicesVersionAvailable(any()) } returns true
 
         every { context.packageName } returns "de.rki.coronawarnapp.test"
+
+        coEvery { appConfigProvider.getAppConfig() } returns appConfigData
+        every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.CORRECT
+
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.standardDays(7))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(8))
     }
 
     @AfterEach
@@ -69,7 +84,9 @@ class CWASafetyNetTest : BaseTest() {
         client = safetyNetClientWrapper,
         secureRandom = secureRandom,
         appConfigProvider = appConfigProvider,
-        googleApiVersion = googleApiVersion
+        googleApiVersion = googleApiVersion,
+        timeStamper = timeStamper,
+        cwaSettings = cwaSettings
     )
 
     @Test
@@ -134,13 +151,31 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `incorrect device time fails the attestation`() {
-        TODO("DEVICE_TIME_UNVERIFIED")
+    fun `incorrect device time fails the attestation`() = runBlockingTest {
+        every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.ASSUMED_CORRECT
+
+        val exception = shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }
+        exception.type shouldBe SafetyNetException.Type.DEVICE_TIME_UNVERIFIED
     }
 
     @Test
-    fun `first reliable devicetime timestamp needs to be more than 24 hours ago`() {
-        TODO("TIME_SINCE_ONBOARDING_UNVERIFIED")
+    fun `first reliable devicetime timestamp needs to be more than 24 hours ago`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+        val exception = shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }
+        exception.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+    }
+
+    @Test
+    fun `first reliable devicetime timestamp needs to be set`() = runBlockingTest {
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH
+        val exception = shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }
+        exception.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
     }
 
     data class TestAttestationRequest(
