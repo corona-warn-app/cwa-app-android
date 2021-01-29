@@ -58,7 +58,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/spacing_tiny"
             android:focusable="true">
 
             <ImageView
@@ -142,6 +142,14 @@
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:backgroundTint="@color/colorSemanticHighRisk"
+            android:foregroundTint="@color/colorStableLight"
+            android:icon="@drawable/ic_faq_information"
+            android:text="@string/risk_details_behavior_link_to_faq" />
 
     </LinearLayout>
 </layout>

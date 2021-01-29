@@ -295,6 +295,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Tragen Sie einen Mund-Nasen-Schutz bei Begegnungen mit anderen Personen."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Halten Sie mindestens 1,5 Meter Abstand zu anderen Personen."</string>
+    <!-- XMSG: risk details - link to faq, something like a bullet point -->
+    <string name="risk_details_behavior_link_to_faq">"Falls Sie sich testen lassen, finden  Sie weitere Informationen in der FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Niesen oder husten Sie in die Armbeuge oder in ein Taschentuch."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
