@@ -86,6 +86,7 @@ data class LowRisk(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?,
+    val lastEncounterAt: Instant?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
     val activeTracingDays: Int
@@ -130,6 +131,23 @@ data class LowRisk(
         } else {
             c.getString(R.string.risk_card_body_saved_days_full)
         }
+
+    fun getRiskContactLast(c: Context): String? {
+        if (lastEncounterAt == null) return null
+        // caution! lastEncounterAt is null after migration from 1.7.x -> 1.8.x
+        // see RiskLevelResultMigrator.kt
+
+        val stringRes = if (daysWithEncounters == 1) {
+            R.string.risk_card_low_risk_most_recent_body_encounter_on_single_day
+        } else {
+            R.string.risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day
+        }
+
+        return c.getString(
+            stringRes,
+            lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
+        )
+    }
 }
 
 // tracing_content_failed_view
