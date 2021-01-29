@@ -32,13 +32,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
     ]
 )
 abstract class MainActivityModule {
-
-    // activity specific injection module for future dependencies
-
-    // example:
-    // @ContributesAndroidInjector
-    // abstract fun mainFragment(): MainFragment
-
     @ContributesAndroidInjector(modules = [InteroperabilityConfigurationFragmentModule::class])
     abstract fun intertopConfigScreen(): InteroperabilityConfigurationFragment
 
