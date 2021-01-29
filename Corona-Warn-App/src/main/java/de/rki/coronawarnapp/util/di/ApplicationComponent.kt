@@ -38,6 +38,7 @@ import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
 import de.rki.coronawarnapp.verification.VerificationModule
@@ -72,7 +73,8 @@ import javax.inject.Singleton
         WorkerBinder::class,
         ContactDiaryRootModule::class,
         StatisticsModule::class,
-        DataDonationModule::class
+        DataDonationModule::class,
+        SecurityModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
