@@ -442,13 +442,13 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Risiko-Ermittlung aktivieren"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
-    <string name="onboarding_tracing_dialog_headline">"Berechtigung"</string>
+    <string name="onboarding_tracing_dialog_headline">"Nicht aktivieren?"</string>
     <!-- YMSI: onboarding(tracing) - dialog about tracing -->
-    <string name="onboarding_tracing_dialog_body">"Corona-Warn-App kann dadurch keine Benachrichtigungen zum COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit ausschalten."</string>
+    <string name="onboarding_tracing_dialog_body">"Wenn Sie die Risiko-Ermittlung nicht aktivieren, kann die App Ihren Risikostatus nicht ermitteln und Sie erhalten keine Informationen zu Ihrem Risiko in der App. Sie können die Risiko-Ermittlung jederzeit wieder aktivieren."</string>
     <!-- XBUT: onboarding(tracing) - positive button (right) -->
     <string name="onboarding_tracing_dialog_button_positive">"Nicht aktivieren"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
-    <string name="onboarding_tracing_dialog_button_negative">"Zurück"</string>
+    <string name="onboarding_tracing_dialog_button_negative">"Abbrechen"</string>
     <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
     <string name="onboarding_background_fetch_dialog_headline">"Hintergrundaktualisierung ausgeschaltet"</string>
     <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
@@ -1343,7 +1343,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen.\n\nWeitere Informationen finden Sie in der\nFAQ zu den Statistiken."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen.\n\nWeitere Informationen finden Sie in den FAQ:\nFAQ zu Statistiken."</string>
     <!-- XTXT: Explanation screen seven day r-value link label -->
     <string name="statistics_explanation_seven_day_r_link_label">"FAQ zu den Statistiken."</string>
     <!-- XHED: Explanation screen legend title -->
