@@ -9,6 +9,8 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
+import de.rki.coronawarnapp.ui.main.home.HomeFragment
 import java.lang.ref.WeakReference
 
 /**
@@ -24,6 +26,7 @@ fun NavController.doNavigate(direction: NavDirections) {
 
 /**
  * Similar to [setupWithNavController],but it executes the passed action on item selection
+ * and shows [BottomNavigationView] on [HomeFragment], [ContactDiaryOverviewFragment] only
  */
 fun BottomNavigationView.setupWithNavController2(
     navController: NavController,
@@ -34,7 +37,6 @@ fun BottomNavigationView.setupWithNavController2(
         onItemSelected()
         NavigationUI.onNavDestinationSelected(item, navController)
     }
-
     val weakBottomNavView = WeakReference(this)
     navController.addOnDestinationChangedListener(
         object : NavController.OnDestinationChangedListener {
@@ -49,7 +51,6 @@ fun BottomNavigationView.setupWithNavController2(
                     navController.removeOnDestinationChangedListener(this)
                     return
                 }
-
                 bottomView.isVisible = destination.id == R.id.mainFragment ||
                     destination.id == R.id.contactDiaryOverviewFragment
             }
