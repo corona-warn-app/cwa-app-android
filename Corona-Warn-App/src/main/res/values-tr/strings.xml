@@ -173,8 +173,8 @@
         <item quantity="few">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="many">"%1$d gün için artmış riskli maruz kalmalar"</item>
     </plurals>
-    <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
-    <string name="risk_card_high_risk_most_recent_body">"En son %1$s"</string>
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk and more than one day of encounters -->
+    <string name="risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day">"En son %1$s"</string>
 
     <!-- ####################################
               Risk Card - Progress
