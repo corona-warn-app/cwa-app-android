@@ -151,7 +151,7 @@
     <string name="risk_card_low_risk_no_encounters_body">Keine Risiko-Begegnungen</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
-        <item quantity="one">"Begegnungen mit niedrigem Risiko an einem Tag"</item>
+        <item quantity="one">"Begegnungen mit niedrigem Risiko an %1$d Tag"</item>
         <item quantity="other">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
         <item quantity="zero">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
         <item quantity="two">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>

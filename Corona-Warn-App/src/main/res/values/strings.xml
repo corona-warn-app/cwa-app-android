@@ -161,7 +161,7 @@
     <string name="risk_card_low_risk_no_encounters_body">"No exposures"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
-        <item quantity="one">"Exposures with low risk on one day"</item>
+        <item quantity="one">"Exposures with low risk on %1$d day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
         <item quantity="zero">"Exposures with low risk on %1$d days"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
