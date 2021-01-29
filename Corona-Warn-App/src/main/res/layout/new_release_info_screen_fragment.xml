@@ -24,7 +24,6 @@
             android:id="@+id/scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
             app:layout_constraintBottom_toTopOf="@+id/new_release_info_next_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,13 +111,12 @@
             android:id="@+id/new_release_info_next_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_margin="@dimen/spacing_normal"
             android:text="@string/release_info_continue_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scrollview"
             tools:text="@string/release_info_continue_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
