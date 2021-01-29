@@ -5,20 +5,34 @@
      ###################################### -->
 
     <!-- XHED: Title for the release info screen -->
-    <string name="release_info_header">"Neue Funktionen"</string>
+    <string name="release_info_header">Neue Funktionen</string>
     <!-- XHED: Version title for the release info screen -->
-    <string name="release_info_version_title">"Release %1$s"</string>
+    <string name="release_info_version_title">Release %1$s</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">"Mit diesem Update stellen wir Ihnen neben Fehlerbehebungen auch neue und erweiterte Funktionen zur Verfügung."</string>
-    <!-- XTXT: Encounter history title for the release info screen -->
-    <string name="release_info_1_12_encounter_history_title">"Begegnungshistorie"</string>
-    <!-- XTXT: Encounter history body for the release info screen -->
-    <string name="release_info_1_12_encounter_history_body">"Sie können in Ihrem Kontakt-Tagebuch sehen, an welchen Tagen Sie ein niedriges oder erhöhtes Risiko aufgrund der von der App ausgewerteten Begegnungen hatten. Sie können damit Personen warnen, die Sie an diesen Tagen begleitet haben, wenn diese die Corona-Warn-App nicht nutzen. Diese Personen waren möglicherweise einem vergleichbaren Risiko ausgesetzt. Die Personen und Orte in Ihrem Kontakt-Tagebuch müssen nicht in Zusammenhang mit den angezeigten Risiko-Begegnungen stehen."</string>
-    <!-- XTXT: Statistics title for the release info screen -->
-    <string name="release_info_1_12_statistics_title">"Statistiken"</string>
-    <!-- XTXT: Statistics body for the release info screen -->
-    <string name="release_info_1_12_statistics_body">"Sie bekommen einen Überblick mit aktuellen Kennzahlen zum Infektionsgeschehen in Deutschland."</string>
+    <string name="release_info_version_body">Mit diesem Update stellen wir Ihnen neben Fehlerbehebungen auch neue und erweiterte Funktionen zur Verfügung.</string>
     <!-- XBUT: Continue button for the release info screen -->
-    <string name="release_info_continue_button">"Weiter"</string>
+    <string name="release_info_continue_button">Weiter</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">Änderungen zum Release finden Sie in den App-Einstellungen unter dem Menüpunkt „Neue Funktionen”.</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>Link auf RKI-Umfrage</item>
+        <item>Einwilligung zur Datenspende (optional)</item>
+        <item>Anpassungen der Risiko-Karten</item>
+        <item>Fortführung der Risiko-Ermittlung nach Teilung der Zufalls-IDs</item>
+        <item>Einführung von Registerkarten</item>
+        <item>Mehr Informationen zum Testablauf</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>Wenn Sie ein erhöhtes Risiko haben, können Sie aus der App heraus eine Umfrage des Robert-Koch-Instituts aufrufen und daran teilnehmen.</item>
+        <item>Sie bekommen einen Überblick mit aktuellen Kennzahlen zum Infektionsgeschehen in Deutschland.</item>
+        <item>Die Texte auf den Risiko-Karten wurden leicht angepasst.</item>
+        <item>Nachdem Sie Ihre verschlüsselten Zufalls-IDs geteilt haben können Sie entscheiden, ob und wann Sie die Risiko-Ermittlung wieder einschalten möchten.</item>
+        <item>Es gibt nun eine eigene Registerkarte für das Kontakt-Tagebuch. Somit können Sie schneller auf Ihr Tagebuch zugreifen und vom Kontakt-Tagebuch wieder zurück auf die Startseite der App wechseln.</item>
+        <item>Die App enthält nun detaillierte Informationen zum Testablauf.</item>
+    </string-array>
 
 </resources>

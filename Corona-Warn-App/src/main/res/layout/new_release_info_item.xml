@@ -16,7 +16,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/bullet_point"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/release_info_1_12_encounter_history_title" />
+            tools:text="Title bullet point" />
 
         <ImageView
             android:id="@+id/bullet_point"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="@string/release_info_1_12_encounter_history_body" />
+            tools:text="Body bullet point" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
