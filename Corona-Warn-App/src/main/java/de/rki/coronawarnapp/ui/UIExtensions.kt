@@ -51,11 +51,16 @@ fun BottomNavigationView.setupWithNavController2(
                     navController.removeOnDestinationChangedListener(this)
                     return
                 }
-                val visible = destination.id in listOf(
+                // For destinations that always show the bottom bar
+                val inShowList = destination.id in listOf(
                     R.id.mainFragment,
                     R.id.contactDiaryOverviewFragment
                 )
-                bottomView.isVisible = visible
+                // For destinations that can show or hide the bottom bar in different cases
+                // for example [ContactDiaryOnboardingFragment]
+                val hasShowArgument = arguments?.getBoolean("showBottomNav") ?: false
+
+                bottomView.isVisible = inShowList || hasShowArgument
             }
         }
     )

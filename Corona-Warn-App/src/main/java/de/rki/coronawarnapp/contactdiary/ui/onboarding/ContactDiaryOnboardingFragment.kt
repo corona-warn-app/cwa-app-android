@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -23,6 +25,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
     private val vm: ContactDiaryOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: ContactDiaryOnboardingFragmentBinding by viewBindingLazy()
+    private val args by navArgs<ContactDiaryOnboardingFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,6 +33,14 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
             contactDiaryOnboardingNextButton.setOnClickListener {
 
                 vm.onNextButtonClick()
+            }
+
+            toolbar.apply {
+                if (!args.showBottomNav) {
+                    navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
+                    navigationContentDescription = getString(R.string.accessibility_close)
+                    setNavigationOnClickListener { vm.onBackButtonPress() }
+                }
             }
 
             contactDiaryOnboardingPrivacyInformation.setOnClickListener {
