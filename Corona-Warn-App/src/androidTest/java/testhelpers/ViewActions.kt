@@ -24,12 +24,12 @@ private class RecyclerViewScrollAction(private val position: Int? = null) : View
         return allOf(isAssignableFrom(RecyclerView::class.java), isDisplayed())
     }
 
-    override fun perform(uiController: UiController?, view: View?) {
+    override fun perform(uiController: UiController, view: View) {
         val recyclerView = view as RecyclerView
         val itemCount = recyclerView.adapter?.itemCount
         val itemPosition = position ?: itemCount?.minus(1) ?: 0
         recyclerView.scrollToPosition(itemPosition)
-        uiController?.loopMainThreadUntilIdle()
+        uiController.loopMainThreadUntilIdle()
     }
 }
 

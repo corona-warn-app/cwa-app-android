@@ -25,12 +25,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -85,8 +84,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         onView(withId(R.id.target_button_verify))
             .perform(scrollTo())
 
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(SubmissionSymptomCalendarFragment::class.simpleName.plus("2"))
+        takeScreenshot<SubmissionSymptomCalendarFragment>("2")
     }
 }
 

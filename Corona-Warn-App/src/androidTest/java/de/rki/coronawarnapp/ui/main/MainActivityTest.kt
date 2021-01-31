@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
+import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -41,6 +42,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragment
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.statistics.Statistics
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.device.PowerManagement
@@ -55,7 +57,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.junit.After
@@ -64,14 +65,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import timber.log.Timber
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -147,8 +147,7 @@ class MainActivityTest : BaseUITest() {
 
         captureHomeFragment("low_risk")
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
+        takeScreenshot<HomeFragment>("low_risk_2")
     }
 
     @Screenshot
@@ -253,25 +252,33 @@ class MainActivityTest : BaseUITest() {
 
     @Screenshot
     @Test
+    fun captureHomeFragmentStatistics() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(HomeData.Tracing.LOW_RISK_ITEM)
+        launchActivity<MainActivity>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
+        Statistics.statisticsData?.items?.forEachIndexed { index, _ ->
+            onView(withId(R.id.statistics_recyclerview)).perform(recyclerScrollTo(index))
+            takeScreenshot<HomeFragment>("statistics_card_$index")
+        }
+    }
+
+    @Screenshot
+    @Test
     fun captureContactDiaryOverviewFragment() {
         every { contactDiaryOverviewViewModel.listItems } returns contactDiaryOverviewItemLiveData()
         launchActivity<MainActivity>()
         onView(withId(R.id.main_bottom_navigation))
             .perform(selectBottomNavTab(R.id.contact_diary_nav_graph))
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryOverviewFragment::class.simpleName)
+        takeScreenshot<ContactDiaryOverviewFragment>()
 
         onView(withId(R.id.contact_diary_overview_recyclerview))
             .perform(recyclerScrollTo(1))
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryOverviewFragment::class.simpleName)
+        takeScreenshot<ContactDiaryOverviewFragment>("2", delay = 0L)
     }
 
     private fun captureHomeFragment(nameSuffix: String) {
-        val name = HomeFragment::class.simpleName + "_" + nameSuffix
         launchActivity<MainActivity>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(name)
+        takeScreenshot<HomeFragment>(nameSuffix)
     }
 
     // LiveData item for fragments
@@ -288,8 +295,10 @@ class MainActivityTest : BaseUITest() {
                     }
                     else -> add(tracingStateItem)
                 }
-
                 add(submissionTestResultItem)
+                Statistics.statisticsData?.let {
+                    add(StatisticsHomeCard.Item(data = it, onHelpAction = { }))
+                }
                 add(FAQCard.Item {})
             }
         )
