@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
+        android:id="@+id/keysubmissions_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <androidx.appcompat.widget.AppCompatImageView

@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
+        android:id="@+id/incidence_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -27,7 +28,6 @@
             android:id="@+id/title"
             style="@style/headline5"
             android:layout_width="0dp"
-            android:focusable="true"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
