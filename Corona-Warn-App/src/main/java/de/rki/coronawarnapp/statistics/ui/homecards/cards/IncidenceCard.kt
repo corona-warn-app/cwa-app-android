@@ -44,4 +44,4 @@ class IncidenceCard(parent: ViewGroup) :
         }
     }
 }
-ß
+
