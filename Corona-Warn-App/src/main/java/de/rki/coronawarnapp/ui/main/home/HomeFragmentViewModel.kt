@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -79,7 +80,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider,
-    statisticsProvider: StatisticsProvider
+    statisticsProvider: StatisticsProvider,
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -256,6 +258,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
             .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
+    }
+
+    private fun reenableRiskCalculation() {
+        deregisterWarningAccepted()
+        deadmanNotificationScheduler.schedulePeriodic()
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access

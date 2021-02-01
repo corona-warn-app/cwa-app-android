@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
@@ -81,6 +82,7 @@ class StatisticsCardsTest : BaseUITest() {
     @MockK lateinit var context: Context
     @MockK lateinit var preferences: SharedPreferences
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     private lateinit var viewModel: HomeFragmentViewModel
 
@@ -173,7 +175,8 @@ class StatisticsCardsTest : BaseUITest() {
             submissionRepository = submissionRepository,
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
-            statisticsProvider = statisticsProvider
+            statisticsProvider = statisticsProvider,
+            deadmanNotificationScheduler = deadmanNotificationScheduler
         )
     )
 

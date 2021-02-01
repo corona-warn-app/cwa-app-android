@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -31,7 +32,8 @@ class SubmissionRepository @Inject constructor(
     private val submissionService: SubmissionService,
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    private val tekHistoryStorage: TEKHistoryStorage
+    private val tekHistoryStorage: TEKHistoryStorage,
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -148,6 +150,7 @@ class SubmissionRepository @Inject constructor(
 
         if (testResult == TestResult.POSITIVE) {
             LocalData.isAllowedToSubmitDiagnosisKeys(true)
+            deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
