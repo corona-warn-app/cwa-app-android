@@ -60,21 +60,20 @@ class TracingDetailsItemProvider @Inject constructor(
                 ).also { add(it) }
             }
 
-            if (status == Status.TRACING_INACTIVE) {
-                add(DetailsFailedCalculationBox.Item)
-            } else {
-                when (latestCalc.riskState) {
-                    RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
-                        riskState = latestCalc.riskState,
-                        matchedKeyCount = latestCalc.matchedKeyCount
-                    )
-                    RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
-                        riskState = latestCalc.riskState,
-                        lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
-                    )
-                    RiskState.CALCULATION_FAILED -> DetailsFailedCalculationBox.Item
-                }.also { add(it) }
-            }
+            when {
+                status == Status.TRACING_INACTIVE || latestCalc.riskState == RiskState.CALCULATION_FAILED -> {
+                    DetailsFailedCalculationBox.Item
+                }
+                latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
+                    riskState = latestCalc.riskState,
+                    matchedKeyCount = latestCalc.matchedKeyCount
+                )
+                latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
+                    riskState = latestCalc.riskState,
+                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
+                )
+                else -> null
+            }?.let { add(it) }
         }
     }
         .onStart { Timber.v("TracingDetailsState FLOW start") }
