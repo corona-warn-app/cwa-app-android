@@ -27,7 +27,7 @@ class NewReleaseInfoFragmentViewModel @AssistedInject constructor(
 
     fun onNextButtonClick() {
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        routeToScreen.postValue(NewReleaseInfoFragmentNavigationEvents.NavigateToMainActivity)
+        routeToScreen.postValue(NewReleaseInfoFragmentNavigationEvents.CloseFragment)
     }
 
     val appVersion = flow {

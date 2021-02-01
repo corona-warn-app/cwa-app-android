@@ -9,8 +9,8 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -49,8 +49,8 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         binding.newReleaseInfoNextButton.isGone = args.comesFromInfoScreen
 
         vm.routeToScreen.observe2(this) {
-            if (it is NewReleaseInfoFragmentNavigationEvents.NavigateToMainActivity) {
-                doNavigate(NewReleaseInfoFragmentDirections.actionNewReleaseInfoFragmentPop())
+            if (it is NewReleaseInfoFragmentNavigationEvents.CloseFragment) {
+                popBackStack()
             }
         }
     }
