@@ -162,7 +162,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Begegnungen mit niedrigem Risiko an einem Tag"</item>
         <item quantity="other">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
-        <item quantity="zero">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
+        <item quantity="zero">"Keine Risiko-Begegnungen"</item>
         <item quantity="two">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
         <item quantity="few">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
         <item quantity="many">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
