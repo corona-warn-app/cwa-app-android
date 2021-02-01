@@ -10,14 +10,18 @@ import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 
 class UserSurveyBox(
     parent: ViewGroup,
-    @LayoutRes containerLayout: Int = R.layout.tracing_details_access_survey_card
+    @LayoutRes containerLayout: Int = R.layout.home_card_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<UserSurveyBox.Item, TracingDetailsAccessSurveyCardBinding>(
     containerLayout,
     parent
 ) {
 
     override val viewBinding: Lazy<TracingDetailsAccessSurveyCardBinding> = lazy {
-        TracingDetailsAccessSurveyCardBinding.bind(itemView)
+        TracingDetailsAccessSurveyCardBinding.inflate(
+            layoutInflater,
+            itemView.findViewById(R.id.card_container),
+            true
+        )
     }
 
     override val onBindData: TracingDetailsAccessSurveyCardBinding.(
@@ -27,7 +31,7 @@ class UserSurveyBox(
         tracingDetailsSurveyCardButton.setOnClickListener {
             Toast.makeText(
                 context,
-                "Still WIP ;)",
+                "Still WIP",
                 Toast.LENGTH_LONG
             ).show()
         }
