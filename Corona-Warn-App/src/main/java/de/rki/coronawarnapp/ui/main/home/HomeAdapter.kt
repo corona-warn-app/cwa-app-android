@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestInvalidCard
@@ -37,6 +38,8 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     private val statsAdapter by lazy { StatisticsCardAdapter() }
 
+    private val items: MutableList<StatisticsCardItem> by lazy { mutableListOf() }
+
     @Synchronized
     fun update(
         newData: List<HomeItem>?,
@@ -65,7 +68,13 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
             TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
             TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) },
-            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(statsAdapter, it) }
+            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) {
+                StatisticsHomeCard(
+                    statsAdapter,
+                    items,
+                    it
+                )
+            }
         ))
     }
 

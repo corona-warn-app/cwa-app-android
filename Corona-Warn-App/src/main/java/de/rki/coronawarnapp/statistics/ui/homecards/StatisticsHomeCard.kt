@@ -15,7 +15,8 @@ import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
 
 class StatisticsHomeCard(
-    statsAdapter: StatisticsCardAdapter,
+    private val statsAdapter: StatisticsCardAdapter,
+    private val items: MutableList<StatisticsCardItem>,
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
@@ -43,9 +44,11 @@ class StatisticsHomeCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        item.data.items.map {
+        item.data.items.forEach {
             StatisticsCardItem(it, item.onHelpAction)
-        }.let { statsAdapter.update(it) }
+            items.add(StatisticsCardItem(it, item.onHelpAction))
+        }
+        statsAdapter.update(items)
     }
 
     data class Item(
