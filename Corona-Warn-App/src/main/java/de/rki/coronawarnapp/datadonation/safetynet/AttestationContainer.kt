@@ -25,13 +25,13 @@ internal data class AttestationContainer(
         }
 
         if (reqs.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
-            throw SafetyNetException(Type.EVALUATION_TYPE_BASIC_REQUIRED, "Requirement 'BASIC' not met.")
+            throw SafetyNetException(Type.EVALUATION_TYPE_BASIC_REQUIRED, "Evaluation type 'BASIC' not met.")
         }
 
         if (reqs.requireEvaluationTypeHardwareBacked && !report.evaluationTypes.contains("HARDWARE_BACKED")) {
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED,
-                "Requirement 'HARDWARE_BACKED' not met."
+                "Evaluation type 'HARDWARE_BACKED' not met."
             )
         }
     }
