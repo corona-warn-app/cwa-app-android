@@ -299,7 +299,7 @@
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Falls Sie sich testen lassen, finden Sie weitere Informationen in der FAQ zum Testablauf."</string>
     <!-- XTXT: Explanation screen increased risk level link label -->
-    <string name="risk_details_increased_risk_faq_link_label">"FAQ zum Testablauf."</string>
+    <string name="risk_details_increased_risk_faq_link_label">"FAQ zum Testablauf"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/de/faq/#red_card_how_to_test"</string>
 
