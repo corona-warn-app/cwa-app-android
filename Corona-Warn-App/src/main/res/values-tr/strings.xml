@@ -1331,7 +1331,7 @@
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır.\n\nDaha fazla bilgi için SSS bölümüne bakın:\nistatistikler için SSS."</string>
     <!-- XTXT: Explanation screen seven day r-value link label -->
-    <string name="statistics_explanation_seven_day_r_link_label">"SSS bölümüne bakın."</string>
+    <string name="statistics_explanation_seven_day_r_link_label">"istatistikler için SSS."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Açıklama"</string>
     <!-- XHED: Explanation screen period title -->
