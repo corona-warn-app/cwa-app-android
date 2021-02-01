@@ -40,13 +40,13 @@ class InfectionsCard(parent: ViewGroup) :
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = formatStatisticalValue(context, newInfections.value, newInfections.decimals)
-            primaryValue.contentDescription = getPrimaryLabel(context)+ ": " + formatStatisticalValue(context, newInfections.value, newInfections.decimals)
+            primaryValue.contentDescription = getPrimaryLabel(context)+ ": " + formatStatisticalValue(context, newInfections.value, newInfections.decimals) + context.getString(R.string.statistics_card_infections_title)
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
-            secondaryValue.contentDescription = context.getString(R.string.statistics_card_infections_secondary_label ) + formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) + getContentDescriptionForTrends(context, sevenDayAverage.trend)
+            secondaryValue.contentDescription = context.getString(R.string.statistics_card_infections_secondary_label ) + formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) + context.getString(R.string.statistics_card_infections_title) + " " + getContentDescriptionForTrends(context, sevenDayAverage.trend)
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
-            tertiaryValue.contentDescription = context.getString(R.string.statistics_card_infections_tertiary_label) + ": " + formatStatisticalValue(context, total.value, total.decimals)
+            tertiaryValue.contentDescription = context.getString(R.string.statistics_card_infections_tertiary_label) + ": " + formatStatisticalValue(context, total.value, total.decimals) + context.getString(R.string.statistics_card_infections_title)
             trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
     }
