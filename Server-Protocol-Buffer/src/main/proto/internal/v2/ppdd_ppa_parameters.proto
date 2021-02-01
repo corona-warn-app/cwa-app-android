@@ -1,0 +1,22 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/ppdd_ppac_parameters.proto";
+
+message PPDDPrivacyPreservingAnalyticsParametersIOS {
+  PPDDPrivacyPreservingAnalyticsParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersIOS ppac = 2;
+}
+
+message PPDDPrivacyPreservingAnalyticsParametersAndroid {
+  PPDDPrivacyPreservingAnalyticsParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersAndroid ppac = 2;
+}
+
+message PPDDPrivacyPreservingAnalyticsParametersCommon {
+    double probabilityToSubmit = 1;
+    double probabilityToSubmitExposureWindows = 2;
+    int32 hoursSinceTestRegistrationToSubmitTestResultMetadata = 3;
+    int32 hoursSinceTestResultToSubmitKeySubmissionMetadata = 4;
+}
