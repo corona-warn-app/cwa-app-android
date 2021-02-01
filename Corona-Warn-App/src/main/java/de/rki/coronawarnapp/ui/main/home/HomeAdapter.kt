@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main.home
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
@@ -34,6 +35,16 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
+    private val statsAdapter by lazy { StatisticsCardAdapter() }
+
+    @Synchronized
+    fun update(
+        newData: List<HomeItem>?,
+        notify: Boolean = true
+    ) {
+        if (notify) asyncDiffer.submitUpdate(newData ?: emptyList())
+    }
+
     init {
         modules.addAll(listOf(
             StableIdMod(data),
@@ -54,7 +65,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
             TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
             TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) },
-            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) }
+            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(statsAdapter, it) }
         ))
     }
 

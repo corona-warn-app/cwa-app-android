@@ -6,7 +6,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
-import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -57,14 +55,14 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
-            adapter = homeAdapter
         }
 
         vm.homeItems.observe2(this) {
             homeAdapter.update(it)
+            if (binding.recyclerView.adapter != homeAdapter)
+                binding.recyclerView.adapter = homeAdapter
         }
 
         vm.routeToScreen.observe2(this) {
@@ -124,11 +122,12 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
+
+        vm.refreshRequiredData()
     }
 
     override fun onResume() {
         super.onResume()
-        vm.refreshRequiredData()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 

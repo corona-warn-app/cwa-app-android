@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentStatisticsExplanationBinding
 import de.rki.coronawarnapp.util.setUrl
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -37,7 +38,7 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
 
     private fun setButtonOnClickListener() {
         binding.statisticsExplanationHeaderButtonBack.buttonIcon.setOnClickListener {
-            activity?.onBackPressed()
+            popBackStack()
         }
     }
 }

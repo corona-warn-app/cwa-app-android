@@ -73,6 +73,11 @@ class SubmissionRepository @Inject constructor(
 
     // TODO this should be more UI agnostic
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
+        if (LocalData.submissionWasSuccessful()) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
+            return
+        }
+
         var refresh = refreshTestResult
 
         deviceUIStateFlowInternal.value.withSuccess {
@@ -82,8 +87,7 @@ class SubmissionRepository @Inject constructor(
             }
         }
 
-        deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
-
+        if (refresh) deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
         scope.launch {
             try {
                 deviceUIStateFlowInternal.value = refreshUIState(refresh)
@@ -98,24 +102,22 @@ class SubmissionRepository @Inject constructor(
 
     // TODO this should be more UI agnostic
     private suspend fun refreshUIState(refreshTestResult: Boolean): NetworkRequestWrapper<DeviceUIState, Throwable> {
+
         var uiState = DeviceUIState.UNPAIRED
 
-        if (LocalData.submissionWasSuccessful()) {
-            uiState = DeviceUIState.SUBMITTED_FINAL
-        } else {
-            val registrationToken = LocalData.registrationToken()
-            if (registrationToken != null) {
-                uiState = when {
-                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
-                        DeviceUIState.PAIRED_POSITIVE
-                    }
-                    refreshTestResult -> fetchTestResult(registrationToken)
-                    else -> {
-                        deriveUiState(testResultFlow.value)
-                    }
+        val registrationToken = LocalData.registrationToken()
+        if (registrationToken != null) {
+            uiState = when {
+                LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
+                    DeviceUIState.PAIRED_POSITIVE
+                }
+                refreshTestResult -> fetchTestResult(registrationToken)
+                else -> {
+                    deriveUiState(testResultFlow.value)
                 }
             }
         }
+
         return NetworkRequestWrapper.RequestSuccessful(uiState)
     }
 

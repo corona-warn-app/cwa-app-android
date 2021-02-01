@@ -15,11 +15,10 @@ import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
 
 class StatisticsHomeCard(
+    statsAdapter: StatisticsCardAdapter,
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
-
-    private val statsAdapter by lazy { StatisticsCardAdapter() }
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
@@ -69,9 +68,7 @@ class StatisticsHomeCard(
         }
 
         override fun hashCode(): Int {
-            var result = data.hashCode()
-            result = 31 * result + stableId.hashCode()
-            return result
+            return 31 * data.hashCode() + stableId.hashCode()
         }
     }
 }
