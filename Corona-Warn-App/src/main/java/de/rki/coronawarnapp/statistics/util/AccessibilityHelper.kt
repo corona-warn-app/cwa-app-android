@@ -17,7 +17,7 @@ fun getLocalizedSpannableString(context: Context, source: String) = SpannableStr
 fun getContentDescriptionForTrends(
     context: Context,
     trend: KeyFigureCardOuterClass.KeyFigure.Trend
-):String {
+): String {
     return context.getString(
         when (trend) {
             KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING -> R.string.statistics_trend_increasing

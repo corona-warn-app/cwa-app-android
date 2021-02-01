@@ -58,8 +58,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
 
     private fun buildAccessibilityStringForSevenDayRValueCard(
         item: StatsItem,
-        reproductionNumber: KeyFigureCardOuterClass.KeyFigure)
-    : String {
+        reproductionNumber: KeyFigureCardOuterClass.KeyFigure
+    ): String {
         return context.getString(R.string.accessibility_statistics_card_announcement) +
             context.getString(R.string.statistics_title_reproduction) + "\n" +
             item.getPrimaryLabel(context) + " " +
@@ -68,5 +68,4 @@ class SevenDayRValueCard(parent: ViewGroup) :
             getContentDescriptionForTrends(context, reproductionNumber.trend) + "\n" +
             context.getString(R.string.accessibility_statistics_card_navigation_information)
     }
-    
 }

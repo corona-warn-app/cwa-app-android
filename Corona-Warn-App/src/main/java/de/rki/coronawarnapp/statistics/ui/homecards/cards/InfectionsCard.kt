@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 
-
 class InfectionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsInfectionsLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout, parent
@@ -37,17 +36,17 @@ class InfectionsCard(parent: ViewGroup) :
         with(item.stats as InfectionStats) {
 
             infectionsContainer.contentDescription =
-                buildAccessibilityStringForInfectionsCard(item.stats, newInfections, sevenDayAverage, total);
+                buildAccessibilityStringForInfectionsCard(item.stats, newInfections, sevenDayAverage, total)
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = formatStatisticalValue(context, newInfections.value, newInfections.decimals)
-            primaryValue.contentDescription = getPrimaryLabel(context)+ " " +
+            primaryValue.contentDescription = getPrimaryLabel(context) + " " +
                 formatStatisticalValue(context, newInfections.value, newInfections.decimals) +
                 context.getString(R.string.statistics_card_infections_title)
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription =
-                context.getString(R.string.statistics_card_infections_secondary_label ) +
+                context.getString(R.string.statistics_card_infections_secondary_label) +
                 formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) +
                 context.getString(R.string.statistics_card_infections_title) + " " +
                     getContentDescriptionForTrends(context, sevenDayAverage.trend)
@@ -62,23 +61,21 @@ class InfectionsCard(parent: ViewGroup) :
         }
     }
 
-
     private fun buildAccessibilityStringForInfectionsCard(
         item: StatsItem,
         newInfections: KeyFigureCardOuterClass.KeyFigure,
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
-        total: KeyFigureCardOuterClass.KeyFigure)
-    : String {
+        total: KeyFigureCardOuterClass.KeyFigure
+    ): String {
         return context.getString(R.string.accessibility_statistics_card_announcement) +
             context.getString(R.string.statistics_card_infections_title) + "\n" +
-            item.getPrimaryLabel(context)+
+            item.getPrimaryLabel(context) +
             formatStatisticalValue(context, newInfections.value, newInfections.decimals) + "\n" +
-            context.getString(R.string.statistics_card_infections_secondary_label ) +
+            context.getString(R.string.statistics_card_infections_secondary_label) +
             formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) +
             getContentDescriptionForTrends(context, sevenDayAverage.trend) + "\n" +
             context.getString(R.string.statistics_card_infections_tertiary_label) +
             formatStatisticalValue(context, total.value, total.decimals) + "\n" +
             context.getString(R.string.accessibility_statistics_card_navigation_information)
     }
-
 }

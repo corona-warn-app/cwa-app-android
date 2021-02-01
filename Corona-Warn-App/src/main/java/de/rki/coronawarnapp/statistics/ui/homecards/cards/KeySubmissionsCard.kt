@@ -36,7 +36,7 @@ class KeySubmissionsCard(parent: ViewGroup) :
         with(item.stats as KeySubmissionsStats) {
 
             keysubmissionsContainer.contentDescription =
-                buildAccessibilityStringForKeySubmissionsCard(item.stats, keySubmissions, sevenDayAverage, total);
+                buildAccessibilityStringForKeySubmissionsCard(item.stats, keySubmissions, sevenDayAverage, total)
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals)
@@ -47,11 +47,10 @@ class KeySubmissionsCard(parent: ViewGroup) :
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription =
-                context.getString(R.string.statistics_card_infections_secondary_label ) +
+                context.getString(R.string.statistics_card_infections_secondary_label) +
                     formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) +
                     context.getString(R.string.statistics_card_submission_title) + " " +
                     getContentDescriptionForTrends(context, sevenDayAverage.trend)
-
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
             tertiaryValue.contentDescription =
@@ -67,13 +66,13 @@ class KeySubmissionsCard(parent: ViewGroup) :
         item: StatsItem,
         keySubmissions: KeyFigureCardOuterClass.KeyFigure,
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
-        total: KeyFigureCardOuterClass.KeyFigure)
-        : String {
+        total: KeyFigureCardOuterClass.KeyFigure
+    ): String {
         return context.getString(R.string.accessibility_statistics_card_announcement) +
             context.getString(R.string.statistics_card_submission_title) + "\n" +
-            item.getPrimaryLabel(context)+
+            item.getPrimaryLabel(context) +
             formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals) + "\n" +
-            context.getString(R.string.statistics_card_infections_secondary_label ) +
+            context.getString(R.string.statistics_card_infections_secondary_label) +
             formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) +
             getContentDescriptionForTrends(context, sevenDayAverage.trend) + "\n" +
             context.getString(R.string.statistics_card_infections_tertiary_label) +

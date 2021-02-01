@@ -56,8 +56,8 @@ class IncidenceCard(parent: ViewGroup) :
 
     private fun buildAccessibilityStringForIncidenceCard(
         item: StatsItem,
-        sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure)
-    : String {
+        sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure
+    ): String {
         return context.getString(R.string.accessibility_statistics_card_announcement) +
             context.getString(R.string.statistics_explanation_seven_day_incidence_title) + "\n" +
             item.getPrimaryLabel(context) +
@@ -67,4 +67,3 @@ class IncidenceCard(parent: ViewGroup) :
             context.getString(R.string.accessibility_statistics_card_navigation_information)
     }
 }
-
