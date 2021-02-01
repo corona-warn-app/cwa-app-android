@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.main
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.first
 class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val environmentSetup: EnvironmentSetup,
-    private val backgroundModeStatus: BackgroundModeStatus
+    private val backgroundModeStatus: BackgroundModeStatus,
+    private val contactDiarySettings: ContactDiarySettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -25,6 +27,7 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
+    val isOnboardingDone = SingleLiveEvent<Boolean>()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
@@ -58,6 +61,10 @@ class MainActivityViewModel @AssistedInject constructor(
         launch {
             checkForEnergyOptimizedEnabled()
         }
+    }
+
+    fun onBottomNavSelected() {
+        isOnboardingDone.value = contactDiarySettings.isOnboardingDone
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {
