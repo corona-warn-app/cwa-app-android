@@ -35,7 +35,7 @@ class InfectionsCard(parent: ViewGroup) :
         with(item.stats as InfectionStats) {
 
 
-            infectionsContainer.contentDescription = "Statistics Card:" + context.getString(R.string.statistics_card_infections_title) + " One of 4 in the list: swipe horizontal to find more statistical information"
+            infectionsContainer.contentDescription = "Statistikkarte: " + context.getString(R.string.statistics_card_infections_title) + ".  Wische horizontal zwischen den Items"
 
 
             primaryLabel.text = getPrimaryLabel(context)
@@ -43,7 +43,7 @@ class InfectionsCard(parent: ViewGroup) :
             primaryValue.contentDescription = getPrimaryLabel(context)+ ": " + formatStatisticalValue(context, newInfections.value, newInfections.decimals)
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
-            secondaryValue.contentDescription = context.getString(R.string.statistics_card_infections_secondary_label )+ ": " + formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) + getContentDescriptionForTrends(context, sevenDayAverage.trend)
+            secondaryValue.contentDescription = context.getString(R.string.statistics_card_infections_secondary_label ) + formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) + getContentDescriptionForTrends(context, sevenDayAverage.trend)
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
             tertiaryValue.contentDescription = context.getString(R.string.statistics_card_infections_tertiary_label) + ": " + formatStatisticalValue(context, total.value, total.decimals)

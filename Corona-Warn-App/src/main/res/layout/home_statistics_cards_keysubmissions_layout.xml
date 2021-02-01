@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
+            android:contentDescription="@null"
             android:src="@drawable/ic_main_illustration_warnende_personen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/flow_layout" />
@@ -42,6 +43,7 @@
         <TextView
             android:id="@+id/primary_value"
             style="@style/StatisticsCardPrimaryValue"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -58,6 +60,7 @@
         <TextView
             android:id="@+id/secondary_value"
             style="@style/StatisticsCardSecondaryValue"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="1.812" />
@@ -83,6 +86,7 @@
             android:id="@+id/tertiary_value"
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
+            android:focusable="true"
             android:layout_height="wrap_content"
             tools:text="20.922" />
 

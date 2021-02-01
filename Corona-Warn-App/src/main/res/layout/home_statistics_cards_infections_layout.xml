@@ -25,7 +25,6 @@
         <TextView
             android:id="@+id/title"
             style="@style/headline5"
-            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
