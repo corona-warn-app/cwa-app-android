@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -31,7 +32,11 @@ class MainActivityViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
+        mockkObject(LocalData)
         mockkObject(CWADebug)
+
+        every { LocalData.isBackgroundCheckDone() } returns true
+        every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
     }
 
     @AfterEach
@@ -71,5 +76,21 @@ class MainActivityViewModelTest : BaseTest() {
 
         val vm = createInstance()
         vm.showEnvironmentHint.value shouldBe null
+    }
+
+    @Test
+    fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        val vm = createInstance()
+        vm.onBottomNavSelected()
+        vm.isOnboardingDone.value shouldBe false
+    }
+
+    @Test
+    fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        val vm = createInstance()
+        vm.onBottomNavSelected()
+        vm.isOnboardingDone.value shouldBe true
     }
 }
