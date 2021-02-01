@@ -26,6 +26,7 @@
             android:id="@+id/title"
             style="@style/headline5"
             android:layout_width="0dp"
+            android:focusable="true"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
