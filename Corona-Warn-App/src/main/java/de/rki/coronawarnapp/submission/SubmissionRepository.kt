@@ -106,7 +106,7 @@ class SubmissionRepository @Inject constructor(
             val registrationToken = LocalData.registrationToken()
             if (registrationToken != null) {
                 uiState = when {
-                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
+                    LocalData.isAllowedToSubmitDiagnosisKeys() -> {
                         DeviceUIState.PAIRED_POSITIVE
                     }
                     refreshTestResult -> fetchTestResult(registrationToken)
@@ -163,9 +163,6 @@ class SubmissionRepository @Inject constructor(
             testResultReceivedDateFlowInternal.value = Date(initialTestResultReceivedTimestamp)
         }
     }
-
-    suspend fun asyncRequestTestResult(registrationToken: String): TestResult =
-        submissionService.asyncRequestTestResult(registrationToken)
 
     private suspend fun fetchTestResult(registrationToken: String): DeviceUIState = try {
         val testResult = submissionService.asyncRequestTestResult(registrationToken)
