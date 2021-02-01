@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.storage
 
 import de.rki.coronawarnapp.datadonation.OneTimePassword
+import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -15,13 +16,13 @@ import java.util.UUID
 
 class OTPRepositoryTest : BaseTest() {
 
-    @MockK lateinit var dataDonationPreferences: DataDonationPreferences
+    @MockK lateinit var surveySettings: SurveySettings
     @MockK lateinit var flowPreference: FlowPreference<OneTimePassword?>
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { dataDonationPreferences.oneTimePassword } returns flowPreference
+        every { surveySettings.oneTimePassword } returns flowPreference
     }
 
     @AfterEach
@@ -32,12 +33,12 @@ class OTPRepositoryTest : BaseTest() {
     @Test
     fun `last otp is read from preferences`() {
         every { flowPreference.value } returns OneTimePassword(UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0"))
-        OTPRepository(dataDonationPreferences).lastOTP!!.uuid shouldBe UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
+        OTPRepository(surveySettings).lastOTP!!.uuid shouldBe UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
     }
 
     @Test
     fun `no last otp`() {
         every { flowPreference.value } returns null
-        OTPRepository(dataDonationPreferences).lastOTP shouldBe null
+        OTPRepository(surveySettings).lastOTP shouldBe null
     }
 }

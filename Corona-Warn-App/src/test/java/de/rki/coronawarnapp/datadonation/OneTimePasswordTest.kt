@@ -8,7 +8,9 @@ class OneTimePasswordTest {
 
     @Test
     fun test() {
-        OneTimePassword(UUID.fromString("923c977a-617b-11eb-ae93-0242ac130002"))
-            .payloadForRequest shouldBe "kjyXemF7EeuukwJCrBMAAg==\n".encodeToByteArray()
+        "923c977a-617b-11eb-ae93-0242ac130002".apply {
+            OneTimePassword(UUID.fromString(this))
+                .payloadForRequest shouldBe encodeToByteArray()
+        }
     }
 }
