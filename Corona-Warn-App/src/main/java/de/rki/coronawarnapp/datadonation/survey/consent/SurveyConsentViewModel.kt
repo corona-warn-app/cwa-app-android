@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.datadonation.survey.ui.onboarding
+package de.rki.coronawarnapp.datadonation.survey.consent
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

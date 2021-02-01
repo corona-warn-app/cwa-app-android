@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.datadonation.survey.ui.onboarding
+package de.rki.coronawarnapp.datadonation.survey.consent
 
 import android.os.Bundle
 import android.view.View
