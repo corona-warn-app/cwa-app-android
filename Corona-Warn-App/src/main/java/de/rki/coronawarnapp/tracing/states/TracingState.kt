@@ -94,45 +94,45 @@ data class LowRisk(
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
-    fun getTimeFetched(c: Context): String = if (lastExposureDetectionTime != null) {
-        c.getString(
+    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+        context.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(c, lastExposureDetectionTime)
+            formatRelativeDateTimeString(context, lastExposureDetectionTime)
         )
     } else {
-        c.getString(R.string.risk_card_body_not_yet_fetched)
+        context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getRiskContactBody(c: Context): String = if (daysWithEncounters == 0) {
+    fun getRiskContactBody(context: Context): String = if (daysWithEncounters == 0) {
         // caution! is 0 after migration from 1.7.x -> 1.8.x
         // see RiskLevelResultMigrator.kt
-        c.getString(R.string.risk_card_low_risk_no_encounters_body)
+        context.getString(R.string.risk_card_low_risk_no_encounters_body)
     } else {
-        c.resources.getQuantityString(
+        context.resources.getQuantityString(
             R.plurals.risk_card_low_risk_encounter_days_body,
             daysWithEncounters,
             daysWithEncounters
         )
     }
 
-    fun getRiskContactBodyDescription(c: Context): String = if (daysWithEncounters == 0) {
-        c.getString(R.string.risk_card_low_risk_no_encounters_body)
+    fun getRiskContactBodyDescription(context: Context): String = if (daysWithEncounters == 0) {
+        context.getString(R.string.risk_card_low_risk_no_encounters_body)
     } else {
-        c.resources.getQuantityString(
+        context.resources.getQuantityString(
             R.plurals.risk_card_low_risk_encounter_days_body_description,
             daysWithEncounters,
             daysWithEncounters
         )
     }
 
-    fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String =
+    fun getRiskActiveTracingDaysInRetentionPeriod(context: Context): String =
         if (activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays()) {
-            c.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
+            context.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
         } else {
-            c.getString(R.string.risk_card_body_saved_days_full)
+            context.getString(R.string.risk_card_body_saved_days_full)
         }
 
-    fun getRiskContactLast(c: Context): String? {
+    fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null
         // caution! lastEncounterAt is null after migration from 1.7.x -> 1.8.x
         // see RiskLevelResultMigrator.kt
@@ -143,7 +143,7 @@ data class LowRisk(
             R.string.risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day
         }
 
-        return c.getString(
+        return context.getString(
             stringRes,
             lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
         )
