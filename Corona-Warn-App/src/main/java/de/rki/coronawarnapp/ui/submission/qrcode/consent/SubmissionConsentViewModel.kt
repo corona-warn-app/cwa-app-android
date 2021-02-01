@@ -5,6 +5,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -34,7 +36,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 Timber.tag("onConsentButtonClick").d(task.result.toString())
             } else {
                 Timber.tag("onConsentButtonClick").e(task.exception)
-
+                task.exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
         }
     }
