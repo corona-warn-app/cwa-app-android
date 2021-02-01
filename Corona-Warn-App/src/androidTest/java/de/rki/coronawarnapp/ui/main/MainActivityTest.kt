@@ -92,6 +92,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
     @MockK lateinit var tracingStateProvider: TracingStateProvider
+    @MockK lateinit var diarySettings: ContactDiarySettings
 
     // ContactDiaryOverviewFragment mocks
     @MockK lateinit var taskController: TaskController
@@ -320,7 +321,8 @@ class MainActivityTest : BaseUITest() {
         MainActivityViewModel(
             dispatcherProvider = TestDispatcherProvider(),
             environmentSetup = environmentSetup,
-            backgroundModeStatus = backgroundModeStatus
+            backgroundModeStatus = backgroundModeStatus,
+            contactDiarySettings = diarySettings
         )
     )
 
@@ -390,6 +392,7 @@ class MainActivityTest : BaseUITest() {
     }
 
     private fun setupActivityViewModel() {
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
         mainActivityViewModel = mainActivityViewModelSpy()
         every { mainActivityViewModel.doBackgroundNoiseCheck() } just Runs
         setupMockViewModel(
@@ -423,9 +426,4 @@ class MainProviderModule {
         mockk<ContactDiaryWorkScheduler>(relaxed = true).apply {
             every { schedulePeriodic() } just Runs
         }
-
-    @Provides
-    fun settings(): ContactDiarySettings = mockk<ContactDiarySettings>(relaxed = true).apply {
-        every { onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-    }
 }
