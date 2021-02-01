@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
+            android:contentDescription="@null"
             android:src="@drawable/ic_statistics_incidence"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_small"
@@ -48,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
+            android:focusable="true"
             tools:text="98,9" />
 
         <TextView

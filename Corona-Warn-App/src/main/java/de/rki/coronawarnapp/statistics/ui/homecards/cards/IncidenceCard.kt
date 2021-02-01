@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.databinding.HomeStatisticsCardsIncidenceLayoutBindin
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
+import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
@@ -37,7 +38,10 @@ class IncidenceCard(parent: ViewGroup) :
                 context,
                 formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals)
             )
+
+            primaryValue.contentDescription = context.getString(R.string.statistics_explanation_seven_day_incidence_title) + getPrimaryLabel(context) + formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals) + getContentDescriptionForTrends(context, sevenDayIncidence.trend)
             trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
         }
     }
 }
+ß
