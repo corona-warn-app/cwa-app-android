@@ -505,10 +505,6 @@
         android:id="@+id/newReleaseInfoFragment"
         android:name="de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment"
         android:label="NewReleaseInfoFragment" >
-        <action
-            android:id="@+id/action_newReleaseInfoFragment_pop"
-            app:popUpTo="@id/newReleaseInfoFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="comesFromInfoScreen"
             app:argType="boolean"
