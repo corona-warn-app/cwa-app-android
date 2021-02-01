@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.databinding.HomeStatisticsCardsSevendayrvalueLayoutB
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
+import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
@@ -37,7 +38,10 @@ class SevenDayRValueCard(parent: ViewGroup) :
                 context,
                 formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals)
             )
+
+            primaryValue.contentDescription = context.getString(R.string.statistics_title_reproduction) + " " + getPrimaryLabel(context) + " " + formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals) + getContentDescriptionForTrends(context, reproductionNumber.trend)
             trendArrow.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
         }
     }
+    
 }
