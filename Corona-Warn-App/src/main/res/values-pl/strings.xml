@@ -1330,7 +1330,7 @@
     <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraża przeciętna osoba zakażona. Bieżąca wartość uwzględnia dane z ostatnich 5 dni.\n\nWięcej informacji znajdziesz w odpowiedziach na często zadawane pytania:\nCzęsto zadawane pytania dotyczące statystyk."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
+    <!-- XTXT: Explanation screen seven day r-value link label  -->
     <string name="statistics_explanation_seven_day_r_link_label">"Często zadawane pytania dotyczące statystyk."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legenda"</string>
