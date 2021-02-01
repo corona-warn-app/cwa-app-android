@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.tracing.ui.details.items.survey
 
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsAccessSurveyCardBinding
@@ -10,6 +9,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 
 class UserSurveyBox(
     parent: ViewGroup,
+    private val onItemClickListener: (item: DetailsItem) -> Unit,
     @LayoutRes containerLayout: Int = R.layout.home_card_container_layout
 ) : TracingDetailsAdapter.DetailsItemVH<UserSurveyBox.Item, TracingDetailsAccessSurveyCardBinding>(
     containerLayout,
@@ -27,14 +27,8 @@ class UserSurveyBox(
     override val onBindData: TracingDetailsAccessSurveyCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ ->
-        tracingDetailsSurveyCardButton.setOnClickListener {
-            Toast.makeText(
-                context,
-                "Still WIP",
-                Toast.LENGTH_LONG
-            ).show()
-        }
+    ) -> Unit = { item, _ ->
+        tracingDetailsSurveyCardButton.setOnClickListener { onItemClickListener(item) }
     }
 
     class Item : DetailsItem {

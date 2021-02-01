@@ -25,7 +25,9 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
+class TracingDetailsAdapter(
+    private val onItemClickListener: (item: DetailsItem) -> Unit
+) : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DetailsItem> {
 
     override val asyncDiffer: AsyncDiffer<DetailsItem> = AsyncDiffer(this)
@@ -42,11 +44,16 @@ class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH
             TypedVHCreatorMod({ data[it] is DetailsFailedCalculationBox.Item }) { DetailsFailedCalculationBox(it) },
             TypedVHCreatorMod({ data[it] is DetailsIncreasedRiskBox.Item }) { DetailsIncreasedRiskBox(it) },
             TypedVHCreatorMod({ data[it] is DetailsLowRiskBox.Item }) { DetailsLowRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is UserSurveyBox.Item }) { UserSurveyBox(it) },
             TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
             TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
             TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) }
+            TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) },
+            TypedVHCreatorMod({ data[it] is UserSurveyBox.Item }) {
+                UserSurveyBox(
+                    parent = it,
+                    onItemClickListener = onItemClickListener
+                )
+            }
         ))
     }
 

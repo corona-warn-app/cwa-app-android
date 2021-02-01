@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.LowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingDisabledBox
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingProgressBox
+import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -99,6 +100,12 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     fun updateRiskDetails() {
         tracingRepository.refreshDiagnosisKeys()
+    }
+
+    fun onItemClicked(item: DetailsItem) {
+        when (item) {
+            is UserSurveyBox.Item -> Timber.i("Clicked on %s", item)
+        }
     }
 
     @AssistedFactory
