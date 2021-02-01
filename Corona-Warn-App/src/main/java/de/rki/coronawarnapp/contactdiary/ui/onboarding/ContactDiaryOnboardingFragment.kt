@@ -34,9 +34,8 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
                 vm.onNextButtonClick()
             }
-
-            toolbar.apply {
-                if (!args.showBottomNav) {
+            if (!args.showBottomNav) {
+                toolbar.apply {
                     navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
                     navigationContentDescription = getString(R.string.accessibility_close)
                     setNavigationOnClickListener { vm.onBackButtonPress() }
