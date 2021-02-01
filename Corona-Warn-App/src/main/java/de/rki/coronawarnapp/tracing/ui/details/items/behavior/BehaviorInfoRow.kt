@@ -47,7 +47,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
             }
         }
 
-        if(body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
+        if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
             body.setUrl(
                 R.string.risk_details_increased_risk_faq_link_text,
                 R.string.risk_details_increased_risk_faq_link_label,
