@@ -488,7 +488,7 @@ jobs:
               --os-version-ids 29 \
               --locales de_DE \
               --orientations portrait \
-              --no-record-video
+              --no-record-video | true
           no_output_timeout: 30m
       - run:
           name: Create directory to store test results
