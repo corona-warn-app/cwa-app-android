@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.main
 
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
@@ -24,6 +25,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
+    @MockK lateinit var diarySettings: ContactDiarySettings
 
     @BeforeEach
     fun setup() {
@@ -40,7 +42,8 @@ class MainActivityViewModelTest : BaseTest() {
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         environmentSetup = environmentSetup,
-        backgroundModeStatus = backgroundModeStatus
+        backgroundModeStatus = backgroundModeStatus,
+        contactDiarySettings = diarySettings
     )
 
     @Test

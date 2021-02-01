@@ -16,7 +16,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -61,7 +60,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
-    @Inject lateinit var settings: ContactDiarySettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -85,13 +83,16 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
         binding.mainBottomNavigation.setupWithNavController2(navController) {
-            startNestedGraphDestination(navController)
+            vm.onBottomNavSelected()
+        }
+        vm.isOnboardingDone.observe(this) { isOnboardingDone ->
+            startNestedGraphDestination(navController, isOnboardingDone)
         }
     }
 
-    private fun startNestedGraphDestination(navController: NavController) {
+    private fun startNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
         val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
-        nestedGraph.startDestination = if (settings.isOnboardingDone) {
+        nestedGraph.startDestination = if (isOnboardingDone) {
             R.id.contactDiaryOverviewFragment
         } else {
             R.id.contactDiaryOnboardingFragment

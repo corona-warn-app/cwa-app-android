@@ -86,6 +86,6 @@
     <color name="colorStatisticsTrendNeutral">#5D6F80</color>
 
     <!-- Bottom Nav bar-->
-    <color name="navItemColorSelected">#017FAD</color>
+    <color name="navItemColorSelected">@color/colorAccent</color>
     <color name="navItemColorNormal">#999999</color>
 </resources>
