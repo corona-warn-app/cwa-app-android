@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.tracing.ui.details.items.survey
+package de.rki.coronawarnapp.datadonation.survey.ui.onboarding
 
 import androidx.lifecycle.ViewModel
 
