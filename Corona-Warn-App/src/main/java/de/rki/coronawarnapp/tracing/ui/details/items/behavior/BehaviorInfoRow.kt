@@ -45,7 +45,6 @@ class BehaviorInfoRow @JvmOverloads constructor(
                 body.text = if (it != 0) resources.getString(it)
                 else getString(R.styleable.TracingDetailsBehaviorRow_android_text)
             }
-
         }
 
         if(body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
@@ -54,12 +53,10 @@ class BehaviorInfoRow @JvmOverloads constructor(
                 R.string.risk_details_increased_risk_faq_link_label,
                 R.string.risk_details_increased_risk_faq_url)
         }
-
     }
 
     fun setText(text: String) {
         this.body.text = text
-
     }
 
     fun setBackgroundTint(@ColorInt color: Int) {
