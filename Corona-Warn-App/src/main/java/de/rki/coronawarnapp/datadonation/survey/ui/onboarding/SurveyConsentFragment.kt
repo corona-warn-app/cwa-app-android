@@ -1,31 +1,25 @@
 package de.rki.coronawarnapp.datadonation.survey.ui.onboarding
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class SurveyConsentFragment : Fragment() {
+class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoInject {
 
-    companion object {
-        fun newInstance() = SurveyConsentFragment()
-    }
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: SurveyConsentFragment by cwaViewModels { viewModelFactory }
+    private val binding: SurveyConsentFragmentBinding by viewBindingLazy()
 
-    private lateinit var viewModel: SurveyConsentViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.survey_consent_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SurveyConsentViewModel::class.java)
-        // TODO: Use the ViewModel
+        //Do stuff
     }
 }

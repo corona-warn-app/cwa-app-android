@@ -1,7 +1,15 @@
 package de.rki.coronawarnapp.datadonation.survey.ui.onboarding
 
-import androidx.lifecycle.ViewModel
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class SurveyConsentViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class SurveyConsentViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    @AssistedFactory
+    interface Factory : SimpleCWAViewModelFactory<SurveyConsentViewModel>
 }
