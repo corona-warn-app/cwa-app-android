@@ -28,9 +28,9 @@
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
         <item>Wenn Sie ein erhöhtes Risiko haben, können Sie aus der App heraus eine Umfrage des Robert-Koch-Instituts aufrufen und daran teilnehmen.</item>
-        <item>Sie bekommen einen Überblick mit aktuellen Kennzahlen zum Infektionsgeschehen in Deutschland.</item>
+        <item>Sie haben nun die Möglichkeit, Ihre Nutzungsdaten zur Verfügung zu stellen und uns somit bei der Verbesserung der App zu unterstützen.</item>
         <item>Die Texte auf den Risiko-Karten wurden leicht angepasst.</item>
-        <item>Nachdem Sie Ihre verschlüsselten Zufalls-IDs geteilt haben können Sie entscheiden, ob und wann Sie die Risiko-Ermittlung wieder einschalten möchten.</item>
+        <item>Nachdem Sie Ihre verschlüsselten Zufalls-IDs geteilt haben, können Sie entscheiden, ob und wann Sie die Risiko-Ermittlung wieder einschalten.</item>
         <item>Es gibt nun eine eigene Registerkarte für das Kontakt-Tagebuch. Somit können Sie schneller auf Ihr Tagebuch zugreifen und vom Kontakt-Tagebuch wieder zurück auf die Startseite der App wechseln.</item>
         <item>Die App enthält nun detaillierte Informationen zum Testablauf.</item>
     </string-array>
