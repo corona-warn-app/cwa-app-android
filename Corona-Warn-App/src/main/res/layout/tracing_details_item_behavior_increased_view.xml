@@ -145,11 +145,11 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_tiny"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_faq_information"
-            android:text="@string/risk_details_behavior_link_to_faq" />
+            android:text="@string/risk_details_increased_risk_faq_link_text" />
 
     </LinearLayout>
 </layout>
