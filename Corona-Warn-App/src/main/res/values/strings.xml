@@ -1377,15 +1377,15 @@
     <string name="statistics_explanation_trend_stable_title">"Trend: Steady"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"The assessment of the trend for warnings by app users changes depending on current infection levels, which is why this trend is always displayed as neutral."</string>
-    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german)0 - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
 
     <!-- XTXT: Statistics Card Announcement -->
-    <string name="accessibility_statistics_card_announcement">""</string>
+    <string name="accessibility_statistics_card_announcement">"Statistics Card"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">""</string>
+    <string name="accessibility_statistics_card_navigation_information">"Swipe horizontal between items"</string>
 
 
     <!-- ####################################

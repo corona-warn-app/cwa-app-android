@@ -55,7 +55,6 @@
             android:id="@+id/secondary_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
-            android:focusable="true"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/spacing_normal"
             android:text="@string/statistics_reproduction_average" />
