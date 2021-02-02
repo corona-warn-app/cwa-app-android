@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
-import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithWhiteSpace
+import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 
 class InfectionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsInfectionsLayoutBinding>(
@@ -43,21 +43,21 @@ class InfectionsCard(parent: ViewGroup) :
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = formatStatisticalValue(context, newInfections.value, newInfections.decimals)
             primaryValue.contentDescription = StringBuilder()
-                .appendWithWhiteSpace(getPrimaryLabel(context))
-                .appendWithWhiteSpace(formatStatisticalValue(context, newInfections.value, newInfections.decimals))
+                .appendWithTrailingSpace(getPrimaryLabel(context))
+                .appendWithTrailingSpace(formatStatisticalValue(context, newInfections.value, newInfections.decimals))
                 .append(context.getString(R.string.statistics_card_infections_title))
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription = StringBuilder()
-                .appendWithWhiteSpace(context.getString(R.string.statistics_card_infections_secondary_label))
-                .appendWithWhiteSpace(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
-                .appendWithWhiteSpace(context.getString(R.string.statistics_card_infections_title))
+                .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
+                .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
+                .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_title))
                 .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
             tertiaryValue.contentDescription = StringBuilder()
-                .appendWithWhiteSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
-                .appendWithWhiteSpace(formatStatisticalValue(context, total.value, total.decimals))
+                .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
+                .appendWithTrailingSpace(formatStatisticalValue(context, total.value, total.decimals))
                 .append(context.getString(R.string.statistics_card_infections_title))
 
             trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
@@ -72,14 +72,14 @@ class InfectionsCard(parent: ViewGroup) :
     ): StringBuilder {
 
         return StringBuilder()
-            .appendWithWhiteSpace(context.getString(R.string.accessibility_statistics_card_announcement))
+            .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_card_infections_title))
-            .appendWithWhiteSpace(item.getPrimaryLabel(context))
+            .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithLineBreak(formatStatisticalValue(context, newInfections.value, newInfections.decimals))
-            .appendWithWhiteSpace(context.getString(R.string.statistics_card_infections_secondary_label))
-            .appendWithWhiteSpace(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
+            .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayAverage.trend))
-            .appendWithWhiteSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
             .appendWithLineBreak(formatStatisticalValue(context, total.value, total.decimals))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }

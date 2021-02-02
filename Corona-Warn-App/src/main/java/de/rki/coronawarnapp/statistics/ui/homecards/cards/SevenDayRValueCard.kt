@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import android.view.ViewGroup
-import androidx.core.view.contains
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsSevendayrvalueLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
@@ -12,7 +11,7 @@ import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
-import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithWhiteSpace
+import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class SevenDayRValueCard(parent: ViewGroup) :
@@ -49,9 +48,9 @@ class SevenDayRValueCard(parent: ViewGroup) :
             )
 
             primaryValue.contentDescription = StringBuilder()
-                .appendWithWhiteSpace(context.getString(R.string.statistics_title_reproduction))
-                .appendWithWhiteSpace(getPrimaryLabel(context))
-                .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value,
+                .appendWithTrailingSpace(context.getString(R.string.statistics_title_reproduction))
+                .appendWithTrailingSpace(getPrimaryLabel(context))
+                .appendWithTrailingSpace(formatStatisticalValue(context, reproductionNumber.value,
                     reproductionNumber.decimals))
                 .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
 
@@ -65,12 +64,12 @@ class SevenDayRValueCard(parent: ViewGroup) :
     ): StringBuilder {
 
         return StringBuilder()
-            .appendWithWhiteSpace(context.getString(R.string.accessibility_statistics_card_announcement))
+            .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_title_reproduction))
-            .appendWithWhiteSpace(item.getPrimaryLabel(context))
-            .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value,
+            .appendWithTrailingSpace(item.getPrimaryLabel(context))
+            .appendWithTrailingSpace(formatStatisticalValue(context, reproductionNumber.value,
                 reproductionNumber.decimals))
-            .appendWithWhiteSpace(context.getString(R.string.statistics_reproduction_average))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_reproduction_average))
             .appendWithLineBreak(getContentDescriptionForTrends(context, reproductionNumber.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
