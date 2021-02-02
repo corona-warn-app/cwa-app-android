@@ -28,9 +28,11 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
             R.string.statistics_explanation_seven_day_r_link_label,
             R.string.statistics_explanation_faq_url
         )
+
         binding.statisticsExplanationTrendText.apply {
-            text = String.format(getString(R.string.statistics_explanation_trend_text))
-            contentDescription = String.format(getString(R.string.statistics_explanation_trend_text))
+            val label = String.format(getString(R.string.statistics_explanation_trend_text))
+            text = label
+            contentDescription = label
         }
     }
 
