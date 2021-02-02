@@ -10,7 +10,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.*
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -34,11 +34,11 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel() {
 
-    private val ageGroupSource: Flow<List<UserInfoItem>> = flowOf(PPAAgeGroup.values())
+    private val ageGroupSource: Flow<List<UserInfoItem>> = flowOf(PpaData.PPAAgeGroup.values())
         .map { ages ->
             val selected = settings.userInfoAgeGroup.value
             ages.mapNotNull { age ->
-                if (age == PPAAgeGroup.UNRECOGNIZED) return@mapNotNull null
+                if (age == PpaData.PPAAgeGroup.UNRECOGNIZED) return@mapNotNull null
                 UserInfoItem(
                     data = age,
                     isSelected = age == selected,
@@ -47,13 +47,13 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
             }
         }
 
-    private val federalStateSource: Flow<List<UserInfoItem>> = flowOf(PPAFederalState.values())
+    private val federalStateSource: Flow<List<UserInfoItem>> = flowOf(PpaData.PPAFederalState.values())
         .map { states ->
             val selected = settings.userInfoFederalState.value
             val items = states
                 .mapNotNull { state ->
-                    if (state == PPAFederalState.UNRECOGNIZED) return@mapNotNull null
-                    if (state == PPAFederalState.FEDERAL_STATE_UNSPECIFIED) return@mapNotNull null
+                    if (state == PpaData.PPAFederalState.UNRECOGNIZED) return@mapNotNull null
+                    if (state == PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) return@mapNotNull null
                     UserInfoItem(
                         data = state,
                         isSelected = state == selected,
@@ -63,9 +63,9 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
                 .sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) }
 
             val unspecified = UserInfoItem(
-                data = PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
-                isSelected = selected == PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
-                label = PPAFederalState.FEDERAL_STATE_UNSPECIFIED.getStringLabel().toResolvingString()
+                data = PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
+                isSelected = selected == PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
+                label = PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED.getStringLabel().toResolvingString()
             )
             listOf(unspecified) + items
         }
@@ -73,22 +73,22 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
     private val districtSource: Flow<List<UserInfoItem>> = flow { emit(districtsSource.loadDistricts()) }
         .map { allDistricts ->
             val ourStateCode = when (settings.userInfoFederalState.value) {
-                PPAFederalState.FEDERAL_STATE_BW -> "BW"
-                PPAFederalState.FEDERAL_STATE_BY -> "BY"
-                PPAFederalState.FEDERAL_STATE_BE -> "BE"
-                PPAFederalState.FEDERAL_STATE_BB -> "BB"
-                PPAFederalState.FEDERAL_STATE_HB -> "HB"
-                PPAFederalState.FEDERAL_STATE_HH -> "HH"
-                PPAFederalState.FEDERAL_STATE_HE -> "HE"
-                PPAFederalState.FEDERAL_STATE_MV -> "MV"
-                PPAFederalState.FEDERAL_STATE_NI -> "NI"
-                PPAFederalState.FEDERAL_STATE_NRW -> "NW"
-                PPAFederalState.FEDERAL_STATE_RP -> "RP"
-                PPAFederalState.FEDERAL_STATE_SL -> "SL"
-                PPAFederalState.FEDERAL_STATE_SN -> "SN"
-                PPAFederalState.FEDERAL_STATE_ST -> "ST"
-                PPAFederalState.FEDERAL_STATE_SH -> "SH"
-                PPAFederalState.FEDERAL_STATE_TH -> "TH"
+                PpaData.PPAFederalState.FEDERAL_STATE_BW -> "BW"
+                PpaData.PPAFederalState.FEDERAL_STATE_BY -> "BY"
+                PpaData.PPAFederalState.FEDERAL_STATE_BE -> "BE"
+                PpaData.PPAFederalState.FEDERAL_STATE_BB -> "BB"
+                PpaData.PPAFederalState.FEDERAL_STATE_HB -> "HB"
+                PpaData.PPAFederalState.FEDERAL_STATE_HH -> "HH"
+                PpaData.PPAFederalState.FEDERAL_STATE_HE -> "HE"
+                PpaData.PPAFederalState.FEDERAL_STATE_MV -> "MV"
+                PpaData.PPAFederalState.FEDERAL_STATE_NI -> "NI"
+                PpaData.PPAFederalState.FEDERAL_STATE_NRW -> "NW"
+                PpaData.PPAFederalState.FEDERAL_STATE_RP -> "RP"
+                PpaData.PPAFederalState.FEDERAL_STATE_SL -> "SL"
+                PpaData.PPAFederalState.FEDERAL_STATE_SN -> "SN"
+                PpaData.PPAFederalState.FEDERAL_STATE_ST -> "ST"
+                PpaData.PPAFederalState.FEDERAL_STATE_SH -> "SH"
+                PpaData.PPAFederalState.FEDERAL_STATE_TH -> "TH"
                 else -> null
             }
             allDistricts.filter { it.federalStateShortName == ourStateCode }
@@ -124,10 +124,10 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     fun selectUserInfoItem(item: UserInfoItem) {
         when (item.data) {
-            is PPAAgeGroup -> {
+            is PpaData.PPAAgeGroup -> {
                 settings.userInfoAgeGroup.update { item.data }
             }
-            is PPAFederalState -> {
+            is PpaData.PPAFederalState -> {
                 settings.userInfoFederalState.update { item.data }
                 settings.userInfoDistrict.update { 0 }
             }
@@ -140,34 +140,34 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
     }
 
     @StringRes
-    private fun PPAFederalState.getStringLabel(): Int = when (this) {
-        PPAFederalState.FEDERAL_STATE_UNSPECIFIED -> R.string.analytics_userinput_federalstate_unspecified
-        PPAFederalState.FEDERAL_STATE_BW -> R.string.analytics_userinput_federalstate_bw
-        PPAFederalState.FEDERAL_STATE_BY -> R.string.analytics_userinput_federalstate_by
-        PPAFederalState.FEDERAL_STATE_BE -> R.string.analytics_userinput_federalstate_be
-        PPAFederalState.FEDERAL_STATE_BB -> R.string.analytics_userinput_federalstate_bb
-        PPAFederalState.FEDERAL_STATE_HB -> R.string.analytics_userinput_federalstate_hb
-        PPAFederalState.FEDERAL_STATE_HH -> R.string.analytics_userinput_federalstate_hh
-        PPAFederalState.FEDERAL_STATE_HE -> R.string.analytics_userinput_federalstate_he
-        PPAFederalState.FEDERAL_STATE_MV -> R.string.analytics_userinput_federalstate_mv
-        PPAFederalState.FEDERAL_STATE_NI -> R.string.analytics_userinput_federalstate_ni
-        PPAFederalState.FEDERAL_STATE_NRW -> R.string.analytics_userinput_federalstate_nrw
-        PPAFederalState.FEDERAL_STATE_RP -> R.string.analytics_userinput_federalstate_rp
-        PPAFederalState.FEDERAL_STATE_SL -> R.string.analytics_userinput_federalstate_sl
-        PPAFederalState.FEDERAL_STATE_SN -> R.string.analytics_userinput_federalstate_sn
-        PPAFederalState.FEDERAL_STATE_ST -> R.string.analytics_userinput_federalstate_st
-        PPAFederalState.FEDERAL_STATE_SH -> R.string.analytics_userinput_federalstate_sh
-        PPAFederalState.FEDERAL_STATE_TH -> R.string.analytics_userinput_federalstate_th
-        PPAFederalState.UNRECOGNIZED -> throw IllegalArgumentException("PPAFederalState.UNRECOGNIZED")
+    private fun PpaData.PPAFederalState.getStringLabel(): Int = when (this) {
+        PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED -> R.string.analytics_userinput_federalstate_unspecified
+        PpaData.PPAFederalState.FEDERAL_STATE_BW -> R.string.analytics_userinput_federalstate_bw
+        PpaData.PPAFederalState.FEDERAL_STATE_BY -> R.string.analytics_userinput_federalstate_by
+        PpaData.PPAFederalState.FEDERAL_STATE_BE -> R.string.analytics_userinput_federalstate_be
+        PpaData.PPAFederalState.FEDERAL_STATE_BB -> R.string.analytics_userinput_federalstate_bb
+        PpaData.PPAFederalState.FEDERAL_STATE_HB -> R.string.analytics_userinput_federalstate_hb
+        PpaData.PPAFederalState.FEDERAL_STATE_HH -> R.string.analytics_userinput_federalstate_hh
+        PpaData.PPAFederalState.FEDERAL_STATE_HE -> R.string.analytics_userinput_federalstate_he
+        PpaData.PPAFederalState.FEDERAL_STATE_MV -> R.string.analytics_userinput_federalstate_mv
+        PpaData.PPAFederalState.FEDERAL_STATE_NI -> R.string.analytics_userinput_federalstate_ni
+        PpaData.PPAFederalState.FEDERAL_STATE_NRW -> R.string.analytics_userinput_federalstate_nrw
+        PpaData.PPAFederalState.FEDERAL_STATE_RP -> R.string.analytics_userinput_federalstate_rp
+        PpaData.PPAFederalState.FEDERAL_STATE_SL -> R.string.analytics_userinput_federalstate_sl
+        PpaData.PPAFederalState.FEDERAL_STATE_SN -> R.string.analytics_userinput_federalstate_sn
+        PpaData.PPAFederalState.FEDERAL_STATE_ST -> R.string.analytics_userinput_federalstate_st
+        PpaData.PPAFederalState.FEDERAL_STATE_SH -> R.string.analytics_userinput_federalstate_sh
+        PpaData.PPAFederalState.FEDERAL_STATE_TH -> R.string.analytics_userinput_federalstate_th
+        PpaData.PPAFederalState.UNRECOGNIZED -> throw IllegalArgumentException("PpaData.PPAFederalState.UNRECOGNIZED")
     }
 
     @StringRes
-    private fun PPAAgeGroup.getStringLabel(): Int = when (this) {
-        PPAAgeGroup.AGE_GROUP_UNSPECIFIED -> R.string.analytics_userinput_agegroup_unspecified
-        PPAAgeGroup.AGE_GROUP_0_TO_29 -> R.string.analytics_userinput_agegroup_0_to_29
-        PPAAgeGroup.AGE_GROUP_30_TO_59 -> R.string.analytics_userinput_agegroup_30_to_59
-        PPAAgeGroup.AGE_GROUP_FROM_60 -> R.string.analytics_userinput_agegroup_from_60
-        PPAAgeGroup.UNRECOGNIZED -> throw IllegalStateException("PPAAgeGroup.UNRECOGNIZED")
+    private fun PpaData.PPAAgeGroup.getStringLabel(): Int = when (this) {
+        PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED -> R.string.analytics_userinput_agegroup_unspecified
+        PpaData.PPAAgeGroup.AGE_GROUP_0_TO_29 -> R.string.analytics_userinput_agegroup_0_to_29
+        PpaData.PPAAgeGroup.AGE_GROUP_30_TO_59 -> R.string.analytics_userinput_agegroup_30_to_59
+        PpaData.PPAAgeGroup.AGE_GROUP_FROM_60 -> R.string.analytics_userinput_agegroup_from_60
+        PpaData.PPAAgeGroup.UNRECOGNIZED -> throw IllegalStateException("PpaData.PPAAgeGroup.UNRECOGNIZED")
     }
 
     @AssistedFactory

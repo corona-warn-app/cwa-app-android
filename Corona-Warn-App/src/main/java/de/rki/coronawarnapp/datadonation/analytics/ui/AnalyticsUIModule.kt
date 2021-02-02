@@ -19,5 +19,7 @@ abstract class AnalyticsUIModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(AnalyticsUserInputViewModel::class)
-    abstract fun ppaUserInfoSelection(factory: AnalyticsUserInputViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun ppaUserInfoSelection(
+        factory: AnalyticsUserInputViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 }
