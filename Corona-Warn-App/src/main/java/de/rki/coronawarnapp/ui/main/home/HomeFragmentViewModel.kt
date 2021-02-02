@@ -55,6 +55,7 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -224,13 +225,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
-                TestPositive, SubmissionDone -> {
+                TestPositive, is SubmissionDone -> {
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
             }
 
             add(submissionItem)
+
+            if (submissionState is SubmissionDone) {
+                add(
+                    ReenableRiskCard.Item(
+                        state = submissionState,
+                        onClickAction = { reenableRiskCalculation() })
+                )
+            }
 
             if (statsData.isDataAvailable) {
                 add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {

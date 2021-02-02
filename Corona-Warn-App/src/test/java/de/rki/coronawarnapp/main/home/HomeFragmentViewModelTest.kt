@@ -69,7 +69,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingStateProviderFactory.create(isDetailsMode = false) } returns tracingStateProvider
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
 
-        every { submissionStateProvider.state } returns flowOf(SubmissionDone)
+        every { submissionStateProvider.state } returns flowOf(mockk<SubmissionDone>())
 
         every { submissionRepository.hasViewedTestResult } returns flowOf(true)
 
