@@ -61,6 +61,7 @@ class CWASafetyNetTest : BaseTest() {
             every { jwsResult } returns "JWSRESULT"
             every { nonce } returns defaultNonce
             every { apkPackageName } returns "de.rki.coronawarnapp.test"
+            every { error } returns "error"
         }
 
         every { googleApiVersion.isPlayServicesVersionAvailable(any()) } returns true
