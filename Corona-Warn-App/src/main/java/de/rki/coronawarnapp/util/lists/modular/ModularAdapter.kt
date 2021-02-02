@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.ui.lists.BaseAdapter
 
 abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
     val modules = mutableListOf<Module>()
+    val holders = mutableListOf<VH>()
 
     init {
         modules.filterIsInstance<Module.Setup>().forEach { it.onAdapterReady(this) }
@@ -32,7 +33,10 @@ abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): VH {
         modules.filterIsInstance<Module.Creator<VH>>().forEach {
             val vh = it.onCreateModularVH(this, parent, viewType)
-            if (vh != null) return vh
+            if (vh != null) {
+                holders.add(vh)
+                return vh
+            }
         }
         throw IllegalStateException("Couldn't create VH for type $viewType with $parent")
     }

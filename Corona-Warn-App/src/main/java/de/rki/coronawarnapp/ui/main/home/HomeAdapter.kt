@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
@@ -34,7 +35,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
-    var statisticsState: Int = 0
+    var statisticsState: Parcelable? = null
 
     init {
         modules.addAll(listOf(
@@ -59,24 +60,25 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) {
                 StatisticsHomeCard(
                     it,
-                    scrollPosition = statisticsState,
-                    onStatisticsRecycled = onStatisticsRecycled
+                    state = statisticsState,
+                    onRestoreState = onStatisticsRecycled
                 )
             }
         ))
     }
 
-    override fun onViewRecycled(holder: HomeItemVH<HomeItem, ViewBinding>) {
-        holder.onViewRecycled()
-        super.onViewRecycled(holder)
+    fun onSaveState() {
+        holders.filterIsInstance<StatisticsHomeCard>().forEach {
+            it.onSaveState()
+        }
     }
 
     override fun onBindBaseVH(holder: HomeItemVH<HomeItem, ViewBinding>, position: Int, payloads: MutableList<Any>) {
         super.onBindBaseVH(holder, position, payloads)
-        holder.onViewBound()
+        holder.onRestoreState()
     }
 
-    val onStatisticsRecycled: (Int) -> Unit = {
+    val onStatisticsRecycled: (Parcelable) -> Unit = {
         statisticsState = it
     }
 
@@ -87,8 +89,8 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
 
-        open fun onViewRecycled() {}
+        open fun onSaveState() {}
 
-        open fun onViewBound() {}
+        open fun onRestoreState() {}
     }
 }

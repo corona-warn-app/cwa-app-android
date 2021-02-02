@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.ui.homecards
 
+import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -17,8 +18,8 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 class StatisticsHomeCard(
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
-    val scrollPosition: Int,
-    val onStatisticsRecycled: (position: Int) -> Unit
+    val state: Parcelable?,
+    val onRestoreState: (state: Parcelable) -> Unit
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
 
     private lateinit var statisticsLayoutManager: StatisticsLayoutManager
@@ -55,13 +56,14 @@ class StatisticsHomeCard(
         }
     }
 
-    override fun onViewRecycled() {
-        val position = statisticsLayoutManager.findFirstVisibleItemPosition()
-        onStatisticsRecycled(position)
+    override fun onSaveState() {
+        statisticsLayoutManager.onSaveInstanceState()?.let {
+            onRestoreState(it)
+        }
     }
 
-    override fun onViewBound() {
-        statisticsLayoutManager.scrollToPositionWithOffset(1, 0)
+    override fun onRestoreState() {
+        statisticsLayoutManager.onRestoreInstanceState(state)
     }
 
     data class Item(
