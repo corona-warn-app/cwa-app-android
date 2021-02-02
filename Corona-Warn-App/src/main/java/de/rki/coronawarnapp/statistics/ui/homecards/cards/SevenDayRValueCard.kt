@@ -70,7 +70,7 @@ class SevenDayRValueCard(parent: ViewGroup) :
             .appendWithWhiteSpace(item.getPrimaryLabel(context))
             .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value,
                 reproductionNumber.decimals))
-            .appendWithWhiteSpace(context.getString(R.string.statistics_card_incidence_value_description))
+            .appendWithWhiteSpace(context.getString(R.string.statistics_reproduction_average))
             .appendWithLineBreak(getContentDescriptionForTrends(context, reproductionNumber.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
