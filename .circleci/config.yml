@@ -493,11 +493,13 @@ jobs:
       - run:
           name: Create directory to store test results
           command: mkdir firebase-results
+          when: always
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-results
+          when: always
       - store_test_results:
           path: ./firebase-results/flame-29-de_DE-portrait
       - compress-path:
