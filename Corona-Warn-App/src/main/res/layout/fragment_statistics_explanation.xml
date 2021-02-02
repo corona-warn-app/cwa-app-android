@@ -314,15 +314,15 @@
                     android:text="@string/statistics_explanation_trend_title" />
 
                 <TextView
+                    android:id="@+id/statistics_explanation_trend_text"
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_trend_text"
                     android:focusable="true"
-                    android:text="@string/statistics_explanation_trend_text" />
+                    tools:text="@string/statistics_explanation_trend_text" />
 
                 <TextView
                     style="@style/headline6"
