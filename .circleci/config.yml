@@ -488,16 +488,18 @@ jobs:
               --os-version-ids 29 \
               --locales de_DE \
               --orientations portrait \
-              --no-record-video | true
+              --no-record-video
           no_output_timeout: 30m
       - run:
           name: Create directory to store test results
           command: mkdir firebase-results
+          when: always
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-results
+          when: always
       - store_test_results:
           path: ./firebase-results/flame-29-de_DE-portrait
       - compress-path:
