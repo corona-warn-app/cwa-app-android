@@ -1371,7 +1371,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Statistikkarte"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Wische horizontal zwischen den Items für weitere Statistiken"</string>
+    <string name="accessibility_statistics_card_navigation_information">"Wische horizontal zwischen den Karten für weitere Statistiken"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
