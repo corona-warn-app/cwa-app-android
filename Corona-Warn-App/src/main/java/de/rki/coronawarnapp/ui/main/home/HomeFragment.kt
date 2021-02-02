@@ -112,6 +112,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
                     )
                 }
+                HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
+                    showReactivateRiskCheckDialog()
+                }
             }
         }
 
@@ -141,6 +144,24 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
                 vm.deregisterWarningAccepted()
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+        }
+    }
+
+    //TODO: strings should be updated before merge
+    private fun showReactivateRiskCheckDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                vm.reenableRiskCalculation()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {

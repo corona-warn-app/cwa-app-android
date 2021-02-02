@@ -237,7 +237,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 add(
                     ReenableRiskCard.Item(
                         state = submissionState,
-                        onClickAction = { reenableRiskCalculation() })
+                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) })
                 )
             }
 
@@ -269,7 +269,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
     }
 
-    private fun reenableRiskCalculation() {
+    fun reenableRiskCalculation() {
         deregisterWarningAccepted()
         deadmanNotificationScheduler.schedulePeriodic()
         refreshDiagnosisKeys()
