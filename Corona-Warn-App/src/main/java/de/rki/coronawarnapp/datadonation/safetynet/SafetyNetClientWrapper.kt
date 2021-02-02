@@ -44,6 +44,7 @@ class SafetyNetClientWrapper @Inject constructor(
         } catch (e: Exception) {
             throw SafetyNetException(Type.ATTESTATION_FAILED, "Failed to decode JWS body.", e)
         }
+
         val signature = try {
             components[2].decodeBase64()!!.toByteArray()
         } catch (e: Exception) {
@@ -95,6 +96,8 @@ class SafetyNetClientWrapper @Inject constructor(
 
         val evaluationTypes = body.get("evaluationType")?.asString
             ?.split(",")?.map { it.trim() } ?: emptyList()
+
+        val error: String? = body.get("error")?.asString
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true

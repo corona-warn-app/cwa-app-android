@@ -66,6 +66,10 @@ class CWASafetyNet @Inject constructor(
 
         val report = client.attest(nonce.toByteArray())
 
+        report.error?.let {
+            Timber.tag(TAG).w("SafetyNet Response has an error message: %s", it)
+        }
+
         if (nonce != report.nonce) {
             throw SafetyNetException(
                 Type.NONCE_MISMATCH,
