@@ -59,7 +59,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) {
                 StatisticsHomeCard(
                     it,
-                    position = statisticsState,
+                    scrollPosition = statisticsState,
                     onStatisticsRecycled = onStatisticsRecycled
                 )
             }
@@ -67,8 +67,13 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
     }
 
     override fun onViewRecycled(holder: HomeItemVH<HomeItem, ViewBinding>) {
-        holder.onStatisticsRecycled()
+        holder.onViewRecycled()
         super.onViewRecycled(holder)
+    }
+
+    override fun onBindBaseVH(holder: HomeItemVH<HomeItem, ViewBinding>, position: Int, payloads: MutableList<Any>) {
+        super.onBindBaseVH(holder, position, payloads)
+        holder.onViewBound()
     }
 
     val onStatisticsRecycled: (Int) -> Unit = {
@@ -82,6 +87,8 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
 
-        open fun onStatisticsRecycled() {}
+        open fun onViewRecycled() {}
+
+        open fun onViewBound() {}
     }
 }

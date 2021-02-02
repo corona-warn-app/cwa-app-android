@@ -17,20 +17,20 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 class StatisticsHomeCard(
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
-    position: Int,
+    val scrollPosition: Int,
     val onStatisticsRecycled: (position: Int) -> Unit
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
 
-    private lateinit var layoutManager: StatisticsLayoutManager
+    private lateinit var statisticsLayoutManager: StatisticsLayoutManager
     private val statsAdapter by lazy { StatisticsCardAdapter() }
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
-            layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            statisticsLayoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             statisticsRecyclerview.apply {
                 setHasFixedSize(false)
                 adapter = statsAdapter
-                layoutManager = layoutManager
+                layoutManager = statisticsLayoutManager
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
                     StatisticsCardPaddingDecorator(
@@ -41,7 +41,6 @@ class StatisticsHomeCard(
                 )
             }
             PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
-            //layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
@@ -51,12 +50,18 @@ class StatisticsHomeCard(
     ) -> Unit = { item, _ ->
         item.data.items.map {
             StatisticsCardItem(it, item.onHelpAction)
-        }.let { statsAdapter.update(it) }
+        }.let {
+            statsAdapter.update(it)
+        }
     }
 
-    override fun onStatisticsRecycled() {
-        val position = layoutManager.findFirstVisibleItemPosition()
+    override fun onViewRecycled() {
+        val position = statisticsLayoutManager.findFirstVisibleItemPosition()
         onStatisticsRecycled(position)
+    }
+
+    override fun onViewBound() {
+        statisticsLayoutManager.scrollToPositionWithOffset(1, 0)
     }
 
     data class Item(
