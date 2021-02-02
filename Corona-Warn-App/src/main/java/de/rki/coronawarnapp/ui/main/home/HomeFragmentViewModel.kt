@@ -263,6 +263,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private fun reenableRiskCalculation() {
         deregisterWarningAccepted()
         deadmanNotificationScheduler.schedulePeriodic()
+        refreshDiagnosisKeys()
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
