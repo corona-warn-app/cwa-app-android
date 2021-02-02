@@ -214,8 +214,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }.distinctUntilChanged()
 
-    private val items: MutableList<HomeItem> = mutableListOf<HomeItem>()
-
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         submissionCardItems,
@@ -272,10 +270,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 shouldBeShown
             }
             .asLiveData(context = dispatcherProvider.Default)
-    }
-
-    init {
-        refreshRequiredData()
     }
 
     fun errorResetDialogDismissed() {
