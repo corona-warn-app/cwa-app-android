@@ -146,9 +146,9 @@ object BackgroundWorkScheduler {
     }
 
     /**
-     * Schedule diagnosis key one time work
+     * Schedule diagnosis key periodic time work
      *
-     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
      */
     fun scheduleDiagnosisKeyPeriodicWork() {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()

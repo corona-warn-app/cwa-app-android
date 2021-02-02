@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -31,7 +32,8 @@ class SubmissionRepository @Inject constructor(
     private val submissionService: SubmissionService,
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    private val tekHistoryStorage: TEKHistoryStorage
+    private val tekHistoryStorage: TEKHistoryStorage,
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -106,7 +108,7 @@ class SubmissionRepository @Inject constructor(
             val registrationToken = LocalData.registrationToken()
             if (registrationToken != null) {
                 uiState = when {
-                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
+                    LocalData.isAllowedToSubmitDiagnosisKeys() -> {
                         DeviceUIState.PAIRED_POSITIVE
                     }
                     refreshTestResult -> fetchTestResult(registrationToken)
@@ -148,6 +150,7 @@ class SubmissionRepository @Inject constructor(
 
         if (testResult == TestResult.POSITIVE) {
             LocalData.isAllowedToSubmitDiagnosisKeys(true)
+            deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
@@ -163,9 +166,6 @@ class SubmissionRepository @Inject constructor(
             testResultReceivedDateFlowInternal.value = Date(initialTestResultReceivedTimestamp)
         }
     }
-
-    suspend fun asyncRequestTestResult(registrationToken: String): TestResult =
-        submissionService.asyncRequestTestResult(registrationToken)
 
     private suspend fun fetchTestResult(registrationToken: String): DeviceUIState = try {
         val testResult = submissionService.asyncRequestTestResult(registrationToken)
