@@ -74,6 +74,7 @@ class TracingStateProvider @AssistedInject constructor(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt,
+                lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
                 allowManualUpdate = !isBackgroundJobEnabled
