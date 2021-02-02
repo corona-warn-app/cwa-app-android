@@ -38,6 +38,7 @@ object HomeData {
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
                 lastExposureDetectionTime = Instant.now(),
+                lastEncounterAt = Instant.now(),
                 allowManualUpdate = false,
                 daysWithEncounters = 1,
                 activeTracingDays = 1
