@@ -275,6 +275,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .asLiveData(context = dispatcherProvider.Default)
     }
 
+    init {
+        refreshRequiredData()
+    }
+
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }

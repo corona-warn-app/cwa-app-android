@@ -55,14 +55,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         binding.recyclerView.apply {
-            itemAnimator = DefaultItemAnimator()
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            if (adapter != homeAdapter) {
+                adapter = homeAdapter
+                itemAnimator = DefaultItemAnimator()
+                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            }
         }
 
         vm.homeItems.observe2(this) {
-            homeAdapter.update(it)
-            if (binding.recyclerView.adapter != homeAdapter)
-                binding.recyclerView.adapter = homeAdapter
+            if (homeAdapter.items.isEmpty()) homeAdapter.update(it)
         }
 
         vm.routeToScreen.observe2(this) {
@@ -122,8 +123,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         vm.observeTestResultToSchedulePositiveTestResultReminder()
-
-        vm.refreshRequiredData()
     }
 
     override fun onResume() {

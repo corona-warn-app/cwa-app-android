@@ -31,14 +31,16 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
+class HomeAdapter(
+    onSavedInstance: () -> Unit
+) : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<HomeItem> {
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
     private val statsAdapter by lazy { StatisticsCardAdapter() }
 
-    private val items: MutableList<StatisticsCardItem> by lazy { mutableListOf() }
+    val items: MutableList<StatisticsCardItem> by lazy { mutableListOf() }
 
     @Synchronized
     fun update(
@@ -78,10 +80,16 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         ))
     }
 
+    fun onSavedInstance() {
+    }
+
     override fun getItemCount(): Int = data.size
 
     abstract class HomeItemVH<Item : HomeItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
+
+        abstract fun getState()
+    }
 }

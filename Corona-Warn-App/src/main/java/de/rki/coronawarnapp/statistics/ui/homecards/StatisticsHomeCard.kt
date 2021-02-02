@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.ui.homecards
 
+import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -18,14 +19,16 @@ class StatisticsHomeCard(
     private val statsAdapter: StatisticsCardAdapter,
     private val items: MutableList<StatisticsCardItem>,
     parent: ViewGroup,
-    @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer
+    @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
+    val scrollXState: Parcelable? = null,
+    onSave: (Parcelable) -> Unit
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
             statisticsRecyclerview.apply {
                 setHasFixedSize(false)
-                adapter = statsAdapter
+
                 layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
@@ -44,11 +47,15 @@ class StatisticsHomeCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        items.clear()
         item.data.items.forEach {
             StatisticsCardItem(it, item.onHelpAction)
             items.add(StatisticsCardItem(it, item.onHelpAction))
         }
         statsAdapter.update(items)
+        if (statisticsRecyclerview.adapter != statsAdapter) statisticsRecyclerview.adapter = statsAdapter
+
+        statisticsRecyclerview.layoutManager?.onRestoreInstanceState(scrollXState)
     }
 
     data class Item(
