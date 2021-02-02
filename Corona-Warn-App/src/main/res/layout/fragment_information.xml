@@ -12,19 +12,23 @@
         <include
             android:id="@+id/information_header"
             layout="@layout/include_header"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/scrollview"
             app:title="@{@string/information_title}" />
 
         <ScrollView
-            android:layout_width="0dp"
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/information_header">
@@ -32,7 +36,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
                 android:orientation="vertical">
 
                 <include
@@ -40,9 +43,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:subtitle="@{@string/release_info_header}" />
 
                 <include
@@ -50,9 +50,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_release"
                     app:subtitle="@{@string/information_about_title}" />
 
                 <include
@@ -61,9 +58,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:icon="@{@drawable/ic_link}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_about"
                     app:subtitle="@{@string/information_help_title}" />
 
                 <include
@@ -71,9 +65,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_help"
                     app:subtitle="@{@string/information_terms_title}" />
 
                 <include
@@ -81,9 +72,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_terms"
                     app:subtitle="@{@string/information_privacy_title}" />
 
                 <include
@@ -91,9 +79,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_privacy"
                     app:subtitle="@{@string/information_technical_title}" />
 
                 <include
@@ -101,9 +86,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_technical"
                     app:subtitle="@{@string/information_contact_title}" />
 
                 <include
@@ -111,9 +93,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_contact"
                     app:subtitle="@{@string/information_legal_title}" />
 
                 <include
@@ -121,9 +100,6 @@
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_contact"
                     app:subtitle="@{@string/debugging_debuglog_title}" />
 
                 <TextView
@@ -150,17 +126,9 @@
                     tools:text="16000000"
                     tools:visibility="visible" />
 
-
             </LinearLayout>
 
         </ScrollView>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
