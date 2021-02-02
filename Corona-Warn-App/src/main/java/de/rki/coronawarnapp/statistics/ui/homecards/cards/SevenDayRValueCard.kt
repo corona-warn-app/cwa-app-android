@@ -51,7 +51,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
             primaryValue.contentDescription = StringBuilder()
                 .appendWithWhiteSpace(context.getString(R.string.statistics_title_reproduction))
                 .appendWithWhiteSpace(getPrimaryLabel(context))
-                .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
+                .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value,
+                    reproductionNumber.decimals))
                 .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
 
             trendArrow.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
@@ -67,7 +68,8 @@ class SevenDayRValueCard(parent: ViewGroup) :
             .appendWithWhiteSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_title_reproduction))
             .appendWithWhiteSpace(item.getPrimaryLabel(context))
-            .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
+            .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value,
+                reproductionNumber.decimals))
             .appendWithWhiteSpace(context.getString(R.string.statistics_card_incidence_value_description))
             .appendWithLineBreak(getContentDescriptionForTrends(context, reproductionNumber.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))

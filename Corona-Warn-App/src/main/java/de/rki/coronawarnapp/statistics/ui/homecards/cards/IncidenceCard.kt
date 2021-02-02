@@ -50,7 +50,8 @@ class IncidenceCard(parent: ViewGroup) :
             primaryValue.contentDescription = StringBuilder()
                 .appendWithWhiteSpace(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
                 .appendWithWhiteSpace(getPrimaryLabel(context))
-                .appendWithWhiteSpace(formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals))
+                .appendWithWhiteSpace(formatStatisticalValue(context, sevenDayIncidence.value,
+                    sevenDayIncidence.decimals))
                 .append(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
 
             trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
