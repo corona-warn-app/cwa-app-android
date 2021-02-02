@@ -40,23 +40,30 @@ class KeySubmissionsCard(parent: ViewGroup) :
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals)
-            primaryValue.contentDescription =
-                getPrimaryLabel(context) + " " +
-                    formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals) + " " +
-                    context.getString(R.string.statistics_card_submission_title)
+            primaryValue.contentDescription = StringBuilder()
+                .append(getPrimaryLabel(context))
+                .append(" ")
+                .append(formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals))
+                .append(" ")
+                .append(context.getString(R.string.statistics_card_submission_title))
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
-            secondaryValue.contentDescription =
-                context.getString(R.string.statistics_card_infections_secondary_label) + " " +
-                    formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) + " " +
-                    context.getString(R.string.statistics_card_submission_title) + " " +
-                    getContentDescriptionForTrends(context, sevenDayAverage.trend)
+            secondaryValue.contentDescription = StringBuilder()
+                .append(context.getString(R.string.statistics_card_infections_secondary_label))
+                .append(" ")
+                .append(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
+                .append(" ")
+                .append(context.getString(R.string.statistics_card_submission_title))
+                .append(" ")
+                .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
-            tertiaryValue.contentDescription =
-                context.getString(R.string.statistics_card_infections_tertiary_label) + " " +
-                    formatStatisticalValue(context, total.value, total.decimals) + " " +
-                    context.getString(R.string.statistics_card_submission_title)
+            tertiaryValue.contentDescription = StringBuilder()
+                .append(context.getString(R.string.statistics_card_infections_tertiary_label))
+                .append(" ")
+                .append(formatStatisticalValue(context, total.value, total.decimals))
+                .append(" ")
+                .append(context.getString(R.string.statistics_card_submission_title))
 
             trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
@@ -67,17 +74,29 @@ class KeySubmissionsCard(parent: ViewGroup) :
         keySubmissions: KeyFigureCardOuterClass.KeyFigure,
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
         total: KeyFigureCardOuterClass.KeyFigure
-    ): String {
-        return context.getString(R.string.accessibility_statistics_card_announcement) + " " +
-            context.getString(R.string.statistics_card_submission_title) + " \n " +
-            item.getPrimaryLabel(context) + " " +
-            formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals) + " \n " +
-            context.getString(R.string.statistics_card_infections_secondary_label) + " " +
-            formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals) + " " +
-            getContentDescriptionForTrends(context, sevenDayAverage.trend) + " \n " +
-            context.getString(R.string.statistics_card_infections_tertiary_label) + " " +
-            formatStatisticalValue(context, total.value, total.decimals) + " " +
-            context.getString(R.string.statistics_card_submission_bottom_text) + " \n " +
-            context.getString(R.string.accessibility_statistics_card_navigation_information)
+    ): StringBuilder {
+
+        return StringBuilder()
+            .append(context.getString(R.string.accessibility_statistics_card_announcement))
+            .append(" ")
+            .append(context.getString(R.string.statistics_card_submission_title))
+            .append(" \n ")
+            .append(item.getPrimaryLabel(context))
+            .append(" ")
+            .append(formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals))
+            .append(" \n ")
+            .append(context.getString(R.string.statistics_card_infections_secondary_label))
+            .append(" ")
+            .append(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
+            .append(" ")
+            .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
+            .append(" \n ")
+            .append(context.getString(R.string.statistics_card_infections_tertiary_label))
+            .append(" ")
+            .append(formatStatisticalValue(context, total.value, total.decimals))
+            .append(" ")
+            .append(context.getString(R.string.statistics_card_submission_bottom_text))
+            .append(" \n ")
+            .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }

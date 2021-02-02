@@ -46,11 +46,14 @@ class SevenDayRValueCard(parent: ViewGroup) :
                 formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals)
             )
 
-            primaryValue.contentDescription =
-                context.getString(R.string.statistics_title_reproduction) + " " +
-                    getPrimaryLabel(context) + " " +
-                    formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals) + " " +
-                    getContentDescriptionForTrends(context, reproductionNumber.trend)
+            primaryValue.contentDescription = StringBuilder()
+                .append(context.getString(R.string.statistics_title_reproduction))
+                .append(" ")
+                .append(getPrimaryLabel(context))
+                .append(" ")
+                .append(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
+                .append(" ")
+                .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
 
             trendArrow.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
         }
@@ -59,13 +62,21 @@ class SevenDayRValueCard(parent: ViewGroup) :
     private fun buildAccessibilityStringForSevenDayRValueCard(
         item: StatsItem,
         reproductionNumber: KeyFigureCardOuterClass.KeyFigure
-    ): String {
-        return context.getString(R.string.accessibility_statistics_card_announcement) + " " +
-            context.getString(R.string.statistics_title_reproduction) + "\n" +
-            item.getPrimaryLabel(context) + " " +
-            formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals) + " " +
-            context.getString(R.string.statistics_card_incidence_value_description) + " " +
-            getContentDescriptionForTrends(context, reproductionNumber.trend) + "\n" +
-            context.getString(R.string.accessibility_statistics_card_navigation_information)
+    ): StringBuilder {
+
+        return StringBuilder()
+            .append(context.getString(R.string.accessibility_statistics_card_announcement))
+            .append(" ")
+            .append(context.getString(R.string.statistics_title_reproduction))
+            .append(" \n ")
+            .append(item.getPrimaryLabel(context))
+            .append(" ")
+            .append(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
+            .append(" ")
+            .append(context.getString(R.string.statistics_card_incidence_value_description))
+            .append(" ")
+            .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
+            .append(" \n ")
+            .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }

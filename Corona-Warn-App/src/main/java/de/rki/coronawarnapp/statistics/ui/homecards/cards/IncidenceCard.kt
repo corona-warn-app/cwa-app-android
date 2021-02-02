@@ -45,11 +45,14 @@ class IncidenceCard(parent: ViewGroup) :
                 formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals)
             )
 
-            primaryValue.contentDescription =
-                context.getString(R.string.statistics_explanation_seven_day_incidence_title) + " " +
-                    getPrimaryLabel(context) + " " +
-                    formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals) + " " +
-                    getContentDescriptionForTrends(context, sevenDayIncidence.trend)
+            primaryValue.contentDescription = StringBuilder()
+                .append(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
+                .append(" ")
+                .append(getPrimaryLabel(context))
+                .append(" ")
+                .append(formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals))
+                .append(" ")
+                .append(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
 
             trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
         }
@@ -58,13 +61,21 @@ class IncidenceCard(parent: ViewGroup) :
     private fun buildAccessibilityStringForIncidenceCard(
         item: StatsItem,
         sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure
-    ): String {
-        return context.getString(R.string.accessibility_statistics_card_announcement) + " " +
-            context.getString(R.string.statistics_explanation_seven_day_incidence_title) + " \n " +
-            item.getPrimaryLabel(context) + " " +
-            formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals) + " " +
-            context.getString(R.string.statistics_card_incidence_value_description) + " " +
-            getContentDescriptionForTrends(context, sevenDayIncidence.trend) + " \n " +
-            context.getString(R.string.accessibility_statistics_card_navigation_information)
+    ): StringBuilder {
+
+        return StringBuilder()
+            .append(context.getString(R.string.accessibility_statistics_card_announcement))
+            .append(" ")
+            .append(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
+            .append(" \n ")
+            .append(item.getPrimaryLabel(context))
+            .append(" ")
+            .append(formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals))
+            .append(" ")
+            .append(context.getString(R.string.statistics_card_incidence_value_description))
+            .append(" ")
+            .append(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
+            .append(" \n ")
+            .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }
