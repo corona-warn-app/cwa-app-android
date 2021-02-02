@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
-import android.util.Log
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsInfectionsLayoutBinding
