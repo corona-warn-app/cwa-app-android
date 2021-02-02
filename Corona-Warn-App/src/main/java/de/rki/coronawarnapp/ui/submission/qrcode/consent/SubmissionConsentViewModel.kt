@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import androidx.lifecycle.asLiveData
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
