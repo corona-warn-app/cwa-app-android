@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingProgressBox
 import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
@@ -91,6 +92,8 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         .onCompletion { Timber.v("TracingDetailsState FLOW completed.") }
         .asLiveData(dispatcherProvider.Default)
 
+    val routeToScreen: SingleLiveEvent<TracingDetailsNavigationEvents> = SingleLiveEvent()
+
     fun refreshData() {
         launch {
             tracingRepository.refreshRiskLevel()
@@ -104,7 +107,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     fun onItemClicked(item: DetailsItem) {
         when (item) {
-            is UserSurveyBox.Item -> Timber.i("Clicked on %s", item)
+            is UserSurveyBox.Item -> routeToScreen.postValue(TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment)
         }
     }
 
