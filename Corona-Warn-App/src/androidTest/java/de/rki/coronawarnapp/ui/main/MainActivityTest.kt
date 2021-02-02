@@ -274,7 +274,7 @@ class MainActivityTest : BaseUITest() {
 
         onView(withId(R.id.contact_diary_overview_recyclerview))
             .perform(recyclerScrollTo(1))
-        takeScreenshot<ContactDiaryOverviewFragment>("2", delay = 0L)
+        takeScreenshot<ContactDiaryOverviewFragment>("2")
     }
 
     private fun captureHomeFragment(nameSuffix: String) {
