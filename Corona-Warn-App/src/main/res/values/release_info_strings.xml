@@ -5,6 +5,7 @@
 
     <!-- XHED: Title for the release info screen -->
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="release_info_header">"New Features"</string>
 =======
     <string name="release_info_header" />
@@ -25,6 +26,12 @@
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Next"</string>
 =======
+=======
+    <string name="release_info_header" />
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">Release %1$s</string>
+    <!-- XTXT: Description for the release info screen -->
+>>>>>>> 1fedd4309c73a4ad379187337fecf33d56dbaa43
     <string name="release_info_version_body" />
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button" />
@@ -50,6 +57,9 @@
         <item>Es gibt nun eine eigene Registerkarte für das Kontakt-Tagebuch. Somit können Sie schneller auf Ihr Tagebuch zugreifen und vom Kontakt-Tagebuch wieder zurück auf die Startseite der App wechseln.</item>
         <item>Die App enthält nun detaillierte Informationen zum Testablauf.</item>
     </string-array>
+<<<<<<< HEAD
 >>>>>>> Update new release info (EXPOSUREAPP-4731) #2233
+=======
+>>>>>>> 1fedd4309c73a4ad379187337fecf33d56dbaa43
 
 </resources>
