@@ -19,7 +19,7 @@
             android:layout_marginTop="@dimen/card_padding"
             android:accessibilityHeading="true"
             android:focusable="false"
-            android:text="@string/tracing_details_access_survey_card_title"
+            android:text="@string/datadonation_details_access_survey_card_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@string/tracing_details_access_survey_card_content"
+            android:text="@string/datadonation_details_access_survey_card_content"
             app:layout_constraintEnd_toStartOf="@+id/tracing_details_survey_card_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tracing_details_survey_card_title" />
@@ -64,7 +64,7 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/card_padding"
             android:layout_marginBottom="@dimen/card_padding"
-            android:text="@string/tracing_details_access_survey_card_button_text"
+            android:text="@string/datadonation_details_access_survey_card_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
