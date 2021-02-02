@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.statistics.ui.homecards
 
-import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -16,20 +15,22 @@ import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
 
 class StatisticsHomeCard(
-    private val statsAdapter: StatisticsCardAdapter,
-    private val items: MutableList<StatisticsCardItem>,
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
-    val scrollXState: Parcelable? = null,
-    onSave: (Parcelable) -> Unit
+    position: Int,
+    val onStatisticsRecycled: (position: Int) -> Unit
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
+
+    private lateinit var layoutManager: StatisticsLayoutManager
+    private val statsAdapter by lazy { StatisticsCardAdapter() }
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
+            layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             statisticsRecyclerview.apply {
                 setHasFixedSize(false)
-
-                layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = statsAdapter
+                layoutManager = layoutManager
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
                     StatisticsCardPaddingDecorator(
@@ -40,6 +41,7 @@ class StatisticsHomeCard(
                 )
             }
             PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
+            //layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
@@ -47,15 +49,14 @@ class StatisticsHomeCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        items.clear()
-        item.data.items.forEach {
+        item.data.items.map {
             StatisticsCardItem(it, item.onHelpAction)
-            items.add(StatisticsCardItem(it, item.onHelpAction))
-        }
-        statsAdapter.update(items)
-        if (statisticsRecyclerview.adapter != statsAdapter) statisticsRecyclerview.adapter = statsAdapter
+        }.let { statsAdapter.update(it) }
+    }
 
-        statisticsRecyclerview.layoutManager?.onRestoreInstanceState(scrollXState)
+    override fun onStatisticsRecycled() {
+        val position = layoutManager.findFirstVisibleItemPosition()
+        onStatisticsRecycled(position)
     }
 
     data class Item(

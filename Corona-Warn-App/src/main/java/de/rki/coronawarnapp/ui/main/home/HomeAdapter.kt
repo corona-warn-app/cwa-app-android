@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.main.home
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.submission.ui.homecards.TestErrorCard
@@ -31,16 +30,14 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class HomeAdapter(
-    onSavedInstance: () -> Unit
-) : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
+class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<HomeItem> {
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
-    private val statsAdapter by lazy { StatisticsCardAdapter() }
-
     val items: MutableList<StatisticsCardItem> by lazy { mutableListOf() }
+
+    var statisticsState: Int = 0
 
     @Synchronized
     fun update(
@@ -72,15 +69,21 @@ class HomeAdapter(
             TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) },
             TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) {
                 StatisticsHomeCard(
-                    statsAdapter,
-                    items,
-                    it
+                    it,
+                    position = statisticsState,
+                    onStatisticsRecycled = onStatisticsRecycled
                 )
             }
         ))
     }
 
-    fun onSavedInstance() {
+    override fun onViewRecycled(holder: HomeItemVH<HomeItem, ViewBinding>) {
+        holder.onStatisticsRecycled()
+        super.onViewRecycled(holder)
+    }
+
+    val onStatisticsRecycled: (Int) -> Unit = {
+        statisticsState = it
     }
 
     override fun getItemCount(): Int = data.size
@@ -90,6 +93,6 @@ class HomeAdapter(
         parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
 
-        abstract fun getState()
+        open fun onStatisticsRecycled() {}
     }
 }

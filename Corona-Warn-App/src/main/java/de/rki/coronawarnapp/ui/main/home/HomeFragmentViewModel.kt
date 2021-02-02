@@ -222,8 +222,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         submissionStateProvider.state.distinctUntilChanged(),
         statisticsProvider.current.distinctUntilChanged()
     ) { tracingItem, submissionItem, submissionState, statsData ->
-        items.apply {
-            clear()
+        mutableListOf<HomeItem>().apply {
             when (submissionState) {
                 TestPositive, SubmissionDone -> {
                     // Don't show risk card
