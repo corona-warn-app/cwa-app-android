@@ -94,23 +94,27 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
 
     fun showPopUpsOrNavigate() {
-        if (!LocalData.isInteroperabilityShownAtLeastOnce) {
-            popupEvents.postValue(ShowInteropDeltaOnboarding)
-        } else if (cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE) {
-            popupEvents.postValue(HomeFragmentEvents.ShowNewReleaseFragment)
-        } else {
-            launch {
-                if (!LocalData.tracingExplanationDialogWasShown()) {
-                    popupEvents.postValue(
-                        ShowTracingExplanation(
-                            TimeVariables.getActiveTracingDaysInRetentionPeriod()
-                        )
-                    )
-                }
+        when {
+            !LocalData.isInteroperabilityShownAtLeastOnce -> {
+                popupEvents.postValue(ShowInteropDeltaOnboarding)
             }
-            launch {
-                if (errorResetTool.isResetNoticeToBeShown) {
-                    popupEvents.postValue(ShowErrorResetDialog)
+            cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
+                popupEvents.postValue(HomeFragmentEvents.ShowNewReleaseFragment)
+            }
+            else -> {
+                launch {
+                    if (!LocalData.tracingExplanationDialogWasShown()) {
+                        popupEvents.postValue(
+                            ShowTracingExplanation(
+                                TimeVariables.getActiveTracingDaysInRetentionPeriod()
+                            )
+                        )
+                    }
+                }
+                launch {
+                    if (errorResetTool.isResetNoticeToBeShown) {
+                        popupEvents.postValue(ShowErrorResetDialog)
+                    }
                 }
             }
         }
