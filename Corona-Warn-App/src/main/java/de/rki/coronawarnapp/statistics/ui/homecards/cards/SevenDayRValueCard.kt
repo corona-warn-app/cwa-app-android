@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
+import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
+import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithWhiteSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class SevenDayRValueCard(parent: ViewGroup) :
@@ -47,12 +49,9 @@ class SevenDayRValueCard(parent: ViewGroup) :
             )
 
             primaryValue.contentDescription = StringBuilder()
-                .append(context.getString(R.string.statistics_title_reproduction))
-                .append(" ")
-                .append(getPrimaryLabel(context))
-                .append(" ")
-                .append(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
-                .append(" ")
+                .appendWithWhiteSpace(context.getString(R.string.statistics_title_reproduction))
+                .appendWithWhiteSpace(getPrimaryLabel(context))
+                .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
                 .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
 
             trendArrow.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
@@ -65,18 +64,12 @@ class SevenDayRValueCard(parent: ViewGroup) :
     ): StringBuilder {
 
         return StringBuilder()
-            .append(context.getString(R.string.accessibility_statistics_card_announcement))
-            .append(" ")
-            .append(context.getString(R.string.statistics_title_reproduction))
-            .append(" \n ")
-            .append(item.getPrimaryLabel(context))
-            .append(" ")
-            .append(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
-            .append(" ")
-            .append(context.getString(R.string.statistics_card_incidence_value_description))
-            .append(" ")
-            .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
-            .append(" \n ")
+            .appendWithWhiteSpace(context.getString(R.string.accessibility_statistics_card_announcement))
+            .appendWithLineBreak(context.getString(R.string.statistics_title_reproduction))
+            .appendWithWhiteSpace(item.getPrimaryLabel(context))
+            .appendWithWhiteSpace(formatStatisticalValue(context, reproductionNumber.value, reproductionNumber.decimals))
+            .appendWithWhiteSpace(context.getString(R.string.statistics_card_incidence_value_description))
+            .appendWithLineBreak(getContentDescriptionForTrends(context, reproductionNumber.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }
