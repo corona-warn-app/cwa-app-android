@@ -21,17 +21,25 @@ class AnalyticsSettings @Inject constructor(
             PpaData.PPAAgeGroup.forNumber(getInt(key, 0)) ?: PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
         },
         writer = { key, value ->
-            putInt(key, value.number)
+            val numberToWrite = when (value) {
+                PpaData.PPAAgeGroup.UNRECOGNIZED -> PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED.number
+                else -> value.number
+            }
+            putInt(key, numberToWrite)
         }
     )
 
     val userInfoFederalState = prefs.createFlowPreference(
         key = PKEY_USERINFO_FEDERALSTATE,
         reader = { key ->
-            PpaData.PPAFederalState.forNumber(getInt(key, -1)) ?: PpaData.PPAFederalState.UNRECOGNIZED
+            PpaData.PPAFederalState.forNumber(getInt(key, -1)) ?: PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
         },
         writer = { key, value ->
-            putInt(key, value.number)
+            val numberToWrite = when (value) {
+                PpaData.PPAFederalState.UNRECOGNIZED -> PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED.number
+                else -> value.number
+            }
+            putInt(key, numberToWrite)
         }
     )
 

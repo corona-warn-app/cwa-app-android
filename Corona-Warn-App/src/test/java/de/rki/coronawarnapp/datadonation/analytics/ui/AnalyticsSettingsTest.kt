@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.datadonation.analytics.ui
 
 import android.content.Context
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -34,16 +36,44 @@ class AnalyticsSettingsTest : BaseTest() {
 
     @Test
     fun `userinfo agegroup`() {
-        TODO()
+        createInstance().apply {
+            preferences.dataMapPeek.isEmpty() shouldBe true
+
+            userInfoAgeGroup.value shouldBe PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+            userInfoAgeGroup.update { PpaData.PPAAgeGroup.AGE_GROUP_FROM_60 }
+            preferences.dataMapPeek["userinfo.agegroup"] shouldBe 3
+            userInfoAgeGroup.value shouldBe PpaData.PPAAgeGroup.AGE_GROUP_FROM_60
+
+            userInfoAgeGroup.update { PpaData.PPAAgeGroup.UNRECOGNIZED }
+            userInfoAgeGroup.value shouldBe PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+        }
     }
 
     @Test
     fun `userinfo federal state`() {
-        TODO()
+        createInstance().apply {
+            preferences.dataMapPeek.isEmpty() shouldBe true
+
+            userInfoFederalState.value shouldBe PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+            userInfoFederalState.update { PpaData.PPAFederalState.FEDERAL_STATE_NRW }
+            preferences.dataMapPeek["userinfo.federalstate"] shouldBe 10
+            userInfoFederalState.value shouldBe PpaData.PPAFederalState.FEDERAL_STATE_NRW
+
+            userInfoFederalState.update { PpaData.PPAFederalState.UNRECOGNIZED }
+            userInfoFederalState.value shouldBe PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+        }
     }
 
     @Test
     fun `userinfo district`() {
-        TODO()
+        createInstance().apply {
+            preferences.dataMapPeek.isEmpty() shouldBe true
+
+            userInfoDistrict.value shouldBe 0
+            userInfoDistrict.update { 123 }
+            preferences.dataMapPeek["userinfo.district"] shouldBe 123
+
+            userInfoDistrict.value shouldBe 123
+        }
     }
 }

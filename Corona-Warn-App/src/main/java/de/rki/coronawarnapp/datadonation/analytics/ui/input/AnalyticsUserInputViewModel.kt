@@ -19,9 +19,11 @@ import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import java.util.Locale
 
 class AnalyticsUserInputViewModel @AssistedInject constructor(
@@ -61,14 +63,14 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
                 .sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) }
 
             val unspecified = UserInfoItem(
-                data = Districts.District(),
+                data = PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
                 isSelected = selected == PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
                 label = PPAFederalState.FEDERAL_STATE_UNSPECIFIED.getStringLabel().toResolvingString()
             )
             listOf(unspecified) + items
         }
 
-    private val districtSource: Flow<List<UserInfoItem>> = flow { emit(districtsSource.getDistricts()) }
+    private val districtSource: Flow<List<UserInfoItem>> = flow { emit(districtsSource.loadDistricts()) }
         .map { allDistricts ->
             val ourStateCode = when (settings.userInfoFederalState.value) {
                 PPAFederalState.FEDERAL_STATE_BW -> "BW"
@@ -114,7 +116,9 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
         AnalyticsUserInputFragment.InputType.AGEGROUP -> ageGroupSource
         AnalyticsUserInputFragment.InputType.FEDERALSTATE -> federalStateSource
         AnalyticsUserInputFragment.InputType.DISTRICT -> districtSource
-    }.asLiveData(context = dispatcherProvider.Default)
+    }
+        .catch { Timber.e(it, "Error sourcing list items.") }
+        .asLiveData(context = dispatcherProvider.Default)
 
     val finishEvent = SingleLiveEvent<Unit>()
 
