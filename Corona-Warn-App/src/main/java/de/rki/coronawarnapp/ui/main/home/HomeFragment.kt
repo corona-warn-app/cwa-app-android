@@ -152,7 +152,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    //TODO: strings should be updated before merge
+    // TODO: strings should be updated before merge
     private fun showReactivateRiskCheckDialog() {
         val removeTestDialog = DialogHelper.DialogInstance(
             requireActivity(),
