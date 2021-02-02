@@ -67,6 +67,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -87,7 +88,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
-    val reenableRiskEvent = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -236,7 +236,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 add(
                     ReenableRiskCard.Item(
                         state = submissionState,
-                        onClickAction = { reenableRiskEvent.postValue(Unit) })
+                        onClickAction = { reenableRiskCalculation() })
                 )
             }
 
@@ -266,6 +266,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
             .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
+    }
+
+    private fun reenableRiskCalculation() {
+        // TODO: implementation in PR:2253 (merge after all changes are merged)
+        Timber.w("Missing implementation")
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home.items
 
 import android.view.ViewGroup
+import android.widget.Button
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeReenableRiskCardLayoutBinding
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
@@ -19,7 +20,7 @@ class ReenableRiskCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeRee
     override val onBindData: HomeReenableRiskCardLayoutBinding.(Item, List<Any>) -> Unit = { item, payloads ->
 
         state = item.state
-        itemView.setOnClickListener {
+        itemView.findViewById<Button>(R.id.reenable_risk_card_button).setOnClickListener {
             val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
             curItem.onClickAction(item)
         }
