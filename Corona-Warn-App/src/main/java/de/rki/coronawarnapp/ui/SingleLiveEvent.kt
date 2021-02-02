@@ -48,11 +48,14 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
                 .w("Multiple observers registered but only one will be notified of changes.")
         }
         // Observe the internal MutableLiveData
-        super.observe(owner, Observer { t ->
-            if (pending.compareAndSet(true, false)) {
-                observer.onChanged(t)
+        super.observe(
+            owner,
+            Observer { t ->
+                if (pending.compareAndSet(true, false)) {
+                    observer.onChanged(t)
+                }
             }
-        })
+        )
     }
 
     @MainThread

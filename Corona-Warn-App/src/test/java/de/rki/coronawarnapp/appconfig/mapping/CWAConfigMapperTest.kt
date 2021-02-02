@@ -81,10 +81,12 @@ class CWAConfigMapperTest : BaseTest() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
                 AppFeatures.newBuilder().apply {
-                    addAppFeatures(AppFeature.newBuilder().apply {
-                        label = "disable-device-time-check"
-                        value = 1
-                    }.build())
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 1
+                        }.build()
+                    )
                 }
             )
             .build()
@@ -98,10 +100,12 @@ class CWAConfigMapperTest : BaseTest() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
                 AppFeatures.newBuilder().apply {
-                    addAppFeatures(AppFeature.newBuilder().apply {
-                        label = "disable-device-time-check"
-                        value = 0
-                    }.build())
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 0
+                        }.build()
+                    )
                 }
             )
             .build()
@@ -115,10 +119,12 @@ class CWAConfigMapperTest : BaseTest() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
                 AppFeatures.newBuilder().apply {
-                    addAppFeatures(AppFeature.newBuilder().apply {
-                        label = "disable-device-time-check"
-                        value = 99
-                    }.build())
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 99
+                        }.build()
+                    )
                 }
             )
             .build()
@@ -160,10 +166,12 @@ class CWAConfigMapperTest : BaseTest() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
                 AppFeatures.newBuilder().apply {
-                    addAppFeatures(AppFeature.newBuilder().apply {
-                        label = "disable-device-time-check"
-                        value = 0
-                    }.build())
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 0
+                        }.build()
+                    )
                 }
             )
             .build()

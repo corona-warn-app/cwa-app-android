@@ -65,13 +65,16 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .onEach { testResultUIState ->
             testResultUIState.deviceUiState.withSuccess { deviceState ->
                 when (deviceState) {
-                    DeviceUIState.PAIRED_POSITIVE -> SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment()
-                    DeviceUIState.PAIRED_NEGATIVE -> SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
+                    DeviceUIState.PAIRED_POSITIVE ->
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment()
+                    DeviceUIState.PAIRED_NEGATIVE ->
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment()
                     DeviceUIState.PAIRED_REDEEMED,
-                    DeviceUIState.PAIRED_ERROR -> SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment()
+                    DeviceUIState.PAIRED_ERROR ->
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment()
                     else -> {
                         Timber.w("Unknown success state: %s", deviceState)
                         null

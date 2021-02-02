@@ -21,7 +21,8 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class StatisticsCardAdapter : ModularAdapter<ItemVH<StatisticsCardItem, ViewBinding>>(),
+class StatisticsCardAdapter :
+    ModularAdapter<ItemVH<StatisticsCardItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<StatisticsCardItem> {
 
     override val asyncDiffer: AsyncDiffer<StatisticsCardItem> = AsyncDiffer(adapter = this)

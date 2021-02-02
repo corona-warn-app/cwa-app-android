@@ -59,9 +59,11 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             )
         )
 
-        setupMockViewModel(object : SubmissionTestResultNegativeViewModel.Factory {
-            override fun create(): SubmissionTestResultNegativeViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultNegativeViewModel.Factory {
+                override fun create(): SubmissionTestResultNegativeViewModel = viewModel
+            }
+        )
     }
 
     @After
@@ -77,7 +79,8 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_NEGATIVE
-                ), Date()
+                ),
+                Date()
             )
         )
         captureScreenshot<SubmissionTestResultNegativeFragment>()

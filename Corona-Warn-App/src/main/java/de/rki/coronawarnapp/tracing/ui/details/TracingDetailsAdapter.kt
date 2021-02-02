@@ -24,28 +24,31 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
+class TracingDetailsAdapter :
+    ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DetailsItem> {
 
     override val asyncDiffer: AsyncDiffer<DetailsItem> = AsyncDiffer(this)
 
     init {
-        modules.addAll(listOf(
-            StableIdMod(data),
-            DataBinderMod<DetailsItem, DetailsItemVH<DetailsItem, ViewBinding>>(data),
-            TypedVHCreatorMod({ data[it] is IncreasedRiskBox.Item }) { IncreasedRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is LowRiskBox.Item }) { LowRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is TracingFailedBox.Item }) { TracingFailedBox(it) },
-            TypedVHCreatorMod({ data[it] is TracingDisabledBox.Item }) { TracingDisabledBox(it) },
-            TypedVHCreatorMod({ data[it] is TracingProgressBox.Item }) { TracingProgressBox(it) },
-            TypedVHCreatorMod({ data[it] is DetailsFailedCalculationBox.Item }) { DetailsFailedCalculationBox(it) },
-            TypedVHCreatorMod({ data[it] is DetailsIncreasedRiskBox.Item }) { DetailsIncreasedRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is DetailsLowRiskBox.Item }) { DetailsLowRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
-            TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) }
-        ))
+        modules.addAll(
+            listOf(
+                StableIdMod(data),
+                DataBinderMod<DetailsItem, DetailsItemVH<DetailsItem, ViewBinding>>(data),
+                TypedVHCreatorMod({ data[it] is IncreasedRiskBox.Item }) { IncreasedRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is LowRiskBox.Item }) { LowRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is TracingFailedBox.Item }) { TracingFailedBox(it) },
+                TypedVHCreatorMod({ data[it] is TracingDisabledBox.Item }) { TracingDisabledBox(it) },
+                TypedVHCreatorMod({ data[it] is TracingProgressBox.Item }) { TracingProgressBox(it) },
+                TypedVHCreatorMod({ data[it] is DetailsFailedCalculationBox.Item }) { DetailsFailedCalculationBox(it) },
+                TypedVHCreatorMod({ data[it] is DetailsIncreasedRiskBox.Item }) { DetailsIncreasedRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is DetailsLowRiskBox.Item }) { DetailsLowRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
+                TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) }
+            )
+        )
     }
 
     override fun getItemCount(): Int = data.size

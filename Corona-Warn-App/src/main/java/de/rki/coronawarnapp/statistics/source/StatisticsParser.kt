@@ -21,7 +21,8 @@ class StatisticsParser @Inject constructor() {
         if (parsed.cardIdSequenceCount != parsed.keyFigureCardsCount) {
             Timber.tag(TAG).w(
                 "Cards have been hidden (sequenceCount=%d != cardCount=%d)",
-                parsed.cardIdSequenceCount, parsed.keyFigureCardsCount
+                parsed.cardIdSequenceCount,
+                parsed.keyFigureCardsCount
             )
         }
 

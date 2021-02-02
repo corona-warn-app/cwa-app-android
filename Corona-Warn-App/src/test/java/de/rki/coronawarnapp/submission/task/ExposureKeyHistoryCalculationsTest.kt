@@ -67,7 +67,8 @@ class ExposureKeyHistoryCalculationsTest {
     @Test
     fun test_toSortedHistory() {
         Assert.assertArrayEquals(
-            intArrayOf(8, 4, 3, 2, 1), instance.sortWithRecentKeyFirst(
+            intArrayOf(8, 4, 3, 2, 1),
+            instance.sortWithRecentKeyFirst(
                 listOf(
                     createKey(3),
                     createKey(8),
@@ -156,11 +157,14 @@ class ExposureKeyHistoryCalculationsTest {
             thisMorning.toLocalDate()
         )
         f(
-            result, intArrayOf(
+            result,
+            intArrayOf(
                 tek3.rollingStartIntervalNumber,
                 tek2.rollingStartIntervalNumber,
                 tek1.rollingStartIntervalNumber
-            ), intArrayOf(3998, 3999, 3999), intArrayOf(0, 1, 1)
+            ),
+            intArrayOf(3998, 3999, 3999),
+            intArrayOf(0, 1, 1)
         )
     }
 

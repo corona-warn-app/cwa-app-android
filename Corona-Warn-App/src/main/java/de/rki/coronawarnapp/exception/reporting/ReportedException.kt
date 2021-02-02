@@ -8,8 +8,10 @@ open class ReportedException(
     cause: Throwable? = null,
     override val resId: Int? = null
 ) : Exception(
-    message, cause
-), ReportedExceptionInterface
+    message,
+    cause
+),
+    ReportedExceptionInterface
 
 open class ReportedIOException(
     override val code: Int? = ErrorCodes.REPORTED_IO_EXCEPTION_PROBLEM.code,
@@ -17,8 +19,10 @@ open class ReportedIOException(
     cause: Throwable? = null,
     override val resId: Int? = null
 ) : IOException(
-    message, cause
-), ReportedExceptionInterface
+    message,
+    cause
+),
+    ReportedExceptionInterface
 
 interface ReportedExceptionInterface {
     val code: Int?

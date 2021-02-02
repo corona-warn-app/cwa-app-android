@@ -21,8 +21,10 @@ object BackgroundWorkHelper {
      * @see BackgroundConstants.MINUTES_IN_DAY
      */
     fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(): Long =
-        (BackgroundConstants.MINUTES_IN_DAY /
-                BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY).toLong()
+        (
+            BackgroundConstants.MINUTES_IN_DAY /
+                BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+            ).toLong()
 
     /**
      * Get background noise one time work delay
@@ -37,7 +39,7 @@ object BackgroundWorkHelper {
     fun getBackgroundNoiseOneTimeWorkDelay() = Random.nextLong(
         0,
         BackgroundConstants.MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION -
-                BackgroundConstants.MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+            BackgroundConstants.MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
     )
 
     /**

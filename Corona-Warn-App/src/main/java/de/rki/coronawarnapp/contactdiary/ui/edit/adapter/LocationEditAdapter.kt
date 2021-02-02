@@ -20,21 +20,22 @@ internal class LocationEditAdapter(
     override fun onBindBaseVH(holder: ViewHolder, position: Int, payloads: MutableList<Any>) =
         holder.bind(data[position], payloads)
 
-    inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
+    inner class ViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
         BindableVH<ContactDiaryLocation, ContactDiaryEditListItemBinding> {
         override val viewBinding:
             Lazy<ContactDiaryEditListItemBinding> =
-            lazy { ContactDiaryEditListItemBinding.bind(itemView) }
+                lazy { ContactDiaryEditListItemBinding.bind(itemView) }
 
         override val onBindData:
             ContactDiaryEditListItemBinding.(item: ContactDiaryLocation, payloads: List<Any>) -> Unit =
-            { location, _ ->
-                name.text = location.locationName
-                itemContainer.apply {
-                    setOnClickListener { onItemClicked(location) }
-                    contentDescription = getContentDescriptionString(location)
-                    setClickLabel(clickLabelString)
+                { location, _ ->
+                    name.text = location.locationName
+                    itemContainer.apply {
+                        setOnClickListener { onItemClicked(location) }
+                        contentDescription = getContentDescriptionString(location)
+                        setClickLabel(clickLabelString)
+                    }
                 }
-            }
     }
 }

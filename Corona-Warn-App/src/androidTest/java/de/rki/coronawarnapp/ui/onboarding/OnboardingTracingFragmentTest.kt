@@ -56,9 +56,11 @@ class OnboardingTracingFragmentTest : BaseUITest() {
         every { viewModelSpy.resetTracing() } just Runs
         every { interopRepo.countryList } returns flowOf()
 
-        setupMockViewModel(object : OnboardingTracingFragmentViewModel.Factory {
-            override fun create(): OnboardingTracingFragmentViewModel = viewModelSpy
-        })
+        setupMockViewModel(
+            object : OnboardingTracingFragmentViewModel.Factory {
+                override fun create(): OnboardingTracingFragmentViewModel = viewModelSpy
+            }
+        )
     }
 
     @After

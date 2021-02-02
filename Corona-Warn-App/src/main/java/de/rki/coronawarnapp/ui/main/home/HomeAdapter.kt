@@ -29,33 +29,36 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
+class HomeAdapter :
+    ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<HomeItem> {
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
     init {
-        modules.addAll(listOf(
-            StableIdMod(data),
-            DataBinderMod<HomeItem, HomeItemVH<HomeItem, ViewBinding>>(data),
-            TypedVHCreatorMod({ data[it] is FAQCard.Item }) { FAQCard(it) },
-            TypedVHCreatorMod({ data[it] is IncreasedRiskCard.Item }) { IncreasedRiskCard(it) },
-            TypedVHCreatorMod({ data[it] is LowRiskCard.Item }) { LowRiskCard(it) },
-            TypedVHCreatorMod({ data[it] is TracingFailedCard.Item }) { TracingFailedCard(it) },
-            TypedVHCreatorMod({ data[it] is TracingDisabledCard.Item }) { TracingDisabledCard(it) },
-            TypedVHCreatorMod({ data[it] is TracingProgressCard.Item }) { TracingProgressCard(it) },
-            TypedVHCreatorMod({ data[it] is TestSubmissionDoneCard.Item }) { TestSubmissionDoneCard(it) },
-            TypedVHCreatorMod({ data[it] is TestInvalidCard.Item }) { TestInvalidCard(it) },
-            TypedVHCreatorMod({ data[it] is TestErrorCard.Item }) { TestErrorCard(it) },
-            TypedVHCreatorMod({ data[it] is TestFetchingCard.Item }) { TestFetchingCard(it) },
-            TypedVHCreatorMod({ data[it] is TestPositiveCard.Item }) { TestPositiveCard(it) },
-            TypedVHCreatorMod({ data[it] is TestNegativeCard.Item }) { TestNegativeCard(it) },
-            TypedVHCreatorMod({ data[it] is TestReadyCard.Item }) { TestReadyCard(it) },
-            TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
-            TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
-            TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) },
-            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) }
-        ))
+        modules.addAll(
+            listOf(
+                StableIdMod(data),
+                DataBinderMod<HomeItem, HomeItemVH<HomeItem, ViewBinding>>(data),
+                TypedVHCreatorMod({ data[it] is FAQCard.Item }) { FAQCard(it) },
+                TypedVHCreatorMod({ data[it] is IncreasedRiskCard.Item }) { IncreasedRiskCard(it) },
+                TypedVHCreatorMod({ data[it] is LowRiskCard.Item }) { LowRiskCard(it) },
+                TypedVHCreatorMod({ data[it] is TracingFailedCard.Item }) { TracingFailedCard(it) },
+                TypedVHCreatorMod({ data[it] is TracingDisabledCard.Item }) { TracingDisabledCard(it) },
+                TypedVHCreatorMod({ data[it] is TracingProgressCard.Item }) { TracingProgressCard(it) },
+                TypedVHCreatorMod({ data[it] is TestSubmissionDoneCard.Item }) { TestSubmissionDoneCard(it) },
+                TypedVHCreatorMod({ data[it] is TestInvalidCard.Item }) { TestInvalidCard(it) },
+                TypedVHCreatorMod({ data[it] is TestErrorCard.Item }) { TestErrorCard(it) },
+                TypedVHCreatorMod({ data[it] is TestFetchingCard.Item }) { TestFetchingCard(it) },
+                TypedVHCreatorMod({ data[it] is TestPositiveCard.Item }) { TestPositiveCard(it) },
+                TypedVHCreatorMod({ data[it] is TestNegativeCard.Item }) { TestNegativeCard(it) },
+                TypedVHCreatorMod({ data[it] is TestReadyCard.Item }) { TestReadyCard(it) },
+                TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
+                TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
+                TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) },
+                TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) }
+            )
+        )
     }
 
     override fun getItemCount(): Int = data.size

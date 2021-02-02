@@ -31,7 +31,9 @@ class DeviceStorage @Inject constructor(
     @TargetApi(Build.VERSION_CODES.O)
     private fun requestStorageAPI26Plus(targetPath: File, requiredBytes: Long = -1L): CheckResult {
         Timber.tag(TAG).v(
-            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)", targetPath, requiredBytes
+            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)",
+            targetPath,
+            requiredBytes
 
         )
         val statsManager =
@@ -47,7 +49,9 @@ class DeviceStorage @Inject constructor(
             if (allocatableBytes + availableBytes >= requiredBytes) {
                 val toAllocate = requiredBytes - availableBytes
                 Timber.tag(TAG).v(
-                    "Not enough free space, allocating %d on %s.", requiredBytes, targetPath
+                    "Not enough free space, allocating %d on %s.",
+                    requiredBytes,
+                    targetPath
                 )
                 storageManager.allocateBytes(storageUUID, toAllocate)
                 availableBytes += toAllocate
@@ -65,7 +69,9 @@ class DeviceStorage @Inject constructor(
 
     private fun requestStorageLegacy(targetPath: File, requiredBytes: Long = -1L): CheckResult {
         Timber.tag(TAG).v(
-            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)", targetPath, requiredBytes
+            "requestStorageAPI26Plus(path=%s, requiredBytes=%d)",
+            targetPath,
+            requiredBytes
         )
 
         val stats = statsFsProvider.createStats(targetPath)

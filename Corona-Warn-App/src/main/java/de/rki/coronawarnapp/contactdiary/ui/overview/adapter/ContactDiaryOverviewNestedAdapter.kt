@@ -29,17 +29,17 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
         BindableVH<ListItem.Data, ContactDiaryOverviewNestedListItemBinding> {
         override val viewBinding:
             Lazy<ContactDiaryOverviewNestedListItemBinding> =
-            lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
+                lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
 
         override val onBindData:
             ContactDiaryOverviewNestedListItemBinding.(item: ListItem.Data, payloads: List<Any>) -> Unit =
-            { key, _ ->
-                contactDiaryOverviewElementImage.setImageResource(key.drawableId)
-                contactDiaryOverviewElementName.text = key.text
-                contactDiaryOverviewElementName.contentDescription = when (key.type) {
-                    ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.text)
-                    ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.text)
+                { key, _ ->
+                    contactDiaryOverviewElementImage.setImageResource(key.drawableId)
+                    contactDiaryOverviewElementName.text = key.text
+                    contactDiaryOverviewElementName.contentDescription = when (key.type) {
+                        ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.text)
+                        ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.text)
+                    }
                 }
-            }
     }
 }

@@ -58,9 +58,11 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
             )
         )
 
-        setupMockViewModel(object : SubmissionTestResultAvailableViewModel.Factory {
-            override fun create(): SubmissionTestResultAvailableViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultAvailableViewModel.Factory {
+                override fun create(): SubmissionTestResultAvailableViewModel = viewModel
+            }
+        )
     }
 
     @After

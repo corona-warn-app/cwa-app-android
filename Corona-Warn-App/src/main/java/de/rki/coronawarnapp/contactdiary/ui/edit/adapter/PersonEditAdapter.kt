@@ -20,21 +20,22 @@ internal class PersonEditAdapter(
     override fun onBindBaseVH(holder: ViewHolder, position: Int, payloads: MutableList<Any>) =
         holder.bind(data[position], payloads)
 
-    inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
+    inner class ViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
         BindableVH<ContactDiaryPerson, ContactDiaryEditListItemBinding> {
         override val viewBinding:
             Lazy<ContactDiaryEditListItemBinding> =
-            lazy { ContactDiaryEditListItemBinding.bind(itemView) }
+                lazy { ContactDiaryEditListItemBinding.bind(itemView) }
 
         override val onBindData:
             ContactDiaryEditListItemBinding.(item: ContactDiaryPerson, payloads: List<Any>) -> Unit =
-            { person, _ ->
-                name.text = person.fullName
-                itemContainer.apply {
-                    setOnClickListener { onItemClicked(person) }
-                    contentDescription = getContentDescriptionString(person)
-                    setClickLabel(clickLabelString)
+                { person, _ ->
+                    name.text = person.fullName
+                    itemContainer.apply {
+                        setOnClickListener { onItemClicked(person) }
+                        contentDescription = getContentDescriptionString(person)
+                        setClickLabel(clickLabelString)
+                    }
                 }
-            }
     }
 }

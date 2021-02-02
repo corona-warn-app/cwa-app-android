@@ -14,8 +14,10 @@ data class SettingsNotificationState(
 ) {
 
     val isEnabled: Boolean
-        get() = (isNotificationsEnabled &&
-            (isNotificationsRiskEnabled || isNotificationsTestEnabled))
+        get() = (
+            isNotificationsEnabled &&
+                (isNotificationsRiskEnabled || isNotificationsTestEnabled)
+            )
 
     /**
      * Formats the settings icon color for notifications depending on notification values

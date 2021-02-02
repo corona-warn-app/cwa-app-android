@@ -33,9 +33,10 @@ internal data class InternalTaskState(
             else -> ExecutionState.PENDING
         }
 
-    fun toLogString(): String = """
+    fun toLogString(): String =
+        """
     ${request.type.simpleName} state=${executionState.name} id=$id 
         startedAt=$startedAt finishedAt=$finishedAt result=${result != null} error=$error
         arguments=${request.arguments} config=$config
-    """.trimIndent()
+        """.trimIndent()
 }

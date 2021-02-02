@@ -5,7 +5,8 @@ import de.rki.coronawarnapp.util.lists.HasStableId
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 
-internal abstract class AbstractAdapter<T : HasStableId, U : BaseAdapter.VH> : BaseAdapter<U>(),
+internal abstract class AbstractAdapter<T : HasStableId, U : BaseAdapter.VH> :
+    BaseAdapter<U>(),
     AsyncDiffUtilAdapter<T> {
     override val asyncDiffer: AsyncDiffer<T> = AsyncDiffer(this)
 

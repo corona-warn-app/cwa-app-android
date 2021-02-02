@@ -10,7 +10,8 @@ import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class KeySubmissionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsKeysubmissionsLayoutBinding>(
-        R.layout.home_statistics_cards_basecard_layout, parent
+        R.layout.home_statistics_cards_basecard_layout,
+        parent
     ) {
 
     override val viewBinding = lazy {

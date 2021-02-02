@@ -28,7 +28,8 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    private val demoJsonString = """
+    private val demoJsonString =
+        """
             {
               "b2b98400-058d-43e6-b952-529a5255248b": {
                 "identifier": "b2b98400-058d-43e6-b952-529a5255248b",

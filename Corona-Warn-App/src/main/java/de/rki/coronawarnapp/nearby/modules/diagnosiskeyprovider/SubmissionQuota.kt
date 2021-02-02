@@ -74,12 +74,16 @@ class SubmissionQuota @Inject constructor(
 
             Timber.i(
                 "Quota reset: oldQuota=%d, lastReset=%s -> newQuota=%d, thisReset=%s",
-                oldQuota, oldQuotaReset, currentQuota, now
+                oldQuota,
+                oldQuotaReset,
+                currentQuota,
+                now
             )
         } else {
             Timber.d(
                 "No new quota available (now=%s, availableAt=%s)",
-                now, nextQuotaReset
+                now,
+                nextQuotaReset
             )
         }
     }

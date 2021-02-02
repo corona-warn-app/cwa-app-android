@@ -68,9 +68,12 @@ private class CountryFlagsAdapter : BaseAdapter<CountryFlagViewHolder>() {
     override fun onBindBaseVH(holder: CountryFlagViewHolder, position: Int, payloads: MutableList<Any>) =
         holder.bind(countryList[position])
 
-    class CountryFlagViewHolder(val parent: ViewGroup) : VH(
-        R.layout.view_country_list_entry_flag_item, parent
-    ), BindableVH<Country, ViewCountryListEntryFlagItemBinding> {
+    class CountryFlagViewHolder(val parent: ViewGroup) :
+        VH(
+            R.layout.view_country_list_entry_flag_item,
+            parent
+        ),
+        BindableVH<Country, ViewCountryListEntryFlagItemBinding> {
 
         override val viewBinding: Lazy<ViewCountryListEntryFlagItemBinding> = lazy {
             ViewCountryListEntryFlagItemBinding.bind(itemView)

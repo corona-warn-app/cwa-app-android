@@ -60,36 +60,40 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     }
 
     private val tracingPermissionHelper =
-        tracingPermissionHelperFactory.create(object : TracingPermissionHelper.Callback {
-            override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
-                launch {
-                    if (isTracingEnabled) {
-                        // check if background processing is switched off,
-                        // if it is, show the manual calculation dialog explanation before turning on.
-                        if (!backgroundStatus.isIgnoringBatteryOptimizations.first()) {
-                            events.postValue(Event.ManualCheckingDialog)
+        tracingPermissionHelperFactory.create(
+            object : TracingPermissionHelper.Callback {
+                override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
+                    launch {
+                        if (isTracingEnabled) {
+// check if background processing is switched off,
+// if it is, show the manual calculation dialog explanation before turning on.
+                            if (!backgroundStatus.isIgnoringBatteryOptimizations.first()) {
+                                events.postValue(Event.ManualCheckingDialog)
+                            }
+                            BackgroundWorkScheduler.startWorkScheduler()
                         }
-                        BackgroundWorkScheduler.startWorkScheduler()
+                        isTracingSwitchChecked.postValue(isTracingEnabled)
                     }
-                    isTracingSwitchChecked.postValue(isTracingEnabled)
+                }
+
+                override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                    events.postValue(
+                        Event.TracingConsentDialog { consentGiven ->
+                            if (!consentGiven) isTracingSwitchChecked.postValue(false)
+                            onConsentResult(consentGiven)
+                        }
+                    )
+                }
+
+                override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                    events.postValue(Event.RequestPermissions(permissionRequest))
+                }
+
+                override fun onError(error: Throwable) {
+                    Timber.w(error, "Failed to start tracing")
                 }
             }
-
-            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-                events.postValue(Event.TracingConsentDialog { consentGiven ->
-                    if (!consentGiven) isTracingSwitchChecked.postValue(false)
-                    onConsentResult(consentGiven)
-                })
-            }
-
-            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-                events.postValue(Event.RequestPermissions(permissionRequest))
-            }
-
-            override fun onError(error: Throwable) {
-                Timber.w(error, "Failed to start tracing")
-            }
-        })
+        )
 
     fun onTracingToggled(isChecked: Boolean) {
         try {

@@ -33,7 +33,8 @@ class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
             Timber.tag(TAG).w(
-                e, "$id: Error during BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()."
+                e,
+                "$id: Error during BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()."
             )
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {

@@ -54,7 +54,9 @@ class TracingPermissionHelper @AssistedInject constructor(
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         Timber.v(
             "handleActivityResult(requesutCode=%d, resultCode=%d, data=%s)",
-            requestCode, resultCode, data
+            requestCode,
+            resultCode,
+            data
         )
         if (requestCode != TRACING_PERMISSION_REQUESTCODE) {
             Timber.tag(TAG).w("Not our request code ($requestCode): %s", data)

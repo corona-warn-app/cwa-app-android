@@ -29,46 +29,51 @@ class TestApplication : Application(), HasAndroidInjector {
     }
 
     private fun setupActivityHook() {
-        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
-            override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
+        registerActivityLifecycleCallbacks(
+            object : ActivityLifecycleCallbacks {
+                override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
 
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                Timber.d("onActivityCreated")
-                setupFragmentHook(activity)
-                Timber.d("FragmentHook injection is called")
+                override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                    Timber.d("onActivityCreated")
+                    setupFragmentHook(activity)
+                    Timber.d("FragmentHook injection is called")
+                }
+
+                override fun onActivityStarted(activity: Activity) = Unit
+
+                override fun onActivityResumed(activity: Activity) = Unit
+
+                override fun onActivityPaused(activity: Activity) = Unit
+
+                override fun onActivityStopped(activity: Activity) = Unit
+
+                override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
+
+                override fun onActivityDestroyed(activity: Activity) = Unit
             }
-
-            override fun onActivityStarted(activity: Activity) = Unit
-
-            override fun onActivityResumed(activity: Activity) = Unit
-
-            override fun onActivityPaused(activity: Activity) = Unit
-
-            override fun onActivityStopped(activity: Activity) = Unit
-
-            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
-
-            override fun onActivityDestroyed(activity: Activity) = Unit
-        })
+        )
     }
 
     private fun setupFragmentHook(activity: Activity) {
         if (activity is FragmentActivity) {
             activity.supportFragmentManager
-                .registerFragmentLifecycleCallbacks(object :
-                    FragmentManager.FragmentLifecycleCallbacks() {
-                    override fun onFragmentPreAttached(
-                        fm: FragmentManager,
-                        f: Fragment,
-                        context: Context
-                    ) {
-                        if (f is AutoInject) {
-                            Timber.d("Injecting %s", f)
-                            AndroidSupportInjection.inject(f)
+                .registerFragmentLifecycleCallbacks(
+                    object :
+                        FragmentManager.FragmentLifecycleCallbacks() {
+                        override fun onFragmentPreAttached(
+                            fm: FragmentManager,
+                            f: Fragment,
+                            context: Context
+                        ) {
+                            if (f is AutoInject) {
+                                Timber.d("Injecting %s", f)
+                                AndroidSupportInjection.inject(f)
+                            }
+                            super.onFragmentPreAttached(fm, f, context)
                         }
-                        super.onFragmentPreAttached(fm, f, context)
-                    }
-                }, true)
+                    },
+                    true
+                )
         }
     }
 }

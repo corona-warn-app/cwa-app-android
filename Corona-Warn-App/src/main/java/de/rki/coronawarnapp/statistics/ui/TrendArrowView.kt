@@ -39,7 +39,8 @@ class TrendArrowView @JvmOverloads constructor(
             }
 
             background = ContextCompat.getDrawable(
-                context, when (trendSemantic) {
+                context,
+                when (trendSemantic) {
                     POSITIVE -> R.drawable.bg_statistics_trend_positive
                     NEGATIVE -> R.drawable.bg_statistics_trend_negative
                     else -> R.drawable.bg_statistics_trend_neutral

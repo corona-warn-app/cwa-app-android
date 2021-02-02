@@ -17,11 +17,12 @@ data class QRScanResult(val rawResult: String) {
 
     companion object {
         // regex pattern for scanned QR code URL
-        val QR_CODE_REGEX: Pattern = ("^" + // Match start of string
-            "(?:https:\\/{2}localhost)" + // Match `https://localhost`
-            "(?:\\/{1}\\?)" + // Match the query param `/?`
-            "([a-f\\d]{6}[-][a-f\\d]{8}[-](?:[a-f\\d]{4}[-]){3}[a-f\\d]{12})" + // Match the UUID
-            "\$"
+        val QR_CODE_REGEX: Pattern = (
+            "^" + // Match start of string
+                "(?:https:\\/{2}localhost)" + // Match `https://localhost`
+                "(?:\\/{1}\\?)" + // Match the query param `/?`
+                "([a-f\\d]{6}[-][a-f\\d]{8}[-](?:[a-f\\d]{4}[-]){3}[a-f\\d]{12})" + // Match the UUID
+                "\$"
             ).toPattern(Pattern.CASE_INSENSITIVE)
     }
 }

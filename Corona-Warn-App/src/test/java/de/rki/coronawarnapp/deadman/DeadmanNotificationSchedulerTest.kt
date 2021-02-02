@@ -92,7 +92,9 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
         verify(exactly = 0) {
             workManager.enqueueUniquePeriodicWork(
-                any(), any(), any()
+                any(),
+                any(),
+                any()
             )
         }
     }

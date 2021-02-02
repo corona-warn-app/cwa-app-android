@@ -28,7 +28,8 @@ class DeadmanNotificationWorkBuilder @Inject constructor() {
             .build()
 
     fun buildPeriodicWork(): PeriodicWorkRequest = PeriodicWorkRequestBuilder<DeadmanNotificationPeriodicWorker>(
-        DateTimeConstants.MINUTES_PER_HOUR.toLong(), TimeUnit.MINUTES
+        DateTimeConstants.MINUTES_PER_HOUR.toLong(),
+        TimeUnit.MINUTES
     )
         .setInitialDelay(
             BackgroundConstants.KIND_DELAY,

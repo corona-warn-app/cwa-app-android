@@ -48,9 +48,11 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel =
             spyk(SubmissionTestResultNoConsentViewModel(submissionRepository, testResultAvailableNotificationService))
-        setupMockViewModel(object : SubmissionTestResultNoConsentViewModel.Factory {
-            override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultNoConsentViewModel.Factory {
+                override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
+            }
+        )
     }
 
     @After
@@ -66,7 +68,8 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_POSITIVE
-                ), Date()
+                ),
+                Date()
             )
         )
 

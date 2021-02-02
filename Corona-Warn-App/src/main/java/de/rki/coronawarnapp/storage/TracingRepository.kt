@@ -90,7 +90,8 @@ class TracingRepository @Inject constructor(
             )
             taskController.submit(
                 DefaultTaskRequest(
-                    RiskLevelTask::class, originTag = "TracingRepository.refreshDiagnosisKeys()"
+                    RiskLevelTask::class,
+                    originTag = "TracingRepository.refreshDiagnosisKeys()"
                 )
             )
         }

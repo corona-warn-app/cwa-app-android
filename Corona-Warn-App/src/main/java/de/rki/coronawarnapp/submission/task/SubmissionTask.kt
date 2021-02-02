@@ -92,7 +92,9 @@ class SubmissionTask @Inject constructor(
         val currentAttempt = submissionSettings.autoSubmissionAttemptsCount.value
         val lastAttemptAt = submissionSettings.autoSubmissionAttemptsLast.value
         Timber.tag(TAG).i(
-            "checkRetryAttempts(): submissionAttemptsCount=%d, lastAttemptAt=%s", currentAttempt, lastAttemptAt
+            "checkRetryAttempts(): submissionAttemptsCount=%d, lastAttemptAt=%s",
+            currentAttempt,
+            lastAttemptAt
         )
 
         return if (currentAttempt >= RETRY_ATTEMPTS) {

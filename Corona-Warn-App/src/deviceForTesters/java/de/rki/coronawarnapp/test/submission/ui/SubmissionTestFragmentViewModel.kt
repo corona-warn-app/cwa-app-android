@@ -35,27 +35,29 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         setPrettyPrinting()
     }.create()
 
-    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
-        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-            Timber.d("TEKs are available: %s", teks)
-        }
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
+        object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                Timber.d("TEKs are available: %s", teks)
+            }
 
-        override fun onTEKPermissionDeclined() {
-            Timber.d("Permission were declined.")
-        }
+            override fun onTEKPermissionDeclined() {
+                Timber.d("Permission were declined.")
+            }
 
-        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            showTracingConsentDialog.postValue(onConsentResult)
-        }
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                showTracingConsentDialog.postValue(onConsentResult)
+            }
 
-        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            permissionRequestEvent.postValue(permissionRequest)
-        }
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                permissionRequestEvent.postValue(permissionRequest)
+            }
 
-        override fun onError(error: Throwable) {
-            errorEvents.postValue(error)
+            override fun onError(error: Throwable) {
+                errorEvents.postValue(error)
+            }
         }
-    })
+    )
 
     val errorEvents = SingleLiveEvent<Throwable>()
     private val internalToken = MutableStateFlow(LocalData.registrationToken())

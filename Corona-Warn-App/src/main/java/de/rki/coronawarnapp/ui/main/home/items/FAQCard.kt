@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard.Item
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class FAQCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLayoutBinding>(
-    R.layout.home_card_container_layout, parent
+    R.layout.home_card_container_layout,
+    parent
 ) {
 
     override val viewBinding = lazy {

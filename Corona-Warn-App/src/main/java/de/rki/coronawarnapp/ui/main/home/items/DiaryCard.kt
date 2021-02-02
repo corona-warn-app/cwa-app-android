@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.ui.main.home.items.DiaryCard.Item
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class DiaryCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, ContactDiaryHomescreenCardIncludeBinding>(
-    R.layout.home_card_container_layout, parent
+    R.layout.home_card_container_layout,
+    parent
 ) {
 
     override val viewBinding = lazy {

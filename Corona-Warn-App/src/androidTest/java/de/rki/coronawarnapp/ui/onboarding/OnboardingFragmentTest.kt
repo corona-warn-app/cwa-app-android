@@ -34,9 +34,11 @@ class OnboardingFragmentTest : BaseUITest() {
 
     @Before
     fun setUp() {
-        setupMockViewModel(object : OnboardingFragmentViewModel.Factory {
-            override fun create(): OnboardingFragmentViewModel = OnboardingFragmentViewModel()
-        })
+        setupMockViewModel(
+            object : OnboardingFragmentViewModel.Factory {
+                override fun create(): OnboardingFragmentViewModel = OnboardingFragmentViewModel()
+            }
+        )
     }
 
     @After

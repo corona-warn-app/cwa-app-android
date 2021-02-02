@@ -42,17 +42,19 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
                 is OnboardingNavigationEvents.ShowCancelDialog ->
-                    DialogHelper.showDialog(DialogHelper.DialogInstance(
-                        context = requireActivity(),
-                        title = R.string.onboarding_tracing_dialog_headline,
-                        message = R.string.onboarding_tracing_dialog_body,
-                        positiveButton = R.string.onboarding_tracing_dialog_button_positive,
-                        negativeButton = R.string.onboarding_tracing_dialog_button_negative,
-                        cancelable = true,
-                        positiveButtonFunction = {
-                            navigateToOnboardingTestFragment()
-                        }
-                    ))
+                    DialogHelper.showDialog(
+                        DialogHelper.DialogInstance(
+                            context = requireActivity(),
+                            title = R.string.onboarding_tracing_dialog_headline,
+                            message = R.string.onboarding_tracing_dialog_body,
+                            positiveButton = R.string.onboarding_tracing_dialog_button_positive,
+                            negativeButton = R.string.onboarding_tracing_dialog_button_negative,
+                            cancelable = true,
+                            positiveButtonFunction = {
+                                navigateToOnboardingTestFragment()
+                            }
+                        )
+                    )
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
                     (requireActivity() as OnboardingActivity).goBack()
             }

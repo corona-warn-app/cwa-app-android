@@ -34,40 +34,42 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val showCloseDialog = SingleLiveEvent<Unit>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
-    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
-        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-            Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
+        object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
+                autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
 
-            routeToScreen.postValue(
-                SubmissionTestResultAvailableFragmentDirections
-                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
-            )
-        }
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
+                )
+            }
 
-        override fun onTEKPermissionDeclined() {
-            routeToScreen.postValue(
-                SubmissionTestResultAvailableFragmentDirections
-                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
-            )
-        }
+            override fun onTEKPermissionDeclined() {
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                )
+            }
 
-        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            showTracingConsentDialog.postValue(onConsentResult)
-        }
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                showTracingConsentDialog.postValue(onConsentResult)
+            }
 
-        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            showPermissionRequest.postValue(permissionRequest)
-        }
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                showPermissionRequest.postValue(permissionRequest)
+            }
 
-        override fun onError(error: Throwable) {
-            Timber.e(error, "Failed to update TEKs.")
-            error.report(
-                exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
-                prefix = "SubmissionTestResultAvailableViewModel"
-            )
+            override fun onError(error: Throwable) {
+                Timber.e(error, "Failed to update TEKs.")
+                error.report(
+                    exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
+                    prefix = "SubmissionTestResultAvailableViewModel"
+                )
+            }
         }
-    })
+    )
 
     init {
         submissionRepository.refreshDeviceUIState(refreshTestResult = false)

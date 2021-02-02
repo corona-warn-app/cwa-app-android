@@ -60,13 +60,24 @@ class DefaultTracingStatusTest : BaseTest() {
     @Test
     fun `state is updated and polling stops on cancel`() = runBlockingTest2(ignoreActive = true) {
         every { client.isEnabled } returnsMany listOf(
-            true, false, true, false, true, false, true
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true
         ).map { MockGMSTask.forValue(it) }
 
         val instance = createInstance(scope = this)
 
         instance.isTracingEnabled.take(6).toList() shouldBe listOf(
-            true, false, true, false, true, false
+            true,
+            false,
+            true,
+            false,
+            true,
+            false
         )
         verify(exactly = 6) { client.isEnabled }
     }

@@ -96,13 +96,16 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.string.onboarding_energy_optimized_dialog_body,
             R.string.onboarding_energy_optimized_dialog_button_positive,
             R.string.onboarding_energy_optimized_dialog_button_negative,
-            false, {
+            false,
+            {
                 // go to battery optimization
                 startActivitySafely(powerManagement.toBatteryOptimizationSettingsIntent)
-            }, {
+            },
+            {
                 // keep battery optimization enabled
                 showManualCheckingRequiredDialog()
-            })
+            }
+        )
         DialogHelper.showDialog(dialog)
     }
 
@@ -138,7 +141,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             },
             negativeButtonFunction = {
                 // declined
-            })
+            }
+        )
         DialogHelper.showDialog(dialog)
     }
 

@@ -31,7 +31,11 @@ class TanTest : BaseTest() {
     fun areCharactersValid() {
         // valid input strings (not necessarily valid TANs)
         val validStrings = arrayOf(
-            "ABCD", "2345", "PTPHM35RP4", "AAAAAAAAAA", "BBBBB"
+            "ABCD",
+            "2345",
+            "PTPHM35RP4",
+            "AAAAAAAAAA",
+            "BBBBB"
         )
         for (text in validStrings) {
             Tan.allCharactersValid(text) shouldBe true
@@ -39,7 +43,11 @@ class TanTest : BaseTest() {
 
         // invalid input strings
         val invalidStrings = arrayOf(
-            "ABCDÖ", "01234", "PTPHM15RP4", "AAAAAA AAA", "BB.BBB"
+            "ABCDÖ",
+            "01234",
+            "PTPHM15RP4",
+            "AAAAAA AAA",
+            "BB.BBB"
         )
         for (text in invalidStrings) {
             Tan.allCharactersValid(text) shouldBe false
@@ -49,7 +57,11 @@ class TanTest : BaseTest() {
     @Test
     fun isTanValid() {
         val validTans = arrayOf(
-            "9A3B578UMG", "DEU7TKSV3H", "PTPHM35RP4", "V923D59AT8", "H9NC5CQ34E"
+            "9A3B578UMG",
+            "DEU7TKSV3H",
+            "PTPHM35RP4",
+            "V923D59AT8",
+            "H9NC5CQ34E"
         )
         for (tan in validTans) {
             Tan.allCharactersValid(tan) shouldBe true
@@ -59,7 +71,10 @@ class TanTest : BaseTest() {
 
         // invalid tans due to length and/or invalid characters
         val invalidTans = arrayOf(
-            "ABÖAA1", "-1234", "PTPHM15RP4", "aAASd A"
+            "ABÖAA1",
+            "-1234",
+            "PTPHM15RP4",
+            "aAASd A"
         )
         for (tan in invalidTans) {
             Tan.allCharactersValid(tan) shouldBe false
@@ -70,7 +85,11 @@ class TanTest : BaseTest() {
     fun isChecksumValid() {
         // valid
         val validTans = arrayOf(
-            "9A3B578UMG", "DEU7TKSV3H", "PTPHM35RP4", "V923D59AT8", "H9NC5CQ34E"
+            "9A3B578UMG",
+            "DEU7TKSV3H",
+            "PTPHM35RP4",
+            "V923D59AT8",
+            "H9NC5CQ34E"
         )
         for (tan in validTans) {
             Tan.isChecksumValid(tan) shouldBe true

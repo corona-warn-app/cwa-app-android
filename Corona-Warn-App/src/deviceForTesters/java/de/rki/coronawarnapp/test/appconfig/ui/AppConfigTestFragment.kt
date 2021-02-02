@@ -34,11 +34,12 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
         vm.currentConfig.observe2(this) { data ->
             binding.currentConfiguration.text = data.rawConfig.toString()
             binding.lastUpdate.text = timeFormatter.print(data.updatedAt)
-            binding.timeOffset.text = """
+            binding.timeOffset.text =
+                """
             ${data.localOffset.millis}ms
             configType=${data.configType}
             isDeviceTimeCorrect=${data.isDeviceTimeCorrect}
-            """.trimIndent()
+                """.trimIndent()
         }
 
         vm.errorEvent.observe2(this) {

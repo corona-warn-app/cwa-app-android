@@ -51,9 +51,11 @@ class SubmissionTanFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        setupMockViewModel(object : SubmissionTanViewModel.Factory {
-            override fun create(): SubmissionTanViewModel = createViewModel()
-        })
+        setupMockViewModel(
+            object : SubmissionTanViewModel.Factory {
+                override fun create(): SubmissionTanViewModel = createViewModel()
+            }
+        )
     }
 
     @After
