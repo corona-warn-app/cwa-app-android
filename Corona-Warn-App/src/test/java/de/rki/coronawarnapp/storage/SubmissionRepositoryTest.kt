@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -47,6 +48,7 @@ class SubmissionRepositoryTest {
 
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -89,7 +91,8 @@ class SubmissionRepositoryTest {
         submissionSettings = submissionSettings,
         submissionService = submissionService,
         timeStamper = timeStamper,
-        tekHistoryStorage = tekHistoryStorage
+        tekHistoryStorage = tekHistoryStorage,
+        deadmanNotificationScheduler = deadmanNotificationScheduler
     )
 
     @Test
