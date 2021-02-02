@@ -67,7 +67,8 @@ class IncidenceCard(parent: ViewGroup) :
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayIncidence.value, sevenDayIncidence.decimals))
+            .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayIncidence.value,
+                sevenDayIncidence.decimals))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_incidence_value_description))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))

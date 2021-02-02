@@ -50,7 +50,8 @@ class KeySubmissionsCard(parent: ViewGroup) :
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
-                .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals))
+                .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayAverage.value,
+                    sevenDayAverage.decimals))
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_submission_title))
                 .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 
