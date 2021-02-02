@@ -1383,9 +1383,9 @@
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
 
     <!-- XTXT: Statistics Card Announcement -->
-    <string name="accessibility_statistics_card_announcement">"Statistics Card"</string>
+    <string name="accessibility_statistics_card_announcement">""</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Swipe horizontal between items"</string>
+    <string name="accessibility_statistics_card_navigation_information">""</string>
 
 
     <!-- ####################################
