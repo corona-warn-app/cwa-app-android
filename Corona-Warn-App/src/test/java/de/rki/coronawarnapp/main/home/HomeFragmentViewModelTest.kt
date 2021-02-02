@@ -2,9 +2,12 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionDone
@@ -14,6 +17,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
@@ -27,6 +31,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
@@ -40,6 +45,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
@@ -167,6 +173,37 @@ class HomeFragmentViewModelTest : BaseTest() {
                 observeTestResultToSchedulePositiveTestResultReminder()
                 verify { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
             }
+        }
+    }
+
+    @Test
+    fun `test correct order of displaying delta onboarding, release notes and popups`() {
+
+        mockkObject(LocalData)
+        every { LocalData.isInteroperabilityShownAtLeastOnce } returns false andThen true
+
+        mockkObject(BuildConfigWrap)
+        every { BuildConfigWrap.VERSION_CODE } returns 1120004
+        every { cwaSettings.lastChangelogVersion.value } returns 1L andThen 1120004
+
+        every { LocalData.tracingExplanationDialogWasShown() } returns false andThen true
+        mockkObject(TimeVariables)
+        coEvery { TimeVariables.getActiveTracingDaysInRetentionPeriod() } coAnswers { 1 }
+
+        every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
+
+        with(createInstance()) {
+            showPopUpsOrNavigate()
+            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowInteropDeltaOnboarding
+
+            showPopUpsOrNavigate()
+            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowNewReleaseFragment
+
+            showPopUpsOrNavigate()
+            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
+
+            showPopUpsOrNavigate()
+            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }
     }
 }
