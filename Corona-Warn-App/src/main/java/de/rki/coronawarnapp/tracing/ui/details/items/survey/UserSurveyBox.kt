@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsAccessSurveyCardBinding
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 
@@ -31,7 +32,9 @@ class UserSurveyBox(
         tracingDetailsSurveyCardButton.setOnClickListener { onItemClickListener(item) }
     }
 
-    class Item : DetailsItem {
+    data class Item(
+        val type: Surveys.Type
+    ) : DetailsItem {
         override val stableId: Long
             get() = Item::class.java.name.hashCode().toLong()
     }

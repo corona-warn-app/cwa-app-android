@@ -107,8 +107,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     fun onItemClicked(item: DetailsItem) {
         when (item) {
-            is UserSurveyBox.Item ->
-                routeToScreen.postValue(TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment)
+            is UserSurveyBox.Item -> routeToScreen.postValue(TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment(item.type))
         }
     }
 

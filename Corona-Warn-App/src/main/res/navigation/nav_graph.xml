@@ -517,5 +517,9 @@
         android:id="@+id/surveyConsentFragment"
         android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentFragment"
         android:label="survey_consent_fragment"
-        tools:layout="@layout/survey_consent_fragment" />
+        tools:layout="@layout/survey_consent_fragment" >
+        <argument
+            android:name="SurveyType"
+            app:argType="de.rki.coronawarnapp.datadonation.survey.Surveys$Type" />
+    </fragment>
 </navigation>

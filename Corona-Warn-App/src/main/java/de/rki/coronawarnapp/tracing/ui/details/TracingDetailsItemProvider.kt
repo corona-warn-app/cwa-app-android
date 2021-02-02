@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.tracing.ui.details
 
 import dagger.Reusable
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -55,7 +56,7 @@ class TracingDetailsItemProvider @Inject constructor(
             }.also { add(it) }
 
             if (latestCalc.riskState == RiskState.INCREASED_RISK) {
-                add(UserSurveyBox.Item())
+                add(UserSurveyBox.Item(Surveys.Type.HIGH_RISK_ENCOUNTER))
             }
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED) {

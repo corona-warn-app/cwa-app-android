@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -52,7 +53,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> doNavigate(
-                    TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment()
+                    TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
             }
         }
