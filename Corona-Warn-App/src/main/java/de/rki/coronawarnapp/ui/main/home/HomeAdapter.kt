@@ -36,14 +36,6 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     var statisticsState: Int = 0
 
-    @Synchronized
-    fun update(
-        newData: List<HomeItem>?,
-        notify: Boolean = true
-    ) {
-        if (notify) asyncDiffer.submitUpdate(newData ?: emptyList())
-    }
-
     init {
         modules.addAll(listOf(
             StableIdMod(data),
