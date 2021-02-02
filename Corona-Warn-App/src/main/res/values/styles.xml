@@ -12,9 +12,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="dialogTheme">@style/DialogTheme</item>
-        <item name="bottomSheetDialogTheme">
-            @style/ThemeOverlay.MaterialComponents.BottomSheetDialog
-        </item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -69,6 +67,11 @@
     <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTheme</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButtonTheme</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="colorPrimary">@color/colorBrandSecondary</item>
+        <item name="colorPrimaryDark">@color/colorStableDark</item>
     </style>
 
     <style name="DialogButtonTheme" parent="Widget.MaterialComponents.Button.TextButton">
