@@ -40,7 +40,8 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is SurveyConsentNavigationEvents.NavigateBack -> activity?.onBackPressed()
-                is SurveyConsentNavigationEvents.NavigateToWebView -> Toast.makeText(requireContext(), "Open ${it.url} (WIP, next PR))", Toast.LENGTH_SHORT).show()
+                is SurveyConsentNavigationEvents.NavigateToWebView ->
+                    Toast.makeText(requireContext(), "Open ${it.url} (WIP, next PR))", Toast.LENGTH_SHORT).show()
             }
         }
     }
