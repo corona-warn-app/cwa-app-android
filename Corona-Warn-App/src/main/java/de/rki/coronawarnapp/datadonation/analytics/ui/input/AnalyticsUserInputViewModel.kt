@@ -14,11 +14,12 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.*
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.util.Locale
@@ -27,6 +28,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
     @Assisted val type: AnalyticsUserInputFragment.InputType,
     private val settings: AnalyticsSettings,
     @AppContext private val context: Context,
+    private val districtsSource: Districts,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel() {
 
@@ -46,18 +48,67 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
     private val federalStateSource: Flow<List<UserInfoItem>> = flowOf(PPAFederalState.values())
         .map { states ->
             val selected = settings.userInfoFederalState.value
-            states.mapNotNull { state ->
-                if (state == PPAFederalState.UNRECOGNIZED) return@mapNotNull null
-                UserInfoItem(
-                    data = state,
-                    isSelected = state == selected,
-                    label = state.getStringLabel().toResolvingString()
-                )
-            }
-        }
-        .map { states -> states.sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) } }
+            val items = states
+                .mapNotNull { state ->
+                    if (state == PPAFederalState.UNRECOGNIZED) return@mapNotNull null
+                    if (state == PPAFederalState.FEDERAL_STATE_UNSPECIFIED) return@mapNotNull null
+                    UserInfoItem(
+                        data = state,
+                        isSelected = state == selected,
+                        label = state.getStringLabel().toResolvingString()
+                    )
+                }
+                .sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) }
 
-    private val districtSource: Flow<List<UserInfoItem>> = emptyFlow()
+            val unspecified = UserInfoItem(
+                data = Districts.District(),
+                isSelected = selected == PPAFederalState.FEDERAL_STATE_UNSPECIFIED,
+                label = PPAFederalState.FEDERAL_STATE_UNSPECIFIED.getStringLabel().toResolvingString()
+            )
+            listOf(unspecified) + items
+        }
+
+    private val districtSource: Flow<List<UserInfoItem>> = flow { emit(districtsSource.getDistricts()) }
+        .map { allDistricts ->
+            val ourStateCode = when (settings.userInfoFederalState.value) {
+                PPAFederalState.FEDERAL_STATE_BW -> "BW"
+                PPAFederalState.FEDERAL_STATE_BY -> "BY"
+                PPAFederalState.FEDERAL_STATE_BE -> "BE"
+                PPAFederalState.FEDERAL_STATE_BB -> "BB"
+                PPAFederalState.FEDERAL_STATE_HB -> "HB"
+                PPAFederalState.FEDERAL_STATE_HH -> "HH"
+                PPAFederalState.FEDERAL_STATE_HE -> "HE"
+                PPAFederalState.FEDERAL_STATE_MV -> "MV"
+                PPAFederalState.FEDERAL_STATE_NI -> "NI"
+                PPAFederalState.FEDERAL_STATE_NRW -> "NW"
+                PPAFederalState.FEDERAL_STATE_RP -> "RP"
+                PPAFederalState.FEDERAL_STATE_SL -> "SL"
+                PPAFederalState.FEDERAL_STATE_SN -> "SN"
+                PPAFederalState.FEDERAL_STATE_ST -> "ST"
+                PPAFederalState.FEDERAL_STATE_SH -> "SH"
+                PPAFederalState.FEDERAL_STATE_TH -> "TH"
+                else -> null
+            }
+            allDistricts.filter { it.federalStateShortName == ourStateCode }
+        }
+        .map { districts ->
+            val selected = settings.userInfoDistrict.value
+            val items = districts
+                .map { district ->
+                    UserInfoItem(
+                        data = district,
+                        isSelected = district.districtId == selected,
+                        label = district.districtName.toLazyString()
+                    )
+                }
+                .sortedBy { it.label.get(context).toLowerCase(Locale.ROOT) }
+            val unspecified = UserInfoItem(
+                data = Districts.District(),
+                isSelected = 0 == selected,
+                label = R.string.analytics_userinput_district_unspecified.toResolvingString()
+            )
+            listOf(unspecified) + items
+        }
 
     val userInfoItems: LiveData<List<UserInfoItem>> = when (type) {
         AnalyticsUserInputFragment.InputType.AGEGROUP -> ageGroupSource
@@ -74,9 +125,10 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
             }
             is PPAFederalState -> {
                 settings.userInfoFederalState.update { item.data }
+                settings.userInfoDistrict.update { 0 }
             }
-            is Int -> {
-                settings.userInfoDistrict.update { item.data }
+            is Districts.District -> {
+                settings.userInfoDistrict.update { item.data.districtId }
             }
             else -> throw IllegalArgumentException()
         }

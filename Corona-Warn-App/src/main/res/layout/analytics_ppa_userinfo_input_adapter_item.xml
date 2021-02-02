@@ -9,7 +9,10 @@
         android:id="@+id/radiobutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
         android:layout_marginStart="16dp"
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
