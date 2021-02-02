@@ -11,13 +11,13 @@ class OTPRepository @Inject constructor(
 ) {
 
     val lastOTP: OneTimePassword?
-        get() = surveySettings.oneTimePassword.value
+        get() = surveySettings.oneTimePassword
 
     fun generateOTP(): OneTimePassword = OneTimePassword().also {
-        surveySettings.oneTimePassword.update { it }
+        surveySettings.oneTimePassword = it
     }
 
     fun clear() {
-        surveySettings.oneTimePassword.update { null }
+        surveySettings.oneTimePassword = null
     }
 }
