@@ -59,7 +59,8 @@ object TracingData {
                     lastExposureDetectionTime = Instant.now(),
                     allowManualUpdate = false,
                     daysWithEncounters = 0,
-                    activeTracingDays = 0
+                    activeTracingDays = 0,
+                    lastEncounterAt = Instant.now()
                 )
             ),
             BehaviorNormalRiskBox.Item(
