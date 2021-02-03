@@ -87,7 +87,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     fun launch_fragment() {
         launchFragment2<ContactDiaryDayFragment>(
             fragmentArgs = fragmentArgs,
-            themeResId = R.style.AppTheme_ContactDiary
+            themeResId = R.style.AppTheme_Main
         )
     }
 
@@ -113,7 +113,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<ContactDiaryDayFragment>(
             fragmentArgs = fragmentArgs,
-            themeResId = R.style.AppTheme_ContactDiary
+            themeResId = R.style.AppTheme_Main
         )
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(ContactDiaryDayFragment::class.simpleName.plus("_$suffix"))
