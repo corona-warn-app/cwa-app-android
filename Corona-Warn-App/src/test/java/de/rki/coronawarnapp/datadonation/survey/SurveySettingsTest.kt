@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.survey
 import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.datadonation.OneTimePassword
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -21,11 +22,14 @@ class SurveySettingsTest : BaseTest() {
 
     @MockK lateinit var context: Context
     val preferences = MockSharedPreferences()
-    val gson = Gson()
+    lateinit var baseGson: Gson
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        baseGson = SerializationModule().baseGson().newBuilder().apply {
+            setPrettyPrinting()
+        }.create()
         every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns preferences
     }
 
@@ -36,32 +40,34 @@ class SurveySettingsTest : BaseTest() {
 
     @Test
     fun `load`() {
-        val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a1")
-        val time = Instant.ofEpochMilli(1612381217442)
-
-        val instance = SurveySettings(context, gson)
+        val instance = SurveySettings(context, baseGson)
         instance.oneTimePassword shouldBe null
 
-        preferences.edit().putString("one_time_password", gson.toJson(OneTimePassword(uuid, time))).apply()
+        preferences.edit().putString(
+            "one_time_password",
+            """{"uuid": "e103c755-0975-4588-a639-d0cd1ba421a1", "time": 1612381217442}"""
+        ).apply()
 
         val value = instance.oneTimePassword
         value shouldNotBe null
-        value!!.uuid shouldBe uuid
+        value!!.uuid.toString() shouldBe "e103c755-0975-4588-a639-d0cd1ba421a1"
         value.time.millis shouldBe 1612381217442
     }
 
     @Test
     fun `store`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
-        val time = Instant.now()
+        val time = Instant.ofEpochMilli(1612381567242)
 
-        val instance = SurveySettings(context, gson)
+        val instance = SurveySettings(context, baseGson)
         instance.oneTimePassword = OneTimePassword(uuid, time)
 
         val value = preferences.getString("one_time_password", null)
-        value shouldNotBe null
-        val fromJson = gson.fromJson(value, OneTimePassword::class.java)
-        fromJson.uuid shouldBe uuid
-        fromJson.time shouldBe time
+        value shouldBe """
+                    {
+                      "uuid": "e103c755-0975-4588-a639-d0cd1ba421a0",
+                      "time": 1612381567242
+                    }
+                """.trimIndent()
     }
 }
