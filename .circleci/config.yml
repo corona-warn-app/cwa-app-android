@@ -572,8 +572,7 @@ jobs:
       - run:
           name: Run UI tests
           command: |
-            ./gradlew connectedDeviceForTestersDebugAndroidTest
-
+            ./gradlew connectedDeviceForTestersDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
 #######################
 # Workflow section
 # Job execution orders
