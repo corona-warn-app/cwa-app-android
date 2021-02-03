@@ -1688,4 +1688,28 @@
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">Journal</string>
 
+    <!-- ####################################
+               Data Donation & Survey
+        ###################################### -->
+
+    <!-- XHED: Title for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_title">"Befragung zur Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_content">"Helfen Sie uns, die App zu verbessern, indem Sie einige einfache Fragen beantworten."</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_button_text">"Zur Befragung"</string>
+
+    <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
+    <string name="datadonation_details_survey_consent_button_title">"Weiter"</string>
+    <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_title">"Befragung zur Verbesserung der Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_body">"Mit Ihrer Teilnahme helfen Sie uns zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken."</string>
+    <!-- XHED: Text for the consent part title displayed over the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_title">"Ihr Einverständnis"</string>
+    <!-- XHED: Text for the consent part body displayed over the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_body">"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."</string>
+
+
+
 </resources>
