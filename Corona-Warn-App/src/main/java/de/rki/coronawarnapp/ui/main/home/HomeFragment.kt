@@ -145,14 +145,13 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    // TODO: strings should be updated before merge
     private fun showReactivateRiskCheckDialog() {
         val removeTestDialog = DialogHelper.DialogInstance(
             requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
+            R.string.dialog_reactivate_risk_calculation_title,
+            R.string.dialog_reactivate_risk_calculation_message,
+            R.string.dialog_reactivate_risk_calculation_button_positive,
+            R.string.dialog_reactivate_risk_calculation_button_negative,
             positiveButtonFunction = {
                 vm.reenableRiskCalculation()
             }
