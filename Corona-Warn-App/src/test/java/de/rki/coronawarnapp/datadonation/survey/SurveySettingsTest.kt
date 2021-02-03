@@ -20,7 +20,6 @@ import java.util.UUID
 class SurveySettingsTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var surveySettings: SurveySettings
     val preferences = MockSharedPreferences()
     val gson = Gson()
 

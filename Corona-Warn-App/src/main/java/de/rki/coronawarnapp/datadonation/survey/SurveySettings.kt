@@ -15,10 +15,6 @@ class SurveySettings @Inject constructor(
     @BaseGson val gson: Gson
 ) {
 
-    companion object {
-        private const val KEY_OTP = "one_time_password"
-    }
-
     private val preferences by lazy {
         context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE)
     }
@@ -39,3 +35,5 @@ class SurveySettings @Inject constructor(
 
     fun clear() = preferences.clearAndNotify()
 }
+
+private const val KEY_OTP = "one_time_password"
