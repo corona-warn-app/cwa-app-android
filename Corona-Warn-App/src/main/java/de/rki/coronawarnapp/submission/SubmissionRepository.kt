@@ -71,15 +71,24 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    // TODO this should be more UI agnostic
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
         if (LocalData.submissionWasSuccessful()) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
             return
         }
 
-        var refresh = refreshTestResult
+        val registrationToken = LocalData.registrationToken()
+        if (registrationToken == null) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
+            return
+        }
 
+        if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
+            return
+        }
+
+        var refresh = refreshTestResult
         deviceUIStateFlowInternal.value.withSuccess {
             if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
                 refresh = false
@@ -87,38 +96,24 @@ class SubmissionRepository @Inject constructor(
             }
         }
 
-        if (refresh) deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
-        scope.launch {
-            try {
-                deviceUIStateFlowInternal.value = refreshUIState(refresh)
-            } catch (err: CwaWebException) {
-                deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
-            } catch (err: Exception) {
-                deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
-                err.report(ExceptionCategory.INTERNAL)
-            }
-        }
-    }
+        if (refresh) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
 
-    // TODO this should be more UI agnostic
-    private suspend fun refreshUIState(refreshTestResult: Boolean): NetworkRequestWrapper<DeviceUIState, Throwable> {
-
-        var uiState = DeviceUIState.UNPAIRED
-
-        val registrationToken = LocalData.registrationToken()
-        if (registrationToken != null) {
-            uiState = when {
-                LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
-                    DeviceUIState.PAIRED_POSITIVE
-                }
-                refreshTestResult -> fetchTestResult(registrationToken)
-                else -> {
-                    deriveUiState(testResultFlow.value)
+            scope.launch {
+                try {
+                    deviceUIStateFlowInternal.value =
+                        NetworkRequestWrapper.RequestSuccessful(fetchTestResult(registrationToken))
+                } catch (err: CwaWebException) {
+                    deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
+                } catch (err: Exception) {
+                    deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
+                    err.report(ExceptionCategory.INTERNAL)
                 }
             }
+        } else {
+            deviceUIStateFlowInternal.value =
+                NetworkRequestWrapper.RequestSuccessful(deriveUiState(testResultFlow.value))
         }
-
-        return NetworkRequestWrapper.RequestSuccessful(uiState)
     }
 
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
