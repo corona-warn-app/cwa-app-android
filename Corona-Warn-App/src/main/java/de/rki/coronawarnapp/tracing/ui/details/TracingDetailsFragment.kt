@@ -30,7 +30,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
     )
     private val binding: TracingDetailsFragmentLayoutBinding by viewBindingLazy()
 
-    private val detailsAdapter = TracingDetailsAdapter()
+    private val detailsAdapter = TracingDetailsAdapter { vm.onItemClicked(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,6 +47,14 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
 
         vm.buttonStates.observe2(this) {
             binding.tracingDetailsState = it
+        }
+
+        vm.routeToScreen.observe2(this) {
+            when (it) {
+                is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> doNavigate(
+                    TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
+                )
+            }
         }
 
         binding.riskDetailsHeaderButtonBack.setOnClickListener {
