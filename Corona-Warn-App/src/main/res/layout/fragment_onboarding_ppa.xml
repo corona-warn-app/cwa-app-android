@@ -43,13 +43,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/onboarding_header"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/onboarding_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -57,7 +54,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/onboarding_illustration"
-                    android:layout_width="match_parent"
+                    android:layout_marginTop="18dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/onboarding_ppa_illustration_description"
                     android:focusable="true"
@@ -68,7 +66,7 @@
 
                 <TextView
                     android:id="@+id/onboarding_headline"
-                    style="@style/headline5"
+                    style="@style/headline4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
@@ -99,6 +97,7 @@
                 <include
                     android:id="@+id/state"
                     layout="@layout/include_settings_plain_row"
+                    android:layout_marginTop="19dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +139,7 @@
                     layout="@layout/include_settings_plain_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="37dp"
+                    android:layout_marginTop="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/regional_evaluation_text"
@@ -172,7 +171,7 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginTop="27dp"
                         android:text="@string/submission_your_consent_agreement_share_test_results"
                         tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."/>
 

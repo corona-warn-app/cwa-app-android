@@ -22,4 +22,6 @@ internal abstract class OnboardingActivityModule {
     abstract fun onboardingTestFragment(): OnboardingTestFragment
     @ContributesAndroidInjector(modules = [OnboardingNotificationsModule::class])
     abstract fun onboardingNotificationsFragment(): OnboardingNotificationsFragment
+    @ContributesAndroidInjector(modules = [OnboardingAnalyticsModule::class])
+    abstract fun onboardingAnalyticsFragment(): OnboardingAnalyticsFragment
 }
