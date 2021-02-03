@@ -548,6 +548,32 @@ jobs:
           path: /tmp/device_screenshots.zip
           destination: zips/device_screenshots.zip
 
+  run_android_tests:
+    machine:
+      image: android:202102-01
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Create avd
+          command: |
+            SYSTEM_IMAGES="system-images;android-29;default;x86"
+            sdkmanager "$SYSTEM_IMAGES"
+            echo "no" | avdmanager --verbose create avd -n test -k "$SYSTEM_IMAGES"
+      - run:
+          name: Launch emulator
+          command: |
+            emulator -avd test -delay-adb -verbose -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          background: true
+      - run:
+          name: Wait for emulator to start
+          command: |
+            circle-android wait-for-boot
+      - run:
+          name: Run UI tests
+          command: |
+            ./gradlew connectedDebugAndroidTest
+
 #######################
 # Workflow section
 # Job execution orders
@@ -564,7 +590,7 @@ workflows:
       - run_sonar:
           requires:
             - unit_tests_device_release
-      - instrumentation_tests_device:
+      - run_android_tests:
           requires:
             - ktlint_device_release_check
             - detekt
