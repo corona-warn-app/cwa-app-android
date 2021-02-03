@@ -510,4 +510,12 @@
             app:argType="boolean"
             android:defaultValue="false" />
     </fragment>
+    <fragment
+        android:id="@+id/analyticsUserInputFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
+        android:label="AnalyticsUserInputFragment">
+        <argument
+            android:name="type"
+            app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
+    </fragment>
 </navigation>
