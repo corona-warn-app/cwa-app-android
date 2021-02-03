@@ -1330,7 +1330,7 @@
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır.\n\nDaha fazla bilgi için SSS bölümüne bakın:\nistatistikler için SSS."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"istatistikler için SSS."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Açıklama"</string>
@@ -1351,7 +1351,7 @@
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Ok yönü trendin arttığını, azaldığını ya da sabit kaldığını belirtir. Sabit kalması, önceki güne göre \%1’den az veya önceki haftaya göre \%5’ten az sapma olduğu anlamına gelir. Renk ise bu trendin pozitif (yeşil), negatif (kırmızı) ya da nötr (gri) olduğunu belirtir. Trend için, önceki güne ait değer iki gün önceki değerle karşılaştırılır ya da 7 günlük trendler için son 7 güne ait ortalama değer ondan önceki 7 güne ait ortalama değerle karşılaştırılır."</string>
+    <string name="statistics_explanation_trend_text">"Ok yönü trendin arttığını, azaldığını ya da sabit kaldığını belirtir. Sabit kalması, önceki güne göre %%1’den az veya önceki haftaya göre %%5’ten az sapma olduğu anlamına gelir. Renk ise bu trendin pozitif (yeşil), negatif (kırmızı) ya da nötr (gri) olduğunu belirtir. Trend için, önceki güne ait değer iki gün önceki değerle karşılaştırılır ya da 7 günlük trendler için son 7 güne ait ortalama değer ondan önceki 7 güne ait ortalama değerle karşılaştırılır."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Şu trendler gösterilebilir:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1366,6 +1366,11 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
+
+    <!-- XTXT: Statistics Card Announcement -->
+    <string name="accessibility_statistics_card_announcement">"İstatistik kutucuğu"</string>
+    <!-- XTXT: Statistics Card Navigation Announcement -->
+    <string name="accessibility_statistics_card_navigation_information">"Daha fazla istatistik görüntülemek için kutucuklar arasında yatay olarak kaydırın"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

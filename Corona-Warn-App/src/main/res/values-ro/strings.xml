@@ -1330,7 +1330,7 @@
     <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Numărul de reproducție R indică câte persoane a infectat mai departe, în medie, o persoană infectată. Valoarea curentă ia în considerare cel mult ultimele 5 zile.\n\nPentru alte informații, consultați întrebările frecvente:\nÎntrebări frecvente despre statistică."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label -->
+    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"Întrebări frecvente despre statistică."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legendă"</string>
@@ -1351,7 +1351,7 @@
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Tendință"</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1\% în comparație cu ziua precedentă sau de 5\% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri). Tendința compară valoarea din ziua precedentă cu valoarea de acum două zile sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din ultimele 7 zile anterioare acesteia."</string>
+    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri). Tendința compară valoarea din ziua precedentă cu valoarea de acum două zile sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din ultimele 7 zile anterioare acesteia."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Pot fi afișate următoarele tendințe:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1366,6 +1366,11 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
+
+    <!-- XTXT: Statistics Card Announcement -->
+    <string name="accessibility_statistics_card_announcement">"Mozaic statistică"</string>
+    <!-- XTXT: Statistics Card Navigation Announcement -->
+    <string name="accessibility_statistics_card_navigation_information">"Glisați orizontal între mozaicuri pentru a afișa mai multe statistici"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
