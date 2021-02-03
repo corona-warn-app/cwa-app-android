@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation
 
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.decodeBase64
 import org.junit.Test
 import java.util.UUID
 
@@ -8,45 +9,10 @@ class OneTimePasswordTest {
 
     @Test
     fun test() {
-        OneTimePassword(UUID.fromString("923c977a-617b-11eb-ae93-0242ac130002"))
-            .payloadForRequest shouldBe
-            byteArrayOf(
-                57,
-                50,
-                51,
-                99,
-                57,
-                55,
-                55,
-                97,
-                45,
-                54,
-                49,
-                55,
-                98,
-                45,
-                49,
-                49,
-                101,
-                98,
-                45,
-                97,
-                101,
-                57,
-                51,
-                45,
-                48,
-                50,
-                52,
-                50,
-                97,
-                99,
-                49,
-                51,
-                48,
-                48,
-                48,
-                50
-            )
+        val otpPayload =
+            OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
+                .payloadForRequest
+        val expected = "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!.toByteArray()
+        otpPayload shouldBe expected
     }
 }
