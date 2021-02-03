@@ -1,0 +1,3298 @@
+[
+  {
+    "districtName": "LK Dithmarschen",
+    "districtShortName": "HEI",
+    "districtId": 11001051,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Herzogtum Lauenburg",
+    "districtShortName": "RZ",
+    "districtId": 11001053,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Nordfriesland",
+    "districtShortName": "NF",
+    "districtId": 11001054,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Ostholstein",
+    "districtShortName": "OLD",
+    "districtId": 11001055,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Pinneberg",
+    "districtShortName": "PI",
+    "districtId": 11001056,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Plön",
+    "districtShortName": "PLÖ",
+    "districtId": 11001057,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Rendsburg-Eckernförde",
+    "districtShortName": "RD",
+    "districtId": 11001058,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Schleswig-Flensburg",
+    "districtShortName": "SL",
+    "districtId": 11001059,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Segeberg",
+    "districtShortName": "SE",
+    "districtId": 11001060,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Steinburg",
+    "districtShortName": "IZ",
+    "districtId": 11001061,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "LK Stormarn",
+    "districtShortName": "OD",
+    "districtId": 11001062,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "SK Flensburg",
+    "districtShortName": "FL",
+    "districtId": 11001001,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "SK Kiel",
+    "districtShortName": "KI",
+    "districtId": 11001002,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "SK Lübeck",
+    "districtShortName": "HL",
+    "districtId": 11001003,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "SK Neumünster",
+    "districtShortName": "NMS",
+    "districtId": 11001004,
+    "federalStateName": "Schleswig-Holstein",
+    "federalStateShortName": "SH",
+    "federalStateId": 13000001
+  },
+  {
+    "districtName": "SK Hamburg",
+    "districtShortName": "HH",
+    "districtId": 11002000,
+    "federalStateName": "Hamburg",
+    "federalStateShortName": "HH",
+    "federalStateId": 13000002
+  },
+  {
+    "districtName": "LK Ammerland",
+    "districtShortName": "WST",
+    "districtId": 11003451,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Aurich",
+    "districtShortName": "AUR",
+    "districtId": 11003452,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Celle",
+    "districtShortName": "CE",
+    "districtId": 11003351,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Cloppenburg",
+    "districtShortName": "CLP",
+    "districtId": 11003453,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Cuxhaven",
+    "districtShortName": "WEM",
+    "districtId": 11003352,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Diepholz",
+    "districtShortName": "DH",
+    "districtId": 11003251,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Emsland",
+    "districtShortName": "MEP",
+    "districtId": 11003454,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Friesland",
+    "districtShortName": "JEV",
+    "districtId": 11003455,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Gifhorn",
+    "districtShortName": "GF",
+    "districtId": 11003151,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Goslar",
+    "districtShortName": "GS",
+    "districtId": 11003153,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Göttingen",
+    "districtShortName": "GÖ",
+    "districtId": 11003159,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Grafschaft Bentheim",
+    "districtShortName": "NOH",
+    "districtId": 11003456,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Hameln-Pyrmont",
+    "districtShortName": "HM",
+    "districtId": 11003252,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Harburg",
+    "districtShortName": "WL",
+    "districtId": 11003353,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Heidekreis",
+    "districtShortName": "SOL",
+    "districtId": 11003358,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Helmstedt",
+    "districtShortName": "HE",
+    "districtId": 11003154,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Hildesheim",
+    "districtShortName": "HI",
+    "districtId": 11003254,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Holzminden",
+    "districtShortName": "HOL",
+    "districtId": 11003255,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Leer",
+    "districtShortName": "LER",
+    "districtId": 11003457,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Lüchow-Dannenberg",
+    "districtShortName": "DAN",
+    "districtId": 11003354,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Lüneburg",
+    "districtShortName": "LG",
+    "districtId": 11003355,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Nienburg (Weser)",
+    "districtShortName": "NI",
+    "districtId": 11003256,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Northeim",
+    "districtShortName": "NOM",
+    "districtId": 11003155,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Oldenburg",
+    "districtShortName": "OL",
+    "districtId": 11003458,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Osnabrück",
+    "districtShortName": "OS",
+    "districtId": 11003459,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Osterholz",
+    "districtShortName": "OHZ",
+    "districtId": 11003356,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Peine",
+    "districtShortName": "PE",
+    "districtId": 11003157,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Rotenburg (Wümme)",
+    "districtShortName": "ROW",
+    "districtId": 11003357,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Schaumburg",
+    "districtShortName": "STH",
+    "districtId": 11003257,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Stade",
+    "districtShortName": "STD",
+    "districtId": 11003359,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Uelzen",
+    "districtShortName": "UE",
+    "districtId": 11003360,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Vechta",
+    "districtShortName": "VEC",
+    "districtId": 11003460,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Verden",
+    "districtShortName": "VER",
+    "districtId": 11003361,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Wesermarsch",
+    "districtShortName": "BRA",
+    "districtId": 11003461,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Wittmund",
+    "districtShortName": "WTM",
+    "districtId": 11003462,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "LK Wolfenbüttel",
+    "districtShortName": "WF",
+    "districtId": 11003158,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "Region Hannover",
+    "districtShortName": "H",
+    "districtId": 11003241,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Braunschweig",
+    "districtShortName": "BS",
+    "districtId": 11003101,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Delmenhorst",
+    "districtShortName": "DEL",
+    "districtId": 11003401,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Emden",
+    "districtShortName": "EMD",
+    "districtId": 11003402,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Oldenburg",
+    "districtShortName": "OL",
+    "districtId": 11003403,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Osnabrück",
+    "districtShortName": "OS",
+    "districtId": 11003404,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Salzgitter",
+    "districtShortName": "SZ",
+    "districtId": 11003102,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Wilhelmshaven",
+    "districtShortName": "WHV",
+    "districtId": 11003405,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Wolfsburg",
+    "districtShortName": "WOB",
+    "districtId": 11003103,
+    "federalStateName": "Niedersachsen",
+    "federalStateShortName": "NI",
+    "federalStateId": 13000003
+  },
+  {
+    "districtName": "SK Bremen",
+    "districtShortName": "HB",
+    "districtId": 11004011,
+    "federalStateName": "Bremen",
+    "federalStateShortName": "HB",
+    "federalStateId": 13000004
+  },
+  {
+    "districtName": "SK Bremerhaven",
+    "districtShortName": "HB",
+    "districtId": 11004012,
+    "federalStateName": "Bremen",
+    "federalStateShortName": "HB",
+    "federalStateId": 13000004
+  },
+  {
+    "districtName": "LK Borken",
+    "districtShortName": "BOR",
+    "districtId": 11005554,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Coesfeld",
+    "districtShortName": "COE",
+    "districtId": 11005558,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Düren",
+    "districtShortName": "DN",
+    "districtId": 11005358,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Ennepe-Ruhr-Kreis",
+    "districtShortName": "EN",
+    "districtId": 11005954,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Euskirchen",
+    "districtShortName": "EU",
+    "districtId": 11005366,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Gütersloh",
+    "districtShortName": "GT",
+    "districtId": 11005754,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Heinsberg",
+    "districtShortName": "HS",
+    "districtId": 11005370,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Herford",
+    "districtShortName": "HF",
+    "districtId": 11005758,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Hochsauerlandkreis",
+    "districtShortName": "MES",
+    "districtId": 11005958,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Höxter",
+    "districtShortName": "HX",
+    "districtId": 11005762,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Kleve",
+    "districtShortName": "KLE",
+    "districtId": 11005154,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Lippe",
+    "districtShortName": "LIP",
+    "districtId": 11005766,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Märkischer Kreis",
+    "districtShortName": "MK",
+    "districtId": 11005962,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Mettmann",
+    "districtShortName": "ME",
+    "districtId": 11005158,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Minden-Lübbecke",
+    "districtShortName": "MI",
+    "districtId": 11005770,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Oberbergischer Kreis",
+    "districtShortName": "GM",
+    "districtId": 11005374,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Olpe",
+    "districtShortName": "OE",
+    "districtId": 11005966,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Paderborn",
+    "districtShortName": "PB",
+    "districtId": 11005774,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Recklinghausen",
+    "districtShortName": "RE",
+    "districtId": 11005562,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Rhein-Erft-Kreis",
+    "districtShortName": "BM",
+    "districtId": 11005362,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Rhein-Kreis Neuss",
+    "districtShortName": "NE",
+    "districtId": 11005162,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Rhein-Sieg-Kreis",
+    "districtShortName": "SU",
+    "districtId": 11005382,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Rheinisch-Bergischer Kreis",
+    "districtShortName": "GL",
+    "districtId": 11005378,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Siegen-Wittgenstein",
+    "districtShortName": "SI",
+    "districtId": 11005970,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Soest",
+    "districtShortName": "SO",
+    "districtId": 11005974,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Steinfurt",
+    "districtShortName": "ST",
+    "districtId": 11005566,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Unna",
+    "districtShortName": "UN",
+    "districtId": 11005978,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Viersen",
+    "districtShortName": "VIE",
+    "districtId": 11005166,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Warendorf",
+    "districtShortName": "WAF",
+    "districtId": 11005570,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Wesel",
+    "districtShortName": "WES",
+    "districtId": 11005170,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Bielefeld",
+    "districtShortName": "BI",
+    "districtId": 11005711,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Bochum",
+    "districtShortName": "BO",
+    "districtId": 11005911,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Bonn",
+    "districtShortName": "BN",
+    "districtId": 11005314,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Bottrop",
+    "districtShortName": "BOT",
+    "districtId": 11005512,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Dortmund",
+    "districtShortName": "DO",
+    "districtId": 11005913,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Duisburg",
+    "districtShortName": "DU",
+    "districtId": 11005112,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Düsseldorf",
+    "districtShortName": "D",
+    "districtId": 11005111,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Essen",
+    "districtShortName": "E",
+    "districtId": 11005113,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Gelsenkirchen",
+    "districtShortName": "GE",
+    "districtId": 11005513,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Hagen",
+    "districtShortName": "HA",
+    "districtId": 11005914,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Hamm",
+    "districtShortName": "HAM",
+    "districtId": 11005915,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Herne",
+    "districtShortName": "HER",
+    "districtId": 11005916,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Köln",
+    "districtShortName": "K",
+    "districtId": 11005315,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Krefeld",
+    "districtShortName": "KR",
+    "districtId": 11005114,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Leverkusen",
+    "districtShortName": "LEV",
+    "districtId": 11005316,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Mönchengladbach",
+    "districtShortName": "MG",
+    "districtId": 11005116,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Mülheim a.d.Ruhr",
+    "districtShortName": "MH",
+    "districtId": 11005117,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Münster",
+    "districtShortName": "MS",
+    "districtId": 11005515,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Oberhausen",
+    "districtShortName": "OB",
+    "districtId": 11005119,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Remscheid",
+    "districtShortName": "RS",
+    "districtId": 11005120,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Solingen",
+    "districtShortName": "SG",
+    "districtId": 11005122,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "SK Wuppertal",
+    "districtShortName": "W",
+    "districtId": 11005124,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "StadtRegion Aachen",
+    "districtShortName": "AC",
+    "districtId": 11005334,
+    "federalStateName": "Nordrhein-Westfalen",
+    "federalStateShortName": "NW",
+    "federalStateId": 13000005
+  },
+  {
+    "districtName": "LK Bergstraße",
+    "districtShortName": "HP",
+    "districtId": 11006431,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Darmstadt-Dieburg",
+    "districtShortName": "DI",
+    "districtId": 11006432,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Fulda",
+    "districtShortName": "FD",
+    "districtId": 11006631,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Gießen",
+    "districtShortName": "GI",
+    "districtId": 11006531,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Groß-Gerau",
+    "districtShortName": "GG",
+    "districtId": 11006433,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Hersfeld-Rotenburg",
+    "districtShortName": "HEF",
+    "districtId": 11006632,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Hochtaunuskreis",
+    "districtShortName": "HG",
+    "districtId": 11006434,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Kassel",
+    "districtShortName": "WOH",
+    "districtId": 11006633,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Lahn-Dill-Kreis",
+    "districtShortName": "LDK",
+    "districtId": 11006532,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Limburg-Weilburg",
+    "districtShortName": "LM",
+    "districtId": 11006533,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Main-Kinzig-Kreis",
+    "districtShortName": "HU",
+    "districtId": 11006435,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Main-Taunus-Kreis",
+    "districtShortName": "MTK",
+    "districtId": 11006436,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Marburg-Biedenkopf",
+    "districtShortName": "MR",
+    "districtId": 11006534,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Odenwaldkreis",
+    "districtShortName": "ERB",
+    "districtId": 11006437,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Offenbach",
+    "districtShortName": "OF",
+    "districtId": 11006438,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Rheingau-Taunus-Kreis",
+    "districtShortName": "SWA",
+    "districtId": 11006439,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Schwalm-Eder-Kreis",
+    "districtShortName": "HR",
+    "districtId": 11006634,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Vogelsbergkreis",
+    "districtShortName": "VB",
+    "districtId": 11006535,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Waldeck-Frankenberg",
+    "districtShortName": "WA",
+    "districtId": 11006635,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Werra-Meißner-Kreis",
+    "districtShortName": "ESW",
+    "districtId": 11006636,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Wetteraukreis",
+    "districtShortName": "FB",
+    "districtId": 11006440,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "SK Darmstadt",
+    "districtShortName": "DA",
+    "districtId": 11006411,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "SK Frankfurt am Main",
+    "districtShortName": "F",
+    "districtId": 11006412,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "SK Kassel",
+    "districtShortName": "KS",
+    "districtId": 11006611,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "SK Offenbach",
+    "districtShortName": "OF",
+    "districtId": 11006413,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "SK Wiesbaden",
+    "districtShortName": "WI",
+    "districtId": 11006414,
+    "federalStateName": "Hessen",
+    "federalStateShortName": "HE",
+    "federalStateId": 13000006
+  },
+  {
+    "districtName": "LK Ahrweiler",
+    "districtShortName": "AW",
+    "districtId": 11007131,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Altenkirchen",
+    "districtShortName": "AK",
+    "districtId": 11007132,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Alzey-Worms",
+    "districtShortName": "AZ",
+    "districtId": 11007331,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Bad Dürkheim",
+    "districtShortName": "DÜW",
+    "districtId": 11007332,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Bad Kreuznach",
+    "districtShortName": "KH",
+    "districtId": 11007133,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Bernkastel-Wittlich",
+    "districtShortName": "WIL",
+    "districtId": 11007231,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Birkenfeld",
+    "districtShortName": "BIR",
+    "districtId": 11007134,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Bitburg-Prüm",
+    "districtShortName": "BIT",
+    "districtId": 11007232,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Cochem-Zell",
+    "districtShortName": "COC",
+    "districtId": 11007135,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Donnersbergkreis",
+    "districtShortName": "KIB",
+    "districtId": 11007333,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Germersheim",
+    "districtShortName": "GER",
+    "districtId": 11007334,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Kaiserslautern",
+    "districtShortName": "KL",
+    "districtId": 11007335,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Kusel",
+    "districtShortName": "KUS",
+    "districtId": 11007336,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Mainz-Bingen",
+    "districtShortName": "MZ",
+    "districtId": 11007339,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Mayen-Koblenz",
+    "districtShortName": "MYK",
+    "districtId": 11007137,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Neuwied",
+    "districtShortName": "NR",
+    "districtId": 11007138,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Rhein-Hunsrück-Kreis",
+    "districtShortName": "SIM",
+    "districtId": 11007140,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Rhein-Lahn-Kreis",
+    "districtShortName": "EMS",
+    "districtId": 11007141,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Rhein-Pfalz-Kreis",
+    "districtShortName": "LU",
+    "districtId": 11007338,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Südliche Weinstraße",
+    "districtShortName": "SÜW",
+    "districtId": 11007337,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Südwestpfalz",
+    "districtShortName": "PS",
+    "districtId": 11007340,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Trier-Saarburg",
+    "districtShortName": "TR",
+    "districtId": 11007235,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Vulkaneifel",
+    "districtShortName": "DAU",
+    "districtId": 11007233,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Westerwaldkreis",
+    "districtShortName": "WW",
+    "districtId": 11007143,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Frankenthal",
+    "districtShortName": "FT",
+    "districtId": 11007311,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Kaiserslautern",
+    "districtShortName": "KL",
+    "districtId": 11007312,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Koblenz",
+    "districtShortName": "KO",
+    "districtId": 11007111,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Landau i.d.Pfalz",
+    "districtShortName": "LD",
+    "districtId": 11007313,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Ludwigshafen",
+    "districtShortName": "LU",
+    "districtId": 11007314,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Mainz",
+    "districtShortName": "MZ",
+    "districtId": 11007315,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Neustadt a.d.Weinstraße",
+    "districtShortName": "NW",
+    "districtId": 11007316,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Pirmasens",
+    "districtShortName": "PS",
+    "districtId": 11007317,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Speyer",
+    "districtShortName": "SP",
+    "districtId": 11007318,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Trier",
+    "districtShortName": "TR",
+    "districtId": 11007211,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Worms",
+    "districtShortName": "WO",
+    "districtId": 11007319,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "SK Zweibrücken",
+    "districtShortName": "ZW",
+    "districtId": 11007320,
+    "federalStateName": "Rheinland-Pfalz",
+    "federalStateShortName": "RP",
+    "federalStateId": 13000007
+  },
+  {
+    "districtName": "LK Alb-Donau-Kreis",
+    "districtShortName": "UL",
+    "districtId": 11008425,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Biberach",
+    "districtShortName": "BC",
+    "districtId": 11008426,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Böblingen",
+    "districtShortName": "BB",
+    "districtId": 11008115,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Bodenseekreis",
+    "districtShortName": "FN",
+    "districtId": 11008435,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Breisgau-Hochschwarzwald",
+    "districtShortName": "FR",
+    "districtId": 11008315,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Calw",
+    "districtShortName": "CW",
+    "districtId": 11008235,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Emmendingen",
+    "districtShortName": "EM",
+    "districtId": 11008316,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Enzkreis",
+    "districtShortName": "PF",
+    "districtId": 11008236,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Esslingen",
+    "districtShortName": "ES",
+    "districtId": 11008116,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Freudenstadt",
+    "districtShortName": "FDS",
+    "districtId": 11008237,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Göppingen",
+    "districtShortName": "GP",
+    "districtId": 11008117,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Heidenheim",
+    "districtShortName": "HDH",
+    "districtId": 11008135,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Heilbronn",
+    "districtShortName": "HN",
+    "districtId": 11008125,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Hohenlohekreis",
+    "districtShortName": "KÜN",
+    "districtId": 11008126,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Karlsruhe",
+    "districtShortName": "KA",
+    "districtId": 11008215,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Konstanz",
+    "districtShortName": "KN",
+    "districtId": 11008335,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Lörrach",
+    "districtShortName": "LÖ",
+    "districtId": 11008336,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Ludwigsburg",
+    "districtShortName": "LB",
+    "districtId": 11008118,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Main-Tauber-Kreis",
+    "districtShortName": "TBB",
+    "districtId": 11008128,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Neckar-Odenwald-Kreis",
+    "districtShortName": "MOS",
+    "districtId": 11008225,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Ortenaukreis",
+    "districtShortName": "OG",
+    "districtId": 11008317,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Ostalbkreis",
+    "districtShortName": "AA",
+    "districtId": 11008136,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Rastatt",
+    "districtShortName": "RA",
+    "districtId": 11008216,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Ravensburg",
+    "districtShortName": "RV",
+    "districtId": 11008436,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Rems-Murr-Kreis",
+    "districtShortName": "WN",
+    "districtId": 11008119,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Reutlingen",
+    "districtShortName": "RT",
+    "districtId": 11008415,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Rhein-Neckar-Kreis",
+    "districtShortName": "HD",
+    "districtId": 11008226,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Rottweil",
+    "districtShortName": "RW",
+    "districtId": 11008325,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Schwäbisch Hall",
+    "districtShortName": "SHA",
+    "districtId": 11008127,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Schwarzwald-Baar-Kreis",
+    "districtShortName": "VS",
+    "districtId": 11008326,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Sigmaringen",
+    "districtShortName": "SIG",
+    "districtId": 11008437,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Tübingen",
+    "districtShortName": "TÜ",
+    "districtId": 11008416,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Tuttlingen",
+    "districtShortName": "TUT",
+    "districtId": 11008327,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Waldshut",
+    "districtShortName": "WT",
+    "districtId": 11008337,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Zollernalbkreis",
+    "districtShortName": "BL",
+    "districtId": 11008417,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Baden-Baden",
+    "districtShortName": "BAD",
+    "districtId": 11008211,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Freiburg i.Breisgau",
+    "districtShortName": "FR",
+    "districtId": 11008311,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Heidelberg",
+    "districtShortName": "HD",
+    "districtId": 11008221,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Heilbronn",
+    "districtShortName": "HN",
+    "districtId": 11008121,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Karlsruhe",
+    "districtShortName": "KA",
+    "districtId": 11008212,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Mannheim",
+    "districtShortName": "MA",
+    "districtId": 11008222,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Pforzheim",
+    "districtShortName": "PF",
+    "districtId": 11008231,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Stuttgart",
+    "districtShortName": "S",
+    "districtId": 11008111,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "SK Ulm",
+    "districtShortName": "UL",
+    "districtId": 11008421,
+    "federalStateName": "Baden-Württemberg",
+    "federalStateShortName": "BW",
+    "federalStateId": 13000008
+  },
+  {
+    "districtName": "LK Aichach-Friedberg",
+    "districtShortName": "AIC",
+    "districtId": 11009771,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Altötting",
+    "districtShortName": "AÖ",
+    "districtId": 11009171,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Amberg-Sulzbach",
+    "districtShortName": "AS",
+    "districtId": 11009371,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Ansbach",
+    "districtShortName": "AN",
+    "districtId": 11009571,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Aschaffenburg",
+    "districtShortName": "AB",
+    "districtId": 11009671,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Augsburg",
+    "districtShortName": "A",
+    "districtId": 11009772,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Bad Kissingen",
+    "districtShortName": "KG",
+    "districtId": 11009672,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Bad Tölz-Wolfratshausen",
+    "districtShortName": "TÖL",
+    "districtId": 11009173,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Bamberg",
+    "districtShortName": "BA",
+    "districtId": 11009471,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Bayreuth",
+    "districtShortName": "BT",
+    "districtId": 11009472,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Berchtesgadener Land",
+    "districtShortName": "REI",
+    "districtId": 11009172,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Cham",
+    "districtShortName": "CHA",
+    "districtId": 11009372,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Coburg",
+    "districtShortName": "NEC",
+    "districtId": 11009473,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Dachau",
+    "districtShortName": "DAH",
+    "districtId": 11009174,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Deggendorf",
+    "districtShortName": "DEG",
+    "districtId": 11009271,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Dillingen a.d.Donau",
+    "districtShortName": "DLG",
+    "districtId": 11009773,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Dingolfing-Landau",
+    "districtShortName": "LAN",
+    "districtId": 11009279,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Donau-Ries",
+    "districtShortName": "DON",
+    "districtId": 11009779,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Ebersberg",
+    "districtShortName": "EBE",
+    "districtId": 11009175,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Eichstätt",
+    "districtShortName": "EIH",
+    "districtId": 11009176,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Erding",
+    "districtShortName": "ED",
+    "districtId": 11009177,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Erlangen-Höchstadt",
+    "districtShortName": "ERL",
+    "districtId": 11009572,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Forchheim",
+    "districtShortName": "FO",
+    "districtId": 11009474,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Freising",
+    "districtShortName": "FS",
+    "districtId": 11009178,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Freyung-Grafenau",
+    "districtShortName": "WOS",
+    "districtId": 11009272,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Fürstenfeldbruck",
+    "districtShortName": "FFB",
+    "districtId": 11009179,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Fürth",
+    "districtShortName": "FÜ",
+    "districtId": 11009573,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Garmisch-Partenkirchen",
+    "districtShortName": "GAP",
+    "districtId": 11009180,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Günzburg",
+    "districtShortName": "GZ",
+    "districtId": 11009774,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Haßberge",
+    "districtShortName": "HAS",
+    "districtId": 11009674,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Hof",
+    "districtShortName": "HO",
+    "districtId": 11009475,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Kelheim",
+    "districtShortName": "KEH",
+    "districtId": 11009273,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Kitzingen",
+    "districtShortName": "KT",
+    "districtId": 11009675,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Kronach",
+    "districtShortName": "KC",
+    "districtId": 11009476,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Kulmbach",
+    "districtShortName": "KU",
+    "districtId": 11009477,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Landsberg a.Lech",
+    "districtShortName": "LL",
+    "districtId": 11009181,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Landshut",
+    "districtShortName": "LA",
+    "districtId": 11009274,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Lichtenfels",
+    "districtShortName": "LIF",
+    "districtId": 11009478,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Lindau",
+    "districtShortName": "LI",
+    "districtId": 11009776,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Main-Spessart",
+    "districtShortName": "MSP",
+    "districtId": 11009677,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Miesbach",
+    "districtShortName": "MB",
+    "districtId": 11009182,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Miltenberg",
+    "districtShortName": "MIL",
+    "districtId": 11009676,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Mühldorf a.Inn",
+    "districtShortName": "MÜ",
+    "districtId": 11009183,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK München",
+    "districtShortName": "M",
+    "districtId": 11009184,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Neu-Ulm",
+    "districtShortName": "NU",
+    "districtId": 11009775,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Neuburg-Schrobenhausen",
+    "districtShortName": "ND",
+    "districtId": 11009185,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Neumarkt i.d.OPf.",
+    "districtShortName": "NM",
+    "districtId": 11009373,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Neustadt a.d.Aisch-Bad Windsheim",
+    "districtShortName": "NEA",
+    "districtId": 11009575,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Neustadt a.d.Waldnaab",
+    "districtShortName": "NEW",
+    "districtId": 11009374,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Nürnberger Land",
+    "districtShortName": "LAU",
+    "districtId": 11009574,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Oberallgäu",
+    "districtShortName": "SF",
+    "districtId": 11009780,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Ostallgäu",
+    "districtShortName": "OAL",
+    "districtId": 11009777,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Passau",
+    "districtShortName": "PA",
+    "districtId": 11009275,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Pfaffenhofen a.d.Ilm",
+    "districtShortName": "PAF",
+    "districtId": 11009186,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Regen",
+    "districtShortName": "REG",
+    "districtId": 11009276,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Regensburg",
+    "districtShortName": "R",
+    "districtId": 11009375,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Rhön-Grabfeld",
+    "districtShortName": "NES",
+    "districtId": 11009673,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Rosenheim",
+    "districtShortName": "RO",
+    "districtId": 11009187,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Roth",
+    "districtShortName": "RH",
+    "districtId": 11009576,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Rottal-Inn",
+    "districtShortName": "PAN",
+    "districtId": 11009277,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Schwandorf",
+    "districtShortName": "SAD",
+    "districtId": 11009376,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Schweinfurt",
+    "districtShortName": "SW",
+    "districtId": 11009678,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Starnberg",
+    "districtShortName": "STA",
+    "districtId": 11009188,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Straubing-Bogen",
+    "districtShortName": "SR",
+    "districtId": 11009278,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Tirschenreuth",
+    "districtShortName": "TIR",
+    "districtId": 11009377,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Traunstein",
+    "districtShortName": "TS",
+    "districtId": 11009189,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Unterallgäu",
+    "districtShortName": "MN",
+    "districtId": 11009778,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Weilheim-Schongau",
+    "districtShortName": "WM",
+    "districtId": 11009190,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Weißenburg-Gunzenhausen",
+    "districtShortName": "WUG",
+    "districtId": 11009577,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Wunsiedel i.Fichtelgebirge",
+    "districtShortName": "WUN",
+    "districtId": 11009479,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Würzburg",
+    "districtShortName": "WÜ",
+    "districtId": 11009679,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Amberg",
+    "districtShortName": "AM",
+    "districtId": 11009361,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Ansbach",
+    "districtShortName": "AN",
+    "districtId": 11009561,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Aschaffenburg",
+    "districtShortName": "AB",
+    "districtId": 11009661,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Augsburg",
+    "districtShortName": "A",
+    "districtId": 11009761,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Bamberg",
+    "districtShortName": "BA",
+    "districtId": 11009461,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Bayreuth",
+    "districtShortName": "BT",
+    "districtId": 11009462,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Coburg",
+    "districtShortName": "CO",
+    "districtId": 11009463,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Erlangen",
+    "districtShortName": "ER",
+    "districtId": 11009562,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Fürth",
+    "districtShortName": "FÜ",
+    "districtId": 11009563,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Hof",
+    "districtShortName": "HO",
+    "districtId": 11009464,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Ingolstadt",
+    "districtShortName": "IN",
+    "districtId": 11009161,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Kaufbeuren",
+    "districtShortName": "KF",
+    "districtId": 11009762,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Kempten",
+    "districtShortName": "KE",
+    "districtId": 11009763,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Landshut",
+    "districtShortName": "LA",
+    "districtId": 11009261,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Memmingen",
+    "districtShortName": "MM",
+    "districtId": 11009764,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK München",
+    "districtShortName": "M",
+    "districtId": 11009162,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Nürnberg",
+    "districtShortName": "N",
+    "districtId": 11009564,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Passau",
+    "districtShortName": "PA",
+    "districtId": 11009262,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Regensburg",
+    "districtShortName": "R",
+    "districtId": 11009362,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Rosenheim",
+    "districtShortName": "RO",
+    "districtId": 11009163,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Schwabach",
+    "districtShortName": "SC",
+    "districtId": 11009565,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Schweinfurt",
+    "districtShortName": "SW",
+    "districtId": 11009662,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Straubing",
+    "districtShortName": "SR",
+    "districtId": 11009263,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Weiden i.d.OPf.",
+    "districtShortName": "WEN",
+    "districtId": 11009363,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "SK Würzburg",
+    "districtShortName": "WÜ",
+    "districtId": 11009663,
+    "federalStateName": "Bayern",
+    "federalStateShortName": "BY",
+    "federalStateId": 13000009
+  },
+  {
+    "districtName": "LK Merzig-Wadern",
+    "districtShortName": "MZG",
+    "districtId": 11010042,
+    "federalStateName": "Saarland",
+    "federalStateShortName": "SL",
+    "federalStateId": 13000010
+  },
+  {
+    "districtName": "LK Neunkirchen",
+    "districtShortName": "NK",
+    "districtId": 11010043,
+    "federalStateName": "Saarland",
+    "federalStateShortName": "SL",
+    "federalStateId": 13000010
+  },
+  {
+    "districtName": "LK Saarpfalz-Kreis",
+    "districtShortName": "HOM",
+    "districtId": 11010045,
+    "federalStateName": "Saarland",
+    "federalStateShortName": "SL",
+    "federalStateId": 13000010
+  },
+  {
+    "districtName": "LK Saarlouis",
+    "districtShortName": "SLS",
+    "districtId": 11010044,
+    "federalStateName": "Saarland",
+    "federalStateShortName": "SL",
+    "federalStateId": 13000010
+  },
+  {
+    "districtName": "LK Sankt Wendel",
+    "districtShortName": "WND",
+    "districtId": 11010046,
+    "federalStateName": "Saarland",
+    "federalStateShortName": "SL",
+    "federalStateId": 13000010
+  },
+  {
+    "districtName": "LK Stadtverband Saarbrücken",
+    "districtShortName": "SB",
+    "districtId": 11010041,
+    "federalStateName": "Saarland",
+    "federalStateShortName": "SL",
+    "federalStateId": 13000010
+  },
+  {
+    "districtName": "SK Berlin Charlottenburg-Wilmersdorf",
+    "districtShortName": "B",
+    "districtId": 11011004,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Friedrichshain-Kreuzberg",
+    "districtShortName": "B",
+    "districtId": 11011002,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Lichtenberg",
+    "districtShortName": "B",
+    "districtId": 11011011,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Marzahn-Hellersdorf",
+    "districtShortName": "B",
+    "districtId": 11011010,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Mitte",
+    "districtShortName": "B",
+    "districtId": 11011001,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Neukölln",
+    "districtShortName": "B",
+    "districtId": 11011008,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Pankow",
+    "districtShortName": "B",
+    "districtId": 11011003,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Reinickendorf",
+    "districtShortName": "B",
+    "districtId": 11011012,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Spandau",
+    "districtShortName": "B",
+    "districtId": 11011005,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Steglitz-Zehlendorf",
+    "districtShortName": "B",
+    "districtId": 11011006,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Tempelhof-Schöneberg",
+    "districtShortName": "B",
+    "districtId": 11011007,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "SK Berlin Treptow-Köpenick",
+    "districtShortName": "B",
+    "districtId": 11011009,
+    "federalStateName": "Berlin",
+    "federalStateShortName": "BE",
+    "federalStateId": 13000011
+  },
+  {
+    "districtName": "LK Barnim",
+    "districtShortName": "BAR",
+    "districtId": 11012060,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Dahme-Spreewald",
+    "districtShortName": "LDS",
+    "districtId": 11012061,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Elbe-Elster",
+    "districtShortName": "EE",
+    "districtId": 11012062,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Havelland",
+    "districtShortName": "HVL",
+    "districtId": 11012063,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Märkisch-Oderland",
+    "districtShortName": "MOL",
+    "districtId": 11012064,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Oberhavel",
+    "districtShortName": "OHV",
+    "districtId": 11012065,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Oberspreewald-Lausitz",
+    "districtShortName": "OSL",
+    "districtId": 11012066,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Oder-Spree",
+    "districtShortName": "LOS",
+    "districtId": 11012067,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Ostprignitz-Ruppin",
+    "districtShortName": "OPR",
+    "districtId": 11012068,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Potsdam-Mittelmark",
+    "districtShortName": "PM",
+    "districtId": 11012069,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Prignitz",
+    "districtShortName": "PR",
+    "districtId": 11012070,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Spree-Neiße",
+    "districtShortName": "SPN",
+    "districtId": 11012071,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Teltow-Fläming",
+    "districtShortName": "TF",
+    "districtId": 11012072,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Uckermark",
+    "districtShortName": "UM",
+    "districtId": 11012073,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "SK Brandenburg a.d.Havel",
+    "districtShortName": "BRB",
+    "districtId": 11012051,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "SK Cottbus",
+    "districtShortName": "CB",
+    "districtId": 11012052,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "SK Frankfurt (Oder)",
+    "districtShortName": "FF",
+    "districtId": 11012053,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "SK Potsdam",
+    "districtShortName": "P",
+    "districtId": 11012054,
+    "federalStateName": "Brandenburg",
+    "federalStateShortName": "BB",
+    "federalStateId": 13000012
+  },
+  {
+    "districtName": "LK Ludwigslust-Parchim",
+    "districtShortName": "NULL",
+    "districtId": 11013076,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "LK Mecklenburgische Seenplatte",
+    "districtShortName": "NULL",
+    "districtId": 11013071,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "LK Nordwestmecklenburg",
+    "districtShortName": "NULL",
+    "districtId": 11013074,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "LK Vorpommern-Rügen",
+    "districtShortName": "NULL",
+    "districtId": 11013073,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "LK Vorpommern-Greifswald",
+    "districtShortName": "NULL",
+    "districtId": 11013075,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "LK Rostock",
+    "districtShortName": "NULL",
+    "districtId": 11013072,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "SK Rostock",
+    "districtShortName": "HRO",
+    "districtId": 11013003,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "SK Schwerin",
+    "districtShortName": "SN",
+    "districtId": 11013004,
+    "federalStateName": "Mecklenburg-Vorpommern",
+    "federalStateShortName": "MV",
+    "federalStateId": 13000013
+  },
+  {
+    "districtName": "LK Bautzen",
+    "districtShortName": "BZ",
+    "districtId": 11014625,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Erzgebirgskreis",
+    "districtShortName": "ERZ",
+    "districtId": 11014521,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Görlitz",
+    "districtShortName": "GR",
+    "districtId": 11014626,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Leipzig",
+    "districtShortName": "L",
+    "districtId": 11014729,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Meißen",
+    "districtShortName": "MEI",
+    "districtId": 11014627,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Mittelsachsen",
+    "districtShortName": "FG",
+    "districtId": 11014522,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Nordsachsen",
+    "districtShortName": "TDO",
+    "districtId": 11014730,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Sächsische Schweiz-Osterzgebirge",
+    "districtShortName": "PIR",
+    "districtId": 11014628,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Vogtlandkreis",
+    "districtShortName": "V",
+    "districtId": 11014523,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Zwickau",
+    "districtShortName": "Z",
+    "districtId": 11014524,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "SK Chemnitz",
+    "districtShortName": "C",
+    "districtId": 11014511,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "SK Dresden",
+    "districtShortName": "DD",
+    "districtId": 11014612,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "SK Leipzig",
+    "districtShortName": "L",
+    "districtId": 11014713,
+    "federalStateName": "Sachsen",
+    "federalStateShortName": "SN",
+    "federalStateId": 13000014
+  },
+  {
+    "districtName": "LK Altmarkkreis Salzwedel",
+    "districtShortName": "SAW",
+    "districtId": 11015081,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Anhalt-Bitterfeld",
+    "districtShortName": "BTF",
+    "districtId": 11015082,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Börde",
+    "districtShortName": "BÖ",
+    "districtId": 11015083,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Burgenlandkreis",
+    "districtShortName": "BLK",
+    "districtId": 11015084,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Harz",
+    "districtShortName": "HZ",
+    "districtId": 11015085,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Jerichower Land",
+    "districtShortName": "JL",
+    "districtId": 11015086,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Mansfeld-Südharz",
+    "districtShortName": "ML",
+    "districtId": 11015087,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Saalekreis",
+    "districtShortName": "SK",
+    "districtId": 11015088,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Salzlandkreis",
+    "districtShortName": "SLK",
+    "districtId": 11015089,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Stendal",
+    "districtShortName": "SDL",
+    "districtId": 11015090,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Wittenberg",
+    "districtShortName": "WB",
+    "districtId": 11015091,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "SK Dessau-Roßlau",
+    "districtShortName": "DE",
+    "districtId": 11015001,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "SK Halle",
+    "districtShortName": "HAL",
+    "districtId": 11015002,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "SK Magdeburg",
+    "districtShortName": "MD",
+    "districtId": 11015003,
+    "federalStateName": "Sachsen-Anhalt",
+    "federalStateShortName": "ST",
+    "federalStateId": 13000015
+  },
+  {
+    "districtName": "LK Altenburger Land",
+    "districtShortName": "ABG",
+    "districtId": 11016077,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Eichsfeld",
+    "districtShortName": "EIC",
+    "districtId": 11016061,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Gotha",
+    "districtShortName": "GTH",
+    "districtId": 11016067,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Greiz",
+    "districtShortName": "GRZ",
+    "districtId": 11016076,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Hildburghausen",
+    "districtShortName": "SHL",
+    "districtId": 11016069,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Ilm-Kreis",
+    "districtShortName": "SHL",
+    "districtId": 11016070,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Kyffhäuserkreis",
+    "districtShortName": "KYF",
+    "districtId": 11016065,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Nordhausen",
+    "districtShortName": "NDH",
+    "districtId": 11016062,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Saale-Holzland-Kreis",
+    "districtShortName": "SHK",
+    "districtId": 11016074,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Saale-Orla-Kreis",
+    "districtShortName": "SOK",
+    "districtId": 11016075,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Saalfeld-Rudolstadt",
+    "districtShortName": "SLF",
+    "districtId": 11016073,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Schmalkalden-Meiningen",
+    "districtShortName": "SM",
+    "districtId": 11016066,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Sömmerda",
+    "districtShortName": "SÖM",
+    "districtId": 11016068,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Sonneberg",
+    "districtShortName": "SON",
+    "districtId": 11016072,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Unstrut-Hainich-Kreis",
+    "districtShortName": "UH",
+    "districtId": 11016064,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Wartburgkreis",
+    "districtShortName": "WAK",
+    "districtId": 11016063,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "LK Weimarer Land",
+    "districtShortName": "WE",
+    "districtId": 11016071,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "SK Eisenach",
+    "districtShortName": "EA",
+    "districtId": 11016056,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "SK Erfurt",
+    "districtShortName": "EF",
+    "districtId": 11016051,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "SK Gera",
+    "districtShortName": "G",
+    "districtId": 11016052,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "SK Jena",
+    "districtShortName": "J",
+    "districtId": 11016053,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "SK Suhl",
+    "districtShortName": "SHL",
+    "districtId": 11016054,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  },
+  {
+    "districtName": "SK Weimar",
+    "districtShortName": "WE",
+    "districtId": 11016055,
+    "federalStateName": "Thüringen",
+    "federalStateShortName": "TH",
+    "federalStateId": 13000016
+  }
+]
