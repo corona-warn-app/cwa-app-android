@@ -1680,7 +1680,7 @@
     <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
     <string name="datadonation_details_survey_consent_button_title">"Weiter"</string>
     <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
-    <string name="datadonation_details_survey_consent_top_title">" Befragung zur Verbesserung der Corona-Warn-App"</string>
+    <string name="datadonation_details_survey_consent_top_title">"Befragung zur Verbesserung der Corona-Warn-App"</string>
     <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
     <string name="datadonation_details_survey_consent_top_body">"Mit Ihrer Teilnahme helfen Sie uns zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken."</string>
     <!-- XHED: Text for the consent part title displayed over the button in the survey consent screen -->
