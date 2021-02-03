@@ -15,9 +15,9 @@ object TestNegative : SubmissionState()
 object TestError : SubmissionState()
 object TestInvalid : SubmissionState()
 object TestPending : SubmissionState()
-data class SubmissionDone(val testRegisteredOn: Date?) : SubmissionState() {
+data class SubmissionDone(val testRegisteredOn: Date) : SubmissionState() {
 
     fun formatTestRegistrationText(context: Context): String =
         context.getString(R.string.reenable_risk_card_test_registration_string)
-            .format(testRegisteredOn?.toUIFormat(context))
+            .format(testRegisteredOn.toUIFormat(context))
 }
