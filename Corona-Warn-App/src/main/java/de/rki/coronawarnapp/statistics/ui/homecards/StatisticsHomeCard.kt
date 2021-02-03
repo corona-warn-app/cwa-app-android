@@ -18,19 +18,23 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 class StatisticsHomeCard(
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
-    val state: Parcelable?,
-    val onRestoreState: (state: Parcelable) -> Unit
+    val restoredState: Parcelable?,
+    val onStoreState: (state: Parcelable) -> Unit
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
 
-    private lateinit var statisticsLayoutManager: StatisticsLayoutManager
-    private val statsAdapter by lazy { StatisticsCardAdapter() }
+    private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
+        StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private val statisticsCardAdapter by lazy {
+        StatisticsCardAdapter()
+    }
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
-            statisticsLayoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             statisticsRecyclerview.apply {
                 setHasFixedSize(false)
-                adapter = statsAdapter
+                adapter = statisticsCardAdapter
                 layoutManager = statisticsLayoutManager
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
@@ -52,18 +56,18 @@ class StatisticsHomeCard(
         item.data.items.map {
             StatisticsCardItem(it, item.onHelpAction)
         }.let {
-            statsAdapter.update(it)
+            statisticsCardAdapter.update(it)
         }
     }
 
     override fun onSaveState() {
         statisticsLayoutManager.onSaveInstanceState()?.let {
-            onRestoreState(it)
+            onStoreState(it)
         }
     }
 
     override fun onRestoreState() {
-        statisticsLayoutManager.onRestoreInstanceState(state)
+        statisticsLayoutManager.onRestoreInstanceState(restoredState)
     }
 
     data class Item(

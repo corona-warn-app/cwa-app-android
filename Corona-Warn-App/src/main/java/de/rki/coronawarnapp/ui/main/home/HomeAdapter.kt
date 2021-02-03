@@ -35,7 +35,11 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
 
-    var statisticsState: Parcelable? = null
+    private var statisticsState: Parcelable? = null
+
+    private val onStoreStatisticsState: (Parcelable) -> Unit = {
+        statisticsState = it
+    }
 
     init {
         modules.addAll(listOf(
@@ -60,15 +64,15 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) {
                 StatisticsHomeCard(
                     it,
-                    state = statisticsState,
-                    onRestoreState = onStatisticsRecycled
+                    restoredState = statisticsState,
+                    onStoreState = onStoreStatisticsState
                 )
             }
         ))
     }
 
     fun onSaveState() {
-        holders.filterIsInstance<StatisticsHomeCard>().forEach {
+        holders.forEach {
             it.onSaveState()
         }
     }
@@ -78,19 +82,13 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         holder.onRestoreState()
     }
 
-    val onStatisticsRecycled: (Parcelable) -> Unit = {
-        statisticsState = it
-    }
-
     override fun getItemCount(): Int = data.size
 
     abstract class HomeItemVH<Item : HomeItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
-
         open fun onSaveState() {}
-
         open fun onRestoreState() {}
     }
 }
