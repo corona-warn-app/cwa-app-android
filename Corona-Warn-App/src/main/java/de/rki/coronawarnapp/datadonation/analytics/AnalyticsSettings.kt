@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,9 +49,24 @@ class AnalyticsSettings @Inject constructor(
         defaultValue = 0
     )
 
+    val lastSubmittedTimestamp = prefs.createFlowPreference(
+        key = PKEY_LAST_SUBMITTED_TIMESTAMP,
+        reader = { key ->
+            getLong(key, 0L).let {
+                if (it != 0L) {
+                    Instant.ofEpochMilli(it)
+                } else null
+            }
+        },
+        writer = { key, value ->
+            putLong(key, value?.millis ?: 0L)
+        }
+    )
+
     companion object {
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
         private const val PKEY_USERINFO_FEDERALSTATE = "userinfo.federalstate"
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
+        private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
     }
 }
