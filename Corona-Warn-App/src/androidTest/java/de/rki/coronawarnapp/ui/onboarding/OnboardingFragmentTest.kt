@@ -56,7 +56,7 @@ class OnboardingFragmentTest : BaseUITest() {
         takeScreenshot<OnboardingFragment>()
 
         onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
-        takeScreenshot<OnboardingFragment>("2", delay = 0L)
+        takeScreenshot<OnboardingFragment>("2")
     }
 }
 
