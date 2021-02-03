@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
@@ -244,7 +243,6 @@ class HomeFragmentTest : BaseUITest() {
                 }
 
                 add(submissionTestResultItem)
-                add(DiaryCard.Item {})
                 add(FAQCard.Item {})
             }
         )

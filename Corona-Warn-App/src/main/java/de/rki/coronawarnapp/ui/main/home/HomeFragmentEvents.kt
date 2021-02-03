@@ -13,8 +13,6 @@ sealed class HomeFragmentEvents {
 
     object ShowReactivateRiskCheckDialog : HomeFragmentEvents()
 
-    object GoToContactDiary : HomeFragmentEvents()
-
     object ShowNewReleaseFragment : HomeFragmentEvents()
 
     object GoToStatisticsExplanation : HomeFragmentEvents()
