@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.datadonation.analytics.ui.input
+package de.rki.coronawarnapp.datadonation.analytics.common
 
 import android.content.Context
 import com.google.gson.Gson

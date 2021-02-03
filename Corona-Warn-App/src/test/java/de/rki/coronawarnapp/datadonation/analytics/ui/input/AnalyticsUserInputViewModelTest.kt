@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.ui.input
 
 import android.content.Context
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment.InputType
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAAgeGroup
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAFederalState
