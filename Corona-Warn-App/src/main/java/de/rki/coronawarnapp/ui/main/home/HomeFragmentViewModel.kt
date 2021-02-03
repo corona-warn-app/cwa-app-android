@@ -51,7 +51,6 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -240,8 +239,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
-
-            add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }
