@@ -33,7 +33,6 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeData
 import de.rki.coronawarnapp.ui.main.home.HomeFragment
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
@@ -156,7 +155,6 @@ class StatisticsCardsTest : BaseUITest() {
                     add(StatisticsHomeCard.Item(data = statsData, onHelpAction = { }))
                 }
 
-                add(DiaryCard.Item {})
                 add(FAQCard.Item {})
             }
         )

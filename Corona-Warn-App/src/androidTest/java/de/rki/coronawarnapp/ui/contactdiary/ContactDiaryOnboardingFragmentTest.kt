@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment
+import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.unmockkAll
@@ -30,6 +31,10 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
 
+    private val fragmentArgs = ContactDiaryOnboardingFragmentArgs(
+        showBottomNav = false
+    ).toBundle()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -50,13 +55,13 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<ContactDiaryOnboardingFragment>()
+        launchFragment2<ContactDiaryOnboardingFragment>(fragmentArgs)
     }
 
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<ContactDiaryOnboardingFragment>()
+        launchFragmentInContainer2<ContactDiaryOnboardingFragment>(fragmentArgs)
         Thread.sleep(SCREENSHOT_DELAY_TIME)
         Screengrab.screenshot(ContactDiaryOnboardingFragment::class.simpleName)
     }
