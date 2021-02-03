@@ -1274,15 +1274,15 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Bitte geben Sie Ihr Testergebnis im nächsten Schritt frei, indem Sie „Teilen“ antippen."</b>""</string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"Wollen Sie wirklich abbrechen?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Sie haben sich entschieden, Ihr Testergebnis nicht zu teilen. Ihre Mitmenschen werden nicht gewarnt. \n\nSie können im Anschluss Ihr Testergebnis doch noch teilen und mithelfen, die Verbreitung von Corona zu bekämpfen und Ihre Mitmenschen zu schützen."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Wollen Sie wirklich abbrechen?"</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Abbrechen"</string>
     <!-- XBUT: Close screen popup continue button -->
