@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
@@ -28,7 +29,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         SettingFragmentsModule::class,
         SubmissionFragmentModule::class,
         InformationFragmentModule::class,
-        NewReleaseInfoFragmentModule::class
+        NewReleaseInfoFragmentModule::class,
+        AnalyticsUIModule::class
     ]
 )
 abstract class MainActivityModule {

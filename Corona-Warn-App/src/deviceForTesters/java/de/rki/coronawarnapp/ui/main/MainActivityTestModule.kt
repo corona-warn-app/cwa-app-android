@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
+import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
+import de.rki.coronawarnapp.test.playground.ui.PlaygroundModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
@@ -50,4 +52,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [ContactDiaryTestFragmentModule::class])
     abstract fun contactDiaryTest(): ContactDiaryTestFragment
+
+    @ContributesAndroidInjector(modules = [PlaygroundModule::class])
+    abstract fun playground(): PlaygroundFragment
 }
