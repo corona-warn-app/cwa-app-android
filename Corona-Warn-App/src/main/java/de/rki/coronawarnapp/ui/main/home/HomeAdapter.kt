@@ -75,6 +75,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         holders.forEach {
             it.onSaveState()
         }
+        holders.clear()
     }
 
     override fun onBindBaseVH(holder: HomeItemVH<HomeItem, ViewBinding>, position: Int, payloads: MutableList<Any>) {
