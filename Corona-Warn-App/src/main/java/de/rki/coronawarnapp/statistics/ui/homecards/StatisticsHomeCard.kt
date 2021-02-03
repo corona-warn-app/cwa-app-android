@@ -49,6 +49,8 @@ class StatisticsHomeCard(
         }
     }
 
+    override fun needsRestore(): Boolean = true
+
     override val onBindData: HomeStatisticsScrollcontainerBinding.(
         item: Item,
         payloads: List<Any>

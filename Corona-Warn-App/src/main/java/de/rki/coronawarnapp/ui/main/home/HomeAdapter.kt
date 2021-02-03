@@ -37,6 +37,8 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     private var statisticsState: Parcelable? = null
 
+    private val holders = mutableSetOf<HomeItemVH<HomeItem, ViewBinding>>()
+
     private val onStoreStatisticsState: (Parcelable) -> Unit = {
         statisticsState = it
     }
@@ -78,6 +80,12 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
         holders.clear()
     }
 
+    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): HomeItemVH<HomeItem, ViewBinding> {
+        val vh = super.onCreateBaseVH(parent, viewType)
+        if (vh.needsRestore()) holders.add(vh)
+        return vh
+    }
+
     override fun onBindBaseVH(holder: HomeItemVH<HomeItem, ViewBinding>, position: Int, payloads: MutableList<Any>) {
         super.onBindBaseVH(holder, position, payloads)
         holder.onRestoreState()
@@ -91,5 +99,6 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
         open fun onSaveState() {}
         open fun onRestoreState() {}
+        open fun needsRestore(): Boolean = false
     }
 }
