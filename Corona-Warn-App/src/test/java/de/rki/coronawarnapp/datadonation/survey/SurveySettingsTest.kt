@@ -37,7 +37,7 @@ class SurveySettingsTest : BaseTest() {
     @Test
     fun `load`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a1")
-        val time = Instant.now()
+        val time = Instant.ofEpochMilli(1612381217442)
 
         val instance = SurveySettings(context, gson)
         instance.oneTimePassword shouldBe null
@@ -47,7 +47,7 @@ class SurveySettingsTest : BaseTest() {
         val value = instance.oneTimePassword
         value shouldNotBe null
         value!!.uuid shouldBe uuid
-        value.time shouldBe time
+        value.time.millis shouldBe 1612381217442
     }
 
     @Test

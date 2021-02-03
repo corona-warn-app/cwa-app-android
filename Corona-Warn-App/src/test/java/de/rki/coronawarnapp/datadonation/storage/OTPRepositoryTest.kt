@@ -36,13 +36,13 @@ class OTPRepositoryTest : BaseTest() {
     @Test
     fun `last otp is read from preferences`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
-        val time = Instant.now()
+        val time = Instant.ofEpochMilli(1612381131014)
         every { surveySettings.oneTimePassword } returns OneTimePassword(uuid, time)
         val lastOTP = OTPRepository(surveySettings).lastOTP
         lastOTP shouldNotBe null
         lastOTP?.also {
             it.uuid shouldBe uuid
-            it.time shouldBe time
+            it.time.millis shouldBe 1612381131014
         }
     }
 
