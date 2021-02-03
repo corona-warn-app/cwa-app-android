@@ -27,6 +27,7 @@ class SurveySettingsTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns preferences
     }
 
     @AfterEach
@@ -38,11 +39,13 @@ class SurveySettingsTest : BaseTest() {
     fun `load`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a1")
         val time = Instant.now()
-        preferences.edit().putString("one_time_password", gson.toJson(OneTimePassword(uuid, time)))
 
         val instance = SurveySettings(context, gson)
-        val value = instance.oneTimePassword
+        instance.oneTimePassword shouldBe null
 
+        preferences.edit().putString("one_time_password", gson.toJson(OneTimePassword(uuid, time))).apply()
+
+        val value = instance.oneTimePassword
         value shouldNotBe null
         value!!.uuid shouldBe uuid
         value.time shouldBe time
@@ -50,7 +53,6 @@ class SurveySettingsTest : BaseTest() {
 
     @Test
     fun `store`() {
-        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns preferences
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
         val time = Instant.now()
 
