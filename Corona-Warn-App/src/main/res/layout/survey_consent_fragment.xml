@@ -12,9 +12,9 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/CWAToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/CWAToolbar.BackArrow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -70,7 +70,7 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/survey_bottom_info_headline"
-                    tools:text="@string/datadonation_details_survey_consent_top_body"/>
+                    tools:text="@string/datadonation_details_survey_consent_top_body" />
 
 
                 <include
@@ -79,8 +79,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    app:headline="@{@string/datadonation_details_survey_consent_info_card_title}"
                     app:body="@{@string/datadonation_details_survey_consent_info_card_body}"
+                    app:headline="@{@string/datadonation_details_survey_consent_info_card_title}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/survey_bottom_info_body" />
