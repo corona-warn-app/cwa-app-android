@@ -572,7 +572,7 @@ jobs:
       - run:
           name: Run UI tests
           command: |
-            ./gradlew connectedDebugAndroidTest
+            ./gradlew connectedDeviceForTestersDebugAndroidTest
 
 #######################
 # Workflow section
