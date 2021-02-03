@@ -24,13 +24,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -118,11 +117,9 @@ class TracingDetailsFragmentTest : BaseUITest() {
         every { viewModel.detailsItems } returns MutableLiveData(pair.second)
     }
 
-    private fun captureScreenshot(nameSuffix: String) {
-        val name = TracingDetailsFragment::class.simpleName + "_" + nameSuffix
+    private fun captureScreenshot(suffix: String) {
         launchFragmentInContainer2<TracingDetailsFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(name)
+        takeScreenshot<TracingDetailsFragment>(suffix)
     }
 }
 
