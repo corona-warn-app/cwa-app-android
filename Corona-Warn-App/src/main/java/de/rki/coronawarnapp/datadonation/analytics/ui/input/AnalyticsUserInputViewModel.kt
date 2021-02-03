@@ -97,8 +97,8 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
         }
 
     val userInfoItems: LiveData<List<UserInfoItem>> = when (type) {
-        AnalyticsUserInputFragment.InputType.AGEGROUP -> ageGroupSource
-        AnalyticsUserInputFragment.InputType.FEDERALSTATE -> federalStateSource
+        AnalyticsUserInputFragment.InputType.AGE_GROUP -> ageGroupSource
+        AnalyticsUserInputFragment.InputType.FEDERAL_STATE -> federalStateSource
         AnalyticsUserInputFragment.InputType.DISTRICT -> districtSource
     }
         .catch { Timber.e(it, "Error sourcing list items.") }

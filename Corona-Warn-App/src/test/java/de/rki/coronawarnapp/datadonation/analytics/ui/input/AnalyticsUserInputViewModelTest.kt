@@ -67,7 +67,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     @Test
     fun `test agegroup emission`() = runBlockingTest2(ignoreActive = true) {
         userInfoAgeGroup.update { PPAAgeGroup.AGE_GROUP_0_TO_29 }
-        val instance = createInstance(inputType = InputType.AGEGROUP, scope = this)
+        val instance = createInstance(inputType = InputType.AGE_GROUP, scope = this)
 
         instance.userInfoItems.observeForever { }
         instance.userInfoItems.value!![0].apply {
@@ -86,7 +86,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
 
     @Test
     fun `test agegroup selection`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(inputType = InputType.AGEGROUP, scope = this)
+        val instance = createInstance(inputType = InputType.AGE_GROUP, scope = this)
         instance.finishEvent.value shouldBe null
 
         instance.selectUserInfoItem(
@@ -103,7 +103,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     @Test
     fun `test federal state emission`() = runBlockingTest2(ignoreActive = true) {
         userInfoFederalState.update { PPAFederalState.FEDERAL_STATE_HH }
-        val instance = createInstance(inputType = InputType.FEDERALSTATE, scope = this)
+        val instance = createInstance(inputType = InputType.FEDERAL_STATE, scope = this)
 
         instance.userInfoItems.observeForever { }
         instance.userInfoItems.value!![0].apply {
@@ -126,7 +126,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
 
     @Test
     fun `test federal state selection`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(inputType = InputType.FEDERALSTATE, scope = this)
+        val instance = createInstance(inputType = InputType.FEDERAL_STATE, scope = this)
 
         instance.finishEvent.value shouldBe null
         userInfoDistrict.update { 12345 } // Because federal state selection should reset this

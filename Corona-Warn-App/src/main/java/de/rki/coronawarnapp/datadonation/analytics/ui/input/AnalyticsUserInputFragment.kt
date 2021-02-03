@@ -36,8 +36,8 @@ class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_inpu
         super.onViewCreated(view, savedInstanceState)
 
         val toolbarLabel = when (navArgs.type) {
-            InputType.AGEGROUP -> R.string.analytics_userinput_agegroup_title
-            InputType.FEDERALSTATE -> R.string.analytics_userinput_federalstate_title
+            InputType.AGE_GROUP -> R.string.analytics_userinput_agegroup_title
+            InputType.FEDERAL_STATE -> R.string.analytics_userinput_federalstate_title
             InputType.DISTRICT -> R.string.analytics_userinput_district_title
         }
         binding.toolbar.apply {
@@ -57,8 +57,8 @@ class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_inpu
     }
 
     enum class InputType {
-        AGEGROUP,
-        FEDERALSTATE,
+        AGE_GROUP,
+        FEDERAL_STATE,
         DISTRICT
     }
 }

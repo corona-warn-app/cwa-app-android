@@ -18,7 +18,7 @@ class Districts @Inject constructor(
 
     suspend fun loadDistricts(): List<District> {
         return try {
-            val rawDistricts = context.assets.open(ASSETNAME).bufferedReader().use { it.readText() }
+            val rawDistricts = context.assets.open(ASSET_NAME).bufferedReader().use { it.readText() }
             gson.fromJson(rawDistricts)
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to parse districts.")
@@ -36,7 +36,7 @@ class Districts @Inject constructor(
     )
 
     companion object {
-        private const val ASSETNAME = "ppdd-ppa-administrative-unit-set.json"
+        private const val ASSET_NAME = "ppdd-ppa-administrative-unit-set.json"
         private const val TAG = "Districts"
     }
 }

@@ -31,13 +31,13 @@ class PlaygroundFragment : Fragment(R.layout.fragment_test_playground), AutoInje
             dataDonationUserinfoAgegroup.setOnClickListener {
                 findNavController().navigate(
                     R.id.analyticsUserInputFragment,
-                    AnalyticsUserInputFragmentArgs(AnalyticsUserInputFragment.InputType.AGEGROUP).toBundle()
+                    AnalyticsUserInputFragmentArgs(AnalyticsUserInputFragment.InputType.AGE_GROUP).toBundle()
                 )
             }
             dataDonationUserinfoFederalstate.setOnClickListener {
                 findNavController().navigate(
                     R.id.analyticsUserInputFragment,
-                    AnalyticsUserInputFragmentArgs(AnalyticsUserInputFragment.InputType.FEDERALSTATE).toBundle()
+                    AnalyticsUserInputFragmentArgs(AnalyticsUserInputFragment.InputType.FEDERAL_STATE).toBundle()
                 )
             }
             dataDonationUserinfoDistrict.setOnClickListener {
