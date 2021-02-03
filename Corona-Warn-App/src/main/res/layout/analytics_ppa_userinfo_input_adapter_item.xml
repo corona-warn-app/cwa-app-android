@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground">
+
+    <RadioButton
+        android:id="@+id/radiobutton"
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:buttonTint="@color/radiobutton_accented"
+        android:buttonTintMode="src_atop"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/label"
+        style="@style/body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="16dp"
+        tools:text="Keine Angabe" />
+
+</FrameLayout>
