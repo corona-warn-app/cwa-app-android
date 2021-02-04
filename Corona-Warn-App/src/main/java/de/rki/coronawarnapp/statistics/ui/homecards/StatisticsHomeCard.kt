@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
-import de.rki.coronawarnapp.statistics.util.CustomSnapHelper
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.util.isPhone
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 
@@ -45,7 +46,9 @@ class StatisticsHomeCard(
                     )
                 )
             }
-            CustomSnapHelper().attachToRecyclerView(statisticsRecyclerview)
+            if (resources.isPhone()) {
+                PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
+            }
         }
     }
 
