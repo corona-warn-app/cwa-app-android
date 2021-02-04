@@ -1712,5 +1712,9 @@
     <!-- XHED: Dialog error title for survey request error informations 8-->
     <string name="datadonation_details_survey_consent_error_8_ALREADY_PARTICIPATED">"Sie können nur einmal pro Monat an einer Umfrage teilnehmen. Fehlercode {0}"</string>
 
+    <!-- XHED: Dialog error title for survey request error informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_title">"Fehler"</string>
+    <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"ok"</string>
 
 </resources>
