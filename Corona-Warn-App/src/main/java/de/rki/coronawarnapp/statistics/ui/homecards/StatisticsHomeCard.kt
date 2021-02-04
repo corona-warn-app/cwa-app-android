@@ -62,7 +62,7 @@ class StatisticsHomeCard(
         }
     }
 
-    override fun onSaveState() {
+    override var onSaveState: () -> Unit = {
         statisticsLayoutManager.onSaveInstanceState()?.let {
             onStoreState(it)
         }
