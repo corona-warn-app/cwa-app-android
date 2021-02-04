@@ -18,10 +18,10 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class DataDonationFragment : Fragment(R.layout.fragment_test_datadonation), AutoInject {
+class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: DataDonationFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: DataDonationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestDatadonationBinding by viewBindingLazy()
 

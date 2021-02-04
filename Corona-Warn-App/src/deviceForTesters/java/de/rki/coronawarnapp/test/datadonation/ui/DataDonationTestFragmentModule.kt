@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class DataDonationFragmentModule {
+abstract class DataDonationTestFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(DataDonationFragmentViewModel::class)
+    @CWAViewModelKey(DataDonationTestFragmentViewModel::class)
     abstract fun dataDonation(
-        factory: DataDonationFragmentViewModel.Factory
+        factory: DataDonationTestFragmentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

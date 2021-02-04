@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 import java.security.SecureRandom
 
-class DataDonationFragmentViewModel @AssistedInject constructor(
+class DataDonationTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
     private val secureRandom: SecureRandom
@@ -45,5 +45,5 @@ class DataDonationFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DataDonationFragmentViewModel>
+    interface Factory : SimpleCWAViewModelFactory<DataDonationTestFragmentViewModel>
 }

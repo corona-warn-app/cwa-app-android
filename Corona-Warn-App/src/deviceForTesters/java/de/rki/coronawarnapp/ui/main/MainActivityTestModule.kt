@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
-import de.rki.coronawarnapp.test.datadonation.ui.DataDonationFragment
-import de.rki.coronawarnapp.test.datadonation.ui.DataDonationFragmentModule
+import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
+import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -53,6 +53,6 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [ContactDiaryTestFragmentModule::class])
     abstract fun contactDiaryTest(): ContactDiaryTestFragment
 
-    @ContributesAndroidInjector(modules = [DataDonationFragmentModule::class])
-    abstract fun dataDonation(): DataDonationFragment
+    @ContributesAndroidInjector(modules = [DataDonationTestFragmentModule::class])
+    abstract fun dataDonation(): DataDonationTestFragment
 }

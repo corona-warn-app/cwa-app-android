@@ -98,6 +98,7 @@ class SafetyNetClientWrapper @Inject constructor(
             ?.split(",")?.map { it.trim() } ?: emptyList()
 
         val error: String? = body.get("error")?.asString
+        val advice: String? = body.get("advice")?.asString
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true

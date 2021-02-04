@@ -17,21 +17,30 @@ internal data class AttestationContainer(
 
     override fun requirePass(reqs: SafetyNetRequirements) {
         if (reqs.requireBasicIntegrity && !report.basicIntegrity) {
-            throw SafetyNetException(Type.BASIC_INTEGRITY_REQUIRED, "Requirement 'basicIntegrity' not met.")
+            throw SafetyNetException(
+                Type.BASIC_INTEGRITY_REQUIRED,
+                "Requirement 'basicIntegrity' not met (${report.advice})."
+            )
         }
 
         if (reqs.requireCTSProfileMatch && !report.ctsProfileMatch) {
-            throw SafetyNetException(Type.CTS_PROFILE_MATCH_REQUIRED, "Requirement 'ctsProfileMatch' not met.")
+            throw SafetyNetException(
+                Type.CTS_PROFILE_MATCH_REQUIRED,
+                "Requirement 'ctsProfileMatch' not met (${report.advice})."
+            )
         }
 
         if (reqs.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
-            throw SafetyNetException(Type.EVALUATION_TYPE_BASIC_REQUIRED, "Evaluation type 'BASIC' not met.")
+            throw SafetyNetException(
+                Type.EVALUATION_TYPE_BASIC_REQUIRED,
+                "Evaluation type 'BASIC' not met (${report.advice})."
+            )
         }
 
         if (reqs.requireEvaluationTypeHardwareBacked && !report.evaluationTypes.contains("HARDWARE_BACKED")) {
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED,
-                "Evaluation type 'HARDWARE_BACKED' not met."
+                "Evaluation type 'HARDWARE_BACKED' not met (${report.advice})."
             )
         }
     }

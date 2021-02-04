@@ -106,7 +106,7 @@
     <fragment
         android:id="@+id/test_datadonation_fragment"
         tools:layout="@layout/fragment_test_datadonation"
-        android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationFragment"
+        android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment"
         android:label="DataDonationFragment" />
 
 </navigation>

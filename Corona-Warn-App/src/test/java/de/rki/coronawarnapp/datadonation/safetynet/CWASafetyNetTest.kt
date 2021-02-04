@@ -91,7 +91,7 @@ class CWASafetyNetTest : BaseTest() {
     )
 
     @Test
-    fun `salt generation returns new value each call`() {
+    fun `salt generation used injected random source`() {
         createInstance().apply {
             generateSalt() shouldBe "LMK0jFCu/lOzl07ZHmtOqQ==".decodeBase64()!!.toByteArray()
         }
