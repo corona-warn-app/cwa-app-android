@@ -33,14 +33,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
-import tools.fastlane.screengrab.Screengrab
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
 import java.util.Locale
@@ -87,7 +86,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     fun launch_fragment() {
         launchFragment2<ContactDiaryDayFragment>(
             fragmentArgs = fragmentArgs,
-            themeResId = R.style.AppTheme_ContactDiary
+            themeResId = R.style.AppTheme_Main
         )
     }
 
@@ -113,14 +112,12 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<ContactDiaryDayFragment>(
             fragmentArgs = fragmentArgs,
-            themeResId = R.style.AppTheme_ContactDiary
+            themeResId = R.style.AppTheme_Main
         )
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryDayFragment::class.simpleName.plus("_$suffix"))
-
-        onView(withId(R.id.contact_diary_day_tab_layout)).perform(selectTabAtPosition(1))
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryDayFragment::class.simpleName.plus("_${suffix}_2"))
+        takeScreenshot<ContactDiaryDayFragment>(suffix)
+        onView(withId(R.id.contact_diary_day_tab_layout))
+            .perform(selectTabAtPosition(1))
+        takeScreenshot<ContactDiaryDayFragment>(suffix + "_2")
     }
 
     private fun setupViewModels() {

@@ -12,11 +12,10 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
-import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
-import tools.fastlane.screengrab.locale.LocaleTestRule
-import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingTestFragmentTest : BaseUITest() {
@@ -50,8 +49,7 @@ class OnboardingTestFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot() {
         launchFragmentInContainer2<OnboardingTestFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(OnboardingTestFragment::class.simpleName)
+        takeScreenshot<OnboardingTestFragment>()
     }
 }
 

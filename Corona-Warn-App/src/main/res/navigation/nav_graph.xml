@@ -5,7 +5,10 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
+    <!--    Corona Test graph-->
     <include app:graph="@navigation/test_nav_graph" />
+    <!--    Contact Diary graph-->
+    <include app:graph="@navigation/contact_diary_nav_graph" />
 
     <!-- Main -->
     <fragment
@@ -226,6 +229,9 @@
         <action
             android:id="@+id/action_riskDetailsFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
+        <action
+            android:id="@+id/action_riskDetailsFragment_to_surveyConsentFragment"
+            app:destination="@id/surveyConsentFragment" />
     </fragment>
 
 
@@ -503,15 +509,20 @@
     <!-- New Release -->
     <fragment
         android:id="@+id/newReleaseInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment"
-        android:label="NewReleaseInfoFragment" >
-        <action
-            android:id="@+id/action_newReleaseInfoFragment_pop"
-            app:popUpTo="@id/newReleaseInfoFragment"
-            app:popUpToInclusive="true" />
+        android:name="de.rki.coronawarnapp.release.NewReleaseInfoFragment"
+        android:label="NewReleaseInfoFragment">
         <argument
             android:name="comesFromInfoScreen"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyConsentFragment"
+        android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentFragment"
+        android:label="survey_consent_fragment"
+        tools:layout="@layout/survey_consent_fragment">
+        <argument
+            android:name="SurveyType"
+            app:argType="de.rki.coronawarnapp.datadonation.survey.Surveys$Type" />
     </fragment>
 </navigation>

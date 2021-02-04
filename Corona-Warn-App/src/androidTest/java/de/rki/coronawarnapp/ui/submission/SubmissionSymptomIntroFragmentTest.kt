@@ -25,14 +25,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -53,14 +52,21 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel =
-            spyk(SubmissionSymptomIntroductionViewModel(TestDispatcherProvider(), submissionRepository, autoSubmission))
+        viewModel = spyk(
+            SubmissionSymptomIntroductionViewModel(
+                TestDispatcherProvider(),
+                submissionRepository,
+                autoSubmission
+            )
+        )
         with(viewModel) {
             every { symptomIndication } returns MutableLiveData(Symptoms.Indication.POSITIVE)
         }
-        setupMockViewModel(object : SubmissionSymptomIntroductionViewModel.Factory {
-            override fun create(): SubmissionSymptomIntroductionViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionSymptomIntroductionViewModel.Factory {
+                override fun create(): SubmissionSymptomIntroductionViewModel = viewModel
+            }
+        )
     }
 
     @After
@@ -87,8 +93,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         captureScreenshot<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.target_button_verify))
             .perform(scrollTo())
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(SubmissionSymptomIntroductionFragment::class.simpleName.plus("2"))
+        takeScreenshot<SubmissionSymptomIntroductionFragment>("2")
     }
 }
 
