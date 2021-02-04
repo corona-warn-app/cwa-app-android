@@ -5,8 +5,6 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.appconfig.SurveyConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
-import de.rki.coronawarnapp.server.protocols.internal.v2.PpddEdusParameters
-import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,7 +18,6 @@ class SurveyConfigMapper @Inject constructor() : SurveyConfig.Mapper {
         var requireCTSProfileMatch = false
         var requireEvaluationTypeBasic = false
         var requireEvaluationTypeHardwareBacked = false
-
 
         if (rawConfig.hasEventDrivenUserSurveyParameters()) {
             if (rawConfig.eventDrivenUserSurveyParameters.hasCommon()) {
