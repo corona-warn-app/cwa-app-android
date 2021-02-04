@@ -572,7 +572,7 @@ jobs:
       - run:
           name: Run UI tests
           command: |
-            for i in {1..5}; ./gradlew connectedDeviceForTestersDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot  && break || sleep 15; done
+            ./gradlew connectedDeviceForTestersDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
 #######################
 # Workflow section
 # Job execution orders
