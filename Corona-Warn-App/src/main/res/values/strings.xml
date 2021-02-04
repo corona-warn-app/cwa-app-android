@@ -1696,21 +1696,21 @@
     <string name="datadonation_details_survey_consent_info_card_body">"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
-    <string name="datadonation_details_survey_consent_error_1_CHANGE_DEVICE_TIME">"Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren sie die Uhrzeit in den Einstellungen des Smartphones. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren sie die Uhrzeit in den Einstellungen des Smartphones. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_2_DEVICE_NOT_SUPPORTED">"Ihr Device kann nicht verifiziert werden. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Ihr Device kann nicht verifiziert werden. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 3-->
-    <string name="datadonation_details_survey_consent_error_3_UPDATE_PLAY_SERVICES">"Ihr Device kann nicht verifiziert werden. Bitte aktualisieren die Google Play Services. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Ihr Device kann nicht verifiziert werden. Bitte aktualisieren die Google Play Services. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 4-->
-    <string name="datadonation_details_survey_consent_error_4_TRY_AGAIN_LATER">"Ihr Device kann nicht verifiziert werden. Bitte versuchen es später noch mal. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Ihr Device kann nicht verifiziert werden. Bitte versuchen es später noch mal. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_5_TRY_AGAIN_NEXT_MONTH">"Ihr Device kann nicht verifiziert werden da der generierte Schlüssel für den aktuellen Monat bereits verbraucht wurde. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Ihr Device kann nicht verifiziert werden da der generierte Schlüssel für den aktuellen Monat bereits verbraucht wurde. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_6_DEVICE_NOT_TRUSTED">"Ihr Device nicht auf Echtheit verifiziert werden. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Ihr Device nicht auf Echtheit verifiziert werden. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
-    <string name="datadonation_details_survey_consent_error_7_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden nachdem Sie die App installiert oder aktualisiert haben an der Umfrage teilnehmen. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden nachdem Sie die App installiert oder aktualisiert haben an der Umfrage teilnehmen. Fehlercode {0}"</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
-    <string name="datadonation_details_survey_consent_error_8_ALREADY_PARTICIPATED">"Sie können nur einmal pro Monat an einer Umfrage teilnehmen. Fehlercode {0}"</string>
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Sie können nur einmal pro Monat an einer Umfrage teilnehmen. Fehlercode {0}"</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Fehler"</string>
