@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment
+import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.unmockkAll
@@ -13,12 +14,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -29,6 +29,10 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
 
     @get:Rule
     val systemUIDemoModeRule = SystemUIDemoModeRule()
+
+    private val fragmentArgs = ContactDiaryOnboardingFragmentArgs(
+        showBottomNav = false
+    ).toBundle()
 
     @Before
     fun setup() {
@@ -50,15 +54,14 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<ContactDiaryOnboardingFragment>()
+        launchFragment2<ContactDiaryOnboardingFragment>(fragmentArgs)
     }
 
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<ContactDiaryOnboardingFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryOnboardingFragment::class.simpleName)
+        launchFragmentInContainer2<ContactDiaryOnboardingFragment>(fragmentArgs)
+        takeScreenshot<ContactDiaryOnboardingFragment>()
     }
 }
 
