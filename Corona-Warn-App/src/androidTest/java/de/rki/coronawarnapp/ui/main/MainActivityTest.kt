@@ -87,6 +87,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -338,7 +339,8 @@ class MainActivityTest : BaseUITest() {
             submissionRepository = submissionRepository,
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
-            statisticsProvider = statisticsProvider
+            statisticsProvider = statisticsProvider,
+            deadmanNotificationScheduler = deadmanNotificationScheduler
         )
     )
 
