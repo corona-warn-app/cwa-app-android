@@ -39,13 +39,18 @@ class SurveySettingsTest : BaseTest() {
     }
 
     @Test
-    fun `load`() {
+    fun `load and deserialize json`() {
         val instance = SurveySettings(context, baseGson)
         instance.oneTimePassword shouldBe null
 
         preferences.edit().putString(
             "one_time_password",
-            """{"uuid": "e103c755-0975-4588-a639-d0cd1ba421a1", "time": 1612381217442}"""
+            """
+                {
+                    "uuid":"e103c755-0975-4588-a639-d0cd1ba421a1",
+                    "time": 1612381217442
+                }
+            """.trimIndent()
         ).apply()
 
         val value = instance.oneTimePassword
@@ -68,7 +73,7 @@ class SurveySettingsTest : BaseTest() {
     }
 
     @Test
-    fun `store`() {
+    fun `save and serialize json`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
         val time = Instant.ofEpochMilli(1612381567242)
 
@@ -77,10 +82,10 @@ class SurveySettingsTest : BaseTest() {
 
         val value = preferences.getString("one_time_password", null)
         value shouldBe """
-                    {
-                      "uuid": "e103c755-0975-4588-a639-d0cd1ba421a0",
-                      "time": 1612381567242
-                    }
-                """.trimIndent()
+            {
+              "uuid": "e103c755-0975-4588-a639-d0cd1ba421a0",
+              "time": 1612381567242
+            }
+        """.trimIndent()
     }
 }
