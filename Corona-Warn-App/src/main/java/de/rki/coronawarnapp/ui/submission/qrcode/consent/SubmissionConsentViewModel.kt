@@ -19,7 +19,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
-    private val exposureNotificationClient: ExposureNotificationClient,
+    private val exposureNotificationClient: ExposureNotificationClient
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
