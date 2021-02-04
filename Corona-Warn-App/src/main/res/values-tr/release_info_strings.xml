@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen 1.12
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Yeni Özellikler"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Sürüm %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Hata düzeltmelerinin yanında bu güncelleme ile birlikte yeni ve gelişmiş özellikler sunulmaktadır."</string>
+    <!-- XTXT: Encounter history title for the release info screen -->
+    <string name="release_info_1_12_encounter_history_title">"Maruz Kalma Geçmişi"</string>
+    <!-- XTXT: Encounter history body for the release info screen -->
+    <string name="release_info_1_12_encounter_history_body">"Temas günceniz, uygulama tarafından değerlendirilen karşılaşmalara göre riskinizin düşük veya yüksek olduğu günleri gösterir. Buna göre, Corona-Warn-App’i kullanmasalar bile bu günlerde karşılaştığınız diğer kullanıcıları uyarabilirsiniz. Bu kişiler nispeten bir riskle karşı karşıya olabilir. Ancak temas güncenizdeki kişilerin ve yerlerin belirtilen maruz kalmalarla ilgili olması şart değildir."</string>
+    <!-- XTXT: Statistics title for the release info screen -->
+    <string name="release_info_1_12_statistics_title">"İstatistik"</string>
+    <!-- XTXT: Statistics body for the release info screen -->
+    <string name="release_info_1_12_statistics_body">"Almanya’daki enfeksiyon sayılarına ilişkin son temel değerlere genel bakışı görüntüleyin."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Sonraki"</string>
+
+</resources>
