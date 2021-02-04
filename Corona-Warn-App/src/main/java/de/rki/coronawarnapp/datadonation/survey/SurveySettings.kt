@@ -25,7 +25,10 @@ class SurveySettings @Inject constructor(
             try {
                 val json = preferences.getString(KEY_OTP, null)
                 if (json != null) {
-                    return gson.fromJson(json, OneTimePassword::class.java)
+                    val otp = gson.fromJson(json, OneTimePassword::class.java)
+                    requireNotNull(otp.uuid)
+                    requireNotNull(otp.time)
+                    return otp
                 }
             } catch (t: Throwable) {
                 Timber.e(t, "failed to parse OTP from preferences")
