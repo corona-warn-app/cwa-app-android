@@ -55,6 +55,19 @@ class SurveySettingsTest : BaseTest() {
     }
 
     @Test
+    fun `parsing error`() {
+        val instance = SurveySettings(context, baseGson)
+        instance.oneTimePassword shouldBe null
+
+        preferences
+            .edit()
+            .putString("one_time_password", "invalid value")
+            .apply()
+
+        instance.oneTimePassword shouldBe null
+    }
+
+    @Test
     fun `store`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
         val time = Instant.ofEpochMilli(1612381567242)
