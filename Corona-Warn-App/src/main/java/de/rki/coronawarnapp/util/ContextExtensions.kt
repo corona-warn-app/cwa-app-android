@@ -26,3 +26,5 @@ object ContextExtensions {
 @Throws(Resources.NotFoundException::class)
 fun Resources.getDrawableCompat(@DrawableRes id: Int, theme: Resources.Theme? = null) =
     ResourcesCompat.getDrawable(this, id, theme)
+
+fun Resources.isPhone(): Boolean = configuration.smallestScreenWidthDp < 600
