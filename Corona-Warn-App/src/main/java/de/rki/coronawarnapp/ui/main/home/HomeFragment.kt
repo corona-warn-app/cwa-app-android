@@ -108,6 +108,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         }
 
+        vm.showPopUpsOrNavigate()
+
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()
         }
