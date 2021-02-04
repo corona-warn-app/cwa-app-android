@@ -9,6 +9,8 @@ import com.google.gson.JsonParser
 import dagger.Reusable
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.withTimeout
 import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,7 +25,13 @@ class SafetyNetClientWrapper @Inject constructor(
 ) {
 
     suspend fun attest(nonce: ByteArray): Report {
-        val jwsResult = callClient(nonce).jwsResult ?: throw SafetyNetException(
+        val response = try {
+            withTimeout(30 * 1000L) { callClient(nonce) }
+        } catch (e: TimeoutCancellationException) {
+            throw SafetyNetException(Type.ATTESTATION_FAILED, "Attestation timeout.", e)
+        }
+
+        val jwsResult = response.jwsResult ?: throw SafetyNetException(
             Type.ATTESTATION_FAILED,
             "JWS was null"
         )

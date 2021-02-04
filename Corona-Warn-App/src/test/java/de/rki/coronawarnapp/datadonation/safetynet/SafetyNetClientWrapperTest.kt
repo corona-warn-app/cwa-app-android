@@ -9,18 +9,22 @@ import com.google.gson.JsonParser
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.instanceOf
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.async
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runBlockingTest2
 import testhelpers.gms.MockGMSTask
 import java.io.IOException
 
@@ -67,6 +71,23 @@ class SafetyNetClientWrapperTest : BaseTest() {
         }
 
         verify { safetyNetClient.attest("hodl".toByteArray(), "very safe") }
+    }
+
+    @Test
+    fun `attestation can time out`() = runBlockingTest2(ignoreActive = true) {
+        every { safetyNetClient.attest(any(), any()) } returns MockGMSTask.timeout()
+
+        val resultAsync = async {
+            shouldThrow<SafetyNetException> {
+                createInstance().attest("hodl".toByteArray()).jwsResult shouldBe JWS_BASE64
+            }
+        }
+
+        advanceTimeBy(31 * 1000L)
+
+        val error = resultAsync.await()
+        error.type shouldBe SafetyNetException.Type.ATTESTATION_FAILED
+        error.cause shouldBe instanceOf(TimeoutCancellationException::class)
     }
 
     @Test
