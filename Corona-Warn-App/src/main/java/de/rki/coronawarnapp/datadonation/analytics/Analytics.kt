@@ -19,7 +19,7 @@ class Analytics @Inject constructor(
     private val dataDonationAnalyticsServer: DataDonationAnalyticsServer,
     private val appConfigProvider: AppConfigProvider,
     private val deviceAttestation: DeviceAttestation,
-    private val donorModules: Set<DonorModule>,
+    private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
     private val settings: AnalyticsSettings
 ) {
     val isEnabled: Boolean = true

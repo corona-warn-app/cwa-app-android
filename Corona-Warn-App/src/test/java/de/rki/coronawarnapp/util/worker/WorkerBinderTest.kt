@@ -6,6 +6,16 @@ import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
+import de.rki.coronawarnapp.appconfig.CWAConfig
+import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
+import de.rki.coronawarnapp.appconfig.SurveyConfig
+import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
+import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
+import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -14,11 +24,13 @@ import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
@@ -107,6 +119,44 @@ class MockProvider {
 
     @Provides
     fun notificationHelper(): NotificationHelper = mockk()
+
+    // For Analytics periodic worker
+    @Provides
+    fun deviceAttestation(): DeviceAttestation = mockk()
+
+    @Provides
+    fun donorModuleSet(): Set<DonorModule> = mockk()
+
+    @Provides
+    fun dataDonationAnalyticsApiV1(): DataDonationAnalyticsApiV1 = mockk()
+
+    @Provides
+    fun dispatcherProvider(): DispatcherProvider = mockk()
+
+    @Provides
+    @AppScope
+    fun coroutineScope(): CoroutineScope = mockk()
+
+    @Provides
+    fun appConfigApiV2(): AppConfigApiV2 = mockk()
+
+    @Provides
+    fun cwaConfigMapper(): CWAConfig.Mapper = mockk()
+
+    @Provides
+    fun keyDownloadConfigMapper(): KeyDownloadConfig.Mapper = mockk()
+
+    @Provides
+    fun exposureDetectionConfigMapper(): ExposureDetectionConfig.Mapper = mockk()
+
+    @Provides
+    fun exposureWindowRiskCalculationConfigMapper(): ExposureWindowRiskCalculationConfig.Mapper = mockk()
+
+    @Provides
+    fun analyticsConfigMapper(): AnalyticsConfig.Mapper = mockk()
+
+    @Provides
+    fun surveyConfigMapper(): SurveyConfig.Mapper = mockk()
 
     @Provides
     @AppContext

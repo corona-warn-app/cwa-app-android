@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
@@ -52,6 +53,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
@@ -88,6 +90,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         if (LocalData.onboardingCompletedTimestamp() != null) {
             deadmanNotificationScheduler.schedulePeriodic()
             contactDiaryWorkScheduler.schedulePeriodic()
+            dataDonationAnalyticsScheduler.schedulePeriodic()
         }
 
         deviceTimeHandler.launch()
