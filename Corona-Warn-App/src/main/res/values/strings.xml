@@ -918,6 +918,8 @@
     <string name="submission_consent_main_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
+    <!-- YTXT: Content Description for the illustration  -->
+    <string name="submission_consent_main_illustration_description"></string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->

@@ -51,7 +51,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:focusable="true"
-                    android:contentDescription="Eine Frau schaut auf ihr Smartphone. Daneben sieht man das Symbol für das Scannen eines QR-Codes." />
+                    android:contentDescription="@string/submission_consent_main_illustration_description" />
 
                 <include layout="@layout/include_submission_consent_intro"
                     android:id="@+id/include_submission_consent_intro"

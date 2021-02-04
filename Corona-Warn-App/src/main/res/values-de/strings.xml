@@ -903,6 +903,8 @@
     <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
+    <!-- YTXT: Content Description for the illustration  -->
+    <string name="submission_consent_main_illustration_description">"Eine Person hält ein Smartphone. Ein QR-Code auf einem Test symbolisiert den zu scannenden Code."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
