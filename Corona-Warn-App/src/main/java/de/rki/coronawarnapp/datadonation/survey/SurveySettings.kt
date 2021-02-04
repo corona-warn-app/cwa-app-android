@@ -30,10 +30,11 @@ class SurveySettings @Inject constructor(
                     requireNotNull(otp.time)
                     return otp
                 }
+                return null
             } catch (t: Throwable) {
                 Timber.e(t, "failed to parse OTP from preferences")
+                return null
             }
-            return null
         }
         set(value) =
             preferences
