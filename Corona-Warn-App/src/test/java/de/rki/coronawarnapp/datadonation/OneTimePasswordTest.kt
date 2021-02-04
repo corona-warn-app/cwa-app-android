@@ -8,7 +8,7 @@ import java.util.UUID
 class OneTimePasswordTest {
 
     @Test
-    fun test() {
+    fun `payload generation`() {
         val otpPayload =
             OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
                 .payloadForRequest
