@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     @Inject lateinit var powerManagement: PowerManagement
-
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
 

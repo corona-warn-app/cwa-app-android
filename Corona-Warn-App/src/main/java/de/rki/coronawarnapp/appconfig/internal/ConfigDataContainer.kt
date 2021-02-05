@@ -15,7 +15,14 @@ data class ConfigDataContainer(
 ) : ConfigData, ConfigMapping by mappedConfig {
 
     override val isDeviceTimeCorrect: Boolean
-        get() = !isDeviceTimeCheckEnabled || localOffset.abs() < ConfigData.DEVICE_TIME_GRACE_RANGE
+        get() = deviceTimeState != ConfigData.DeviceTimeState.INCORRECT
+
+    override val deviceTimeState: ConfigData.DeviceTimeState
+        get() = when {
+            !isDeviceTimeCheckEnabled -> ConfigData.DeviceTimeState.ASSUMED_CORRECT
+            localOffset.abs() < ConfigData.DEVICE_TIME_GRACE_RANGE -> ConfigData.DeviceTimeState.CORRECT
+            else -> ConfigData.DeviceTimeState.INCORRECT
+        }
 
     override val updatedAt: Instant = serverTime.plus(localOffset)
 
