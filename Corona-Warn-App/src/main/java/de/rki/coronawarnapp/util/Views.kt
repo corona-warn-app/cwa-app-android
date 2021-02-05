@@ -78,7 +78,7 @@ fun TextView.setUrl(@StringRes textRes: Int, @StringRes labelRes: Int, @StringRe
     }
 }
 
-fun TextView.linkifyPhoneNumbers(){
+fun TextView.linkifyPhoneNumbers() {
     LinkifyCompat.addLinks(
         this,
         Patterns.PHONE,
