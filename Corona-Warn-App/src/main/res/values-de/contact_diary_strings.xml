@@ -23,9 +23,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Merken Sie sich, wo Sie waren und wen Sie getroffen haben."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Tagebuch Führen"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Tagebuch öffnen"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Tagebuch Führen"</string>
+    <string name="contact_diary_onboarding_button_text">"Tagebuch öffnen"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Behalten Sie den Überblick."</string>
