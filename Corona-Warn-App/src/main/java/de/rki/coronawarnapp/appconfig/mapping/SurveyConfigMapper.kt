@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
+import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.appconfig.SurveyConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.PpddEdusParameters
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -16,22 +16,29 @@ class SurveyConfigMapper @Inject constructor() : SurveyConfig.Mapper {
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): SurveyConfig = try {
         rawConfig.toSurveyConfig()
     } catch (e: Exception) {
-        e.report(
-            exceptionCategory = ExceptionCategory.HTTP,
-            prefix = SurveyConfigMapper::class.java.simpleName,
-            suffix = "Invalid survey config. Treat user survey as disabled"
-        )
+        Timber.w(e, "Invalid survey config. Treat user survey as disabled")
         SurveyConfigContainer()
     }.also { Timber.v("SurveyConfig=%s", it) }
 
     private fun AppConfigAndroid.ApplicationConfigurationAndroid.toSurveyConfig(): SurveyConfig {
         val surveyConfig: SurveyConfig
-        if (hasEventDrivenUserSurveyParameters() && eventDrivenUserSurveyParameters.hasCommon()) {
+        if (hasEventDrivenUserSurveyParameters() && eventDrivenUserSurveyParameters.hasCommon() && eventDrivenUserSurveyParameters.hasPpac()) {
+            val safetyNetRequirements: SafetyNetRequirements
+            eventDrivenUserSurveyParameters.ppac.also {
+                safetyNetRequirements = SafetyNetRequirementsContainer(
+                    requireBasicIntegrity = it.requireBasicIntegrity,
+                    requireCTSProfileMatch = it.requireCTSProfileMatch,
+                    requireEvaluationTypeBasic = it.requireEvaluationTypeBasic,
+                    requireEvaluationTypeHardwareBacked = it.requireEvaluationTypeHardwareBacked
+                )
+            }
+
             eventDrivenUserSurveyParameters.common.also {
                 surveyConfig = SurveyConfigContainer(
                     otpQueryParameterName = it.otpQueryParameterName(),
                     surveyOnHighRiskEnabled = it.surveyOnHighRiskEnabled,
-                    surveyOnHighRiskUrl = it.surveyOnHighRiskUrl()
+                    surveyOnHighRiskUrl = it.surveyOnHighRiskUrl(),
+                    safetyNetRequirements = safetyNetRequirements
                 )
             }
         } else {
@@ -44,7 +51,7 @@ class SurveyConfigMapper @Inject constructor() : SurveyConfig.Mapper {
     private fun PpddEdusParameters.PPDDEventDrivenUserSurveyParametersCommon.otpQueryParameterName(): String =
         when (otpQueryParameterName.isNotBlank()) {
             true -> otpQueryParameterName
-            else -> throw ApplicationConfigurationInvalidException(message = "OTP query parameter name is invalid")
+            false -> throw ApplicationConfigurationInvalidException(message = "OTP query parameter name is invalid")
         }
 
     private fun PpddEdusParameters.PPDDEventDrivenUserSurveyParametersCommon.surveyOnHighRiskUrl(): String = try {
@@ -57,6 +64,7 @@ class SurveyConfigMapper @Inject constructor() : SurveyConfig.Mapper {
     data class SurveyConfigContainer(
         override val otpQueryParameterName: String = "",
         override val surveyOnHighRiskEnabled: Boolean = false,
-        override val surveyOnHighRiskUrl: String = ""
+        override val surveyOnHighRiskUrl: String = "",
+        override val safetyNetRequirements: SafetyNetRequirements = SafetyNetRequirementsContainer()
     ) : SurveyConfig
 }
