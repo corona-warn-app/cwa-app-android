@@ -55,5 +55,17 @@
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragment"
         android:label="OnboardingAnalyticsFragment"
         tools:layout="@layout/fragment_onboarding_ppa">
+        <action
+            android:id="@+id/action_onboardingAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/analyticsUserInputFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
+        android:label="AnalyticsUserInputFragment">
+        <argument
+            android:name="type"
+            app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
     </fragment>
 </navigation>

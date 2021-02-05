@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription=""
-        android:focusable="true"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/onboarding_header"
@@ -54,9 +54,9 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/onboarding_illustration"
-                    android:layout_marginTop="18dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
                     android:contentDescription="@string/onboarding_ppa_illustration_description"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
                     android:text="@string/onboarding_ppa_headline"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration"/>
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration" />
 
                 <TextView
                     android:id="@+id/onboarding_body"
@@ -89,35 +89,100 @@
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/onboarding_ppa_body"
                     android:focusable="true"
+                    android:text="@string/onboarding_ppa_body"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
-                    android:text="@string/onboarding_ppa_body" />
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_headline" />
 
-                <include
-                    android:id="@+id/state"
-                    layout="@layout/include_settings_plain_row"
-                    android:layout_marginTop="19dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/federal_state_row"
+                    style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_body"
-                    app:showDivider="@{true}"
-                    app:statusText="@{@string/onboarding_ppa_state_title}"
-                    app:subtitle="@{@string/onboarding_ppa_state_title}" />
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body">
+
+                    <TextView
+                        android:id="@+id/federal_state_row_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/onboarding_ppa_state_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/federal_state_row_body"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:accessibilityLiveRegion="assertive"
+                        android:text="@string/onboarding_ppa_state_title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/federal_state_row_subtitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
-                    android:id="@+id/district"
-                    layout="@layout/include_settings_plain_row"
+                    layout="@layout/include_divider"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginEnd="@dimen/guideline_end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/state"
-                    app:showDivider="@{true}"
-                    app:statusText="@{@string/onboarding_ppa_district_title}"
-                    app:subtitle="@{@string/onboarding_ppa_district_title}" />
+                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/district_row"
+                    style="@style/row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row">
+
+                    <TextView
+                        android:id="@+id/district_row_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/onboarding_ppa_district_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/district_row_body"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:accessibilityLiveRegion="assertive"
+                        android:text="@string/onboarding_ppa_district_title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/district_row_subtitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    layout="@layout/include_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/district_row" />
 
                 <TextView
                     android:id="@+id/regional_evaluation_text"
@@ -129,25 +194,58 @@
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/onboarding_ppa_regional_evaluation_text"
                     android:focusable="true"
+                    android:text="@string/onboarding_ppa_regional_evaluation_text"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/district"
-                    android:text="@string/onboarding_ppa_regional_evaluation_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/district_row" />
 
-                <include
-                    android:id="@+id/age"
-                    layout="@layout/include_settings_plain_row"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/age_group_row"
+                    style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/regional_evaluation_text"
-                    app:showDivider="@{true}"
-                    app:statusText="@{@string/onboarding_ppa_age_title}"
-                    app:subtitle="@{@string/onboarding_ppa_age_title}" />
+                    app:layout_constraintTop_toBottomOf="@+id/regional_evaluation_text">
 
-                <LinearLayout
+                    <TextView
+                        android:id="@+id/age_group_row_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/onboarding_ppa_age_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/age_group_row_body"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:accessibilityLiveRegion="assertive"
+                        android:text="@string/onboarding_ppa_age_title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/age_group_row_subtitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    layout="@layout/include_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/age_group_row" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/consent_layout"
                     style="@style/cardTracing"
                     android:layout_width="0dp"
@@ -157,25 +255,76 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/age">
+                    app:layout_constraintTop_toBottomOf="@+id/age_group_row">
 
                     <TextView
+                        android:id="@+id/legal_title"
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_small"
                         android:contentDescription="@string/onboarding_ppa_consent_title"
-                        android:text="@string/onboarding_ppa_consent_title"/>
+                        android:text="@string/onboarding_ppa_consent_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/legal_body"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="27dp"
-                        android:text="@string/submission_your_consent_agreement_share_test_results"
-                        tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."/>
+                        android:text="@string/contact_ppa_onboarding_privacy_information_body"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/legal_title" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/legal_point_consent"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="23dp"
+                        android:text="@string/contact_ppa_onboarding_privacy_information_point_consent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
+                        app:layout_constraintTop_toBottomOf="@+id/legal_body" />
+
+                    <ImageView
+                        android:id="@+id/bullet_point_consent"
+                        android:layout_width="@dimen/bullet_point_size"
+                        android:layout_height="@dimen/bullet_point_size"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/bullet_point"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/legal_point_consent" />
+
+                    <TextView
+                        android:id="@+id/legal_point_identity"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="23dp"
+                        android:text="@string/contact_ppa_onboarding_privacy_information_point_identity"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
+                        app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
+
+                    <ImageView
+                        android:id="@+id/bullet_point_identity"
+                        android:layout_width="@dimen/bullet_point_size"
+                        android:layout_height="@dimen/bullet_point_size"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/bullet_point"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/legal_point_identity" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/body_start"

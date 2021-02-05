@@ -8,6 +8,6 @@ sealed class OnboardingNavigationEvents {
     object NavigateToOnboardingTest : OnboardingNavigationEvents()
     object ShowCancelDialog : OnboardingNavigationEvents()
     object NavigateToOnboardingNotifications : OnboardingNavigationEvents()
-    object NavigateToOnboardingAnalytics: OnboardingNavigationEvents()
+    object NavigateToOnboardingAnalytics : OnboardingNavigationEvents()
     object NavigateToMainActivity : OnboardingNavigationEvents()
 }
