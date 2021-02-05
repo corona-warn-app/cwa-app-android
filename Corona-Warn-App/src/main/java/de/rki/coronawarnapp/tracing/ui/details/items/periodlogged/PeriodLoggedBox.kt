@@ -35,7 +35,7 @@ class PeriodLoggedBox(
         val activeTracingDaysInRetentionPeriod: Int
     ) : DetailsItem {
 
-        fun getRiskActiveTracingDaysInRetentionPeriodLogged(c: Context): String = c.getString(
+        fun getRiskActiveTracingDaysInRetentionPeriodLogged(context: Context): String = context.getString(
             R.string.risk_details_information_body_period_logged_assessment
         ).format(activeTracingDaysInRetentionPeriod)
 
