@@ -123,6 +123,7 @@ class MainActivityTest : BaseUITest() {
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
         every { LocalData.isBackgroundCheckDone() } returns true
         every { LocalData.submissionWasSuccessful() } returns false
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
         // Setup ViewModels
         setupActivityViewModel()
