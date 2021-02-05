@@ -65,12 +65,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
-import testhelpers.takeScreenshot
 import timber.log.Timber
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -382,6 +382,7 @@ class MainActivityTest : BaseUITest() {
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
+            every { showPopUpsOrNavigate() } just Runs
         }
 
         setupMockViewModel(
