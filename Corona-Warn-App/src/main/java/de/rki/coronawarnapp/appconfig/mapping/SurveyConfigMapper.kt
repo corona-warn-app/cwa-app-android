@@ -22,7 +22,9 @@ class SurveyConfigMapper @Inject constructor() : SurveyConfig.Mapper {
 
     private fun AppConfigAndroid.ApplicationConfigurationAndroid.toSurveyConfig(): SurveyConfig {
         val surveyConfig: SurveyConfig
-        if (hasEventDrivenUserSurveyParameters() && eventDrivenUserSurveyParameters.hasCommon() && eventDrivenUserSurveyParameters.hasPpac()) {
+        if (hasEventDrivenUserSurveyParameters() &&
+            eventDrivenUserSurveyParameters.hasCommon() &&
+            eventDrivenUserSurveyParameters.hasPpac()) {
             val safetyNetRequirements: SafetyNetRequirements
             eventDrivenUserSurveyParameters.ppac.also {
                 safetyNetRequirements = SafetyNetRequirementsContainer(
