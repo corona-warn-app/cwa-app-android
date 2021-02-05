@@ -127,11 +127,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    override fun onPause() {
-        homeAdapter.onSaveState()
-        super.onPause()
-    }
-
     private fun showRemoveTestDialog() {
         val removeTestDialog = DialogHelper.DialogInstance(
             requireActivity(),

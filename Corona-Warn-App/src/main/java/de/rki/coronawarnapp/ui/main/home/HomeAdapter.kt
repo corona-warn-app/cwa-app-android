@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
@@ -26,6 +25,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
+import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
@@ -33,14 +33,6 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
     AsyncDiffUtilAdapter<HomeItem> {
 
     override val asyncDiffer: AsyncDiffer<HomeItem> = AsyncDiffer(adapter = this)
-
-    private var statisticsState: Parcelable? = null
-
-    private val onSaveState = mutableListOf<() -> Unit>()
-
-    private val onSaveStatisticsState: (Parcelable) -> Unit = {
-        statisticsState = it
-    }
 
     init {
         modules.addAll(listOf(
@@ -61,34 +53,10 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is TestReadyCard.Item }) { TestReadyCard(it) },
             TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
             TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
-            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) {
-                StatisticsHomeCard(
-                    it,
-                    restoredState = statisticsState,
-                    onSaveStatisticsState = onSaveStatisticsState
-                )
-            }
-        ))
-    }
-
-    fun onSaveState() {
-        onSaveState.forEach {
-            it.invoke()
-        }
-        onSaveState.clear()
-    }
-
-    override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): HomeItemVH<HomeItem, ViewBinding> {
-        val vh = super.onCreateBaseVH(parent, viewType)
-        if (vh.needsRestore()) {
-            onSaveState.add(vh.onSaveState)
-        }
-        return vh
-    }
-
-    override fun onBindBaseVH(holder: HomeItemVH<HomeItem, ViewBinding>, position: Int, payloads: MutableList<Any>) {
-        super.onBindBaseVH(holder, position, payloads)
-        holder.onRestoreState()
+            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) },
+            SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
+        )
+        )
     }
 
     override fun getItemCount(): Int = data.size
@@ -96,9 +64,5 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
     abstract class HomeItemVH<Item : HomeItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB> {
-        open var onSaveState: () -> Unit = { }
-        open fun onRestoreState() {}
-        open fun needsRestore(): Boolean = false
-    }
+    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
 }
