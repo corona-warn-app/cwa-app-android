@@ -121,6 +121,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:autoLink="web|email"
                 android:focusable="true"
                 android:text="@{body}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
