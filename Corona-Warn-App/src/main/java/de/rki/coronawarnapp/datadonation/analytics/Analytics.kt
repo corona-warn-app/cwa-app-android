@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
@@ -45,41 +46,52 @@ class Analytics @Inject constructor(
         }
     }
 
-    private suspend fun submitAnalyticsData() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun submitAnalyticsData() {
         Timber.d("Starting analytics submission")
 
         val request: DonorModule.Request = object : DonorModule.Request {}
 
-        val contributions = donorModules.map { it.beginDonation(request) }
+        val contributions = donorModules.map {
+            Timber.d("Beginning donation for module: %s", it::class.simpleName)
+            it.beginDonation(request)
+        }
 
         val ppaDataBuilder = PpaData.PPADataAndroid.newBuilder()
 
         contributions.forEach {
+            Timber.d("Injecting contribution: %s", it::class.simpleName)
             it.injectData(ppaDataBuilder)
         }
 
         val success = trySubmission(ppaDataBuilder.build())
 
         contributions.forEach {
+            Timber.d("Finishing contribution: %s", it::class.simpleName)
             it.finishDonation(success)
         }
 
         settings.lastSubmittedTimestamp.update {
             Instant.now()
         }
+
+        Timber.d("Finished analytics submission")
     }
 
-    private suspend fun stopDueToProbabilityToSubmit(): Boolean {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun stopDueToProbabilityToSubmit(): Boolean {
         val submitRoll = Random.nextDouble(0.0, 1.0)
         return submitRoll > appConfigProvider.getAppConfig().analytics.probabilityToSubmit
     }
 
-    private fun stopDueToLastSubmittedTimestamp(): Boolean {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun stopDueToLastSubmittedTimestamp(): Boolean {
         val lastSubmit = settings.lastSubmittedTimestamp.value ?: return false
         return lastSubmit.plus(Hours.hours(LAST_SUBMISSION_MIN_AGE_HOURS).toStandardDuration()).isAfterNow
     }
 
-    private fun stopDueToTimeSinceOnboarding(): Boolean {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun stopDueToTimeSinceOnboarding(): Boolean {
         val onboarding = LocalData.onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) } ?: return true
         return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfterNow
     }

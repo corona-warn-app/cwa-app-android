@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
+import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import org.junit.jupiter.api.Test

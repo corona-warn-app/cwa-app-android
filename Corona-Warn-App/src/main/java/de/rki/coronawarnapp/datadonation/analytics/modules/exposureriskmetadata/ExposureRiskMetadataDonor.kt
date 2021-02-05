@@ -58,7 +58,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
         val onContributionFinished: suspend (Boolean) -> Unit
     ) : DonorModule.Contribution {
         override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
-            protobufContainer.exposureRiskMetadataSetList.add(contributionProto)
+            protobufContainer.addExposureRiskMetadataSet(contributionProto)
         }
 
         override suspend fun finishDonation(successful: Boolean) {
