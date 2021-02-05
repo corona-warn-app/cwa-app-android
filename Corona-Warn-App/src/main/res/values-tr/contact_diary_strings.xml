@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Henüz hiçbir kişi tanımlanmadı"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Bir kişi oluşturun ve temas güncenize ekleyin."</string>
     <string name="contact_diary_person_bottom_sheet_title">"Kişi"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Ad, soyadı"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Ad"</string>
     <string name="contact_diary_person_bottom_sheet_save_button">"Kaydet"</string>
     <string name="contact_diary_location_bottom_sheet_title">"Yer"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Tanım"</string>
@@ -40,6 +40,8 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">"Dilediğiniz zaman güncenizdeki kişi ve yer girişlerini kaldırabilirsiniz. Günce girişleri 16 günün ardından otomatik olarak silinecektir."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"Temas güncenizi düz metin biçiminde dışa aktarabilir ve ardından girişleri yazdırabilir, düzenleyebilir ya da gerekli olduğunda kamu sağlığı yetkilinize sunabilirsiniz."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section">"Belirtilen maruz kalmaların kaydettiğiniz kişilerle ve yerlerle ilgili olması şart değildir. Lütfen herhangi bir yanlış çıkarımda bulunmayın."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Temas Güncesi"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
@@ -60,6 +62,17 @@
     <string name="contact_diary_overview_subtitle">"Karşılaştığınız kişileri ve ziyaret ettiğiniz yerleri yazın."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Başlangıç Sayfası"</string>
+
+
+    <!-- XTXT: Title for contact diary overview screen high risk information -->
+    <string name="contact_diary_high_risk_title">"Daha Yüksek Risk"</string>
+    <!-- XTXT: Title for contact diary overview screen low risk information -->
+    <string name="contact_diary_low_risk_title">"Düşük Risk"</string>
+    <!-- XTXT: Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body">"uygulama tarafından değerlendirilen karşılaşmalar temel alınır."</string>
+    <!-- XTXT: Extended Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body_extended">"uygulama tarafından değerlendirilen karşılaşmalar temel alınır. Kaydettiğiniz kişilerle ve yerlerle ilgili olmaları şart değildir."</string>
+
 
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"Yer işareti bulunan kapalı bir kitap"</string>

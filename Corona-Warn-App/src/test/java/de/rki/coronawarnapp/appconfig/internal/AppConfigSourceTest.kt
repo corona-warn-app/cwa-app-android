@@ -12,11 +12,13 @@ import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
+import io.mockk.coVerifyOrder
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -78,6 +80,14 @@ class AppConfigSourceTest : BaseTest() {
 
         every { cwaSettings.wasDeviceTimeIncorrectAcknowledged } returns false
         every { cwaSettings.wasDeviceTimeIncorrectAcknowledged = any() } just Runs
+
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH
+        every { cwaSettings.firstReliableDeviceTime = any() } just Runs
+
+        every { cwaSettings.lastDeviceTimeStateChangeAt } returns Instant.EPOCH
+        every { cwaSettings.lastDeviceTimeStateChangeAt = any() } just Runs
+        every { cwaSettings.lastDeviceTimeStateChangeState } returns ConfigData.DeviceTimeState.INCORRECT
+        every { cwaSettings.lastDeviceTimeStateChangeState = any() } just Runs
     }
 
     @AfterEach
@@ -113,7 +123,7 @@ class AppConfigSourceTest : BaseTest() {
         val instance = createInstance()
         instance.getConfigData() shouldBe remoteConfig
 
-        coVerifySequence {
+        coVerifyOrder {
             localSource.getConfigData()
             timeStamper.nowUTC
             remoteSource.getConfigData()
@@ -160,7 +170,7 @@ class AppConfigSourceTest : BaseTest() {
 
         createInstance().getConfigData()
 
-        coVerifySequence {
+        coVerifyOrder {
             localSource.getConfigData()
             remoteSource.getConfigData()
             cwaSettings.wasDeviceTimeIncorrectAcknowledged
@@ -181,6 +191,64 @@ class AppConfigSourceTest : BaseTest() {
         coVerifySequence {
             localSource.getConfigData()
             remoteSource.getConfigData()
+        }
+    }
+
+    @Test
+    fun `first reliable device time is set when the remote config has the correct device time`() = runBlockingTest {
+        coEvery { localSource.getConfigData() } returns null
+
+        createInstance().getConfigData()
+
+        verify {
+            cwaSettings.firstReliableDeviceTime = Instant.EPOCH.plus(Duration.standardHours(1))
+        }
+    }
+
+    @Test
+    fun `first reliable device time is not set, if it has already been set`() = runBlockingTest {
+        coEvery { localSource.getConfigData() } returns null
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.ofEpochMilli(1234L)
+
+        createInstance().getConfigData()
+
+        verify(exactly = 0) {
+            cwaSettings.firstReliableDeviceTime = any()
+        }
+    }
+
+    @Test
+    fun `first reliable device time is not set, if the device time is incorrect`() = runBlockingTest {
+        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.standardDays(1))
+        coEvery { localSource.getConfigData() } returns null
+
+        createInstance().getConfigData()
+
+        verify(exactly = 0) {
+            cwaSettings.firstReliableDeviceTime = any()
+        }
+    }
+
+    @Test
+    fun `if the device time state changes we save the timestamp and the current state`() = runBlockingTest {
+        coEvery { localSource.getConfigData() } returns null
+        // INCORRECT
+        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.standardDays(1))
+
+        createInstance().getConfigData()
+
+        verify(exactly = 0) {
+            cwaSettings.lastDeviceTimeStateChangeAt = any()
+            cwaSettings.lastDeviceTimeStateChangeState = any()
+        }
+
+        coEvery { remoteSource.getConfigData() } returns remoteConfig
+
+        createInstance().getConfigData()
+
+        verify {
+            cwaSettings.lastDeviceTimeStateChangeAt = Instant.EPOCH.plus(Duration.standardHours(1))
+            cwaSettings.lastDeviceTimeStateChangeState = ConfigData.DeviceTimeState.CORRECT
         }
     }
 }
