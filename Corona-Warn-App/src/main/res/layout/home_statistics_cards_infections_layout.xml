@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
+        android:id="@+id/infections_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -16,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
+            android:contentDescription="@null"
             android:src="@drawable/ic_main_illustration_infection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/flow_layout" />
@@ -42,6 +44,7 @@
         <TextView
             android:id="@+id/primary_value"
             style="@style/StatisticsCardPrimaryValue"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -58,6 +61,7 @@
         <TextView
             android:id="@+id/secondary_value"
             style="@style/StatisticsCardSecondaryValue"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="11.981" />
@@ -81,6 +85,7 @@
 
         <TextView
             android:id="@+id/tertiary_value"
+            android:focusable="true"
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
