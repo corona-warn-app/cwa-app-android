@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestMo
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
+import de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsTestModule
@@ -41,6 +42,7 @@ import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
         OnboardingPrivacyTestModule::class,
         OnboardingTestFragmentModule::class,
         OnboardingTracingFragmentTestModule::class,
+        OnboardingAnalyticsFragmentTestModule::class,
         // Submission
         SubmissionDispatcherTestModule::class,
         SubmissionTanTestModule::class,
