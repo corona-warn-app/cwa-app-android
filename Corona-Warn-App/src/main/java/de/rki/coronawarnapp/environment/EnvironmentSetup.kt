@@ -39,11 +39,11 @@ class EnvironmentSetup @Inject constructor(
     enum class Type(val rawKey: String) {
         PRODUCTION("PROD"),
         INT("INT"),
-        INT_FED("INT-FED"),
         DEV("DEV"),
         WRU("WRU"),
-        WRU_XA("WRU-XA"), // (aka ACME)
-        WRU_XD("WRU-XD"); // (aka Germany)
+        WRU_XA("WRU-XA"), // (aka ACME),
+        WRU_XD("WRU-XD"), // (aka Germany)
+        LOCAL("LOCAL"); // Emulator/CLI tooling
 
         companion object {
             internal fun String.toEnvironmentType(): Type = values().single {

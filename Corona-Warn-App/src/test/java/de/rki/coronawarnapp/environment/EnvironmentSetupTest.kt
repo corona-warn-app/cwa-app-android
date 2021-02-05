@@ -116,10 +116,10 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.PRODUCTION.rawKey shouldBe "PROD"
         EnvironmentSetup.Type.DEV.rawKey shouldBe "DEV"
         EnvironmentSetup.Type.INT.rawKey shouldBe "INT"
-        EnvironmentSetup.Type.INT_FED.rawKey shouldBe "INT-FED"
         EnvironmentSetup.Type.WRU.rawKey shouldBe "WRU"
         EnvironmentSetup.Type.WRU_XA.rawKey shouldBe "WRU-XA"
         EnvironmentSetup.Type.WRU_XD.rawKey shouldBe "WRU-XD"
+        EnvironmentSetup.Type.LOCAL.rawKey shouldBe "LOCAL"
         EnvironmentSetup.Type.values().size shouldBe 7
 
         EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS.rawKey shouldBe "USE_EUR_KEY_PKGS"
@@ -136,9 +136,9 @@ class EnvironmentSetupTest : BaseTest() {
         private const val BAD_JSON = "{ environmentType: {\n \"SUBMISSION_CDN_U"
         private val ENVS_WITH_EUR_PKGS = listOf(
             EnvironmentSetup.Type.PRODUCTION,
-            EnvironmentSetup.Type.INT_FED,
             EnvironmentSetup.Type.WRU_XD,
-            EnvironmentSetup.Type.WRU_XA
+            EnvironmentSetup.Type.WRU_XA,
+            EnvironmentSetup.Type.LOCAL
         )
         private const val GOOD_JSON = """
             {
@@ -169,15 +169,6 @@ class EnvironmentSetupTest : BaseTest() {
                     "SAFETYNET_API_KEY": "placeholder-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT"
                 },
-                "INT-FED": {
-                    "USE_EUR_KEY_PKGS" : true,
-                    "SUBMISSION_CDN_URL": "https://submission-INT-FED",
-                    "DOWNLOAD_CDN_URL": "https://download-INT-FED",
-                    "VERIFICATION_CDN_URL": "https://verification-INT-FED",
-                    "DATA_DONATION_CDN_URL": "https://placeholder-INT-FED",
-                    "SAFETYNET_API_KEY": "placeholder-INT-FED",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT-FED"
-                },
                 "WRU": {
                     "USE_EUR_KEY_PKGS" : false,
                     "SUBMISSION_CDN_URL": "https://submission-WRU",
@@ -204,6 +195,15 @@ class EnvironmentSetupTest : BaseTest() {
                     "DATA_DONATION_CDN_URL": "https://placeholder-WRU-XA",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XA",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA"
+                },
+                "LOCAL": {
+                    "USE_EUR_KEY_PKGS" : true,
+                    "SUBMISSION_CDN_URL": "https://submission-LOCAL",
+                    "DOWNLOAD_CDN_URL": "https://download-LOCAL",
+                    "VERIFICATION_CDN_URL": "https://verification-LOCAL",
+                    "DATA_DONATION_CDN_URL": "https://placeholder-LOCAL",
+                    "SAFETYNET_API_KEY": "placeholder-LOCAL",
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL"
                 }
             }
         """
