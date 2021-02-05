@@ -14,21 +14,21 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 
 class StatisticsHomeCard(
     parent: ViewGroup,
-    @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
-    val restoredState: Parcelable?,
-    val onStoreState: (state: Parcelable) -> Unit
-) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
+    @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer
+) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent),
+    SavedStateMod.StateSavingVH {
+
+    override var savedStateKey: String? = null
 
     private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
         StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private val statisticsCardAdapter by lazy {
-        StatisticsCardAdapter()
-    }
+    private val statisticsCardAdapter by lazy { StatisticsCardAdapter() }
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
@@ -49,12 +49,12 @@ class StatisticsHomeCard(
         }
     }
 
-    override fun needsRestore(): Boolean = true
-
     override val onBindData: HomeStatisticsScrollcontainerBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        savedStateKey = "stats:${item.stableId}"
+
         item.data.items.map {
             StatisticsCardItem(it, item.onHelpAction)
         }.let {
@@ -62,15 +62,9 @@ class StatisticsHomeCard(
         }
     }
 
-    override var onSaveState: () -> Unit = {
-        statisticsLayoutManager.onSaveInstanceState()?.let {
-            onStoreState(it)
-        }
-    }
+    override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()
 
-    override fun onRestoreState() {
-        statisticsLayoutManager.onRestoreInstanceState(restoredState)
-    }
+    override fun restoreStatestate(state: Parcelable) = statisticsLayoutManager.onRestoreInstanceState(state)
 
     data class Item(
         val data: StatisticsData,
