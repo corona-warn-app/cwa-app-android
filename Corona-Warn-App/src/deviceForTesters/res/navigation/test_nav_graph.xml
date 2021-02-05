@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_contactDiaryTestFragment"
             app:destination="@id/test_contact_diary_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_dataDonationFragment"
+            app:destination="@id/test_datadonation_fragment" />
     </fragment>
 
     <fragment
@@ -100,5 +103,10 @@
         android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment"
         android:label="ContactDiaryTestFragment"
         tools:layout="@layout/fragment_test_contact_diary" />
+    <fragment
+        android:id="@+id/test_datadonation_fragment"
+        tools:layout="@layout/fragment_test_datadonation"
+        android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment"
+        android:label="DataDonationFragment" />
 
 </navigation>
