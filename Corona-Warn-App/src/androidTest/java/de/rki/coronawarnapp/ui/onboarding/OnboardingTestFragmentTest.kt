@@ -12,10 +12,10 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
-import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.takeScreenshot
+import testhelpers.launchFragment2
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingTestFragmentTest : BaseUITest() {

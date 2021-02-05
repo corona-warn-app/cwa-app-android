@@ -382,7 +382,6 @@ class MainActivityTest : BaseUITest() {
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
-            every { showPopUpsOrNavigate() } just Runs
         }
 
         setupMockViewModel(
