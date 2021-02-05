@@ -38,7 +38,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
 
     private val onSaveState = mutableListOf<() -> Unit>()
 
-    private val onStoreStatisticsState: (Parcelable) -> Unit = {
+    private val onSaveStatisticsState: (Parcelable) -> Unit = {
         statisticsState = it
     }
 
@@ -65,7 +65,7 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
                 StatisticsHomeCard(
                     it,
                     restoredState = statisticsState,
-                    onStoreState = onStoreStatisticsState
+                    onSaveStatisticsState = onSaveStatisticsState
                 )
             }
         ))

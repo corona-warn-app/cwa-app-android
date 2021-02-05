@@ -19,7 +19,7 @@ class StatisticsHomeCard(
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer,
     val restoredState: Parcelable?,
-    val onStoreState: (state: Parcelable) -> Unit
+    val onSaveStatisticsState: (state: Parcelable) -> Unit
 ) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
 
     private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
@@ -64,7 +64,7 @@ class StatisticsHomeCard(
 
     override var onSaveState: () -> Unit = {
         statisticsLayoutManager.onSaveInstanceState()?.let {
-            onStoreState(it)
+            onSaveStatisticsState(it)
         }
     }
 
