@@ -15,7 +15,5 @@ interface SurveyConfig {
      */
     val surveyOnHighRiskUrl: String
 
-    val safetyNetRequirements: SafetyNetRequirements
-
     interface Mapper : ConfigMapper<SurveyConfig>
 }
