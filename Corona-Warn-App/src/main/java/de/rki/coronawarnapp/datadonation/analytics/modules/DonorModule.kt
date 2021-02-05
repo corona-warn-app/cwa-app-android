@@ -21,7 +21,7 @@ interface DonorModule {
         /**
          * You will be passed a protobuf container where the module will add it's data
          */
-        suspend fun injectData(protobufContainer: PpaData.PPADataAndroid)
+        suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder)
 
         /**
          * This will be called with the submission result.
