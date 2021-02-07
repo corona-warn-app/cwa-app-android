@@ -37,6 +37,12 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
+                is SubmissionNavigationEvents.ResolvePlayServicesException ->
+                    it.exception.status.startResolutionForResult(
+                        requireActivity(),
+                        1000
+                    )
+
             }
         }
         viewModel.countries.observe2(this) {
