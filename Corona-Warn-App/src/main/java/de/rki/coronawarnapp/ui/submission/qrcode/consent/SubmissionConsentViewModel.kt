@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import timber.log.Timber
+import kotlinx.coroutines.tasks.await
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
@@ -30,12 +30,11 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     fun onConsentButtonClick() {
         submissionRepository.giveConsentToSubmission()
         //routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
-        exposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Timber.tag("onConsentButtonClick").d(task.result.toString())
-            } else {
-                Timber.tag("onConsentButtonClick").e(task.exception)
-                task.exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
+        launch {
+            try {
+                exposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory().await()
+            } catch (e: Exception) {
+                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
         }
     }
