@@ -5,13 +5,13 @@
      ###################################### -->
 
     <!-- XHED: Title for the release info screen -->
-    <string name="release_info_header" />
+    <string name="release_info_header">"New Features"</string>
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">Release %1$s</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body" />
     <!-- XBUT: Continue button for the release info screen -->
-    <string name="release_info_continue_button" />
+    <string name="release_info_continue_button">"Next"</string>
     <!-- XTXT: New release info footer -->
     <string name="new_release_bottom">Änderungen zum Release finden Sie in den App-Einstellungen unter dem Menüpunkt „Neue Funktionen”.</string>
 

@@ -50,7 +50,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:importantForAccessibility="no"/>
+                    android:focusable="true"
+                    android:contentDescription="@string/submission_consent_main_illustration_description" />
 
                 <include layout="@layout/include_submission_consent_intro"
                     android:id="@+id/include_submission_consent_intro"
