@@ -18,7 +18,8 @@ class Surveys @Inject constructor(
         // TODO
         return Survey(
             type = Type.HIGH_RISK_ENCOUNTER,
-            surveyLink = "Link to high risk encounter survey..."
+            surveyLink = "Link to high risk encounter survey...",
+            queryParam = "whatever"
         )
     }
 
@@ -32,6 +33,7 @@ class Surveys @Inject constructor(
 
     data class Survey(
         val type: Type,
-        val surveyLink: String
+        val surveyLink: String,
+        val queryParam: String
     )
 }

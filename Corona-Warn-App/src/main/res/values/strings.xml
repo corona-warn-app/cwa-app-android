@@ -1715,6 +1715,6 @@
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Fehler"</string>
     <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
-    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"ok"</string>
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"OK"</string>
 
 </resources>

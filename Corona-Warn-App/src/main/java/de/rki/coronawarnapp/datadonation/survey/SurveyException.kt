@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.datadonation.survey
 
 class SurveyException constructor(
+    val type: Type,
     message: String?,
     cause: Throwable?
-) : Exception(message, cause)
+) : Exception("$type: $message", cause) {
+
+    enum class Type
+}
