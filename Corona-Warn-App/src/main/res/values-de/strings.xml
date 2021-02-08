@@ -903,6 +903,8 @@
     <string name="submission_consent_main_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
+    <!-- YTXT: Content Description for the illustration  -->
+    <string name="submission_consent_main_illustration_description">"Eine Person hält ein Smartphone. Ein QR-Code auf einem Test symbolisiert den zu scannenden Code."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -1365,8 +1367,8 @@
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen.\n\nWeitere Informationen finden Sie in den FAQ:\nFAQ zu Statistiken."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label -->
-    <string name="statistics_explanation_seven_day_r_link_label">"FAQ zu den Statistiken."</string>
+    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
+    <string name="statistics_explanation_seven_day_r_link_label">"FAQ zu Statistiken"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legende"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1386,7 +1388,7 @@
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung von weniger als 1\% im Vortagesvergleich bzw. 5\% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau). Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage."</string>
+    <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung von weniger als 1%% im Vortagesvergleich bzw. 5%% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau). Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Folgende Trends können angezeigt werden:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1401,6 +1403,11 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/de/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakte Darstellung eines Smartphones mit vier Platzhaltern für Informationen"</string>
+
+    <!-- XTXT: Statistics Card Announcement -->
+    <string name="accessibility_statistics_card_announcement">"Statistikkarte"</string>
+    <!-- XTXT: Statistics Card Navigation Announcement -->
+    <string name="accessibility_statistics_card_navigation_information">"Wische horizontal zwischen den Karten für weitere Statistiken"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
@@ -1644,9 +1651,32 @@
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">Trend stabil</string>
 
+    <!-- XHED: Title for BottomNav main screen title -->
+    <string name="bottom_nav_home_title">Startseite</string>
+    <!-- XHED: Title for BottomNav diary screen title -->
+    <string name="bottom_nav_diary_title">Tagebuch</string>
+
     <!-- ####################################
        Data donation
     ###################################### -->
+
+    <!-- XHED: Title for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_title">"Befragung zur Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_content">"Helfen Sie uns, die App zu verbessern, indem Sie einige einfache Fragen beantworten."</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_button_text">"Zur Befragung"</string>
+
+    <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
+    <string name="datadonation_details_survey_consent_button_title">"Weiter"</string>
+    <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_title">"Befragung zur Verbesserung der Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_body">"Mit Ihrer Teilnahme helfen Sie uns zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken."</string>
+    <!-- XHED: Text for the consent part title displayed over the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_title">"Ihr Einverständnis"</string>
+    <!-- XHED: Text for the consent part body displayed over the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_body">"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."</string>
 
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
     <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
