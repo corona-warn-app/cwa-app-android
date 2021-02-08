@@ -56,7 +56,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
                     }
                 }
             }
-
         }
 
         vm.events.observe2(this) {
