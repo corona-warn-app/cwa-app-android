@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.PpddEdusParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.PpddPpacParameters
 import io.kotest.matchers.shouldBe
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -82,7 +83,7 @@ class SurveyConfigMapperTest : BaseTest() {
         createInstance().map(rawConfig).apply {
             otpQueryParameterName shouldBe commonParameters.otpQueryParameterName
             surveyOnHighRiskEnabled shouldBe commonParameters.surveyOnHighRiskEnabled
-            surveyOnHighRiskUrl shouldBe commonParameters.surveyOnHighRiskUrl
+            surveyOnHighRiskUrl shouldBe commonParameters.surveyOnHighRiskUrl.toHttpUrl()
             safetyNetRequirements.apply {
                 requireEvaluationTypeBasic shouldBe ppacParameters.requireBasicIntegrity
                 requireCTSProfileMatch shouldBe ppacParameters.requireCTSProfileMatch
