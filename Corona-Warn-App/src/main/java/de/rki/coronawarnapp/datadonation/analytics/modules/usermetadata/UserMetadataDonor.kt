@@ -30,6 +30,8 @@ class UserMetadataDonor @Inject constructor(
             protobufContainer.userMetadata = contributionProto
         }
 
-        override suspend fun finishDonation(successful: Boolean) {}
+        override suspend fun finishDonation(successful: Boolean) {
+            // No post processing needed for User Metadata
+        }
     }
 }
