@@ -158,7 +158,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/risk_details_period_logged_subtitle"
                         app:layout_constraintStart_toStartOf="@+id/guideline_start"
                         app:progress="@{loggedPeriod.activeTracingDaysInRetentionPeriod}"
-                        app:progressColor="@{settingsTracingState.getProgressCircleColor(context)}"/>
+                        app:progressColor="@{loggedPeriod.getProgressColor(context)}"/>
 
                     <include layout="@layout/merge_guidelines_card" />
 

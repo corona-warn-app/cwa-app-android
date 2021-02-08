@@ -2,10 +2,8 @@ package de.rki.coronawarnapp.tracing.ui.settings
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 sealed class TracingSettingsState {
@@ -36,12 +34,6 @@ sealed class TracingSettingsState {
     abstract fun getTracingStatusText(context: Context): String
 
     /**
-     * Change the progress circle color based on the tracing status.
-     */
-    @ColorInt
-    abstract fun getProgressCircleColor(context: Context): Int
-
-    /**
      * Change the visibility of the location card based on the tracing status.
      */
     abstract fun isLocationCardVisible(): Boolean
@@ -70,9 +62,6 @@ sealed class TracingSettingsState {
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_restricted)
 
-        override fun getProgressCircleColor(context: Context): Int =
-            context.getColorCompat(R.color.colorStableHairlineLight)
-
         override fun isLocationCardVisible(): Boolean = false
 
         override fun isBluetoothCardVisible(): Boolean = true
@@ -93,9 +82,6 @@ sealed class TracingSettingsState {
 
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_inactive)
-
-        override fun getProgressCircleColor(context: Context): Int =
-            context.getColorCompat(R.color.colorStableHairlineLight)
 
         override fun isLocationCardVisible(): Boolean = true
 
@@ -118,9 +104,6 @@ sealed class TracingSettingsState {
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_inactive)
 
-        override fun getProgressCircleColor(context: Context): Int =
-            context.getColorCompat(R.color.colorStableHairlineLight)
-
         override fun isLocationCardVisible(): Boolean = false
 
         override fun isBluetoothCardVisible(): Boolean = false
@@ -141,9 +124,6 @@ sealed class TracingSettingsState {
 
         override fun getTracingStatusText(context: Context): String =
             context.getString(R.string.settings_tracing_status_active)
-
-        override fun getProgressCircleColor(context: Context): Int =
-            context.getColorCompat(R.color.colorAccentTintIcon)
 
         override fun isLocationCardVisible(): Boolean = false
 
