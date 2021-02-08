@@ -48,8 +48,9 @@ class TracingDetailsItemProvider @Inject constructor(
                 add(AdditionalInfoLowRiskBox.Item)
             }
 
-            when (latestCalc.riskState) {
-                RiskState.INCREASED_RISK -> BehaviorIncreasedRiskBox.Item
+            when {
+                status != Status.TRACING_INACTIVE && latestCalc.riskState == RiskState.INCREASED_RISK ->
+                    BehaviorIncreasedRiskBox.Item
                 else -> BehaviorNormalRiskBox.Item(
                     tracingStatus = status,
                     riskState = latestCalc.riskState
