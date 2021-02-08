@@ -97,6 +97,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/federal_state_row"
                     style="@style/row"
+                    android:layout_marginTop="28dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -186,30 +187,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/district_row" />
 
-                <TextView
-                    android:id="@+id/regional_evaluation_text"
-                    style="@style/body2Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/onboarding_ppa_regional_evaluation_text"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_regional_evaluation_text"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/district_row" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/age_group_row"
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/regional_evaluation_text">
+                    app:layout_constraintTop_toBottomOf="@+id/district_row">
 
                     <TextView
                         android:id="@+id/age_group_row_subtitle"
@@ -279,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="27dp"
                         android:focusable="true"
-                        android:text="@string/contact_ppa_onboarding_privacy_information_body"
+                        android:text="@string/ppa_onboarding_privacy_information_body"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_title" />
@@ -292,7 +277,7 @@
                         android:layout_marginStart="13dp"
                         android:layout_marginTop="23dp"
                         android:focusable="true"
-                        android:text="@string/contact_ppa_onboarding_privacy_information_point_consent"
+                        android:text="@string/ppa_onboarding_privacy_information_point_consent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
@@ -315,7 +300,7 @@
                         android:layout_marginStart="13dp"
                         android:layout_marginTop="23dp"
                         android:focusable="true"
-                        android:text="@string/contact_ppa_onboarding_privacy_information_point_identity"
+                        android:text="@string/ppa_onboarding_privacy_information_point_identity"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
@@ -330,7 +315,63 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_identity" />
 
+                    <TextView
+                        android:id="@+id/legal_point_sixteen"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="23dp"
+                        android:focusable="true"
+                        android:text="@string/ppa_onboarding_privacy_information_point_sixteen"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
+                        app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
+
+                    <ImageView
+                        android:id="@+id/bullet_point_sixteen"
+                        android:layout_width="@dimen/bullet_point_size"
+                        android:layout_height="@dimen/bullet_point_size"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/bullet_point"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/legal_point_sixteen" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/usa_data_processing_warning_row"
+                    style="@style/row"
+                    android:layout_marginTop="22dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/consent_layout">
+
+                    <TextView
+                        android:id="@+id/usa_data_processing_warning_title"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:text="@string/onboarding_ppa_usa_data_processing_warning_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    layout="@layout/include_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/usa_data_processing_warning_row" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/body_start"
