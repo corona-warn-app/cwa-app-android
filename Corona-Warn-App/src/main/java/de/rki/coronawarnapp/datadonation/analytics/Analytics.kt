@@ -20,6 +20,7 @@ class Analytics @Inject constructor(
     private val dataDonationAnalyticsServer: DataDonationAnalyticsServer,
     private val appConfigProvider: AppConfigProvider,
     private val deviceAttestation: DeviceAttestation,
+    // @JvmSuppressWildcards is needed for @IntoSet injection in Kotlin
     private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
     private val settings: AnalyticsSettings
 ) {
@@ -27,10 +28,11 @@ class Analytics @Inject constructor(
 
     private suspend fun trySubmission(ppaData: PpaData.PPADataAndroid): Boolean {
         try {
-            val attestation = deviceAttestation.attest(object : DeviceAttestation.Request {
-                override val scenarioPayload: ByteArray
-                    get() = ppaData.toByteArray()
-            })
+            val ppaAttestationRequest = PPADeviceAttestationRequest(
+                ppaData = ppaData
+            )
+
+            val attestation = deviceAttestation.attest(ppaAttestationRequest)
 
             val ppaContainer = PpaDataRequestAndroid.PPADataRequestAndroid.newBuilder()
                 .setAuthentication(attestation.accessControlProtoBuf)
@@ -46,10 +48,7 @@ class Analytics @Inject constructor(
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun submitAnalyticsData() {
-        Timber.d("Starting analytics submission")
-
+    suspend fun collectContributions(ppaDataBuilder: PpaData.PPADataAndroid.Builder): List<DonorModule.Contribution> {
         val request: DonorModule.Request = object : DonorModule.Request {}
 
         val contributions = donorModules.map {
@@ -57,12 +56,21 @@ class Analytics @Inject constructor(
             it.beginDonation(request)
         }
 
-        val ppaDataBuilder = PpaData.PPADataAndroid.newBuilder()
-
         contributions.forEach {
             Timber.d("Injecting contribution: %s", it::class.simpleName)
             it.injectData(ppaDataBuilder)
         }
+
+        return contributions
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun submitAnalyticsData() {
+        Timber.d("Starting analytics submission")
+
+        val ppaDataBuilder = PpaData.PPADataAndroid.newBuilder()
+
+        val contributions = collectContributions(ppaDataBuilder = ppaDataBuilder)
 
         val success = trySubmission(ppaDataBuilder.build())
 
@@ -130,5 +138,12 @@ class Analytics @Inject constructor(
     companion object {
         private const val LAST_SUBMISSION_MIN_AGE_HOURS = 23
         private const val ONBOARDING_DELAY_HOURS = 24
+
+        data class PPADeviceAttestationRequest(
+            val ppaData: PpaData.PPADataAndroid
+        ) : DeviceAttestation.Request {
+            override val scenarioPayload: ByteArray
+                get() = ppaData.toByteArray()
+        }
     }
 }
