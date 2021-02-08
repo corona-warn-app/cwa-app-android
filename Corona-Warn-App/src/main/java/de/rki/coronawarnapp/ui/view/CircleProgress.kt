@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
@@ -73,8 +74,8 @@ class CircleProgress @JvmOverloads constructor(
      * Setter for the progress circle color.
      * The progress bar also needs to be repainted when the
      * color changes (ex: when the risk calculation gets turned on/off)
-      */
-    var progressColor: Int = 0
+     */
+    var progressColor: Int = Color.TRANSPARENT
         set(value) {
             field = value
             binding.circleProgressIcon.setColorFilter(value, android.graphics.PorterDuff.Mode.SRC_IN)
