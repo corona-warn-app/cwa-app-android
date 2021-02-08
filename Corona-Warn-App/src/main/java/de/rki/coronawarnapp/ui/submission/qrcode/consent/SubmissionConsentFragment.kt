@@ -42,7 +42,6 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         requireActivity(),
                         1000
                     )
-
             }
         }
         viewModel.countries.observe2(this) {
