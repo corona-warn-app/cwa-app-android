@@ -79,6 +79,11 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun stopDueToNoUserConsent(): Boolean {
+        return !isEnabled
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     suspend fun stopDueToProbabilityToSubmit(): Boolean {
         val submitRoll = Random.nextDouble(0.0, 1.0)
         return submitRoll > appConfigProvider.getAppConfig().analytics.probabilityToSubmit
@@ -98,6 +103,11 @@ class Analytics @Inject constructor(
 
     suspend fun submitIfWanted() {
         Timber.d("checking analytics conditions")
+
+        if (stopDueToNoUserConsent()) {
+            Timber.w("Aborting Analytics submission due to noUserConsent")
+            return
+        }
 
         if (stopDueToProbabilityToSubmit()) {
             Timber.w("Aborting Analytics submission due to probabilityToSubmit")

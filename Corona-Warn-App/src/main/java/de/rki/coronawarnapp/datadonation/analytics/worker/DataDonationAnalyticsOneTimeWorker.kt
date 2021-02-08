@@ -6,19 +6,20 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber
 
 /**
- * Periodic background Analytics worker
+ * One time background Analytics worker
  *
  * @see DataDonationAnalyticsScheduler
  */
-class DataDonationAnalyticsPeriodicWorker @AssistedInject constructor(
+class DataDonationAnalyticsOneTimeWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val scheduler: DataDonationAnalyticsScheduler
+    private val analytics: Analytics
 ) :
     CoroutineWorker(context, workerParams) {
 
@@ -32,7 +33,7 @@ class DataDonationAnalyticsPeriodicWorker @AssistedInject constructor(
         }
         var result = Result.success()
         try {
-            scheduler.scheduleOneTime()
+            analytics.submitIfWanted()
         } catch (e: Exception) {
             Timber.tag(TAG).d(e)
             result = Result.retry()
@@ -42,9 +43,9 @@ class DataDonationAnalyticsPeriodicWorker @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<DataDonationAnalyticsPeriodicWorker>
+    interface Factory : InjectedWorkerFactory<DataDonationAnalyticsOneTimeWorker>
 
     companion object {
-        private val TAG = DataDonationAnalyticsPeriodicWorker::class.java.simpleName
+        private val TAG = DataDonationAnalyticsOneTimeWorker::class.java.simpleName
     }
 }
