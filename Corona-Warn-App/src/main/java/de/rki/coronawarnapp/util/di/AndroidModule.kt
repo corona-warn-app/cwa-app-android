@@ -12,6 +12,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.WorkManager
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.safetynet.SafetyNetClient
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -70,4 +72,8 @@ class AndroidModule {
     @Singleton
     @ProcessLifecycle
     fun procressLifecycleOwner(): LifecycleOwner = ProcessLifecycleOwner.get()
+
+    @Provides
+    @Singleton
+    fun safetyNet(@AppContext context: Context): SafetyNetClient = SafetyNet.getClient(context)
 }

@@ -18,7 +18,7 @@ class Surveys @Inject constructor(
         // TODO
         return Survey(
             type = Type.HIGH_RISK_ENCOUNTER,
-            surveyLink = ""
+            surveyLink = "Link to high risk encounter survey..."
         )
     }
 

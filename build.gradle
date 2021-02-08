@@ -13,6 +13,10 @@ buildscript {
         }
     }
     dependencies {
+        // https://issuetracker.google.com/issues/176381203
+        // Fixed in bleeding-edge
+        // Can be upgraded once new Android version is released or
+        // the specific version is available via maven
         classpath 'com.android.tools:r8:2.0.88'
         classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

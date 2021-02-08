@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Nie zdefiniowano jeszcze żadnych osób"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Utwórz osobę i dodaj ją do dziennika kontaktów."</string>
     <string name="contact_diary_person_bottom_sheet_title">"Osoba"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Imię, nazwisko"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Imię i nazwisko"</string>
     <string name="contact_diary_person_bottom_sheet_save_button">"Zapisz"</string>
     <string name="contact_diary_location_bottom_sheet_title">"Miejsce"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Opis"</string>
@@ -40,6 +40,8 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">"Możesz w dowolnym momencie usunąć wpisy dotyczące osób i miejsc ze swojego dziennika. Wpisy w dzienniku będą automatycznie usuwane po 16 dniach."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"Możesz wyeksportować swój dziennik kontaktów w formacie zwykłego tekstu, a następnie wydrukować wpisy, edytować je lub w razie potrzeby przekazać do organu ds. zdrowia publicznego."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section">"Wskazane narażenia niekoniecznie są związane z zarejestrowanymi przez Ciebie osobami i miejscami. Nie wyciągaj błędnych wniosków."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Dziennik kontaktów"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
@@ -60,6 +62,17 @@
     <string name="contact_diary_overview_subtitle">"Zapisuj dane spotykanych osób i odwiedzanych miejsc."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Strona startowa"</string>
+
+
+    <!-- XTXT: Title for contact diary overview screen high risk information -->
+    <string name="contact_diary_high_risk_title">"Podwyższone ryzyko"</string>
+    <!-- XTXT: Title for contact diary overview screen low risk information -->
+    <string name="contact_diary_low_risk_title">"Niskie ryzyko"</string>
+    <!-- XTXT: Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body">"na podstawie kontaktów ocenionych przez aplikację."</string>
+    <!-- XTXT: Extended Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body_extended">"na podstawie kontaktów ocenionych przez aplikację. Niekoniecznie są one związane z zarejestrowanymi przez Ciebie osobami i miejscami."</string>
+
 
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"Zamknięta książka z zakładką"</string>
