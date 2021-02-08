@@ -175,7 +175,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 onRetryClick = { refreshDiagnosisKeys() }
             )
         }
-    }
+    }.distinctUntilChanged()
 
     private val submissionCardItems = submissionStateProvider.state.map { state ->
         when (state) {
@@ -217,13 +217,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
             is SubmissionDone -> TestSubmissionDoneCard.Item(state)
         }
-    }
+    }.distinctUntilChanged()
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         submissionCardItems,
-        submissionStateProvider.state,
-        statisticsProvider.current
+        submissionStateProvider.state.distinctUntilChanged(),
+        statisticsProvider.current.distinctUntilChanged()
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
