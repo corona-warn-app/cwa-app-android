@@ -82,7 +82,7 @@
 
         <TextView
             android:id="@+id/reenable_risk_card_description"
-            style="@style/body2"
+            style="@style/body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
