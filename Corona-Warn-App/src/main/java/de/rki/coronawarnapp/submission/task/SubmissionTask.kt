@@ -154,6 +154,7 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("setSubmissionFinished()")
         BackgroundWorkScheduler.stopWorkScheduler()
         LocalData.numberOfSuccessfulSubmissions(1)
+        BackgroundWorkScheduler.startWorkScheduler()
 
         shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
