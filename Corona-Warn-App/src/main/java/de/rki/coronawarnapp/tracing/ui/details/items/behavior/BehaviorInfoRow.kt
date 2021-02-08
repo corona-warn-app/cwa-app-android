@@ -51,7 +51,8 @@ class BehaviorInfoRow @JvmOverloads constructor(
             body.setUrl(
                 R.string.risk_details_increased_risk_faq_link_text,
                 R.string.risk_details_increased_risk_faq_link_label,
-                R.string.risk_details_increased_risk_faq_url)
+                R.string.risk_details_increased_risk_faq_url
+            )
         }
     }
 
