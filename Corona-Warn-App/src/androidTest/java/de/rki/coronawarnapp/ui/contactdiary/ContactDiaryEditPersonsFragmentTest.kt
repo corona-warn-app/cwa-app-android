@@ -19,13 +19,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -73,8 +72,7 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
     fun capture_screenshot() {
         every { viewModel.personsLiveData } returns MutableLiveData(PERSONS_EDIT_LIST)
         launchFragmentInContainer2<ContactDiaryEditPersonsFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(ContactDiaryEditPersonsFragment::class.simpleName)
+        takeScreenshot<ContactDiaryEditPersonsFragment>()
     }
 }
 

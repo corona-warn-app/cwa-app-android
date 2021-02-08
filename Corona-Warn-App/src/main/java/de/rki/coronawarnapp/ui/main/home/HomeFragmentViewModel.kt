@@ -51,7 +51,6 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -91,14 +90,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
 
-    val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {
-        SingleLiveEvent<HomeFragmentEvents>().apply {
-            if (!LocalData.isInteroperabilityShownAtLeastOnce) {
-                postValue(ShowInteropDeltaOnboarding)
-            } else {
+    val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
+
+    fun showPopUpsOrNavigate() {
+        when {
+            !LocalData.isInteroperabilityShownAtLeastOnce -> {
+                popupEvents.postValue(ShowInteropDeltaOnboarding)
+            }
+            cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
+                popupEvents.postValue(HomeFragmentEvents.ShowNewReleaseFragment)
+            }
+            else -> {
                 launch {
                     if (!LocalData.tracingExplanationDialogWasShown()) {
-                        postValue(
+                        popupEvents.postValue(
                             ShowTracingExplanation(
                                 TimeVariables.getActiveTracingDaysInRetentionPeriod()
                             )
@@ -107,12 +112,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
                 launch {
                     if (errorResetTool.isResetNoticeToBeShown) {
-                        postValue(ShowErrorResetDialog)
+                        popupEvents.postValue(ShowErrorResetDialog)
                     }
                 }
-            }
-            if (cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE) {
-                postValue(HomeFragmentEvents.ShowNewReleaseFragment)
             }
         }
     }
@@ -170,7 +172,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 onRetryClick = { refreshDiagnosisKeys() }
             )
         }
-    }
+    }.distinctUntilChanged()
 
     private val submissionCardItems = submissionStateProvider.state.map { state ->
         when (state) {
@@ -212,13 +214,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
             is SubmissionDone -> TestSubmissionDoneCard.Item(state)
         }
-    }
+    }.distinctUntilChanged()
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         submissionCardItems,
-        submissionStateProvider.state,
-        statisticsProvider.current
+        submissionStateProvider.state.distinctUntilChanged(),
+        statisticsProvider.current.distinctUntilChanged()
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
@@ -235,8 +237,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                 }))
             }
-
-            add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }

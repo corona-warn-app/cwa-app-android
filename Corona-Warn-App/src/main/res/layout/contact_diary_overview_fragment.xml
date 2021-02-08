@@ -13,26 +13,12 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/CWAToolbar.BackArrow"
             android:background="@color/colorBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/CWAToolbar.Menu"
-            app:title="@string/contact_diary_overview_header" />
-
-        <TextView
-            android:id="@+id/onboarding_headline"
-            style="@style/headline5Bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:focusable="true"
-            android:text="@string/contact_diary_overview_title"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            tools:text="Kontakt-Tagebuch" />
+            app:title="@string/contact_diary_overview_title" />
 
         <TextView
             android:id="@+id/contact_diary_overview_subtitle"
@@ -44,7 +30,7 @@
             android:text="@string/contact_diary_overview_subtitle"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             tools:text="Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind." />
 
         <androidx.recyclerview.widget.RecyclerView
