@@ -23,35 +23,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/interoperability_configuration_country_list_container"
+        <include
+            android:id="@+id/interoperability_configuration_country_list"
+            layout="@layout/include_interoperability"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
-            android:paddingStart="@dimen/spacing_normal"
-            android:paddingEnd="@dimen/spacing_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            app:countryData="@{countryData}"
+            app:countryListTitle="@{@string/interoperability_configuration_list_title}"
+            app:firstSection="@{@string/interoperability_configuration_first_section}"
+            app:fourthSection="@{@string/interoperability_configuration_information}"
+            app:isOnboarding="@{false}"
+            app:isRiskdetection="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header">
+            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header"
+            app:secondSection="@{@string/interoperability_configuration_second_section}"
+            app:title="@{@string/interoperability_configuration_title}" />
 
-            <include
-                android:id="@+id/interoperability_configuration_country_list"
-                layout="@layout/include_interoperability"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:title="@{@string/interoperability_configuration_title}"
-                app:firstSection="@{@string/interoperability_configuration_first_section}"
-                app:secondSection="@{@string/interoperability_configuration_second_section}"
-                app:countryListTitle="@{@string/interoperability_configuration_list_title}"
-                app:fourthSection="@{@string/interoperability_configuration_information}"
-                app:countryData="@{countryData}"
-                app:isOnboarding="@{false}"
-                app:isRiskdetection="@{true}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
