@@ -34,9 +34,16 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
             }
         }
 
+        vm.currentAnalyticsData.observe2(this) {
+            binding.analyticsBody.text = it?.toString()
+        }
+
         binding.apply {
             safetynetCreateReport.setOnClickListener { vm.createSafetyNetReport() }
             safetynetCopyJws.setOnClickListener { vm.copyJWS() }
+            analyticsCollect.setOnClickListener { vm.collectAnalyticsData() }
+            analyticsCopy.setOnClickListener { vm.copyAnalytics() }
+            analyticsSubmit.setOnClickListener { vm.submitAnalytics() }
         }
 
         vm.copyJWSEvent.observe2(this) { jws ->
@@ -48,8 +55,17 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
             startActivity(intent)
         }
 
-        vm.errorEvents.observe2(this) {
-            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+        vm.copyAnalyticsEvent.observe2(this) { analytics ->
+            val intent = ShareCompat.IntentBuilder.from(requireActivity()).apply {
+                setType("text/plain")
+                setSubject("Analytics")
+                setText(analytics)
+            }.createChooserIntent()
+            startActivity(intent)
+        }
+
+        vm.infoEvents.observe2(this) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
     }
 

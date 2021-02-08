@@ -63,6 +63,58 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/safetynet_copy_jws"
                     app:layout_constraintTop_toBottomOf="@id/safetynet_body" />
+
+                <TextView
+                    android:id="@+id/analytics_title"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Analytics Payload"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/safetynet_create_report" />
+
+                <TextView
+                    android:id="@+id/analytics_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:textIsSelectable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/analytics_title"
+                    tools:text="Body" />
+
+                <Button
+                    android:id="@+id/analytics_copy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Copy Analytics"
+                    app:layout_constraintEnd_toStartOf="@+id/analytics_collect"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/analytics_body" />
+
+                <Button
+                    android:id="@+id/analytics_collect"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Create"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/analytics_copy"
+                    app:layout_constraintTop_toBottomOf="@id/analytics_body" />
+
+                <Button
+                    android:id="@+id/analytics_submit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Submit to Server"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/analytics_collect" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -43,7 +43,7 @@ class Analytics @Inject constructor(
 
             return true
         } catch (err: Exception) {
-            Timber.i(err, "Error during analytics submission")
+            Timber.e(err, "Error during analytics submission")
             return false
         }
     }
