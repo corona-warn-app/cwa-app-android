@@ -14,6 +14,10 @@
         <variable
             name="backgroundState"
             type="de.rki.coronawarnapp.ui.settings.start.SettingsBackgroundState" />
+
+        <variable
+            name="privacyPreservingAnalyticsState"
+            type="de.rki.coronawarnapp.ui.settings.start.SettingsPrivacyPreservingAnalyticsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,6 +97,23 @@
                     app:statusText="@{backgroundState.getBackgroundPriorityText(context)}"
                     app:subtitle="@{@string/settings_background_priority_title}" />
 
+                <include
+                    android:id="@+id/settings_privacy_preserving_analytics"
+                    layout="@layout/include_setting_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_privacy_preserving_analytics_body_description}"
+                    app:color="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsIconColor(context)}"
+                    app:icon="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsIcon(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_background_priority"
+                    app:showDivider="@{true}"
+                    app:statusText="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsText(context)}"
+                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}" />
+
+
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_reset"
                     style="@style/row"
@@ -100,7 +121,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_background_priority">
+                    app:layout_constraintTop_toBottomOf="@+id/settings_privacy_preserving_analytics">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
