@@ -65,12 +65,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
+import testhelpers.takeScreenshot
 import timber.log.Timber
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -143,14 +143,24 @@ class MainActivityTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun captureHomeFragmentLowRisk() {
+    fun captureHomeFragmentLowRiskNoEncounters() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            HomeData.Tracing.LOW_RISK_ITEM
+            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS
         )
+        captureHomeFragment("low_risk_no_encounters")
 
-        captureHomeFragment("low_risk")
+        // also scroll down and capture a screenshot of the faq card
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
-        takeScreenshot<HomeFragment>("low_risk_2")
+        takeScreenshot<HomeFragment>("faq_card")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentLowRiskWithEncounters() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS
+        )
+        captureHomeFragment("low_risk_with_encounters")
     }
 
     @Screenshot
@@ -256,7 +266,7 @@ class MainActivityTest : BaseUITest() {
     @Screenshot
     @Test
     fun captureHomeFragmentStatistics() {
-        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(HomeData.Tracing.LOW_RISK_ITEM)
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS)
         launchActivity<MainActivity>()
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
         Statistics.statisticsData?.items?.forEachIndexed { index, _ ->
@@ -286,7 +296,7 @@ class MainActivityTest : BaseUITest() {
 
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
-        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM,
+        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
         submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
