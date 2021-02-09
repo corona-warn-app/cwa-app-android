@@ -23,6 +23,20 @@ class UserMetadataDonor @Inject constructor(
         )
     }
 
+    override suspend fun deleteData() {
+        analyticsSettings.apply {
+            userInfoAgeGroup.update {
+                PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+            }
+            userInfoFederalState.update {
+                PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+            }
+            userInfoDistrict.update {
+                0
+            }
+        }
+    }
+
     data class UserMetadataContribution(
         val contributionProto: PpaData.PPAUserMetadata
     ) : DonorModule.Contribution {

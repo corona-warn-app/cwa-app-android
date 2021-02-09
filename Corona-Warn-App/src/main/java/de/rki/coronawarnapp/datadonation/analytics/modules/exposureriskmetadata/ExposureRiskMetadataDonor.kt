@@ -53,6 +53,12 @@ class ExposureRiskMetadataDonor @Inject constructor(
         )
     }
 
+    override suspend fun deleteData() {
+        analyticsSettings.previousExposureRiskMetadata.update {
+            null
+        }
+    }
+
     data class ExposureRiskMetadataContribution(
         val contributionProto: PpaData.ExposureRiskMetadata,
         val onContributionFinished: suspend (Boolean) -> Unit

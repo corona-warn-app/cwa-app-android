@@ -6,6 +6,8 @@ interface DonorModule {
 
     suspend fun beginDonation(request: Request): Contribution
 
+    suspend fun deleteData()
+
     /**
      * Data that the modules may need to fullfil the request
      */

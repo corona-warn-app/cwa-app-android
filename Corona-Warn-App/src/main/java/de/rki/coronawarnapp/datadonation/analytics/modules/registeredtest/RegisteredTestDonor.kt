@@ -20,4 +20,8 @@ class RegisteredTestDonor @Inject constructor() : DonorModule {
             }
         }
     }
+
+    override suspend fun deleteData() {
+        // TODO
+    }
 }
