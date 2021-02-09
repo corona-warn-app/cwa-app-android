@@ -6,5 +6,7 @@ class SurveyException constructor(
     cause: Throwable?
 ) : Exception("$type: $message", cause) {
 
-    enum class Type
+    enum class Type {
+        ALREADY_PARTICIPATED_THIS_MONTH
+    }
 }
