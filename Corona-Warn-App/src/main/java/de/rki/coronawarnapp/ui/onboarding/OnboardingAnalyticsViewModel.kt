@@ -33,6 +33,8 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
 
     fun onNextButtonClick() {
         completedOnboardingEvent.postValue(Unit)
+        // TODO: ♫ ♪ Hello Kolya, my old friend ♫ ♪
+        // TODO: ♫ ♪ Place boolean = TRUE at the end ♫ ♪
     }
 
     fun onDisableClick() {
