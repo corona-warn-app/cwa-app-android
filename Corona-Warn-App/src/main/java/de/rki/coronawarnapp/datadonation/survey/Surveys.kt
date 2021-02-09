@@ -14,7 +14,8 @@ class Surveys @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
     private val settings: SurveySettings,
     private val appConfigProvider: AppConfigProvider,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    private val urlProvider: SurveyUrlProvider
 ) {
 
     val availableSurveys: Flow<Collection<Type>> by lazy {
@@ -30,10 +31,9 @@ class Surveys @Inject constructor(
     }
 
     suspend fun requestDetails(type: Type): Survey {
-        // TODO
         return Survey(
             type = Type.HIGH_RISK_ENCOUNTER,
-            surveyLink = "Link to high risk encounter survey..."
+            surveyLink = urlProvider.provideUrl(type)
         )
     }
 
