@@ -2,15 +2,16 @@ package de.rki.coronawarnapp.datadonation.survey.consent
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -39,12 +40,14 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
             surveyNextButton.setOnClickListener { vm.onNextButtonPressed() }
         }
 
-        vm.routeToScreen.observe2(this) {
-            when (it) {
+        vm.routeToScreen.observe2(this) { event ->
+            when (event) {
                 is SurveyConsentNavigationEvents.NavigateBack ->
                     activity?.onBackPressed()
-                is SurveyConsentNavigationEvents.NavigateToWebView ->
-                    Toast.makeText(requireContext(), "Open ${it.url} (WIP, next PR))", Toast.LENGTH_SHORT).show()
+                is SurveyConsentNavigationEvents.NavigateWeb -> {
+                    ExternalActionHelper.openUrl(this, event.url)
+                    popBackStack()
+                }
             }
         }
 

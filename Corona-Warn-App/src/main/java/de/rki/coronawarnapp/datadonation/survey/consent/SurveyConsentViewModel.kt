@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.datadonation.survey.Surveys
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -62,7 +60,8 @@ class SurveyConsentViewModel @AssistedInject constructor(
     }
 
     private fun SurveyException.errorMsgRes(): Int = when (type) {
-        SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH -> R.string.datadonation_details_survey_consent_error_ALREADY_PARTICIPATED
+        SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH ->
+            R.string.datadonation_details_survey_consent_error_ALREADY_PARTICIPATED
     }
 
     private fun SafetyNetException.errorMsgRes(): Int = when (type) {
@@ -70,21 +69,26 @@ class SurveyConsentViewModel @AssistedInject constructor(
         SafetyNetException.Type.ATTESTATION_FAILED,
         SafetyNetException.Type.ATTESTATION_REQUEST_FAILED,
         SafetyNetException.Type.DEVICE_TIME_UNVERIFIED,
-        SafetyNetException.Type.NONCE_MISMATCH -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
+        SafetyNetException.Type.NONCE_MISMATCH ->
+            R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
         SafetyNetException.Type.BASIC_INTEGRITY_REQUIRED,
         SafetyNetException.Type.CTS_PROFILE_MATCH_REQUIRED,
         SafetyNetException.Type.EVALUATION_TYPE_BASIC_REQUIRED,
-        SafetyNetException.Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED -> R.string.datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED
-        SafetyNetException.Type.DEVICE_TIME_INCORRECT -> R.string.datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME
-        SafetyNetException.Type.PLAY_SERVICES_VERSION_MISMATCH -> R.string.datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES
-        SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED -> R.string.datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED
+        SafetyNetException.Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED ->
+            R.string.datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED
+        SafetyNetException.Type.DEVICE_TIME_INCORRECT ->
+            R.string.datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME
+        SafetyNetException.Type.PLAY_SERVICES_VERSION_MISMATCH ->
+            R.string.datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES
+        SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED ->
+            R.string.datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED
     }
 
     private fun handleState(state: State) = when (state) {
         is State.Error -> showErrorDialog.postValue(state)
         is State.Success -> {
             Timber.v("Retrieved survey %s", state.survey)
-            routeToScreen.postValue(SurveyConsentNavigationEvents.NavigateToWebView(""))
+            routeToScreen.postValue(SurveyConsentNavigationEvents.NavigateWeb(state.survey.surveyLink))
         }
         is State.Initial -> Timber.v("Waiting for user consent")
         is State.Loading -> Timber.v("Got consent. Request survey")
