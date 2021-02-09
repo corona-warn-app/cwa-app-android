@@ -580,9 +580,10 @@ jobs:
           command: |
             ./gradlew connectedDeviceForTestersDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
       - run:
-          name: Device Logcat
-          commanad: |
+          name: Logcat
+          command: |
             adb logcat
+            
 #######################
 # Workflow section
 # Job execution orders
