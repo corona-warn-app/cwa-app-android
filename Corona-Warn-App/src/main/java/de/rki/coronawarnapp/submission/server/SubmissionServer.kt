@@ -25,7 +25,7 @@ class SubmissionServer @Inject constructor(
         val authCode: String,
         val keyList: List<TemporaryExposureKey>,
         val consentToFederation: Boolean,
-        val visistedCountries: List<String>
+        val visitedCountries: List<String>
     )
 
     suspend fun submitKeysToServer(
@@ -47,7 +47,7 @@ class SubmissionServer @Inject constructor(
             .addAllKeys(keyList)
             .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .setConsentToFederation(data.consentToFederation)
-            .addAllVisitedCountries(data.visistedCountries)
+            .addAllVisitedCountries(data.visitedCountries)
             .build()
 
         api.submitKeys(

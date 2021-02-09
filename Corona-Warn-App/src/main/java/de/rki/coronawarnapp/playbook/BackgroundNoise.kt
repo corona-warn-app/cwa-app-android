@@ -29,7 +29,7 @@ class BackgroundNoise {
     }
 
     suspend fun foregroundScheduleCheck() {
-        if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
+        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
             val chance = Random.nextFloat() * 100
             if (chance < DefaultPlaybook.PROBABILITY_TO_EXECUTE_PLAYBOOK_ON_APP_OPEN) {
                 playbook.dummy()

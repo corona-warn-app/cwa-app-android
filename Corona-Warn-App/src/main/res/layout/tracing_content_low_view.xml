@@ -93,7 +93,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/risk_card_row_saved_days_body"
                 app:progress="@{state.activeTracingDays}"
-                app:progressColor="@color/colorStableLight" />
+                app:progressColor="@{state.getProgressColorLowRisk(context)}" />
 
             <TextView
                 android:id="@+id/risk_card_row_saved_days_body"
