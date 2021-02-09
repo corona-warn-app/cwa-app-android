@@ -356,6 +356,8 @@
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the past 14 days. During this time, the logging feature on your smartphone was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
+    <!-- XTXT: risk details - infection period days logged/14 -->
+    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->

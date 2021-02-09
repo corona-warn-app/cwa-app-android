@@ -347,6 +347,8 @@
     <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko-Ermittlung sollte daher dauerhaft aktiv sein."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Für Ihre Risiko-Ermittlung wird nur der Zeitraum der letzten 14 Tage betrachtet. In diesem Zeitraum war Ihre Risiko-Ermittlung für eine Gesamtdauer von %1$s Tagen aktiv. Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
+    <!-- XTXT: risk details - infection period days logged/14 -->
+    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
