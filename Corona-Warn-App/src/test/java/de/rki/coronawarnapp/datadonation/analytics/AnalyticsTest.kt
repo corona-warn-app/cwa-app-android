@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid

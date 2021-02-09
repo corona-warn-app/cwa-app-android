@@ -5,9 +5,7 @@ import dagger.Provides
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.NewExposureWindowsDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.KeySubmissionStateDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.RegisteredTestDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
@@ -37,19 +35,25 @@ class AnalyticsModule {
             .create(DataDonationAnalyticsApiV1::class.java)
     }
 
-    @IntoSet
-    @Provides
-    fun newExposureWindows(module: NewExposureWindowsDonor): DonorModule = module
+//    Add these back later when they actually collect data
+//
+//    @IntoSet
+//    @Provides
+//    fun newExposureWindows(module: NewExposureWindowsDonor): DonorModule = module
+//
+//    @IntoSet
+//    @Provides
+//    fun keySubmission(module: KeySubmissionStateDonor): DonorModule = module
+//
+//    @IntoSet
+//    @Provides
+//    fun registeredTest(module: RegisteredTestDonor): DonorModule = module
 
     @IntoSet
     @Provides
-    fun keySubmission(module: KeySubmissionStateDonor): DonorModule = module
+    fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule = module
 
     @IntoSet
     @Provides
-    fun registeredTest(module: RegisteredTestDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun riskLevelHistory(module: ExposureRiskMetadataDonor): DonorModule = module
+    fun userMetadata(module: UserMetadataDonor): DonorModule = module
 }

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata
 
-import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import javax.inject.Inject
 import javax.inject.Singleton

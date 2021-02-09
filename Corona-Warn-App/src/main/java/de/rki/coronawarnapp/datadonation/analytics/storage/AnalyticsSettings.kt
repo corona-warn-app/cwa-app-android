@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.datadonation.analytics
+package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData

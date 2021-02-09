@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid

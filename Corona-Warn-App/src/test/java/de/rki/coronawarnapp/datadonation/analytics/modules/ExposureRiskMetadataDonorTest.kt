@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
