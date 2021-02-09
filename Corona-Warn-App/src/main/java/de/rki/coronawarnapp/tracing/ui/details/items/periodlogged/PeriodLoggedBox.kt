@@ -45,7 +45,7 @@ class PeriodLoggedBox(
         fun getProgressColor(context: Context) = when (tracingStatus) {
             GeneralTracingStatus.Status.TRACING_INACTIVE,
             GeneralTracingStatus.Status.BLUETOOTH_DISABLED,
-            GeneralTracingStatus.Status.LOCATION_DISABLED-> R.color.colorTextPrimary2
+            GeneralTracingStatus.Status.LOCATION_DISABLED -> R.color.colorTextPrimary2
             GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorAccentTintIcon
         }.let { context.getColorCompat(it) }
 
