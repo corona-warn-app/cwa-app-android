@@ -583,6 +583,7 @@ jobs:
           name: Logcat
           command: |
             adb logcat
+          when: always
             
 #######################
 # Workflow section
