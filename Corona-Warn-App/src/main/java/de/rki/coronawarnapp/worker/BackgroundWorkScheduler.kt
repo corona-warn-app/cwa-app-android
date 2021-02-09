@@ -73,7 +73,6 @@ object BackgroundWorkScheduler {
     fun startWorkScheduler() {
         val notificationBody = StringBuilder()
         notificationBody.append("Jobs starting: ")
-        if (LocalData.submissionWasSuccessful()) return
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         logWorkActiveStatus(
             WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
@@ -83,12 +82,14 @@ object BackgroundWorkScheduler {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
             notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
-        if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
-            LocalData.registrationToken() != null && !LocalData.isTestResultAvailableNotificationSent()
-        ) {
-            WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
-            LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
-            notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
+        if (!LocalData.submissionWasSuccessful()) {
+            if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
+                LocalData.registrationToken() != null && !LocalData.isTestResultAvailableNotificationSent()
+            ) {
+                WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
+                LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
+                notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
+            }
         }
         Timber.d("Background Job Starting: %s", notificationBody)
     }
@@ -146,9 +147,9 @@ object BackgroundWorkScheduler {
     }
 
     /**
-     * Schedule diagnosis key one time work
+     * Schedule diagnosis key periodic time work
      *
-     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
      */
     fun scheduleDiagnosisKeyPeriodicWork() {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
