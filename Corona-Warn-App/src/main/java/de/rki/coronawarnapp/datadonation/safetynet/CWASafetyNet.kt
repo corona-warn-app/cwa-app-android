@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -62,7 +63,12 @@ class CWASafetyNet @Inject constructor(
 
         val salt = generateSalt()
         val nonce = calculateNonce(salt = salt, payload = request.scenarioPayload)
-        Timber.tag(TAG).d("With salt=%s and payload=%s, we created nonce=%s", salt, request.scenarioPayload, nonce)
+        Timber.tag(TAG).d(
+            "With salt=%s and payload=%s, we created nonce=%s",
+            salt.toByteString().base64(),
+            request.scenarioPayload.toByteString().base64(),
+            nonce
+        )
 
         val report = client.attest(nonce.toByteArray())
 
