@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentDetailFragmentBinding
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
-class SurveyConsentDetailFragment: Fragment(R.layout.survey_consent_detail_fragment) {
+class SurveyConsentDetailFragment : Fragment(R.layout.survey_consent_detail_fragment) {
 
     private val binding: SurveyConsentDetailFragmentBinding by viewBindingLazy()
 
