@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.NewExposureWindowsDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.KeySubmissionStateDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.RegisteredTestDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.risklevelhistory.RiskLevelHistoryChangesDonor
 
 @Module
 class AnalyticsModule {
@@ -26,5 +26,5 @@ class AnalyticsModule {
 
     @IntoSet
     @Provides
-    fun riskLevelHistory(module: RiskLevelHistoryChangesDonor): DonorModule = module
+    fun riskLevelHistory(module: ExposureRiskMetadataDonor): DonorModule = module
 }

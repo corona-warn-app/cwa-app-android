@@ -2,8 +2,11 @@ package de.rki.coronawarnapp.datadonation.analytics
 
 import android.content.Context
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.toByteString
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,6 +17,24 @@ class AnalyticsSettings @Inject constructor(
     private val prefs by lazy {
         context.getSharedPreferences("analytics_localdata", Context.MODE_PRIVATE)
     }
+
+    val previousExposureRiskMetadata = prefs.createFlowPreference(
+        key = PREVIOUS_EXPOSURE_RISK_METADATA,
+        reader = { key ->
+            getString(key, null)?.let { prefString ->
+                prefString.decodeBase64()?.toByteArray()?.let {
+                    try {
+                        ExposureRiskMetadata.parseFrom(it)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+        },
+        writer = { key, value ->
+            putString(key, value?.toByteArray()?.toByteString()?.base64())
+        }
+    )
 
     val userInfoAgeGroup = prefs.createFlowPreference(
         key = PKEY_USERINFO_AGEGROUP,
@@ -49,6 +70,7 @@ class AnalyticsSettings @Inject constructor(
     )
 
     companion object {
+        private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
         private const val PKEY_USERINFO_FEDERALSTATE = "userinfo.federalstate"
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"

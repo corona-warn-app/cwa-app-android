@@ -1770,10 +1770,6 @@
        Data donation
     ###################################### -->
 
-    <!-- ####################################
-       Data donation
-    ###################################### -->
-
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
     <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
