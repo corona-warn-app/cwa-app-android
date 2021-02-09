@@ -286,6 +286,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:focusable="true"
                     android:linksClickable="true"
                     android:paddingVertical="@dimen/button_icon_margin"
                     android:text="@string/interoperability_onboarding_delta_terms_link"
