@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
@@ -29,16 +30,19 @@ import javax.inject.Inject
 class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     tracingRepository: TracingRepository,
-    riskLevelStorage: RiskLevelStorage
+    riskLevelStorage: RiskLevelStorage,
+    surveys: Surveys
 ) {
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
         riskLevelStorage.latestAndLastSuccessful,
-        tracingRepository.activeTracingDaysInRetentionPeriod
+        tracingRepository.activeTracingDaysInRetentionPeriod,
+        surveys.availableSurveys
     ) { status,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod ->
+        activeTracingDaysInRetentionPeriod,
+        availableSurveys ->
 
         val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
 
@@ -55,27 +59,31 @@ class TracingDetailsItemProvider @Inject constructor(
                 )
             }.also { add(it) }
 
-            if (latestCalc.riskState == RiskState.INCREASED_RISK) {
+            if (latestCalc.riskState == RiskState.INCREASED_RISK &&
+                                        availableSurveys.contains(Surveys.Type.HIGH_RISK_ENCOUNTER)) {
                 add(UserSurveyBox.Item(Surveys.Type.HIGH_RISK_ENCOUNTER))
             }
 
-            if (latestCalc.riskState != RiskState.CALCULATION_FAILED) {
+            if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
                     activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt()
                 ).also { add(it) }
             }
 
-            when (latestCalc.riskState) {
-                RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
+            when {
+                status == Status.TRACING_INACTIVE || latestCalc.riskState == RiskState.CALCULATION_FAILED -> {
+                    DetailsFailedCalculationBox.Item
+                }
+                latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
                     riskState = latestCalc.riskState,
                     matchedKeyCount = latestCalc.matchedKeyCount
                 )
-                RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
+                latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,
                     lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
                 )
-                RiskState.CALCULATION_FAILED -> DetailsFailedCalculationBox.Item
-            }.also { add(it) }
+                else -> null
+            }?.let { add(it) }
         }
     }
         .onStart { Timber.v("TracingDetailsState FLOW start") }

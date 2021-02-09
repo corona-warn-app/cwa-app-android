@@ -12,7 +12,7 @@
     <string name="contact_diary_person_list_no_items_title">"No people defined yet"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Create a person and add them to your contact journal."</string>
     <string name="contact_diary_person_bottom_sheet_title">"Person"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"First name, last name"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Name"</string>
     <string name="contact_diary_person_bottom_sheet_save_button">"Save"</string>
     <string name="contact_diary_location_bottom_sheet_title">"Place"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Description"</string>
@@ -42,7 +42,7 @@
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"You can export your contact journal in plain text format and then print out the entries, edit them, or provide them to your public health authority as needed."</string>
     <!-- XTXT: Contact diary onboarding screen sixth functionality -->
-    <string name="contact_diary_onboarding_functionality_sixth_section"></string>
+    <string name="contact_diary_onboarding_functionality_sixth_section">"The indicated exposures are not necessarily related to the people and places you have recorded. Please don’t draw any wrong conclusions."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Contact Journal"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
@@ -66,13 +66,13 @@
 
 
     <!-- XTXT: Title for contact diary overview screen high risk information -->
-    <string name="contact_diary_high_risk_title"></string>
+    <string name="contact_diary_high_risk_title">"Increased Risk"</string>
     <!-- XTXT: Title for contact diary overview screen low risk information -->
-    <string name="contact_diary_low_risk_title"></string>
+    <string name="contact_diary_low_risk_title">"Low Risk"</string>
     <!-- XTXT: Body for contact diary overview screen risk information -->
-    <string name="contact_diary_risk_body"></string>
+    <string name="contact_diary_risk_body">"based on the encounters evaluated by the app."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
-    <string name="contact_diary_risk_body_extended"></string>
+    <string name="contact_diary_risk_body_extended">"based on the encounters evaluated by the app. They are not necessarily related to the people and places you have recorded."</string>
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
@@ -115,7 +115,7 @@
     <!-- XHED: Title for the contact journal export email subject -->
     <string name="contact_diary_export_subject" translatable="false">"Mein Kontakt-Tagebuch"</string>
     <!-- XTXT: Intro text  for the contact journal email export part one-->
-    <string name="contact_diary_export_intro_one" translatable="false">"Kontakte der letzten 14 Tage (%1$s - %2$s)"</string>
+    <string name="contact_diary_export_intro_one" translatable="false">"Kontakte der letzten 15 Tage (%1$s - %2$s)"</string>
     <!-- XTXT: Intro text  for the contact journal email export part two-->
     <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
 
@@ -140,6 +140,6 @@
     <string name="accessibility_action_deselect">"Cancel Selection"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Edit"</string>
-    
+
 
 </resources>
