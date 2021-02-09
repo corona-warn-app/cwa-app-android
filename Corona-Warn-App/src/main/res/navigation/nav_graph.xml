@@ -96,6 +96,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_settingsBackgroundPriorityFragment"
             app:destination="@id/settingsBackgroundPriorityFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsPrivacyPreservingAnalyticsFragment"
+            app:destination="@id/settingsPrivacyPreservingAnalyticsFragment" />
     </fragment>
 
     <fragment
@@ -518,4 +521,8 @@
             android:name="type"
             app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
+        android:label="SettingsPrivacyPreservingAnalyticsFragment" />
 </navigation>
