@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -47,6 +47,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
 
         vm.buttonStates.observe2(this) {
             binding.tracingDetailsState = it
+            binding.toolbar.navigationIcon?.setTint(it.getStableTextColor(requireContext()))
         }
 
         vm.routeToScreen.observe2(this) {
@@ -57,8 +58,8 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
             }
         }
 
-        binding.riskDetailsHeaderButtonBack.setOnClickListener {
-            (activity as MainActivity).goBack()
+        binding.toolbar.setNavigationOnClickListener {
+            popBackStack()
         }
         binding.riskDetailsButtonUpdate.setOnClickListener {
             vm.updateRiskDetails()

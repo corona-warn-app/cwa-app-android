@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
@@ -56,7 +57,9 @@ class RiskLevelTaskTest : BaseTest() {
         MockKAnnotations.init(this)
 
         mockkObject(TimeVariables)
+        mockkObject(LocalData)
 
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
         every { configData.isDeviceTimeCorrect } returns true
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
@@ -194,6 +197,26 @@ class RiskLevelTaskTest : BaseTest() {
         createTask().run(arguments) shouldBe RiskLevelTaskResult(
             calculatedAt = now,
             failureReason = RiskLevelResult.FailureReason.OUTDATED_RESULTS_MANUAL
+        )
+    }
+
+    @Test
+    fun `risk calculation is skipped if positive test is registered`() = runBlockingTest {
+        val cachedKey = mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
+            }
+        }
+        val now = Instant.parse("2020-12-28")
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+        every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
+        every { timeStamper.nowUTC } returns now
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns true
+
+        createTask().run(arguments) shouldBe RiskLevelTaskResult(
+            calculatedAt = now,
+            failureReason = RiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
         )
     }
 

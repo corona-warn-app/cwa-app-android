@@ -96,6 +96,8 @@ data class IncreasedRisk(
             lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
         )
     }
+
+    fun getProgressColorHighRisk(context: Context) = context.getColorCompat(R.color.colorStableLight)
 }
 
 // tracing_content_low_view
@@ -165,6 +167,8 @@ data class LowRisk(
             lastEncounterAt.toLocalDate().toString(DateTimeFormat.mediumDate())
         )
     }
+
+    fun getProgressColorLowRisk(context: Context) = context.getColorCompat(R.color.colorStableLight)
 }
 
 // tracing_content_failed_view
