@@ -21,7 +21,7 @@ class DataDonationAnalyticsServer @Inject constructor(
         if (response.code() == 400 || response.code() == 401 || response.code() == 403) {
             val body = response.body()
             if (body != null) {
-                throw AnalyticsException(response.body()?.errorState, null)
+                throw AnalyticsException(body.errorState, null)
             }
         }
 
