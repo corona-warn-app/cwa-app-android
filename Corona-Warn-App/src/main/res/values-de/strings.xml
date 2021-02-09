@@ -1673,6 +1673,9 @@
     <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
     <string name="datadonation_details_survey_consent_top_body">"<b>Helfen Sie dabei, die Corona-Warn-App zu verbessern. Nehmen Sie dazu an einer Befragung zu Ihrer Erfahrung mit der Corona-Warn-App teil. Sie helfen damit dem RKI, die Wirksamkeit der App zu bewerten, die App zu verbessern und zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken.</b>\n\nDie Befragung richtet sich nur an Personen, denen die App eine Begegnung mit erhöhtem Risiko angezeigt hat. Die Befragung findet auf einer Webseite des RKI statt. Zur Weiterleitung auf diese Webseite wird Ihnen im nächsten Schritt ein Teilnahmelink angezeigt. Vorher muss jedoch die Echtheit Ihrer App bestätigt werden. Dafür ist Ihr Einverständnis erforderlich.\n\nNach Antippen des Teilnahmelinks erhalten Sie weitere Informationen zur Befragung. Vor der Teilnahme werden Sie dann noch einmal gesondert um Ihr Einverständnis zur Teilnahme an der Befragung gebeten."</string>
 
+    <!-- XHED: Title of the survey consent detail screen -->
+    <string name="datadonation_details_survey_consent_details_title">"Ausführliche Informationen zur Datenverarbeitung bei der Teilnahme an der Befragung"</string>
+
     <!-- ####################################
        Data donation
     ###################################### -->

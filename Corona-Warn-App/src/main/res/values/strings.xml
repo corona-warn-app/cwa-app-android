@@ -1693,6 +1693,9 @@
     <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
     <string name="datadonation_details_survey_consent_top_body">"Mit Ihrer Teilnahme helfen Sie uns zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken."</string>
 
+    <!-- XHED: Title of the survey consent detail screen -->
+    <string name="datadonation_details_survey_consent_details_title">"Ausführliche Informationen zur Datenverarbeitung bei der Teilnahme an der Befragung"</string>
+
     <!-- ####################################
         Data donation
     ###################################### -->
