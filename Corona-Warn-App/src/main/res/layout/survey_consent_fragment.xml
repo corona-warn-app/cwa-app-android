@@ -107,8 +107,15 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_title" />
 
+                    <include
+                        android:id="@+id/bullet_point_one"
+                        layout="@layout/include_bullet_point"
+                        android:layout_width="@dimen/bullet_point_size"
+                        android:layout_height="@dimen/bullet_point_size"
+                        app:layout_constraintBaseline_toBaselineOf="@id/legal_point_one" />
+
                     <TextView
-                        android:id="@+id/legal_point_consent"
+                        android:id="@+id/legal_point_one"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -120,18 +127,15 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_one"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
 
-                    <ImageView
-                        android:id="@+id/bullet_point_one"
+                    <include
+                        android:id="@+id/bullet_point_two"
+                        layout="@layout/include_bullet_point"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
-                        android:layout_marginTop="@dimen/spacing_tiny"
-                        android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/legal_point_consent" />
+                        app:layout_constraintBaseline_toBaselineOf="@id/legal_point_two" />
 
                     <TextView
-                        android:id="@+id/legal_point_one"
+                        android:id="@+id/legal_point_two"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -141,17 +145,14 @@
                         android:text="@string/datadonation_details_survey_consent_bullet_point_two"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_one"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
+                        app:layout_constraintTop_toBottomOf="@+id/legal_point_one" />
 
-                    <ImageView
-                        android:id="@+id/bullet_point_two"
+                    <include
+                        android:id="@+id/bullet_point_three"
+                        layout="@layout/include_bullet_point"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
-                        android:layout_marginTop="@dimen/spacing_tiny"
-                        android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/legal_point_one" />
+                        app:layout_constraintBaseline_toBaselineOf="@id/legal_point_three" />
 
                     <TextView
                         android:id="@+id/legal_point_three"
@@ -164,17 +165,7 @@
                         android:text="@string/datadonation_details_survey_consent_bullet_point_three"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_one"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_point_one" />
-
-                    <ImageView
-                        android:id="@+id/bullet_point_three"
-                        android:layout_width="@dimen/bullet_point_size"
-                        android:layout_height="@dimen/bullet_point_size"
-                        android:layout_marginTop="@dimen/spacing_tiny"
-                        android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/legal_point_three" />
+                        app:layout_constraintTop_toBottomOf="@+id/legal_point_two" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
