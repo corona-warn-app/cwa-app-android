@@ -51,6 +51,11 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
                     )
                 )
             }
+            moreInfoRow.setOnClickListener {
+                doNavigate(
+                    OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToPpaMoreInfoFragment()
+                )
+            }
         }
         vm.completedOnboardingEvent.observe2(this) {
             (requireActivity() as OnboardingActivity).completeOnboarding()

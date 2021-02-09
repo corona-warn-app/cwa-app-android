@@ -341,7 +341,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/usa_data_processing_warning_row"
+                    android:id="@+id/more_info_row"
                     style="@style/row"
                     android:layout_marginTop="22dp"
                     android:layout_width="0dp"
@@ -351,12 +351,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/consent_layout">
 
                     <TextView
-                        android:id="@+id/usa_data_processing_warning_title"
+                        android:id="@+id/more_info_title"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
-                        android:text="@string/onboarding_ppa_usa_data_processing_warning_title"
+                        android:text="@string/onboarding_ppa_more_info_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -371,7 +371,7 @@
                     android:layout_marginEnd="@dimen/guideline_end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/usa_data_processing_warning_row" />
+                    app:layout_constraintTop_toBottomOf="@+id/more_info_row" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/body_start"

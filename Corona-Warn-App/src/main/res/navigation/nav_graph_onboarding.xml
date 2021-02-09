@@ -59,6 +59,9 @@
             android:id="@+id/action_onboardingAnalyticsFragment_to_analyticsUserInputFragment"
             app:destination="@id/analyticsUserInputFragment" >
         </action>
+        <action
+            android:id="@+id/action_onboardingAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/analyticsUserInputFragment"
@@ -67,5 +70,10 @@
         <argument
             android:name="type"
             app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppaMoreInfoFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
+        android:label="PpaMoreInfoFragment">
     </fragment>
 </navigation>

@@ -537,14 +537,14 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
     <string name="onboarding_ppa_consent_title">"Ihr Einverständnis"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_usa_data_processing_warning_title">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA"</string>
+    <string name="onboarding_ppa_more_info_title">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Daten spenden"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
     <string name="onboarding_ppa_consent_not_donate_button">"Nicht spenden"</string>
 
     <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
-    <string name="onboarding_ppa_more_info_headline">"Weitere Informationen zur Datenspende"</string>
+    <string name="onboarding_ppa_more_info_headline">"Ausführliche Informationen zur Datenspende"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
     <string name="onboarding_ppa_more_info_decline_processing_text">"Wenn Sie mit der Drittlandsübermittlung nicht einverstanden sind, tippen Sie bitte nicht „Einverstanden" an. Sie können die App weiterhin nutzen, die Datenspende ist dann jedoch nicht möglich."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
