@@ -5,6 +5,8 @@ package de.rki.coronawarnapp.server.protocols.internal.v2;
 import "internal/v2/app_features.proto";
 import "internal/v2/exposure_detection_parameters.proto";
 import "internal/v2/key_download_parameters.proto";
+import "internal/v2/ppdd_edus_parameters.proto";
+import "internal/v2/ppdd_ppa_parameters.proto";
 import "internal/v2/risk_calculation_parameters.proto";
 
 message ApplicationConfigurationAndroid {
@@ -25,6 +27,9 @@ message ApplicationConfigurationAndroid {
 
   DiagnosisKeysDataMapping diagnosisKeysDataMapping = 8;
   DailySummariesConfig dailySummariesConfig = 9;
+
+  PPDDEventDrivenUserSurveyParametersAndroid eventDrivenUserSurveyParameters = 10;
+  PPDDPrivacyPreservingAnalyticsParametersAndroid privacyPreservingAnalyticsParameters = 11;
 }
 
 message DiagnosisKeysDataMapping {

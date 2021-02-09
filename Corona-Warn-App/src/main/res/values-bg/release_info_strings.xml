@@ -9,14 +9,6 @@
     <string name="release_info_version_title">"Версия %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body">"Наред с корекциите на грешки настоящата актуализация съдържа също и нови и разширени функции."</string>
-    <!-- XTXT: Encounter history title for the release info screen -->
-    <string name="release_info_1_12_encounter_history_title">"Хронология на излаганията"</string>
-    <!-- XTXT: Encounter history body for the release info screen -->
-    <string name="release_info_1_12_encounter_history_body">"Дневникът на Вашите контакти показва дните, в които сте имали нисък или повишен риск въз основа на оценените от приложението срещи. Това означава, че може да предупредите хората, с които сте контактували в съответните дни, ако те самите не използват приложението Corona-Warn-App. Възможно е те да са били изложени на подобен риск, но не е задължително хората и местата във Вашия дневник да са свързани с посочените излагания."</string>
-    <!-- XTXT: Statistics title for the release info screen -->
-    <string name="release_info_1_12_statistics_title">"Статистика"</string>
-    <!-- XTXT: Statistics body for the release info screen -->
-    <string name="release_info_1_12_statistics_body">"Вижте обобщените актуални данни относно броя на заразените в Германия."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Напред"</string>
 

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.release
+package de.rki.coronawarnapp.release
 
 import dagger.Binds
 import dagger.Module
@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 abstract class NewReleaseInfoFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(NewReleaseInfoFragmentViewModel::class)
+    @CWAViewModelKey(NewReleaseInfoViewModel::class)
     abstract fun newReleaseInfoFragmentVM(
-        factory: NewReleaseInfoFragmentViewModel.Factory
+        factory: NewReleaseInfoViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
