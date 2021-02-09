@@ -95,7 +95,7 @@ class SafetyNetClientWrapper @Inject constructor(
         val body: JsonObject,
         val signature: ByteArray
     ) {
-        val nonce: String? = body.get("nonce")?.asString
+        val nonce: String? = body.get("nonce")?.asString?.decodeBase64()?.utf8()
 
         val apkPackageName: String? = body.get("apkPackageName")?.asString
 
@@ -103,7 +103,9 @@ class SafetyNetClientWrapper @Inject constructor(
         val ctsProfileMatch = body.get("ctsProfileMatch")?.asBoolean == true
 
         val evaluationTypes = body.get("evaluationType")?.asString
-            ?.split(",")?.map { it.trim() } ?: emptyList()
+            ?.split(",")
+            ?.map { it.trim() }
+            ?: emptyList()
 
         val error: String? = body.get("error")?.asString
         val advice: String? = body.get("advice")?.asString
