@@ -140,6 +140,6 @@
     <string name="accessibility_action_deselect">"Cancel Selection"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Edit"</string>
-    
+
 
 </resources>

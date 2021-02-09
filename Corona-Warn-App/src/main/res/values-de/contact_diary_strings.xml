@@ -23,9 +23,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Merken Sie sich, wo Sie waren und wen Sie getroffen haben."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Tagebuch Führen"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Tagebuch öffnen"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Tagebuch Führen"</string>
+    <string name="contact_diary_onboarding_button_text">"Tagebuch öffnen"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Behalten Sie den Überblick."</string>
@@ -60,7 +60,7 @@
     <!-- XTXT: Title for contact diary overview screen -->
     <string name="contact_diary_overview_title">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">"Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind."</string>
+    <string name="contact_diary_overview_subtitle">"Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind. Sollte ein Risiko an einem Tag angezeigt werden, können Sie damit Personen warnen, die Sie an diesen Tagen begleitet haben, wenn diese die Corona-Warn-App nicht nutzen."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Startseite"</string>
 

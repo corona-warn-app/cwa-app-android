@@ -39,11 +39,11 @@ class EnvironmentSetup @Inject constructor(
     enum class Type(val rawKey: String) {
         PRODUCTION("PROD"),
         INT("INT"),
-        INT_FED("INT-FED"),
         DEV("DEV"),
         WRU("WRU"),
-        WRU_XA("WRU-XA"), // (aka ACME)
-        WRU_XD("WRU-XD"); // (aka Germany)
+        WRU_XA("WRU-XA"), // (aka ACME),
+        WRU_XD("WRU-XD"), // (aka Germany)
+        LOCAL("LOCAL"); // Emulator/CLI tooling
 
         companion object {
             internal fun String.toEnvironmentType(): Type = values().single {
@@ -86,17 +86,24 @@ class EnvironmentSetup @Inject constructor(
             val targetEnvKey = if (environmentJson.has(currentEnvironment.rawKey)) {
                 currentEnvironment.rawKey
             } else {
-                Timber.e("Tried to use unavailable environment: $variableKey on $currentEnvironment")
+                Timber.e("Tried to use unavailable environment: $currentEnvironment")
                 Type.PRODUCTION.rawKey
             }
-            environmentJson
+
+            val value = environmentJson
                 .getAsJsonObject(targetEnvKey)
                 .getAsJsonPrimitive(variableKey.rawKey)
+
+            return@run if (value != null) {
+                Timber.v("getEnvironmentValue(endpoint=%s): %s", variableKey, value)
+                value
+            } else {
+                throw IllegalStateException("$currentEnvironment:$variableKey is missing in your *_environment.json")
+            }
         } catch (e: Exception) {
-            Timber.e(e, "Failed to retrieve endpoint URL for $currentEnvironment:$variableKey")
-            throw IllegalStateException("Failed to setup test environment", e)
+            throw IllegalStateException("Failed to retrieve $currentEnvironment:$variableKey", e)
         }
-    }.also { Timber.v("getEndpointUrl(endpoint=%s): %s", variableKey, it) }
+    }
 
     val submissionCdnUrl: String
         get() = getEnvironmentValue(SUBMISSION).asString

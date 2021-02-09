@@ -5,8 +5,13 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
+import android.text.util.Linkify
+import android.util.Patterns
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.text.util.LinkifyCompat
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 
 fun TextView.convertToHyperlink(url: String) {
     setText(
@@ -71,4 +76,16 @@ fun TextView.setUrl(@StringRes textRes: Int, @StringRes labelRes: Int, @StringRe
             text = it
         }
     }
+}
+
+fun TextView.linkifyPhoneNumbers() {
+    LinkifyCompat.addLinks(
+        this,
+        Patterns.PHONE,
+        "tel:",
+        Linkify.sPhoneNumberMatchFilter,
+        Linkify.sPhoneNumberTransformFilter
+    )
+    movementMethod = LinkMovementMethod.getInstance()
+    setLinkTextColor(context.getColorCompat(R.color.colorTextTint))
 }
