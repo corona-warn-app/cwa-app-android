@@ -20,5 +20,4 @@ abstract class OnboardingDeltaAnalyticsModule {
 
     @ContributesAndroidInjector
     abstract fun analyticsOnBoardingDeltaScreen(): OnboardingDeltaAnalyticsFragment
-
 }
