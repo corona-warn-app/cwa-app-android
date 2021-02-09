@@ -1368,7 +1368,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Kennzahlen"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Erklärung der Statistiken"</string>
+    <string name="statistics_explanation_subtitle">"Erklärung der bundesweiten Statistiken"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
