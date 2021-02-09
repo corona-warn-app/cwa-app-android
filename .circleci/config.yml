@@ -572,7 +572,7 @@ jobs:
       - run:
           name: Disable emulator animation
           command: |
-            adb -s test shell am instrument --no-window-animation
+            adb shell am instrument --no-window-animation
       - run:
           name: Run UI tests
           command: |
