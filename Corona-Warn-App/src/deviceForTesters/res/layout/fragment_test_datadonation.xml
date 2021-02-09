@@ -36,9 +36,9 @@
                 <TextView
                     android:id="@+id/safetynet_body"
                     android:layout_width="match_parent"
-                    android:textIsSelectable="true"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
+                    android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/safetynet_title"
@@ -63,6 +63,64 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/safetynet_copy_jws"
                     app:layout_constraintTop_toBottomOf="@id/safetynet_body" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/safetynet_requirements_container"
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny">
+
+                <TextView
+                    android:id="@+id/safetynet_requirements_title"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="SafetyNet Requirements"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/safetynet_requirements_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:textIsSelectable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/safetynet_requirements_title"
+                    tools:text="Body" />
+
+                <Button
+                    android:id="@+id/safetynet_requirements_strict"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Strict"
+                    app:layout_constraintEnd_toStartOf="@+id/safetynet_requirements_casually"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/safetynet_requirements_body" />
+
+                <Button
+                    android:id="@+id/safetynet_requirements_casually"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Casually"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/safetynet_requirements_strict"
+                    app:layout_constraintTop_toBottomOf="@id/safetynet_requirements_body" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/analytics_container"
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny">
 
                 <TextView
                     android:id="@+id/analytics_title"
@@ -73,7 +131,7 @@
                     android:text="Analytics Payload"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/safetynet_create_report" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/analytics_body"
@@ -115,56 +173,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/analytics_collect" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/safetynet_requirements_container"
-                style="@style/Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
-
-                <TextView
-                    android:id="@+id/safetynet_requirements_title"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="SafetyNet Requirements"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/safetynet_requirements_body"
-                    android:layout_width="match_parent"
-                    android:textIsSelectable="true"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/safetynet_requirements_title"
-                    tools:text="Body" />
-
-                <Button
-                    android:id="@+id/safetynet_requirements_strict"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Strict"
-                    app:layout_constraintEnd_toStartOf="@+id/safetynet_requirements_casually"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/safetynet_requirements_body" />
-
-                <Button
-                    android:id="@+id/safetynet_requirements_casually"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Casually"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/safetynet_requirements_strict"
-                    app:layout_constraintTop_toBottomOf="@id/safetynet_requirements_body" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
