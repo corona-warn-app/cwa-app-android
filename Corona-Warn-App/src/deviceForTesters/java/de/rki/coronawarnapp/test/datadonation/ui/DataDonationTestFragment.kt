@@ -35,7 +35,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         }
 
         vm.currentAnalyticsData.observe2(this) {
-            binding.analyticsBody.text = it?.toString()
+            binding.analyticsBody.text = it.toString()
         }
 
         binding.apply {
@@ -85,6 +85,12 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
             safetynetRequirementsCasually.setOnClickListener { vm.validateSafetyNetCasually() }
             safetynetRequirementsStrict.setOnClickListener { vm.validateSafetyNetStrict() }
         }
+
+        vm.lastAnalyticsData.observe2(this) {
+            binding.analyticsLastSubmitBody.text = it.toString()
+        }
+
+        vm.checkLastAnalytics()
     }
 
     companion object {

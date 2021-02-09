@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.test.datadonation.ui
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
@@ -22,6 +23,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
     private val secureRandom: SecureRandom,
     private val analytics: Analytics,
+    private val lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger,
     private val cwaSafetyNet: CWASafetyNet
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -38,6 +40,9 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val currentAnalyticsDataInternal = MutableStateFlow<PpaData.PPADataAndroid?>(null)
     val currentAnalyticsData = currentAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
     val copyAnalyticsEvent = SingleLiveEvent<String>()
+
+    private val lastAnalyticsDataInternal = MutableStateFlow<PpaData.PPADataAndroid?>(null)
+    val lastAnalyticsData = lastAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
 
     fun createSafetyNetReport() {
         launch {
@@ -112,6 +117,15 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     fun copyAnalytics() = launch {
         val value = currentAnalyticsData.value?.toString() ?: ""
         copyAnalyticsEvent.postValue(value)
+    }
+
+    fun checkLastAnalytics() = launch {
+        try {
+            lastAnalyticsDataInternal.value = lastAnalyticsSubmissionLogger.getLastAnalyticsData()
+        } catch (e: Exception) {
+            Timber.e(e, "checkLastAnalytics() failed.")
+            infoEvents.postValue(e.toString())
+        }
     }
 
     @AssistedFactory

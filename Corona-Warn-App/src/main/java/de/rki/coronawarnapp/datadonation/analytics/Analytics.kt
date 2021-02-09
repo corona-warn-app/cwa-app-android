@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
@@ -23,7 +24,8 @@ class Analytics @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
     // @JvmSuppressWildcards is needed for @IntoSet injection in Kotlin
     private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
-    private val settings: AnalyticsSettings
+    private val settings: AnalyticsSettings,
+    private val logger: LastAnalyticsSubmissionLogger
 ) {
     private suspend fun trySubmission(ppaData: PpaData.PPADataAndroid): Boolean {
         try {
@@ -71,7 +73,9 @@ class Analytics @Inject constructor(
 
         val contributions = collectContributions(ppaDataBuilder = ppaDataBuilder)
 
-        val success = trySubmission(ppaDataBuilder.build())
+        val analyticsProto = ppaDataBuilder.build()
+
+        val success = trySubmission(analyticsProto)
 
         contributions.forEach {
             Timber.d("Finishing contribution: %s", it::class.simpleName)
@@ -81,6 +85,8 @@ class Analytics @Inject constructor(
         settings.lastSubmittedTimestamp.update {
             Instant.now()
         }
+
+        logger.storeAnalyticsData(analyticsProto)
 
         Timber.d("Finished analytics submission")
     }
