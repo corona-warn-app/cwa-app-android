@@ -53,11 +53,11 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         }
 
         vm.showErrorDialog.observe2(this) {
-            showDialog(it.msgRes)
+            showErrorDialog(it.msgRes)
         }
     }
 
-    private fun showDialog(@StringRes stringRes: Int) {
+    private fun showErrorDialog(@StringRes stringRes: Int) {
         context?.let {
             val dialog = DialogHelper.DialogInstance(
                 context = it,
