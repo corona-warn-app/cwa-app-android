@@ -546,8 +546,6 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Ihr Alter (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_consent_title">"Ihr Einverständnis"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
     <string name="onboarding_ppa_more_info_title">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Daten spenden"</string>

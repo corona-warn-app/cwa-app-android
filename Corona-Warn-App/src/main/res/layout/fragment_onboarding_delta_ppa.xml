@@ -244,9 +244,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_small"
-                        android:contentDescription="@string/onboarding_ppa_consent_title"
+                        android:contentDescription="@string/ppa_onboarding_consent_title"
                         android:focusable="true"
-                        android:text="@string/onboarding_ppa_consent_title"
+                        android:text="@string/ppa_onboarding_consent_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
