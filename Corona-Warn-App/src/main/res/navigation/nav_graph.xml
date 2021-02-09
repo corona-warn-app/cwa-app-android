@@ -542,5 +542,16 @@
         android:id="@+id/onboardingDeltaAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsFragment"
         android:label="OnboardingDeltaAnalyticsFragment">
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppaMoreInfoFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
+        android:label="PpaMoreInfoFragment">
     </fragment>
 </navigation>

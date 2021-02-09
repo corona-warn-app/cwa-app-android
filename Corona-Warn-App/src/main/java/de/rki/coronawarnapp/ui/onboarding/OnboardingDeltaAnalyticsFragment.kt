@@ -6,7 +6,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaPpaBinding
-import de.rki.coronawarnapp.databinding.FragmentOnboardingPpaBinding
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -34,28 +33,32 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
 
             federalStateRow.setOnClickListener {
                 doNavigate(
-                    OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    OnboardingDeltaAnalyticsFragmentDirections
+                        .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
                     )
                 )
             }
             districtRow.setOnClickListener {
                 doNavigate(
-                    OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    OnboardingDeltaAnalyticsFragmentDirections
+                        .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.DISTRICT
                     )
                 )
             }
             ageGroupRow.setOnClickListener {
                 doNavigate(
-                    OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    OnboardingDeltaAnalyticsFragmentDirections
+                        .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.AGE_GROUP
                     )
                 )
             }
             moreInfoRow.setOnClickListener {
                 doNavigate(
-                    OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToPpaMoreInfoFragment()
+                    OnboardingDeltaAnalyticsFragmentDirections
+                        .actionOnboardingDeltaAnalyticsFragmentToPpaMoreInfoFragment()
                 )
             }
         }

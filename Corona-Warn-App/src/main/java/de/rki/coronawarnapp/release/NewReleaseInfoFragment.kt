@@ -53,12 +53,13 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
 
         vm.routeToScreen.observe2(this) {
             if (it is NewReleaseInfoNavigationEvents.CloseScreen) {
-                popBackStack()
-            }
-            if (it is NewReleaseInfoNavigationEvents.NavigateToDeltaAnalyticsScreen) {
-                doNavigate(NewReleaseInfoFragmentDirections
-                    .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
-                )
+                if (args.comesFromInfoScreen) {
+                    popBackStack()
+                } else {
+                    doNavigate(NewReleaseInfoFragmentDirections
+                        .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
+                    )
+                }
             }
         }
     }
