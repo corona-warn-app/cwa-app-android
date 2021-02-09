@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.survey.consent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -51,8 +52,16 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
             }
         }
 
-        vm.showLoadingIndicator.observe2(this) {
-            // TODO
+        vm.showLoadingIndicator.observe2(this) { loading ->
+            if (loading) {
+                SurveyConsentBlockingProgressDialogFragment().show(
+                    childFragmentManager,
+                    SurveyConsentBlockingProgressDialogFragment.TAG
+                )
+            } else {
+                childFragmentManager.findFragmentByTag(SurveyConsentBlockingProgressDialogFragment.TAG)
+                    ?.let { (it as DialogFragment).dismiss() }
+            }
         }
 
         vm.showErrorDialog.observe2(this) {

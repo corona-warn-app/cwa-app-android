@@ -1717,4 +1717,7 @@
     <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_pos_button">"OK"</string>
 
+    <!-- XHED: Dialog progress message for survey request -->
+    <string name="datadonation_details_survey_consent_progress_dialog_msg">"Befragung wird geladen…"</string>
+
 </resources>
