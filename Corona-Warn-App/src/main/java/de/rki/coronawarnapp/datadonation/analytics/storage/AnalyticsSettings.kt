@@ -84,11 +84,17 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
+    val analyticsEnabled = prefs.createFlowPreference(
+        key = PKEY_ANALYTICS_ENABLED,
+        defaultValue = false
+    )
+
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
         private const val PKEY_USERINFO_FEDERALSTATE = "userinfo.federalstate"
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
+        private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
     }
 }

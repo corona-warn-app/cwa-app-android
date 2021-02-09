@@ -25,8 +25,6 @@ class Analytics @Inject constructor(
     private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
     private val settings: AnalyticsSettings
 ) {
-    val isEnabled: Boolean = true
-
     private suspend fun trySubmission(ppaData: PpaData.PPADataAndroid): Boolean {
         try {
             val ppaAttestationRequest = PPADeviceAttestationRequest(
@@ -89,7 +87,7 @@ class Analytics @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToNoUserConsent(): Boolean {
-        return !isEnabled
+        return !settings.analyticsEnabled.value
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
