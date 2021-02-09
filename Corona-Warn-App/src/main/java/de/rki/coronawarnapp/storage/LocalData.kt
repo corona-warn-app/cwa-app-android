@@ -434,7 +434,7 @@ object LocalData {
         }
     }
 
-    fun isAllowedToSubmitDiagnosisKeys(): Boolean? {
+    fun isAllowedToSubmitDiagnosisKeys(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_is_allowed_to_submit_diagnosis_keys),
@@ -446,7 +446,7 @@ object LocalData {
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
-    fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
+    private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
 
     /****************************************************
      * INTEROPERABILITY

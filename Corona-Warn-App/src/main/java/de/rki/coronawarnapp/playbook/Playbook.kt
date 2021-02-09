@@ -26,6 +26,6 @@ interface Playbook {
         val registrationToken: String,
         val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
-        val visistedCountries: List<String>
+        val visitedCountries: List<String>
     )
 }

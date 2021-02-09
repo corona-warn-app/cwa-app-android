@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -37,8 +38,12 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = tracingRepository.activeTracingDaysInRetentionPeriod
-        .map { PeriodLoggedBox.Item(activeTracingDaysInRetentionPeriod = it.toInt()) }
+    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = combine(
+        tracingRepository.activeTracingDaysInRetentionPeriod,
+        tracingStatus.generalStatus
+    ) { activeTracingDays,
+        status -> PeriodLoggedBox.Item(activeTracingDays.toInt(), status)
+    }
         .onEach { Timber.v("logginPeriod onEach") }
         .asLiveData(dispatcherProvider.Main)
 

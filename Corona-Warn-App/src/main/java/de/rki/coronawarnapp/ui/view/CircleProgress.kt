@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
@@ -34,9 +35,8 @@ class CircleProgress @JvmOverloads constructor(
     }
 
     private val circlePaint: Paint
-    private val progressPaint: Paint
+    private var progressPaint: Paint
     private val rect = RectF()
-
     private var binding: ViewCircleProgressBinding
     private var centerX: Float = 0f
     private var centerY: Float = 0f
@@ -58,7 +58,8 @@ class CircleProgress @JvmOverloads constructor(
                 body.visibility = View.GONE
             } else {
                 body.visibility = View.VISIBLE
-                body.text = value.toInt().toString()
+                body.text = context.getString(R.string.risk_details_information_active_tracing_days_circle_progress)
+                    .format(value.toInt())
             }
             // icon visibility
             if (value == DEFAULT_MAX_PROGRESS) {
@@ -66,6 +67,19 @@ class CircleProgress @JvmOverloads constructor(
             } else {
                 icon.visibility = View.GONE
             }
+            invalidate()
+        }
+
+    /**
+     * Setter for the progress circle color.
+     * The progress bar also needs to be repainted when the
+     * color changes (ex: when the risk calculation gets turned on/off)
+     */
+    var progressColor: Int = Color.TRANSPARENT
+        set(value) {
+            field = value
+            binding.circleProgressIcon.setColorFilter(value, android.graphics.PorterDuff.Mode.SRC_IN)
+            progressPaint = paintProgressCircle()
             invalidate()
         }
 
@@ -114,15 +128,18 @@ class CircleProgress @JvmOverloads constructor(
             isAntiAlias = true
         }
         // progressPaint based on the attributes and default value
-        progressPaint = Paint().apply {
+        progressPaint = paintProgressCircle()
+        styleAttrs.recycle()
+    }
+
+    private fun paintProgressCircle() =
+        Paint().apply {
             color = progressColor
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
             isAntiAlias = true
             strokeCap = Paint.Cap.ROUND
         }
-        styleAttrs.recycle()
-    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         centerX = w.toFloat().div(2)

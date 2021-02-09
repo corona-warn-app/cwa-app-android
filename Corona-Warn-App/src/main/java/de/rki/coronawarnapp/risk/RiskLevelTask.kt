@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -75,6 +76,14 @@ class RiskLevelTask @Inject constructor(
     private suspend fun determineRiskLevelResult(configData: ConfigData): RiskLevelTaskResult {
         val nowUTC = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
+        }
+
+        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
+            Timber.i("Positive test result, skip risk calculation")
+            return RiskLevelTaskResult(
+                calculatedAt = nowUTC,
+                failureReason = FailureReason.POSITIVE_TEST_RESULT
+            )
         }
 
         if (!configData.isDeviceTimeCorrect) {
