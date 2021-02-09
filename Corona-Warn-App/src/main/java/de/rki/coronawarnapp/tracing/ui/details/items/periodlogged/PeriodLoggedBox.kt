@@ -43,10 +43,10 @@ class PeriodLoggedBox(
         ).format(activeTracingDaysInRetentionPeriod)
 
         fun getProgressColor(context: Context) = when (tracingStatus) {
-            GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorStableHairlineLight
-            GeneralTracingStatus.Status.TRACING_ACTIVE,
+            GeneralTracingStatus.Status.TRACING_INACTIVE,
             GeneralTracingStatus.Status.BLUETOOTH_DISABLED,
-            GeneralTracingStatus.Status.LOCATION_DISABLED -> R.color.colorAccentTintIcon
+            GeneralTracingStatus.Status.LOCATION_DISABLED-> R.color.colorTextPrimary2
+            GeneralTracingStatus.Status.TRACING_ACTIVE -> R.color.colorAccentTintIcon
         }.let { context.getColorCompat(it) }
 
         override val stableId: Long
