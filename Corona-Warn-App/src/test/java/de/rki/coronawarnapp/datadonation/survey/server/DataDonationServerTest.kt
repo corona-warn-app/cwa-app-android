@@ -63,11 +63,13 @@ class DataDonationServerTest : BaseTest() {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
             }
-            Unit
+            DataDonationApiV1.DataDonationResponse(
+                "2021-02-16T08:34:00+00:00"
+            )
         }
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-        server.authOTP(data)
+        server.authOTP(data).expirationDate shouldBe "2021-02-16T08:34:00+00:00"
 
         coVerify { dataDonationApi.authOTP(any()) }
     }
