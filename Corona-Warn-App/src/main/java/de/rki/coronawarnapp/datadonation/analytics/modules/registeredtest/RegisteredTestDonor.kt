@@ -11,7 +11,7 @@ class RegisteredTestDonor @Inject constructor() : DonorModule {
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         // TODO
         return object : DonorModule.Contribution {
-            override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid) {
+            override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
                 // TODO
             }
 

@@ -21,7 +21,7 @@ class NewExposureWindowsDonor @Inject constructor() : DonorModule {
         val protobuf: Any,
         val onContributionFinished: suspend (Boolean) -> Unit
     ) : DonorModule.Contribution {
-        override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid) {
+        override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
             // TODO "Add this specific protobuf to the top level protobuf container"
         }
 
