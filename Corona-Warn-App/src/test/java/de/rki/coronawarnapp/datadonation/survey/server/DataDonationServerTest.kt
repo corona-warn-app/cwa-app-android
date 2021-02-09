@@ -1,0 +1,93 @@
+package de.rki.coronawarnapp.datadonation.survey.server
+
+import android.content.Context
+import de.rki.coronawarnapp.datadonation.OneTimePassword
+import de.rki.coronawarnapp.datadonation.survey.SurveyModule
+import de.rki.coronawarnapp.http.HttpModule
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.runBlocking
+import okhttp3.ConnectionSpec
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import testhelpers.BaseIOTest
+import testhelpers.BaseTest
+import java.io.File
+import java.util.UUID
+
+class DataDonationServerTest : BaseTest() {
+    @MockK lateinit var dataDonationApi: DataDonationApiV1
+    @MockK lateinit var context: Context
+
+    private lateinit var webServer: MockWebServer
+    private lateinit var serverAddress: String
+
+    private val testDir = File(BaseIOTest.IO_TEST_BASEDIR, this::class.java.simpleName)
+    private val cacheDir = File(testDir, "cache")
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+        testDir.mkdirs()
+        testDir.exists() shouldBe true
+        every { context.cacheDir } returns cacheDir
+
+        webServer = MockWebServer()
+        webServer.start()
+        serverAddress = "http://${webServer.hostName}:${webServer.port}"
+    }
+
+    @AfterEach
+    fun teardown() {
+        clearAllMocks()
+        webServer.shutdown()
+        testDir.deleteRecursively()
+    }
+
+    private fun createServer(
+        customApi: DataDonationApiV1 = dataDonationApi
+    ) = DataDonationServer(dataDonationApi = { customApi })
+
+    @Test
+    fun `otp validation`(): Unit = runBlocking {
+        val server = createServer()
+        coEvery { dataDonationApi.authOTP(any()) } answers {
+            arg<EdusOtp.EDUSOneTimePassword>(0).apply {
+                otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
+            }
+            Unit
+        }
+
+        val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
+        server.authOTP(data)
+
+        coVerify { dataDonationApi.authOTP(any()) }
+    }
+
+    private fun createRealApi(): DataDonationApiV1 {
+        val httpModule = HttpModule()
+        val defaultHttpClient = httpModule.defaultHttpClient()
+
+        return SurveyModule().let {
+            val downloadHttpClient = it.cdnHttpClient(
+                defaultHttpClient,
+                listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)
+            )
+            it.provideDataDonationApi(
+                context = context,
+                client = downloadHttpClient,
+                url = serverAddress,
+                gsonConverterFactory = httpModule.provideGSONConverter(),
+                protoConverterFactory = httpModule.provideProtoConverter()
+            )
+        }
+    }
+}
