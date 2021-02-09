@@ -21,14 +21,14 @@ import javax.inject.Inject
 class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_delta_ppa), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: OnboardingAnalyticsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: OnboardingAnalyticsViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentOnboardingDeltaPpaBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonDisable.setOnClickListener { vm.onDisableClick() }
+            onboardingButtonNext.setOnClickListener { viewModel.onNextButtonClick() }
+            onboardingButtonDisable.setOnClickListener { viewModel.onDisableClick() }
             onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
 
             federalStateRow.setOnClickListener {
@@ -62,13 +62,13 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
                 )
             }
         }
-        vm.completedOnboardingEvent.observe2(this) {
+        viewModel.completedOnboardingEvent.observe2(this) {
             popBackStack()
         }
-        vm.ageGroup.observe2(this) {
+        viewModel.ageGroup.observe2(this) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)
         }
-        vm.federalState.observe2(this) {
+        viewModel.federalState.observe2(this) {
             binding.districtRow.visibility = if (it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) {
                 View.VISIBLE
             } else {
@@ -76,7 +76,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
             }
             binding.federalStateRowBody.text = getString(it.labelStringRes)
         }
-        vm.district.observe2(this) {
+        viewModel.district.observe2(this) {
             binding.districtRowBody.text = it?.districtName
                 ?: getString(R.string.analytics_userinput_district_unspecified)
         }

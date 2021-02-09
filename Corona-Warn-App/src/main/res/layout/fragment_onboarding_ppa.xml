@@ -40,6 +40,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
@@ -282,13 +283,13 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/bullet_point_consent"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
+                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_consent" />
 
@@ -305,13 +306,13 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
 
-                    <ImageView
+                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/bullet_point_identity"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
+                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_identity" />
 
@@ -328,13 +329,13 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
 
-                    <ImageView
+                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/bullet_point_sixteen"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
+                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_sixteen" />
 

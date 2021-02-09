@@ -541,7 +541,8 @@
     <fragment
         android:id="@+id/onboardingDeltaAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsFragment"
-        android:label="OnboardingDeltaAnalyticsFragment">
+        android:label="OnboardingDeltaAnalyticsFragment"
+        tools:layout="@layout/fragment_onboarding_delta_ppa">
         <action
             android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_analyticsUserInputFragment"
             app:destination="@id/analyticsUserInputFragment" />
@@ -552,6 +553,7 @@
     <fragment
         android:id="@+id/ppaMoreInfoFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
-        android:label="PpaMoreInfoFragment">
+        android:label="PpaMoreInfoFragment"
+        tools:layout="@layout/fragment_ppa_more_info">
     </fragment>
 </navigation>

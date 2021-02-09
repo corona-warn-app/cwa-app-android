@@ -74,6 +74,7 @@
     <fragment
         android:id="@+id/ppaMoreInfoFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
-        android:label="PpaMoreInfoFragment">
+        android:label="PpaMoreInfoFragment"
+        tools:layout="@layout/fragment_ppa_more_info">
     </fragment>
 </navigation>

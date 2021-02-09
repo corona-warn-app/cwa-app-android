@@ -148,15 +148,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/data_processing_body" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/data_processing_point_1"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_1_text" />
+                    app:layout_constraintTop_toTopOf="@id/data_processing_point_1_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/data_processing_point_2_text"
@@ -171,15 +171,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/data_processing_point_1_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/data_processing_point_2"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_2_text" />
+                    app:layout_constraintTop_toTopOf="@id/data_processing_point_2_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/data_processing_point_3_text"
@@ -194,15 +194,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/data_processing_point_2_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/data_processing_point_3"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_3_text" />
+                    app:layout_constraintTop_toTopOf="@id/data_processing_point_3_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/data_processing_point_4_text"
@@ -217,15 +217,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/data_processing_point_3_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/data_processing_point_4"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/data_processing_point_4_text" />
+                    app:layout_constraintTop_toTopOf="@id/data_processing_point_4_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_title"
@@ -255,15 +255,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_title" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_1"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_1_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_1_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_2_text"
@@ -278,15 +278,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_1_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_2"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_2_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_2_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_3_text"
@@ -301,15 +301,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_2_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_3"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_3_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_3_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_4_text"
@@ -324,15 +324,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_3_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_4"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_4_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_4_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_body_1"
@@ -362,15 +362,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_body_1" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_5"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_5_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_5_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_6_text"
@@ -385,15 +385,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_5_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_6"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_6_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_6_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_7_text"
@@ -408,15 +408,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_6_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_7"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_7_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_7_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_8_text"
@@ -431,15 +431,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_7_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_8"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_8_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_8_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_9_text"
@@ -454,15 +454,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_8_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_9"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_9_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_9_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_body_2"
@@ -492,15 +492,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_body_2" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_10"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_10_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_10_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_11_text"
@@ -515,15 +515,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_10_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_11"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_11_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_11_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_12_text"
@@ -538,15 +538,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_11_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_12"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_12_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_12_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_13_text"
@@ -561,15 +561,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_12_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_13"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_13_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_13_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_14_text"
@@ -584,15 +584,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_13_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_14"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_14_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_14_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_15_text"
@@ -607,15 +607,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_14_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_15"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_15_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_15_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/rki_data_point_16_text"
@@ -630,15 +630,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/rki_data_point_15_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/rki_data_point_16"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/rki_data_point_16_text" />
+                    app:layout_constraintTop_toTopOf="@id/rki_data_point_16_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/other_info_body"
@@ -668,15 +668,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/other_info_body" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/other_info_point_1"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_1_text" />
+                    app:layout_constraintTop_toTopOf="@id/other_info_point_1_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/other_info_point_2_text"
@@ -691,15 +691,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/other_info_point_1_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/other_info_point_2"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_2_text" />
+                    app:layout_constraintTop_toTopOf="@id/other_info_point_2_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/other_info_point_3_text"
@@ -714,15 +714,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/other_info_point_2_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/other_info_point_3"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_3_text" />
+                    app:layout_constraintTop_toTopOf="@id/other_info_point_3_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/other_info_point_4_text"
@@ -737,15 +737,15 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/other_info_point_3_text" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/other_info_point_4"
                     android:layout_width="@dimen/bullet_point_size"
                     android:layout_height="@dimen/bullet_point_size"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/bullet_point"
                     app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_4_text" />
+                    app:layout_constraintTop_toTopOf="@id/other_info_point_4_text"
+                    app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
                     android:id="@+id/much_privacy_body"
@@ -754,10 +754,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="35dp"
-                    android:paddingBottom="51dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/onboarding_ppa_more_info_much_privacy_body"
                     android:focusable="true"
+                    android:paddingBottom="51dp"
                     android:text="@string/onboarding_ppa_more_info_much_privacy_body"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"

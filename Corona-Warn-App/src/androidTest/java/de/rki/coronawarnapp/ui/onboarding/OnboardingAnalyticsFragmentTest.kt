@@ -25,6 +25,7 @@ import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
+import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
@@ -90,9 +91,7 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<OnboardingAnalyticsFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(OnboardingAnalyticsFragment::class.simpleName)
+        captureScreenshot<OnboardingAnalyticsFragment>()
     }
 }
 
