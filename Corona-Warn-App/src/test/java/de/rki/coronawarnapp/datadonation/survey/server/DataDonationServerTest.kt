@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.datadonation.survey.server
 
 import android.content.Context
 import de.rki.coronawarnapp.datadonation.OneTimePassword
-import de.rki.coronawarnapp.datadonation.survey.SurveyModule
-import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -13,7 +11,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -57,7 +54,7 @@ class DataDonationServerTest : BaseTest() {
     ) = DataDonationServer(dataDonationApi = { customApi })
 
     @Test
-    fun `otp validation`(): Unit = runBlocking {
+    fun `valid otp`(): Unit = runBlocking {
         val server = createServer()
         coEvery { dataDonationApi.authOTP(any()) } answers {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
@@ -74,22 +71,19 @@ class DataDonationServerTest : BaseTest() {
         coVerify { dataDonationApi.authOTP(any()) }
     }
 
-    private fun createRealApi(): DataDonationApiV1 {
-        val httpModule = HttpModule()
-        val defaultHttpClient = httpModule.defaultHttpClient()
-
-        return SurveyModule().let {
-            val downloadHttpClient = it.cdnHttpClient(
-                defaultHttpClient,
-                listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)
-            )
-            it.provideDataDonationApi(
-                context = context,
-                client = downloadHttpClient,
-                url = serverAddress,
-                gsonConverterFactory = httpModule.provideGSONConverter(),
-                protoConverterFactory = httpModule.provideProtoConverter()
-            )
+    @Test
+    fun `invalid otp`(): Unit = runBlocking {
+        val server = createServer()
+        coEvery { dataDonationApi.authOTP(any()) } answers {
+            arg<EdusOtp.EDUSOneTimePassword>(0).apply {
+                otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
+            }
+            DataDonationApiV1.DataDonationResponse(null)
         }
+
+        val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
+        server.authOTP(data).expirationDate shouldBe null
+
+        coVerify { dataDonationApi.authOTP(any()) }
     }
 }
