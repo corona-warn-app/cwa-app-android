@@ -872,7 +872,7 @@
     "federalStateId": 13000005
   },
   {
-    "districtName": "Mülheim a.d.Ruhr",
+    "districtName": "Mülheim a. d. Ruhr",
     "districtShortName": "MH",
     "districtId": 11005117,
     "federalStateName": "Nordrhein-Westfalen",
@@ -1352,7 +1352,7 @@
     "federalStateId": 13000007
   },
   {
-    "districtName": "Landau i.d.Pfalz",
+    "districtName": "Landau i. d. Pfalz",
     "districtShortName": "LD",
     "districtId": 11007313,
     "federalStateName": "Rheinland-Pfalz",
@@ -1376,7 +1376,7 @@
     "federalStateId": 13000007
   },
   {
-    "districtName": "Neustadt a.d.Weinstraße",
+    "districtName": "Neustadt a. d. Weinstraße",
     "districtShortName": "NW",
     "districtId": 11007316,
     "federalStateName": "Rheinland-Pfalz",
@@ -1712,7 +1712,7 @@
     "federalStateId": 13000008
   },
   {
-    "districtName": "Freiburg i.Breisgau",
+    "districtName": "Freiburg i. Breisgau",
     "districtShortName": "FR",
     "districtId": 11008311,
     "federalStateName": "Baden-Württemberg",
@@ -1896,7 +1896,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Dillingen a.d.Donau",
+    "districtName": "Dillingen a. d. Donau",
     "districtShortName": "DLG",
     "districtId": 11009773,
     "federalStateName": "Bayern",
@@ -2056,7 +2056,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Landsberg a.Lech",
+    "districtName": "Landsberg a. Lech",
     "districtShortName": "LL",
     "districtId": 11009181,
     "federalStateName": "Bayern",
@@ -2112,7 +2112,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Mühldorf a.Inn",
+    "districtName": "Mühldorf a. Inn",
     "districtShortName": "MÜ",
     "districtId": 11009183,
     "federalStateName": "Bayern",
@@ -2144,7 +2144,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Neumarkt i.d.OPf.",
+    "districtName": "Neumarkt i. d. OPf. ",
     "districtShortName": "NM",
     "districtId": 11009373,
     "federalStateName": "Bayern",
@@ -2152,7 +2152,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Neustadt a.d.Aisch-Bad Windsheim",
+    "districtName": "Neustadt a. d. Aisch-Bad Windsheim",
     "districtShortName": "NEA",
     "districtId": 11009575,
     "federalStateName": "Bayern",
@@ -2160,7 +2160,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Neustadt a.d.Waldnaab",
+    "districtName": "Neustadt a. d. Waldnaab",
     "districtShortName": "NEW",
     "districtId": 11009374,
     "federalStateName": "Bayern",
@@ -2200,7 +2200,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Pfaffenhofen a.d.Ilm",
+    "districtName": "Pfaffenhofen a. d. Ilm",
     "districtShortName": "PAF",
     "districtId": 11009186,
     "federalStateName": "Bayern",
@@ -2328,7 +2328,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Wunsiedel i.Fichtelgebirge",
+    "districtName": "Wunsiedel i. Fichtelgebirge",
     "districtShortName": "WUN",
     "districtId": 11009479,
     "federalStateName": "Bayern",
@@ -2528,7 +2528,7 @@
     "federalStateId": 13000009
   },
   {
-    "districtName": "Weiden i.d.OPf.",
+    "districtName": "Weiden i. d. OPf. ",
     "districtShortName": "WEN",
     "districtId": 11009363,
     "federalStateName": "Bayern",
@@ -2800,7 +2800,7 @@
     "federalStateId": 13000012
   },
   {
-    "districtName": "Brandenburg a.d.Havel",
+    "districtName": "Brandenburg a. d. Havel",
     "districtShortName": "BRB",
     "districtId": 11012051,
     "federalStateName": "Brandenburg",
