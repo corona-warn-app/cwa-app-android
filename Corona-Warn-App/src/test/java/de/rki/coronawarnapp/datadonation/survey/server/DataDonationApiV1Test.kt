@@ -94,7 +94,7 @@ class DataDonationApiV1Test : BaseTest() {
         )
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
-            path shouldBe "/version/v1/blabla"
+            path shouldBe "/version/v1/android/otp"
             body.readUtf8() shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
         }
 

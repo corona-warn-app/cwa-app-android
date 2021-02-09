@@ -6,7 +6,7 @@ import retrofit2.http.POST
 
 interface DataDonationApiV1 {
 
-    @POST("version/v1/blabla")
+    @POST("version/v1/android/otp")
     suspend fun authOTP(
         @Body requestBody: EdusOtp.EDUSOneTimePassword
     )
