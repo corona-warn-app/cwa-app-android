@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -63,6 +64,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     @BeforeEach
     fun setup() {
@@ -73,7 +75,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingStateProviderFactory.create(isDetailsMode = false) } returns tracingStateProvider
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
 
-        every { submissionStateProvider.state } returns flowOf(SubmissionDone)
+        every { submissionStateProvider.state } returns flowOf(mockk<SubmissionDone>())
 
         every { submissionRepository.hasViewedTestResult } returns flowOf(true)
 
@@ -97,7 +99,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingStateProviderFactory = tracingStateProviderFactory,
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
-        statisticsProvider = statisticsProvider
+        statisticsProvider = statisticsProvider,
+        deadmanNotificationScheduler = deadmanNotificationScheduler
     )
 
     @Test

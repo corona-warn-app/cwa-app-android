@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.CWADebug
@@ -106,8 +107,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         super.onResume()
         scheduleWork()
         vm.doBackgroundNoiseCheck()
-        deadmanScheduler.schedulePeriodic()
         contactDiaryWorkScheduler.schedulePeriodic()
+        if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
+            deadmanScheduler.schedulePeriodic()
+        }
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {

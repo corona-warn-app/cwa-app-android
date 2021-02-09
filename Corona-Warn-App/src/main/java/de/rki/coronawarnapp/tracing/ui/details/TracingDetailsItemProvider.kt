@@ -30,16 +30,19 @@ import javax.inject.Inject
 class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     tracingRepository: TracingRepository,
-    riskLevelStorage: RiskLevelStorage
+    riskLevelStorage: RiskLevelStorage,
+    surveys: Surveys
 ) {
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
         riskLevelStorage.latestAndLastSuccessful,
-        tracingRepository.activeTracingDaysInRetentionPeriod
+        tracingRepository.activeTracingDaysInRetentionPeriod,
+        surveys.availableSurveys
     ) { status,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod ->
+        activeTracingDaysInRetentionPeriod,
+        availableSurveys ->
 
         val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
 
@@ -48,21 +51,24 @@ class TracingDetailsItemProvider @Inject constructor(
                 add(AdditionalInfoLowRiskBox.Item)
             }
 
-            when (latestCalc.riskState) {
-                RiskState.INCREASED_RISK -> BehaviorIncreasedRiskBox.Item
+            when {
+                status != Status.TRACING_INACTIVE && latestCalc.riskState == RiskState.INCREASED_RISK ->
+                    BehaviorIncreasedRiskBox.Item
                 else -> BehaviorNormalRiskBox.Item(
                     tracingStatus = status,
                     riskState = latestCalc.riskState
                 )
             }.also { add(it) }
 
-            if (latestCalc.riskState == RiskState.INCREASED_RISK) {
+            if (latestCalc.riskState == RiskState.INCREASED_RISK &&
+                                        availableSurveys.contains(Surveys.Type.HIGH_RISK_ENCOUNTER)) {
                 add(UserSurveyBox.Item(Surveys.Type.HIGH_RISK_ENCOUNTER))
             }
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
-                    activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt()
+                    activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt(),
+                    tracingStatus = status
                 ).also { add(it) }
             }
 
