@@ -60,6 +60,12 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDataPrivacy)
     }
 
+    fun giveGoogleConsentResult(accepted: Boolean) {
+        Timber.i("User allowed Google consent:$accepted")
+        // Navigate to QR code scan anyway regardless of consent result
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionConsentViewModel>
 }
