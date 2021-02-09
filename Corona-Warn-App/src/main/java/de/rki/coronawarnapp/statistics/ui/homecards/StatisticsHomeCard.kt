@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.ui.homecards
 
+import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -13,20 +14,28 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 
 class StatisticsHomeCard(
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.home_statistics_scrollcontainer
-) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent) {
+) : HomeAdapter.HomeItemVH<StatisticsHomeCard.Item, HomeStatisticsScrollcontainerBinding>(containerLayout, parent),
+    SavedStateMod.StateSavingVH {
 
-    private val statsAdapter by lazy { StatisticsCardAdapter() }
+    override var savedStateKey: String? = null
+
+    private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
+        StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private val statisticsCardAdapter by lazy { StatisticsCardAdapter() }
 
     override val viewBinding = lazy {
         HomeStatisticsScrollcontainerBinding.bind(itemView).apply {
             statisticsRecyclerview.apply {
                 setHasFixedSize(false)
-                adapter = statsAdapter
-                layoutManager = StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = statisticsCardAdapter
+                layoutManager = statisticsLayoutManager
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
                     StatisticsCardPaddingDecorator(
@@ -44,10 +53,18 @@ class StatisticsHomeCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        savedStateKey = "stats:${item.stableId}"
+
         item.data.items.map {
             StatisticsCardItem(it, item.onHelpAction)
-        }.let { statsAdapter.update(it) }
+        }.let {
+            statisticsCardAdapter.update(it)
+        }
     }
+
+    override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()
+
+    override fun restoreState(state: Parcelable) = statisticsLayoutManager.onRestoreInstanceState(state)
 
     data class Item(
         val data: StatisticsData,
@@ -69,9 +86,7 @@ class StatisticsHomeCard(
         }
 
         override fun hashCode(): Int {
-            var result = data.hashCode()
-            result = 31 * result + stableId.hashCode()
-            return result
+            return 31 * data.hashCode() + stableId.hashCode()
         }
     }
 }

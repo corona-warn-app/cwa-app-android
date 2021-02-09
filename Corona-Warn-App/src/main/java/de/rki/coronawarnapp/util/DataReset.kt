@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.main.CWASettings
@@ -38,7 +39,8 @@ class DataReset @Inject constructor(
     private val contactDiaryRepository: ContactDiaryRepository,
     private var contactDiaryPreferences: ContactDiaryPreferences,
     private val cwaSettings: CWASettings,
-    private val statisticsProvider: StatisticsProvider
+    private val statisticsProvider: StatisticsProvider,
+    private val surveySettings: SurveySettings
 ) {
 
     private val mutex = Mutex()
@@ -66,6 +68,7 @@ class DataReset @Inject constructor(
         riskLevelStorage.clear()
         contactDiaryPreferences.clear()
         cwaSettings.clear()
+        surveySettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()

@@ -51,7 +51,6 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -173,7 +172,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 onRetryClick = { refreshDiagnosisKeys() }
             )
         }
-    }
+    }.distinctUntilChanged()
 
     private val submissionCardItems = submissionStateProvider.state.map { state ->
         when (state) {
@@ -215,13 +214,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
             is SubmissionDone -> TestSubmissionDoneCard.Item(state)
         }
-    }
+    }.distinctUntilChanged()
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         submissionCardItems,
-        submissionStateProvider.state,
-        statisticsProvider.current
+        submissionStateProvider.state.distinctUntilChanged(),
+        statisticsProvider.current.distinctUntilChanged()
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
@@ -238,8 +237,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                 }))
             }
-
-            add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }

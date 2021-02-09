@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
@@ -97,21 +96,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         onPositive = { vm.errorResetDialogDismissed() }
                     )
                 }
-                HomeFragmentEvents.ShowDeleteTestDialog -> {
-                    showRemoveTestDialog()
-                }
-                HomeFragmentEvents.GoToContactDiary -> {
-                    context?.let { ContactDiaryActivity.start(it) }
-                }
+                HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
 
-                HomeFragmentEvents.ShowNewReleaseFragment -> {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false))
-                }
-                HomeFragmentEvents.GoToStatisticsExplanation -> {
-                    doNavigate(
-                        HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
-                    )
-                }
+                HomeFragmentEvents.ShowNewReleaseFragment -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false)
+                )
+
+                HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
+                )
             }
         }
 

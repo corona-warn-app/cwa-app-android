@@ -161,25 +161,50 @@
     <string name="risk_card_low_risk_no_encounters_body">"No exposures"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
-        <item quantity="one">"Exposures with low risk on one day"</item>
+        <item quantity="one">"Exposures with low risk on %1$d day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
-        <item quantity="zero">"Exposures with low risk on %1$d days"</item>
+        <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
         <item quantity="few">"Exposures with low risk on %1$d days"</item>
         <item quantity="many">"Exposures with low risk on %1$d days"</item>
     </plurals>
+    <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
+    <plurals name="risk_card_low_risk_encounter_days_body_description">
+        <item quantity="one">"Exposures with low risk on %1$d day"</item>
+        <item quantity="other">"Exposures with low risk on %1$d days"</item>
+        <item quantity="zero">"No exposures"</item>
+        <item quantity="two">"Exposures with low risk on %1$d days"</item>
+        <item quantity="few">"Exposures with low risk on %1$d days"</item>
+        <item quantity="many">"Exposures with low risk on %1$d days"</item>
+    </plurals>
+    <!-- XTXT: risk card - Low risk state - Most recent date with low risk and single day of encounters -->
+    <string name="risk_card_low_risk_most_recent_body_encounter_on_single_day">"Am %1$s"</string>
+    <!-- XTXT: risk card - Low risk state - Most recent date with low risk and more than one day of encounters -->
+    <string name="risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day">"Zuletzt am %1$s"</string>
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
-        <item quantity="one">"Exposures on one day with increased risk"</item>
+        <item quantity="one">"Exposures on %1$d day with increased risk"</item>
         <item quantity="other">"Exposures on %1$d days with increased risk"</item>
         <item quantity="zero">"Exposures on %1$d days with increased risk"</item>
         <item quantity="two">"Exposures on %1$d days with increased risk"</item>
         <item quantity="few">"Exposures on %1$d days with increased risk"</item>
         <item quantity="many">"Exposures on %1$d days with increased risk"</item>
     </plurals>
-    <!-- XTXT: risk card - High risk state - Most recent date with high risk -->
-    <string name="risk_card_high_risk_most_recent_body">"Most recently on %1$s"</string>
+    <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
+    <plurals name="risk_card_high_risk_encounter_days_body_description">
+        <item quantity="one">"Exposures on %1$d day with increased risk"</item>
+        <item quantity="other">"Exposures on %1$d days with increased risk"</item>
+        <item quantity="zero">"Exposures on %1$d days with increased risk"</item>
+        <item quantity="two">"Exposures on %1$d days with increased risk"</item>
+        <item quantity="few">"Exposures on %1$d days with increased risk"</item>
+        <item quantity="many">"Exposures on %1$d days with increased risk"</item>
+    </plurals>
+
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk and single day of encounters -->
+    <string name="risk_card_high_risk_most_recent_body_encounter_on_single_day">"Am %1$s"</string>
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk and more than one day of encounters -->
+    <string name="risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day">"Most recently on %1$s"</string>
 
     <!-- ####################################
               Risk Card - Progress
@@ -305,6 +330,14 @@
     <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Keep at least 1.5 meters distance from other people."</string>
+
+    <!-- XMSG: risk details - link to faq, something like a bullet point -->
+    <string name="risk_details_increased_risk_faq_link_text">""</string>
+    <!-- XTXT: Explanation screen increased risk level link label -->
+    <string name="risk_details_increased_risk_faq_link_label">""</string>
+    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="risk_details_increased_risk_faq_url">""</string>
+
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Sneeze or cough into your elbow or a tissue."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -883,6 +916,8 @@
     <string name="submission_consent_main_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"You must be at least 16 years old to grant your consent."</string>
+    <!-- YTXT: Content Description for the illustration  -->
+    <string name="submission_consent_main_illustration_description"></string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -1635,5 +1670,88 @@
     <string name="statistics_trend_decreasing">"Trend: Downwards"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Steady"</string>
+    <!-- XHED: Title for BottomNav main screen title -->
+    <string name="bottom_nav_home_title">Home</string>
+    <!-- XHED: Title for BottomNav diary screen title -->
+    <string name="bottom_nav_diary_title">Journal</string>
 
+    <!-- ####################################
+               Data Donation & Survey
+        ###################################### -->
+
+    <!-- XHED: Title for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_title">"Befragung zur Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_content">"Helfen Sie uns, die App zu verbessern, indem Sie einige einfache Fragen beantworten."</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_button_text">"Zur Befragung"</string>
+
+    <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
+    <string name="datadonation_details_survey_consent_button_title">"Weiter"</string>
+    <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_title">"Befragung zur Verbesserung der Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_body">"Mit Ihrer Teilnahme helfen Sie uns zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken."</string>
+    <!-- XHED: Text for the consent part title displayed over the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_title">"Ihr Einverständnis"</string>
+    <!-- XHED: Text for the consent part body displayed over the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_body">"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."</string>
+
+
+    <!-- ####################################
+        Data donation
+    ###################################### -->
+
+    <!-- XHED: Analytics voluntary user input, age group toolbar title -->
+    <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
+    <string name="analytics_userinput_agegroup_unspecified">keine Angabe</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
+    <string name="analytics_userinput_agegroup_0_to_29">bis 30 Jahre</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
+    <string name="analytics_userinput_agegroup_30_to_59">30 bis 60</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
+    <string name="analytics_userinput_agegroup_from_60">60 oder älter</string>
+
+    <!-- XHED: Analytics voluntary user input, federal state toolbar title -->
+    <string name="analytics_userinput_federalstate_title">Ihr Bundesland</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_UNSPECIFIED -->
+    <string name="analytics_userinput_federalstate_unspecified">keine Angabe</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BW -->
+    <string name="analytics_userinput_federalstate_bw">Baden-Württemberg</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BY -->
+    <string name="analytics_userinput_federalstate_by">Bayern</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BE -->
+    <string name="analytics_userinput_federalstate_be">Berlin</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BB -->
+    <string name="analytics_userinput_federalstate_bb">Brandenburg</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HB -->
+    <string name="analytics_userinput_federalstate_hb">Bremen</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HH -->
+    <string name="analytics_userinput_federalstate_hh">Hamburg</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HE -->
+    <string name="analytics_userinput_federalstate_he">Hessen</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_MV -->
+    <string name="analytics_userinput_federalstate_mv">Mecklenburg-Vorpommern</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_NI -->
+    <string name="analytics_userinput_federalstate_ni">Niedersachsen</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_NRW -->
+    <string name="analytics_userinput_federalstate_nrw">Nordrhein-Westfalen</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_RP -->
+    <string name="analytics_userinput_federalstate_rp">Rheinland-Pfalz</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SL -->
+    <string name="analytics_userinput_federalstate_sl">Saarland</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SN -->
+    <string name="analytics_userinput_federalstate_sn">Sachsen</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_ST -->
+    <string name="analytics_userinput_federalstate_st">Sachsen-Anhalt</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SH -->
+    <string name="analytics_userinput_federalstate_sh">Schleswig-Holstein</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_TH -->
+    <string name="analytics_userinput_federalstate_th">Thüringen</string>
+
+    <!-- XHED: Analytics voluntary user input, district toolbar title -->
+    <string name="analytics_userinput_district_title">Ihr Kreis/Bezirk</string>
+    <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
+    <string name="analytics_userinput_district_unspecified">keine Angabe</string>
 </resources>

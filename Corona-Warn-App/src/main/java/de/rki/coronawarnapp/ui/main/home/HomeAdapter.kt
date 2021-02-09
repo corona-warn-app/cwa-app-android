@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -26,6 +25,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
+import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
@@ -53,9 +53,10 @@ class HomeAdapter : ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>
             TypedVHCreatorMod({ data[it] is TestReadyCard.Item }) { TestReadyCard(it) },
             TypedVHCreatorMod({ data[it] is TestPendingCard.Item }) { TestPendingCard(it) },
             TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
-            TypedVHCreatorMod({ data[it] is DiaryCard.Item }) { DiaryCard(it) },
-            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) }
-        ))
+            TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) },
+            SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
+        )
+        )
     }
 
     override fun getItemCount(): Int = data.size
