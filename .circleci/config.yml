@@ -570,6 +570,10 @@ jobs:
           command: |
             circle-android wait-for-boot
       - run:
+          name: Disable emulator animation
+          command: |
+            adb -s test shell am instrument --no-window-animation
+      - run:
           name: Run UI tests
           command: |
             ./gradlew connectedDeviceForTestersDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notAnnotation=testhelpers.Screenshot
