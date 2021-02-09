@@ -24,7 +24,7 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
 
     fun onNextButtonClick() {
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        routeToScreen.postValue(NewReleaseInfoNavigationEvents.CloseScreen)
+        routeToScreen.postValue(NewReleaseInfoNavigationEvents.NavigateToDeltaAnalyticsScreen)
     }
 
     fun getItems(titles: Array<String>, bodies: Array<String>): List<NewReleaseInfoItem> {

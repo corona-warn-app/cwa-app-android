@@ -515,6 +515,11 @@
             android:name="comesFromInfoScreen"
             android:defaultValue="false"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaAnalyticsFragment"
+            app:destination="@id/onboardingDeltaAnalyticsFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/surveyConsentFragment"
@@ -532,5 +537,10 @@
         <argument
             android:name="type"
             app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingDeltaAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsFragment"
+        android:label="OnboardingDeltaAnalyticsFragment">
     </fragment>
 </navigation>
