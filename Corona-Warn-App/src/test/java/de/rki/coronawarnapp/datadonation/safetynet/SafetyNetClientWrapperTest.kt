@@ -148,7 +148,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
                 body shouldBe JsonParser.parseString(JWS_BODY)
                 signature shouldBe JWS_SIGNATURE_BASE64.decodeBase64()!!.toByteArray()
 
-                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA=="
+                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()?.utf8()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"
                 basicIntegrity shouldBe false
                 ctsProfileMatch shouldBe false
@@ -164,7 +164,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
             createInstance().attest("hodl".toByteArray()).apply {
                 body shouldBe JsonParser.parseString(JWS_BODY_MINIMAL)
 
-                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA=="
+                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()?.utf8()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"
                 basicIntegrity shouldBe false
                 ctsProfileMatch shouldBe false
