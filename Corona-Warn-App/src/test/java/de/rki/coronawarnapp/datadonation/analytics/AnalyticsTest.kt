@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
@@ -39,6 +40,7 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var analyticsConfig: AnalyticsConfig
     @MockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
+    @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
 
     @BeforeEach
     fun setup() {
@@ -48,6 +50,8 @@ class AnalyticsTest : BaseTest() {
 
         coEvery { appConfigProvider.getAppConfig() } returns configData
         every { configData.analytics } returns analyticsConfig
+
+        coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
     }
 
     @AfterEach
@@ -63,12 +67,29 @@ class AnalyticsTest : BaseTest() {
             appConfigProvider = appConfigProvider,
             deviceAttestation = deviceAttestation,
             donorModules = createDonorModules(),
-            settings = settings
+            settings = settings,
+            logger = lastAnalyticsSubmissionLogger
         )
     )
 
     @Test
+    fun `abort due to no user consent`() {
+        every { settings.analyticsEnabled } returns mockFlowPreference(false)
+
+        val analytics = createInstance()
+
+        runBlockingTest2 {
+            analytics.submitIfWanted()
+        }
+
+        coVerify(exactly = 0) {
+            analytics.submitAnalyticsData()
+        }
+    }
+
+    @Test
     fun `abort due to submit probability`() {
+        every { settings.analyticsEnabled } returns mockFlowPreference(false)
         every { analyticsConfig.probabilityToSubmit } returns 0f
 
         val analytics = createInstance()
@@ -89,6 +110,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to last submit timestamp`() {
+        every { settings.analyticsEnabled } returns mockFlowPreference(false)
         every { analyticsConfig.probabilityToSubmit } returns 1f
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(Instant.now())
 
@@ -105,6 +127,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to time since onboarding`() {
+        every { settings.analyticsEnabled } returns mockFlowPreference(false)
         every { analyticsConfig.probabilityToSubmit } returns 1f
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(
             Instant.now().minus(Days.TWO.toStandardDuration())
@@ -124,6 +147,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `submit analytics data`() {
+        every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 1f
 
         val twoDaysAgo = Instant.now().minus(Days.TWO.toStandardDuration())
