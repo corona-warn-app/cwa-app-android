@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -35,6 +36,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         binding.apply {
             toolbar.setNavigationOnClickListener { vm.onBackButtonPressed() }
             surveyNextButton.setOnClickListener { vm.onNextButtonPressed() }
+            surveyConsentMoreInformation.setOnClickListener { vm.onMoreInformationButtonPressed() }
         }
 
         vm.routeToScreen.observe2(this) {
@@ -43,6 +45,11 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
                     activity?.onBackPressed()
                 is SurveyConsentNavigationEvents.NavigateToWebView ->
                     Toast.makeText(requireContext(), "Open ${it.url} (WIP, next PR))", Toast.LENGTH_SHORT).show()
+                is SurveyConsentNavigationEvents.NavigateToMoreInformationScreen -> {
+                    doNavigate(
+                        SurveyConsentFragmentDirections.actionSurveyConsentFragmentToSurveyConsentDetailFragment()
+                    )
+                }
             }
         }
 
