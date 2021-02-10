@@ -83,7 +83,7 @@ class HotDataFlow<T : Any>(
         .onCompletion { err ->
             when {
                 err is CancellationException -> Timber.tag(tag).d("internal onCompletion due to cancelation")
-                err != null -> Timber.tag(tag).w(err, "internal onCompletion due to error")
+                err != null -> Timber.tag(tag).e(err, "internal onCompletion due to error")
                 else -> Timber.tag(tag).v("internal onCompletion")
             }
         }

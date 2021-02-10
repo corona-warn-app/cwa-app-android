@@ -92,7 +92,7 @@ class BackgroundModeStatus @Inject constructor(
         .onCompletion {
             when {
                 it is CancellationException -> Timber.d("isIgnoringBatteryOptimizations canceled.")
-                it != null -> Timber.w(it, "isIgnoringBatteryOptimizations failed.")
+                it != null -> Timber.e(it, "isIgnoringBatteryOptimizations failed.")
             }
         }
         .shareLatest(
