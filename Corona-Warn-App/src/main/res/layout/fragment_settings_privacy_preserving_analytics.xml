@@ -2,11 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="state"
-            type="de.rki.coronawarnapp.ui.settings.analytics.PrivacyPreservingAnalyticsSettingsState" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/onboarding_ppa_container"

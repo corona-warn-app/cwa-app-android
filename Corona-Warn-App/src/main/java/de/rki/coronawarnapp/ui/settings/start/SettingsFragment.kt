@@ -39,6 +39,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
             binding.backgroundState = it
         }
 
+        vm.analyticsState.observe2(this) {
+            binding.analyticsState = it
+        }
+
         setButtonOnClickListener()
     }
 

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
@@ -44,6 +45,13 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         backgroundModeStatus.isIgnoringBatteryOptimizations
             .map { SettingsBackgroundState((it)) }
             .asLiveData(dispatcherProvider.Default)
+
+    // TODO Will be changed by @kolyaophale
+    var analyticsEnabled = false
+
+    var analyticsState: LiveData<SettingsPrivacyPreservingAnalyticsState> = MutableStateFlow(analyticsEnabled)
+        .map { SettingsPrivacyPreservingAnalyticsState((it)) }
+        .asLiveData(dispatcherProvider.Default)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsFragmentViewModel>

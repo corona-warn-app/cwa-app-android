@@ -16,7 +16,7 @@
             type="de.rki.coronawarnapp.ui.settings.start.SettingsBackgroundState" />
 
         <variable
-            name="privacyPreservingAnalyticsState"
+            name="analyticsState"
             type="de.rki.coronawarnapp.ui.settings.start.SettingsPrivacyPreservingAnalyticsState" />
     </data>
 
@@ -104,13 +104,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:body="@{@string/settings_privacy_preserving_analytics_body_description}"
-                    app:color="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsIconColor(context)}"
-                    app:icon="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsIcon(context)}"
+                    app:color="@{analyticsState.getPrivacyPreservingAnalyticsIconColor(context)}"
+                    app:icon="@{analyticsState.getPrivacyPreservingAnalyticsIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_background_priority"
                     app:showDivider="@{true}"
-                    app:statusText="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsText(context)}"
+                    app:statusText="@{analyticsState.getPrivacyPreservingAnalyticsText(context)}"
                     app:subtitle="@{@string/settings_privacy_preserving_analytics_title}"
                     />
 
