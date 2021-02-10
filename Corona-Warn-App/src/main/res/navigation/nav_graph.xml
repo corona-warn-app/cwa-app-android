@@ -559,4 +559,12 @@
         android:label="PpaMoreInfoFragment"
         tools:layout="@layout/fragment_ppa_more_info">
     </fragment>
+    <fragment
+        android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
+        android:label="SettingsPrivacyPreservingAnalyticsFragment" >
+        <action
+            android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+    </fragment>
 </navigation>
