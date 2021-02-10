@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
@@ -25,7 +26,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
         binding.apply {
             onboardingButtonNext.setOnClickListener { goToOnboardingPrivacyFragment() }
             // only show link for German
-            if (Locale.getDefault().language == "de") {
+            if (showEasyLanguageLink()) {
                 onboardingEasyLanguage.visibility = View.VISIBLE
                 onboardingEasyLanguage.setOnClickListener { openEasyLanguageLink() }
             } else {
@@ -55,3 +56,6 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
         binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
+
+@VisibleForTesting
+fun showEasyLanguageLink(): Boolean = Locale.getDefault().language == "de"
