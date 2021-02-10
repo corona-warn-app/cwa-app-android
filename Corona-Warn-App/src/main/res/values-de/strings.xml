@@ -1396,15 +1396,15 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Bitte geben Sie Ihr Testergebnis im nächsten Schritt frei, indem Sie „Teilen“ antippen."</b>""</string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"Wollen Sie wirklich abbrechen?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Sie haben sich entschieden, Ihr Testergebnis nicht zu teilen. Ihre Mitmenschen werden nicht gewarnt. \n\nSie können im Anschluss Ihr Testergebnis doch noch teilen und mithelfen, die Verbreitung von Corona zu bekämpfen und Ihre Mitmenschen zu schützen."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Wollen Sie wirklich abbrechen?"</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Abbrechen"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1796,9 +1796,30 @@
     <!-- XHED: Title of the survey consent detail screen -->
     <string name="datadonation_details_survey_consent_details_title">"Ausführliche Informationen zur Datenverarbeitung bei der Teilnahme an der Befragung"</string>
 
-    <!-- ####################################
-       Data donation
-    ###################################### -->
+    <!-- XHED: Dialog error title for survey request error informations 1 -->
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren Sie die Uhrzeit in den Einstellungen Ihres Smartphones (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 2-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Die Befragung kann nicht aufgerufen werden (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 3-->
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte aktualisieren Sie die Google Play Services (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte versuchen Sie es später noch mal (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 5-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Die Befragung konnte aus Sicherheitsgründen nicht aufgerufen werden. Sie können im nächsten Kalendermonat wieder teilnehmen (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Die Befragung konnte auf Ihrem Smartphone nicht aufgerufen werden (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden, nachdem Sie die App installiert oder aktualisiert haben, an der Befragung teilnehmen (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Sie haben bereits an der Befragung teilgenommen. Sie können nur einmal im Monat an der Befragung teilnehmen (Fehlercode {0})."</string>
+
+    <!-- XHED: Dialog error title for survey request error informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_title">"Fehler"</string>
+    <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"ok"</string>
+
+    <!-- XHED: Dialog progress message for survey request -->
+    <string name="datadonation_details_survey_consent_progress_dialog_msg">"Befragung wird geladen…"</string>
 
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
     <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
