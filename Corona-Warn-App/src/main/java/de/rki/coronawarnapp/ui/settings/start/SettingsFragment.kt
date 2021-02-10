@@ -39,7 +39,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
             binding.backgroundState = it
         }
 
-
         setButtonOnClickListener()
     }
 

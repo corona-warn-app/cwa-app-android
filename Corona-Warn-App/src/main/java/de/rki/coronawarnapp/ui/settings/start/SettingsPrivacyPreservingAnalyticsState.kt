@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
-data class SettingsPrivacyPreservingAnalyticsState (
+data class SettingsPrivacyPreservingAnalyticsState(
     val isEnabled: Boolean
 ) {
 

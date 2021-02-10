@@ -41,7 +41,6 @@ class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_se
                 vm.analyticsToggleEnabled()
             }
 
-
             federalStateRow.setOnClickListener {
                 doNavigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(

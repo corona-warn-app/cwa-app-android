@@ -5,10 +5,9 @@ import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
-data class PrivacyPreservingAnalyticsSettingsState (
+data class PrivacyPreservingAnalyticsSettingsState(
     val isPpaEnabled: Boolean
 ) {
-
     /**
      * Formats the settings ppa details illustration depending on notifications status
      */
@@ -21,5 +20,4 @@ data class PrivacyPreservingAnalyticsSettingsState (
         if (isPpaEnabled) R.string.settings_on
         else R.string.settings_off
     )
-
 }

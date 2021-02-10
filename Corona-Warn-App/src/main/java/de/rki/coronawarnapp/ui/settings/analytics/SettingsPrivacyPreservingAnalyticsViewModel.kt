@@ -31,6 +31,6 @@ class SettingsPrivacyPreservingAnalyticsViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<SettingsPrivacyPreservingAnalyticsViewModel>
 
     fun analyticsToggleEnabled() {
-        //TODO
+        // TODO
     }
 }
