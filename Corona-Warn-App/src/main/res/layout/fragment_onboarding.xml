@@ -25,18 +25,16 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/spacing_medium">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/onboarding_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/onboarding_illustration_description"
                     android:focusable="true"
-                    android:src="@drawable/ic_illustration_together"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    tools:src="@drawable/ic_illustration_together" />
+                    app:srcCompat="@drawable/ic_illustration_together" />
 
                 <TextView
                     android:id="@+id/onboarding_headline"
@@ -45,7 +43,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/onboarding_headline"
                     app:layout_constraintEnd_toEndOf="parent"
