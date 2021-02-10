@@ -55,8 +55,11 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
             }
             binding.safetynetRequirementsBody.apply {
                 text = items.first.toString()
+                append("\n\n")
                 if (items.second != null) {
-                    append("\n\n" + items.second.toString())
+                    append(items.second.toString())
+                } else {
+                    append("Requirements passed!")
                 }
             }
         }
