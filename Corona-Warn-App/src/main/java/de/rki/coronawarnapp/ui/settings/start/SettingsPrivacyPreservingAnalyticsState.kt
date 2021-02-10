@@ -25,7 +25,7 @@ data class SettingsPrivacyPreservingAnalyticsState(
      */
     fun getPrivacyPreservingAnalyticsIcon(context: Context): Drawable? = context.getDrawableCompat(
         if (isEnabled) R.drawable.ic_settings_privacy_preserving_analytics_enabled
-        else R.drawable.ic_settings_background_priority_disabled
+        else R.drawable.ic_settings_privacy_preserving_analytics_disabled
     )
 
     /**
