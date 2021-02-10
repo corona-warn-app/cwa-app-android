@@ -1,5 +1,9 @@
 package de.rki.coronawarnapp.nearby.modules.tekhistory
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.IntentSender
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
@@ -7,6 +11,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
+import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,7 +23,8 @@ import kotlin.coroutines.suspendCoroutine
 @Singleton
 class DefaultTEKHistoryProvider @Inject constructor(
     private val client: ExposureNotificationClient,
-    private val enfVersion: ENFVersion
+    private val enfVersion: ENFVersion,
+    @AppContext private val context: Context
 ) : TEKHistoryProvider {
 
     override suspend fun getTEKHistoryOrRequestPermission(
@@ -27,7 +33,27 @@ class DefaultTEKHistoryProvider @Inject constructor(
     ) {
         Timber.d("getTEKHistoryOrRequestPermission(...)")
         try {
-            onTEKHistoryAvailable(getTEKHistory())
+            if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
+                Timber.d("Request pre-auth TemporaryKeyHistory")
+                try {
+                    getTEKPreAuthorizedHistory(onTEKHistoryAvailable)
+                } catch (exception: Exception) {
+                    if (exception is ApiException &&
+                        exception.status.hasResolution()
+                    ) {
+                        Timber.e(exception, "Request pre-auth TemporaryKeyHistory failed with recoverable error")
+                        throw exception
+                    } else {
+                        Timber.e(exception, "Request pre-auth TemporaryKeyHistory failed with unrecoverable error")
+                        Timber.d("Fallback request non-auth TemporaryKeyHistory")
+                        onTEKHistoryAvailable(getTEKHistory())
+                    }
+                }
+            } else {
+                Timber.d("Request non-auth TemporaryKeyHistory")
+                onTEKHistoryAvailable(getTEKHistory())
+            }
+
             Timber.d("onTEKHistoryAvailable() -> permission were already available")
         } catch (apiException: ApiException) {
             if (apiException.statusCode != ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
@@ -57,17 +83,37 @@ class DefaultTEKHistoryProvider @Inject constructor(
             }
     }
 
-    override suspend fun preAuthorizedTemporaryExposureKeyHistory(): TEKResult<Boolean> {
+    override suspend fun preAuthorizeExposureKeyHistory(): Boolean {
         // Early exist if pre-auth is not available
-        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return TEKResult.Success(false)
-        return try {
-            Timber.i("Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
-            client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
-            Timber.i("Pre-auth is enabled")
-            TEKResult.Success(true)
-        } catch (exception: Exception) {
-            Timber.e(exception, "Pre-auth failed")
-            TEKResult.Error(exception)
-        }
+        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return false
+        Timber.i("Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
+        client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
+        Timber.i("Pre-auth is enabled")
+        return true
+    }
+
+    private suspend fun getTEKPreAuthorizedHistory(onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit) {
+        client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
+        Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
+        Timber.i("Wait for KeyBroadcastsEvent")
+        context.registerReceiver(
+            object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    Timber.i("Key Broadcast received")
+                    if (intent.hasExtra(ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)) {
+                        Timber.i("Key Broadcast has EXTRA for keys")
+                        val tempExposureKeys = intent.getParcelableArrayListExtra<TemporaryExposureKey>(
+                            ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
+                        )
+                        onTEKHistoryAvailable(tempExposureKeys)
+                        Timber.i("Pre-auth temporary exposure keys were retrieved:$tempExposureKeys")
+                    }
+                    context.unregisterReceiver(this)
+                }
+            },
+            IntentFilter(
+                ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
+            )
+        )
     }
 }

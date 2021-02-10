@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
-import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKResult
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -16,6 +15,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import kotlin.Exception
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
@@ -32,21 +32,21 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     fun onConsentButtonClick() {
         submissionRepository.giveConsentToSubmission()
         launch {
-            when (val result = tekHistoryProvider.preAuthorizedTemporaryExposureKeyHistory()) {
-                is TEKResult.Error -> {
-                    val exception = result.exception
-                    if (exception is ApiException &&
-                        exception.status.hasResolution()
-                    ) {
-                        Timber.e(exception, "Pre-auth requires user resolution")
-                        routeToScreen.postValue(SubmissionNavigationEvents.ResolvePlayServicesException(exception))
-                    } else {
-                        Timber.e(exception, "Pre-auth failed with unrecoverable exception")
-                        exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
-                    }
-                }
+            try {
+                val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
                 // Routes to QR code screen either has already granted permission or it is older Api
-                is TEKResult.Success -> routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
+                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
+                Timber.i("Pre-authorized:$preAuthorized")
+            } catch (exception: Exception) {
+                if (exception is ApiException &&
+                    exception.status.hasResolution()
+                ) {
+                    Timber.e(exception, "Pre-auth requires user resolution")
+                    routeToScreen.postValue(SubmissionNavigationEvents.ResolvePlayServicesException(exception))
+                } else {
+                    Timber.e(exception, "Pre-auth failed with unrecoverable exception")
+                    exception.report(ExceptionCategory.EXPOSURENOTIFICATION)
+                }
             }
         }
     }
