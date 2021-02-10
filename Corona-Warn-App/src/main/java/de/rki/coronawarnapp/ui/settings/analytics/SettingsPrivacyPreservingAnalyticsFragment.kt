@@ -19,7 +19,9 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_settings_privacy_preserving_analytics), AutoInject {
+class SettingsPrivacyPreservingAnalyticsFragment :
+    Fragment(R.layout.fragment_settings_privacy_preserving_analytics),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsPrivacyPreservingAnalyticsViewModel by cwaViewModels { viewModelFactory }
@@ -43,7 +45,8 @@ class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_se
 
             federalStateRow.setOnClickListener {
                 doNavigate(
-                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections
+                        .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
                     )
                 )
@@ -51,14 +54,16 @@ class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_se
 
             districtRow.setOnClickListener {
                 doNavigate(
-                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections
+                        .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.DISTRICT
                     )
                 )
             }
             ageGroupRow.setOnClickListener {
                 doNavigate(
-                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections
+                        .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.AGE_GROUP
                     )
                 )
