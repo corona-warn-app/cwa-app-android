@@ -33,27 +33,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
     ) {
         Timber.d("getTEKHistoryOrRequestPermission(...)")
         try {
-            if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
-                Timber.d("Request pre-auth TemporaryKeyHistory")
-                try {
-                    getTEKPreAuthorizedHistory(onTEKHistoryAvailable)
-                } catch (exception: Exception) {
-                    if (exception is ApiException &&
-                        exception.status.hasResolution()
-                    ) {
-                        Timber.e(exception, "Request pre-auth TemporaryKeyHistory failed with recoverable error")
-                        throw exception
-                    } else {
-                        Timber.e(exception, "Request pre-auth TemporaryKeyHistory failed with unrecoverable error")
-                        Timber.d("Fallback request non-auth TemporaryKeyHistory")
-                        onTEKHistoryAvailable(getTEKHistory())
-                    }
-                }
-            } else {
-                Timber.d("Request non-auth TemporaryKeyHistory")
-                onTEKHistoryAvailable(getTEKHistory())
-            }
-
+            onTEKHistoryAvailable(getTEKHistory())
             Timber.d("onTEKHistoryAvailable() -> permission were already available")
         } catch (apiException: ApiException) {
             if (apiException.statusCode != ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
@@ -70,50 +50,65 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    override suspend fun getTEKHistory(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
-        Timber.d("Retrieving temporary exposure keys.")
-        client.temporaryExposureKeyHistory
-            .addOnSuccessListener {
-                Timber.d("Temporary exposure keys were retrieved: %s", it.joinToString("\n"))
-                cont.resume(it)
+    override suspend fun getTEKHistory(): List<TemporaryExposureKey> {
+        return if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
+            try {
+                Timber.d("Pre-Auth retrieving temporary exposure keys.")
+                getPreAuthorizedExposureKeys().also {
+                    Timber.d("Pre-Auth temporary exposure keys:${it.joinToString("\n")}")
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Pre-Auth retrieving temporary exposure keys failed")
+                Timber.d("Fallback:Retrieving temporary exposure keys")
+                client.temporaryExposureKeyHistory.await().also {
+                    Timber.d("Temporary exposure keys:${it.joinToString("\n")}")
+                }
             }
-            .addOnFailureListener {
-                Timber.w(it, "Failed to retrieve temporary exposure keys.")
-                cont.resumeWithException(it)
+        } else {
+            Timber.d("Retrieving temporary exposure keys")
+            client.temporaryExposureKeyHistory.await().also {
+                Timber.d("Temporary exposure keys:${it.joinToString("\n")}")
             }
+        }
     }
 
     override suspend fun preAuthorizeExposureKeyHistory(): Boolean {
-        // Early exist if pre-auth is not available
+        // Pre-Auth isn't available exist early
         if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return false
         Timber.i("Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
         client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
-        Timber.i("Pre-auth is enabled")
+        Timber.i("Pre-Auth is enabled")
         return true
     }
 
-    private suspend fun getTEKPreAuthorizedHistory(onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit) {
-        client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
-        Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
-        Timber.i("Wait for KeyBroadcastsEvent")
-        context.registerReceiver(
-            object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    Timber.i("Key Broadcast received")
-                    if (intent.hasExtra(ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)) {
-                        Timber.i("Key Broadcast has EXTRA for keys")
-                        val tempExposureKeys = intent.getParcelableArrayListExtra<TemporaryExposureKey>(
-                            ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
-                        )
-                        onTEKHistoryAvailable(tempExposureKeys)
-                        Timber.i("Pre-auth temporary exposure keys were retrieved:$tempExposureKeys")
-                    }
-                    context.unregisterReceiver(this)
-                }
-            },
-            IntentFilter(
-                ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
-            )
-        )
+    private suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
+        client.requestPreAuthorizedTemporaryExposureKeyRelease()
+            .addOnSuccessListener {
+                Timber.i("Pre-Auth waiting for Keys broadcast event")
+                context.registerReceiver(
+                    object : BroadcastReceiver() {
+                        override fun onReceive(context: Context, intent: Intent) {
+                            Timber.i("Pre-Auth keys Broadcast received")
+                            if (intent.hasExtra(ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)) {
+                                val tempExposureKeys = intent.getParcelableArrayListExtra<TemporaryExposureKey>(
+                                    ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
+                                )
+                                Timber.i("Pre-Auth temporary exposure keys were retrieved:$tempExposureKeys")
+                                cont.resume(tempExposureKeys)
+                            } else {
+                                Timber.w("Pre-Auth temporary exposure keys were not retrieved")
+                                cont.resumeWithException(Exception("Pre-Auth temporary exposure keys were not retrieved"))
+                            }
+                            context.unregisterReceiver(this)
+                        }
+                    },
+                    IntentFilter(
+                        ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
+                    )
+                )
+            }.addOnFailureListener {
+                Timber.e(it, "Pre-Auth failed to retrieve temporary exposure keys.")
+                cont.resumeWithException(it)
+            }
     }
 }
