@@ -90,7 +90,7 @@ class AnalyticsTest : BaseTest() {
     @Test
     fun `abort due to submit probability`() {
         every { settings.analyticsEnabled } returns mockFlowPreference(false)
-        every { analyticsConfig.probabilityToSubmit } returns 0f
+        every { analyticsConfig.probabilityToSubmit } returns 0.0
 
         val analytics = createInstance()
 
@@ -111,7 +111,7 @@ class AnalyticsTest : BaseTest() {
     @Test
     fun `abort due to last submit timestamp`() {
         every { settings.analyticsEnabled } returns mockFlowPreference(false)
-        every { analyticsConfig.probabilityToSubmit } returns 1f
+        every { analyticsConfig.probabilityToSubmit } returns 1.0
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(Instant.now())
 
         val analytics = createInstance()
@@ -128,7 +128,7 @@ class AnalyticsTest : BaseTest() {
     @Test
     fun `abort due to time since onboarding`() {
         every { settings.analyticsEnabled } returns mockFlowPreference(false)
-        every { analyticsConfig.probabilityToSubmit } returns 1f
+        every { analyticsConfig.probabilityToSubmit } returns 1.0
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(
             Instant.now().minus(Days.TWO.toStandardDuration())
         )
@@ -148,7 +148,7 @@ class AnalyticsTest : BaseTest() {
     @Test
     fun `submit analytics data`() {
         every { settings.analyticsEnabled } returns mockFlowPreference(true)
-        every { analyticsConfig.probabilityToSubmit } returns 1f
+        every { analyticsConfig.probabilityToSubmit } returns 1.0
 
         val twoDaysAgo = Instant.now().minus(Days.TWO.toStandardDuration())
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
