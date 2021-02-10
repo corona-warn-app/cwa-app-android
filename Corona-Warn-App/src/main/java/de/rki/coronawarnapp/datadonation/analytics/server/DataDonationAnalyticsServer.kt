@@ -15,17 +15,17 @@ class DataDonationAnalyticsServer @Inject constructor(
     suspend fun uploadAnalyticsData(ppaDataRequestAndroid: PpaDataRequestAndroid.PPADataRequestAndroid) {
         val response = api.get().submitAndroidAnalytics(ppaDataRequestAndroid)
 
-        if (response.code() == 204) {
-            Timber.d("Analytics upload completed successfully")
-            return
-        }
-
-        if (response.code() == 400 || response.code() == 401 || response.code() == 403) {
-            Timber.w("Analytics upload failed due to a known error, see exception")
-
-            val body = response.body()
-            if (body != null) {
-                throw AnalyticsException(body.errorState, null)
+        when (response.code()) {
+            204 -> {
+                Timber.d("Analytics upload completed successfully")
+                return
+            }
+            400, 401, 403 -> {
+                val body = response.body()
+                if (body != null) {
+                    Timber.w("Analytics upload failed due to a known error, see exception")
+                    throw AnalyticsException(body.errorState, null)
+                }
             }
         }
 
