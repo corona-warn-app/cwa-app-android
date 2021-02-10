@@ -90,7 +90,10 @@ class BackgroundModeStatus @Inject constructor(
         .onStart { emit(pollisIgnoringBatteryOptimizations()) }
         .distinctUntilChanged()
         .onCompletion {
-            if (it != null) Timber.w(it, "isIgnoringBatteryOptimizations failed.")
+            when {
+                it is CancellationException -> Timber.d("isIgnoringBatteryOptimizations canceled.")
+                it != null -> Timber.e(it, "isIgnoringBatteryOptimizations failed.")
+            }
         }
         .shareLatest(
             tag = "isIgnoringBatteryOptimizations",
