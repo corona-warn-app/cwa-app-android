@@ -7,7 +7,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -58,24 +57,16 @@ class DefaultTEKHistoryProvider @Inject constructor(
             }
     }
 
-    override suspend fun preAuthorizedTemporaryExposureKeyHistory() {
+    override suspend fun preAuthorizedTemporaryExposureKeyHistory(): TEKResult<Boolean> {
         // Early exist if pre-auth is not available
-        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return
-        try {
+        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return TEKResult.Success(false)
+        return try {
             Timber.i("Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
             client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
             Timber.i("Pre-auth is enabled")
+            TEKResult.Success(true)
         } catch (exception: Exception) {
-            when (exception) {
-                is ApiException ->
-                    if (exception.status.hasResolution()) {
-                        Timber.e("Requires user resolution (code: ${exception.statusCode})")
-                    } else {
-                        Timber.e("Pre-auth failed with unrecoverable exception: ${exception.message}")
-                    }
-
-                else -> Timber.e("Pre-auth failed with unrecoverable exception: ${exception.message}")
-            }
+            TEKResult.Error(exception)
         }
     }
 }

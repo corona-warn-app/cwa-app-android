@@ -9,7 +9,6 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import kotlin.math.abs
 
 @Singleton
 class DefaultENFVersion @Inject constructor(

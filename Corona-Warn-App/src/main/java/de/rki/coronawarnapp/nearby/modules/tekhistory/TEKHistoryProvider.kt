@@ -26,5 +26,5 @@ interface TEKHistoryProvider {
      * Pre-Authorize requesting ExposureKeyHistory process
      * @see [ExposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory]
      */
-    suspend fun preAuthorizedTemporaryExposureKeyHistory()
+    suspend fun preAuthorizedTemporaryExposureKeyHistory(): TEKResult<Boolean>
 }
