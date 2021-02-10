@@ -531,6 +531,95 @@
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
 
+    <!-- XACT: onboarding privacy preserving analytics (ppa) - illustraction description, header image -->
+    <string name="onboarding_ppa_illustration_description">"Darstellung einer Person, die ihr Smartphone in der Hand hält"</string>
+    <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
+    <string name="onboarding_ppa_headline">"Datenspende"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
+    <string name="onboarding_ppa_body">"Sie können uns helfen, die Corona-Warn-App zu verbessern. Teilen Sie Daten über Ihre App-Nutzung mit dem RKI. Sie helfen damit dem RKI bei der Bewertung der Wirksamkeit der App. Ihre Daten ermöglichen außerdem, die Funktionen und Nutzerfreundlichkeit der App zu verbessern."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
+    <string name="onboarding_ppa_state_title">"Ihr Bundesland (optional)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
+    <string name="onboarding_ppa_district_title">"Ihr Kreis/Bezirk (optional)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
+    <string name="onboarding_ppa_regional_evaluation_text">"Wenn Sie zusätzlich Ihr Bundesland und Ihre Region angeben, können wir regionale Auswertungen durchführen."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
+    <string name="onboarding_ppa_age_title">"Ihr Alter (optional)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
+    <string name="onboarding_ppa_more_info_title">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA"</string>
+    <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
+    <string name="onboarding_ppa_consent_donate_button">"Daten spenden"</string>
+    <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
+    <string name="onboarding_ppa_consent_not_donate_button">"Nicht spenden"</string>
+
+    <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
+    <string name="onboarding_ppa_more_info_headline">"Ausführliche Informationen zur Datenspende"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
+    <string name="onboarding_ppa_more_info_decline_processing_text">"Wenn Sie mit der Drittlandsübermittlung nicht einverstanden sind, tippen Sie bitte nicht „Einverstanden" an. Sie können die App weiterhin nutzen, die Datenspende ist dann jedoch nicht möglich."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
+    <string name="onboarding_ppa_more_info_data_processing_title">"Datenverarbeitung im Rahmen der Datenspende"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
+    <string name="onboarding_ppa_more_info_data_processing_body">"Im Rahmen der Datenspende übermittelt die App verschiedene Daten täglich an das RKI. Die übermittelten Daten werden zu unterschiedlichen Zwecken ausgewertet:"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Verbesserung der Risiko-Ermittlung – Die Genauigkeit und Zuverlässigkeit der technischen Berechnung der Ansteckungsrisiken sollen verbessert werden. Hierfür werden Angaben über Risiko-Begegnungen und Ihnen angezeigte Warnungen ausgewertet. In der Folge kann die Berechnungsmethode verfeinert werden."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_2_text">"Verbesserung der Nutzerführung in der App – Die Bedienung der App soll erleichtert werden. Hierfür werden Angaben über die einzelnen Schritte ausgewertet, die Nutzer in der App vornehmen. So können Beschriftungen und Hinweistexte klarer gestaltet und Bedienelemente so platziert werden, dass sie besser gefunden werden können. Außerdem können Darstellungen für verschiedene Smartphone-Modelle angepasst werden."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 3 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_3_text">"Informationen und Hilfestellungen zur App ermöglichen – Es soll möglich werden, zu erkennen, ob es z.B. bei der Nutzung der App im Zusammenhang mit bestimmten Testeinrichtungen und Laboren oder in bestimmten Regionen zu Problemen kommt. Dies kann festgestellt werden, wenn aufgrund der Datenspende auffällt, dass in bestimmten Regionen Testergebnisse verspätet zur Verfügung stehen. So können die zuständigen Gesundheitsbehörden auch gezielt auf mögliche technische Störungen hingewiesen werden."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 4 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_4_text">"Verbesserung der Statistiken über den Pandemieverlauf – Die Daten können Aufschluss über die zeitliche und räumliche Verteilung bestimmter Ereignisse des Pandemieverlaufs geben und es ermöglichen, auf bestimmte Entwicklungen schneller zu reagieren."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data title -->
+    <string name="onboarding_ppa_more_info_rki_data_title">"Dazu erhebt das RKI folgende Daten:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 1 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_1_text">"Das Datum der Übermittlung."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 2 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_2_text">"Änderungen der Warnungshistorie im Vergleich zum Vortag."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 3 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_3_text">"Angaben dazu, welches Risiko Ihnen zum Zeitpunkt der Übermittlung angezeigt wurde."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 4 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_4_text">"Angaben dazu, auf welcher Grundlage der Risikostatus in Zusammenhang mit einer Begegnung berechnet wurde."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data body 1 -->
+    <string name="onboarding_ppa_more_info_rki_data_body_1">"Wenn Sie ein Testergebnis über die App abgerufen haben:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 5 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_5_text">"Angaben dazu, ob Sie ein positives oder negatives Testergebnis über die App erhalten haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 6 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_6_text">"Angaben zum berechneten Risiko zum Zeitpunkt der Testregistrierung."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 7 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_7_text">"Angaben zum Zeitraum zwischen der letzten Begegnung mit erhöhtem Risiko und der Testregistrierung."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 8 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_8_text">"Angaben zum Zeitraum zwischen der letzten Mitteilung eines erhöhten Risikos und der Testregistrierung."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 9 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_9_text">"Angaben dazu, ob Sie Ihr Testergebnis geteilt und andere gewarnt haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data body 2-->
+    <string name="onboarding_ppa_more_info_rki_data_body_2">"Wenn Sie andere über eine mögliche Risiko-Begegnung gewarnt haben:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 10 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_10_text">"Angaben dazu, ob Sie die Schritte zur Warnung anderer abgebrochen haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 11 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_11_text">"Angaben dazu, ob Sie Angaben zum Symptombeginn gemacht haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 12 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_12_text">"Angaben dazu, wann Sie Ihr Einverständnis in die Warnung anderer erteilt haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 13 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_13_text">"Angaben dazu, bis zu welcher Meldung im Rahmen der Warnung anderer Sie gekommen sind."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 14 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_14_text">"Angaben dazu, wie viele Stunden es gedauert hat, bis Sie Ihr Testergebnisses erhalten haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 15 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_15_text">"Angaben dazu, wie viele Tage seit der letzten Mitteilung eines hohen Risikos vergangen sind."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 16 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_16_text">"Angaben dazu, wie viele Stunden seit der Testregistrierung vergangen sind."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info body-->
+    <string name="onboarding_ppa_more_info_other_info_body">"Sonstige Informationen:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_1_text">"Angaben dazu, welche Altersgruppe Sie angegeben haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Angaben dazu, welche Altersgruppe Sie angegeben haben."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Angaben zum Zeitraum zwischen der letzten Begegnung mit erhöhtem Risiko und der Testregistrierung."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Angaben dazu, ob Sie Ihr Testergebnis geteilt und andere gewarnt haben."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
+    <string name="onboarding_ppa_more_info_much_privacy_body">"Die Angaben können nicht mit Ihrer Person verknüpft werden. Ihre Identität bleibt weiterhin geheim.\nDie Angaben werden statistisch ausgewertet, sie werden nicht zu einem Profil gespeichert."</string>
+
+
     <!-- ####################################
              Onboarding sixteen include
    ###################################### -->
