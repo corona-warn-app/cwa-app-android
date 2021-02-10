@@ -1347,7 +1347,7 @@
     <!-- XBUT: Button for re-enabling risk calculation -->
     <string name="reenable_risk_card_button_text">"Risiko-Überprüfung Einschalten "</string>
     <!-- XHED: Dialog title for reactivate risk calculation  -->
-    <string name="dialog_reactivate_risk_calculation_title">"Risiko-Ermittlung aktivieren."</string>
+    <string name="dialog_reactivate_risk_calculation_title">"Risiko-Überprüfung aktivieren."</string>
     <!-- YTXT: Dialog text for reactivate risk calculation -->
     <string name="dialog_reactivate_risk_calculation_message">"Ihr aktueller Test wird aus der App gelöscht, damit Sie bei Bedarf einen neuen Test registrieren können."</string>
     <!-- XBUT: Positive button for reactivate risk calculation -->
