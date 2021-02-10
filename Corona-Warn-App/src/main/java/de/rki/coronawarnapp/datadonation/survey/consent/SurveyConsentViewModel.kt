@@ -107,6 +107,10 @@ class SurveyConsentViewModel @AssistedInject constructor(
         ) : State()
     }
 
+    fun onMoreInformationButtonPressed() {
+        routeToScreen.postValue(SurveyConsentNavigationEvents.NavigateToMoreInformationScreen)
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SurveyConsentViewModel> {
         fun create(type: Surveys.Type): SurveyConsentViewModel

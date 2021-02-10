@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -39,15 +40,22 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         binding.apply {
             toolbar.setNavigationOnClickListener { vm.onBackButtonPressed() }
             surveyNextButton.setOnClickListener { vm.onNextButtonPressed() }
+            surveyConsentMoreInformation.setOnClickListener { vm.onMoreInformationButtonPressed() }
         }
 
         vm.routeToScreen.observe2(this) { event ->
             when (event) {
                 is SurveyConsentNavigationEvents.NavigateBack ->
                     activity?.onBackPressed()
+
                 is SurveyConsentNavigationEvents.NavigateWeb -> {
                     ExternalActionHelper.openUrl(this, event.url)
                     popBackStack()
+                }
+                is SurveyConsentNavigationEvents.NavigateToMoreInformationScreen -> {
+                    doNavigate(
+                        SurveyConsentFragmentDirections.actionSurveyConsentFragmentToSurveyConsentDetailFragment()
+                    )
                 }
             }
         }
