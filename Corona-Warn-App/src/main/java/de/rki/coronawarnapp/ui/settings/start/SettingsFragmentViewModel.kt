@@ -39,8 +39,6 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         )
     }.asLiveData(dispatcherProvider.Default)
 
-    val data: Boolean = true
-
     val backgroundPriorityState: LiveData<SettingsBackgroundState> =
         backgroundModeStatus.isIgnoringBatteryOptimizations
             .map { SettingsBackgroundState((it)) }

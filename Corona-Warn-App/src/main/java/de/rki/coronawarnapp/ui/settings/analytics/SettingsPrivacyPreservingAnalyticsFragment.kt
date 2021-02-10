@@ -5,15 +5,16 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyti
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -24,7 +25,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SettingsPrivacyPreservingAnalyticsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SettingsPrivacyPreservingAnalyticsViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSettingsPrivacyPreservingAnalyticsBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,14 +34,14 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         binding.apply {
 
             settingsPpaHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                (activity as MainActivity).goBack()
+                popBackStack()
             }
 
             settingsPpaSwitchRow.settingsSwitchRowSwitch.setOnCheckedChangeListener { view, _ ->
                 // Make sure that listener is called by user interaction
                 if (!view.isPressed) return@setOnCheckedChangeListener
 
-                vm.analyticsToggleEnabled()
+                viewModel.analyticsToggleEnabled()
             }
 
             federalStateRow.setOnClickListener {
@@ -70,19 +71,16 @@ class SettingsPrivacyPreservingAnalyticsFragment :
             }
         }
 
-        vm.ageGroup.observe2(this) {
+        viewModel.ageGroup.observe2(this) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)
         }
 
-        vm.federalState.observe2(this) {
-            binding.districtRow.visibility = if (it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+        viewModel.federalState.observe2(this) {
+
+            binding.districtRow.isVisible = it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
             binding.federalStateRowBody.text = getString(it.labelStringRes)
         }
-        vm.district.observe2(this) {
+        viewModel.district.observe2(this) {
             binding.districtRowBody.text = it?.districtName
                 ?: getString(R.string.analytics_userinput_district_unspecified)
         }

@@ -80,7 +80,6 @@
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_headline" />
 
-
                 <include
                     android:id="@+id/settings_ppa_switch_row"
                     layout="@layout/include_settings_switch_row"
@@ -97,10 +96,8 @@
                     app:statusText="@{@string/settings_on}"
                     app:subtitle="@{@string/settings_analytics_switch_subtitle}" />
 
-
-
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/federal_state_row"
+                    android:id="@id/federal_state_row"
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -109,7 +106,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_ppa_switch_row">
 
                     <TextView
-                        android:id="@+id/federal_state_row_subtitle"
+                        android:id="@id/federal_state_row_subtitle"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -146,7 +143,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/federal_state_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/district_row"
+                    android:id="@id/district_row"
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -155,7 +152,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/federal_state_row">
 
                     <TextView
-                        android:id="@+id/district_row_subtitle"
+                        android:id="@id/district_row_subtitle"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -166,7 +163,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/district_row_body"
+                        android:id="@id/district_row_body"
                         style="@style/body2Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -192,7 +189,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/district_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/age_group_row"
+                    android:id="@id/age_group_row"
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -201,7 +198,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/district_row">
 
                     <TextView
-                        android:id="@+id/age_group_row_subtitle"
+                        android:id="@id/age_group_row_subtitle"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -212,7 +209,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/age_group_row_body"
+                        android:id="@id/age_group_row_body"
                         style="@style/body2Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -238,7 +235,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/age_group_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/consent_layout"
+                    android:id="@id/consent_layout"
                     style="@style/cardTracing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -249,7 +246,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/age_group_row">
 
                     <TextView
-                        android:id="@+id/legal_title"
+                        android:id="@id/legal_title"
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -262,7 +259,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/legal_body"
+                        android:id="@id/legal_body"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -274,7 +271,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/legal_title" />
 
                     <TextView
-                        android:id="@+id/legal_point_consent"
+                        android:id="@id/legal_point_consent"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -286,18 +283,18 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
 
-                    <ImageView
-                        android:id="@+id/bullet_point_consent"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@id/bullet_point_consent"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
+                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_consent" />
 
                     <TextView
-                        android:id="@+id/legal_point_identity"
+                        android:id="@id/legal_point_identity"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -309,18 +306,18 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
 
-                    <ImageView
-                        android:id="@+id/bullet_point_identity"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@id/bullet_point_identity"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
+                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_identity" />
 
                     <TextView
-                        android:id="@+id/legal_point_sixteen"
+                        android:id="@id/legal_point_sixteen"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -332,20 +329,20 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
 
-                    <ImageView
-                        android:id="@+id/bullet_point_sixteen"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@id/bullet_point_sixteen"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/bullet_point"
+                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_sixteen" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/more_info_row"
+                    android:id="@id/more_info_row"
                     style="@style/row"
                     android:layout_marginTop="22dp"
                     android:layout_width="0dp"
@@ -355,7 +352,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/consent_layout">
 
                     <TextView
-                        android:id="@+id/more_info_title"
+                        android:id="@id/more_info_title"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -378,14 +375,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/more_info_row" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/body_start"
+                    android:id="@id/body_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/body_end"
+                    android:id="@id/body_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -397,30 +394,29 @@
 
         </ScrollView>
 
-
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_top"
+            android:id="@id/guideline_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="@dimen/guideline_top" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
+            android:id="@id/guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="@dimen/spacing_small" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
+            android:id="@id/guideline_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
+            android:id="@id/guideline_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

@@ -111,10 +111,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_background_priority"
                     app:showDivider="@{true}"
                     app:statusText="@{analyticsState.getPrivacyPreservingAnalyticsText(context)}"
-                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}"
-                    />
-
-
+                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_reset"

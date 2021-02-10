@@ -12,16 +12,16 @@ data class SettingsPrivacyPreservingAnalyticsState(
 ) {
 
     /**
-     * Formats the settings icon color for background priority
+     * Formats the settings icon color for privacy-preserving analytics
      */
     @ColorInt
-    fun getPrivacyPreservingAnalyticsIconColor(c: Context): Int = c.getColorCompat(
+    fun getPrivacyPreservingAnalyticsIconColor(context: Context): Int = context.getColorCompat(
         if (isEnabled) R.color.colorAccentTintIcon
         else R.color.colorTextSemanticRed
     )
 
     /**
-     * Formats the settings icon for background priority
+     * Formats the settings icon for privacy-preserving analytics
      */
     fun getPrivacyPreservingAnalyticsIcon(context: Context): Drawable? = context.getDrawableCompat(
         if (isEnabled) R.drawable.ic_settings_privacy_preserving_analytics_enabled
@@ -31,7 +31,7 @@ data class SettingsPrivacyPreservingAnalyticsState(
     /**
      * Formats the text display of settings item status depending on flag provided
      */
-    fun getPrivacyPreservingAnalyticsText(c: Context): String = c.getString(
+    fun getPrivacyPreservingAnalyticsText(context: Context): String = context.getString(
         if (isEnabled) R.string.settings_on else R.string.settings_off
     )
 }
