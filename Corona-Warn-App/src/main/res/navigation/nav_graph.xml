@@ -536,7 +536,8 @@
     <fragment
         android:id="@+id/analyticsUserInputFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
-        android:label="AnalyticsUserInputFragment">
+        android:label="AnalyticsUserInputFragment"
+        tools:layout="@layout/analytics_ppa_userinfo_input_fragment">
         <argument
             android:name="type"
             app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
@@ -562,7 +563,8 @@
     <fragment
         android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
-        android:label="SettingsPrivacyPreservingAnalyticsFragment" >
+        android:label="SettingsPrivacyPreservingAnalyticsFragment"
+        tools:layout="@layout/fragment_settings_privacy_preserving_analytics">
         <action
             android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_analyticsUserInputFragment"
             app:destination="@id/analyticsUserInputFragment" />
