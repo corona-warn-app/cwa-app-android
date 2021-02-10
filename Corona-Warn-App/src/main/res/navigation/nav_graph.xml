@@ -524,5 +524,9 @@
     <fragment
         android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
-        android:label="SettingsPrivacyPreservingAnalyticsFragment" />
+        android:label="SettingsPrivacyPreservingAnalyticsFragment" >
+        <action
+            android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+    </fragment>
 </navigation>

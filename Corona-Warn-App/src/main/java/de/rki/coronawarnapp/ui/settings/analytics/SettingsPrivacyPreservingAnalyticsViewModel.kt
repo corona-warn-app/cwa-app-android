@@ -6,29 +6,31 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 
 class SettingsPrivacyPreservingAnalyticsViewModel @AssistedInject constructor(
-    private val settings: AnalyticsSettings,
+    private val analyticsSettings: AnalyticsSettings,
     val districts: Districts,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel() {
 
-    val ageGroup = settings.userInfoAgeGroup.flow.asLiveData()
-    val federalState = settings.userInfoFederalState.flow.asLiveData()
+    val ageGroup = analyticsSettings.userInfoAgeGroup.flow.asLiveData()
+    val federalState = analyticsSettings.userInfoFederalState.flow.asLiveData()
     val district: LiveData<Districts.District?> = combine(
         flow { emit(districts.loadDistricts()) },
-        settings.userInfoDistrict.flow
+        analyticsSettings.userInfoDistrict.flow
     ) { districtsList, id ->
         districtsList.singleOrNull { it.districtId == id }
     }.asLiveData(dispatcherProvider.IO)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsPrivacyPreservingAnalyticsViewModel>
+
+    fun analyticsToggleEnabled() {
+        //TODO
+    }
 }

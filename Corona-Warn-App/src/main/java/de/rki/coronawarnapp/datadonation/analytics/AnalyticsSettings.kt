@@ -3,8 +3,11 @@ package de.rki.coronawarnapp.datadonation.analytics
 import android.content.Context
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import javax.inject.Inject
@@ -17,6 +20,7 @@ class AnalyticsSettings @Inject constructor(
     private val prefs by lazy {
         context.getSharedPreferences("analytics_localdata", Context.MODE_PRIVATE)
     }
+
 
     val previousExposureRiskMetadata = prefs.createFlowPreference(
         key = PREVIOUS_EXPOSURE_RISK_METADATA,

@@ -39,6 +39,7 @@
             app:title="@{@string/settings_title}" />
 
         <ScrollView
+            android:id="@+id/scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -110,7 +111,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_background_priority"
                     app:showDivider="@{true}"
                     app:statusText="@{privacyPreservingAnalyticsState.getPrivacyPreservingAnalyticsText(context)}"
-                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}" />
+                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}"
+                    />
 
 
 

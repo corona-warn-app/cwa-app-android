@@ -19,5 +19,5 @@ abstract class SettingsPrivacyPreservingAnalyticsFragmentModule {
     ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
-    abstract fun onboardingScreen(): SettingsPrivacyPreservingAnalyticsFragment
+    abstract fun privacyPreservingAnalyticsScreen(): SettingsPrivacyPreservingAnalyticsFragment
 }

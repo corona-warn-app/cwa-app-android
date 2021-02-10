@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.settings.start.SettingsFragmentDirections
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -28,37 +27,49 @@ class SettingsPrivacyPreservingAnalyticsFragment : Fragment(R.layout.fragment_se
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
 
-            onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
+            settingsPpaHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                (activity as MainActivity).goBack()
+            }
+
+            settingsPpaSwitchRow.settingsSwitchRowSwitch.setOnCheckedChangeListener { view, _ ->
+                // Make sure that listener is called by user interaction
+                if (!view.isPressed) return@setOnCheckedChangeListener
+
+                vm.analyticsToggleEnabled()
+            }
 
 
-            /*federalStateRow.setOnClickListener {
+            federalStateRow.setOnClickListener {
                 doNavigate(
-                    SettingsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
                     )
                 )
             }
+
             districtRow.setOnClickListener {
                 doNavigate(
-                    SettingsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.DISTRICT
                     )
                 )
             }
             ageGroupRow.setOnClickListener {
                 doNavigate(
-                    SettingsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.AGE_GROUP
                     )
                 )
-            } */
+            }
         }
 
         vm.ageGroup.observe2(this) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)
         }
+
         vm.federalState.observe2(this) {
             binding.districtRow.visibility = if (it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) {
                 View.VISIBLE

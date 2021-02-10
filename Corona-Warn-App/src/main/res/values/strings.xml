@@ -1716,4 +1716,12 @@
     <string name="onboarding_ppa_consent_donate_button">"Daten spenden"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
     <string name="onboarding_ppa_consent_not_donate_button">"Nicht spenden"</string>
+
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
+    <string name="onboarding_ppa_more_info_title">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA"</string>
+
+    <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
+    <string name="settings_analytics_switch_subtitle">"Nutzerdaten spenden"</string>
+
+
 </resources>
