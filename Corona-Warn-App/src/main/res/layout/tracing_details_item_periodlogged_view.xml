@@ -85,7 +85,8 @@
                     app:circleWidth="@dimen/circle_large_width"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:progress="@{loggedPeriod.activeTracingDaysInRetentionPeriod}" />
+                    app:progress="@{loggedPeriod.activeTracingDaysInRetentionPeriod}"
+                    app:progressColor="@{loggedPeriod.getProgressColor(context)}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

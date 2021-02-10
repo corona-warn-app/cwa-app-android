@@ -48,6 +48,23 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
             startActivity(intent)
         }
 
+        vm.currentValidation.observe2(this) { items ->
+            if (items?.first == null) {
+                binding.safetynetRequirementsBody.text = "No validation yet."
+                return@observe2
+            }
+            binding.safetynetRequirementsBody.apply {
+                text = items.first.toString()
+                if (items.second != null) {
+                    append("\n\n" + items.second.toString())
+                }
+            }
+        }
+        binding.apply {
+            safetynetRequirementsCasually.setOnClickListener { vm.validateSafetyNetCasually() }
+            safetynetRequirementsStrict.setOnClickListener { vm.validateSafetyNetStrict() }
+        }
+
         vm.errorEvents.observe2(this) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
