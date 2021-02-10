@@ -24,7 +24,7 @@ data class SettingsPrivacyPreservingAnalyticsState(
      * Formats the settings icon for background priority
      */
     fun getPrivacyPreservingAnalyticsIcon(context: Context): Drawable? = context.getDrawableCompat(
-        if (isEnabled) R.drawable.ic_settings_background_priority_enabled
+        if (isEnabled) R.drawable.ic_settings_privacy_preserving_analytics_enabled
         else R.drawable.ic_settings_background_priority_disabled
     )
 
