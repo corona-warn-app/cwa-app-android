@@ -10,6 +10,9 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.joda.time.Hours
 import org.joda.time.Instant
 import timber.log.Timber
@@ -25,22 +28,35 @@ class Analytics @Inject constructor(
     // @JvmSuppressWildcards is needed for @IntoSet injection in Kotlin
     private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
     private val settings: AnalyticsSettings,
-    private val logger: LastAnalyticsSubmissionLogger
+    private val logger: LastAnalyticsSubmissionLogger,
+    private val timeStamper: TimeStamper
 ) {
+    private val submissionLockoutMutex = Mutex()
+
     private suspend fun trySubmission(ppaData: PpaData.PPADataAndroid): Boolean {
         try {
             val ppaAttestationRequest = PPADeviceAttestationRequest(
                 ppaData = ppaData
             )
 
+            Timber.d("Starting safety net device attestation")
+
             val attestation = deviceAttestation.attest(ppaAttestationRequest)
+
+            attestation.requirePass(appConfigProvider.getAppConfig().analytics.safetyNetRequirements)
+
+            Timber.d("Safety net attestation passed")
 
             val ppaContainer = PpaDataRequestAndroid.PPADataRequestAndroid.newBuilder()
                 .setAuthentication(attestation.accessControlProtoBuf)
                 .setPayload(ppaData)
                 .build()
 
+            Timber.d("Starting analytics upload")
+
             dataDonationAnalyticsServer.uploadAnalyticsData(ppaContainer)
+
+            Timber.d("Analytics upload finished")
 
             return true
         } catch (err: Exception) {
@@ -84,7 +100,7 @@ class Analytics @Inject constructor(
 
         if (success) {
             settings.lastSubmittedTimestamp.update {
-                Instant.now()
+                timeStamper.nowUTC
             }
 
             logger.storeAnalyticsData(analyticsProto)
@@ -107,16 +123,18 @@ class Analytics @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToLastSubmittedTimestamp(): Boolean {
         val lastSubmit = settings.lastSubmittedTimestamp.value ?: return false
-        return lastSubmit.plus(Hours.hours(LAST_SUBMISSION_MIN_AGE_HOURS).toStandardDuration()).isAfterNow
+        return lastSubmit.plus(Hours.hours(LAST_SUBMISSION_MIN_AGE_HOURS).toStandardDuration())
+            .isAfter(timeStamper.nowUTC)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToTimeSinceOnboarding(): Boolean {
         val onboarding = LocalData.onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) } ?: return true
-        return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfterNow
+        return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration())
+            .isAfter(timeStamper.nowUTC)
     }
 
-    suspend fun submitIfWanted() {
+    suspend fun submitIfWanted() = submissionLockoutMutex.withLock {
         Timber.d("checking analytics conditions")
 
         if (stopDueToNoUserConsent()) {

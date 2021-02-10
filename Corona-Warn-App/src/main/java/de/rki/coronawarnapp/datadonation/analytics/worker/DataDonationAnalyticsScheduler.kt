@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.worker
 
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
 import javax.inject.Inject
@@ -20,28 +19,15 @@ class DataDonationAnalyticsScheduler @Inject constructor(
 ) {
 
     /**
-     * Enqueue background deadman notification periodic work
+     * Enqueue background analytics submission periodic work
      */
     fun schedulePeriodic() {
+        val additionalDelay = timeCalculation.getDelay()
         // Create unique work and enqueue
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            workBuilder.buildPeriodicWork()
-        )
-    }
-
-    /**
-     * Enqueue background deadman notification onetime work
-     */
-    fun scheduleOneTime() {
-        val initialDelay = timeCalculation.getDelay()
-
-        // Create unique work and enqueue
-        workManager.enqueueUniqueWork(
-            ONETIME_WORK_NAME,
-            ExistingWorkPolicy.REPLACE,
-            workBuilder.buildOneTime(initialDelay)
+            workBuilder.buildPeriodicWork(additionalDelay)
         )
     }
 
@@ -50,10 +36,5 @@ class DataDonationAnalyticsScheduler @Inject constructor(
          * Analytics Data Donation periodic work
          */
         const val PERIODIC_WORK_NAME = "DataDonationAnalyticsPeriodicWork"
-
-        /**
-         * Analytics Data Donation one time work
-         */
-        const val ONETIME_WORK_NAME = "DataDonationAnalyticsOneTimeWork"
     }
 }

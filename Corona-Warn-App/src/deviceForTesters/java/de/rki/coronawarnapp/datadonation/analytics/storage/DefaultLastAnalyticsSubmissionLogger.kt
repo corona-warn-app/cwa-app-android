@@ -7,6 +7,7 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -25,10 +26,11 @@ import javax.inject.Inject
 class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
     @AppContext private val context: Context,
     private val dispatcherProvider: DispatcherProvider,
-    @BaseGson private val baseGson: Gson
+    @BaseGson private val baseGson: Gson,
+    private val timeStamper: TimeStamper
 ) : LastAnalyticsSubmissionLogger {
     private val analyticsDir = File(context.cacheDir, "analytics_storage")
-    private val analyticsFile = File(analyticsDir, "analytics.bin")
+    private val analyticsFile = File(analyticsDir, "last_analytics.bin")
 
     private val gson by lazy {
         baseGson.newBuilder()
@@ -44,7 +46,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
             }
 
             val dataObject = LastAnalyticsSubmission(
-                timestamp = Instant.now(),
+                timestamp = timeStamper.nowUTC,
                 ppaDataAndroid = analyticsProto
             )
 
@@ -57,7 +59,10 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
 
     override suspend fun getLastAnalyticsData(): LastAnalyticsSubmission? = withContext(dispatcherProvider.IO) {
         try {
-            gson.fromJson(analyticsFile)
+            gson.fromJson<LastAnalyticsSubmission>(analyticsFile).also {
+                requireNotNull(it?.ppaDataAndroid)
+                requireNotNull(it?.timestamp)
+            }
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load analytics data.")
             null

@@ -53,10 +53,10 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
         }
 
     data class AnalyticsConfigContainer(
-        override val safetyNetRequirements: SafetyNetRequirements = SafetyNetRequirementsContainer(),
-        override val probabilityToSubmit: Double = 1.0,
-        override val hoursSinceTestRegistrationToSubmitTestResultMetadata: Int = 1,
-        override val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int = 1,
-        override val probabilityToSubmitNewExposureWindows: Double = 1.0
+        override val safetyNetRequirements: SafetyNetRequirements,
+        override val probabilityToSubmit: Double,
+        override val hoursSinceTestRegistrationToSubmitTestResultMetadata: Int,
+        override val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int,
+        override val probabilityToSubmitNewExposureWindows: Double
     ) : AnalyticsConfig
 }

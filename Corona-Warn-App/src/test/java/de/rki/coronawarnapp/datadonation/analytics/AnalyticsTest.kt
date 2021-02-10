@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
+import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
@@ -11,8 +12,10 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.clearAllMocks
@@ -41,6 +44,9 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var analyticsConfig: AnalyticsConfig
     @MockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
     @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
+    @MockK lateinit var timeStamper: TimeStamper
+
+    private val baseTime: Instant = Instant.ofEpochMilli(0)
 
     @BeforeEach
     fun setup() {
@@ -52,6 +58,8 @@ class AnalyticsTest : BaseTest() {
         every { configData.analytics } returns analyticsConfig
 
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
+
+        every { timeStamper.nowUTC } returns baseTime
     }
 
     @AfterEach
@@ -68,7 +76,8 @@ class AnalyticsTest : BaseTest() {
             deviceAttestation = deviceAttestation,
             donorModules = createDonorModules(),
             settings = settings,
-            logger = lastAnalyticsSubmissionLogger
+            logger = lastAnalyticsSubmissionLogger,
+            timeStamper = timeStamper
         )
     )
 
@@ -89,7 +98,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to submit probability`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(false)
+        every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 0.0
 
         val analytics = createInstance()
@@ -110,7 +119,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to last submit timestamp`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(false)
+        every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 1.0
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(Instant.now())
 
@@ -127,12 +136,13 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to time since onboarding`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(false)
+        every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 1.0
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(
-            Instant.now().minus(Days.TWO.toStandardDuration())
+            baseTime.minus(Days.TWO.toStandardDuration())
         )
-        every { LocalData.onboardingCompletedTimestamp() } returns Instant.now().millis
+
+        every { LocalData.onboardingCompletedTimestamp() } returns baseTime.millis
 
         val analytics = createInstance()
 
@@ -150,16 +160,28 @@ class AnalyticsTest : BaseTest() {
         every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 1.0
 
-        val twoDaysAgo = Instant.now().minus(Days.TWO.toStandardDuration())
+        val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
         every { LocalData.onboardingCompletedTimestamp() } returns twoDaysAgo.millis
 
+        every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
+
         val metadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(java.time.Instant.ofEpochSecond(101010).toEpochMilli())
+            .setMostRecentDateAtRiskLevel(baseTime.millis)
             .setDateChangedComparedToPreviousSubmission(true)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .build()
+
+        val payload = PpaData.PPADataAndroid.newBuilder()
+            .addExposureRiskMetadataSet(metadata)
+            .build()
+
+        val analyticsRequest = PpaDataRequestAndroid.PPADataRequestAndroid.newBuilder()
+            .setPayload(payload)
+            .setAuthentication(PpacAndroid.PPACAndroid.getDefaultInstance())
+            .build()
+
 
         coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns
             ExposureRiskMetadataDonor.ExposureRiskMetadataContribution(
@@ -185,7 +207,7 @@ class AnalyticsTest : BaseTest() {
 
         coVerify(exactly = 1) {
             analytics.submitAnalyticsData()
-            dataDonationAnalyticsServer.uploadAnalyticsData(any())
+            dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
         }
     }
 }
