@@ -66,6 +66,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
             Timber.i("Pre-auth is enabled")
             TEKResult.Success(true)
         } catch (exception: Exception) {
+            Timber.e(exception, "Pre-auth failed")
             TEKResult.Error(exception)
         }
     }

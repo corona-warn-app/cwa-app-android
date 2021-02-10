@@ -4,6 +4,8 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKResult
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -36,11 +38,11 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                     if (exception is ApiException &&
                         exception.status.hasResolution()
                     ) {
-                        Timber.e(exception, "Requires user resolution")
+                        Timber.e(exception, "Pre-auth requires user resolution")
                         routeToScreen.postValue(SubmissionNavigationEvents.ResolvePlayServicesException(exception))
                     } else {
                         Timber.e(exception, "Pre-auth failed with unrecoverable exception")
-                        // TODO Handle other exceptions
+                        exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
                     }
                 }
                 // Routes to QR code screen either has already granted permission or it is older Api
