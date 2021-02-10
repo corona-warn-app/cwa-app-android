@@ -38,7 +38,7 @@ class OTPRepositoryTest : BaseTest() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
         val time = Instant.ofEpochMilli(1612381131014)
         every { surveySettings.oneTimePassword } returns OneTimePassword(uuid, time)
-        val lastOTP = OTPRepository(surveySettings).lastOTP
+        val lastOTP = OTPRepository(surveySettings).otp
         lastOTP shouldNotBe null
         lastOTP!!.apply {
             uuid shouldBe uuid
@@ -58,6 +58,6 @@ class OTPRepositoryTest : BaseTest() {
     @Test
     fun `no last otp`() {
         every { surveySettings.oneTimePassword } returns null
-        OTPRepository(surveySettings).lastOTP shouldBe null
+        OTPRepository(surveySettings).otp shouldBe null
     }
 }
