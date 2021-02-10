@@ -41,7 +41,9 @@ class BackgroundModeStatus @Inject constructor(
     }
         .distinctUntilChanged()
         .onCompletion {
-            if (it != null) Timber.w(it, "isBackgroundRestricted failed.")
+            if (it != null && it !is CancellationException) {
+                Timber.w(it, "isBackgroundRestricted failed.")
+            }
         }
         .shareLatest(
             tag = "isBackgroundRestricted",
@@ -70,7 +72,9 @@ class BackgroundModeStatus @Inject constructor(
     }
         .distinctUntilChanged()
         .onCompletion {
-            if (it != null) Timber.w(it, "autoModeEnabled failed.")
+            if (it != null && it !is CancellationException) {
+                Timber.w(it, "autoModeEnabled failed.")
+            }
         }
         .shareLatest(
             tag = "autoModeEnabled",
@@ -90,7 +94,9 @@ class BackgroundModeStatus @Inject constructor(
         .onStart { emit(pollisIgnoringBatteryOptimizations()) }
         .distinctUntilChanged()
         .onCompletion {
-            if (it != null) Timber.w(it, "isIgnoringBatteryOptimizations failed.")
+            if (it != null && it !is CancellationException) {
+                Timber.w(it, "isIgnoringBatteryOptimizations failed.")
+            }
         }
         .shareLatest(
             tag = "isIgnoringBatteryOptimizations",
