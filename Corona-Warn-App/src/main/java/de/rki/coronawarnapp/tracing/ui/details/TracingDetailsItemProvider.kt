@@ -51,8 +51,9 @@ class TracingDetailsItemProvider @Inject constructor(
                 add(AdditionalInfoLowRiskBox.Item)
             }
 
-            when (latestCalc.riskState) {
-                RiskState.INCREASED_RISK -> BehaviorIncreasedRiskBox.Item
+            when {
+                status != Status.TRACING_INACTIVE && latestCalc.riskState == RiskState.INCREASED_RISK ->
+                    BehaviorIncreasedRiskBox.Item
                 else -> BehaviorNormalRiskBox.Item(
                     tracingStatus = status,
                     riskState = latestCalc.riskState
@@ -66,7 +67,8 @@ class TracingDetailsItemProvider @Inject constructor(
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
-                    activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt()
+                    activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt(),
+                    tracingStatus = status
                 ).also { add(it) }
             }
 
