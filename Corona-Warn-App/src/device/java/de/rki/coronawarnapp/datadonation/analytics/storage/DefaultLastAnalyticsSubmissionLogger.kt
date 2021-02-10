@@ -8,5 +8,5 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor() : LastAnalytics
         // Do not store past analytics submissions in Production
     }
 
-    override suspend fun getLastAnalyticsData(): PpaData.PPADataAndroid? = null
+    override suspend fun getLastAnalyticsData(): LastAnalyticsSubmission? = null
 }

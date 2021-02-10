@@ -82,13 +82,15 @@ class Analytics @Inject constructor(
             it.finishDonation(success)
         }
 
-        settings.lastSubmittedTimestamp.update {
-            Instant.now()
+        if (success) {
+            settings.lastSubmittedTimestamp.update {
+                Instant.now()
+            }
+
+            logger.storeAnalyticsData(analyticsProto)
         }
 
-        logger.storeAnalyticsData(analyticsProto)
-
-        Timber.d("Finished analytics submission")
+        Timber.d("Finished analytics submission success=%s", success)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

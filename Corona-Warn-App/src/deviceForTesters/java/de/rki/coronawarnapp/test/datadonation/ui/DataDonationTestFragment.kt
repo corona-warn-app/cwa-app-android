@@ -87,7 +87,8 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         }
 
         vm.lastAnalyticsData.observe2(this) {
-            binding.analyticsLastSubmitBody.text = it.toString()
+            binding.analyticsLastSubmitBody.text =
+                it?.toString() ?: "No analytics were successfully submitted until now"
         }
 
         vm.checkLastAnalytics()

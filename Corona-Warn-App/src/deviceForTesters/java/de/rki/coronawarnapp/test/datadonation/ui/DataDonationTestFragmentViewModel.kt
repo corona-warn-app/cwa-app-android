@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmission
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
@@ -41,7 +42,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     val currentAnalyticsData = currentAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
     val copyAnalyticsEvent = SingleLiveEvent<String>()
 
-    private val lastAnalyticsDataInternal = MutableStateFlow<PpaData.PPADataAndroid?>(null)
+    private val lastAnalyticsDataInternal = MutableStateFlow<LastAnalyticsSubmission?>(null)
     val lastAnalyticsData = lastAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
 
     fun createSafetyNetReport() {
@@ -112,6 +113,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
         infoEvents.postValue("Starting Analytics Submission")
         analytics.submitAnalyticsData()
         infoEvents.postValue("Analytics Submission Done")
+        checkLastAnalytics()
     }
 
     fun copyAnalytics() = launch {
