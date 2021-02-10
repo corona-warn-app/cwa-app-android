@@ -193,7 +193,7 @@ class AppConfigServerTest : BaseIOTest() {
         createInstance().downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardMinutes(90),
+            localOffset = Duration.ZERO,
             etag = "I am an ETag :)!",
             cacheValidity = Duration.standardSeconds(300)
         )
