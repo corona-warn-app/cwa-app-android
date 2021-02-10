@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.tekhistory
 
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 
 interface TEKHistoryProvider {
@@ -20,4 +21,10 @@ interface TEKHistoryProvider {
         onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
         onPermissionRequired: (Status) -> Unit
     )
+
+    /**
+     * Pre-Authorize requesting ExposureKeyHistory process
+     * @see [ExposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory]
+     */
+    suspend fun preAuthorizedTemporaryExposureKeyHistory()
 }

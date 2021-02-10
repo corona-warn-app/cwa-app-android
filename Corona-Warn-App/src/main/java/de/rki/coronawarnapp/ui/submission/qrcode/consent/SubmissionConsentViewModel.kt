@@ -30,25 +30,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     fun onConsentButtonClick() {
         submissionRepository.giveConsentToSubmission()
         launch {
-            try {
-                Timber.i("hit:requestPreAuthorizedTemporaryExposureKeyHistory")
-                exposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory().await()
-                Timber.i("Pre-auth is enabled")
-            } catch (exception: Exception) {
-                Timber.e(exception)
-                when (exception) {
-                    is ApiException ->
-                        if (exception.status.hasResolution()) {
-                            Timber.e("Requires user resolution (code: ${exception.statusCode})")
-                            routeToScreen.postValue(SubmissionNavigationEvents.ResolvePlayServicesException(exception))
-                        } else {
-                            Timber.e("Pre-auth failed with unrecoverable exception: ${exception.message}")
-                        }
 
-                    else -> Timber.e("Pre-auth failed with unrecoverable exception: ${exception.message}")
-
-                }
-            }
         }
     }
 

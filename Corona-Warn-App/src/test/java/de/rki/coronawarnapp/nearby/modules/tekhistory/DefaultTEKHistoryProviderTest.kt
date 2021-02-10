@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.nearby.modules.tekhistory
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -22,6 +23,7 @@ import testhelpers.gms.MockGMSTask
 class DefaultTEKHistoryProviderTest : BaseTest() {
 
     @MockK lateinit var client: ExposureNotificationClient
+    @MockK lateinit var enfVersion: ENFVersion
 
     @BeforeEach
     fun setup() {
@@ -36,7 +38,8 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     private fun createInstance() = DefaultTEKHistoryProvider(
-        client = client
+        client = client,
+        enfVersion = enfVersion
     )
 
     @Test

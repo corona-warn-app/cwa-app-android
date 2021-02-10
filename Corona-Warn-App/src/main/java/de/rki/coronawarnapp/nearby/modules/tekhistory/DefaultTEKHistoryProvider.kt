@@ -6,6 +6,9 @@ import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +18,8 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultTEKHistoryProvider @Inject constructor(
-    private val client: ExposureNotificationClient
+    private val client: ExposureNotificationClient,
+    private val enfVersion: ENFVersion
 ) : TEKHistoryProvider {
 
     override suspend fun getTEKHistoryOrRequestPermission(
@@ -52,5 +56,26 @@ class DefaultTEKHistoryProvider @Inject constructor(
                 Timber.w(it, "Failed to retrieve temporary exposure keys.")
                 cont.resumeWithException(it)
             }
+    }
+
+    override suspend fun preAuthorizedTemporaryExposureKeyHistory() {
+        // Early exist if pre-auth is not available
+        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return
+        try {
+            Timber.i("Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
+            client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
+            Timber.i("Pre-auth is enabled")
+        } catch (exception: Exception) {
+            when (exception) {
+                is ApiException ->
+                    if (exception.status.hasResolution()) {
+                        Timber.e("Requires user resolution (code: ${exception.statusCode})")
+                    } else {
+                        Timber.e("Pre-auth failed with unrecoverable exception: ${exception.message}")
+                    }
+
+                else -> Timber.e("Pre-auth failed with unrecoverable exception: ${exception.message}")
+            }
+        }
     }
 }

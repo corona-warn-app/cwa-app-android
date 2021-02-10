@@ -10,6 +10,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
@@ -36,7 +37,8 @@ class SubmissionConsentViewModelTest {
         viewModel = SubmissionConsentViewModel(
             submissionRepository,
             interoperabilityRepository,
-            dispatcherProvider = TestDispatcherProvider()
+            dispatcherProvider = TestDispatcherProvider(),
+            mockk()
         )
     }
 
