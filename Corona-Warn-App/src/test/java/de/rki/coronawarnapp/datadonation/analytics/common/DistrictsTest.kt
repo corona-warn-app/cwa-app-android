@@ -45,7 +45,7 @@ class DistrictsTest : BaseTest() {
         val districts = createInstance().loadDistricts()
         districts.size shouldBe 412
         districts.last() shouldBe Districts.District(
-            districtName = "SK Weimar",
+            districtName = "Weimar",
             districtShortName = "WE",
             districtId = 11016055,
             federalStateName = "Thüringen",

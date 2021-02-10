@@ -5,7 +5,10 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
+    <!--    Corona Test graph-->
     <include app:graph="@navigation/test_nav_graph" />
+    <!--    Contact Diary graph-->
+    <include app:graph="@navigation/contact_diary_nav_graph" />
 
     <!-- Main -->
     <fragment
@@ -229,6 +232,9 @@
         <action
             android:id="@+id/action_riskDetailsFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
+        <action
+            android:id="@+id/action_riskDetailsFragment_to_surveyConsentFragment"
+            app:destination="@id/surveyConsentFragment" />
     </fragment>
 
 
@@ -506,12 +512,26 @@
     <!-- New Release -->
     <fragment
         android:id="@+id/newReleaseInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment"
+        android:name="de.rki.coronawarnapp.release.NewReleaseInfoFragment"
         android:label="NewReleaseInfoFragment">
         <argument
             android:name="comesFromInfoScreen"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaAnalyticsFragment"
+            app:destination="@id/onboardingDeltaAnalyticsFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyConsentFragment"
+        android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentFragment"
+        android:label="survey_consent_fragment"
+        tools:layout="@layout/survey_consent_fragment">
+        <argument
+            android:name="SurveyType"
+            app:argType="de.rki.coronawarnapp.datadonation.survey.Surveys$Type" />
     </fragment>
     <fragment
         android:id="@+id/analyticsUserInputFragment"
@@ -522,11 +542,21 @@
             app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
     </fragment>
     <fragment
-        android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
-        android:label="SettingsPrivacyPreservingAnalyticsFragment" >
+        android:id="@+id/onboardingDeltaAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsFragment"
+        android:label="OnboardingDeltaAnalyticsFragment"
+        tools:layout="@layout/fragment_onboarding_delta_ppa">
         <action
-            android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_analyticsUserInputFragment"
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_analyticsUserInputFragment"
             app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppaMoreInfoFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
+        android:label="PpaMoreInfoFragment"
+        tools:layout="@layout/fragment_ppa_more_info">
     </fragment>
 </navigation>

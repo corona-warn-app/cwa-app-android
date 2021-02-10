@@ -11,8 +11,6 @@ sealed class HomeFragmentEvents {
 
     object ShowDeleteTestDialog : HomeFragmentEvents()
 
-    object GoToContactDiary : HomeFragmentEvents()
-
     object ShowNewReleaseFragment : HomeFragmentEvents()
 
     object GoToStatisticsExplanation : HomeFragmentEvents()

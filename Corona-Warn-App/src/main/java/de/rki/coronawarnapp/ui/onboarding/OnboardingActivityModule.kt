@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.ui.onboarding
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
+import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 
 @Module
 internal abstract class OnboardingActivityModule {
@@ -22,4 +24,8 @@ internal abstract class OnboardingActivityModule {
     abstract fun onboardingTestFragment(): OnboardingTestFragment
     @ContributesAndroidInjector(modules = [OnboardingNotificationsModule::class])
     abstract fun onboardingNotificationsFragment(): OnboardingNotificationsFragment
+    @ContributesAndroidInjector(modules = [OnboardingAnalyticsModule::class])
+    abstract fun onboardingAnalyticsFragment(): OnboardingAnalyticsFragment
+    @ContributesAndroidInjector(modules = [AnalyticsUIModule::class])
+    abstract fun ppaUserInfoSelection(): AnalyticsUserInputFragment
 }

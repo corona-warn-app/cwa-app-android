@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
@@ -119,30 +118,28 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
     }
 
-    private fun handleError(exception: CwaWebException) {
-        errorDialog = when (exception) {
-            is CwaClientError, is CwaServerError -> {
-                DialogHelper.showDialog(buildErrorDialog(exception))
-            }
-            else -> {
-                DialogHelper.showDialog(genericErrorDialog)
-            }
+    private fun handleError(exception: Throwable) {
+        val dialogInstance = when (exception) {
+            is CwaClientError, is CwaServerError -> networkErrorDialog
+            else -> genericErrorDialog
         }
+        errorDialog = DialogHelper.showDialog(dialogInstance)
     }
 
     private fun navigateToMainScreen() {
         popBackStack()
     }
 
-    private fun buildErrorDialog(exception: CwaWebException) = DialogHelper.DialogInstance(
-        requireActivity(),
-        R.string.submission_error_dialog_web_generic_error_title,
-        R.string.submission_error_dialog_web_generic_network_error_body,
-        R.string.submission_error_dialog_web_generic_error_button_positive,
-        null,
-        true,
-        ::navigateToMainScreen
-    )
+    private val networkErrorDialog: DialogHelper.DialogInstance
+        get() = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_error_dialog_web_generic_error_title,
+            R.string.submission_error_dialog_web_generic_network_error_body,
+            R.string.submission_error_dialog_web_generic_error_button_positive,
+            null,
+            true,
+            ::navigateToMainScreen
+        )
 
     private val genericErrorDialog: DialogHelper.DialogInstance
         get() = DialogHelper.DialogInstance(

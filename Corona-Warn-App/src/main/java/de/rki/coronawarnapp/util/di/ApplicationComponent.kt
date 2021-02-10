@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.contactdiary.ContactDiaryRootModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -38,6 +37,7 @@ import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.worker.WorkerBinder
 import de.rki.coronawarnapp.verification.VerificationModule
@@ -70,9 +70,9 @@ import javax.inject.Singleton
         BugReportingSharedModule::class,
         SerializationModule::class,
         WorkerBinder::class,
-        ContactDiaryRootModule::class,
         StatisticsModule::class,
-        DataDonationModule::class
+        DataDonationModule::class,
+        SecurityModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
