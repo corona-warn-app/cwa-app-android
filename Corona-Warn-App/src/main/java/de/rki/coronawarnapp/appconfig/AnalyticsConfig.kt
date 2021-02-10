@@ -4,10 +4,11 @@ import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
 
 interface AnalyticsConfig {
 
-    val probabilityToSubmit: Float
-    val probabilityToSubmitAfterRiskCalculation: Float
-    val probabilityToSubmitNewExposureWindows: Float
     val safetyNetRequirements: SafetyNetRequirements
+    val probabilityToSubmit: Double
+    val hoursSinceTestRegistrationToSubmitTestResultMetadata: Int
+    val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int
+    val probabilityToSubmitNewExposureWindows: Double
 
     interface Mapper : ConfigMapper<AnalyticsConfig>
 }
