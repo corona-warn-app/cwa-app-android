@@ -4,8 +4,8 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
-import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -15,8 +15,9 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
             !rawConfig.privacyPreservingAnalyticsParameters.hasCommon() &&
             !rawConfig.privacyPreservingAnalyticsParameters.hasPpac()
         ) {
-            Timber.w("Invalid analytics config, ppa parameters are missing")
-            return AnalyticsConfigContainer()
+            throw ApplicationConfigurationInvalidException(
+                message = "Analytics Parameters are missing"
+            )
         }
 
         return rawConfig.mapAnalyticsConfig()
