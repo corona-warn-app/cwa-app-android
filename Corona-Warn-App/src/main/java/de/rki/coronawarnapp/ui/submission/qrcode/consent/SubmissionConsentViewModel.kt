@@ -41,11 +41,11 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 if (exception is ApiException &&
                     exception.status.hasResolution()
                 ) {
-                    Timber.e(exception, "Pre-auth requires user resolution")
+                    Timber.d(exception, "Pre-auth requires user resolution")
                     routeToScreen.postValue(SubmissionNavigationEvents.ResolvePlayServicesException(exception))
                 } else {
-                    Timber.e(exception, "Pre-auth failed with unrecoverable exception")
-                    exception.report(ExceptionCategory.EXPOSURENOTIFICATION)
+                    Timber.d(exception, "Pre-auth failed with unrecoverable exception")
+                    routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
                 }
             }
         }

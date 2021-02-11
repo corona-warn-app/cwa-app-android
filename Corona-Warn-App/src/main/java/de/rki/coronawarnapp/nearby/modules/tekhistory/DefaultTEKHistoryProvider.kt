@@ -51,14 +51,26 @@ class DefaultTEKHistoryProvider @Inject constructor(
     }
 
     override suspend fun getTEKHistory(): List<TemporaryExposureKey> {
-        return if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
+        val isPreAuthorized = try {
+            preAuthorizeExposureKeyHistory()
+        } catch (e: Exception) {
+            Timber.d(e, "Requesting Pre-Auth failed")
+            // Let getTEKHistoryOrRequestPermission handle it
+            if (e is ApiException && e.status.hasResolution()) throw e
+            false
+        }
+
+        return if (isPreAuthorized) {
             try {
                 Timber.d("Pre-Auth retrieving temporary exposure keys.")
                 getPreAuthorizedExposureKeys().also {
                     Timber.d("Pre-Auth temporary exposure keys:${it.joinToString("\n")}")
                 }
             } catch (e: Exception) {
-                Timber.e(e, "Pre-Auth retrieving temporary exposure keys failed")
+                Timber.d(e, "Pre-Auth retrieving temporary exposure keys failed")
+                // Let getTEKHistoryOrRequestPermission handle it
+                if (e is ApiException && e.status.hasResolution()) throw e
+
                 Timber.d("Fallback:Retrieving temporary exposure keys")
                 client.temporaryExposureKeyHistory.await().also {
                     Timber.d("Temporary exposure keys:${it.joinToString("\n")}")
@@ -75,9 +87,9 @@ class DefaultTEKHistoryProvider @Inject constructor(
     override suspend fun preAuthorizeExposureKeyHistory(): Boolean {
         // Pre-Auth isn't available exist early
         if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return false
-        Timber.i("Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
+        Timber.i("Requesting Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
         client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
-        Timber.i("Pre-Auth is enabled")
+        Timber.i("Pre-Auth TemporaryExposureKeyHistory is enabled")
         return true
     }
 
