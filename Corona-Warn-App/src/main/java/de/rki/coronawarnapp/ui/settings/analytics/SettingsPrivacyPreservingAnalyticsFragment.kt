@@ -1,16 +1,13 @@
 package de.rki.coronawarnapp.ui.settings.analytics
 
-import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
-
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
+import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -77,8 +74,8 @@ class SettingsPrivacyPreservingAnalyticsFragment :
                 doNavigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
-                        type = AnalyticsUserInputFragment.InputType.AGE_GROUP
-                    )
+                            type = AnalyticsUserInputFragment.InputType.AGE_GROUP
+                        )
                 )
             }
 
@@ -90,18 +87,16 @@ class SettingsPrivacyPreservingAnalyticsFragment :
             }
         }
 
-        viewModel.ageGroup.observe2(this) {
-            binding.ageGroupRowBody.text = getString(it.labelStringRes)
-        }
+        viewModel.settingsPrivacyPreservingAnalyticsState.observe2(this) {
+            binding.ageGroupRowBody.text = it.getAgeGroupRowBodyText(requireContext())
 
-        viewModel.federalState.observe2(this) {
+            binding.districtRow.isVisible = it.getDistrictRowVisibility()
+            binding.districtRowBody.text = it.getDistrictRowBodyText(requireContext())
 
-            binding.districtRow.isVisible = it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-            binding.federalStateRowBody.text = getString(it.labelStringRes)
-        }
-        viewModel.district.observe2(this) {
-            binding.districtRowBody.text = it?.districtName
-                ?: getString(R.string.analytics_userinput_district_unspecified)
+            binding.federalStateRowBody.text = it.getFederalStateRowBodyText(requireContext())
+
+            binding.settingsPpaSwitchRow.status = it.getSettingsPpaSwitchRowState()
+            binding.settingsPpaSwitchRow.statusText = it.getSettingsPpaSwitchRowStateText(requireContext())
         }
     }
 
