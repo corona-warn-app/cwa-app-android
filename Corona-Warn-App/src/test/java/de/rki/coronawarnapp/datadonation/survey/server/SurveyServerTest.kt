@@ -49,13 +49,11 @@ class SurveyServerTest : BaseTest() {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
             }
-            SurveyApiV1.DataDonationResponse(
-                "2021-02-16T08:34:00+00:00"
-            )
+            SurveyApiV1.DataDonationResponse(null)
         }
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-        server.authOTP(data).expirationDate shouldBe "2021-02-16T08:34:00+00:00"
+        server.authOTP(data).errorCode shouldBe null
 
         coVerify { surveyApi.authOTP(any()) }
     }
@@ -67,11 +65,11 @@ class SurveyServerTest : BaseTest() {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
             }
-            SurveyApiV1.DataDonationResponse(null)
+            SurveyApiV1.DataDonationResponse("API_TOKEN_ALREADY_ISSUED")
         }
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-        server.authOTP(data).expirationDate shouldBe null
+        server.authOTP(data).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
 
         coVerify { surveyApi.authOTP(any()) }
     }

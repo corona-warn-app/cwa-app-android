@@ -8,19 +8,15 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockWebServer
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import testhelpers.BaseIOTest
 import testhelpers.BaseTest
 import testhelpers.extensions.toJsonResponse
-import java.io.File
 import java.util.concurrent.TimeUnit
 
 class SurveyApiV1Test : BaseTest() {
@@ -31,14 +27,9 @@ class SurveyApiV1Test : BaseTest() {
     private lateinit var webServer: MockWebServer
     private lateinit var serverAddress: String
 
-    private val testDir = File(BaseIOTest.IO_TEST_BASEDIR, this::class.java.simpleName)
-    private val cacheDir = File(testDir, "cache")
-    private val httpCacheDir = File(cacheDir, "http_data_donation")
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { context.cacheDir } returns cacheDir
 
         webServer = MockWebServer()
         webServer.start()
@@ -53,15 +44,10 @@ class SurveyApiV1Test : BaseTest() {
 
     private fun createAPI(): SurveyApiV1 {
         val httpModule = HttpModule()
-        val defaultHttpClient = httpModule.defaultHttpClient()
 
         return SurveyModule().let {
-            val downloadHttpClient = it.cdnHttpClient(
-                defaultHttpClient,
-                listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)
-            )
-            it.provideDataDonationApi(
-                context = context,
+            val downloadHttpClient = httpModule.defaultHttpClient()
+            it.provideSurveyApi(
                 client = downloadHttpClient,
                 url = serverAddress,
                 gsonConverterFactory = httpModule.provideGSONConverter(),
@@ -97,7 +83,5 @@ class SurveyApiV1Test : BaseTest() {
             path shouldBe "/version/v1/android/otp"
             body.readUtf8() shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
         }
-
-        httpCacheDir.exists() shouldBe true
     }
 }

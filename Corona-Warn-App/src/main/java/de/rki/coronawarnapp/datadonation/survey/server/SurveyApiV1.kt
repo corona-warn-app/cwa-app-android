@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface SurveyApiV1 {
 
     data class DataDonationResponse(
-        @SerializedName("expirationDate") val expirationDate: String?
+        @SerializedName("errorCode") val errorCode: String?
     )
 
     @POST("version/v1/android/otp")

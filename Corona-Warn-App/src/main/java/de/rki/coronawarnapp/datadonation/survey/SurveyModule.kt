@@ -19,7 +19,7 @@ class SurveyModule {
 
     @Singleton
     @Provides
-    fun provideDataDonationApi(
+    fun provideSurveyApi(
         @DataDonationCDNHttpClient client: OkHttpClient,
         @DataDonationCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
