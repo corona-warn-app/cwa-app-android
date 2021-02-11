@@ -270,7 +270,7 @@
 
                     <TextView
                         android:id="@id/legal_point_consent"
-                        style="@style/subtitle"
+                        style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
@@ -293,7 +293,7 @@
 
                     <TextView
                         android:id="@id/legal_point_identity"
-                        style="@style/subtitle"
+                        style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
@@ -316,7 +316,7 @@
 
                     <TextView
                         android:id="@id/legal_point_sixteen"
-                        style="@style/subtitle"
+                        style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
