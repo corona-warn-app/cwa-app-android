@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.survey
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -39,7 +40,7 @@ class SurveySettingsTest : BaseTest() {
     }
 
     @Test
-    fun `load and deserialize json`() {
+    fun `load and deserialize otp json`() {
         val instance = SurveySettings(context, baseGson)
         instance.oneTimePassword shouldBe null
 
@@ -60,7 +61,7 @@ class SurveySettingsTest : BaseTest() {
     }
 
     @Test
-    fun `parsing error`() {
+    fun `otp parsing error`() {
         val instance = SurveySettings(context, baseGson)
         instance.oneTimePassword shouldBe null
 
@@ -73,7 +74,7 @@ class SurveySettingsTest : BaseTest() {
     }
 
     @Test
-    fun `save and serialize json`() {
+    fun `save and serialize otp json`() {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
         val time = Instant.ofEpochMilli(1612381567242)
 
@@ -85,6 +86,65 @@ class SurveySettingsTest : BaseTest() {
             {
               "uuid": "e103c755-0975-4588-a639-d0cd1ba421a0",
               "time": 1612381567242
+            }
+        """.trimIndent()
+    }
+
+    @Test
+    fun `load and deserialize auth result json`() {
+        val instance = SurveySettings(context, baseGson)
+        instance.otpAuthorizationResult shouldBe null
+
+        preferences.edit().putString(
+            "otp_result",
+            """
+                {
+                    "uuid":"e103c755-0975-4588-a639-d0cd1ba421a1",
+                    "authorized": true,
+                    "redeemedAt": 1612381217443,
+                    "expirationDate": 1612381217444
+                }
+            """.trimIndent()
+        ).apply()
+
+        val value = instance.otpAuthorizationResult
+        value shouldNotBe null
+        value!!.uuid.toString() shouldBe "e103c755-0975-4588-a639-d0cd1ba421a1"
+        value.authorized shouldBe true
+        value.redeemedAt.millis shouldBe 1612381217443
+        value.expirationDate.millis shouldBe 1612381217444
+    }
+
+    @Test
+    fun `auth result parsing error`() {
+        val instance = SurveySettings(context, baseGson)
+        instance.otpAuthorizationResult shouldBe null
+
+        preferences
+            .edit()
+            .putString("otp_result", "invalid value")
+            .apply()
+
+        instance.otpAuthorizationResult shouldBe null
+    }
+
+    @Test
+    fun `save and serialize auth result json`() {
+        val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
+        val expirationDate = Instant.ofEpochMilli(1612381217446)
+        val authorized = false
+        val redeemedAt = Instant.ofEpochMilli(1612381217445)
+
+        val instance = SurveySettings(context, baseGson)
+        instance.otpAuthorizationResult = OTPAuthorizationResult(uuid, expirationDate, authorized, redeemedAt)
+
+        val value = preferences.getString("otp_result", null)
+        value shouldBe """
+            {
+              "uuid": "e103c755-0975-4588-a639-d0cd1ba421a0",
+              "expirationDate": 1612381217446,
+              "authorized": false,
+              "redeemedAt": 1612381217445
             }
         """.trimIndent()
     }
