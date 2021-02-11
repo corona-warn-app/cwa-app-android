@@ -187,4 +187,41 @@ class ContactDiaryDatabaseTest : BaseTest() {
             locationVisitTomorrow
         )
     }
+
+    @Test
+    fun updatingLocationVisits(): Unit = runBlocking {
+        val locationVisitFlow = locationVisitDao.allEntries().map { it.toContactDiaryLocationVisitEntityList() }
+
+        locationDao.insert(location)
+        locationVisitDao.insert(listOf(locationVisit))
+
+        locationVisitFlow.first().single() shouldBe locationVisit
+
+        val updatedLocation = locationVisit.copy(
+            duration = 123L,
+            circumstances = "Suspicious"
+        )
+        locationVisitDao.update(updatedLocation)
+
+        locationVisitFlow.first().single() shouldBe updatedLocation
+    }
+
+    @Test
+    fun updatingPersonEncounters(): Unit = runBlocking {
+        val personEncounterFlow = personEncounterDao.allEntries().map { it.toContactDiaryPersonEncounterEntityList() }
+
+        personDao.insert(person)
+        personEncounterDao.insert(personEncounter)
+
+        personEncounterFlow.first().single() shouldBe personEncounter
+
+        val updatedEncounter = personEncounter.copy(
+            withMask = true,
+            wasOutside = false,
+            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES,
+            circumstances = "He lend me a coffee cup but the handle broke and it dropped onto my laptop."
+        )
+        personEncounterDao.update(updatedEncounter)
+        personEncounterFlow.first().single() shouldBe updatedEncounter
+    }
 }

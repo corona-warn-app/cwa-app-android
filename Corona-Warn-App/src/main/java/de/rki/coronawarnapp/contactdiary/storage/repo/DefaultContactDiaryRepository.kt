@@ -108,6 +108,13 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryLocationVisitDao.insert(contactDiaryLocationVisitEntity)
     }
 
+    override suspend fun updateLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
+        executeWhenIdNotDefault(contactDiaryLocationVisit.id) {
+            val contactDiaryLocationVisitEntity = contactDiaryLocationVisit.toContactDiaryLocationVisitEntity()
+            contactDiaryLocationVisitDao.update(contactDiaryLocationVisitEntity)
+        }
+    }
+
     override suspend fun deleteLocationVisit(contactDiaryLocationVisit: ContactDiaryLocationVisit) {
         Timber.d("Deleting location visit $contactDiaryLocationVisit")
         executeWhenIdNotDefault(contactDiaryLocationVisit.id) {
@@ -193,6 +200,13 @@ class DefaultContactDiaryRepository @Inject constructor(
         Timber.d("Adding person encounter $contactDiaryPersonEncounter")
         val contactDiaryPersonEncounterEntity = contactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity()
         contactDiaryPersonEncounterDao.insert(contactDiaryPersonEncounterEntity)
+    }
+
+    override suspend fun updatePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter) {
+        executeWhenIdNotDefault(contactDiaryPersonEncounter.id) {
+            val contactDiaryPersonEncounterEntity = contactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity()
+            contactDiaryPersonEncounterDao.update(contactDiaryPersonEncounterEntity)
+        }
     }
 
     override suspend fun deletePersonEncounter(contactDiaryPersonEncounter: ContactDiaryPersonEncounter) {
