@@ -39,11 +39,7 @@ class ENFClient @Inject constructor(
     ENFVersion by enfVersion,
     TEKHistoryProvider by tekHistoryProvider {
 
-    // TODO Remove this once we no longer need direct access to the ENF Client,
-    // i.e. in **[InternalExposureNotificationClient]**
-    internal val internalClient: ExposureNotificationClient
-        get() = googleENFClient
-
+    
     override suspend fun provideDiagnosisKeys(
         keyFiles: Collection<File>,
         newDiagnosisKeysDataMapping: DiagnosisKeysDataMapping
