@@ -1,23 +1,24 @@
 package de.rki.coronawarnapp.datadonation.survey
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.datadonation.storage.OTPRepository
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SurveyUrlProvider @Inject constructor(
-    private val appConfigProvider: AppConfigProvider,
-    private val otpRepo: OTPRepository
+    private val appConfigProvider: AppConfigProvider
 ) {
 
     /**
-     * Provides an Url for the Data Donation Surveys.
+     * Provides Urls for Data Donation Surveys.
      *
-     * @throws IllegalStateException If no one time password (otp) can be loaded from the OTPRepository of if the
-     * AppConfig doesn't contain a link to a survey
+     * @param type the type of the survey, e.g. HIGH_RISK_ENCOUNTER
+     * @param otp an authenticated one time password
+     *
+     * @throws IllegalStateException If the AppConfig doesn't contain a link to a survey
      */
-    suspend fun provideUrl(type: Surveys.Type): String {
+    suspend fun provideUrl(type: Surveys.Type, otp: UUID): String {
 
         return when (type) {
             Surveys.Type.HIGH_RISK_ENCOUNTER -> {
@@ -26,13 +27,8 @@ class SurveyUrlProvider @Inject constructor(
                 val httpUrl = surveyConfig.surveyOnHighRiskUrl
                     ?: throw IllegalStateException("AppConfig doesn't contain a link to the high-risk card survey")
 
-                val queryParameterNameOtp = surveyConfig.otpQueryParameterName
-
-                val otp =
-                    otpRepo.lastOTP?.uuid ?: throw IllegalStateException("Could not load OTP uuid from OTPRepository")
-
                 httpUrl.newBuilder()
-                    .addQueryParameter(queryParameterNameOtp, otp.toString())
+                    .addQueryParameter(surveyConfig.otpQueryParameterName, otp.toString())
                     .build()
                     .toUrl()
                     .toString()

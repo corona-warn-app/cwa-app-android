@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,9 +32,13 @@ class Surveys @Inject constructor(
     }
 
     suspend fun requestDetails(type: Type): Survey {
+
+        // TODO: generate and authenticate real otp
+        val otp = UUID.randomUUID()
+
         return Survey(
             type = Type.HIGH_RISK_ENCOUNTER,
-            surveyLink = urlProvider.provideUrl(type)
+            surveyLink = urlProvider.provideUrl(type, otp)
         )
     }
 
