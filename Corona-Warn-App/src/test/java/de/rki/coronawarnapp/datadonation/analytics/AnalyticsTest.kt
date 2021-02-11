@@ -60,6 +60,15 @@ class AnalyticsTest : BaseTest() {
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
 
         every { timeStamper.nowUTC } returns baseTime
+
+        every { settings.analyticsEnabled } returns mockFlowPreference(true)
+        every { analyticsConfig.probabilityToSubmit } returns 1.0
+
+        val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
+        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
+        every { LocalData.onboardingCompletedTimestamp() } returns twoDaysAgo.millis
+
+        every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
     }
 
     @AfterEach
@@ -91,14 +100,18 @@ class AnalyticsTest : BaseTest() {
             analytics.submitIfWanted()
         }
 
+        coVerify(exactly = 1) {
+            analytics.stopDueToNoUserConsent()
+        }
+
         coVerify(exactly = 0) {
             analytics.submitAnalyticsData()
+            analytics.stopDueToProbabilityToSubmit()
         }
     }
 
     @Test
     fun `abort due to submit probability`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 0.0
 
         val analytics = createInstance()
@@ -107,20 +120,19 @@ class AnalyticsTest : BaseTest() {
             analytics.submitIfWanted()
         }
 
-        // TODO: is there a way to make sure a spy function returned x?
-        // coVerify {
-        //     analytics.stopDueToProbabilityToSubmit() shouldBe true
-        // }
+        coVerify(exactly = 1) {
+            analytics.stopDueToNoUserConsent()
+            analytics.stopDueToProbabilityToSubmit()
+        }
 
         coVerify(exactly = 0) {
             analytics.submitAnalyticsData()
+            analytics.stopDueToLastSubmittedTimestamp()
         }
     }
 
     @Test
     fun `abort due to last submit timestamp`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(true)
-        every { analyticsConfig.probabilityToSubmit } returns 1.0
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(Instant.now())
 
         val analytics = createInstance()
@@ -129,25 +141,33 @@ class AnalyticsTest : BaseTest() {
             analytics.submitIfWanted()
         }
 
+        coVerify(exactly = 1) {
+            analytics.stopDueToNoUserConsent()
+            analytics.stopDueToProbabilityToSubmit()
+            analytics.stopDueToLastSubmittedTimestamp()
+        }
+
         coVerify(exactly = 0) {
             analytics.submitAnalyticsData()
+            analytics.stopDueToTimeSinceOnboarding()
         }
     }
 
     @Test
     fun `abort due to time since onboarding`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(true)
-        every { analyticsConfig.probabilityToSubmit } returns 1.0
-        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(
-            baseTime.minus(Days.TWO.toStandardDuration())
-        )
-
         every { LocalData.onboardingCompletedTimestamp() } returns baseTime.millis
 
         val analytics = createInstance()
 
         runBlockingTest2 {
             analytics.submitIfWanted()
+        }
+
+        coVerify(exactly = 1) {
+            analytics.stopDueToNoUserConsent()
+            analytics.stopDueToProbabilityToSubmit()
+            analytics.stopDueToLastSubmittedTimestamp()
+            analytics.stopDueToTimeSinceOnboarding()
         }
 
         coVerify(exactly = 0) {
@@ -157,15 +177,6 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `submit analytics data`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(true)
-        every { analyticsConfig.probabilityToSubmit } returns 1.0
-
-        val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
-        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
-        every { LocalData.onboardingCompletedTimestamp() } returns twoDaysAgo.millis
-
-        every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
-
         val metadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseTime.millis)
