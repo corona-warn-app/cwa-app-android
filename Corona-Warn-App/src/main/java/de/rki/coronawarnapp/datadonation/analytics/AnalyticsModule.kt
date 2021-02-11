@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics
 
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
@@ -20,7 +21,7 @@ import javax.inject.Singleton
 @Module
 class AnalyticsModule {
 
-    @Singleton
+    @Reusable
     @Provides
     fun provideAnalyticsSubmissionApi(
         @DataDonationCDNHttpClient client: OkHttpClient,
