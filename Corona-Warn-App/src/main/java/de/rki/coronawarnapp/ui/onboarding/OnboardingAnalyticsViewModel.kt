@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
-import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -15,10 +15,10 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.flow
 
 class OnboardingAnalyticsViewModel @AssistedInject constructor(
-    private val settings: AnalyticsSettings,
-    private val donorModules: Set<@JvmSuppressWildcards DonorModule>,
-    val districts: Districts,
-    dispatcherProvider: DispatcherProvider
+    settings: AnalyticsSettings,
+    dispatcherProvider: DispatcherProvider,
+    private val analytics: Analytics,
+    val districts: Districts
 ) : CWAViewModel() {
 
     val completedOnboardingEvent = SingleLiveEvent<Unit>()
@@ -33,22 +33,16 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
     }.asLiveData(dispatcherProvider.IO)
 
     fun onNextButtonClick() {
-        settings.analyticsEnabled.update {
-            true
+        launch {
+            analytics.setAnalyticsEnabled(enabled = true)
         }
 
         completedOnboardingEvent.postValue(Unit)
     }
 
     fun onDisableClick() {
-        settings.analyticsEnabled.update {
-            false
-        }
-
         launch {
-            donorModules.forEach {
-                it.deleteData()
-            }
+            analytics.setAnalyticsEnabled(enabled = false)
         }
 
         completedOnboardingEvent.postValue(Unit)

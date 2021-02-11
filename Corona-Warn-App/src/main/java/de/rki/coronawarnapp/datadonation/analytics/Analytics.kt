@@ -160,6 +160,22 @@ class Analytics @Inject constructor(
         submitAnalyticsData()
     }
 
+    private suspend fun deleteAllData() = submissionLockoutMutex.withLock {
+        donorModules.forEach {
+            it.deleteData()
+        }
+    }
+
+    suspend fun setAnalyticsEnabled(enabled: Boolean) {
+        settings.analyticsEnabled.update {
+            enabled
+        }
+
+        if (!enabled) {
+            deleteAllData()
+        }
+    }
+
     companion object {
         private const val LAST_SUBMISSION_MIN_AGE_HOURS = 23
         private const val ONBOARDING_DELAY_HOURS = 24
