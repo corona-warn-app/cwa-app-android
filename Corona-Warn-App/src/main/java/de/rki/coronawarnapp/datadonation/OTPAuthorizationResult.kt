@@ -9,8 +9,6 @@ import java.util.UUID
 data class OTPAuthorizationResult(
     @SerializedName("uuid")
     val uuid: UUID,
-    @SerializedName("expirationDate")
-    val expirationDate: Instant,
     @SerializedName("authorized")
     val authorized: Boolean,
     @SerializedName("redeemedAt")

@@ -68,7 +68,6 @@ class OTPRepositoryTest : BaseTest() {
         val settings = SurveySettings(context, Gson())
         settings.otpAuthorizationResult = OTPAuthorizationResult(
             UUID.randomUUID(),
-            Instant.now(),
             true,
             Instant.now()
         )
@@ -87,7 +86,6 @@ class OTPRepositoryTest : BaseTest() {
         settings.oneTimePassword shouldNotBe null
         OTPRepository(settings).otpAuthorizationResult = OTPAuthorizationResult(
             UUID.randomUUID(),
-            Instant.now(),
             true,
             Instant.now()
         )

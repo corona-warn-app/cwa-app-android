@@ -51,7 +51,6 @@ class SurveySettings @Inject constructor(
                     val result = gson.fromJson(json, OTPAuthorizationResult::class.java)
                     requireNotNull(result.uuid)
                     requireNotNull(result.authorized)
-                    requireNotNull(result.expirationDate)
                     requireNotNull(result.redeemedAt)
                     return result
                 }
