@@ -20,8 +20,8 @@ import testhelpers.BaseTest
 import java.io.File
 import java.util.UUID
 
-class DataDonationServerTest : BaseTest() {
-    @MockK lateinit var dataDonationApi: DataDonationApiV1
+class SurveyServerTest : BaseTest() {
+    @MockK lateinit var surveyApi: SurveyApiV1
     @MockK lateinit var context: Context
 
     private lateinit var webServer: MockWebServer
@@ -50,17 +50,17 @@ class DataDonationServerTest : BaseTest() {
     }
 
     private fun createServer(
-        customApi: DataDonationApiV1 = dataDonationApi
-    ) = DataDonationServer(dataDonationApi = { customApi })
+        customApi: SurveyApiV1 = surveyApi
+    ) = SurveyServer(dataDonationApi = { customApi })
 
     @Test
     fun `valid otp`(): Unit = runBlocking {
         val server = createServer()
-        coEvery { dataDonationApi.authOTP(any()) } answers {
+        coEvery { surveyApi.authOTP(any()) } answers {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
             }
-            DataDonationApiV1.DataDonationResponse(
+            SurveyApiV1.DataDonationResponse(
                 "2021-02-16T08:34:00+00:00"
             )
         }
@@ -68,22 +68,22 @@ class DataDonationServerTest : BaseTest() {
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
         server.authOTP(data).expirationDate shouldBe "2021-02-16T08:34:00+00:00"
 
-        coVerify { dataDonationApi.authOTP(any()) }
+        coVerify { surveyApi.authOTP(any()) }
     }
 
     @Test
     fun `invalid otp`(): Unit = runBlocking {
         val server = createServer()
-        coEvery { dataDonationApi.authOTP(any()) } answers {
+        coEvery { surveyApi.authOTP(any()) } answers {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
             }
-            DataDonationApiV1.DataDonationResponse(null)
+            SurveyApiV1.DataDonationResponse(null)
         }
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
         server.authOTP(data).expirationDate shouldBe null
 
-        coVerify { dataDonationApi.authOTP(any()) }
+        coVerify { surveyApi.authOTP(any()) }
     }
 }

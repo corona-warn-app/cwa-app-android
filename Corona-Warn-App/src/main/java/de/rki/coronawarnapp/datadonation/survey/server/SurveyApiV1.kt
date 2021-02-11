@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface DataDonationApiV1 {
+interface SurveyApiV1 {
 
     data class DataDonationResponse(
         @SerializedName("expirationDate") val expirationDate: String?

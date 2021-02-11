@@ -23,7 +23,7 @@ import testhelpers.extensions.toJsonResponse
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-class DataDonationApiV1Test : BaseTest() {
+class SurveyApiV1Test : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -51,7 +51,7 @@ class DataDonationApiV1Test : BaseTest() {
         webServer.shutdown()
     }
 
-    private fun createAPI(): DataDonationApiV1 {
+    private fun createAPI(): SurveyApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
 

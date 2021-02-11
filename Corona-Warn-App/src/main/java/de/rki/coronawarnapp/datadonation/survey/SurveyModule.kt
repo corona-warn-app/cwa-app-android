@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.datadonation.survey
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentModule
-import de.rki.coronawarnapp.datadonation.survey.server.DataDonationApiV1
+import de.rki.coronawarnapp.datadonation.survey.server.SurveyApiV1
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import okhttp3.OkHttpClient
@@ -24,11 +24,11 @@ class SurveyModule {
         @DataDonationCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
         gsonConverterFactory: GsonConverterFactory
-    ): DataDonationApiV1 = Retrofit.Builder()
+    ): SurveyApiV1 = Retrofit.Builder()
         .client(client.newBuilder().build())
         .baseUrl(url)
         .addConverterFactory(protoConverterFactory)
         .addConverterFactory(gsonConverterFactory)
         .build()
-        .create(DataDonationApiV1::class.java)
+        .create(SurveyApiV1::class.java)
 }

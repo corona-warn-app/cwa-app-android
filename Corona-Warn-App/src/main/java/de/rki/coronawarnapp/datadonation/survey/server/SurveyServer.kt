@@ -11,12 +11,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataDonationServer @Inject constructor(
-    private val dataDonationApi: Lazy<DataDonationApiV1>
+class SurveyServer @Inject constructor(
+    private val surveyApi: Lazy<SurveyApiV1>
 ) {
 
-    private val api: DataDonationApiV1
-        get() = dataDonationApi.get()
+    private val api: SurveyApiV1
+        get() = surveyApi.get()
 
     suspend fun authOTP(
         data: OneTimePassword
