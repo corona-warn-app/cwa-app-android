@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.datadonation.survey
 
+import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import java.util.UUID
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class SurveyUrlProvider @Inject constructor(
     private val appConfigProvider: AppConfigProvider
 ) {
