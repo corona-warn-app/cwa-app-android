@@ -6,8 +6,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.main.MainActivityActions
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -36,7 +36,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
                 LauncherEvent.GoToAppShortcutOrMainActivity -> {
                     when (evaluateAppShortcuts()) {
-                        AppShortcuts.CONTACT_DIARY -> ContactDiaryActivity.start(this)
+                        AppShortcuts.CONTACT_DIARY -> MainActivity.start(this, MainActivityActions.ADD_DIARY_ENTRY)
                         else -> MainActivity.start(this)
                     }
 
