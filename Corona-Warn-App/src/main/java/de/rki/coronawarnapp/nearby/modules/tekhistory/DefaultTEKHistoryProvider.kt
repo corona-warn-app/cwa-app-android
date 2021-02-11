@@ -12,6 +12,8 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationSt
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
 import timber.log.Timber
@@ -152,36 +154,42 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    private suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
-        client.requestPreAuthorizedTemporaryExposureKeyRelease()
-            .addOnSuccessListener {
-                Timber.i("Pre-Auth waiting for Keys broadcast event")
-                context.registerReceiver(
-                    object : BroadcastReceiver() {
-                        override fun onReceive(context: Context, intent: Intent) {
-                            Timber.i("Pre-Auth keys Broadcast received")
-                            if (intent.hasExtra(ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)) {
-                                val tempExposureKeys = intent.getParcelableArrayListExtra<TemporaryExposureKey>(
-                                    ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
-                                )
-                                Timber.i("Pre-Auth temporary exposure keys were retrieved:$tempExposureKeys")
-                                cont.resume(tempExposureKeys)
-                            } else {
-                                Timber.w("Pre-Auth temporary exposure keys were not retrieved")
-                                cont.resumeWithException(Exception("Pre-Auth temporary exposure keys were not retrieved"))
-                            }
-                            context.unregisterReceiver(this)
-                        }
-                    },
-                    IntentFilter(
-                        ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
-                    )
-                )
-            }.addOnFailureListener {
-                Timber.e(it, "Pre-Auth failed to retrieve temporary exposure keys.")
-                cont.resumeWithException(it)
+    private suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> =
+        // Timeout after 20 sec if receiver did get called
+        withTimeout(20_000) {
+            coroutineScope {
+                client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
+                val intent = awaitReceivedBroadcast()
+                val tempExposureKeys =
+                    if (intent.hasExtra(ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)) {
+                        intent.getParcelableArrayListExtra<TemporaryExposureKey>(
+                            ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
+                        )
+                    } else {
+                        listOf()
+                    }
+                tempExposureKeys
             }
-    }
+        }
+
+    private suspend fun awaitReceivedBroadcast(): Intent =
+        suspendCancellableCoroutine { cont ->
+            val receiver = object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    cont.resume(intent)
+                    context.unregisterReceiver(this)
+                }
+            }
+            context.registerReceiver(
+                receiver,
+                IntentFilter(
+                    ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
+                )
+            )
+            cont.invokeOnCancellation {
+                context.unregisterReceiver(receiver)
+            }
+        }
 
     private inline val Exception.isResolvable get() = this is ApiException && this.status.hasResolution()
 }
