@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.nearby.modules.tekhistory
 
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 
 interface TEKHistoryProvider {
 
@@ -23,8 +25,14 @@ interface TEKHistoryProvider {
     )
 
     /**
-     * Pre-Authorize requesting ExposureKeyHistory process
-     * @see [ExposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory]
+     * Pre-Authorize ExposureKeyHistory using
+     * [ExposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory].
+     *
+     * @return true if at least [ENFVersion] is [ENFVersion.V1_8]
+     * and [ExposureNotificationClient.requestPreAuthorizedTemporaryExposureKeyHistory] continues successfully,
+     * otherwise false.
+     *
+     * @throws [ApiException]
      */
     suspend fun preAuthorizeExposureKeyHistory(): Boolean
 }
