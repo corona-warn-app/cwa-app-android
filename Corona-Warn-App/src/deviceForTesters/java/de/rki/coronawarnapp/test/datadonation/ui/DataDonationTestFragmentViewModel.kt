@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.datadonation.ui
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.security.SecureRandom
 
@@ -21,7 +23,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
     private val secureRandom: SecureRandom,
     private val cwaSafetyNet: CWASafetyNet,
-    private val otpRepository: OTPRepository
+    otpRepository: OTPRepository,
+    appConfigProvider: AppConfigProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentReportInternal = MutableStateFlow<SafetyNetClientWrapper.Report?>(null)
@@ -32,6 +35,10 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     val currentValidation = currentValidationInternal.asLiveData(context = dispatcherProvider.Default)
 
     val otp: String = otpRepository.lastOTP?.toString() ?: "No OTP received yet"
+
+    val surveyConfig = appConfigProvider.currentConfig
+        .map { it.survey.toString() }
+        .asLiveData(context = dispatcherProvider.Default)
 
     val errorEvents = SingleLiveEvent<Throwable>()
     val copyJWSEvent = SingleLiveEvent<String>()

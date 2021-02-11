@@ -73,6 +73,10 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         }
 
         binding.oneTimePasswordBody.text = vm.otp
+
+        vm.surveyConfig.observe2(this) {
+            binding.surveyConfigBody.text = it
+        }
     }
 
     companion object {
