@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.tekhistory
 
+import android.content.Context
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
@@ -24,6 +25,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
 
     @MockK lateinit var client: ExposureNotificationClient
     @MockK lateinit var enfVersion: ENFVersion
+    @MockK lateinit var context: Context
 
     @BeforeEach
     fun setup() {
@@ -39,7 +41,8 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
 
     private fun createInstance() = DefaultTEKHistoryProvider(
         client = client,
-        enfVersion = enfVersion
+        enfVersion = enfVersion,
+        context = context
     )
 
     @Test
