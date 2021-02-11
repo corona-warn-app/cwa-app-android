@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.survey.server
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -13,6 +13,6 @@ interface SurveyApiV1 {
 
     @POST("version/v1/android/otp")
     suspend fun authOTP(
-        @Body requestBody: EdusOtp.EDUSOneTimePassword
+        @Body requestBody: EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid
     ): DataDonationResponse
 }

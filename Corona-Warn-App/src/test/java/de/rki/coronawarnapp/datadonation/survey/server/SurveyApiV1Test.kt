@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.datadonation.survey.server
 
-import android.content.Context
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.datadonation.survey.SurveyModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
 import okio.ByteString.Companion.decodeBase64
@@ -20,9 +19,6 @@ import testhelpers.extensions.toJsonResponse
 import java.util.concurrent.TimeUnit
 
 class SurveyApiV1Test : BaseTest() {
-
-    @MockK
-    private lateinit var context: Context
 
     private lateinit var webServer: MockWebServer
     private lateinit var serverAddress: String
@@ -65,12 +61,16 @@ class SurveyApiV1Test : BaseTest() {
             }
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
-        val dataDonationPayload = EdusOtp.EDUSOneTimePassword.newBuilder()
-            .setOtp("15cff19f-af26-41bc-94f2-c1a65075e894")
-            .setOtpBytes(
-                ByteString.copyFrom(
-                    "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!.toByteArray()
-                )
+        val dataDonationPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
+            .setPayload(
+                EdusOtp.EDUSOneTimePassword.newBuilder()
+                    .setOtp("15cff19f-af26-41bc-94f2-c1a65075e894")
+                    .setOtpBytes(
+                        ByteString.copyFrom(
+                            "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!.toByteArray()
+                        )
+                    )
+                    .build()
             )
             .build()
 

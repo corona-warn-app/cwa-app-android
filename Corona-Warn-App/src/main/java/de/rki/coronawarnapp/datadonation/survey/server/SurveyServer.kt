@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.datadonation.survey.server
 import com.google.protobuf.ByteString
 import dagger.Lazy
 import de.rki.coronawarnapp.datadonation.OneTimePassword
+import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -20,13 +22,18 @@ class SurveyServer @Inject constructor(
         get() = surveyApi.get()
 
     suspend fun authOTP(
-        data: OneTimePassword
+        data: OneTimePassword,
+        deviceAttestation: DeviceAttestation.Result
     ): SurveyApiV1.DataDonationResponse = withContext(dispatcherProvider.IO) {
         Timber.d("authOTP()")
 
-        val dataDonationPayload = EdusOtp.EDUSOneTimePassword.newBuilder()
-            .setOtp(data.uuid.toString())
-            .setOtpBytes(ByteString.copyFrom(data.payloadForRequest))
+        val dataDonationPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
+            .setPayload(
+                EdusOtp.EDUSOneTimePassword.newBuilder()
+                    .setOtp(data.uuid.toString())
+                    .setOtpBytes(ByteString.copyFrom(data.payloadForRequest))
+            )
+            .setAuthentication(deviceAttestation.accessControlProtoBuf)
             .build()
 
         api.authOTP(
