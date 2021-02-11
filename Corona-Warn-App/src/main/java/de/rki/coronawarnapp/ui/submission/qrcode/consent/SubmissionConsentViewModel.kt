@@ -34,7 +34,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
-                // Routes to QR code screen either has already granted permission or it is older Api
+                // Routes to QR code screen either user has already granted permission or it is older Api
                 routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
                 Timber.i("Pre-authorized:$preAuthorized")
             } catch (exception: Exception) {
