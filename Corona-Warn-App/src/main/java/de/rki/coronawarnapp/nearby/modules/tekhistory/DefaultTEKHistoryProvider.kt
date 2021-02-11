@@ -19,7 +19,6 @@ import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine

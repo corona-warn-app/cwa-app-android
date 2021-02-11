@@ -31,7 +31,6 @@ object MockGMSTask {
         every { exception } answers { null }
         every { isCanceled } answers { false }
         every { result } answers { value }
-
     }
 
     fun <T> timeout(): Task<T> = mockk<Task<T>>().apply {

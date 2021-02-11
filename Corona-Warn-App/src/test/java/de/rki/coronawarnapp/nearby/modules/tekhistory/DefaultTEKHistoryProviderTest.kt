@@ -9,15 +9,12 @@ import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
-import io.mockk.just
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

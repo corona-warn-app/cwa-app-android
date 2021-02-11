@@ -30,7 +30,7 @@ internal class SurveyUrlProviderTest {
     }
 
     private fun createInstance() = SurveyUrlProvider(
-        appConfigProvider,
+        appConfigProvider
     )
 
     @Test
