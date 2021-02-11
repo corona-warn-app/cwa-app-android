@@ -13,9 +13,11 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -31,9 +33,44 @@ class DefaultTEKHistoryProvider @Inject constructor(
         onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
         onPermissionRequired: (Status) -> Unit
     ) {
-        Timber.d("getTEKHistoryOrRequestPermission(...)")
+        if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
+            getPreAuthTEKHistoryOrRequestPermissionOnV18(
+                onTEKHistoryAvailable,
+                onPermissionRequired
+            )
+        } else {
+            getTEKHistoryOrRequestPermissionOnPreV18(
+                onTEKHistoryAvailable,
+                onPermissionRequired
+            )
+        }
+    }
+
+    override suspend fun getTEKHistory(): List<TemporaryExposureKey> {
+        return if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
+            getPreAuthTEKHistoryOnV18()
+        } else {
+            getTEKHistoryOnPreV18()
+        }
+    }
+
+    override suspend fun preAuthorizeExposureKeyHistory(): Boolean {
+        // Pre-Auth isn't available exist early
+        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return false
+        Timber.i("Requesting Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
+        client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
+        Timber.i("Pre-Auth TemporaryExposureKeyHistory is enabled")
+        return true
+    }
+
+    // Get History or request Permissions //
+    private suspend fun getPreAuthTEKHistoryOrRequestPermissionOnV18(
+        onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
+        onPermissionRequired: (Status) -> Unit
+    ) {
+        Timber.d("getPreAuthTEKHistoryOrRequestPermissionOnV18")
         try {
-            onTEKHistoryAvailable(getTEKHistory())
+            onTEKHistoryAvailable(getPreAuthTEKHistoryOnV18())
             Timber.d("onTEKHistoryAvailable() -> permission were already available")
         } catch (apiException: ApiException) {
             if (apiException.statusCode != ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
@@ -50,47 +87,69 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    override suspend fun getTEKHistory(): List<TemporaryExposureKey> {
+    private suspend fun getTEKHistoryOrRequestPermissionOnPreV18(
+        onTEKHistoryAvailable: (List<TemporaryExposureKey>) -> Unit,
+        onPermissionRequired: (Status) -> Unit
+    ) {
+        Timber.d("getTEKHistoryOrRequestPermissionOnPreV18(...)")
+        try {
+            onTEKHistoryAvailable(getTEKHistoryOnPreV18())
+            Timber.d("onTEKHistoryAvailable() -> permission were already available")
+        } catch (apiException: ApiException) {
+            if (apiException.statusCode != ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
+                throw apiException
+            }
+            if (!apiException.status.hasResolution()) {
+                throw apiException
+            }
+            try {
+                onPermissionRequired(apiException.status)
+            } catch (e: IntentSender.SendIntentException) {
+                throw e
+            }
+        }
+    }
+
+    // Get history //
+    private suspend fun getTEKHistoryOnPreV18(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
+        Timber.d("Retrieving temporary exposure keys.")
+        client.temporaryExposureKeyHistory
+            .addOnSuccessListener {
+                Timber.d("Temporary exposure keys were retrieved: %s", it.joinToString("\n"))
+                cont.resume(it)
+            }
+            .addOnFailureListener {
+                Timber.w(it, "Failed to retrieve temporary exposure keys.")
+                cont.resumeWithException(it)
+            }
+    }
+
+    private suspend fun getPreAuthTEKHistoryOnV18(): List<TemporaryExposureKey> {
         val isPreAuthorized = try {
             preAuthorizeExposureKeyHistory()
-        } catch (e: Exception) {
-            Timber.d(e, "Requesting Pre-Auth failed")
-            // Let getTEKHistoryOrRequestPermission handle it
-            if (e is ApiException && e.status.hasResolution()) throw e
+        } catch (exception: Exception) {
+            Timber.d(exception, "Requesting Pre-Auth history failed")
+            if (exception.isResolvable) throw exception
             false
         }
 
         return if (isPreAuthorized) {
             try {
-                Timber.d("Pre-Auth retrieving temporary exposure keys.")
+                Timber.d("Pre-Auth retrieving TEK.")
                 getPreAuthorizedExposureKeys().also {
-                    Timber.d("Pre-Auth temporary exposure keys:${it.joinToString("\n")}")
+                    Timber.d("Pre-Auth TEK failed:${it.joinToString("\n")}")
                 }
-            } catch (e: Exception) {
-                Timber.d(e, "Pre-Auth retrieving temporary exposure keys failed")
-                // Let getTEKHistoryOrRequestPermission handle it
-                if (e is ApiException && e.status.hasResolution()) throw e
+            } catch (exception: Exception) {
+                Timber.d(exception, "Pre-Auth retrieving TEK failed")
+                if (exception.isResolvable) throw exception
 
-                Timber.d("Fallback:Retrieving temporary exposure keys")
-                client.temporaryExposureKeyHistory.await().also {
-                    Timber.d("Temporary exposure keys:${it.joinToString("\n")}")
-                }
+                Timber.d("Fallback:Retrieving TEK on pre v1.8")
+                getTEKHistoryOnPreV18()
             }
         } else {
-            Timber.d("Retrieving temporary exposure keys")
-            client.temporaryExposureKeyHistory.await().also {
-                Timber.d("Temporary exposure keys:${it.joinToString("\n")}")
-            }
+            Timber.d("Retrieving TEK on pre v1.8")
+            getTEKHistoryOnPreV18()
         }
-    }
-
-    override suspend fun preAuthorizeExposureKeyHistory(): Boolean {
-        // Pre-Auth isn't available exist early
-        if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return false
-        Timber.i("Requesting Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
-        client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
-        Timber.i("Pre-Auth TemporaryExposureKeyHistory is enabled")
-        return true
     }
 
     private suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = suspendCoroutine { cont ->
@@ -123,4 +182,6 @@ class DefaultTEKHistoryProvider @Inject constructor(
                 cont.resumeWithException(it)
             }
     }
+
+    private inline val Exception.isResolvable get() = this is ApiException && this.status.hasResolution()
 }
