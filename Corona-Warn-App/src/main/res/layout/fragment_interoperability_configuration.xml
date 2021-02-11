@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
         <variable
             name="countryData"
             type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
@@ -17,41 +21,117 @@
             layout="@layout/include_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:title="@{@string/interoperability_title}"
+            app:title="@{@string/interoperability_title}"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/interoperability_configuration_country_list_container"
+        <ScrollView
+            android:id="@+id/interoperability_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
-            android:paddingStart="@dimen/spacing_normal"
-            android:paddingEnd="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header">
+            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header"
+            android:contentDescription="@string/interoperability_configuration_title">
 
-            <include
-                android:id="@+id/interoperability_configuration_country_list"
-                layout="@layout/include_interoperability"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:title="@{@string/interoperability_configuration_title}"
-                app:firstSection="@{@string/interoperability_configuration_first_section}"
-                app:secondSection="@{@string/interoperability_configuration_second_section}"
-                app:countryListTitle="@{@string/interoperability_configuration_list_title}"
-                app:fourthSection="@{@string/interoperability_configuration_information}"
-                app:countryData="@{countryData}"
-                app:isOnboarding="@{false}"
-                app:isRiskdetection="@{true}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:paddingBottom="@dimen/spacing_normal">
+
+                <ImageView
+                    android:id="@+id/interoperability_illustration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@{@string/interoperability_eu_illustration_description}"
+                    android:src="@drawable/ic_illustration_interoperability"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/headline4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:accessibilityHeading="true"
+                    android:text="@string/interoperability_configuration_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/interoperability_illustration" />
+
+                <TextView
+                    android:id="@+id/label_interoperability_subtitle"
+                    style="@style/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/interoperability_configuration_first_section"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
+
+                <TextView
+                    android:id="@+id/label_interoperability_subtitle2"
+                    style="@style/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:text="@string/interoperability_configuration_second_section"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle" />
+
+                <include
+                    android:id="@+id/no_countries_riskdetails_infoview"
+                    layout="@layout/include_interop_riskdetails_no_countries_infoview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:visibility="@{FormatterHelper.formatVisibility(countryData.empty)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle2"
+                    tools:visibility="gone" />
+
+                <include
+                    android:id="@+id/country_list_overview"
+                    layout="@layout/include_interop_list_participating_countries_overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{FormatterHelper.formatVisibilityInverted(countryData.empty)}"
+                    app:countryData="@{countryData}"
+                    app:countryListTitle="@{@string/interoperability_configuration_list_title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle2" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/country_list_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierAllowsGoneWidgets="false"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="country_list_overview, no_countries_riskdetails_infoview" />
+
+                <TextView
+                    android:id="@+id/label_interoperability_subtitle4"
+                    style="@style/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/interoperability_configuration_information"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/country_list_barrier" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
