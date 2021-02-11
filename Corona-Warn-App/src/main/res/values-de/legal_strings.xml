@@ -49,4 +49,23 @@
     <string name="contact_diary_onboarding_privacy_information_second_section_body_one">Bitte prüfen Sie genau, mit wem und auf welche Weise Sie die in Ihrem Kontakt-Tagebuch erfassten Informationen teilen. Die Informationen sollen Ihnen als Gedächtnisstütze dienen - sie sind nicht für Dritte bestimmt. Wenn das Gesundheitsamt Sie im Rahmen der Kontaktnachverfolgung um Ihre Mithilfe bittet, ist die Weitergabe von Einträgen sachgerecht.</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body_two">Private Personen oder Unternehmen dürfen von Ihnen nicht die Weitergabe der von Ihnen erfassten Informationen verlangen. Bitte respektieren Sie, wenn jemand nicht im Kontakt-Tagebuch erfasst werden möchte.</string>
+
+    <!-- XHED: Title for the consent displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_title">"Ihr Einverständnis"</string>
+    <!-- XTXT: Text for the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_body">"Durch Antippen von „Einverstanden“ willigen Sie ein:\n\nBevor Ihnen der Teilnahmelink angezeigt werden kann, wird die Echtheit Ihrer App hierbei einmalig geprüft. Dazu wird durch Ihr Smartphone eine eindeutige Kennung erzeugt und an Google in die USA übermittelt, damit Google die Echtheit Ihrer App gegenüber dem RKI bestätigen kann. Die Kennung enthält Informationen über die Version Ihres Smartphones und der App. Weitere Angaben aus der App erhält Google  hierbei nicht. So wird sichergestellt, dass jeder Nutzer nur einmal an der Befragung teilnehmen kann und die Statistiken nicht verfälscht werden."</string>
+    <!-- XTXT: First bullet point in the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_bullet_point_one">"Ihr Einverständnis ist freiwillig. Sie können die App vollständig nutzen, auch wenn Sie Ihr Einverständnis für die Zwecke der Befragung nicht erteilen."</string>
+    <!-- XTXT: Second bullet point in the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_bullet_point_two">"Auch nachdem Sie Ihr Einverständnis erklärt haben, müssen Sie nicht an der Befragung teilzunehmen. Sie können die Befragung jederzeit abbrechen."</string>
+    <!-- XTXT: Third bullet point in the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_bullet_point_three">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
+    <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
+    <string name="datadonation_details_survey_consent_bottom_link">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
+
+    <!-- XHED: Title for the information box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title">"Prüfung der Echtheit und Drittlandsübermittlung"</string>
+    <!-- XTXT: Text for the information box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text">"Um die Echtheit Ihrer App zu bestätigen, erzeugt Ihr Smartphone eine eindeutige Kennung, die Informationen über die Version Ihres Smartphones und der App enthält. Das ist erforderlich, um zu verhindern, dass Nutzer mehrfach der Befragung teilnehmen und so die Ergebnisse der Befragung verfälschen. Die Kennung wird hier einmalig an Google übermittelt. Dabei kann es auch zu einer Datenübermittlung in die USA kommen. Dort besteht kein dem europäischen Recht angemessenes Datenschutzniveau und Ihre europäischen Datenschutzrechte können eventuell nicht durchgesetzt werden. Insbesondere besteht die Möglichkeit, dass US-Sicherheitsbehörden, auch ohne einen konkreten Verdacht, auf die übermittelten Daten bei Google zugreifen und diese auswerten, beispielsweise indem sie Daten mit anderen Informationen verknüpfen. Dies betrifft nur die an Google übermittelte Kennung. Die weiteren Angaben über Ihre Teilnahme an der Befragung erhält Google nicht. Wenn Sie mit der Drittlandsübermittlung nicht einverstanden sind, tippen Sie bitte nicht „Einverstanden“ an. Sie können die App weiterhin nutzen, eine Teilnahme an dieser Befragung ist dann jedoch nicht möglich."</string>
+
 </resources>
