@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.storage
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import io.kotest.matchers.shouldBe
@@ -59,5 +60,37 @@ class OTPRepositoryTest : BaseTest() {
     fun `no last otp`() {
         every { surveySettings.oneTimePassword } returns null
         OTPRepository(surveySettings).otp shouldBe null
+    }
+
+    @Test
+    fun `no otp auth result after generating new otp`() {
+        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns MockSharedPreferences()
+        val settings = SurveySettings(context, Gson())
+        settings.otpAuthorizationResult = OTPAuthorizationResult(
+            UUID.randomUUID(),
+            Instant.now(),
+            true,
+            Instant.now()
+        )
+
+        settings.otpAuthorizationResult shouldNotBe null
+        OTPRepository(settings).generateOTP()
+        settings.otpAuthorizationResult shouldBe null
+    }
+
+    @Test
+    fun `no otp after storing otp auth result`() {
+        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns MockSharedPreferences()
+        val settings = SurveySettings(context, Gson())
+        settings.oneTimePassword = OneTimePassword(UUID.randomUUID(), Instant.now())
+
+        settings.oneTimePassword shouldNotBe null
+        OTPRepository(settings).otpAuthorizationResult = OTPAuthorizationResult(
+            UUID.randomUUID(),
+            Instant.now(),
+            true,
+            Instant.now()
+        )
+        settings.oneTimePassword shouldBe null
     }
 }

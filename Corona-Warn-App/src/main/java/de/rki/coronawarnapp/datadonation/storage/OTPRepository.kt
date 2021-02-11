@@ -30,5 +30,6 @@ class OTPRepository @Inject constructor(
 
     fun clear() {
         surveySettings.oneTimePassword = null
+        surveySettings.otpAuthorizationResult = null
     }
 }
