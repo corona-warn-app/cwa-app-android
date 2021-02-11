@@ -6,10 +6,12 @@ import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import kotlinx.coroutines.runBlocking
+import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.AfterEach
@@ -56,9 +58,9 @@ class SurveyApiV1Test : BaseTest() {
     @Test
     fun `test auth`(): Unit = runBlocking {
         val api = createAPI()
-
         """
             {
+            
             }
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
@@ -71,9 +73,12 @@ class SurveyApiV1Test : BaseTest() {
                             "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!.toByteArray()
                         )
                     )
-                    .build()
             )
-            .setAuthentication(PpacAndroid.PPACAndroid.newBuilder())
+            .setAuthentication(
+                PpacAndroid.PPACAndroid.newBuilder()
+                    .setSafetyNetJws("abc")
+                    .setSalt("def")
+            )
             .build()
 
         api.authOTP(
@@ -82,7 +87,41 @@ class SurveyApiV1Test : BaseTest() {
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             path shouldBe "/version/v1/android/otp"
-            body.readUtf8() shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
+            body.readByteArray() shouldBe surveyPayload.toByteArray()
+        }
+    }
+
+    @Test
+    fun `server returns 500`(): Unit = runBlocking {
+        val api = createAPI()
+        // FIXME Wert vom server abfrägen
+        """
+            {
+            
+            }
+        """.toJsonResponse().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
+
+        val surveyPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
+            .setPayload(
+                EdusOtp.EDUSOneTimePassword.newBuilder()
+                    .setOtp("15cff19f-af26-41bc-94f2-c1a65075e894")
+                    .setOtpBytes(
+                        ByteString.copyFrom(
+                            "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!.toByteArray()
+                        )
+                    )
+            )
+            .setAuthentication(
+                PpacAndroid.PPACAndroid.newBuilder()
+                    .setSafetyNetJws("abc")
+                    .setSalt("def")
+            )
+            .build()
+
+        shouldThrowAny {
+            api.authOTP(
+                requestBody = surveyPayload
+            )
         }
     }
 }

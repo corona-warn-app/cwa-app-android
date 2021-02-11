@@ -74,4 +74,20 @@ class SurveyServerTest : BaseTest() {
 
         coVerify { surveyApi.authOTP(any()) }
     }
+
+    @Test
+    fun `return code 500`(): Unit = runBlocking {
+        val server = createServer()
+        coEvery { surveyApi.authOTP(any()) } answers {
+            arg<EdusOtp.EDUSOneTimePassword>(0).apply {
+                otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
+            }
+            SurveyApiV1.DataDonationResponse("API_TOKEN_ALREADY_ISSUED")
+        }
+
+        val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
+        server.authOTP(data, mockk()).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
+
+        coVerify { surveyApi.authOTP(any()) }
+    }
 }
