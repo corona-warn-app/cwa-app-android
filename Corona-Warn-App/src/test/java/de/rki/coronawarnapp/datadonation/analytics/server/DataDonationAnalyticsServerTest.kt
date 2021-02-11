@@ -79,7 +79,7 @@ class DataDonationAnalyticsServerTest : BaseTest() {
             .build()
 
         coEvery { donationApi.submitAndroidAnalytics(analyticsRequest) } returns
-            Response.success(204, AndroidAnalyticsErrorResponse(""))
+            Response.success(204, DataDonationAnalyticsApiV1.DataDonationAnalyticsResponse(""))
 
         server.uploadAnalyticsData(analyticsRequest)
 
