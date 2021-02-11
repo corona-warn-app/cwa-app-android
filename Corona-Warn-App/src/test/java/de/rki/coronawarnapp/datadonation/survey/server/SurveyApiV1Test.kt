@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.datadonation.survey.SurveyModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -61,7 +62,7 @@ class SurveyApiV1Test : BaseTest() {
             }
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
-        val dataDonationPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
+        val surveyPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
                 EdusOtp.EDUSOneTimePassword.newBuilder()
                     .setOtp("15cff19f-af26-41bc-94f2-c1a65075e894")
@@ -72,10 +73,11 @@ class SurveyApiV1Test : BaseTest() {
                     )
                     .build()
             )
+            .setAuthentication(PpacAndroid.PPACAndroid.newBuilder())
             .build()
 
         api.authOTP(
-            requestBody = dataDonationPayload
+            requestBody = surveyPayload
         )
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {

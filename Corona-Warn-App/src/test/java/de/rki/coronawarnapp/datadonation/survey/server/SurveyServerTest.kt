@@ -9,6 +9,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -53,7 +54,7 @@ class SurveyServerTest : BaseTest() {
         }
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-        server.authOTP(data).errorCode shouldBe null
+        server.authOTP(data, mockk()).errorCode shouldBe null
 
         coVerify { surveyApi.authOTP(any()) }
     }
@@ -69,7 +70,7 @@ class SurveyServerTest : BaseTest() {
         }
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-        server.authOTP(data).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
+        server.authOTP(data, mockk()).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
 
         coVerify { surveyApi.authOTP(any()) }
     }
