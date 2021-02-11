@@ -351,7 +351,7 @@
 
                     <TextView
                         android:id="@id/more_info_title"
-                        style="@style/subtitle"
+                        style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
