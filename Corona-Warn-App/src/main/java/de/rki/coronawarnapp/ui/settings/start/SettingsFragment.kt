@@ -38,6 +38,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         vm.backgroundPriorityState.observe2(this) {
             binding.backgroundState = it
         }
+
+        vm.analyticsState.observe2(this) {
+            binding.analyticsState = it
+        }
+
         setButtonOnClickListener()
     }
 
@@ -51,6 +56,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         val tracingRow = binding.settingsTracing.settingsRow
         val notificationRow = binding.settingsNotifications.settingsRow
         val backgroundPriorityRow = binding.settingsBackgroundPriority.settingsRow
+        val privacyPreservingAnalyticsRow = binding.settingsPrivacyPreservingAnalytics.settingsRow
         val resetRow = binding.settingsReset
         val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
@@ -73,6 +79,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsBackgroundPriorityFragment()
             )
         }
+
+        privacyPreservingAnalyticsRow.setOnClickListener {
+            findNavController().doNavigate(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsPrivacyPreservingAnalyticsFragment()
+            )
+        }
+
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
         }
