@@ -33,15 +33,27 @@ class SettingsPrivacyPreservingAnalyticsFragment :
 
         binding.apply {
 
+            // Notifications about risk status
+            val updateAnalyticsSwitch =
+                settingsPpaSwitchRow.settingsSwitchRowSwitch
+            // Additional click target to toggle switch
+            val updateAnalyticsRow =
+                settingsPpaSwitchRow.settingsSwitchRow
+
             settingsPpaHeader.headerButtonBack.buttonIcon.setOnClickListener {
                 popBackStack()
             }
 
-            settingsPpaSwitchRow.settingsSwitchRowSwitch.setOnCheckedChangeListener { view, _ ->
+            updateAnalyticsSwitch.setOnCheckedChangeListener { view, _ ->
                 // Make sure that listener is called by user interaction
                 if (!view.isPressed) return@setOnCheckedChangeListener
 
                 viewModel.analyticsToggleEnabled()
+            }
+
+            // Additional click target to toggle switch
+            updateAnalyticsRow.setOnClickListener {
+                if (updateAnalyticsRow.isEnabled) viewModel.analyticsToggleEnabled()
             }
 
             federalStateRow.setOnClickListener {
