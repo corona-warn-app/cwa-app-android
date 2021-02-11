@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
@@ -18,7 +18,8 @@ class SettingsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     notificationSettings: NotificationSettings,
-    backgroundModeStatus: BackgroundModeStatus
+    backgroundModeStatus: BackgroundModeStatus,
+    analytics: Analytics
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -44,12 +45,10 @@ class SettingsFragmentViewModel @AssistedInject constructor(
             .map { SettingsBackgroundState((it)) }
             .asLiveData(dispatcherProvider.Default)
 
-    // TODO Will be changed by @kolyaophale
-    var analyticsEnabled = false
-
-    var analyticsState: LiveData<SettingsPrivacyPreservingAnalyticsState> = MutableStateFlow(analyticsEnabled)
-        .map { SettingsPrivacyPreservingAnalyticsState((it)) }
-        .asLiveData(dispatcherProvider.Default)
+    var analyticsState: LiveData<SettingsPrivacyPreservingAnalyticsState> =
+        analytics.isAnalyticsEnabledFlow()
+            .map { SettingsPrivacyPreservingAnalyticsState((it)) }
+            .asLiveData(dispatcherProvider.Default)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsFragmentViewModel>
