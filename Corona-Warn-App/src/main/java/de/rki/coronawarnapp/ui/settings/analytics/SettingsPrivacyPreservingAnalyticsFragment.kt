@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragmentDirections
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -67,6 +68,12 @@ class SettingsPrivacyPreservingAnalyticsFragment :
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.AGE_GROUP
                     )
+                )
+            }
+
+            moreInfoRow.setOnClickListener {
+                doNavigate(
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToPpaMoreInfoFragment()
                 )
             }
         }
