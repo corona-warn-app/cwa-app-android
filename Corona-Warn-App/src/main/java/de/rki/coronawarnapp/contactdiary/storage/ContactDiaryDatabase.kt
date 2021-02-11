@@ -24,7 +24,7 @@ import javax.inject.Inject
         ContactDiaryPersonEntity::class,
         ContactDiaryPersonEncounterEntity::class
     ],
-    version = 1,
+    version = 2, // TODO check migration patterns
     exportSchema = true
 )
 @TypeConverters(CommonConverters::class)
@@ -38,7 +38,7 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
     class Factory @Inject constructor(@AppContext private val ctx: Context) {
         fun create(): ContactDiaryDatabase = Room
             .databaseBuilder(ctx, ContactDiaryDatabase::class.java, CONTACT_DIARY_DATABASE_NAME)
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration() // TODO we increased schema version, need to migrate?
             .build()
     }
 
