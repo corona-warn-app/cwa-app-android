@@ -68,7 +68,6 @@
         android:layout_height="match_parent"
         android:contentDescription="@{title}">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -122,12 +121,13 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="gone" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/label_interoperability_subtitle"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -139,7 +139,7 @@
 
                 <TextView
                     android:id="@+id/label_interoperability_subtitle2"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -151,7 +151,7 @@
 
                 <TextView
                     android:id="@+id/label_interoperability_subtitle3"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -172,7 +172,8 @@
                 android:visibility="@{FormatterHelper.formatVisibility(countryData.empty)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header"
+                tools:visibility="gone" />
 
             <include
                 android:id="@+id/no_countries_riskdetails_infoview"
@@ -183,7 +184,8 @@
                 android:visibility="@{FormatterHelper.formatVisibility(countryData.empty &amp;&amp; isRiskdetection)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header"
+                tools:visibility="gone" />
 
             <include
                 android:id="@+id/country_list_overview"
@@ -209,7 +211,7 @@
 
             <TextView
                 android:id="@+id/label_interoperability_subtitle4"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -247,7 +249,7 @@
 
                 <TextView
                     android:id="@+id/interoperability_footer_description"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -284,6 +286,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:focusable="true"
                     android:linksClickable="true"
                     android:paddingVertical="@dimen/button_icon_margin"
                     android:text="@string/interoperability_onboarding_delta_terms_link"
@@ -296,7 +299,7 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/button_icon_margin"
+                    android:paddingVertical="@dimen/spacing_tiny"
                     android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
