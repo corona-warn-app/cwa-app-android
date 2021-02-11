@@ -62,7 +62,6 @@ class SurveyApiV1Test : BaseTest() {
 
         """
             {
-                "expirationDate": "2021-02-16T08:34:00+00:00"
             }
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
