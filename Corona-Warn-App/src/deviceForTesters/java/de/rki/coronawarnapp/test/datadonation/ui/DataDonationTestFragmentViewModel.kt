@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
+import de.rki.coronawarnapp.datadonation.storage.OTPRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -19,7 +20,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
     private val secureRandom: SecureRandom,
-    private val cwaSafetyNet: CWASafetyNet
+    private val cwaSafetyNet: CWASafetyNet,
+    private val otpRepository: OTPRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentReportInternal = MutableStateFlow<SafetyNetClientWrapper.Report?>(null)
@@ -28,6 +30,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val currentValidationInternal =
         MutableStateFlow<Pair<SafetyNetRequirementsContainer?, Throwable?>?>(null)
     val currentValidation = currentValidationInternal.asLiveData(context = dispatcherProvider.Default)
+
+    val otp: String = otpRepository.lastOTP?.toString() ?: "No OTP received yet"
 
     val errorEvents = SingleLiveEvent<Throwable>()
     val copyJWSEvent = SingleLiveEvent<String>()

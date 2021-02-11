@@ -71,6 +71,8 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         vm.errorEvents.observe2(this) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
+
+        binding.oneTimePasswordBody.text = vm.otp
     }
 
     companion object {
