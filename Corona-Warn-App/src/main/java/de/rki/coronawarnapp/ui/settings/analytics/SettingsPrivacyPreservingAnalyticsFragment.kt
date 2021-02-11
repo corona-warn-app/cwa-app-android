@@ -72,7 +72,8 @@ class SettingsPrivacyPreservingAnalyticsFragment :
 
             moreInfoRow.setOnClickListener {
                 doNavigate(
-                    SettingsPrivacyPreservingAnalyticsFragmentDirections.actionSettingsPrivacyPreservingAnalyticsFragmentToPpaMoreInfoFragment()
+                    SettingsPrivacyPreservingAnalyticsFragmentDirections
+                        .actionSettingsPrivacyPreservingAnalyticsFragmentToPpaMoreInfoFragment()
                 )
             }
         }
