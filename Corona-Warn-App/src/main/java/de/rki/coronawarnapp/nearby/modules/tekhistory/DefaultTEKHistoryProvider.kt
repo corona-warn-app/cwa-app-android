@@ -8,7 +8,6 @@ import android.content.IntentSender
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
@@ -139,7 +138,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
             try {
                 Timber.d("Pre-Auth retrieving TEK.")
                 getPreAuthorizedExposureKeys().also {
-                    Timber.d("Pre-Auth TEK:${it.joinToString("\n")}")
+                    Timber.d("Pre-Auth TEK failed:${it.joinToString("\n")}")
                 }
             } catch (exception: Exception) {
                 Timber.d(exception, "Pre-Auth retrieving TEK failed")
@@ -159,13 +158,12 @@ class DefaultTEKHistoryProvider @Inject constructor(
         withTimeout(20_000) {
             coroutineScope {
                 client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
-                Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
                 val intent = awaitReceivedBroadcast()
-                val hasExtra = intent.hasExtra(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
-                Timber.i("awaitReceivedBroadcast:$hasExtra")
                 val tempExposureKeys =
-                    if (hasExtra) {
-                        intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
+                    if (intent.hasExtra(ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)) {
+                        intent.getParcelableArrayListExtra<TemporaryExposureKey>(
+                            ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
+                        )
                     } else {
                         listOf()
                     }
@@ -179,7 +177,6 @@ class DefaultTEKHistoryProvider @Inject constructor(
                 override fun onReceive(context: Context, intent: Intent) {
                     cont.resume(intent)
                     context.unregisterReceiver(this)
-                    Timber.d("unregisterReceiver")
                 }
             }
             context.registerReceiver(
@@ -189,7 +186,6 @@ class DefaultTEKHistoryProvider @Inject constructor(
                 )
             )
             cont.invokeOnCancellation {
-                Timber.d(it, "unregisterReceiver")
                 context.unregisterReceiver(receiver)
             }
         }
