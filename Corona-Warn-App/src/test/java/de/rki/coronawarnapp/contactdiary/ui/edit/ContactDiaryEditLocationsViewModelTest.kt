@@ -26,6 +26,8 @@ class ContactDiaryEditLocationsViewModelTest {
     private val location = object : ContactDiaryLocation {
         override val locationId = 1L
         override var locationName = "Supermarket"
+        override val phoneNumber: String? = null
+        override val emailAddress: String? = null
         override val stableId = 1L
     }
     private val locationList = listOf(location)

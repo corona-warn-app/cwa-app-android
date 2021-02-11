@@ -26,6 +26,8 @@ class ContactDiaryEditPersonsViewModelTest {
     private val person = object : ContactDiaryPerson {
         override val personId = 1L
         override var fullName = "Julia"
+        override val phoneNumber: String? = null
+        override val emailAddress: String? = null
         override val stableId = 1L
     }
 
