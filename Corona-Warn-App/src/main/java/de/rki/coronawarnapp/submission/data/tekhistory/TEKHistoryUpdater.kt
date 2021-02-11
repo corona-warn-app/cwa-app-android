@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.UUID
@@ -61,6 +62,16 @@ class TEKHistoryUpdater @AssistedInject constructor(
     }
 
     private suspend fun updateTEKHistoryInternal() {
+        val latestKeys = tekHistoryStorage.tekData.first()
+            .maxByOrNull { it.obtainedAt }?.keys
+            .orEmpty()
+
+        // Use cached keys if there are any
+        if (latestKeys.isNotEmpty()) {
+            callback.onTEKAvailable(latestKeys)
+            return
+        }
+
         enfClient.getTEKHistoryOrRequestPermission(
             onTEKHistoryAvailable = {
                 Timber.tag(TAG).d("TEKS were directly available.")
