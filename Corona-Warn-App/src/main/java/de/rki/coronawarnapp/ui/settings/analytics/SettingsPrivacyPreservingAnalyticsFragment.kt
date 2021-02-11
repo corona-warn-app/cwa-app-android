@@ -33,7 +33,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
 
         binding.apply {
 
-            // Notifications about risk status
+            // Privacy Preserving Analytics Switch
             val updateAnalyticsSwitch =
                 settingsPpaSwitchRow.settingsSwitchRowSwitch
             // Additional click target to toggle switch
