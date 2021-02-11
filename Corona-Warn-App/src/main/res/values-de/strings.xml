@@ -1821,16 +1821,21 @@
     <!-- XHED: Dialog progress message for survey request -->
     <string name="datadonation_details_survey_consent_progress_dialog_msg">"Befragung wird geladen…"</string>
 
+    <!-- XTXT: Title for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title_below">"<b>Zur Befragung durch das RKI</b>"</string>
+    <!-- XHED: Text for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text_below">"Nachdem die Echtheit Ihrer App geprüft wurde, werden Sie auf eine Internetseite des RKI mit einem für Sie generierten Teilnahmelink zur Befragung weitergeleitet. Die Internetseite wird im Browser Ihres Smartphones geöffnet. Der Teilnahmelink enthält ein vorab durch die Corona-Warn-App generiertes Einmal-Passwort. Wenn Sie den Teilnahmelink antippen und die Internetseite mit der Befragung aufrufen, wird das Einmal-Passwort in Ihrem Browser zwischengespeichert. Auf dieser Seite werden weiterführenden Informationen zur Befragung und Handlungshinweise, z.B. wie die Befragung gestartet werden kann, dargestellt. Zum Start der Befragung wird das Einmal-Passwort an Server der Corona-Warn-App übermittelt und dort als verbraucht markiert. Durch den Server wird geprüft, ob Sie an der Befragung teilnehmen können oder nicht. So wird sichergestellt, dass jede Person nur einmal an der Befragung teilnehmen kann."</string>
+
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
-    <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
+    <string name="analytics_userinput_agegroup_title">Ihre Altersgruppe</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">keine Angabe</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">bis 30 Jahre</string>
+    <string name="analytics_userinput_agegroup_0_to_29">0-29 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
-    <string name="analytics_userinput_agegroup_30_to_59">30 bis 60</string>
+    <string name="analytics_userinput_agegroup_30_to_59">30-59 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
-    <string name="analytics_userinput_agegroup_from_60">60 oder älter</string>
+    <string name="analytics_userinput_agegroup_from_60">60+ Jahre</string>
 
     <!-- XHED: Analytics voluntary user input, federal state toolbar title -->
     <string name="analytics_userinput_federalstate_title">Ihr Bundesland</string>
