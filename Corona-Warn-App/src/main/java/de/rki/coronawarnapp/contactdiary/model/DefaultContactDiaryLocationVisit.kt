@@ -7,5 +7,5 @@ data class DefaultContactDiaryLocationVisit(
     override val date: LocalDate,
     override val contactDiaryLocation: ContactDiaryLocation,
     override val duration: Long? = null,
-    override val circumstances: String? = null,
+    override val circumstances: String? = null
 ) : ContactDiaryLocationVisit
