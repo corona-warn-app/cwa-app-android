@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -28,6 +29,7 @@ class SettingsFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var notificationSettings: NotificationSettings
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
+    @MockK lateinit var analytics: Analytics
 
     @BeforeEach
     fun setup() {
@@ -38,6 +40,8 @@ class SettingsFragmentViewModelTest : BaseTest() {
         every { notificationSettings.isNotificationsTestEnabled } returns flow { emit(true) }
 
         every { backgroundModeStatus.isIgnoringBatteryOptimizations } returns flow { emit(true) }
+
+        every { analytics.isAnalyticsEnabledFlow() } returns flow { emit(true) }
     }
 
     @AfterEach
@@ -49,7 +53,8 @@ class SettingsFragmentViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         tracingStatus = tracingStatus,
         backgroundModeStatus = backgroundModeStatus,
-        notificationSettings = notificationSettings
+        notificationSettings = notificationSettings,
+        analytics = analytics
     )
 
     @Test
@@ -85,5 +90,16 @@ class SettingsFragmentViewModelTest : BaseTest() {
             )
         }
         verify { backgroundModeStatus.isIgnoringBatteryOptimizations }
+    }
+
+    @Test
+    fun `analytics status is forwarded`() {
+        createInstance().apply {
+            analyticsState.observeForever { }
+            analyticsState.value shouldBe SettingsPrivacyPreservingAnalyticsState(
+                isEnabled = true
+            )
+        }
+        verify { analytics.isAnalyticsEnabledFlow() }
     }
 }
