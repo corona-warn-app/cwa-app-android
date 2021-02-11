@@ -21,7 +21,7 @@ class SurveyServer @Inject constructor(
 
     suspend fun authOTP(
         data: OneTimePassword
-    ) = withContext(dispatcherProvider.IO) {
+    ): SurveyApiV1.DataDonationResponse = withContext(dispatcherProvider.IO) {
         Timber.d("authOTP()")
 
         val dataDonationPayload = EdusOtp.EDUSOneTimePassword.newBuilder()
