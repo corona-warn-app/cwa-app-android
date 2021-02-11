@@ -36,7 +36,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTest() {
     )
 
     /**
-     * Test migration to create new primary key "monotonicId" column
+     * Test migration to add new optional attributes
      */
     @Test
     fun migrate1To2() {
@@ -151,9 +151,6 @@ class ContactDiaryDatabaseMigrationTest : BaseTest() {
         )
     }
 
-    /**
-     * If migration fails, drop the whole table and recreate it according to v2 schema
-     */
     @Test
     fun migrate1To2_failure_throws() {
         helper.createDatabase(DB_NAME, 1).apply {
