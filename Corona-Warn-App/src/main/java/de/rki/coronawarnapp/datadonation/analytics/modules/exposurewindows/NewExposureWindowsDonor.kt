@@ -17,6 +17,10 @@ class NewExposureWindowsDonor @Inject constructor() : DonorModule {
         )
     }
 
+    override suspend fun deleteData() {
+        // TODO
+    }
+
     data class CollectedData(
         val protobuf: Any,
         val onContributionFinished: suspend (Boolean) -> Unit

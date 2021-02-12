@@ -3,10 +3,15 @@ package de.rki.coronawarnapp.test.datadonation.ui
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmission
+import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -19,8 +24,13 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
     private val secureRandom: SecureRandom,
-    private val cwaSafetyNet: CWASafetyNet
+    private val analytics: Analytics,
+    private val lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger,
+    private val cwaSafetyNet: CWASafetyNet,
+    private val appConfigProvider: AppConfigProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    val infoEvents = SingleLiveEvent<String>()
 
     private val currentReportInternal = MutableStateFlow<SafetyNetClientWrapper.Report?>(null)
     val currentReport = currentReportInternal.asLiveData(context = dispatcherProvider.Default)
@@ -28,9 +38,14 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val currentValidationInternal =
         MutableStateFlow<Pair<SafetyNetRequirementsContainer?, Throwable?>?>(null)
     val currentValidation = currentValidationInternal.asLiveData(context = dispatcherProvider.Default)
-
-    val errorEvents = SingleLiveEvent<Throwable>()
     val copyJWSEvent = SingleLiveEvent<String>()
+
+    private val currentAnalyticsDataInternal = MutableStateFlow<PpaData.PPADataAndroid?>(null)
+    val currentAnalyticsData = currentAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
+    val copyAnalyticsEvent = SingleLiveEvent<String>()
+
+    private val lastAnalyticsDataInternal = MutableStateFlow<LastAnalyticsSubmission?>(null)
+    val lastAnalyticsData = lastAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
 
     fun createSafetyNetReport() {
         launch {
@@ -41,7 +56,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
                 currentReportInternal.value = report
             } catch (e: Exception) {
                 Timber.e(e, "attest() failed.")
-                errorEvents.postValue(e)
+                infoEvents.postValue(e.toString())
             }
         }
     }
@@ -82,6 +97,39 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
         launch {
             val value = currentReport.value?.jwsResult ?: ""
             copyJWSEvent.postValue(value)
+        }
+    }
+
+    fun collectAnalyticsData() = launch {
+        try {
+            val ppaDataAndroid = PpaData.PPADataAndroid.newBuilder()
+            analytics.collectContributions(ppaDataBuilder = ppaDataAndroid)
+            currentAnalyticsDataInternal.value = ppaDataAndroid.build()
+        } catch (e: Exception) {
+            Timber.e(e, "collectContributions() failed.")
+            infoEvents.postValue(e.toString())
+        }
+    }
+
+    fun submitAnalytics() = launch {
+        infoEvents.postValue("Starting Analytics Submission")
+        val analyticsConfig = appConfigProvider.getAppConfig().analytics
+        analytics.submitAnalyticsData(analyticsConfig)
+        infoEvents.postValue("Analytics Submission Done")
+        checkLastAnalytics()
+    }
+
+    fun copyAnalytics() = launch {
+        val value = currentAnalyticsData.value?.toString() ?: ""
+        copyAnalyticsEvent.postValue(value)
+    }
+
+    fun checkLastAnalytics() = launch {
+        try {
+            lastAnalyticsDataInternal.value = lastAnalyticsSubmissionLogger.getLastAnalyticsData()
+        } catch (e: Exception) {
+            Timber.e(e, "checkLastAnalytics() failed.")
+            infoEvents.postValue(e.toString())
         }
     }
 

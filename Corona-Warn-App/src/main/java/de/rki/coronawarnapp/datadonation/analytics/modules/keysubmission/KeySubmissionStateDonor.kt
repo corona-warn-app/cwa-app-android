@@ -20,4 +20,8 @@ class KeySubmissionStateDonor @Inject constructor() : DonorModule {
             }
         }
     }
+
+    override suspend fun deleteData() {
+        // TODO
+    }
 }

@@ -6,6 +6,8 @@ interface DonorModule {
 
     suspend fun beginDonation(request: Request): Contribution
 
+    suspend fun deleteData()
+
     /**
      * Data that the modules may need to fullfil the request
      */
@@ -17,7 +19,6 @@ interface DonorModule {
      * This also acts as a callback so the donor modules know when to discard data.
      */
     interface Contribution {
-        // TODO replace with protobuf `PPAData` class
         /**
          * You will be passed a protobuf container where the module will add it's data
          */
