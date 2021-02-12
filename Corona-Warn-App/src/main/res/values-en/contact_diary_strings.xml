@@ -22,9 +22,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Keep track of where you have been and whom you met."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Manage Journal"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Open Journal"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Manage Journal"</string>
+    <string name="contact_diary_onboarding_button_text">"Open Journal"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Keep track of your contacts."</string>
@@ -59,7 +59,7 @@
     <!-- XTXT: Title for contact diary overview screen -->
     <string name="contact_diary_overview_title">"Contact Journal"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">"Write down the people you have met and places you have visited."</string>
+    <string name="contact_diary_overview_subtitle">"Write down the people you have met and places you have visited. If a risk is displayed for a day, you can warn people you have been with on that day if they do not use the Corona-Warn-App themselves."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Start Page"</string>
 
@@ -132,4 +132,5 @@
     <string name="accessibility_action_deselect">"Cancel Selection"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Edit"</string>
+
 </resources>
