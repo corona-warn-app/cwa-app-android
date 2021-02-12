@@ -9,6 +9,7 @@ import androidx.annotation.VisibleForTesting
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.EXTRA_TEMPORARY_EXPOSURE_KEY_LIST
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
@@ -180,7 +181,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
         context.registerReceiver(
             receiver,
-            IntentFilter(ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED)
+            IntentFilter(ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED)
         )
         cont.invokeOnCancellation {
             Timber.d(it, "unregisterReceiver")
