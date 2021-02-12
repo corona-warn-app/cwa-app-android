@@ -4,8 +4,8 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
-import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -15,8 +15,14 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
             !rawConfig.privacyPreservingAnalyticsParameters.hasCommon() &&
             !rawConfig.privacyPreservingAnalyticsParameters.hasPpac()
         ) {
-            throw ApplicationConfigurationInvalidException(
-                message = "Analytics Parameters are missing"
+            Timber.e("Failed to parse AppConfig: Analytics parameters are missing, disabling analytics")
+            return AnalyticsConfigContainer(
+                safetyNetRequirements = SafetyNetRequirementsContainer(),
+                probabilityToSubmit = 0.0,
+                hoursSinceTestRegistrationToSubmitTestResultMetadata = 0,
+                hoursSinceTestResultToSubmitKeySubmissionMetadata = 0,
+                probabilityToSubmitNewExposureWindows = 0.0,
+                analyticsEnabled = false
             )
         }
 
@@ -48,7 +54,8 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
                 hoursSinceTestRegistrationToSubmitTestResultMetadata = it
                     .hoursSinceTestRegistrationToSubmitTestResultMetadata,
                 probabilityToSubmitNewExposureWindows = it
-                    .probabilityToSubmitExposureWindows
+                    .probabilityToSubmitExposureWindows,
+                analyticsEnabled = true
             )
         }
 
@@ -57,6 +64,7 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
         override val probabilityToSubmit: Double,
         override val hoursSinceTestRegistrationToSubmitTestResultMetadata: Int,
         override val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int,
-        override val probabilityToSubmitNewExposureWindows: Double
+        override val probabilityToSubmitNewExposureWindows: Double,
+        override val analyticsEnabled: Boolean
     ) : AnalyticsConfig
 }
