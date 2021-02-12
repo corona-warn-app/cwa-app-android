@@ -57,7 +57,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
     }
 
     override suspend fun preAuthorizeExposureKeyHistory(): Boolean {
-        // Pre-Auth isn't available exist early
+        // Pre-Auth isn't available exit early
         if (!enfVersion.isAtLeast(ENFVersion.V1_8)) return false
         Timber.i("Requesting Per-Auth TemporaryExposureKeyHistory with v${ENFVersion.V1_8}")
         client.requestPreAuthorizedTemporaryExposureKeyHistory().await()
