@@ -41,7 +41,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     val errorEvents = SingleLiveEvent<Throwable>()
     val copyJWSEvent = SingleLiveEvent<String>()
 
-    val otp: String = otpRepository.lastOTP?.toString() ?: "No OTP received yet"
+    val otp: String = otpRepository.otp?.toString() ?: "No OTP received yet"
 
     val surveyConfig = appConfigProvider.currentConfig
         .map { it.survey.toString() }
