@@ -11,5 +11,27 @@
     <string name="release_info_version_body">"Hata düzeltmelerinin yanında bu güncelleme ile birlikte yeni ve gelişmiş özellikler sunulmaktadır."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Sonraki"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Bu sürümdeki değişiklikleri uygulama ayarlarında “Yeni Özellikler” bölümünde bulabilirsiniz."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"RKI anketi bağlantısı"</item>
+        <item>"Veri Paylaşma İzni (isteğe bağlı)"</item>
+        <item>"Risk Kutucuklarındaki Değişiklikler"</item>
+        <item>"Rastgele Kimliklerinizi Paylaştıktan Sonra Maruz Kalma Günlüğüne Devam Etme"</item>
+        <item>"Sekmelerin Uygulanması"</item>
+        <item>"Test Prosedürü Hakkında Daha Fazla Bilgi"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Yüksek risk altındaysanız Robert Koch Institute tarafından sunulan bir anketi uygulamadan yanıtlayabilirsiniz."</item>
+        <item>"Kullanım verilerinizi paylaşarak uygulamayı iyileştirmemize yardımcı olma seçeneğine sahipsiniz."</item>
+        <item>"Risk kutucuklarındaki metinler üzerinde ufak değişiklikler."</item>
+        <item>"Şifrelenmiş rastgele kimliklerinizi paylaştıktan sonra maruz kalma günlüğünü yeniden açmak isteyip istemediğinize ve ne zaman yeniden açacağınıza karar verebilirsiniz."</item>
+        <item>"Temas günceniz için ayrı bir sekme sayfası eklenmiştir. Bu sayede, daha hızlı bir şekilde güncenize erişebilir ve temas güncenizden uygulamanızın ana ekranına geri dönebilirsiniz."</item>
+        <item>"Uygulama artık test prosedürü hakkında daha ayrıntılı bilgiler içermektedir."</item>
+    </string-array>
 
 </resources>
