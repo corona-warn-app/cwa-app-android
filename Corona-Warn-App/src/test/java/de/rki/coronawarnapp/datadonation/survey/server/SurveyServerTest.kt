@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
-import io.kotest.assertions.throwables.shouldThrowAny
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -22,15 +22,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import java.io.IOException
 import java.util.UUID
 
 class SurveyServerTest : BaseTest() {
-
-    private val otpData = "15cff19f-af26-41bc-94f2-c1a65075e894"
-    private val build = PpacAndroid.PPACAndroid.newBuilder()
-        .setSafetyNetJws("abc")
-        .setSalt("def")
-        .build()
 
     @MockK lateinit var surveyApi: SurveyApiV1
     @MockK lateinit var context: Context
@@ -48,41 +43,55 @@ class SurveyServerTest : BaseTest() {
     }
 
     @Test
-    fun `valid otp`() {
-
-        runBlocking {
-            val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
-            coEvery { surveyApi.authOTP(any()) } answers {
-                arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
-                SurveyApiV1.DataDonationResponse(null)
-            }
-
-            server.authOTP(
-                OneTimePassword(UUID.fromString(otpData)),
-                attestationResult
-            ).errorCode shouldBe null
-
-            coVerify { surveyApi.authOTP(any()) }
+    fun `valid otp`() = runBlocking {
+        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
+        coEvery { surveyApi.authOTP(any()) } answers {
+            arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
+            SurveyApiV1.DataDonationResponse(null)
         }
+
+        server.authOTP(
+            OneTimePassword(UUID.fromString(otpData)),
+            attestationResult
+        ).errorCode shouldBe null
+
+        coVerify { surveyApi.authOTP(any()) }
     }
 
     @Test
-    fun `invalid otp`() {
-        runBlocking {
-            val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
-            coEvery { surveyApi.authOTP(any()) } answers {
-                arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
-                SurveyApiV1.DataDonationResponse("API_TOKEN_ALREADY_ISSUED")
-            }
+    fun `invalid otp`() = runBlocking {
+        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
+        coEvery { surveyApi.authOTP(any()) } answers {
+            arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
+            SurveyApiV1.DataDonationResponse("API_TOKEN_ALREADY_ISSUED")
+        }
 
+        server.authOTP(
+            OneTimePassword(UUID.fromString(otpData)),
+            attestationResult
+        ).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
+
+        coVerify { surveyApi.authOTP(any()) }
+    }
+
+    @Test
+    fun `API fails`(): Unit = runBlocking {
+        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
+        coEvery { surveyApi.authOTP(any()) } throws (IOException())
+
+        shouldThrow<IOException> {
             server.authOTP(
                 OneTimePassword(UUID.fromString(otpData)),
                 attestationResult
-            ).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
-
-            coVerify { surveyApi.authOTP(any()) }
+            )
         }
     }
+
+    private val otpData = "15cff19f-af26-41bc-94f2-c1a65075e894"
+    private val build = PpacAndroid.PPACAndroid.newBuilder()
+        .setSafetyNetJws("abc")
+        .setSalt("def")
+        .build()
 
     private fun expectedPayload() = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
         .setPayload(
@@ -98,15 +107,4 @@ class SurveyServerTest : BaseTest() {
         .setAuthentication(build)
         .build()
         .toString()
-
-    @Test
-    fun `return code 500`(): Unit = runBlocking {
-        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
-
-        val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-
-        shouldThrowAny {
-            server.authOTP(data, attestationResult)
-        }
-    }
 }
