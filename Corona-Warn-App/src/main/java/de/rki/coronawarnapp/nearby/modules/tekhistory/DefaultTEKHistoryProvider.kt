@@ -13,6 +13,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationSt
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
@@ -139,7 +140,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
             try {
                 Timber.d("Pre-Auth retrieving TEK.")
                 getPreAuthorizedExposureKeys().also {
-                    Timber.d("Pre-Auth TEK:${it.joinToString("\n")}")
+                    Timber.d("Pre-Auth TEK: %s", it.joinToString("\n"))
                 }
             } catch (exception: Exception) {
                 Timber.d(exception, "Pre-Auth retrieving TEK failed")
@@ -158,18 +159,14 @@ class DefaultTEKHistoryProvider @Inject constructor(
         // Timeout after 20 sec if receiver did get called
         withTimeout(20_000) {
             coroutineScope {
+                // Register receiver before hitting the Api to avoid race cases if happens
+                val deferredIntent = async { awaitReceivedBroadcast() }
                 client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
                 Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
-                val intent = awaitReceivedBroadcast()
-                val hasExtra = intent.hasExtra(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
-                Timber.i("awaitReceivedBroadcast:$hasExtra")
-                val tempExposureKeys =
-                    if (hasExtra) {
-                        intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
-                    } else {
-                        listOf()
-                    }
-                tempExposureKeys
+                val intent = deferredIntent.await()
+                Timber.d("getPreAuthorizedExposureKeys():intent=%s", intent)
+                intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
+                    .orEmpty()
             }
         }
 
