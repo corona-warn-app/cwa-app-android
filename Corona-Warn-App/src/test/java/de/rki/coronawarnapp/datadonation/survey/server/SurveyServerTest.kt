@@ -26,6 +26,12 @@ import java.util.UUID
 
 class SurveyServerTest : BaseTest() {
 
+    private val otpData = "15cff19f-af26-41bc-94f2-c1a65075e894"
+    private val build = PpacAndroid.PPACAndroid.newBuilder()
+        .setSafetyNetJws("abc")
+        .setSalt("def")
+        .build()
+
     @MockK lateinit var surveyApi: SurveyApiV1
     @MockK lateinit var context: Context
     @MockK lateinit var attestationResult: DeviceAttestation.Result
@@ -33,6 +39,7 @@ class SurveyServerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        every { attestationResult.accessControlProtoBuf } returns build
     }
 
     @AfterEach
@@ -42,30 +49,11 @@ class SurveyServerTest : BaseTest() {
 
     @Test
     fun `valid otp`() {
-        val otpData = "15cff19f-af26-41bc-94f2-c1a65075e894"
-        val build = PpacAndroid.PPACAndroid.newBuilder()
-            .setSafetyNetJws("abc")
-            .setSalt("def")
-            .build()
-        every { attestationResult.accessControlProtoBuf } returns build
 
         runBlocking {
             val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
             coEvery { surveyApi.authOTP(any()) } answers {
-                arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).payload shouldBe
-                    EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
-                        .setPayload(
-                            EdusOtp.EDUSOneTimePassword.newBuilder()
-                                .setOtp(otpData)
-                                .setOtpBytes(
-                                    ByteString.copyFrom(
-                                        "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!
-                                            .toByteArray()
-                                    )
-                                )
-                        )
-                        .setAuthentication(build)
-                        .build()
+                arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
                 SurveyApiV1.DataDonationResponse(null)
             }
 
@@ -80,30 +68,10 @@ class SurveyServerTest : BaseTest() {
 
     @Test
     fun `invalid otp`() {
-        val otpData = "15cff19f-af26-41bc-94f2-c1a65075e894"
-        val build = PpacAndroid.PPACAndroid.newBuilder()
-            .setSafetyNetJws("abc")
-            .setSalt("def")
-            .build()
-        every { attestationResult.accessControlProtoBuf } returns build
-
         runBlocking {
             val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
             coEvery { surveyApi.authOTP(any()) } answers {
-                arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).payload shouldBe
-                    EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
-                        .setPayload(
-                            EdusOtp.EDUSOneTimePassword.newBuilder()
-                                .setOtp(otpData)
-                                .setOtpBytes(
-                                    ByteString.copyFrom(
-                                        "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!
-                                            .toByteArray()
-                                    )
-                                )
-                        )
-                        .setAuthentication(build)
-                        .build()
+                arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
                 SurveyApiV1.DataDonationResponse("API_TOKEN_ALREADY_ISSUED")
             }
 
@@ -115,6 +83,21 @@ class SurveyServerTest : BaseTest() {
             coVerify { surveyApi.authOTP(any()) }
         }
     }
+
+    private fun expectedPayload() = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
+        .setPayload(
+            EdusOtp.EDUSOneTimePassword.newBuilder()
+                .setOtp(otpData)
+                .setOtpBytes(
+                    ByteString.copyFrom(
+                        "MTVjZmYxOWYtYWYyNi00MWJjLTk0ZjItYzFhNjUwNzVlODk0".decodeBase64()!!
+                            .toByteArray()
+                    )
+                )
+        )
+        .setAuthentication(build)
+        .build()
+        .toString()
 
     @Test
     fun `return code 500`(): Unit = runBlocking {
