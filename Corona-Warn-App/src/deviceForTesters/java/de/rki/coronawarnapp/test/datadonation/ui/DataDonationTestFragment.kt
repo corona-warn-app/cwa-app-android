@@ -3,12 +3,18 @@ package de.rki.coronawarnapp.test.datadonation.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.app.ShareCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDatadonationBinding
+import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -76,6 +82,49 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
 
         vm.surveyConfig.observe2(this) {
             binding.surveyConfigBody.text = it
+        }
+
+        vm.currentSafetyNetExceptionType.observe2(this) { type ->
+            binding.apply {
+                if (safetynetExceptionSimulationRadioGroup.childCount != SafetyNetException.Type.values().size) {
+                    SafetyNetException.Type.values().forEach {
+                        val rb = RadioButton(context).apply {
+                            text = it.name
+                            id = ViewCompat.generateViewId()
+                        }
+                        safetynetExceptionSimulationRadioGroup.addView(rb)
+                    }
+                }
+                safetynetExceptionSimulationRadioGroup.children.forEach {
+                    it as RadioButton
+                    it.isChecked = it.text == type.name
+                }
+            }
+        }
+
+        binding.safetynetExceptionSimulationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val rb = group.findViewById(checkedId) as RadioButton
+            if (!rb.isPressed) return@setOnCheckedChangeListener
+            vm.selectSafetyNetExceptionType(SafetyNetException.Type.valueOf(rb.text as String))
+        }
+
+        vm.showErrorDialog.observe2(this) {
+            showErrorDialog(it)
+        }
+
+        binding.safetynetExceptionSimulationButton.setOnClickListener { vm.showSafetyNetErrorDialog() }
+    }
+
+    private fun showErrorDialog(@StringRes stringRes: Int) {
+        context?.let {
+            val dialog = DialogHelper.DialogInstance(
+                context = it,
+                title = R.string.datadonation_details_survey_consent_error_dialog_title,
+                message = stringRes,
+                positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
+                cancelable = false
+            )
+            DialogHelper.showDialog(dialog)
         }
     }
 
