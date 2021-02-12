@@ -8,7 +8,7 @@ import org.joda.time.Seconds
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +17,8 @@ class Surveys @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
     private val settings: SurveySettings,
     private val appConfigProvider: AppConfigProvider,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    private val urlProvider: SurveyUrlProvider
 ) {
 
     val availableSurveys: Flow<Collection<Type>> by lazy {
@@ -33,16 +34,17 @@ class Surveys @Inject constructor(
     }
 
     suspend fun requestDetails(type: Type): Survey {
+
         // TODO adjust for server com
         // Just to have a glimpse at the loading spinner
         delay(Seconds.THREE.toStandardDuration().millis)
-        val surveyConfig = appConfigProvider.getAppConfig().survey
-        Timber.v("Requested survey: %s", surveyConfig)
+
+        // TODO: generate and authenticate real otp
+        val otp = UUID.randomUUID()
+
         return Survey(
             type = Type.HIGH_RISK_ENCOUNTER,
-            // TODO adjust below params (demo survey URL)
-            surveyLink = surveyConfig.surveyOnHighRiskUrl.toString(),
-            queryParam = surveyConfig.otpQueryParameterName
+            surveyLink = urlProvider.provideUrl(type, otp)
         )
     }
 
@@ -56,7 +58,6 @@ class Surveys @Inject constructor(
 
     data class Survey(
         val type: Type,
-        val surveyLink: String,
-        val queryParam: String
+        val surveyLink: String
     )
 }
