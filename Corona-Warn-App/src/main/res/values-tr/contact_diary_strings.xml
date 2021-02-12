@@ -22,9 +22,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Nerede bulunduğunuzun ve kimlerle karşılaştığınızın kaydını tutun."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Günce Yönetimi"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Günceyi Aç"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Günce Yönetimi"</string>
+    <string name="contact_diary_onboarding_button_text">"Günceyi Aç"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Temas kaydınızı tutun."</string>
@@ -59,7 +59,7 @@
     <!-- XTXT: Title for contact diary overview screen -->
     <string name="contact_diary_overview_title">"Temas Güncesi"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">"Karşılaştığınız kişileri ve ziyaret ettiğiniz yerleri yazın."</string>
+    <string name="contact_diary_overview_subtitle">"Karşılaştığınız kişileri ve ziyaret ettiğiniz yerleri yazın. Bir gün için risk görüntüleniyorsa Corona-Warn-App’i kendileri kullanmasalar bile o gün karşılaştığınız kişileri uyarabilirsiniz."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Başlangıç Sayfası"</string>
 
@@ -132,4 +132,5 @@
     <string name="accessibility_action_deselect">"Seçimi İptal Et"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Düzenle"</string>
+
 </resources>

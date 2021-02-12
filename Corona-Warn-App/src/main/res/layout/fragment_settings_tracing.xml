@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -22,16 +23,15 @@
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">
 
-        <include
-            android:id="@+id/settings_tracing_header"
-            layout="@layout/include_header"
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAToolbar.Close"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_tracing_title}" />
+            app:title="@string/settings_tracing_title" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -40,23 +40,42 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_normal">
 
-                <include
-                    android:id="@+id/settings_tracing_header_details"
-                    layout="@layout/include_information_details"
-                    android:layout_width="0dp"
+                <ImageView
+                    android:id="@+id/illustration"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:headline="@{@string/settings_tracing_headline}"
-                    app:illustration="@{settingsTracingState.getTracingStatusImage(context)}"
-                    app:illustrationDescription="@{settingsTracingState.getTracingIllustrationText(context)}"
+                    android:contentDescription="@{settingsTracingState.getTracingIllustrationText(context)}"
+                    android:focusable="true"
+                    android:paddingTop="@dimen/spacing_small"
+                    android:paddingBottom="@dimen/spacing_small"
+                    android:scaleType="centerCrop"
+                    android:src="@{settingsTracingState.getTracingStatusImage(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_illustration_tracing_on" />
+
+                <TextView
+                    android:id="@+id/information_details_header_headline"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/settings_tracing_headline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/illustration" />
 
                 <include
                     android:id="@+id/settings_tracing_switch_row"
@@ -67,22 +86,49 @@
                     app:enabled="@{settingsTracingState.isTracingSwitchEnabled()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header_details"
+                    app:layout_constraintTop_toBottomOf="@id/information_details_header_headline"
                     app:showDivider="@{true}"
                     app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
-                <include
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/settings_interoperability_row"
-                    layout="@layout/include_settings_plain_row"
-                    android:layout_width="0dp"
+                    style="@style/row"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"
-                    app:showDivider="@{true}"
-                    app:statusText="@{@string/settings_interoperability_subtitle}"
-                    app:subtitle="@{@string/settings_interoperability_title}" />
+                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
+
+                    <TextView
+                        android:id="@+id/settings_plain_row_header_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_interoperability_title" />
+
+                    <TextView
+                        android:id="@+id/settings_plain_row_header_body"
+                        style="@style/body2Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:text="@string/settings_interoperability_subtitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settings_plain_row_header_subtitle" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:background="@color/colorHairline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/settings_interoperability_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"
@@ -120,17 +166,45 @@
                         app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <include
-                        android:id="@+id/settings_tracing_status_tracing"
-                        layout="@layout/include_setting_tracing_period_logged"
+                    <TextView
+                        android:id="@+id/risk_details_period_logged_body_notice"
+                        style="@style/subtitleMedium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
                         android:focusable="true"
                         gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
+                        android:text="@string/risk_details_information_body_period_logged"
+                        app:layout_constraintStart_toStartOf="@+id/guideline_start"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                        app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:loggedPeriod="@{loggedPeriod}" />
+                        app:layout_constraintTop_toBottomOf="@+id/settings_tracing_status_bluetooth" />
+
+                    <TextView
+                        android:id="@+id/risk_details_period_logged_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginStart="@dimen/spacing_small"
+                        android:focusable="true"
+                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
+                        android:text="@{loggedPeriod.getRiskActiveTracingDaysInRetentionPeriodLogged(context)}"
+                        app:layout_constraintStart_toEndOf="@+id/risk_details_investigation_period_circle_progress"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                        app:layout_constraintTop_toBottomOf="@+id/risk_details_period_logged_body_notice" />
+
+                    <de.rki.coronawarnapp.ui.view.CircleProgress
+                        android:id="@+id/risk_details_investigation_period_circle_progress"
+                        android:layout_width="@dimen/spacing_huge"
+                        android:layout_height="@dimen/spacing_huge"
+                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
+                        android:importantForAccessibility="no"
+                        app:circleWidth="@dimen/circle_large_width"
+                        app:layout_constraintTop_toTopOf="@+id/risk_details_period_logged_subtitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/risk_details_period_logged_subtitle"
+                        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                        app:progress="@{loggedPeriod.activeTracingDaysInRetentionPeriod}"
+                        app:progressColor="@{loggedPeriod.getProgressColor(context)}"/>
 
                     <include layout="@layout/merge_guidelines_card" />
 
@@ -150,7 +224,7 @@
 
                     <TextView
                         android:id="@+id/settings_tracing_body"
-                        style="@style/body1"
+                        style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
@@ -180,13 +254,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

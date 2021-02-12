@@ -49,4 +49,22 @@
     <string name="contact_diary_onboarding_privacy_information_second_section_body_one">"Lütfen temas günlüğünüzde kayıtlı olan verileri, kiminle ve nasıl paylaştığınızı tam olarak kontrol edin. Bu bilgiler, hatırlatma amaçlıdır - üçüncü taraflara yönelik değildir. Sağlık kurumu, temaslı takibi ile ilgili olarak sizden yardımınızı rica ederse, kayıtlarınızın aktarımı usule uygundur."</string>
     <!-- XTXT: Body for the contact diary onboarding privacy information second section -->
     <string name="contact_diary_onboarding_privacy_information_second_section_body_two">"Özel kişiler veya şirketler, topladığınız verileri başkalarına aktarmanızı talep edemez. Birisi temas güncesine kaydedilmek istemiyorsa, lütfen onun bu isteğine saygı gösterin."</string>
+
+    <!-- XHED: Title for the consent displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_title">"Rıza beyanınız"</string>
+    <!-- XTXT: Text for the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_info_card_body">"“Kabul ediyorum” seçeneğine tıklayarak, şunlara onay vermiş olursunuz:\n\nKatılım linki size gösterilmeden önce, Uygulamanızın orijinal olup olmadığı bir kez kontrol edilir. Bunun için, akıllı telefonunuz tarafından benzersiz bir kimlik kodu oluşturulur ve Google’ın Uygulamanızın orijinal ürün olduğunu RKI’ye doğrulaması için ABD’deki Google’e aktarılır. Bu kimlik kodu, akıllı telefonunuzun sürümü ve Uygulama hakkında veriler içerir. Google, Uygulamadan daha fazla bilgi almaz. Bu sayede her kullanıcının ankete sadece bir kez katılabilmesi ve istatistiklerin yanlış sonuçlar vermemesi sağlanır."</string>
+    <!-- XTXT: First bullet point in the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_bullet_point_one">"Verdiğiniz rıza beyanı, isteğe bağlı gerçekleşmektedir. Anketin amaçları doğrultusunda rıza beyanında bulunmasanız bile Uygulamayı eksiksiz olarak kullanabilirsiniz."</string>
+    <!-- XTXT: Second bullet point in the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_bullet_point_two">"Rıza beyanı verdikten sonra da ankete katılmak zorunda değilsiniz. Anketi, istediğiniz zaman iptal edebilirsiniz."</string>
+    <!-- XTXT: Third bullet point in the consent body displayed above the button in the survey consent screen -->
+    <string name="datadonation_details_survey_consent_bullet_point_three">"En azından 16 yaşında iseniz, rıza beyanında bulunabilirsiniz."</string>
+    <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
+    <string name="datadonation_details_survey_consent_bottom_link">"Veri işleme hakkında ayrıntılı bilgiler ve rıza beyanınız."</string>
+    <!-- XHED: Title for the information box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title">"Orijinallik doğrulanması ve üçüncü ülkelere aktarım"</string>
+    <!-- XTXT: Text for the information box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text">"Uygulamanızın orijinal olduğunu onaylamak adına akıllı telefonunuz, akıllı telefonunuzun sürümü ve Uygulamaya ilişkin veriler içeren benzersiz bir kimlik kodu oluşturur. Kullanıcıların ankete birden çok kez katılmasını ve böylece anket sonuçlarını tahrif etmesini önlemek için bu kodun oluşturulması gerekmektedir. Bu kimlik kodları, sadece bir kez Google’e aktarılır. Bu süreçte verilerin ABD’ye aktarılması da söz konusu olabilir. Orada Avrupa hukukuna uygun kişisel verilerin koruma seviyesi bulunmamaktadır ve Avrupa’daki veri koruma haklarınız uygulanmayabilir. Bu bağlamda özellikle ABD güvenlik makamlarının, somut bir şüphe olmasa bile, Google’e aktarılan bu verilere erişme ve örneğin verileri diğer bilgilerle ilişkilendirerek bunları değerlendirmeye alma olasılığı bulunmaktadır. Bu durum sadece Google’e aktarılan kimlik kodları için söz konusudur. Google ankete katılımız ile ilgili daha fazla bilgi almaz."</string>
+
 </resources>
