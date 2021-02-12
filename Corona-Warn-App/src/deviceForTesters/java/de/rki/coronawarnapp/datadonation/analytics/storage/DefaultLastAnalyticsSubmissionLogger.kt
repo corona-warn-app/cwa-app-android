@@ -59,9 +59,9 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
 
     override suspend fun getLastAnalyticsData(): LastAnalyticsSubmission? = withContext(dispatcherProvider.IO) {
         try {
-            gson.fromJson<LastAnalyticsSubmission>(analyticsFile).also {
-                requireNotNull(it?.ppaDataAndroid)
-                requireNotNull(it?.timestamp)
+            gson.fromJson<LastAnalyticsSubmission>(analyticsFile)?.also {
+                requireNotNull(it.ppaDataAndroid)
+                requireNotNull(it.timestamp)
             }
         } catch (e: Exception) {
             Timber.e(e, "Couldn't load analytics data.")
