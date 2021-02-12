@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.IntentSender
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
@@ -146,7 +147,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
                 Timber.d(exception, "Pre-Auth retrieving TEK failed")
                 if (exception.isResolvable) throw exception
 
-                Timber.d("Fallback:Retrieving TEK on pre v1.8")
+                Timber.d("Fallback: Retrieving TEK on pre v1.8")
                 getTEKHistoryOnPreV18()
             }
         } else {
@@ -155,41 +156,40 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    private suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> =
-        // Timeout after 20 sec if receiver did get called
-        withTimeout(20_000) {
-            coroutineScope {
-                // Register receiver before hitting the Api to avoid race cases if happens
-                val deferredIntent = async { awaitReceivedBroadcast() }
-                client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
-                Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
-                val intent = deferredIntent.await()
-                Timber.d("getPreAuthorizedExposureKeys():intent=%s", intent)
-                intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
-                    .orEmpty()
-            }
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    // Timeout after 20 sec if receiver did not get called
+    internal suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = withTimeout(20_000) {
+        coroutineScope {
+            // Register receiver before hitting the API to avoid raceconditions
+            val deferredIntent = async { awaitReceivedBroadcast() }
+            client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
+            Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
+            val intent = deferredIntent.await()
+            Timber.d("getPreAuthorizedExposureKeys():intent=%s", intent)
+            intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
+                .orEmpty()
         }
+    }
 
-    private suspend fun awaitReceivedBroadcast(): Intent =
-        suspendCancellableCoroutine { cont ->
-            val receiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    cont.resume(intent)
-                    context.unregisterReceiver(this)
-                    Timber.d("unregisterReceiver")
-                }
-            }
-            context.registerReceiver(
-                receiver,
-                IntentFilter(
-                    ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
-                )
-            )
-            cont.invokeOnCancellation {
-                Timber.d(it, "unregisterReceiver")
-                context.unregisterReceiver(receiver)
+    private suspend fun awaitReceivedBroadcast(): Intent = suspendCancellableCoroutine { cont ->
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                cont.resume(intent)
+                Timber.d("unregisterReceiver")
+                context.unregisterReceiver(this)
             }
         }
+        context.registerReceiver(
+            receiver,
+            IntentFilter(
+                ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
+            )
+        )
+        cont.invokeOnCancellation {
+            Timber.d(it, "unregisterReceiver")
+            context.unregisterReceiver(receiver)
+        }
+    }
 
     private inline val Exception.isResolvable get() = this is ApiException && this.status.hasResolution()
 }
