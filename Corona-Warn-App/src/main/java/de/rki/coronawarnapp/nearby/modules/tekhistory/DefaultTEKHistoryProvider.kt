@@ -167,7 +167,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
             Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
             val intent = deferredIntent.await()
             Timber.d("getPreAuthorizedExposureKeys():intent=%s", intent)
-            intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST).orEmpty()
+            intent.getParcelableArrayListExtra(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST) ?: emptyList()
         }
     }
 
