@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ShortcutManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
@@ -55,6 +56,12 @@ class AndroidModule {
     fun workManager(
         workManagerProvider: WorkManagerProvider
     ): WorkManager = workManagerProvider.workManager
+
+    @Provides
+    @Singleton
+    fun shortcutManager(
+        @AppContext context: Context
+    ): ShortcutManager = context.getSystemService()!!
 
     @EncryptedPreferences
     @Provides

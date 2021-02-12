@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.main.MainActivityActions
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -18,6 +19,8 @@ import javax.inject.Inject
 class LauncherActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
+
     private val vm: LauncherActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
@@ -35,7 +38,7 @@ class LauncherActivity : AppCompatActivity() {
                     finish()
                 }
                 LauncherEvent.GoToAppShortcutOrMainActivity -> {
-                    when (evaluateAppShortcuts()) {
+                    when (appShortcutsHelper.getShortcutType(intent)) {
                         AppShortcuts.CONTACT_DIARY -> MainActivity.start(this, MainActivityActions.ADD_DIARY_ENTRY)
                         else -> MainActivity.start(this)
                     }
@@ -61,16 +64,4 @@ class LauncherActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun evaluateAppShortcuts(): AppShortcuts? {
-        return if (intent.hasExtra(KEY_SHORTCUT_TYPE)) {
-            val extra = intent.getStringExtra(KEY_SHORTCUT_TYPE)!!
-            AppShortcuts.valueOf(extra)
-        } else {
-            null
-        }
-    }
-
-    companion object {
-        private const val KEY_SHORTCUT_TYPE = "SHORTCUT_TYPE"
-    }
 }
