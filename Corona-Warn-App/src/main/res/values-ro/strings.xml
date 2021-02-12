@@ -150,6 +150,15 @@
     <string name="risk_card_low_risk_no_encounters_body">"Nicio expunere"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
+        <item quantity="one">"Expuneri cu risc redus în %1$d zi"</item>
+        <item quantity="other">"Expuneri cu risc redus în %1$d de zile"</item>
+        <item quantity="zero">"Expuneri cu risc redus în %1$d de zile"</item>
+        <item quantity="two">"Expuneri cu risc redus în %1$d de zile"</item>
+        <item quantity="few">"Expuneri cu risc redus în %1$d zile"</item>
+        <item quantity="many">"Expuneri cu risc redus în %1$d de zile"</item>
+    </plurals>
+    <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
+    <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Expuneri cu risc redus într-o zi"</item>
         <item quantity="other">"Expuneri cu risc redus în %1$d de zile"</item>
         <item quantity="zero">"Expuneri cu risc redus în %1$d de zile"</item>
@@ -157,9 +166,22 @@
         <item quantity="few">"Expuneri cu risc redus în %1$d zile"</item>
         <item quantity="many">"Expuneri cu risc redus în %1$d de zile"</item>
     </plurals>
+    <!-- XTXT: risk card - Low risk state - Most recent date with low risk and single day of encounters -->
+    <string name="risk_card_low_risk_most_recent_body_encounter_on_single_day">"Pe %1$s"</string>
+    <!-- XTXT: risk card - Low risk state - Most recent date with low risk and more than one day of encounters -->
+    <string name="risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day">"Cel mai recent pe %1$s"</string>
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
+        <item quantity="one">"Expuneri cu risc crescut în %1$d zi"</item>
+        <item quantity="other">"Expuneri cu risc crescut în %1$d de zile"</item>
+        <item quantity="zero">"Expuneri cu risc crescut în %1$d de zile"</item>
+        <item quantity="two">"Expuneri cu risc crescut în %1$d de zile"</item>
+        <item quantity="few">"Expuneri cu risc crescut în %1$d zile"</item>
+        <item quantity="many">"Expuneri cu risc crescut în %1$d de zile"</item>
+    </plurals>
+    <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
+    <plurals name="risk_card_high_risk_encounter_days_body_description">
         <item quantity="one">"Expuneri cu risc crescut într-o zi"</item>
         <item quantity="other">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="zero">"Expuneri cu risc crescut în %1$d de zile"</item>
@@ -167,6 +189,10 @@
         <item quantity="few">"Expuneri cu risc crescut în %1$d zile"</item>
         <item quantity="many">"Expuneri cu risc crescut în %1$d de zile"</item>
     </plurals>
+
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk and single day of encounters -->
+    <string name="risk_card_high_risk_most_recent_body_encounter_on_single_day">"Pe %1$s"</string>
+
     <!-- XTXT: risk card - High risk state - Most recent date with high risk and more than one day of encounters -->
     <string name="risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day">"Cel mai recent pe %1$s"</string>
 
@@ -294,6 +320,14 @@
     <string name="risk_details_behavior_body_wear_mask">"Purtați o mască facială când întâlniți alte persoane."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Păstrați o distanță de cel puțin 1,5 metri față de alte persoane."</string>
+
+    <!-- XMSG: risk details - link to faq, something like a bullet point -->
+    <string name="risk_details_increased_risk_faq_link_text">"Dacă vă testați, veți găsi mai multe informații despre procedura de testare în Întrebările frecvente."</string>
+    <!-- XTXT: Explanation screen increased risk level link label -->
+    <string name="risk_details_increased_risk_faq_link_label">"Întrebări frecvente: Procedura de testare"</string>
+    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Strănutați sau tușiți în pliul cotului sau într-un șervețel."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -312,6 +346,8 @@
     <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile. În această perioadă, caracteristica de înregistrare în jurnal de pe smartphone-ul dvs. a fost activă timp de %1$s zile. Aplicația șterge automat înregistrările mai vechi din jurnal, întrucât acestea nu mai sunt relevante pentru prevenirea infectării."</string>
+    <!-- XTXT: risk details - infection period days logged/14 -->
+    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Modul în care a fost calculat riscul dvs."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -428,13 +464,13 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Activați înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
-    <string name="onboarding_tracing_dialog_headline">"Autorizație"</string>
+    <string name="onboarding_tracing_dialog_headline">"Nu activați?"</string>
     <!-- YMSI: onboarding(tracing) - dialog about tracing -->
-    <string name="onboarding_tracing_dialog_body">"Aceasta înseamnă că aplicația Corona-Warn nu poate trimite sau primi notificări despre starea riscului dvs. de infectare cu COVID-19. Puteți oricând dezactiva această caracteristică."</string>
+    <string name="onboarding_tracing_dialog_body">"Dacă nu activați înregistrarea în jurnal a expunerilor, aplicația nu poate determina starea riscului dvs. Aceasta înseamnă că nu veți primi informații despre riscul dvs. în aplicație. Puteți oricând reactiva înregistrarea în jurnal a expunerilor."</string>
     <!-- XBUT: onboarding(tracing) - positive button (right) -->
     <string name="onboarding_tracing_dialog_button_positive">"Nu activați"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
-    <string name="onboarding_tracing_dialog_button_negative">"Înapoi"</string>
+    <string name="onboarding_tracing_dialog_button_negative">"Anulare"</string>
     <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
     <string name="onboarding_background_fetch_dialog_headline">"Împrospătarea aplicației în fundal dezactivată"</string>
     <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
@@ -485,6 +521,98 @@
     <string name="onboarding_notifications_body">"Apoi vă puteți autoizola pentru a-i proteja pe ceilalți și aflați unde puteți face testul."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"O femeie primește o notificare de la Corona-Warn-App."</string>
+
+    <!-- XACT: onboarding privacy preserving analytics (ppa) - illustraction description, header image -->
+    <string name="onboarding_ppa_illustration_description">"O persoană ține un smartphone în mână"</string>
+    <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
+    <string name="onboarding_ppa_headline">"Partajare date"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
+    <string name="onboarding_ppa_body">"Ne puteți ajuta să îmbunătățim aplicația Corona-Warn. Partajați datele dvs. despre utilizarea aplicației cu institutul RKI. Astfel, ajutați RKI să evalueze eficacitatea aplicației. De asemenea, datele dvs. vor ajuta la îmbunătățirea caracteristicilor și utilizării aplicației."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
+    <string name="onboarding_ppa_state_title">"Statul dvs. federal (opțional)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
+    <string name="onboarding_ppa_district_title">"Districtul dvs. (județul) (opțional)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
+    <string name="onboarding_ppa_regional_evaluation_text">"Dacă specificați, de asemenea, statul federal și regiunea dvs., putem efectua analize regionale."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
+    <string name="onboarding_ppa_age_title">"Vârsta dvs. (opțional)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
+    <string name="onboarding_ppa_more_info_title">"Informații detaliate despre prelucrarea acestor date și riscurile privind prelucrarea datelor în SUA"</string>
+    <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
+    <string name="onboarding_ppa_consent_donate_button">"Partajare date"</string>
+    <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
+    <string name="onboarding_ppa_consent_not_donate_button">"Fără partajare"</string>
+
+    <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
+    <string name="onboarding_ppa_more_info_headline">"Informații detaliate despre partajarea datelor"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
+    <string name="onboarding_ppa_more_info_decline_processing_text">"Dacă nu sunteți de acord cu transferul datelor dvs. către o țară non-UE, nu apăsați pe „Accept”. Veți putea utiliza în continuare aplicația, dar nu și caracteristica de partajare a donării datelor."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
+    <string name="onboarding_ppa_more_info_data_processing_title">"Prelucrarea datelor în procesul de partajare a datelor"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
+    <string name="onboarding_ppa_more_info_data_processing_body">"Dacă sunteți de acord să partajați datele dvs., aplicația trimite diverse date către RKI în fiecare zi. Datele transmise vor fi analizate în scopuri variate:"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Îmbunătățirea înregistrării în jurnal a expunerilor – Dorim să îmbunătățim precizia și încrederea calculului tehnic al riscurilor de infectare. Pentru aceasta, vom evalua informațiile despre expunerile la risc și avertizările pe care le vedeți. Drept rezultat, vom putea rafina metoda de calcul."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_2_text">"Îmbunătățirea ghidării utilizatorului în aplicație – Dorim să facem aplicația ușor de utilizat. Pentru aceasta, vom evalua informațiile despre pașii individuali făcuți de utilizatori în aplicație. Acest lucru ne va ajuta să facem mai clare etichetele și textele de informare și să aranjăm elementele de control pentru a le face mai ușor de găsit. De asemenea, vom putea personaliza aspectul pentru diferitele modele de smartphone-uri."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 3 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_3_text">"Facilitarea informării și asistenței în aplicație – Dorim să putem afla dacă apar probleme la utilizarea aplicației în legătură cu anumite facilități și laboratoare de testare sau în anumite regiuni. Putem identifica acest lucru dacă, de exemplu, datele partajate indică întârzieri de furnizare a rezultatelor testărilor din anumite regiuni. De asemenea, autoritățile relevante de sănătate publică pot fi notificate punctual de posibila existență a unor probleme tehnice."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 4 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_4_text">"Îmbunătățirea statisticii despre cursul pandemiei – Datele dvs. pot contribui la furnizarea unor analize legate de modul de răspândire a pandemiei în timp și spațiu și ne pot ajuta să răspundem mai rapid la anumite tendințe."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data title -->
+    <string name="onboarding_ppa_more_info_rki_data_title">"În acest scop, RKI colectează următoarele date:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 1 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_1_text">"Data transmiterii datelor."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 2 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_2_text">"Modificări ale istoricului de avertizare în comparație cu ziua precedentă."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 3 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_3_text">"Informații despre riscul care v-a fost afișat la momentul transmiterii datelor."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 4 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_4_text">"Informații despre baza de calcul a stării riscului în contextul unei expuneri."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data body 1 -->
+    <string name="onboarding_ppa_more_info_rki_data_body_1">"Dacă ați primit un rezultat al unui test prin intermediul aplicației:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 5 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_5_text">"Informații dacă ați primit un rezultat de test pozitiv sau negativ prin aplicație."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 6 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_6_text">"Informații despre riscul calculat la momentul înregistrării testului."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 7 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_7_text">"Informații despre timpul dintre ultima dvs. expunere cu risc crescut și înregistrarea testului."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 8 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_8_text">"Informații despre timpul dintre ultima notificare de risc crescut și înregistrarea testului."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 9 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_9_text">"Informații dacă ați partajat rezultatul testului și i-ați avertizat pe ceilalți."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data body 2-->
+    <string name="onboarding_ppa_more_info_rki_data_body_2">"Dacă i-ați avertizat pe ceilalți despre o posibilă expunere:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 10 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_10_text">"Informații dacă ați anulat pașii de avertizare a altor persoane."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 11 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_11_text">"Informații dacă ați furnizat detalii despre debutul simptomelor dvs."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 12 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_12_text">"Informații despre momentul în care ați acordat consimțământul să-i avertizați pe ceilalți."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 13 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_13_text">"Informații despre notificarea pe care ați obținut-o în contextul avertizării altor persoane."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 14 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_14_text">"Informații despre numărul de ore până la primirea rezultatului testului."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 15 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_15_text">"Informații despre numărul de zile care a trecut de la ultima notificare a unui risc crescut."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 16 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_16_text">"Informații despre numărul de ore care a trecut de la înregistrarea testului."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info body-->
+    <string name="onboarding_ppa_more_info_other_info_body">"Alte informații:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_1_text">"Informații despre grupul de vârstă pe care l-ați specificat."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Informații despre grupul de vârstă pe care l-ați specificat."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Informații despre timpul dintre ultima dvs. expunere cu risc crescut și înregistrarea testului."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Informații dacă ați partajat rezultatul testului și i-ați avertizat pe ceilalți."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
+    <string name="onboarding_ppa_more_info_much_privacy_body">"Aceste informații nu pot fi legate de dvs. în mod personal. Identitatea dvs. va rămâne confidențială.\nInformațiile vor fi analizate în scop statistic. Ele nu vor fi salvate pentru un profil."</string>
+
+
+
+
 
     <!-- ####################################
              Onboarding sixteen include
@@ -641,6 +769,14 @@
     <string name="settings_background_priority_card_button">"Deschideți configurările dispozitivului"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
     <string name="settings_background_priority_card_headline">"Modificați activitatea în fundal cu prioritate"</string>
+
+    <!-- XTXT: settings(privacy preserving analytics) - text in row on settings overview -->
+    <string name="settings_privacy_preserving_analytics_body_description">"Permiteți transmiterea comportamentului dvs. de utilizare."</string>
+    <!-- XHED: settings(background priority) - Privacy preserving analytics page title -->
+    <string name="settings_privacy_preserving_analytics_title">"Partajare date"</string>
+
+    <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
+    <string name="settings_analytics_switch_subtitle">"Partajare date de utilizator"</string>
 
     <!-- ####################################
                App Information
@@ -868,6 +1004,8 @@
     <string name="submission_consent_main_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
+    <!-- YTXT: Content Description for the illustration  -->
+    <string name="submission_consent_main_illustration_description">"O persoană ține în mână un smartphone. Un cod QR de pe un test simbolizează codul care va fi scanat."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -1038,7 +1176,7 @@
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Autoritatea de sănătate publică vă va contacta în următoarele zile."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Izolați-vă de alte persoane."</string>
+    <string name="submission_done_isolate">"Sunteți infectat. Izolați-vă de alte persoane."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Alte informații:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1198,6 +1336,24 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
 
+    <!-- Reenable risk card -->
+    <!-- XHED: Card title for re-enable risk card -->
+    <string name="reenable_risk_card_title">"Verificarea expunerii s-a încheiat"</string>
+    <!-- YTXT: Body text for test registration date -->
+    <string name="reenable_risk_card_test_registration_string">"Test înregistrat pe %s"</string>
+    <!-- YTXT: Description text for re-enable risk card -->
+    <string name="reenable_risk_card_description_text">"Verificarea automată a expunerii s-a încheiat deoarece ați fost diagnosticat cu coronavirus și în prezent sunteți în izolare. Puteți reactiva oricând testarea expunerii. Dacă faceți acest lucru, testul dvs. înregistrat va fi șters automat."</string>
+    <!-- XBUT: Button for re-enabling risk calculation -->
+    <string name="reenable_risk_card_button_text">"Pornire verificarea expunerii "</string>
+    <!-- XHED: Dialog title for reactivate risk calculation  -->
+    <string name="dialog_reactivate_risk_calculation_title">"Activați verificarea expunerii."</string>
+    <!-- YTXT: Dialog text for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_message">"Testul dvs. curent va fi șters din aplicație pentru a putea înregistra un test nou dacă este necesar."</string>
+    <!-- XBUT: Positive button for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_button_positive">"Activare"</string>
+    <!-- XBUT: Negative button for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_button_negative">"Anulare"</string>
+
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Diagnosticul dvs.:"</string>
     <!-- YTXT: virus name text -->
@@ -1239,15 +1395,15 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Vă mulțumim pentru că sunteți de acord să partajați rezultatul testului dvs. și să ajutați astfel la avertizarea celorlalți. \n\n"<b>"La pasul următor, partajați rezultatul testului dvs. apăsând „Partajare”."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"Doriți să anulați?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Sigur doriți să anulați acest proces?"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Intrările dvs. nu vor fi salvate."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Important:\nSunteți pe punctul de a anula acest proces.\nÎncă nu i-ați avertizat pe ceilalți. Vă rugăm să finalizați procesul și să ajutați la protejarea celorlalți."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Ați ales să nu partajați rezultatul testului dvs. Ceilalți nu vor fi avertizați. \n\nLa pasul următor, aveți ocazia să vă răzgândiți și să partajați totuși rezultatul testului dvs., pentru a ajuta la oprirea răspândirii coronavirusului și a-i proteja pe ceilalți."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Important:\nSunteți pe punctul de a anula acest proces.\nÎncă nu i-ați avertizat pe ceilalți. Vă rugăm să finalizați procesul și să ajutați la protejarea celorlalți."</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Doriți să anulați?"</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Sigur doriți să anulați acest proces?"</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Intrările dvs. nu vor fi salvate."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Anulare"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1291,7 +1447,7 @@
     <!-- XHED: Title for submission statistics card -->
     <string name="statistics_card_submission_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Text displayed in the bottom of submission statistics card-->
-    <string name="statistics_card_submission_bottom_text">"Despre aplicația Corona-Warn"</string>
+    <string name="statistics_card_submission_bottom_text">"prin aplicația Corona-Warn"</string>
 
     <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
     <string name="statistics_primary_value_today">"Astăzi"</string>
@@ -1313,7 +1469,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Indicatori"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Explicarea statisticii"</string>
+    <string name="statistics_explanation_subtitle">"Explicația statisticii la nivel național"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Infecții noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1331,7 +1487,7 @@
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Numărul de reproducție R indică câte persoane a infectat mai departe, în medie, o persoană infectată. Valoarea curentă ia în considerare cel mult ultimele 5 zile.\n\nPentru alte informații, consultați întrebările frecvente:\nÎntrebări frecvente despre statistică."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"Întrebări frecvente despre statistică."</string>
+    <string name="statistics_explanation_seven_day_r_link_label">"Întrebări frecvente despre statistică"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legendă"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1613,5 +1769,112 @@
     <string name="statistics_trend_decreasing">"Tendință: descendentă"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Tendință: constantă"</string>
+    <!-- XHED: Title for BottomNav main screen title -->
+    <string name="bottom_nav_home_title">"Ecran inițial"</string>
+    <!-- XHED: Title for BottomNav diary screen title -->
+    <string name="bottom_nav_diary_title">"Jurnal"</string>
 
+    <!-- ####################################
+           Data Donation & Survey
+    ###################################### -->
+
+    <!-- XHED: Title for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_title">"Sondaj despre Corona-Warn-App"</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_content">"Ajutați-ne să îmbunătățim aplicația răspunzând la câteva întrebări simple."</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_button_text">"Accesați sondajul"</string>
+
+    <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
+    <string name="datadonation_details_survey_consent_button_title">"Accept"</string>
+    <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_title">"Sondaj pentru evaluarea și îmbunătățirea aplicației Corona-Warn"</string>
+    <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_body"><b>"Ajutați-ne să îmbunătățim aplicația Corona-Warn participând la un sondaj privind experiența dvs. cu aplicația. Astfel, ajutați RKI să evalueze eficacitatea aplicației, să îmbunătățească aplicația și să înțeleagă modul în care avertizările transmise prin aplicație afectează comportamentul persoanelor cu risc crescut."</b>"\n\nSondajul este destinat persoanelor a căror aplicație a indicat o expunere cu risc crescut. Sondajul se desfășoară pe site-ul web al RKI. Pentru a vă redirecționa la site-ul web, la pasul următor va fi afișată o legătură către sondaj. Înainte de a fi afișată, trebuie confirmată autenticitatea aplicației dvs. Pentru aceasta, este nevoie de consimțământul dvs.\n\nCând apăsați pe legătura către sondaj, veți primi informații suplimentare despre acesta. De asemenea, vi se va solicita explicit să vă dați consimțământul din nou înainte de a începe sondajul."</string>
+
+    <!-- XHED: Title of the survey consent detail screen -->
+    <string name="datadonation_details_survey_consent_details_title">"Informații detaliate despre prelucrarea datelor utilizate în timpul participării la sondaj"</string>
+
+    <!-- XHED: Dialog error title for survey request error informations 1 -->
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Ora de pe smartphone-ul dvs. nu corespunde cu ora curentă. Vă rugăm să corectați ora în setările smartphone-ului dvs. (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 2-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Nu se poate obține sondajul (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 3-->
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Nu se poate obține sondajul chiar acum. Actualizați serviciile Google Play (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Nu se poate obține sondajul chiar acum. Încercați din nou mai târziu (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 5-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Nu se poate obține sondajul din cauza unor motive de securitate. Puteți participa din nou la sondaj în următoarea lună calendaristică (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Nu s-a putut obține sondajul pe smartphone-ul dvs. (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Din motive de securitate, nu puteți participa la sondaj mai devreme de 24 de ore de la instalarea aplicației sau de la actualizarea aplicației (cod de eroare {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Ați participat deja la sondaj. Puteți participa la sondaj doar o dată pe lună (cod de eroare {0})."</string>
+
+    <!-- XHED: Dialog error title for survey request error informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_title">"Eroare"</string>
+    <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"OK"</string>
+
+    <!-- XHED: Dialog progress message for survey request -->
+    <string name="datadonation_details_survey_consent_progress_dialog_msg">"Se încarcă sondajul..."</string>
+
+    <!-- XTXT: Title for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title_below"><b>"Despre sondajul RKI"</b></string>
+    <!-- XHED: Text for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text_below">"După verificarea autenticității aplicației dvs., aplicația vă redirecționează către un site web al RKI, utilizând o legătură personalizată către sondaj care a fost generată pentru dvs. Această legătură către sondaj conține o parolă de unică folosință care este generată de Corona-Warn-App. Când apăsați pe legătura către sondaj și apelați site-ul web cu sondajul, parola de unică folosință este stocată temporar în browserul dvs. Acest ecran conține informații suplimentare despre sondaj și note despre parcurgerea acestuia, de exemplu cum să începeți sondajul. La începerea sondajului, parola de unică folosință este transmisă la serverele Corona-Warn-App unde este marcată ca utilizată. Apoi serverul verifică dacă puteți efectua sondajul. Aceste acțiuni asigură faptul că fiecare utilizator poate participa la sondaj o singură dată."</string>
+
+    <!-- XHED: Analytics voluntary user input, age group toolbar title -->
+    <string name="analytics_userinput_agegroup_title">"Grupul dvs. de vârstă"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
+    <string name="analytics_userinput_agegroup_unspecified">"Nu răspund"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
+    <string name="analytics_userinput_agegroup_0_to_29">"0-29 de ani"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
+    <string name="analytics_userinput_agegroup_30_to_59">"30-59 de ani"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
+    <string name="analytics_userinput_agegroup_from_60">"Peste 60 de ani"</string>
+
+    <!-- XHED: Analytics voluntary user input, federal state toolbar title -->
+    <string name="analytics_userinput_federalstate_title">"Statul dvs. federal"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_UNSPECIFIED -->
+    <string name="analytics_userinput_federalstate_unspecified">"Nu răspund"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BW -->
+    <string name="analytics_userinput_federalstate_bw">"Baden-Württemberg"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BY -->
+    <string name="analytics_userinput_federalstate_by">"Bavaria"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BE -->
+    <string name="analytics_userinput_federalstate_be">"Berlin"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BB -->
+    <string name="analytics_userinput_federalstate_bb">"Brandenburg"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HB -->
+    <string name="analytics_userinput_federalstate_hb">"Bremen"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HH -->
+    <string name="analytics_userinput_federalstate_hh">"Hamburg"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HE -->
+    <string name="analytics_userinput_federalstate_he">"Hessa"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_MV -->
+    <string name="analytics_userinput_federalstate_mv">"Mecklenburg-Pomerania de Vest"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_NI -->
+    <string name="analytics_userinput_federalstate_ni">"Saxonia Inferioară"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_NRW -->
+    <string name="analytics_userinput_federalstate_nrw">"Renania de Nord-Westfalia"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_RP -->
+    <string name="analytics_userinput_federalstate_rp">"Renania-Palatinat"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SL -->
+    <string name="analytics_userinput_federalstate_sl">"Saarland"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SN -->
+    <string name="analytics_userinput_federalstate_sn">"Saxonia"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_ST -->
+    <string name="analytics_userinput_federalstate_st">"Saxonia-Anhalt"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SH -->
+    <string name="analytics_userinput_federalstate_sh">"Schleswig-Holstein"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_TH -->
+    <string name="analytics_userinput_federalstate_th">"Turingia"</string>
+
+    <!-- XHED: Analytics voluntary user input, district toolbar title -->
+    <string name="analytics_userinput_district_title">"Districtul (județul) dvs."</string>
+    <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
+    <string name="analytics_userinput_district_unspecified">"Nu răspund"</string>
 </resources>

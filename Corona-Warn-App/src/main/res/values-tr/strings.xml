@@ -150,6 +150,15 @@
     <string name="risk_card_low_risk_no_encounters_body">"Hiçbir maruz kalma yok"</string>
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
+        <item quantity="one">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="zero">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="two">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="few">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="many">"%1$d gün için düşük riskli maruz kalmalar"</item>
+    </plurals>
+    <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
+    <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Bir gün için düşük riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="zero">"%1$d gün için düşük riskli maruz kalmalar"</item>
@@ -157,9 +166,22 @@
         <item quantity="few">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="many">"%1$d gün için düşük riskli maruz kalmalar"</item>
     </plurals>
+    <!-- XTXT: risk card - Low risk state - Most recent date with low risk and single day of encounters -->
+    <string name="risk_card_low_risk_most_recent_body_encounter_on_single_day">"%1$s"</string>
+    <!-- XTXT: risk card - Low risk state - Most recent date with low risk and more than one day of encounters -->
+    <string name="risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day">"En son %1$s"</string>
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
+        <item quantity="one">"%1$d gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="other">"%1$d gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="zero">"%1$d gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="two">"%1$d gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="few">"%1$d gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="many">"%1$d gün için artmış riskli maruz kalmalar"</item>
+    </plurals>
+    <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
+    <plurals name="risk_card_high_risk_encounter_days_body_description">
         <item quantity="one">"Bir gün için artmış riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="zero">"%1$d gün için artmış riskli maruz kalmalar"</item>
@@ -167,6 +189,10 @@
         <item quantity="few">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="many">"%1$d gün için artmış riskli maruz kalmalar"</item>
     </plurals>
+
+    <!-- XTXT: risk card - High risk state - Most recent date with high risk and single day of encounters -->
+    <string name="risk_card_high_risk_most_recent_body_encounter_on_single_day">"%1$s"</string>
+
     <!-- XTXT: risk card - High risk state - Most recent date with high risk and more than one day of encounters -->
     <string name="risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day">"En son %1$s"</string>
 
@@ -294,6 +320,14 @@
     <string name="risk_details_behavior_body_wear_mask">"Diğer insanlarla karşılaştığınızda yüz maskesi takın."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Diğer insanlarla aranızda en az 1,5 metre mesafeyi koruyun."</string>
+
+    <!-- XMSG: risk details - link to faq, something like a bullet point -->
+    <string name="risk_details_increased_risk_faq_link_text">"Test yaptırırsanız SSS bölümünde test prosedürü hakkında ek bilgi bulabilirsiniz."</string>
+    <!-- XTXT: Explanation screen increased risk level link label -->
+    <string name="risk_details_increased_risk_faq_link_label">"SSS: Test Prosedürü"</string>
+    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Öksürürken ya da hapşırırken dirseğinizin iç kısmına dönün veya bir mendil kullanın."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -312,6 +346,8 @@
     <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Maruz kalma günlüğü son 14 günü kapsar. Bu süre boyunca akıllı telefonunuzdaki günlüğe kaydetme özelliği %1$s gün etkindi. Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
+    <!-- XTXT: risk details - infection period days logged/14 -->
+    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Riskiniz bu şekilde hesaplandı."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -428,13 +464,13 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Maruz Kalma Günlüğünü Etkinleştir"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
-    <string name="onboarding_tracing_dialog_headline">"Yetki"</string>
+    <string name="onboarding_tracing_dialog_headline">"Etkinleştirilmesin mi?"</string>
     <!-- YMSI: onboarding(tracing) - dialog about tracing -->
-    <string name="onboarding_tracing_dialog_body">"Bu, Corona-Warn-App\'in COVID-19 risk durumunuz ile ilgili bildirim gönderemeyeceği veya alamayacağı anlamına gelir. Bu özelliği dilediğiniz zaman devre dışı bırakabilirsiniz."</string>
+    <string name="onboarding_tracing_dialog_body">"Maruz kalma günlüğünü etkinleştirmezseniz uygulama risk durumunuzu belirleyemez. Buna göre, uygulamada riskiniz hakkında hiçbir bilgi alamazsınız. Maruz kalma günlüğünü dilediğiniz zaman yeniden etkinleştirebilirsiniz."</string>
     <!-- XBUT: onboarding(tracing) - positive button (right) -->
     <string name="onboarding_tracing_dialog_button_positive">"Etkinleştirme"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
-    <string name="onboarding_tracing_dialog_button_negative">"Geri"</string>
+    <string name="onboarding_tracing_dialog_button_negative">"İptal Et"</string>
     <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
     <string name="onboarding_background_fetch_dialog_headline">"Arka planda uygulamayı yenileme devre dışı bırakıldı"</string>
     <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
@@ -485,6 +521,98 @@
     <string name="onboarding_notifications_body">"Ardından diğer insanları korumak için bireysel izolasyon sağlayabilir ve nerede test yaptırabileceğinizi öğrenebilirsiniz."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Bir kadın Corona-Warn-App uygulamasından bildirim alıyor."</string>
+
+    <!-- XACT: onboarding privacy preserving analytics (ppa) - illustraction description, header image -->
+    <string name="onboarding_ppa_illustration_description">"Bir kişi elinde akıllı telefon tutuyor"</string>
+    <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
+    <string name="onboarding_ppa_headline">"Verileri Paylaş"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
+    <string name="onboarding_ppa_body">"Corona-Warn-App’i iyileştirmemize yardımcı olabilirsiniz. Uygulamayı kullanımınız hakkındaki verileri RKI ile paylaşın. Bu, RKI’nin uygulamanın etkinliğini değerlendirmesine yardımcı olacaktır. Verileriniz aynı zamanda uygulamanın özelliklerinin ve kullanılabilirliğinin iyileştirilmesine yardımcı olacaktır."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
+    <string name="onboarding_ppa_state_title">"Federal eyaletiniz (isteğe bağlı)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
+    <string name="onboarding_ppa_district_title">"Bölgeniz (ilçe) (isteğe bağlı)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
+    <string name="onboarding_ppa_regional_evaluation_text">"Federal eyalet ve bölge bilgilerinizi de paylaşırsanız bölgesel analizler yapabiliriz."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
+    <string name="onboarding_ppa_age_title">"Yaşınız (isteğe bağlı)"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
+    <string name="onboarding_ppa_more_info_title">"ABD’de Veri İşleme ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
+    <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
+    <string name="onboarding_ppa_consent_donate_button">"Verileri Paylaş"</string>
+    <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
+    <string name="onboarding_ppa_consent_not_donate_button">"Paylaşma"</string>
+
+    <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
+    <string name="onboarding_ppa_more_info_headline">"Veri Paylaşma Hakkında Ayrıntılı Bilgiler"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
+    <string name="onboarding_ppa_more_info_decline_processing_text">"Verilerinizin üçüncü bir ülkeye aktarılmasına izin vermiyorsanız lütfen “Kabul Et” öğesine dokunmayın. Uygulamayı kullanmaya devam edebileceksiniz ancak veri paylaşma özelliğini kullanmayacaksınız."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
+    <string name="onboarding_ppa_more_info_data_processing_title">"Veri Paylaşma Sürecinde Veri İşleme"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
+    <string name="onboarding_ppa_more_info_data_processing_body">"Verilerinizi paylaşma izni vermeniz halinde uygulama RKI’ye her gün çeşitli veriler gönderir. Aktarılan veriler çeşitli amaçlarla analiz edilir:"</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_1_text">"İyileştirilmiş maruz kalma günlüğü – Teknik olarak enfeksiyon risklerini hesaplama doğruluğunu ve güvenilirliğini iyileştirmek istiyoruz. Bunun için, maruz kalma riskleri ve size gösterilen uyarlar hakkındaki bilgileri değerlendireceğiniz. Bunun sonucunda, hesaplama yöntemini geliştirebileceğiz."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_2_text">"Uygulamada iyileştirilmiş kullanıcı kılavuzu – Uygulamayı daha kolay kullanılabilir hale getirmek istiyoruz. Bunun için, kullanıcıların uygulamada gerçekleştirdiği her bir adım hakkındaki bilgileri değerlendireceğiz. Bu, etiketleri ve bilgi metinlerini daha anlaşılır hale getirmemize denetim öğelerini daha kolay bulunabilecek şekilde düzenlememize yardımcı olacaktır. Ayrıca farklı akıllı telefon modelleri için düzenleri özelleştirebileceğiz."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 3 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_3_text">"Uygulamada bilgi ve yardımı etkinleştirme – Uygulama, belirli test merkezlerinde ve laboratuvarlarda ya da belirli bölgelerde kullanıldığında sorun yaşanıp yaşanmadığını belirleyebilmek istiyoruz. Örneğin, paylaşılan veriler test sonuçlarının belirli bölgelerde gecikmeli olarak sunulduğunu gösterirse bunu belirleyebiliriz. İlgili kamu sağlığı yetkilileri de potansiyel teknik problemler hakkında bilgilendirilebilir."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 4 -->
+    <string name="onboarding_ppa_more_info_data_processing_point_4_text">"Pandemi süreci hakkında istatistikleri iyileştirme – Verileriniz, zamana ve yere göre pandeminin nasıl yayıldığı hakkında içgörü sağlamaya ve belirli trendlere daha hızlı yanıt vermemize yardımcı olabilir."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data title -->
+    <string name="onboarding_ppa_more_info_rki_data_title">"Bu amaç doğrultusunda RKI şu verileri toplar:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 1 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_1_text">"Veri aktarımı tarihi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 2 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_2_text">"Önceki güne kıyasla uyarı geçmişindeki değişiklikler."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 3 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_3_text">"Veri aktarımı sırasında görüntülenen risk hakkında bilgiler."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 4 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_4_text">"Maruz kalma bağlamında risk durumunu hesaplama temeli hakkında bilgiler."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data body 1 -->
+    <string name="onboarding_ppa_more_info_rki_data_body_1">"Uygulama üzerinden test sonucu aldıysanız:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 5 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_5_text">"Uygulama üzerinden aldığınız test sonucunun pozitif mi yoksa negatif mi olduğu hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 6 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_6_text">"Test kaydedildiği sırada hesaplanan risk hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 7 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_7_text">"Yüksek riskli son maruz kalmanız ile test kaydınız arasındaki süre hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 8 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_8_text">"Son yüksek risk bildirimi ile test kaydı arasındaki süre hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 9 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_9_text">"Test sonucunuzu paylaşıp diğer kullanıcı uyarıp uyarmadığınız hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data body 2-->
+    <string name="onboarding_ppa_more_info_rki_data_body_2">"Potansiyel maruz kalma hakkında diğer kullanıcıları uyardıysanız:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 10 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_10_text">"Diğer kullanıcıları uyarma adımlarını iptal edip etmediğiniz hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 11 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_11_text">"Belirtilerinizin başlangıcı hakkında bilgi verip vermediğiniz hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 12 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_12_text">"Diğer kullanıcıları uyarma izni verip vermediğiniz hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 13 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_13_text">"Diğer kullanıcı uyarma bağlamında ulaştığınız bildirim hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 14 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_14_text">"Test sonucunuzu kaç saatte aldığınız hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 15 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_15_text">"Son yüksek risk bildiriminden bu yana kaç gün geçtiği hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - rki data point 16 text -->
+    <string name="onboarding_ppa_more_info_rki_data_point_16_text">"Test kaydından bu yana kaç saat geçtiği hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info body-->
+    <string name="onboarding_ppa_more_info_other_info_body">"Diğer bilgiler:"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_1_text">"Belirttiğiniz yaş grubu hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Belirttiğiniz yaş grubu hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Yüksek riskli son maruz kalmanız ile test kaydınız arasındaki süre hakkında bilgi."</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
+    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Test sonucunuzu paylaşıp diğer kullanıcı uyarıp uyarmadığınız hakkında bilgi."</string>
+    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
+    <string name="onboarding_ppa_more_info_much_privacy_body">"Bu bilgilerin kişisel olarak sizinle bağlantısı kurulamaz. Kimliğiniz gizli tutulacaktır.\nBilgiler istatistiksel amaçlar doğrultusunda analiz edilecektir. Profil oluşturmak için kaydedilmeyecektir."</string>
+
+
+
+
 
     <!-- ####################################
              Onboarding sixteen include
@@ -641,6 +769,14 @@
     <string name="settings_background_priority_card_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
     <string name="settings_background_priority_card_headline">"Önceliklendirilmiş arka plan aktivitesini değiştir"</string>
+
+    <!-- XTXT: settings(privacy preserving analytics) - text in row on settings overview -->
+    <string name="settings_privacy_preserving_analytics_body_description">"Kullanım davranışınızın aktarılmasına izin verin."</string>
+    <!-- XHED: settings(background priority) - Privacy preserving analytics page title -->
+    <string name="settings_privacy_preserving_analytics_title">"Verileri Paylaş"</string>
+
+    <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
+    <string name="settings_analytics_switch_subtitle">"Kullanıcı Verilerini Paylaş"</string>
 
     <!-- ####################################
                App Information
@@ -868,6 +1004,8 @@
     <string name="submission_consent_main_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Onay vermek için 16 yaşın üzerinde olmanız gerekir."</string>
+    <!-- YTXT: Content Description for the illustration  -->
+    <string name="submission_consent_main_illustration_description">"Bir kişi akıllı telefon tutuyor. Testteki QR kod kodun taranabileceğini sembolize ediyor."</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -1038,7 +1176,7 @@
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşacaktır."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Lütfen kendinizi diğer insanlardan izole edin."</string>
+    <string name="submission_done_isolate">"Bulaşıcı bir hastalık taşıyorsunuz. Kendinizi diğer insanlardan izole edin."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1198,6 +1336,24 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
 
+    <!-- Reenable risk card -->
+    <!-- XHED: Card title for re-enable risk card -->
+    <string name="reenable_risk_card_title">"Maruz Kalma Denetimi Sona Erdi"</string>
+    <!-- YTXT: Body text for test registration date -->
+    <string name="reenable_risk_card_test_registration_string">"Test %s tarihinde kaydedildi"</string>
+    <!-- YTXT: Description text for re-enable risk card -->
+    <string name="reenable_risk_card_description_text">"Koronavirüs tanısı aldığınız ve şu anda izolasyonda olduğunuz için otomatik maruz kalma denetimi sona erdi. Maruz kalma testini dilediğiniz zaman yeniden etkinleştirebilirsiniz. Etkinleştirirseniz kayıtlı testiniz otomatik olarak silinir."</string>
+    <!-- XBUT: Button for re-enabling risk calculation -->
+    <string name="reenable_risk_card_button_text">"Maruz Kalma Denetimini Aç "</string>
+    <!-- XHED: Dialog title for reactivate risk calculation  -->
+    <string name="dialog_reactivate_risk_calculation_title">"Maruz kalma denetimini etkinleştirin."</string>
+    <!-- YTXT: Dialog text for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_message">"Gerekli olması halinde yeni bir test kaydedebilmeniz için mevcut testiniz uygulamadan silinecek."</string>
+    <!-- XBUT: Positive button for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_button_positive">"Etkinleştir"</string>
+    <!-- XBUT: Negative button for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_button_negative">"İptal"</string>
+
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Tanı sonucunuz:"</string>
     <!-- YTXT: virus name text -->
@@ -1239,15 +1395,15 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Test sonucunuzu paylaşmayı kabul ederek diğer kullanıcıların uyarılmasına yardımcı olduğunuz için teşekkür ederiz. \n\n"<b>"Sonraki adımda lütfen “Paylaş” seçeneğine dokunarak test sonucunuzu paylaşın."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"İptal etmek istiyor musunuz?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"İşlemi gerçekten iptal etmek istiyor musunuz?"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Girişleriniz kaydedilmeyecektir."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Önemli:\nBu işlemi iptal etmek üzeresiniz.\nHenüz diğer kullanıcıları uyarmadınız. Lütfen bu işlemi tamamlayın ve diğer kullanıcıların korunmasına yardımcı olun."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Test sonucunuzu paylaşmamayı seçtiniz. Diğer kullanıcılar uyarılmayacak. \n\nSonraki adımda dilerseniz fikrinizi değiştirip test sonucunuzu paylaşarak koronavirüsün yayılmasını durdurmaya ve diğer kullanıcıların korunmasına yardımcı olabilirsiniz."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Önemli:\nBu işlemi iptal etmek üzeresiniz.\nHenüz diğer kullanıcıları uyarmadınız. Lütfen bu işlemi tamamlayın ve diğer kullanıcıların korunmasına yardımcı olun."</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"İptal etmek istiyor musunuz?"</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"İşlemi gerçekten iptal etmek istiyor musunuz?"</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Girişleriniz kaydedilmeyecektir."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"İptal"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1291,7 +1447,7 @@
     <!-- XHED: Title for submission statistics card -->
     <string name="statistics_card_submission_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Text displayed in the bottom of submission statistics card-->
-    <string name="statistics_card_submission_bottom_text">"Corona-Warn-App Hakkında"</string>
+    <string name="statistics_card_submission_bottom_text">"Corona-Warn-App üzerinden"</string>
 
     <!-- XTXT: Timestamp refers to today's date in submission and infections cards -->
     <string name="statistics_primary_value_today">"Bugün"</string>
@@ -1313,7 +1469,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Önemli Değerler"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
+    <string name="statistics_explanation_subtitle">"Ülke geneli istatistiklerin açıklaması"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1613,5 +1769,112 @@
     <string name="statistics_trend_decreasing">"Trend: Aşağı"</string>
     <!-- XTXT: Statistics trend stable (Accessibilty) -->
     <string name="statistics_trend_stable">"Trend: Sabit"</string>
+    <!-- XHED: Title for BottomNav main screen title -->
+    <string name="bottom_nav_home_title">"Başlangıç Ekranı"</string>
+    <!-- XHED: Title for BottomNav diary screen title -->
+    <string name="bottom_nav_diary_title">"Günce"</string>
 
+    <!-- ####################################
+           Data Donation & Survey
+    ###################################### -->
+
+    <!-- XHED: Title for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_title">"Corona-Warn-App Anketi"</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_content">"Birkaç basit soru yanıtlayarak uygulamayı iyileştirmemize yardımcı olun."</string>
+    <!-- XHED: Text for the access survey card displayed in the risk details screen -->
+    <string name="datadonation_details_access_survey_card_button_text">"Ankete Git"</string>
+
+    <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
+    <string name="datadonation_details_survey_consent_button_title">"Kabul Et"</string>
+    <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_title">"Corona-Warn-App’i Değerlendirme ve İyileştirme Anketi"</string>
+    <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
+    <string name="datadonation_details_survey_consent_top_body"><b>"Uygulama deneyiminize ilişkin bir anketi yanıtlayarak Corona-Warn-App’i iyileştirmemize yardımcı olun. Bu, RKI’nin uygulamanın etkinliğini değerlendirmesine, uygulamayı iyileştirmesine ve uygulama üzerinden iletilen uyarıların yüksek risk altındaki kişilerin davranışlarını nasıl etkilediğini anlamasına yardımcı olacaktır.."</b>"\n\nAnket yalnızca uygulamasında yüksek maruz kalma riskine sahip olduğu belirtilen kişiler için tasarlanmıştır. Anket, RKI web sitesinde yanıtlanır. Sizi web sitesine yönlendirmek üzere sonraki adımda bir anket bağlantısı görüntülenecektir. Bu bağlantı görüntülenmeden önce uygulamanızın orijinalliği teyit edilmelidir. Bunun için izin vermeniz gereklidir.\n\nAnket bağlantısına dokunduğunuzda anket hakkında ek bilgi alacaksınız. Ayrıca anketi yanıtlamaya başlamadan önce yeniden açıkça izin vermeniz istenecektir."</string>
+
+    <!-- XHED: Title of the survey consent detail screen -->
+    <string name="datadonation_details_survey_consent_details_title">"Anketi Yanıtlamaya İlişkin Veri İşleme Hakkında Ayrıntılı Bilgiler"</string>
+
+    <!-- XHED: Dialog error title for survey request error informations 1 -->
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Akıllı telefonunuzun saati, geçerli saat ile eşleşmiyor. Lütfen akıllı telefonunuzun saatini düzeltin (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 2-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Anket alınamıyor (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 3-->
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Anket şu anda alınamıyor. Lütfen Google Plat Hizmetlerini güncelleyin (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Anket şu anda alınamıyor. Lütfen daha sonra tekrar deneyin (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 5-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Güvenlik nedenleriyle anket alınamıyor. Sonraki takvim ayında anketi yeniden yanıtlayabilirsiniz (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Anket akıllı telefonunuzda alınamıyor (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Güvenlik nedenleriyle uygulamayı yüklemenizin veya güncellemenizin üzerinden en az 24 saat geçmeden anketi yanıtlayamazsınız (hata kodu: {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Anketi zaten yanıtladınız. Anketi yalnızca ayda bir kez yanıtlayabilirsiniz (hata kodu: {0})."</string>
+
+    <!-- XHED: Dialog error title for survey request error informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_title">"Hata"</string>
+    <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"tamam"</string>
+
+    <!-- XHED: Dialog progress message for survey request -->
+    <string name="datadonation_details_survey_consent_progress_dialog_msg">"Anket Yükleniyor…"</string>
+
+    <!-- XTXT: Title for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title_below"><b>"RKI Anketi Hakkında"</b></string>
+    <!-- XHED: Text for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text_below">"Uygulamanızın orijinalliği doğrulandıktan sonra uygulama, sizin için oluşturulan özel bir anket bağlantısı ile sizi bir RKI web sitesine yönlendirir. Bu anket bağlantısı, Corona-Warn-App’inizde oluşturulan bir tek seferlik parola içerir. Anket bağlantısına dokunup anketi içeren web sitesine bağlandığınızda tek seferlik parola geçici olarak tarayıcınızda depolanır. Bu ekranda, anketi yanıtlamaya başlama gibi anket ve notları kullanma konusunda ek bilgiler yer almaktadır. Anketi yanıtlamaya başlarken tek seferlik parola Corona-Warn-App sunucularına aktarılır ve burada kullanıldı olarak işaretlenir. Ardından sunucu anketi yanıtlamaya başlayıp başlayamayacağınızı kontrol eder. Bu sayede her bir kullanıcının anketi yalnızca bir kez yanıtlayabildiğinden emin olunur."</string>
+
+    <!-- XHED: Analytics voluntary user input, age group toolbar title -->
+    <string name="analytics_userinput_agegroup_title">"Yaş Grubunuz"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
+    <string name="analytics_userinput_agegroup_unspecified">"Bilgi yok"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
+    <string name="analytics_userinput_agegroup_0_to_29">"0-29 yaş"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
+    <string name="analytics_userinput_agegroup_30_to_59">"30-59 yaş"</string>
+    <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
+    <string name="analytics_userinput_agegroup_from_60">"60+ yaş"</string>
+
+    <!-- XHED: Analytics voluntary user input, federal state toolbar title -->
+    <string name="analytics_userinput_federalstate_title">"Federal Eyaletiniz"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_UNSPECIFIED -->
+    <string name="analytics_userinput_federalstate_unspecified">"Bilgi yok"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BW -->
+    <string name="analytics_userinput_federalstate_bw">"Baden-Württemberg"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BY -->
+    <string name="analytics_userinput_federalstate_by">"Bavyera"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BE -->
+    <string name="analytics_userinput_federalstate_be">"Berlin"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_BB -->
+    <string name="analytics_userinput_federalstate_bb">"Brandenburg"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HB -->
+    <string name="analytics_userinput_federalstate_hb">"Bremen"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HH -->
+    <string name="analytics_userinput_federalstate_hh">"Hamburg"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_HE -->
+    <string name="analytics_userinput_federalstate_he">"Hessen"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_MV -->
+    <string name="analytics_userinput_federalstate_mv">"Mecklenburg-Vorpommern"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_NI -->
+    <string name="analytics_userinput_federalstate_ni">"Aşağı Saksonya"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_NRW -->
+    <string name="analytics_userinput_federalstate_nrw">"Kuzey Ren-Vestfalya"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_RP -->
+    <string name="analytics_userinput_federalstate_rp">"Renanya-Palatina"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SL -->
+    <string name="analytics_userinput_federalstate_sl">"Saarland"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SN -->
+    <string name="analytics_userinput_federalstate_sn">"Saksonya"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_ST -->
+    <string name="analytics_userinput_federalstate_st">"Saksonya-Anhalt"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_SH -->
+    <string name="analytics_userinput_federalstate_sh">"Schleswig-Holstein"</string>
+    <!-- XTXT: Analytics voluntary user input, federal state: FEDERAL_STATE_TH -->
+    <string name="analytics_userinput_federalstate_th">"Türingiya"</string>
+
+    <!-- XHED: Analytics voluntary user input, district toolbar title -->
+    <string name="analytics_userinput_district_title">"Bölgeniz (İlçe)"</string>
+    <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
+    <string name="analytics_userinput_district_unspecified">"Bilgi yok"</string>
 </resources>
