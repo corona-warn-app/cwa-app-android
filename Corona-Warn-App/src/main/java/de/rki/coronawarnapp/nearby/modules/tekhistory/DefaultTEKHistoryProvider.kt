@@ -160,7 +160,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
     // Timeout after 20 sec if receiver did not get called
     internal suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = withTimeout(20_000) {
         coroutineScope {
-            // Register receiver before hitting the API to avoid raceconditions
+            // Register receiver before hitting the API to avoid race conditions
             val deferredIntent = async { awaitReceivedBroadcast() }
             client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
             Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
