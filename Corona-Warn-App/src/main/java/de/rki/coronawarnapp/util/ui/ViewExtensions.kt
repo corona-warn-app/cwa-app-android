@@ -4,11 +4,6 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import de.rki.coronawarnapp.util.recyclerview.ThrottledClickListener
 
-@BindingAdapter("visible")
-fun View.setVisible(visible: Boolean) {
-    visibility = if (visible) View.VISIBLE else View.GONE
-}
-
 @BindingAdapter("gone")
 fun View.setGone(gone: Boolean) {
     visibility = if (gone) View.GONE else View.VISIBLE
