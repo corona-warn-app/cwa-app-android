@@ -28,7 +28,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val secureRandom: SecureRandom,
     private val cwaSafetyNet: CWASafetyNet,
     otpRepository: OTPRepository,
-    appConfigProvider: AppConfigProvider,
+    appConfigProvider: AppConfigProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentReportInternal = MutableStateFlow<SafetyNetClientWrapper.Report?>(null)
