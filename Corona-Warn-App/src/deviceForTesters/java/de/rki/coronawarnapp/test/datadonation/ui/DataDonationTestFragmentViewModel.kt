@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.storage.OTPRepository
+import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -47,7 +48,11 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     private val currentSafetyNetExceptionTypeInternal = MutableStateFlow(SafetyNetException.Type.values().first())
-    val currentSafetyNetExceptionType = currentSafetyNetExceptionTypeInternal.asLiveData(context = dispatcherProvider.Default)
+    val currentSafetyNetExceptionType =
+        currentSafetyNetExceptionTypeInternal.asLiveData(context = dispatcherProvider.Default)
+
+    private val currentSurveyExceptionTypeInternal = MutableStateFlow(SurveyException.Type.values().first())
+    val currentSurveyExceptionType = currentSurveyExceptionTypeInternal.asLiveData(context = dispatcherProvider.Default)
 
     val showErrorDialog = SingleLiveEvent<@StringRes Int>()
 
@@ -127,6 +132,16 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
                 R.string.datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES
             SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED ->
                 R.string.datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED
+        }.also { showErrorDialog.postValue(it) }
+    }
+
+    fun selectSurveyExceptionType(type: SurveyException.Type) {
+        currentSurveyExceptionTypeInternal.value = type
+    }
+
+    fun showSurveyErrorDialog() {
+        when (currentSurveyExceptionTypeInternal.value) {
+            SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH -> R.string.datadonation_details_survey_consent_error_ALREADY_PARTICIPATED
         }.also { showErrorDialog.postValue(it) }
     }
 

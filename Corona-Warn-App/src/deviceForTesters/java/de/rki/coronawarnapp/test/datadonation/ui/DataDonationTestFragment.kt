@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.app.ShareCompat
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDatadonationBinding
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
+import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -84,35 +86,64 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
             binding.surveyConfigBody.text = it
         }
 
-        vm.currentSafetyNetExceptionType.observe2(this) { type ->
-            binding.apply {
-                if (safetynetExceptionSimulationRadioGroup.childCount != SafetyNetException.Type.values().size) {
-                    SafetyNetException.Type.values().forEach {
-                        val rb = RadioButton(context).apply {
-                            text = it.name
-                            id = ViewCompat.generateViewId()
-                        }
-                        safetynetExceptionSimulationRadioGroup.addView(rb)
-                    }
-                }
-                safetynetExceptionSimulationRadioGroup.children.forEach {
-                    it as RadioButton
-                    it.isChecked = it.text == type.name
-                }
-            }
-        }
-
-        binding.safetynetExceptionSimulationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-            val rb = group.findViewById(checkedId) as RadioButton
-            if (!rb.isPressed) return@setOnCheckedChangeListener
-            vm.selectSafetyNetExceptionType(SafetyNetException.Type.valueOf(rb.text as String))
-        }
-
         vm.showErrorDialog.observe2(this) {
             showErrorDialog(it)
         }
 
-        binding.safetynetExceptionSimulationButton.setOnClickListener { vm.showSafetyNetErrorDialog() }
+        vm.currentSafetyNetExceptionType.observe2(this) { type ->
+            binding.apply {
+                if (safetynetExceptionSimulationRadioGroup.childCount != SafetyNetException.Type.values().size) {
+                    SafetyNetException.Type.values()
+                        .forEach { safetynetExceptionSimulationRadioGroup.addRadioButton(it.name) }
+                }
+                safetynetExceptionSimulationRadioGroup.children.checkByName(type.name)
+            }
+        }
+
+        binding.apply {
+            safetynetExceptionSimulationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+                val rb = group.findViewById(checkedId) as RadioButton
+                if (!rb.isPressed) return@setOnCheckedChangeListener
+                vm.selectSafetyNetExceptionType(SafetyNetException.Type.valueOf(rb.text as String))
+            }
+
+            safetynetExceptionSimulationButton.setOnClickListener { vm.showSafetyNetErrorDialog() }
+        }
+
+        vm.currentSurveyExceptionType.observe2(this) { type ->
+            binding.apply {
+                if (surveyExceptionSimulationRadioGroup.childCount != SurveyException.Type.values().size) {
+                    SurveyException.Type.values()
+                        .forEach { surveyExceptionSimulationRadioGroup.addRadioButton(it.name) }
+                }
+                surveyExceptionSimulationRadioGroup.children.checkByName(type.name)
+            }
+        }
+
+        binding.apply {
+            surveyExceptionSimulationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+                val rb = group.findViewById(checkedId) as RadioButton
+                if (!rb.isPressed) return@setOnCheckedChangeListener
+                vm.selectSurveyExceptionType(SurveyException.Type.valueOf(rb.text as String))
+            }
+
+            surveyExceptionSimulationButton.setOnClickListener { vm.showSurveyErrorDialog() }
+        }
+    }
+
+    private fun RadioGroup.addRadioButton(text: String) {
+        val rb = RadioButton(context).apply {
+            this.text = text
+            id = ViewCompat.generateViewId()
+        }
+        addView(rb)
+    }
+
+    private fun Sequence<View>.checkByName(name: String) {
+        forEach {
+            it as RadioButton
+            it.isChecked = it.text == name
+        }
     }
 
     private fun showErrorDialog(@StringRes stringRes: Int) {
