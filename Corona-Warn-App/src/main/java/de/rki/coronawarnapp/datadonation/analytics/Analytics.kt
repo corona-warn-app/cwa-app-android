@@ -111,6 +111,11 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun stopDueToNoAnalyticsConfig(): Boolean {
+        return !appConfigProvider.getAppConfig().analytics.analyticsEnabled
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToNoUserConsent(): Boolean {
         return !settings.analyticsEnabled.value
     }
@@ -137,6 +142,11 @@ class Analytics @Inject constructor(
 
     suspend fun submitIfWanted() = submissionLockoutMutex.withLock {
         Timber.d("checking analytics conditions")
+
+        if (stopDueToNoAnalyticsConfig()) {
+            Timber.w("Aborting Analytics submission due to noAnalyticsConfig")
+            return
+        }
 
         if (stopDueToNoUserConsent()) {
             Timber.w("Aborting Analytics submission due to noUserConsent")

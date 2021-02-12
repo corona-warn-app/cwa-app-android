@@ -9,6 +9,7 @@ interface AnalyticsConfig {
     val hoursSinceTestRegistrationToSubmitTestResultMetadata: Int
     val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int
     val probabilityToSubmitNewExposureWindows: Double
+    val analyticsEnabled: Boolean
 
     interface Mapper : ConfigMapper<AnalyticsConfig>
 }

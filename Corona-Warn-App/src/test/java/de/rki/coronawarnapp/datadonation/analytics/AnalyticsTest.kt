@@ -61,6 +61,8 @@ class AnalyticsTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns baseTime
 
+        every { analyticsConfig.analyticsEnabled } returns true
+
         every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 1.0
 
@@ -91,6 +93,26 @@ class AnalyticsTest : BaseTest() {
     )
 
     @Test
+    fun `abort due to no app config`() {
+        every { analyticsConfig.analyticsEnabled } returns false
+
+        val analytics = createInstance()
+
+        runBlockingTest2 {
+            analytics.submitIfWanted()
+        }
+
+        coVerify(exactly = 1) {
+            analytics.stopDueToNoAnalyticsConfig()
+        }
+
+        coVerify(exactly = 0) {
+            analytics.submitAnalyticsData()
+            analytics.stopDueToNoUserConsent()
+        }
+    }
+
+    @Test
     fun `abort due to no user consent`() {
         every { settings.analyticsEnabled } returns mockFlowPreference(false)
 
@@ -101,6 +123,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
+            analytics.stopDueToNoAnalyticsConfig()
             analytics.stopDueToNoUserConsent()
         }
 
@@ -121,6 +144,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
+            analytics.stopDueToNoAnalyticsConfig()
             analytics.stopDueToNoUserConsent()
             analytics.stopDueToProbabilityToSubmit()
         }
@@ -142,6 +166,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
+            analytics.stopDueToNoAnalyticsConfig()
             analytics.stopDueToNoUserConsent()
             analytics.stopDueToProbabilityToSubmit()
             analytics.stopDueToLastSubmittedTimestamp()
@@ -164,6 +189,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
+            analytics.stopDueToNoAnalyticsConfig()
             analytics.stopDueToNoUserConsent()
             analytics.stopDueToProbabilityToSubmit()
             analytics.stopDueToLastSubmittedTimestamp()
