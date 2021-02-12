@@ -532,6 +532,15 @@
         <argument
             android:name="SurveyType"
             app:argType="de.rki.coronawarnapp.datadonation.survey.Surveys$Type" />
+        <action
+            android:id="@+id/action_surveyConsentFragment_to_surveyConsentDetailFragment"
+            app:destination="@id/surveyConsentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyConsentDetailFragment"
+        android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentDetailFragment"
+        android:label="survey_consent_detail_fragment"
+        tools:layout="@layout/survey_consent_detail_fragment">
     </fragment>
     <fragment
         android:id="@+id/analyticsUserInputFragment"

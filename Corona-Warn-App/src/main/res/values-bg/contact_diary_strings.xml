@@ -22,9 +22,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Отбелязвайте къде сте били и с кого сте се срещнали."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Управление на дневника"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Отваряне на дневника"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Управление на дневника"</string>
+    <string name="contact_diary_onboarding_button_text">"Отваряне на дневника"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Отбелязвайте Вашите контакти."</string>
@@ -59,7 +59,7 @@
     <!-- XTXT: Title for contact diary overview screen -->
     <string name="contact_diary_overview_title">"Дневник на контактите"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">"Отбележете хората, които сте срещнали, и местата, които сте посетили."</string>
+    <string name="contact_diary_overview_subtitle">"Отбелязвайте хората, които сте срещали, и местата, които сте посетили. Ако за даден ден се появи информация за риск, може да предупредите хората, с които сте контактували в този ден дори ако те самите на използват приложението Corona-Warn-App."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Начална страница"</string>
 
@@ -132,4 +132,5 @@
     <string name="accessibility_action_deselect">"Отмяна на избора"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Редактиране"</string>
+
 </resources>

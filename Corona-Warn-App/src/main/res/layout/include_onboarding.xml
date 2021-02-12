@@ -53,14 +53,6 @@
             type="String" />
 
         <variable
-            name="easyLanguageText"
-            type="String" />
-
-        <variable
-            name="include"
-            type="android.view.View" />
-
-        <variable
             name="countryData"
             type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
 
@@ -144,23 +136,6 @@
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body"
                 tools:text="@string/onboarding_body_emphasized" />
 
-            <TextView
-                android:id="@+id/onboarding_easy_language"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:clickable="true"
-                android:focusable="true"
-                android:linksClickable="true"
-                android:text="@string/onboarding_tracing_easy_language_explanation"
-                android:textColorLink="@color/colorTextTint"
-                android:visibility="@{FormatterHelper.formatVisibilityText(easyLanguageText)}"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
-                tools:text="@string/onboarding_tracing_easy_language_explanation" />
-
             <include
                 android:id="@+id/onboarding_interoperability"
                 layout="@layout/include_interoperability"
@@ -177,7 +152,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
                 app:secondSection="@{@string/interoperability_onboarding_second_section}"
                 app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"
                 app:title="@{@string/interoperability_onboarding_title}" />
