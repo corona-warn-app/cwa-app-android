@@ -63,7 +63,7 @@
     <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
     <string name="datadonation_details_survey_consent_bottom_link">"Veri işleme hakkında ayrıntılı bilgiler ve rıza beyanınız."</string>
     <!-- XHED: Title for the information box in the survey consent detail screen -->
-    <string name="datadonation_survey_consent_details_title">"Orijinallik doğrulanması ve üçüncü ülkelere aktarım."</string>
+    <string name="datadonation_survey_consent_details_title">"Orijinallik doğrulanması ve üçüncü ülkelere aktarım"</string>
     <!-- XTXT: Text for the information box in the survey consent detail screen -->
     <string name="datadonation_survey_consent_details_text">"Uygulamanızın orijinal olduğunu onaylamak adına akıllı telefonunuz, akıllı telefonunuzun sürümü ve Uygulamaya ilişkin veriler içeren benzersiz bir kimlik kodu oluşturur. Kullanıcıların ankete birden çok kez katılmasını ve böylece anket sonuçlarını tahrif etmesini önlemek için bu kodun oluşturulması gerekmektedir. Bu kimlik kodları, sadece bir kez Google’e aktarılır. Bu süreçte verilerin ABD’ye aktarılması da söz konusu olabilir. Orada Avrupa hukukuna uygun kişisel verilerin koruma seviyesi bulunmamaktadır ve Avrupa’daki veri koruma haklarınız uygulanmayabilir. Bu bağlamda özellikle ABD güvenlik makamlarının, somut bir şüphe olmasa bile, Google’e aktarılan bu verilere erişme ve örneğin verileri diğer bilgilerle ilişkilendirerek bunları değerlendirmeye alma olasılığı bulunmaktadır. Bu durum sadece Google’e aktarılan kimlik kodları için söz konusudur. Google ankete katılımız ile ilgili daha fazla bilgi almaz."</string>
 
