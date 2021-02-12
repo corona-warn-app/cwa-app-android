@@ -44,7 +44,6 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
 
     val otp: String = otpRepository.otpAuthorizationResult?.toString() ?: "No OTP received yet"
 
-
     val surveyConfig = appConfigProvider.currentConfig
         .map { it.survey.toString() }
         .asLiveData(context = dispatcherProvider.Default)
