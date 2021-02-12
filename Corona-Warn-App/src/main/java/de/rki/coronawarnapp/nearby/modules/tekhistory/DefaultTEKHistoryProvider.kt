@@ -156,8 +156,8 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     // Timeout after 20 sec if receiver did not get called
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = withTimeout(20_000) {
         coroutineScope {
             // Register receiver before hitting the API to avoid race conditions
@@ -166,8 +166,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
             Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
             val intent = deferredIntent.await()
             Timber.d("getPreAuthorizedExposureKeys():intent=%s", intent)
-            intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST)
-                .orEmpty()
+            intent.getParcelableArrayListExtra<TemporaryExposureKey>(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST).orEmpty()
         }
     }
 
@@ -181,9 +180,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
         context.registerReceiver(
             receiver,
-            IntentFilter(
-                ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED
-            )
+            IntentFilter(ExposureNotificationClient.ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED)
         )
         cont.invokeOnCancellation {
             Timber.d(it, "unregisterReceiver")

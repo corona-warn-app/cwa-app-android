@@ -15,6 +15,8 @@ object MockGMSTask {
             this@apply
         }
         every { addOnSuccessListener(any()) } returns this
+        every { isComplete } returns true
+        every { exception } returns error
     }
 
     fun <T> forValue(value: T): Task<T> = mockk<Task<T>>().apply {
@@ -24,18 +26,10 @@ object MockGMSTask {
             this@apply
         }
         every { addOnFailureListener(any()) } returns this
-    }
-
-    fun <T> forValueOnComplete(value: T): Task<T> = mockk<Task<T>>().apply {
         every { isComplete } answers { true }
         every { exception } answers { null }
         every { isCanceled } answers { false }
         every { result } answers { value }
-    }
-
-    fun <T> forErrorOnComplete(error: Exception): Task<T> = mockk<Task<T>>().apply {
-        every { isComplete } answers { true }
-        every { exception } answers { error }
     }
 
     fun <T> timeout(): Task<T> = mockk<Task<T>>().apply {
@@ -45,5 +39,7 @@ object MockGMSTask {
             this@apply
         }
         every { addOnFailureListener(any()) } returns this
+        every { isComplete } answers { false }
+        every { addOnCompleteListener(any()) } returns this
     }
 }
