@@ -83,7 +83,7 @@
 
                 <TextView
                     android:id="@+id/survey_details_bottom_info_title"
-                    style="@style/subtitleMedium"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="33dp"
@@ -95,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/survey_details_bottom_info_body"
-                    style="@style/subtitleMedium"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
