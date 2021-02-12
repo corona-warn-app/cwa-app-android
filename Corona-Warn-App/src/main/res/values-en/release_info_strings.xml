@@ -11,5 +11,27 @@
     <string name="release_info_version_body">"Along with bug fixes, this update also includes new and enhanced features."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Next"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Changes in this release can be found in the app settings, under “New Features”."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Link to RKI survey"</item>
+        <item>"Consent to Share Data (optional)"</item>
+        <item>"Changes to the Risk Tiles"</item>
+        <item>"Continuation of Exposure Logging after Sharing Your Random IDs"</item>
+        <item>"Implementation of Tabs"</item>
+        <item>"More Information about the Testing Procedure"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"If you have an increased risk, you can start and take a survey conducted by the Robert Koch Institute from within the app."</item>
+        <item>"You now have the option of sharing your usage data, which will help us to improve the app."</item>
+        <item>"Minor changes to the texts on the risk tiles."</item>
+        <item>"After you have shared your encrypted random IDs, you can decide whether and when you want to switch exposure logging back on."</item>
+        <item>"There is now a separate tab page for your contact journal. This lets you access your journal and switch from the contact journal back to the home screen of the app more quickly."</item>
+        <item>"The app now contains more detailed information about the testing procedure."</item>
+    </string-array>
 
 </resources>
