@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.datadonation.ui
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmission
@@ -25,7 +26,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val secureRandom: SecureRandom,
     private val analytics: Analytics,
     private val lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger,
-    private val cwaSafetyNet: CWASafetyNet
+    private val cwaSafetyNet: CWASafetyNet,
+    private val appConfigProvider: AppConfigProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val infoEvents = SingleLiveEvent<String>()
@@ -111,7 +113,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
 
     fun submitAnalytics() = launch {
         infoEvents.postValue("Starting Analytics Submission")
-        analytics.submitAnalyticsData()
+        val analyticsConfig = appConfigProvider.getAppConfig().analytics
+        analytics.submitAnalyticsData(analyticsConfig)
         infoEvents.postValue("Analytics Submission Done")
         checkLastAnalytics()
     }
