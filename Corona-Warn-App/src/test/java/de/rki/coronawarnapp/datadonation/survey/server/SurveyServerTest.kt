@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.survey.server
 import android.content.Context
 import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -39,13 +40,9 @@ class SurveyServerTest : BaseTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createServer(
-        customApi: SurveyApiV1 = surveyApi
-    ) = SurveyServer(surveyApi = { customApi }, TestDispatcherProvider())
-
     @Test
     fun `valid otp`(): Unit = runBlocking {
-        val server = createServer()
+        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
         coEvery { surveyApi.authOTP(any()) } answers {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
@@ -61,7 +58,7 @@ class SurveyServerTest : BaseTest() {
 
     @Test
     fun `invalid otp`(): Unit = runBlocking {
-        val server = createServer()
+        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
         coEvery { surveyApi.authOTP(any()) } answers {
             arg<EdusOtp.EDUSOneTimePassword>(0).apply {
                 otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
@@ -77,17 +74,12 @@ class SurveyServerTest : BaseTest() {
 
     @Test
     fun `return code 500`(): Unit = runBlocking {
-        val server = createServer()
-        coEvery { surveyApi.authOTP(any()) } answers {
-            arg<EdusOtp.EDUSOneTimePassword>(0).apply {
-                otp shouldBe "15cff19f-af26-41bc-94f2-c1a65075e894"
-            }
-            SurveyApiV1.DataDonationResponse("API_TOKEN_ALREADY_ISSUED")
-        }
+        val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
 
         val data = OneTimePassword(UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894"))
-        server.authOTP(data, mockk()).errorCode shouldBe "API_TOKEN_ALREADY_ISSUED"
 
-        coVerify { surveyApi.authOTP(any()) }
+        shouldThrowAny {
+            server.authOTP(data, mockk())
+        }
     }
 }
