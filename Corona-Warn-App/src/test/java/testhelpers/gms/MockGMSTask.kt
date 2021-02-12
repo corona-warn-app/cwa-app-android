@@ -33,6 +33,11 @@ object MockGMSTask {
         every { result } answers { value }
     }
 
+    fun <T> forErrorOnComplete(error: Exception): Task<T> = mockk<Task<T>>().apply {
+        every { isComplete } answers { true }
+        every { exception } answers { error }
+    }
+
     fun <T> timeout(): Task<T> = mockk<Task<T>>().apply {
         every { addOnSuccessListener(any()) } answers {
             val listener = arg<OnSuccessListener<T>>(0)
