@@ -61,8 +61,7 @@
     <!-- XTXT: Third bullet point in the consent body displayed above the button in the survey consent screen -->
     <string name="datadonation_details_survey_consent_bullet_point_three">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
     <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
-    <string name="datadonation_details_survey_consent_bottom_link">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
-
+    <string name="datadonation_details_survey_consent_bottom_link">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis."</string>
     <!-- XHED: Title for the information box in the survey consent detail screen -->
     <string name="datadonation_survey_consent_details_title">"Prüfung der Echtheit und Drittlandsübermittlung"</string>
     <!-- XTXT: Text for the information box in the survey consent detail screen -->
