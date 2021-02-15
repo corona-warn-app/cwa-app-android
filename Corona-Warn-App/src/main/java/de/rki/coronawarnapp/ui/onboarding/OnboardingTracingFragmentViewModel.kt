@@ -38,7 +38,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
                 }
 
                 override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-// Tracing consent is given implicitly on this screen.
+                    // Tracing consent is given implicitly on this screen.
                     onConsentResult(true)
                 }
 
