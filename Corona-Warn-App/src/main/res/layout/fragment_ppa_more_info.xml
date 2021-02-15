@@ -679,7 +679,7 @@
                     app:srcCompat="@drawable/bullet_point" />
 
                 <TextView
-                    android:id="@+id/other_info_point_2_text"
+                    android:id="@+id/other_info_point_3_text"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -690,29 +690,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/other_info_point_1_text" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/other_info_point_2"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toTopOf="@id/other_info_point_2_text"
-                    app:srcCompat="@drawable/bullet_point" />
-
-                <TextView
-                    android:id="@+id/other_info_point_3_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="15dp"
-                    android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_point_3_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/other_info_point_2_text" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/other_info_point_3"
@@ -732,7 +709,7 @@
                     android:layout_marginStart="13dp"
                     android:layout_marginTop="15dp"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_more_info_other_info_point_4_text"
+                    android:text="@string/onboarding_ppa_more_info_other_info_point_3_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/other_info_point_3_text" />
