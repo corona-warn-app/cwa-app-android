@@ -84,7 +84,6 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
                 title = R.string.datadonation_details_survey_consent_error_dialog_title,
                 message = stringRes,
                 positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
-                positiveButtonFunction = { vm.onBackButtonPressed() },
                 cancelable = false
             )
             DialogHelper.showDialog(dialog)
