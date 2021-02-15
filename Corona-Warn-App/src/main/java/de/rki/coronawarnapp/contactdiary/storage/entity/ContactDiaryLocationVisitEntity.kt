@@ -25,8 +25,16 @@ import org.joda.time.LocalDate
 data class ContactDiaryLocationVisitEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
     @ColumnInfo(name = "date") val date: LocalDate,
-    @ColumnInfo(name = "fkLocationId") val fkLocationId: Long
+    @ColumnInfo(name = "fkLocationId") val fkLocationId: Long,
+    @ColumnInfo(name = "duration") val duration: Long?,
+    @ColumnInfo(name = "circumstances") val circumstances: String?
 )
 
 fun ContactDiaryLocationVisit.toContactDiaryLocationVisitEntity(): ContactDiaryLocationVisitEntity =
-    ContactDiaryLocationVisitEntity(id = this.id, date = this.date, fkLocationId = this.contactDiaryLocation.locationId)
+    ContactDiaryLocationVisitEntity(
+        id = this.id,
+        date = this.date,
+        fkLocationId = this.contactDiaryLocation.locationId,
+        duration = this.duration,
+        circumstances = this.circumstances
+    )

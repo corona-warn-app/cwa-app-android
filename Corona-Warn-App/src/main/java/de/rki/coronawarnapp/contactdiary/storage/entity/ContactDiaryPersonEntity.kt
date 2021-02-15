@@ -12,12 +12,17 @@ import kotlinx.parcelize.Parcelize
 data class ContactDiaryPersonEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "personId") override val personId: Long = 0L,
     @ColumnInfo(name = "fullName") override var fullName: String,
-    override val phoneNumber: String? = null,
-    override val emailAddress: String? = null
+    @ColumnInfo(name = "phoneNumber") override val phoneNumber: String?,
+    @ColumnInfo(name = "emailAddress") override val emailAddress: String?
 ) : ContactDiaryPerson, Parcelable {
     override val stableId: Long
         get() = personId
 }
 
 fun ContactDiaryPerson.toContactDiaryPersonEntity(): ContactDiaryPersonEntity =
-    ContactDiaryPersonEntity(this.personId, this.fullName)
+    ContactDiaryPersonEntity(
+        personId = this.personId,
+        fullName = this.fullName,
+        phoneNumber = this.phoneNumber,
+        emailAddress = this.emailAddress
+    )
