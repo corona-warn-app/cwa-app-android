@@ -52,14 +52,14 @@ data class DiaryLocationListItem(
         other as DiaryLocationListItem
 
         if (item != other.item) return false
-        if (visit != other.visit) return false
+        if (selected != other.selected) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = item.hashCode()
-        result = 31 * result + (visit?.hashCode() ?: 0)
+        result = 31 * result + selected.hashCode()
         return result
     }
 }

@@ -44,6 +44,11 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
         infoButton = findViewById(R.id.info_button)
     }
 
+    override fun onFinishInflate() {
+        input.clearFocus()
+        super.onFinishInflate()
+    }
+
     fun setInfoButtonClickListener(listener: () -> Unit) {
         infoButton.setOnClickListener { listener() }
     }

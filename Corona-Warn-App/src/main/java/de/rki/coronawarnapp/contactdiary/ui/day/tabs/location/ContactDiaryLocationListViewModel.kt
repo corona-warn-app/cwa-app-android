@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
+import de.rki.coronawarnapp.contactdiary.model.toEditableVariant
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -73,14 +74,20 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         item: DiaryLocationListItem,
         duration: Duration?
     ) {
-        // TODO
+        val visit = item.visit?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updateLocationVisit(visit.copy(duration = duration))
+        }
     }
 
     private fun onCircumstancesChanged(
         item: DiaryLocationListItem,
         circumstances: String
     ) {
-        // TODO
+        val visit = item.visit?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = circumstances))
+        }
     }
 
     @AssistedFactory

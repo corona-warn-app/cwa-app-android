@@ -9,8 +9,8 @@ import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 
 data class DiaryPersonListItem(
-    val personEncounter: ContactDiaryPersonEncounter?,
     override val item: ContactDiaryPerson,
+    val personEncounter: ContactDiaryPersonEncounter?,
     override val onItemClick: (SelectableDiaryItem<ContactDiaryPerson>) -> Unit,
     val onDurationChanged: (DiaryPersonListItem, ContactDiaryPersonEncounter.DurationClassification?) -> Unit,
     val onWithMaskChanged: (DiaryPersonListItem, Boolean?) -> Unit,
@@ -54,15 +54,15 @@ data class DiaryPersonListItem(
 
         other as DiaryPersonListItem
 
-        if (personEncounter != other.personEncounter) return false
         if (item != other.item) return false
+        if (selected != other.selected) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = personEncounter?.hashCode() ?: 0
-        result = 31 * result + item.hashCode()
+        var result = item.hashCode()
+        result = 31 * result + selected.hashCode()
         return result
     }
 }

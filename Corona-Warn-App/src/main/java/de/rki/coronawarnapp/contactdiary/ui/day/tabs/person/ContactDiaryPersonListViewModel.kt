@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.toEditableVariant
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -86,7 +87,10 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         duration: ContactDiaryPersonEncounter.DurationClassification?
     ) {
         Timber.d("onDurationChanged(item=%s, duration=%s)", item, duration)
-        // TODO
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(durationClassification = duration))
+        }
     }
 
     private fun onWithmaskChanged(
@@ -94,15 +98,21 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         withMask: Boolean?
     ) {
         Timber.d("onWithmaskChanged(item=%s, withMask=%s)", item, withMask)
-        // TODO
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(withMask = withMask))
+        }
     }
 
     private fun onWasOutsideChanged(
         item: DiaryPersonListItem,
-        onWasOutside: Boolean?
+        wasOutside: Boolean?
     ) {
-        Timber.d("onWasOutsideChanged(item=%s, onWasOutside=%s)", item, onWasOutside)
-        // TODO
+        Timber.d("onWasOutsideChanged(item=%s, onWasOutside=%s)", item, wasOutside)
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(wasOutside = wasOutside))
+        }
     }
 
     private fun onCircumstancesChanged(
@@ -110,7 +120,10 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         circumstances: String
     ) {
         Timber.d("onCircumstancesChanged(item=%s, circumstances=%s)", item, circumstances)
-        // TODO
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(circumstances = circumstances))
+        }
     }
 
     @AssistedFactory

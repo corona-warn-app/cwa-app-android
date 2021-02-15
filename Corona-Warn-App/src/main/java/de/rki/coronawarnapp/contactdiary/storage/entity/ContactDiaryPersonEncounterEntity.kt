@@ -7,6 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification
+import de.rki.coronawarnapp.util.trimToLength
 import org.joda.time.LocalDate
 
 @Entity(
@@ -41,5 +42,5 @@ fun ContactDiaryPersonEncounter.toContactDiaryPersonEncounterEntity(): ContactDi
         durationClassification = this.durationClassification,
         withMask = this.withMask,
         wasOutside = this.wasOutside,
-        circumstances = this.circumstances
+        circumstances = this.circumstances?.trimToLength(250)
     )
