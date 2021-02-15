@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentModule
 import de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogFragment
 import de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogModule
-import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryPersonBottomSheetDialogFragment
+import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryAddPersonFragment
 import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryPersonBottomSheetDialogModule
 
 @Module(includes = [ContactDiaryEditModule::class])
@@ -30,7 +30,7 @@ abstract class ContactDiaryUIModule {
     abstract fun contactDiaryLocationListFragment(): ContactDiaryLocationListFragment
 
     @ContributesAndroidInjector(modules = [ContactDiaryPersonBottomSheetDialogModule::class])
-    abstract fun contactDiaryPersonBottomSheetDialogFragment(): ContactDiaryPersonBottomSheetDialogFragment
+    abstract fun contactDiaryPersonBottomSheetDialogFragment(): ContactDiaryAddPersonFragment
 
     @ContributesAndroidInjector(modules = [ContactDiaryLocationBottomSheetDialogModule::class])
     abstract fun contactDiaryLocationBottomSheetDialogFragment(): ContactDiaryLocationBottomSheetDialogFragment

@@ -63,6 +63,20 @@
         <item name="navigationContentDescription">@string/accessibility_close</item>
     </style>
 
+    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/colorContactDiaryListItem</item>
+        <item name="android:textColorHint">@color/colorTextPrimary2</item>
+        <item name="hintTextColor">@color/colorTextPrimary2</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/spacing_tiny</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/spacing_tiny</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/spacing_tiny</item>
+        <item name="boxCornerRadiusTopStart">@dimen/spacing_tiny</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="counterTextAppearance">@color/colorTransparent</item>
+        <item name="android:maxLength">5</item>
+    </style>
+
     <!-- Dialog Theme-->
     <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTheme</item>

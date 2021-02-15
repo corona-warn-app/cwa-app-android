@@ -14,11 +14,11 @@
             android:defaultValue="2020-03-25"
             app:argType="string" />
         <action
-            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryPersonBottomSheetDialogFragment"
-            app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
-        <action
             android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryLocationBottomSheetDialogFragment"
             app:destination="@id/contactDiaryLocationBottomSheetDialogFragment" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryAddPersonFragment"
+            app:destination="@id/contactDiaryAddPersonFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPersonListFragment"
@@ -38,11 +38,11 @@
             android:name="selectedDay"
             app:argType="string" />
     </fragment>
-    <dialog
-        android:id="@+id/contactDiaryPersonBottomSheetDialogFragment"
-        android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryPersonBottomSheetDialogFragment"
-        android:label="ContactDiaryPersonBottomSheetDialogFragment"
-        tools:layout="@layout/contact_diary_person_bottom_sheet_fragment">
+    <fragment
+        android:id="@+id/contactDiaryAddPersonFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryAddPersonFragment"
+        android:label="ContactDiaryAddPersonFragment"
+        tools:layout="@layout/contact_diary_add_person_fragment">
         <argument
             android:name="selectedPerson"
             android:defaultValue="@null"
@@ -53,7 +53,7 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-    </dialog>
+    </fragment>
     <dialog
         android:id="@+id/contactDiaryLocationBottomSheetDialogFragment"
         android:name="de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogFragment"
@@ -127,7 +127,7 @@
         tools:layout="@layout/contact_diary_edit_persons_fragment">
         <action
             android:id="@+id/action_contactDiaryEditPersonsFragment_to_contactDiaryPersonBottomSheetDialogFragment"
-            app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
+            app:destination="@id/contactDiaryAddPersonFragment" />
     </fragment>
 
 </navigation>

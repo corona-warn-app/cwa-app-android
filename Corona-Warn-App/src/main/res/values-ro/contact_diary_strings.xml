@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Nicio persoană definită deocamdată"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Creați o persoană și adăugați-o la jurnalul dvs. de contacte."</string>
     <string name="contact_diary_person_bottom_sheet_title">"Persoană"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Nume"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_name_hint">"Nume"</string>
     <string name="contact_diary_person_bottom_sheet_save_button">"Salvare"</string>
     <string name="contact_diary_location_bottom_sheet_title">"Loc"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Descriere"</string>

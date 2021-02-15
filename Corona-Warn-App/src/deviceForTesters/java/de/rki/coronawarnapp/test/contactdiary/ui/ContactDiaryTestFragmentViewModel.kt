@@ -70,7 +70,7 @@ class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
         launch {
             val contactPersonId = Random.nextLong()
             val contactPerson = DefaultContactDiaryPerson(contactPersonId, "Suspect #$contactPersonId")
-            repository.addPerson(contactPerson)
+            repository.addEntries(contactPerson)
 
             val personEncounter =
                 DefaultContactDiaryPersonEncounter(Random.nextLong(), getDate(outdated), contactPerson)

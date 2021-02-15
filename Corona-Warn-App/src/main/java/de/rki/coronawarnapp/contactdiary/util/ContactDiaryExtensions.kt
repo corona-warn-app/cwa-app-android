@@ -9,6 +9,7 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
+import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryAddPersonFragment
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -68,16 +69,13 @@ fun View.focusAndShowKeyboard() {
     requestFocus()
     if (hasWindowFocus()) {
         showTheKeyboardNow()
-    } else {
-        viewTreeObserver.addOnWindowFocusChangeListener(
-            object : ViewTreeObserver.OnWindowFocusChangeListener {
-                override fun onWindowFocusChanged(hasFocus: Boolean) {
-                    if (hasFocus) {
-                        this@focusAndShowKeyboard.showTheKeyboardNow()
-                        viewTreeObserver.removeOnWindowFocusChangeListener(this)
-                    }
-                }
-            })
+    }
+}
+
+fun View.hideKeyboard() {
+    post {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.windowToken, 0)
     }
 }
 

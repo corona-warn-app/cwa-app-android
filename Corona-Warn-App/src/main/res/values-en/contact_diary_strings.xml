@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"No people defined yet"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Create a person and add them to your contact journal."</string>
     <string name="contact_diary_person_bottom_sheet_title">"Person"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Name"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_name_hint">"Name"</string>
     <string name="contact_diary_person_bottom_sheet_save_button">"Save"</string>
     <string name="contact_diary_location_bottom_sheet_title">"Place"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Description"</string>
