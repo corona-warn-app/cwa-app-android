@@ -17,10 +17,9 @@ import javax.inject.Singleton
 @Singleton
 class Surveys @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
-    private val settings: SurveySettings,
     private val appConfigProvider: AppConfigProvider,
     private val surveyServer: SurveyServer,
-    private val otpRepo: OTPRepository,
+    private val oneTimePasswordRepo: OTPRepository,
     dispatcherProvider: DispatcherProvider,
     private val urlProvider: SurveyUrlProvider
 ) {
@@ -46,14 +45,14 @@ class Surveys @Inject constructor(
 //        if (type == Type.HIGH_RISK_ENCOUNTER && !surveyConfig.surveyOnHighRiskEnabled) {
 //            throw SurveyException(SurveyException.Type.HIGH_RISK_NOT_ENABLED)
 //        }
-        otpRepo.otpAuthorizationResult?.apply {
+        oneTimePasswordRepo.otpAuthorizationResult?.apply {
             if (authorized && redeemedAt.toDateTime().monthOfYear() == Instant.now().toDateTime().monthOfYear()) {
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
         }
 
         // generate OTP
-        val otp = otpRepo.otp ?: otpRepo.generateOTP()
+        val otp = oneTimePasswordRepo.otp ?: oneTimePasswordRepo.generateOTP()
 
         // check device
         val attestationResult = deviceAttestation.attest(object : DeviceAttestation.Request {
@@ -65,7 +64,7 @@ class Surveys @Inject constructor(
         // request validation from server
         val errorCode = surveyServer.authOTP(otp, attestationResult).errorCode
         val result = OTPAuthorizationResult(otp.uuid, errorCode == null, Instant.now())
-        otpRepo.otpAuthorizationResult = result
+        oneTimePasswordRepo.otpAuthorizationResult = result
 
         if (result.authorized) {
             return Survey(
