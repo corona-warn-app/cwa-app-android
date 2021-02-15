@@ -6,7 +6,7 @@ import dagger.Reusable
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.RegisteredTestDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
 import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsSubmissionLogger
@@ -51,7 +51,7 @@ class AnalyticsModule {
 //
     @IntoSet
     @Provides
-    fun registeredTest(module: RegisteredTestDonor): DonorModule = module
+    fun registeredTest(module: TestResultDonor): DonorModule = module
 
     @IntoSet
     @Provides

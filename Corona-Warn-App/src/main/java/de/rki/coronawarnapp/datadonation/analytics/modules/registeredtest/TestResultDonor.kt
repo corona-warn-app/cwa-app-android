@@ -6,10 +6,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RegisteredTestDonor @Inject constructor() : DonorModule {
+class TestResultDonor @Inject constructor() : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        // TODO
+        
         return object : DonorModule.Contribution {
             override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
                 // TODO
