@@ -89,6 +89,16 @@ class AnalyticsSettings @Inject constructor(
         defaultValue = false
     )
 
+    val testScannedAfterConsent = prefs.createFlowPreference(
+        key = PREFS_KEY_TEST_SCANNED_AFTER_CONSENT,
+        reader = { key ->
+            getBoolean(key, false)
+        },
+        writer = { key, value ->
+            putBoolean(key, value)
+        }
+    )
+
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
@@ -96,5 +106,6 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
+        private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
     }
 }

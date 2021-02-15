@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -14,9 +15,11 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -30,6 +33,8 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -50,6 +55,7 @@ class SubmissionRepositoryTest {
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var analyticsSettings: AnalyticsSettings
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -85,6 +91,8 @@ class SubmissionRepositoryTest {
         coEvery { tekHistoryStorage.clear() } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH
+
+        coEvery { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
     }
 
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(
@@ -93,7 +101,8 @@ class SubmissionRepositoryTest {
         submissionService = submissionService,
         timeStamper = timeStamper,
         tekHistoryStorage = tekHistoryStorage,
-        deadmanNotificationScheduler = deadmanNotificationScheduler
+        deadmanNotificationScheduler = deadmanNotificationScheduler,
+        analyticsSettings = analyticsSettings
     )
 
     @Test
@@ -132,6 +141,22 @@ class SubmissionRepositoryTest {
             LocalData.registrationToken(registrationToken)
             backgroundNoise.scheduleDummyPattern()
             submissionRepository.updateTestResult(testResult)
+        }
+
+        coVerify { analyticsSettings.testScannedAfterConsent wasNot Called }
+    }
+
+    @Test
+    fun `registrationWithGUID enable Test result metadata collection after user consent` () = runBlockingTest {
+        coEvery { submissionService.asyncRegisterDeviceViaGUID(guid) } returns registrationData
+        coEvery { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+        coEvery { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+        val submissionRepository = createInstance(scope = this)
+
+        submissionRepository.asyncRegisterDeviceViaGUID(guid)
+
+        verify(exactly = 1) {
+            analyticsSettings.testScannedAfterConsent
         }
     }
 

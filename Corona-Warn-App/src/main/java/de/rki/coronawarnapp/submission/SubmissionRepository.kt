@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
@@ -33,7 +34,8 @@ class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val analyticsSettings: AnalyticsSettings
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -132,6 +134,11 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
+        // Collect Test result registration only after user has given a consent.
+        // To exclude any registered test result before giving a consent
+        if (analyticsSettings.analyticsEnabled.value) {
+            analyticsSettings.testScannedAfterConsent.update { true }
+        }
         return registrationData.testResult
     }
 

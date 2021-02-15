@@ -23,6 +23,10 @@ class TestResultDonor @Inject constructor(
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
+        if (!analyticsSettings.testScannedAfterConsent.value) {
+            Timber.d("Skipping TestResultMetadata donation(Test scanned before consent) ")
+            return TestResultMetadataNoContribution
+        }
 
         val submissionState = submissionStateProvider.state.first()
         val isTestResultReceived = submissionState is TestPositive ||
