@@ -49,7 +49,7 @@ class Surveys @Inject constructor(
         )
     }
 
-    suspend fun resetSurvey(type: Type) {
+    fun resetSurvey(type: Type) {
         if (type == Type.HIGH_RISK_ENCOUNTER) {
             oneTimePasswordRepo.clear()
         }
