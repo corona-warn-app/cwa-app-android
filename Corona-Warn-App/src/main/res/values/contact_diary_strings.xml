@@ -141,5 +141,24 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Edit"</string>
 
+    <!-- XBUT: Option - person encounter - below 15 Min -->
+    <string name="contact_diary_person_encounter_duration_below_15_min">unter 15 Min</string>
+    <!-- XBUT: Option - person encounter - above 15 Min -->
+    <string name="contact_diary_person_encounter_duration_above_15_min">über 15 Min</string>
+    <!-- XBUT: Option - person encounter - with mask -->
+    <string name="contact_diary_person_encounter_mask_with">mit Maske</string>
+    <!-- XBUT: Option - person encounter - without mask -->
+    <string name="contact_diary_person_encounter_mask_without">ohne Maske</string>
+    <!-- XBUT: Option - person encounter - outside -->
+    <string name="contact_diary_person_encounter_environment_outside">im Freien</string>
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_person_encounter_environment_inside">drinnen</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_person_encounter_circumstances_hint">Notiz (z.B. geringer Abstand)</string>
 
+
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_location_visit_duration_label">Dauer</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_location_visit_circumstances_hint">Notiz (z.B. sehr voll)</string>
 </resources>
