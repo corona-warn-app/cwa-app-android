@@ -90,7 +90,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_body"
                     app:showDivider="@{true}"
-                    app:status="@{true}"
+                    app:status="@{false}"
                     app:statusText="@{@string/settings_on}"
                     app:subtitle="@{@string/settings_analytics_switch_subtitle}" />
 
