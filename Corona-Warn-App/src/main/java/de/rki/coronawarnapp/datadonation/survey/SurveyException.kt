@@ -9,11 +9,13 @@ class SurveyException constructor(
 ) : Exception("$type: $message", cause) {
 
     enum class Type {
-        ALREADY_PARTICIPATED_THIS_MONTH
+        ALREADY_PARTICIPATED_THIS_MONTH,
+        OTP_NOT_AUTHORIZED
     }
 }
 
 fun SurveyException.errorMsgRes(): Int = when (type) {
     SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH ->
         R.string.datadonation_details_survey_consent_error_ALREADY_PARTICIPATED
+    SurveyException.Type.OTP_NOT_AUTHORIZED -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
 }

@@ -94,7 +94,6 @@ class SurveyApiV1Test : BaseTest() {
     @Test
     fun `server returns 500`(): Unit = runBlocking {
         val api = createAPI()
-        // FIXME Wert vom server abfrägen
         """
             {
             

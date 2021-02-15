@@ -105,7 +105,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
             secureRandom.nextBytes(payload)
             try {
                 val result = cwaSafetyNet.attest(object : DeviceAttestation.Request {
-                    override val scenarioPayload: ByteArray = payload
+                    override val scenarioPayload: ByteArray
+                        get() = payload
                 })
                 result.requirePass(requirements)
                 currentValidationInternal.value = requirements to null
