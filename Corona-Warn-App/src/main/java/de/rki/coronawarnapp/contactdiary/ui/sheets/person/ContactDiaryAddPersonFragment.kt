@@ -25,7 +25,7 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
     private val binding: ContactDiaryAddPersonFragmentBinding by viewBindingLazy()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModelAdd: ContactDiaryAddPersonViewModel by cwaViewModelsAssisted(
+    private val viewModel: ContactDiaryAddPersonViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as ContactDiaryAddPersonViewModel.Factory
@@ -46,15 +46,14 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
                 DialogHelper.showDialog(deletePersonConfirmationDialog)
             }
             binding.contactDiaryPersonSaveButton.setOnClickListener {
-                viewModelAdd.updatePerson(person)
-                popBackStack()
+                viewModel.updatePerson(person)
+                it.hideKeyboard()
             }
         } else {
             binding.contactDiaryPersonDeleteButton.visibility = View.GONE
             binding.contactDiaryPersonSaveButton.setOnClickListener {
-                viewModelAdd.addPerson()
+                viewModel.addPerson()
                 it.hideKeyboard()
-                popBackStack()
             }
         }
 
@@ -62,23 +61,22 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             contactDiaryPersonNameEditText.focusAndShowKeyboard()
 
             contactDiaryPersonCloseButton.setOnClickListener {
-                it.hideKeyboard()
-                popBackStack()
+                viewModel.closePressed()
             }
             contactDiaryPersonNameEditText.doAfterTextChanged {
-                viewModelAdd.nameChanged(it.toString())
+                viewModel.nameChanged(it.toString())
             }
             contactDiaryPersonPhoneNumberEditText.doAfterTextChanged {
-                viewModelAdd.phoneNumberChanged(it.toString())
+                viewModel.phoneNumberChanged(it.toString())
             }
 
             contactDiaryPersonEmailEditText.doAfterTextChanged {
-                viewModelAdd.emailAddressChanged(it.toString())
+                viewModel.emailAddressChanged(it.toString())
             }
             contactDiaryPersonEmailEditText.setOnEditorActionListener { _, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
                     IME_ACTION_DONE -> {
-                        if (viewModelAdd.isValid.value == true) {
+                        if (viewModel.isValid.value == true) {
                             binding.contactDiaryPersonSaveButton.performClick()
                         }
                         false
@@ -88,7 +86,11 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             }
         }
 
-        viewModelAdd.isValid.observe2(this) { isValid ->
+        viewModel.shouldClose.observe2(this) {
+            popBackStack()
+        }
+
+        viewModel.isValid.observe2(this) { isValid ->
             binding.contactDiaryPersonSaveButton.isEnabled = isValid
         }
     }
@@ -102,7 +104,7 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             R.string.contact_diary_delete_button_negative,
             positiveButtonFunction = {
                 navArgs.selectedPerson?.let {
-                    viewModelAdd.deletePerson(it)
+                    viewModel.deletePerson(it)
                 }
             }
         )

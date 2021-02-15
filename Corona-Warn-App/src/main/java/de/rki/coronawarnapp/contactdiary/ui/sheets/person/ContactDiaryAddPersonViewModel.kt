@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -28,6 +29,8 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
+
+    val shouldClose = SingleLiveEvent<Unit>()
 
     private val _text = MutableStateFlow("")
     val name: StateFlow<String> = _text
@@ -71,6 +74,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 )
             )
         }
+        shouldClose.postValue(null)
     }
 
     fun updatePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
@@ -80,6 +84,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 fullName = name.value
             )
         )
+        shouldClose.postValue(null)
     }
 
     fun deletePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
@@ -88,6 +93,11 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 contactDiaryRepository.deletePersonEncounter(it)
         }
         contactDiaryRepository.deleteEntries(person)
+        shouldClose.postValue(null)
+    }
+
+    fun closePressed() {
+        shouldClose.postValue(null)
     }
 
     companion object {
