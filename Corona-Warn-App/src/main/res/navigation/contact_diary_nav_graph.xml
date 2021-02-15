@@ -30,7 +30,7 @@
             app:argType="string" />
         <action
             android:id="@+id/action_contactDiaryPersonListFragment_to_contactDiaryPersonCommentInfoFragment"
-            app:destination="@id/contactDiaryPersonCommentInfoFragment" />
+            app:destination="@id/contactDiaryCommentInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPlaceListFragment"
@@ -133,9 +133,9 @@
             app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
     </fragment>
     <fragment
-        android:id="@+id/contactDiaryPersonCommentInfoFragment"
-        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonCommentInfoFragment"
-        android:label="PersonCommentInfoFragment"
-        tools:layout="@layout/contact_diary_person_comment_info_fragment" />
+        android:id="@+id/contactDiaryCommentInfoFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryCommentInfoFragment"
+        android:label="CommentInfoFragment"
+        tools:layout="@layout/contact_diary_comment_info_fragment" />
 
 </navigation>

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.menu.ui
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryCommentInfoFragment
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
@@ -30,7 +31,8 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
             SettingsCrashReportFragment.MENU_ITEM,
             MiscInfoFragment.MENU_ITEM,
             ContactDiaryTestFragment.MENU_ITEM,
-            DataDonationTestFragment.MENU_ITEM
+            DataDonationTestFragment.MENU_ITEM,
+            ContactDiaryCommentInfoFragment.MENU_ITEM
         ).let { MutableLiveData(it) }
     }
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()

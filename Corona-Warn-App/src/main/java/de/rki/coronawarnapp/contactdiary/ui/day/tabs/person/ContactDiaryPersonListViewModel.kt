@@ -8,11 +8,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewNavigationEvents
 import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -27,9 +25,6 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-
-    val navigateToCommentInfo: SingleLiveEvent<Unit> = SingleLiveEvent()
-
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
@@ -76,10 +71,6 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                 .find { it.contactDiaryPerson.personId == item.item.personId }
             visit?.let { contactDiaryRepository.deletePersonEncounter(it) }
         }
-    }
-
-    fun onPersonCommentInfoPress() {
-        navigateToCommentInfo.postValue(null)
     }
 
     @AssistedFactory
