@@ -18,7 +18,11 @@
         android:id="@+id/onboardingNotificationsFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsFragment"
         android:label="OnboardingNotificationsFragment"
-        tools:layout="@layout/fragment_onboarding_notifications" />
+        tools:layout="@layout/fragment_onboarding_notifications">
+        <action
+            android:id="@+id/action_onboardingNotificationsFragment_to_onboardingAnalyticsFragment"
+            app:destination="@id/onboardingAnalyticsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingPrivacyFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyFragment"
@@ -46,4 +50,30 @@
             android:id="@+id/action_onboardingTracingFragment_to_onboardingTestFragment"
             app:destination="@id/onboardingTestFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/onboardingAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragment"
+        android:label="OnboardingAnalyticsFragment"
+        tools:layout="@layout/fragment_onboarding_ppa">
+        <action
+            android:id="@+id/action_onboardingAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_onboardingAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/analyticsUserInputFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
+        android:label="AnalyticsUserInputFragment"
+        tools:layout="@layout/analytics_ppa_userinfo_input_fragment">
+        <argument
+            android:name="type"
+            app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppaMoreInfoFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
+        android:label="PpaMoreInfoFragment"
+        tools:layout="@layout/fragment_ppa_more_info" />
 </navigation>

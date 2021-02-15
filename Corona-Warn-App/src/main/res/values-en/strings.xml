@@ -602,11 +602,9 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
     <string name="onboarding_ppa_more_info_other_info_point_1_text">"Information about the age group you specified."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Information about the age group you specified."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Information about the time between your last exposure with increased risk and the test registration."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Information about the time between your last exposure with increased risk and the test registration."</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Information about whether you shared your test result and warned others."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Information about whether you shared your test result and warned others."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"This information cannot be linked with you personally. Your identity will remain confidential.\nThe information will be analyzed for statistical purposes. It will not be saved for a profile."</string>
 

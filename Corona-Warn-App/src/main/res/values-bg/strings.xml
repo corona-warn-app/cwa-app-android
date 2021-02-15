@@ -602,11 +602,9 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
     <string name="onboarding_ppa_more_info_other_info_point_1_text">"Посочената от Вас възрастова група"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Посочената от Вас възрастова група"</string>
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Времето между Вашето последно излагане с повишен риск и регистрирането на теста"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Времето между Вашето последно излагане с повишен риск и регистрирането на теста"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Информация относно това дали сте споделили резултата от теста си, за да предупредите останалите потребители"</string>
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Информация относно това дали сте споделили резултата от теста си, за да предупредите останалите потребители"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Тази информация не може да се използва за установяване на самоличността Ви – Вашата анонимност ще бъде запазена.\nДанните ще бъдат анализирани за статистически цели и няма да се използват за създаване на профил."</string>
 
