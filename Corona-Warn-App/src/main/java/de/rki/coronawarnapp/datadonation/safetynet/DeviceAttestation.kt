@@ -12,11 +12,11 @@ interface DeviceAttestation {
     @Throws(SafetyNetException::class)
     suspend fun attest(request: Request): Result
 
-    interface Request {
+    fun interface Request {
         /**
          * e.g. for EventSurvey, a UUID, base64 encoded.
          */
-        val scenarioPayload: ByteArray
+        fun scenarioPayload(): ByteArray
     }
 
     interface Result {

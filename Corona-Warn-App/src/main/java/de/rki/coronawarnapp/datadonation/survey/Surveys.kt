@@ -49,10 +49,9 @@ class Surveys @Inject constructor(
         val oneTimePassword = oneTimePasswordRepo.otp ?: oneTimePasswordRepo.generateOTP()
 
         // check device
-        val attestationResult = deviceAttestation.attest(object : DeviceAttestation.Request {
-            override val scenarioPayload: ByteArray
-                get() = oneTimePassword.payloadForRequest
-        })
+        val attestationResult = deviceAttestation.attest {
+            oneTimePassword.payloadForRequest
+        }
         attestationResult.requirePass(config.safetyNetRequirements)
 
         // request validation from server
