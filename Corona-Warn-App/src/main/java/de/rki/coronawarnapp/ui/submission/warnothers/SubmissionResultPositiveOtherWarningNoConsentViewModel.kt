@@ -54,7 +54,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
             }
 
             override fun onTEKPermissionDeclined() {
-// stay on screen
+                // stay on screen
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
