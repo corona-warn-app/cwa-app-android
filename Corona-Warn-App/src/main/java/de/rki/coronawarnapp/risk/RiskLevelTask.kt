@@ -165,7 +165,7 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    private fun determineRisk(
+    private suspend fun determineRisk(
         appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindows: List<ExposureWindow>
     ): AggregatedRiskResult {
@@ -180,7 +180,7 @@ class RiskLevelTask @Inject constructor(
                     window,
                     result
                 )
-                exposureWindowRepository.addContribution(contribution)
+                exposureWindowRepository.add(contribution)
             }
         }
         return riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
