@@ -113,8 +113,8 @@
         android:label="DataDonationFragment" />
     <fragment
         android:id="@+id/test_contact_diary_comment_fragment"
-        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.ContactDiaryCommentInfoFragment"
-        android:label="CommentInfoFragment"
+        android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryCommentInfoTestFragment"
+        android:label="CommentInfoTestFragment"
         tools:layout="@layout/contact_diary_comment_info_fragment" />
 
 
