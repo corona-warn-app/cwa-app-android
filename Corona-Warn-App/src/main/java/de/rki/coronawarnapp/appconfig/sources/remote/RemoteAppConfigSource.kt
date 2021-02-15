@@ -42,7 +42,7 @@ class RemoteAppConfigSource @Inject constructor(
                 )
             }
         } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Failed to parse AppConfig from server, trying fallback.")
+            Timber.tag(TAG).e(e, "Failed to parse AppConfig from server.")
             null
         }
     }

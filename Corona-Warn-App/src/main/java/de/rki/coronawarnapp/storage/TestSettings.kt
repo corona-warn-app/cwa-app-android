@@ -19,8 +19,8 @@ class TestSettings @Inject constructor(
         context.getSharedPreferences("test_settings", Context.MODE_PRIVATE)
     }
 
-    val isDeviceTimeCheckDisabled = prefs.createFlowPreference(
-        key = "config.devicetimecheck.disabled",
+    val fakeCorrectDeviceTime = prefs.createFlowPreference(
+        key = "config.devicetimecheck.fake.correct",
         defaultValue = false
     )
 
@@ -29,10 +29,9 @@ class TestSettings @Inject constructor(
         defaultValue = false
     )
 
-    val fakeExposureWindows = FlowPreference(
-        preferences = prefs,
+    val fakeExposureWindows: FlowPreference<FakeExposureWindowTypes> = prefs.createFlowPreference(
         key = "riskleve.exposurewindows.fake",
-        reader = FlowPreference.gsonReader<FakeExposureWindowTypes>(gson, FakeExposureWindowTypes.DISABLED),
+        reader = FlowPreference.gsonReader(gson, FakeExposureWindowTypes.DISABLED),
         writer = FlowPreference.gsonWriter(gson)
     )
 

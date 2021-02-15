@@ -4,6 +4,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -34,7 +35,7 @@ class DeadmanNotificationScheduler @Inject constructor(
     }
 
     /**
-     * Enqueue background deadman notification onetime work
+     * Enqueue background deadman notification periodic work
      * Do -NOT- Replace with new if older work exists.
      * As this will result in the notification spam seen in the past
      * because running a new check every time the app is opened
@@ -50,11 +51,18 @@ class DeadmanNotificationScheduler @Inject constructor(
         )
     }
 
+    fun cancelScheduledWork() {
+        workManager.cancelUniqueWork(PERIODIC_WORK_NAME)
+        workManager.cancelUniqueWork(ONE_TIME_WORK_NAME)
+        Timber.d("DeadmanNotification Jobs Cancelled")
+    }
+
     companion object {
         /**
          * Deadman notification one time work
          */
         const val ONE_TIME_WORK_NAME = "DeadmanNotificationOneTimeWork"
+
         /**
          * Deadman notification periodic work
          */

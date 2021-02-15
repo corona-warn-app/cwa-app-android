@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata
 
-import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,6 +21,20 @@ class UserMetadataDonor @Inject constructor(
         return UserMetadataContribution(
             contributionProto = userMetadata
         )
+    }
+
+    override suspend fun deleteData() {
+        analyticsSettings.apply {
+            userInfoAgeGroup.update {
+                PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+            }
+            userInfoFederalState.update {
+                PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+            }
+            userInfoDistrict.update {
+                0
+            }
+        }
     }
 
     data class UserMetadataContribution(

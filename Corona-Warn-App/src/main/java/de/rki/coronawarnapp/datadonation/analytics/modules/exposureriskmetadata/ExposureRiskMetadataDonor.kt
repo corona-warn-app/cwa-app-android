@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata
 
-import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -26,7 +26,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
             .tryLatestResultsWithDefaults()
             .lastCalculated
 
-        val riskLevelForMetadata = lastRiskResult.calculateMetadataRiskLevel()
+        val riskLevelForMetadata = lastRiskResult.toMetadataRiskLevel()
 
         val newMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(riskLevelForMetadata)
@@ -53,12 +53,18 @@ class ExposureRiskMetadataDonor @Inject constructor(
         )
     }
 
+    override suspend fun deleteData() {
+        analyticsSettings.previousExposureRiskMetadata.update {
+            null
+        }
+    }
+
     data class ExposureRiskMetadataContribution(
         val contributionProto: PpaData.ExposureRiskMetadata,
         val onContributionFinished: suspend (Boolean) -> Unit
     ) : DonorModule.Contribution {
         override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
-            protobufContainer.exposureRiskMetadataSetList.add(contributionProto)
+            protobufContainer.addExposureRiskMetadataSet(contributionProto)
         }
 
         override suspend fun finishDonation(successful: Boolean) {
@@ -67,7 +73,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
     }
 }
 
-private fun RiskLevelResult.calculateMetadataRiskLevel(): PpaData.PPARiskLevel =
+private fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (riskState) {
         RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
         RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH

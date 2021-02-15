@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.ui
 
 import android.content.Context
-import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

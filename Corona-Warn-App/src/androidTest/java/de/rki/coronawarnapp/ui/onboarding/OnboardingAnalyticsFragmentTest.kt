@@ -4,8 +4,9 @@ import androidx.lifecycle.asLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -33,6 +34,7 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
 
     @MockK lateinit var settings: AnalyticsSettings
     @MockK lateinit var districts: Districts
+    @MockK lateinit var analytics: Analytics
 
     private lateinit var viewModel: OnboardingAnalyticsViewModel
 
@@ -70,7 +72,8 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
         OnboardingAnalyticsViewModel(
             settings = settings,
             districts = districts,
-            dispatcherProvider = TestDispatcherProvider()
+            dispatcherProvider = TestDispatcherProvider(),
+            analytics = analytics
         )
     )
 

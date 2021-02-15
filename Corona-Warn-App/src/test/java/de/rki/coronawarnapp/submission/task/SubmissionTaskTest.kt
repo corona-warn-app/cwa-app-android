@@ -79,6 +79,7 @@ class SubmissionTaskTest : BaseTest() {
 
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
+        every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
 
         every { tekBatch.keys } returns listOf(tek)
         every { tekHistoryStorage.tekData } returns flowOf(listOf(tekBatch))
@@ -154,6 +155,7 @@ class SubmissionTaskTest : BaseTest() {
 
             BackgroundWorkScheduler.stopWorkScheduler()
             LocalData.numberOfSuccessfulSubmissions(1)
+            BackgroundWorkScheduler.startWorkScheduler()
 
             shareTestResultNotificationService.cancelSharePositiveTestResultNotification()
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()

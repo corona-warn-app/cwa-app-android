@@ -20,6 +20,10 @@ class NewExposureWindowsDonor @Inject constructor(
         )
     }
 
+    override suspend fun deleteData() {
+        // TODO
+    }
+
     data class Contribution(
         val data: List<PpaData.PPANewExposureWindow>,
         val onContributionFinished: suspend (Boolean) -> Unit

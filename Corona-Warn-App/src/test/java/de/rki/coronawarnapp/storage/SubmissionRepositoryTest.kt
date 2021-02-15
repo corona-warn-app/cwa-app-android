@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -48,6 +49,7 @@ class SubmissionRepositoryTest {
 
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -90,7 +92,8 @@ class SubmissionRepositoryTest {
         submissionSettings = submissionSettings,
         submissionService = submissionService,
         timeStamper = timeStamper,
-        tekHistoryStorage = tekHistoryStorage
+        tekHistoryStorage = tekHistoryStorage,
+        deadmanNotificationScheduler = deadmanNotificationScheduler
     )
 
     @Test
@@ -101,6 +104,7 @@ class SubmissionRepositoryTest {
         every { LocalData.initialTestResultReceivedTimestamp(any()) } just Runs
         every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
         every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
+        every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
 
         submissionRepository.removeTestFromDevice()
 
@@ -111,6 +115,7 @@ class SubmissionRepositoryTest {
             LocalData.initialTestResultReceivedTimestamp(0L)
             LocalData.isAllowedToSubmitDiagnosisKeys(false)
             LocalData.isTestResultAvailableNotificationSent(false)
+            LocalData.numberOfSuccessfulSubmissions(0)
         }
     }
 

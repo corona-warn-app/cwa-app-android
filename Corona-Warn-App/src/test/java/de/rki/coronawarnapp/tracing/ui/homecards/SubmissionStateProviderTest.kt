@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import java.util.Date
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class SubmissionStateProviderTest : BaseTest() {
@@ -40,6 +41,7 @@ class SubmissionStateProviderTest : BaseTest() {
         every { submissionRepository.deviceUIStateFlow } returns flow {
             emit(NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>(DeviceUIState.PAIRED_POSITIVE))
         }
+        every { submissionRepository.testResultReceivedDateFlow } returns flow { emit(Date()) }
         every { LocalData.registrationToken() } returns null
     }
 
@@ -58,6 +60,7 @@ class SubmissionStateProviderTest : BaseTest() {
             verifySequence {
                 submissionRepository.deviceUIStateFlow
                 submissionRepository.hasViewedTestResult
+                submissionRepository.testResultReceivedDateFlow
                 LocalData.registrationToken()
             }
         }

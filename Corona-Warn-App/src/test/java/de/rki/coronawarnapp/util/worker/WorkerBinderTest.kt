@@ -6,6 +6,8 @@ import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -17,7 +19,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -91,6 +92,14 @@ class MockProvider {
     // For DeadmanNotificationPeriodicWorker
     @Provides
     fun scheduler(): DeadmanNotificationScheduler = mockk()
+
+    // For Analytics periodic worker
+    @Provides
+    fun dataDonationAnalyticsScheduler(): DataDonationAnalyticsScheduler = mockk()
+
+    // For Analytics one time worker
+    @Provides
+    fun analytics(): Analytics = mockk()
 
     @Provides
     fun taskController(): TaskController = mockk()

@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -45,6 +46,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     private lateinit var viewModel: HomeFragmentViewModel
 
@@ -93,7 +95,8 @@ class HomeFragmentTest : BaseUITest() {
             submissionRepository = submissionRepository,
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
-            statisticsProvider = statisticsProvider
+            statisticsProvider = statisticsProvider,
+            deadmanNotificationScheduler = deadmanNotificationScheduler
         )
     )
 }

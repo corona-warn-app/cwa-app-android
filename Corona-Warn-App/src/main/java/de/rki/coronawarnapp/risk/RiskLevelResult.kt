@@ -55,6 +55,7 @@ interface RiskLevelResult {
         NO_INTERNET("noInternet"),
         INCORRECT_DEVICE_TIME("incorrectDeviceTime"),
         OUTDATED_RESULTS("outDatedResults"),
-        OUTDATED_RESULTS_MANUAL("outDatedResults.manual")
+        OUTDATED_RESULTS_MANUAL("outDatedResults.manual"),
+        POSITIVE_TEST_RESULT("positiveTestResult")
     }
 }

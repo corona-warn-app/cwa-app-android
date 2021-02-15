@@ -40,7 +40,10 @@ object TracingData {
                 riskState = RiskState.LOW_RISK
             ),
 
-            PeriodLoggedBox.Item(activeTracingDaysInRetentionPeriod = 0),
+            PeriodLoggedBox.Item(
+                activeTracingDaysInRetentionPeriod = 0,
+                tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
+            ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
         )
     )
@@ -68,7 +71,10 @@ object TracingData {
                 riskState = RiskState.LOW_RISK
             ),
 
-            PeriodLoggedBox.Item(activeTracingDaysInRetentionPeriod = 0),
+            PeriodLoggedBox.Item(
+                activeTracingDaysInRetentionPeriod = 0,
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+            ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
         )
     )
@@ -92,7 +98,10 @@ object TracingData {
                 )
             ),
             BehaviorIncreasedRiskBox.Item,
-            PeriodLoggedBox.Item(activeTracingDaysInRetentionPeriod = 5),
+            PeriodLoggedBox.Item(
+                activeTracingDaysInRetentionPeriod = 5,
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+            ),
             DetailsIncreasedRiskBox.Item(
                 riskState = RiskState.INCREASED_RISK,
                 lastEncounteredAt = Instant.now()
