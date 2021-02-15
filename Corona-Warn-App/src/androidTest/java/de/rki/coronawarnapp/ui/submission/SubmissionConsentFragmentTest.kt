@@ -45,9 +45,11 @@ class SubmissionConsentFragmentTest : BaseUITest() {
         every { interoperabilityRepository.countryList } returns flowOf()
         viewModel =
             SubmissionConsentViewModel(submissionRepository, interoperabilityRepository, TestDispatcherProvider())
-        setupMockViewModel(object : SubmissionConsentViewModel.Factory {
-            override fun create(): SubmissionConsentViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionConsentViewModel.Factory {
+                override fun create(): SubmissionConsentViewModel = viewModel
+            }
+        )
     }
 
     @After

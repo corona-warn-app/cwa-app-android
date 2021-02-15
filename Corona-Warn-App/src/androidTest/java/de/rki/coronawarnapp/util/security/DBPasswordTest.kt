@@ -128,10 +128,12 @@ class DBPasswordTest {
         from: Long,
         to: Long
     ) {
-        db.tracingIntervalDao().insertInterval(TracingIntervalEntity().apply {
-            this.from = from
-            this.to = to
-        })
+        db.tracingIntervalDao().insertInterval(
+            TracingIntervalEntity().apply {
+                this.from = from
+                this.to = to
+            }
+        )
     }
 
     private suspend fun loadFakeEntity(): TracingIntervalEntity =

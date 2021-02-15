@@ -21,7 +21,8 @@ import javax.inject.Inject
  * @see NotificationManagerCompat
  * @see AlertDialog
  */
-class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_notifications),
+class OnboardingNotificationsFragment :
+    Fragment(R.layout.fragment_onboarding_notifications),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory

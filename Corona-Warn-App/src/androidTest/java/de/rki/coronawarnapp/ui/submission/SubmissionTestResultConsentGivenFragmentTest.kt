@@ -108,7 +108,8 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_POSITIVE
-                ), Date()
+                ),
+                Date()
             )
         )
 
