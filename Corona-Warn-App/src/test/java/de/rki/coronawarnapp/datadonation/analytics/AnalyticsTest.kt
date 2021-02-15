@@ -103,11 +103,11 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            analytics.stopDueToNoAnalyticsConfig()
+            analytics.stopDueToNoAnalyticsConfig(analyticsConfig)
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData()
+            analytics.submitAnalyticsData(analyticsConfig)
             analytics.stopDueToNoUserConsent()
         }
     }
@@ -123,13 +123,13 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            analytics.stopDueToNoAnalyticsConfig()
+            analytics.stopDueToNoAnalyticsConfig(analyticsConfig)
             analytics.stopDueToNoUserConsent()
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData()
-            analytics.stopDueToProbabilityToSubmit()
+            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.stopDueToProbabilityToSubmit(analyticsConfig)
         }
     }
 
@@ -144,13 +144,13 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            analytics.stopDueToNoAnalyticsConfig()
+            analytics.stopDueToNoAnalyticsConfig(analyticsConfig)
             analytics.stopDueToNoUserConsent()
-            analytics.stopDueToProbabilityToSubmit()
+            analytics.stopDueToProbabilityToSubmit(analyticsConfig)
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData()
+            analytics.submitAnalyticsData(analyticsConfig)
             analytics.stopDueToLastSubmittedTimestamp()
         }
     }
@@ -166,14 +166,14 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            analytics.stopDueToNoAnalyticsConfig()
+            analytics.stopDueToNoAnalyticsConfig(analyticsConfig)
             analytics.stopDueToNoUserConsent()
-            analytics.stopDueToProbabilityToSubmit()
+            analytics.stopDueToProbabilityToSubmit(analyticsConfig)
             analytics.stopDueToLastSubmittedTimestamp()
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData()
+            analytics.submitAnalyticsData(analyticsConfig)
             analytics.stopDueToTimeSinceOnboarding()
         }
     }
@@ -189,15 +189,15 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            analytics.stopDueToNoAnalyticsConfig()
+            analytics.stopDueToNoAnalyticsConfig(analyticsConfig)
             analytics.stopDueToNoUserConsent()
-            analytics.stopDueToProbabilityToSubmit()
+            analytics.stopDueToProbabilityToSubmit(analyticsConfig)
             analytics.stopDueToLastSubmittedTimestamp()
             analytics.stopDueToTimeSinceOnboarding()
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData()
+            analytics.submitAnalyticsData(analyticsConfig)
         }
     }
 
@@ -243,7 +243,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            analytics.submitAnalyticsData()
+            analytics.submitAnalyticsData(analyticsConfig)
             dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
         }
     }
