@@ -400,6 +400,10 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
+    <style name="ContactDiaryExpandableListItem">
+        <item name="android:background">@drawable/contact_diary_card_ripple</item>
+    </style>
+
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
         <item name="android:height">@dimen/button_icon</item>
         <item name="android:width">@dimen/button_icon</item>

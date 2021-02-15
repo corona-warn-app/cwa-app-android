@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
-import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.util.ui.toLazyString
 
 object DiaryData {
@@ -49,8 +49,8 @@ object DiaryData {
         R.drawable.ic_low_risk_alert
     )
 
-    val LOCATIONS: List<SelectableItem<ContactDiaryLocation>> = listOf(
-        SelectableItem(
+    val LOCATIONS: List<SelectableDiaryItem<ContactDiaryLocation>> = listOf(
+        SelectableDiaryItem(
             selected = true,
             item = DefaultContactDiaryLocation(locationName = "Sport"),
             contentDescription = "".toLazyString(),
@@ -58,7 +58,7 @@ object DiaryData {
             clickLabel = R.string.accessibility_location,
             onClickLabel = R.string.accessibility_location
         ),
-        SelectableItem(
+        SelectableDiaryItem(
             selected = true,
             item = DefaultContactDiaryLocation(locationName = "Büro"),
             contentDescription = "".toLazyString(),
@@ -66,7 +66,7 @@ object DiaryData {
             clickLabel = R.string.accessibility_location,
             onClickLabel = R.string.accessibility_location
         ),
-        SelectableItem(
+        SelectableDiaryItem(
             selected = false,
             item = DefaultContactDiaryLocation(locationName = "Supermarkt"),
             contentDescription = "".toLazyString(),
@@ -76,8 +76,8 @@ object DiaryData {
         )
     )
 
-    val PERSONS: List<SelectableItem<ContactDiaryPerson>> = listOf(
-        SelectableItem(
+    val PERSONS: List<SelectableDiaryItem<ContactDiaryPerson>> = listOf(
+        SelectableDiaryItem(
             selected = true,
             item = DefaultContactDiaryPerson(fullName = "Erika Mustermann"),
             contentDescription = "".toLazyString(),
@@ -85,7 +85,7 @@ object DiaryData {
             clickLabel = R.string.accessibility_person,
             onClickLabel = R.string.accessibility_person
         ),
-        SelectableItem(
+        SelectableDiaryItem(
             selected = true,
             item = DefaultContactDiaryPerson(fullName = "Max Mustermann"),
             contentDescription = "".toLazyString(),
@@ -93,7 +93,7 @@ object DiaryData {
             clickLabel = R.string.accessibility_person,
             onClickLabel = R.string.accessibility_person
         ),
-        SelectableItem(
+        SelectableDiaryItem(
             selected = false,
             item = DefaultContactDiaryPerson(fullName = "John Doe"),
             contentDescription = "".toLazyString(),

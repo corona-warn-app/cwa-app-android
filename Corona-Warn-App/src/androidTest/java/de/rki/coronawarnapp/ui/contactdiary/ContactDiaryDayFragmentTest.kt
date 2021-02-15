@@ -13,11 +13,11 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListViewModel
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListViewModel
-import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LOCATIONS
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.PERSONS
@@ -33,13 +33,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
 import java.util.Locale
@@ -103,8 +103,8 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     }
 
     private fun captureScreen(
-        persons: List<SelectableItem<ContactDiaryPerson>>,
-        locations: List<SelectableItem<ContactDiaryLocation>>,
+        persons: List<SelectableDiaryItem<ContactDiaryPerson>>,
+        locations: List<SelectableDiaryItem<ContactDiaryLocation>>,
         suffix: String
     ) {
         every { personListViewModel.uiList } returns MutableLiveData(persons)

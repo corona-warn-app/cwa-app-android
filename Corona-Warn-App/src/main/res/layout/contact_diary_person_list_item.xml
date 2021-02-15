@@ -3,35 +3,143 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_person_list_item"
-        style="@style/contactDiaryCardRipple"
+    <de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.ExpandingDiaryListItemView
+        android:id="@+id/main_box"
+        style="@style/ContactDiaryExpandableListItem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/spacing_huge">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/contact_diary_person_list_item_icon"
-            android:layout_width="@dimen/spacing_medium"
-            android:layout_height="@dimen/spacing_medium"
-            android:layout_marginStart="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_selected" />
-
-        <TextView
-            android:id="@+id/contact_diary_person_list_item_name"
-            style="@style/subtitle"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/duration_group"
+            style="?attr/materialButtonToggleGroupStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginVertical="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_person_list_item_icon"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/duration_below_15"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/contact_diary_person_encounter_duration_below_15_min" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/duration_above_15"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/contact_diary_person_encounter_duration_above_15_min" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/mask_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/duration_group"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mask_with"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/contact_diary_person_encounter_mask_with" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mask_without"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/contact_diary_person_encounter_mask_without" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/environment_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mask_group"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/environment_outside"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/contact_diary_person_encounter_environment_outside" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/environment_inside"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/contact_diary_person_encounter_environment_inside" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/circumstances_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/contact_diary_person_encounter_circumstances_hint"
+            android:scrollHorizontally="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/info_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/environment_group">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/circumstances"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="250"
+                tools:text="This was a triumph. I'm making a note here; 'Huge success'. It's hard to overstate my satisfaction. We do what we must, because we can." />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/info_button"
+            android:layout_width="@dimen/button_icon"
+            android:layout_height="@dimen/button_icon"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/statistics_info_button"
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/circumstances_layout"
+            app:tint="@color/colorAccent" />
+
+    </de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.ExpandingDiaryListItemView>
 
 </layout>
