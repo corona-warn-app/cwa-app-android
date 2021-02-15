@@ -39,12 +39,6 @@ class Surveys @Inject constructor(
     suspend fun requestDetails(type: Type): Survey {
         val config = appConfigProvider.getAppConfig().survey
         Timber.v("Requested survey: %s", config)
-        /* no check here:
-         * if surveyOnHighRisk is not enabled, this use case shouldn't have been started in the first place
-         */
-//        if (type == Type.HIGH_RISK_ENCOUNTER && !surveyConfig.surveyOnHighRiskEnabled) {
-//            throw SurveyException(SurveyException.Type.HIGH_RISK_NOT_ENABLED)
-//        }
         oneTimePasswordRepo.otpAuthorizationResult?.apply {
             if (authorized && redeemedAt.toDateTime().monthOfYear() == Instant.now().toDateTime().monthOfYear()) {
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
