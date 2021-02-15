@@ -15,7 +15,7 @@ data class SettingsPrivacyPreservingAnalyticsState(
     fun getAgeGroupRowBodyText(context: Context) =
         context.getString(ageGroup.labelStringRes)
 
-    fun getDistrictRowVisibility() =
+    fun isDistrictRowVisible() =
         federalState != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
 
     fun getDistrictRowBodyText(context: Context) =
@@ -24,7 +24,7 @@ data class SettingsPrivacyPreservingAnalyticsState(
     fun getFederalStateRowBodyText(context: Context) =
         context.getString(federalState.labelStringRes)
 
-    fun getSettingsPpaSwitchRowState() =
+    fun isSettingsPpaSwitchOn() =
         isAnalyticsEnabled
 
     fun getSettingsPpaSwitchRowStateText(context: Context) =

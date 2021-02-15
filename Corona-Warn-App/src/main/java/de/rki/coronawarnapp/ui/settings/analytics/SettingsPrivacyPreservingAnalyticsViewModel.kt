@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.flow
 class SettingsPrivacyPreservingAnalyticsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     analyticsSettings: AnalyticsSettings,
-    private val analytics: Analytics,
-    val districts: Districts
+    districts: Districts,
+    private val analytics: Analytics
 ) : CWAViewModel() {
 
     val settingsPrivacyPreservingAnalyticsState = combine(

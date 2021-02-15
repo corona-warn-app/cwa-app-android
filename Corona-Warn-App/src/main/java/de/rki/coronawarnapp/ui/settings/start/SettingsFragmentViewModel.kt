@@ -42,12 +42,12 @@ class SettingsFragmentViewModel @AssistedInject constructor(
 
     val backgroundPriorityState: LiveData<SettingsBackgroundState> =
         backgroundModeStatus.isIgnoringBatteryOptimizations
-            .map { SettingsBackgroundState((it)) }
+            .map { SettingsBackgroundState(it) }
             .asLiveData(dispatcherProvider.Default)
 
     var analyticsState: LiveData<SettingsPrivacyPreservingAnalyticsState> =
         analytics.isAnalyticsEnabledFlow()
-            .map { SettingsPrivacyPreservingAnalyticsState((it)) }
+            .map { SettingsPrivacyPreservingAnalyticsState(it) }
             .asLiveData(dispatcherProvider.Default)
 
     @AssistedFactory

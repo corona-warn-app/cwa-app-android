@@ -90,12 +90,12 @@ class SettingsPrivacyPreservingAnalyticsFragment :
         viewModel.settingsPrivacyPreservingAnalyticsState.observe2(this) {
             binding.ageGroupRowBody.text = it.getAgeGroupRowBodyText(requireContext())
 
-            binding.districtRow.isVisible = it.getDistrictRowVisibility()
+            binding.districtRow.isVisible = it.isDistrictRowVisible()
             binding.districtRowBody.text = it.getDistrictRowBodyText(requireContext())
 
             binding.federalStateRowBody.text = it.getFederalStateRowBodyText(requireContext())
 
-            binding.settingsPpaSwitchRow.status = it.getSettingsPpaSwitchRowState()
+            binding.settingsPpaSwitchRow.status = it.isSettingsPpaSwitchOn()
             binding.settingsPpaSwitchRow.statusText = it.getSettingsPpaSwitchRowStateText(requireContext())
         }
     }
