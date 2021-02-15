@@ -40,14 +40,15 @@ class Surveys @Inject constructor(
     suspend fun requestDetails(type: Type): Survey {
         val surveyConfig = appConfigProvider.getAppConfig().survey
         Timber.v("Requested survey: %s", surveyConfig)
-        if (type == Type.HIGH_RISK_ENCOUNTER && !surveyConfig.surveyOnHighRiskEnabled) {
-            // FIXME
-            throw IllegalArgumentException("not enabled")
-        }
+        /* no check here:
+         * if surveyOnHighRisk is not enabled, this use case shouldn't have been started in the first place
+         */
+//        if (type == Type.HIGH_RISK_ENCOUNTER && !surveyConfig.surveyOnHighRiskEnabled) {
+//            throw SurveyException(SurveyException.Type.HIGH_RISK_NOT_ENABLED)
+//        }
         otpRepo.otpAuthorizationResult?.apply {
             if (authorized && redeemedAt.toDateTime().monthOfYear() == Instant.now().toDateTime().monthOfYear()) {
-                // FIXME
-                throw IllegalArgumentException("already did this year")
+                throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
         }
         val otp = otpRepo.otp ?: otpRepo.generateOTP()
@@ -68,8 +69,7 @@ class Surveys @Inject constructor(
                 surveyLink = urlProvider.provideUrl(type, otp.uuid)
             )
         } else {
-            //FIXME
-            throw IllegalArgumentException(errorCode)
+            throw SurveyException(SurveyException.Type.OTP_NOT_AUTHORIZED, errorCode)
         }
     }
 
