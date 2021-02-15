@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
@@ -29,6 +30,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
+    @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
 
     @Rule
     @JvmField
@@ -44,7 +46,12 @@ class SubmissionConsentFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         every { interoperabilityRepository.countryList } returns flowOf()
         viewModel =
-            SubmissionConsentViewModel(submissionRepository, interoperabilityRepository, TestDispatcherProvider())
+            SubmissionConsentViewModel(
+                submissionRepository,
+                interoperabilityRepository,
+                TestDispatcherProvider(),
+                tekHistoryProvider
+            )
         setupMockViewModel(object : SubmissionConsentViewModel.Factory {
             override fun create(): SubmissionConsentViewModel = viewModel
         })
