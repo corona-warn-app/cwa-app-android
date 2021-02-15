@@ -6,10 +6,15 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
+import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,9 +38,10 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val personListAdapter = ContactDiaryPersonListAdapter() {
-            viewModel.onPersonSelectionChanged(it)
-        }
+        val personListAdapter = ContactDiaryPersonListAdapter(
+            { viewModel.onPersonSelectionChanged(it) },
+            { viewModel.onPersonCommentInfoPress() }
+        )
 
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
@@ -49,6 +55,11 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
         viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
             binding.contactDiaryPersonListNoItemsGroup.isGone = it.isNotEmpty()
+        }
+
+        viewModel.navigateToCommentInfo.observe2(this) {
+            doNavigate(ContactDiaryPersonListFragmentDirections
+                .actionContactDiaryPersonListFragmentToContactDiaryPersonCommentInfoFragment())
         }
     }
 }

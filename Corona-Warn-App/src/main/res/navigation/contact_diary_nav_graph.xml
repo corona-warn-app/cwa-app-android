@@ -28,6 +28,9 @@
         <argument
             android:name="selectedDay"
             app:argType="string" />
+        <action
+            android:id="@+id/action_contactDiaryPersonListFragment_to_contactDiaryPersonCommentInfoFragment"
+            app:destination="@id/contactDiaryPersonCommentInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPlaceListFragment"
@@ -129,5 +132,10 @@
             android:id="@+id/action_contactDiaryEditPersonsFragment_to_contactDiaryPersonBottomSheetDialogFragment"
             app:destination="@id/contactDiaryPersonBottomSheetDialogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/contactDiaryPersonCommentInfoFragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonCommentInfoFragment"
+        android:label="PersonCommentInfoFragment"
+        tools:layout="@layout/contact_diary_person_comment_info_fragment" />
 
 </navigation>
