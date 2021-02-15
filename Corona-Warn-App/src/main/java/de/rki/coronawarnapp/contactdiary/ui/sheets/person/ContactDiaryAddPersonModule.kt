@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ContactDiaryPersonBottomSheetDialogModule {
+abstract class ContactDiaryAddPersonModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(ContactDiaryAddPersonViewModel::class)
-    abstract fun contactDiaryPersonBottomSheetDialogFragment(
+    abstract fun contactDiaryAddPersonFragment(
         factory: ContactDiaryAddPersonViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

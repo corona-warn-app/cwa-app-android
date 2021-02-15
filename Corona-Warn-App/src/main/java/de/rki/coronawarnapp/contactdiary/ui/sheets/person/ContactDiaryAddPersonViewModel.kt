@@ -32,8 +32,8 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
 
     val shouldClose = SingleLiveEvent<Unit>()
 
-    private val _text = MutableStateFlow("")
-    val name: StateFlow<String> = _text
+    private val _name = MutableStateFlow("")
+    val name: StateFlow<String> = _name
 
     private val _phoneNumber = MutableStateFlow("")
     val phoneNumber: StateFlow<String> = _phoneNumber
@@ -41,12 +41,12 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     private val _emailAddress = MutableStateFlow("")
     val emailAddress: StateFlow<String> = _emailAddress
 
-    val isValid = name
+    val isNameValid = name
         .map { it.isNotEmpty() }
         .asLiveData()
 
     fun nameChanged(value: String) {
-        _text.value = value.trim().take(MAX_PERSON_NAME_LENGTH)
+        _name.value = value.trim().take(MAX_PERSON_NAME_LENGTH)
     }
 
     fun phoneNumberChanged(value: String) {
@@ -81,7 +81,10 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
         contactDiaryRepository.updateEntries(
             DefaultContactDiaryPerson(
                 person.personId,
-                fullName = name.value
+                fullName = name.value,
+                phoneNumber = phoneNumber.value,
+                emailAddress = emailAddress.value
+
             )
         )
         shouldClose.postValue(null)

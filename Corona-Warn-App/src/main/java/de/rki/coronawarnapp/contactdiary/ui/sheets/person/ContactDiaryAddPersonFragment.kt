@@ -40,20 +40,29 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
 
         val person = navArgs.selectedPerson
         if (person != null) {
-            binding.contactDiaryPersonNameEditText.setText(person.fullName)
-            binding.contactDiaryPersonDeleteButton.visibility = View.VISIBLE
-            binding.contactDiaryPersonDeleteButton.setOnClickListener {
-                DialogHelper.showDialog(deletePersonConfirmationDialog)
+            binding.apply {
+                contactDiaryPersonNameEditText.setText(person.fullName)
+                contactDiaryPersonPhoneNumberEditText.setText(person.phoneNumber)
+                contactDiaryPersonEmailEditText.setText(person.emailAddress)
+                contactDiaryPersonDeleteButton.visibility = View.VISIBLE
+                contactDiaryPersonDeleteButton.setOnClickListener {
+                    DialogHelper.showDialog(deletePersonConfirmationDialog)
+                }
+                contactDiaryPersonSaveButton.setOnClickListener {
+                    it.hideKeyboard()
+                    viewModel.updatePerson(person)
+                }
             }
-            binding.contactDiaryPersonSaveButton.setOnClickListener {
-                viewModel.updatePerson(person)
-                it.hideKeyboard()
+            viewModel.apply {
+                nameChanged(person.fullName)
+                person.phoneNumber?.let { phoneNumberChanged(it) }
+                person.emailAddress?.let { emailAddressChanged(it) }
             }
         } else {
             binding.contactDiaryPersonDeleteButton.visibility = View.GONE
             binding.contactDiaryPersonSaveButton.setOnClickListener {
-                viewModel.addPerson()
                 it.hideKeyboard()
+                viewModel.addPerson()
             }
         }
 
@@ -61,6 +70,7 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             contactDiaryPersonNameEditText.focusAndShowKeyboard()
 
             contactDiaryPersonCloseButton.setOnClickListener {
+                it.hideKeyboard()
                 viewModel.closePressed()
             }
             contactDiaryPersonNameEditText.doAfterTextChanged {
@@ -76,7 +86,7 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             contactDiaryPersonEmailEditText.setOnEditorActionListener { _, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
                     IME_ACTION_DONE -> {
-                        if (viewModel.isValid.value == true) {
+                        if (viewModel.isNameValid.value == true) {
                             binding.contactDiaryPersonSaveButton.performClick()
                         }
                         false
@@ -90,7 +100,7 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             popBackStack()
         }
 
-        viewModel.isValid.observe2(this) { isValid ->
+        viewModel.isNameValid.observe2(this) { isValid ->
             binding.contactDiaryPersonSaveButton.isEnabled = isValid
         }
     }
