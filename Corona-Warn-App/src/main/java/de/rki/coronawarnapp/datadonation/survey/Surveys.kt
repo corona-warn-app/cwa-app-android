@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.datadonation.survey
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
+import de.rki.coronawarnapp.datadonation.storage.OTPRepository
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.Seconds
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import org.joda.time.Seconds
+import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,8 +17,8 @@ import javax.inject.Singleton
 @Singleton
 class Surveys @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
-    private val settings: SurveySettings,
     private val appConfigProvider: AppConfigProvider,
+    private val oneTimePasswordRepo: OTPRepository,
     dispatcherProvider: DispatcherProvider,
     private val urlProvider: SurveyUrlProvider
 ) {
@@ -48,8 +50,11 @@ class Surveys @Inject constructor(
         )
     }
 
-    suspend fun resetSurvey(type: Type) {
-        // TODO
+    fun resetSurvey(type: Type) {
+        if (type == Type.HIGH_RISK_ENCOUNTER) {
+            Timber.d("Discarding one time password for survey about previous high-risk state.")
+            oneTimePasswordRepo.clear()
+        }
     }
 
     enum class Type {
