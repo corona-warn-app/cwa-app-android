@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -28,7 +29,8 @@ class RiskLevelChangeDetector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
+    private val surveys: Surveys
 ) {
 
     fun launch() {
@@ -79,8 +81,9 @@ class RiskLevelChangeDetector @Inject constructor(
 
         if (oldRiskState == RiskState.INCREASED_RISK && newRiskState == RiskState.LOW_RISK) {
             LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
-
             Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskState")
+
+            surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
         }
     }
 

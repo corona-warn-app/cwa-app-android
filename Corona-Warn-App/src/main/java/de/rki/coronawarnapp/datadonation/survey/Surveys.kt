@@ -73,8 +73,11 @@ class Surveys @Inject constructor(
         }
     }
 
-    suspend fun resetSurvey(type: Type) {
-        // TODO
+    fun resetSurvey(type: Type) {
+        if (type == Type.HIGH_RISK_ENCOUNTER) {
+            Timber.d("Discarding one time password for survey about previous high-risk state.")
+            oneTimePasswordRepo.clear()
+        }
     }
 
     enum class Type {
