@@ -16,7 +16,7 @@ data class DiaryPersonListItem(
     val onWithMaskChanged: (DiaryPersonListItem, Boolean?) -> Unit,
     val onWasOutsideChanged: (DiaryPersonListItem, Boolean?) -> Unit,
     val onCircumstancesChanged: (DiaryPersonListItem, String) -> Unit,
-    val onCircumStanceInfoClicked: () -> Unit
+    val onCircumstanceInfoClicked: () -> Unit
 ) : SelectableDiaryItem<ContactDiaryPerson>() {
 
     override val selected: Boolean
@@ -47,6 +47,24 @@ data class DiaryPersonListItem(
         } else {
             DESELECT_ACTION_DESCRIPTION
         }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DiaryPersonListItem
+
+        if (personEncounter != other.personEncounter) return false
+        if (item != other.item) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = personEncounter?.hashCode() ?: 0
+        result = 31 * result + item.hashCode()
+        return result
+    }
 }
 
 private const val SELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_selected

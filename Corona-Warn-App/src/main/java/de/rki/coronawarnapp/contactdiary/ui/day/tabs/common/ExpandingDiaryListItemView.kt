@@ -20,12 +20,14 @@ class ExpandingDiaryListItemView @JvmOverloads constructor(
     private val titleView: TextView
     private val checkboxView: ImageView
     private val container: ViewGroup
+    val header: ViewGroup
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_expanding_diary_listitem, this, true)
 
         titleView = findViewById(R.id.header_title)
         checkboxView = findViewById(R.id.header_checkbox)
+        header = findViewById(R.id.header)
         container = findViewById(R.id.container)
     }
 

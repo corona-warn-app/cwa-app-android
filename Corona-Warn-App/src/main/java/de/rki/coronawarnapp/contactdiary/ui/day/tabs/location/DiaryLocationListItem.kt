@@ -44,6 +44,24 @@ data class DiaryLocationListItem(
         } else {
             DESELECT_ACTION_DESCRIPTION
         }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DiaryLocationListItem
+
+        if (item != other.item) return false
+        if (visit != other.visit) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = item.hashCode()
+        result = 31 * result + (visit?.hashCode() ?: 0)
+        return result
+    }
 }
 
 private const val SELECTED_CONTENT_DESCRIPTION = R.string.accessibility_location_selected

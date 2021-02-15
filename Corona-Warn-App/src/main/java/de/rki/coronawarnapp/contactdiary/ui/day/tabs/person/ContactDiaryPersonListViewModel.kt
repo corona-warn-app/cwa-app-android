@@ -57,7 +57,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                 onCircumstancesChanged = { item, circumstances ->
                     onCircumstancesChanged(item, circumstances)
                 },
-                onCircumStanceInfoClicked = {
+                onCircumstanceInfoClicked = {
                     // TODO
                 }
             )
