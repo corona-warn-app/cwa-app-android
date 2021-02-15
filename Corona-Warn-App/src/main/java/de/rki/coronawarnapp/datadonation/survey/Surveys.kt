@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.joda.time.Seconds
+import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -51,6 +52,7 @@ class Surveys @Inject constructor(
 
     fun resetSurvey(type: Type) {
         if (type == Type.HIGH_RISK_ENCOUNTER) {
+            Timber.d("Discarding one time password for survey about previous high-risk state.")
             oneTimePasswordRepo.clear()
         }
     }

@@ -83,7 +83,6 @@ class RiskLevelChangeDetector @Inject constructor(
             LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
             Timber.d("Risk level changed LocalData is updated. Current Risk level is $newRiskState")
 
-            Timber.d("Discarding one time password for survey about previous high-risk state.")
             surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
         }
     }
