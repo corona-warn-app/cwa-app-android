@@ -71,8 +71,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                 override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
                     launch {
                         if (isTracingEnabled) {
-// check if background processing is switched off,
-// if it is, show the manual calculation dialog explanation before turning on.
+                            // check if background processing is switched off,
+                            // if it is, show the manual calculation dialog explanation before turning on.
                             if (!backgroundStatus.isIgnoringBatteryOptimizations.first()) {
                                 events.postValue(Event.ManualCheckingDialog)
                             }
