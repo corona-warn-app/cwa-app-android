@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.datadonation.survey
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.Seconds
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import org.joda.time.Seconds
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,7 +49,9 @@ class Surveys @Inject constructor(
     }
 
     suspend fun resetSurvey(type: Type) {
-        // TODO
+        if (type == Type.HIGH_RISK_ENCOUNTER) {
+            settings.clear()
+        }
     }
 
     enum class Type {

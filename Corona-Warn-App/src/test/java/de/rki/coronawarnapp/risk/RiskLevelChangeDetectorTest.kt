@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
 import de.rki.coronawarnapp.risk.RiskState.INCREASED_RISK
@@ -17,6 +18,7 @@ import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -40,6 +42,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: NotificationHelper
+    @MockK lateinit var surveys: Surveys
 
     @BeforeEach
     fun setup() {
@@ -53,6 +56,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns null
+        coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
     }
 
     @AfterEach
@@ -80,7 +84,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         notificationManagerCompat = notificationManagerCompat,
         foregroundState = foregroundState,
         riskLevelSettings = riskLevelSettings,
-        notificationHelper = notificationHelper
+        notificationHelper = notificationHelper,
+        surveys = surveys
     )
 
     @Test
@@ -96,6 +101,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData wasNot Called
                 notificationManagerCompat wasNot Called
+                surveys wasNot Called
             }
         }
     }
@@ -118,6 +124,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData wasNot Called
                 notificationManagerCompat wasNot Called
+                surveys wasNot Called
             }
         }
     }
@@ -141,6 +148,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
                 LocalData.submissionWasSuccessful()
                 foregroundState.isInForeground
                 LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any()
+                surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
             }
         }
     }
@@ -163,6 +171,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData.submissionWasSuccessful()
                 foregroundState.isInForeground
+                surveys wasNot Called
             }
         }
     }
@@ -186,6 +195,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             coVerifySequence {
                 LocalData wasNot Called
                 notificationManagerCompat wasNot Called
+                surveys wasNot Called
             }
         }
     }
