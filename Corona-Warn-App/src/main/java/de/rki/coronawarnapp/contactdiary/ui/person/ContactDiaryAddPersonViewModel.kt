@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.sheets.person
+package de.rki.coronawarnapp.contactdiary.ui.person
 
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted

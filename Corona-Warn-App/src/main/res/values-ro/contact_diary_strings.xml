@@ -10,12 +10,12 @@
     <string name="contact_diary_location_list_no_items_subtitle">"Creați un loc și adăugați-l la jurnalul dvs. de contacte."</string>
     <string name="contact_diary_person_list_no_items_title">"Nicio persoană definită deocamdată"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Creați o persoană și adăugați-o la jurnalul dvs. de contacte."</string>
-    <string name="contact_diary_person_bottom_sheet_title">"Persoană"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_name_hint">"Nume"</string>
-    <string name="contact_diary_person_bottom_sheet_save_button">"Salvare"</string>
-    <string name="contact_diary_location_bottom_sheet_title">"Loc"</string>
-    <string name="contact_diary_location_bottom_sheet_text_input_hint">"Descriere"</string>
-    <string name="contact_diary_location_bottom_sheet_save_button">"Salvare"</string>
+    <string name="contact_diary_add_person_title">"Persoană"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Nume"</string>
+    <string name="contact_diary_add_person_save_button">"Salvare"</string>
+    <string name="contact_diary_add_location_title">"Loc"</string>
+    <string name="contact_diary_add_location_text_input_hint">"Descriere"</string>
+    <string name="contact_diary_add_location_save_button">"Salvare"</string>
 
     <!-- XHED: Title for the contact diary card displayed in the homescreen -->
     <string name="contact_diary_homescreen_card_header">"Jurnal de contacte"</string>

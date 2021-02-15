@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.sheets.person
+package de.rki.coronawarnapp.contactdiary.ui.person
 
 import android.os.Bundle
 import android.view.View

@@ -13,10 +13,10 @@ import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFra
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentModule
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentModule
-import de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogFragment
-import de.rki.coronawarnapp.contactdiary.ui.sheets.location.ContactDiaryLocationBottomSheetDialogModule
-import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryAddPersonFragment
-import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryAddPersonModule
+import de.rki.coronawarnapp.contactdiary.ui.location.ContactDiaryAddLocationFragment
+import de.rki.coronawarnapp.contactdiary.ui.location.ContactDiaryAddLocationFragmentModule
+import de.rki.coronawarnapp.contactdiary.ui.person.ContactDiaryAddPersonFragment
+import de.rki.coronawarnapp.contactdiary.ui.person.ContactDiaryAddPersonModule
 
 @Module(includes = [ContactDiaryEditModule::class])
 abstract class ContactDiaryUIModule {
@@ -30,10 +30,10 @@ abstract class ContactDiaryUIModule {
     abstract fun contactDiaryLocationListFragment(): ContactDiaryLocationListFragment
 
     @ContributesAndroidInjector(modules = [ContactDiaryAddPersonModule::class])
-    abstract fun contactDiaryPersonBottomSheetDialogFragment(): ContactDiaryAddPersonFragment
+    abstract fun contactDiaryAddPersonFragment(): ContactDiaryAddPersonFragment
 
-    @ContributesAndroidInjector(modules = [ContactDiaryLocationBottomSheetDialogModule::class])
-    abstract fun contactDiaryLocationBottomSheetDialogFragment(): ContactDiaryLocationBottomSheetDialogFragment
+    @ContributesAndroidInjector(modules = [ContactDiaryAddLocationFragmentModule::class])
+    abstract fun contactDiaryAddLocationFragment(): ContactDiaryAddLocationFragment
 
     @ContributesAndroidInjector(modules = [ContactDiaryOnboardingFragmentModule::class])
     abstract fun contactDiaryOnboardingFragment(): ContactDiaryOnboardingFragment

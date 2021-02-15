@@ -3,13 +3,11 @@ package de.rki.coronawarnapp.contactdiary.util
 import android.content.Context
 import android.os.Build
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
-import de.rki.coronawarnapp.contactdiary.ui.sheets.person.ContactDiaryAddPersonFragment
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat

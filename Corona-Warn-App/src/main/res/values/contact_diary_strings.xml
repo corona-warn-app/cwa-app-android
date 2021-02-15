@@ -11,14 +11,14 @@
     <string name="contact_diary_location_list_no_items_subtitle">"Create a place and add it to your contact journal."</string>
     <string name="contact_diary_person_list_no_items_title">"No people defined yet"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Create a person and add them to your contact journal."</string>
-    <string name="contact_diary_person_bottom_sheet_title">"Person"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_name_hint">"Name"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_phone_hint" />
-    <string name="contact_diary_person_bottom_sheet_text_input_email_hint"/>
-    <string name="contact_diary_person_bottom_sheet_save_button">"Save"</string>
-    <string name="contact_diary_location_bottom_sheet_title">"Place"</string>
-    <string name="contact_diary_location_bottom_sheet_text_input_hint">"Description"</string>
-    <string name="contact_diary_location_bottom_sheet_save_button">"Save"</string>
+    <string name="contact_diary_add_person_title">"Person"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Name"</string>
+    <string name="contact_diary_add_text_input_phone_hint" />
+    <string name="contact_diary_add_text_input_email_hint"/>
+    <string name="contact_diary_add_person_save_button">"Save"</string>
+    <string name="contact_diary_add_location_title">"Place"</string>
+    <string name="contact_diary_add_location_text_input_hint">"Description"</string>
+    <string name="contact_diary_add_location_save_button">"Save"</string>
 
     <!-- XHED: Title for the contact diary card displayed in the homescreen -->
     <string name="contact_diary_homescreen_card_header">"Contact Journal"</string>
