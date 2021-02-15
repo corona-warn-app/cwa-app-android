@@ -602,11 +602,9 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
     <string name="onboarding_ppa_more_info_other_info_point_1_text">"Informații despre grupul de vârstă pe care l-ați specificat."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Informații despre grupul de vârstă pe care l-ați specificat."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Informații despre timpul dintre ultima dvs. expunere cu risc crescut și înregistrarea testului."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Informații despre timpul dintre ultima dvs. expunere cu risc crescut și înregistrarea testului."</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Informații dacă ați partajat rezultatul testului și i-ați avertizat pe ceilalți."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Informații dacă ați partajat rezultatul testului și i-ați avertizat pe ceilalți."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Aceste informații nu pot fi legate de dvs. în mod personal. Identitatea dvs. va rămâne confidențială.\nInformațiile vor fi analizate în scop statistic. Ele nu vor fi salvate pentru un profil."</string>
 

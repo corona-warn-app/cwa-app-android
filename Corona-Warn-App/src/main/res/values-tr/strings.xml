@@ -602,11 +602,9 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
     <string name="onboarding_ppa_more_info_other_info_point_1_text">"Belirttiğiniz yaş grubu hakkında bilgi."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Belirttiğiniz yaş grubu hakkında bilgi."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Yüksek riskli son maruz kalmanız ile test kaydınız arasındaki süre hakkında bilgi."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Yüksek riskli son maruz kalmanız ile test kaydınız arasındaki süre hakkında bilgi."</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Test sonucunuzu paylaşıp diğer kullanıcı uyarıp uyarmadığınız hakkında bilgi."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Test sonucunuzu paylaşıp diğer kullanıcı uyarıp uyarmadığınız hakkında bilgi."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Bu bilgilerin kişisel olarak sizinle bağlantısı kurulamaz. Kimliğiniz gizli tutulacaktır.\nBilgiler istatistiksel amaçlar doğrultusunda analiz edilecektir. Profil oluşturmak için kaydedilmeyecektir."</string>
 
