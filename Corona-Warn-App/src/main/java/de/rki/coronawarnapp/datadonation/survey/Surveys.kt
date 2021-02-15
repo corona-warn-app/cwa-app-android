@@ -5,11 +5,11 @@ import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.storage.OTPRepository
 import de.rki.coronawarnapp.datadonation.survey.server.SurveyServer
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +21,8 @@ class Surveys @Inject constructor(
     private val surveyServer: SurveyServer,
     private val oneTimePasswordRepo: OTPRepository,
     dispatcherProvider: DispatcherProvider,
-    private val urlProvider: SurveyUrlProvider
+    private val urlProvider: SurveyUrlProvider,
+    private val timeStamper: TimeStamper
 ) {
 
     val availableSurveys: Flow<Collection<Type>> by lazy {
@@ -39,8 +40,10 @@ class Surveys @Inject constructor(
     suspend fun requestDetails(type: Type): Survey {
         val config = appConfigProvider.getAppConfig().survey
         Timber.v("Requested survey: %s", config)
+        val now = timeStamper.nowUTC
+
         oneTimePasswordRepo.otpAuthorizationResult?.apply {
-            if (authorized && redeemedAt.toDateTime().monthOfYear() == Instant.now().toDateTime().monthOfYear()) {
+            if (authorized && redeemedAt.toDateTime().monthOfYear() == now.toDateTime().monthOfYear()) {
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
         }
@@ -57,7 +60,7 @@ class Surveys @Inject constructor(
 
         // request validation from server
         val errorCode = surveyServer.authOTP(oneTimePassword, attestationResult).errorCode
-        val result = OTPAuthorizationResult(oneTimePassword.uuid, errorCode == null, Instant.now())
+        val result = OTPAuthorizationResult(oneTimePassword.uuid, errorCode == null, now)
         oneTimePasswordRepo.otpAuthorizationResult = result
 
         if (result.authorized) {
