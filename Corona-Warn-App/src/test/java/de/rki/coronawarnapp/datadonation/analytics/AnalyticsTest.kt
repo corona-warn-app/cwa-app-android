@@ -219,7 +219,6 @@ class AnalyticsTest : BaseTest() {
             .setAuthentication(PpacAndroid.PPACAndroid.getDefaultInstance())
             .build()
 
-
         coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns
             ExposureRiskMetadataDonor.ExposureRiskMetadataContribution(
                 contributionProto = metadata,
