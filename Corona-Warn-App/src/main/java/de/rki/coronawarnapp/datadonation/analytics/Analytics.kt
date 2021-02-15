@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
@@ -34,7 +35,7 @@ class Analytics @Inject constructor(
 ) {
     private val submissionLockoutMutex = Mutex()
 
-    private suspend fun trySubmission(ppaData: PpaData.PPADataAndroid): Boolean {
+    private suspend fun trySubmission(analyticsConfig: AnalyticsConfig, ppaData: PpaData.PPADataAndroid): Boolean {
         try {
             val ppaAttestationRequest = PPADeviceAttestationRequest(
                 ppaData = ppaData
@@ -44,7 +45,7 @@ class Analytics @Inject constructor(
 
             val attestation = deviceAttestation.attest(ppaAttestationRequest)
 
-            attestation.requirePass(appConfigProvider.getAppConfig().analytics.safetyNetRequirements)
+            attestation.requirePass(analyticsConfig.safetyNetRequirements)
 
             Timber.d("Safety net attestation passed")
 
@@ -83,7 +84,7 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun submitAnalyticsData() {
+    suspend fun submitAnalyticsData(analyticsConfig: AnalyticsConfig) {
         Timber.d("Starting analytics submission")
 
         val ppaDataBuilder = PpaData.PPADataAndroid.newBuilder()
@@ -92,7 +93,7 @@ class Analytics @Inject constructor(
 
         val analyticsProto = ppaDataBuilder.build()
 
-        val success = trySubmission(analyticsProto)
+        val success = trySubmission(analyticsConfig, analyticsProto)
 
         contributions.forEach {
             Timber.d("Finishing contribution: %s", it::class.simpleName)
@@ -111,8 +112,8 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun stopDueToNoAnalyticsConfig(): Boolean {
-        return !appConfigProvider.getAppConfig().analytics.analyticsEnabled
+    suspend fun stopDueToNoAnalyticsConfig(analyticsConfig: AnalyticsConfig): Boolean {
+        return !analyticsConfig.analyticsEnabled
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -121,9 +122,9 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun stopDueToProbabilityToSubmit(): Boolean {
+    suspend fun stopDueToProbabilityToSubmit(analyticsConfig: AnalyticsConfig): Boolean {
         val submitRoll = Random.nextDouble(0.0, 1.0)
-        return submitRoll > appConfigProvider.getAppConfig().analytics.probabilityToSubmit
+        return submitRoll > analyticsConfig.probabilityToSubmit
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -141,9 +142,10 @@ class Analytics @Inject constructor(
     }
 
     suspend fun submitIfWanted() = submissionLockoutMutex.withLock {
-        Timber.d("checking analytics conditions")
+        Timber.d("Checking analytics conditions")
+        val analyticsConfig: AnalyticsConfig = appConfigProvider.getAppConfig().analytics
 
-        if (stopDueToNoAnalyticsConfig()) {
+        if (stopDueToNoAnalyticsConfig(analyticsConfig)) {
             Timber.w("Aborting Analytics submission due to noAnalyticsConfig")
             return
         }
@@ -153,7 +155,7 @@ class Analytics @Inject constructor(
             return
         }
 
-        if (stopDueToProbabilityToSubmit()) {
+        if (stopDueToProbabilityToSubmit(analyticsConfig)) {
             Timber.w("Aborting Analytics submission due to probabilityToSubmit")
             return
         }
@@ -168,12 +170,10 @@ class Analytics @Inject constructor(
             return
         }
 
-        submitAnalyticsData()
+        submitAnalyticsData(analyticsConfig)
     }
 
     private suspend fun deleteAllData() = submissionLockoutMutex.withLock {
-        Timber.d("Analytics consent was revoked, deleting all persisted data")
-
         donorModules.forEach {
             it.deleteData()
         }

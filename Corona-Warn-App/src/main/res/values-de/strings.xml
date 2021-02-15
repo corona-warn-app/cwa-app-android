@@ -347,6 +347,8 @@
     <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko-Ermittlung sollte daher dauerhaft aktiv sein."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged_assessment">"Für Ihre Risiko-Ermittlung wird nur der Zeitraum der letzten 14 Tage betrachtet. In diesem Zeitraum war Ihre Risiko-Ermittlung für eine Gesamtdauer von %1$s Tagen aktiv. Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
+    <!-- XTXT: risk details - infection period days logged/14 -->
+    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -521,6 +523,8 @@
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
 
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
+    <string name="onboarding_ppa_consent_title">"Ihr Einverständnis"</string>
     <!-- XACT: onboarding privacy preserving analytics (ppa) - illustraction description, header image -->
     <string name="onboarding_ppa_illustration_description">"Darstellung einer Person, die ihr Smartphone in der Hand hält"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
@@ -608,6 +612,9 @@
     <string name="onboarding_ppa_more_info_other_info_point_4_text">"Angaben dazu, ob Sie Ihr Testergebnis geteilt und andere gewarnt haben."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Die Angaben können nicht mit Ihrer Person verknüpft werden. Ihre Identität bleibt weiterhin geheim.\nDie Angaben werden statistisch ausgewertet, sie werden nicht zu einem Profil gespeichert."</string>
+
+
+
 
 
     <!-- ####################################
@@ -765,10 +772,14 @@
     <string name="settings_background_priority_card_button">"Smartphone-Einstellungen öffnen"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
     <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ändern"</string>
+
     <!-- XTXT: settings(privacy preserving analytics) - text in row on settings overview -->
     <string name="settings_privacy_preserving_analytics_body_description">"Erlauben Sie die Übermittlung Ihres Nutzerverhaltens."</string>
     <!-- XHED: settings(background priority) - Privacy preserving analytics page title -->
     <string name="settings_privacy_preserving_analytics_title">"Datenspende"</string>
+
+    <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
+    <string name="settings_analytics_switch_subtitle">"Nutzerdaten spenden"</string>
 
     <!-- ####################################
                App Information
@@ -1168,7 +1179,7 @@
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Bitte isolieren Sie sich von anderen Personen."</string>
+    <string name="submission_done_isolate">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
@@ -1328,6 +1339,24 @@
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
+    <!-- Reenable risk card -->
+    <!-- XHED: Card title for re-enable risk card -->
+    <string name="reenable_risk_card_title">"Risiko-Überprüfung beendet"</string>
+    <!-- YTXT: Body text for test registration date -->
+    <string name="reenable_risk_card_test_registration_string">"Test registriert am %s"</string>
+    <!-- YTXT: Description text for re-enable risk card -->
+    <string name="reenable_risk_card_description_text">"Die automatische Risiko-Überprüfung wurde beendet, weil Sie sich aufgrund Ihres positiven Tests aktuell in Isolation befinden. Sie können die Risiko-Überprüfung jederzeit wieder einschalten. Ihr registrierter Test wird dann automatisch gelöscht."</string>
+    <!-- XBUT: Button for re-enabling risk calculation -->
+    <string name="reenable_risk_card_button_text">"Risiko-Überprüfung Einschalten "</string>
+    <!-- XHED: Dialog title for reactivate risk calculation  -->
+    <string name="dialog_reactivate_risk_calculation_title">"Risiko-Überprüfung aktivieren."</string>
+    <!-- YTXT: Dialog text for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_message">"Ihr aktueller Test wird aus der App gelöscht, damit Sie bei Bedarf einen neuen Test registrieren können."</string>
+    <!-- XBUT: Positive button for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_button_positive">"Aktivieren"</string>
+    <!-- XBUT: Negative button for reactivate risk calculation -->
+    <string name="dialog_reactivate_risk_calculation_button_negative">"Abbrechen"</string>
+
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr Befund:"</string>
     <!-- YTXT: virus name text -->
@@ -1369,15 +1398,15 @@
     <!-- YTXT: Text for consent given -->
     <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Bitte geben Sie Ihr Testergebnis im nächsten Schritt frei, indem Sie „Teilen“ antippen."</b>""</string>
     <!-- XHED: Close screen popup title for consent given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_given">"Wollen Sie wirklich abbrechen?"</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
     <!-- XTXT: Close screen popup text for consent given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Sie haben sich entschieden, Ihr Testergebnis nicht zu teilen. Ihre Mitmenschen werden nicht gewarnt. \n\nSie können im Anschluss Ihr Testergebnis doch noch teilen und mithelfen, die Verbreitung von Corona zu bekämpfen und Ihre Mitmenschen zu schützen."</string>
     <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Achtung:\nSie sind dabei den Vorgang abzubrechen.\nSie haben Ihre Mitmenschen noch nicht gewarnt. Bitte schützen Sie Ihre Mitmenschen und schließen Sie den Vorgang ab."</string>
+    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Wollen Sie wirklich abbrechen?"</string>
     <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Möchten Sie den Vorgang wirklich abbrechen?"</string>
+    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Abbrechen"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1760,30 +1789,55 @@
     <string name="datadonation_details_access_survey_card_button_text">"Zur Befragung"</string>
 
     <!-- XHED: Title for the access survey button displayed at the bottom of the screen -->
-    <string name="datadonation_details_survey_consent_button_title">"Weiter"</string>
+    <string name="datadonation_details_survey_consent_button_title">"Einverstanden"</string>
     <!-- XHED: Text for the access survey title displayed at the top of survey consent screen -->
-    <string name="datadonation_details_survey_consent_top_title">"Befragung zur Verbesserung der Corona-Warn-App"</string>
+    <string name="datadonation_details_survey_consent_top_title">"Befragung zur Bewertung und Verbesserung der Corona-Warn-App"</string>
     <!-- XHED: Text for the access survey body displayed under the title of survey consent screen -->
-    <string name="datadonation_details_survey_consent_top_body">"Mit Ihrer Teilnahme helfen Sie uns zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken."</string>
-    <!-- XHED: Text for the consent part title displayed over the button in the survey consent screen -->
-    <string name="datadonation_details_survey_consent_info_card_title">"Ihr Einverständnis"</string>
-    <!-- XHED: Text for the consent part body displayed over the button in the survey consent screen -->
-    <string name="datadonation_details_survey_consent_info_card_body">"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut t amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."</string>
+    <string name="datadonation_details_survey_consent_top_body">"<b>Helfen Sie dabei, die Corona-Warn-App zu verbessern. Nehmen Sie dazu an einer Befragung zu Ihrer Erfahrung mit der Corona-Warn-App teil. Sie helfen damit dem RKI, die Wirksamkeit der App zu bewerten, die App zu verbessern und zu verstehen, wie sich Warnungen über die App auf das Verhalten von Personen mit erhöhtem Risiko auswirken.</b>\n\nDie Befragung richtet sich nur an Personen, denen die App eine Begegnung mit erhöhtem Risiko angezeigt hat. Die Befragung findet auf einer Webseite des RKI statt. Zur Weiterleitung auf diese Webseite wird Ihnen im nächsten Schritt ein Teilnahmelink angezeigt. Vorher muss jedoch die Echtheit Ihrer App bestätigt werden. Dafür ist Ihr Einverständnis erforderlich.\n\nNach Antippen des Teilnahmelinks erhalten Sie weitere Informationen zur Befragung. Vor der Teilnahme werden Sie dann noch einmal gesondert um Ihr Einverständnis zur Teilnahme an der Befragung gebeten."</string>
 
-    <!-- ####################################
-       Data donation
-    ###################################### -->
+    <!-- XHED: Title of the survey consent detail screen -->
+    <string name="datadonation_details_survey_consent_details_title">"Ausführliche Informationen zur Datenverarbeitung bei der Teilnahme an der Befragung"</string>
+
+    <!-- XHED: Dialog error title for survey request error informations 1 -->
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren Sie die Uhrzeit in den Einstellungen Ihres Smartphones (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 2-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Die Befragung kann nicht aufgerufen werden (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 3-->
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte aktualisieren Sie die Google Play Services (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte versuchen Sie es später noch mal (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 5-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Die Befragung konnte aus Sicherheitsgründen nicht aufgerufen werden. Sie können im nächsten Kalendermonat wieder teilnehmen (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Die Befragung konnte auf Ihrem Smartphone nicht aufgerufen werden (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden, nachdem Sie die App installiert oder aktualisiert haben, an der Befragung teilnehmen (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Sie haben bereits an der Befragung teilgenommen. Sie können nur einmal im Monat an der Befragung teilnehmen (Fehlercode {0})."</string>
+
+    <!-- XHED: Dialog error title for survey request error informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_title">"Fehler"</string>
+    <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"ok"</string>
+
+    <!-- XHED: Dialog progress message for survey request -->
+    <string name="datadonation_details_survey_consent_progress_dialog_msg">"Befragung wird geladen…"</string>
+
+    <!-- XTXT: Title for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title_below">"<b>Zur Befragung durch das RKI</b>"</string>
+    <!-- XHED: Text for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text_below">"Nachdem die Echtheit Ihrer App geprüft wurde, werden Sie auf eine Internetseite des RKI mit einem für Sie generierten Teilnahmelink zur Befragung weitergeleitet. Die Internetseite wird im Browser Ihres Smartphones geöffnet. Der Teilnahmelink enthält ein vorab durch die Corona-Warn-App generiertes Einmal-Passwort. Wenn Sie den Teilnahmelink antippen und die Internetseite mit der Befragung aufrufen, wird das Einmal-Passwort in Ihrem Browser zwischengespeichert. Auf dieser Seite werden weiterführenden Informationen zur Befragung und Handlungshinweise, z.B. wie die Befragung gestartet werden kann, dargestellt. Zum Start der Befragung wird das Einmal-Passwort an Server der Corona-Warn-App übermittelt und dort als verbraucht markiert. Durch den Server wird geprüft, ob Sie an der Befragung teilnehmen können oder nicht. So wird sichergestellt, dass jede Person nur einmal an der Befragung teilnehmen kann."</string>
 
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
-    <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
+    <string name="analytics_userinput_agegroup_title">Ihre Altersgruppe</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">keine Angabe</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">bis 30 Jahre</string>
+    <string name="analytics_userinput_agegroup_0_to_29">0-29 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
-    <string name="analytics_userinput_agegroup_30_to_59">30 bis 60</string>
+    <string name="analytics_userinput_agegroup_30_to_59">30-59 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
-    <string name="analytics_userinput_agegroup_from_60">60 oder älter</string>
+    <string name="analytics_userinput_agegroup_from_60">60+ Jahre</string>
 
     <!-- XHED: Analytics voluntary user input, federal state toolbar title -->
     <string name="analytics_userinput_federalstate_title">Ihr Bundesland</string>
@@ -1826,12 +1880,4 @@
     <string name="analytics_userinput_district_title">Ihr Kreis/Bezirk</string>
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">keine Angabe</string>
-
-
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_consent_title">"Ihr Einverständnis"</string>
-
-    <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Nutzerdaten spenden"</string>
-
 </resources>

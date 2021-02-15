@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.util.isPhone
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 
@@ -45,7 +46,9 @@ class StatisticsHomeCard(
                     )
                 )
             }
-            PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
+            if (resources.isPhone()) {
+                PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
+            }
         }
     }
 

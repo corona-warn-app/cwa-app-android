@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import org.joda.time.Instant
+import java.util.Date
 
 object HomeData {
 
@@ -142,7 +143,9 @@ object HomeData {
         )
 
         val TEST_SUBMISSION_DONE_ITEM = TestSubmissionDoneCard.Item(
-            state = SubmissionDone
+            state = SubmissionDone(
+                testRegisteredOn = Date()
+            )
         )
     }
 }

@@ -88,7 +88,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .launchIn(GlobalScope)
 
         if (LocalData.onboardingCompletedTimestamp() != null) {
-            deadmanNotificationScheduler.schedulePeriodic()
+            if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
+                deadmanNotificationScheduler.schedulePeriodic()
+            }
             contactDiaryWorkScheduler.schedulePeriodic()
             dataDonationAnalyticsScheduler.schedulePeriodic()
         }

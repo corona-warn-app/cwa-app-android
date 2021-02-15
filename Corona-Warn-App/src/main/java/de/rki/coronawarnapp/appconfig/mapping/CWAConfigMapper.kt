@@ -3,15 +3,11 @@ package de.rki.coronawarnapp.appconfig.mapping
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid.ApplicationConfigurationAndroid
-import de.rki.coronawarnapp.storage.TestSettings
-import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class CWAConfigMapper @Inject constructor(
-    private val testSettings: TestSettings
-) : CWAConfig.Mapper {
+class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
 
     override fun map(rawConfig: ApplicationConfigurationAndroid): CWAConfig {
         return CWAConfigContainer(
@@ -33,10 +29,6 @@ class CWAConfigMapper @Inject constructor(
         }
 
     private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled(): Boolean {
-        if (CWADebug.isDeviceForTestersBuild && testSettings.isDeviceTimeCheckDisabled.value) {
-            Timber.w("Device time check is disabled via test settings!")
-            return true
-        }
         if (!hasAppFeatures()) return false
 
         return try {

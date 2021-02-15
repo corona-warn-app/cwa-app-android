@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText">
 
     <LinearLayout
@@ -80,16 +81,21 @@
             android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
-            <Switch
-                android:id="@+id/device_time_check_disabled_toggle"
-                style="@style/body1"
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/fake_correct_devicetime_toggle"
                 android:layout_width="match_parent"
+                app:thumbTint="@color/colorAccent"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:layout_weight="1"
-                android:text="Disable device time check"
-                android:theme="@style/switchBase" />
+                android:text="Fake correct device time" />
 
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="This sets the offset between server time and device time to 0 and therefore allows device time travelling while still getting positive device time checks." />
         </LinearLayout>
 
         <LinearLayout

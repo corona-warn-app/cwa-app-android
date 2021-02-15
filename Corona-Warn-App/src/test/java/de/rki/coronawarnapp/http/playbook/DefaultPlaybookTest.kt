@@ -93,7 +93,7 @@ class DefaultPlaybookTest : BaseTest() {
                 registrationToken = "token",
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
-                visistedCountries = listOf("DE")
+                visitedCountries = listOf("DE")
             )
         )
 
@@ -114,7 +114,7 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visistedCountries = listOf("DE")
+                    visitedCountries = listOf("DE")
                 )
             )
         } catch (e: Exception) {
@@ -133,7 +133,7 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visistedCountries = listOf("DE")
+                    visitedCountries = listOf("DE")
                 )
             )
         } catch (e: Exception) {
@@ -153,7 +153,7 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visistedCountries = listOf("DE")
+                    visitedCountries = listOf("DE")
                 )
             )
         }
@@ -267,7 +267,7 @@ class DefaultPlaybookTest : BaseTest() {
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
-                    visistedCountries = listOf("DE")
+                    visitedCountries = listOf("DE")
                 )
             )
         }

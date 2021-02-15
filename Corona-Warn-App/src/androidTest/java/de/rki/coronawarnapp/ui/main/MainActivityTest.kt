@@ -87,6 +87,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -122,6 +123,7 @@ class MainActivityTest : BaseUITest() {
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
         every { LocalData.isBackgroundCheckDone() } returns true
         every { LocalData.submissionWasSuccessful() } returns false
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
         // Setup ViewModels
         setupActivityViewModel()
@@ -348,7 +350,8 @@ class MainActivityTest : BaseUITest() {
             submissionRepository = submissionRepository,
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
-            statisticsProvider = statisticsProvider
+            statisticsProvider = statisticsProvider,
+            deadmanNotificationScheduler = deadmanNotificationScheduler
         )
     )
 
