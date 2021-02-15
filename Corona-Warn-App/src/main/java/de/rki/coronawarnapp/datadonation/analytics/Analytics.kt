@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.Hours
@@ -187,6 +188,9 @@ class Analytics @Inject constructor(
             deleteAllData()
         }
     }
+
+    fun isAnalyticsEnabledFlow(): Flow<Boolean> =
+        settings.analyticsEnabled.flow
 
     companion object {
         private const val LAST_SUBMISSION_MIN_AGE_HOURS = 23
