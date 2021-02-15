@@ -7,6 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
+import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.safetynet.errorMsgRes
@@ -90,9 +91,10 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
             val payload = ByteArray(16)
             secureRandom.nextBytes(payload)
             try {
-                val result = cwaSafetyNet.attest {
-                    payload
-                }
+                val result = cwaSafetyNet.attest(object : DeviceAttestation.Request {
+                    override val scenarioPayload: ByteArray
+                        get() = payload
+                })
                 result.requirePass(requirements)
                 currentValidationInternal.value = requirements to null
             } catch (e: Exception) {

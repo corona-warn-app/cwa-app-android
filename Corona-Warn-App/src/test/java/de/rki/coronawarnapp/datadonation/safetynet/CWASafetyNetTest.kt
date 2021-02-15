@@ -180,19 +180,16 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     data class TestAttestationRequest(
-        val payload: ByteArray
+        override val scenarioPayload: ByteArray
     ) : DeviceAttestation.Request {
-
-        override fun scenarioPayload() = payload
-
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
             other as TestAttestationRequest
-            if (!payload.contentEquals(other.payload)) return false
+            if (!scenarioPayload.contentEquals(other.scenarioPayload)) return false
             return true
         }
 
-        override fun hashCode(): Int = payload.contentHashCode()
+        override fun hashCode(): Int = scenarioPayload.contentHashCode()
     }
 }

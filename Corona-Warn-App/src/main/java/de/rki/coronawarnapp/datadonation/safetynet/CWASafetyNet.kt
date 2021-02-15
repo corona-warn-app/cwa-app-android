@@ -62,11 +62,11 @@ class CWASafetyNet @Inject constructor(
         }
 
         val salt = generateSalt()
-        val nonce = calculateNonce(salt = salt, payload = request.scenarioPayload())
+        val nonce = calculateNonce(salt = salt, payload = request.scenarioPayload)
         Timber.tag(TAG).d(
             "With salt=%s and payload=%s, we created nonce=%s",
             salt.toByteString().base64(),
-            request.scenarioPayload().toByteString().base64(),
+            request.scenarioPayload.toByteString().base64(),
             nonce
         )
 
