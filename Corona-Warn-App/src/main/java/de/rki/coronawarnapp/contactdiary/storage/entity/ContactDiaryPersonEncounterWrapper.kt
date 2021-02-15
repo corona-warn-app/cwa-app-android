@@ -16,7 +16,11 @@ fun ContactDiaryPersonEncounterWrapper.toContactDiaryPersonEncounter(): ContactD
     DefaultContactDiaryPersonEncounter(
         id = this.contactDiaryPersonEncounterEntity.id,
         date = this.contactDiaryPersonEncounterEntity.date,
-        contactDiaryPerson = contactDiaryPersonEntity
+        contactDiaryPerson = this.contactDiaryPersonEntity,
+        durationClassification = this.contactDiaryPersonEncounterEntity.durationClassification,
+        withMask = this.contactDiaryPersonEncounterEntity.withMask,
+        wasOutside = this.contactDiaryPersonEncounterEntity.wasOutside,
+        circumstances = this.contactDiaryPersonEncounterEntity.circumstances
     )
 
 fun List<ContactDiaryPersonEncounterWrapper>.toContactDiaryPersonEncounterSortedList():
