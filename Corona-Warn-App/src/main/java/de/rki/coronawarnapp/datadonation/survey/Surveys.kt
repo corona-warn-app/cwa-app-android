@@ -38,8 +38,8 @@ class Surveys @Inject constructor(
     }
 
     suspend fun requestDetails(type: Type): Survey {
-        val surveyConfig = appConfigProvider.getAppConfig().survey
-        Timber.v("Requested survey: %s", surveyConfig)
+        val config = appConfigProvider.getAppConfig().survey
+        Timber.v("Requested survey: %s", config)
         /* no check here:
          * if surveyOnHighRisk is not enabled, this use case shouldn't have been started in the first place
          */
@@ -51,15 +51,19 @@ class Surveys @Inject constructor(
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
         }
-        val otp = otpRepo.otp ?: otpRepo.generateOTP()
-        val errorCode = surveyServer.authOTP(
-            otp,
-            deviceAttestation.attest(object : DeviceAttestation.Request {
-                override val scenarioPayload: ByteArray
-                    get() = otp.payloadForRequest
-            })
-        ).errorCode
 
+        // generate OTP
+        val otp = otpRepo.otp ?: otpRepo.generateOTP()
+
+        // check device
+        val attestationResult = deviceAttestation.attest(object : DeviceAttestation.Request {
+            override val scenarioPayload: ByteArray
+                get() = otp.payloadForRequest
+        })
+        attestationResult.requirePass(config.safetyNetRequirements)
+
+        // request validation from server
+        val errorCode = surveyServer.authOTP(otp, attestationResult).errorCode
         val result = OTPAuthorizationResult(otp.uuid, errorCode == null, Instant.now())
         otpRepo.otpAuthorizationResult = result
 
