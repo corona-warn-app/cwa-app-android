@@ -46,24 +46,24 @@ class Surveys @Inject constructor(
         }
 
         // generate OTP
-        val otp = oneTimePasswordRepo.otp ?: oneTimePasswordRepo.generateOTP()
+        val oneTimePassword = oneTimePasswordRepo.otp ?: oneTimePasswordRepo.generateOTP()
 
         // check device
         val attestationResult = deviceAttestation.attest(object : DeviceAttestation.Request {
             override val scenarioPayload: ByteArray
-                get() = otp.payloadForRequest
+                get() = oneTimePassword.payloadForRequest
         })
         attestationResult.requirePass(config.safetyNetRequirements)
 
         // request validation from server
-        val errorCode = surveyServer.authOTP(otp, attestationResult).errorCode
-        val result = OTPAuthorizationResult(otp.uuid, errorCode == null, Instant.now())
+        val errorCode = surveyServer.authOTP(oneTimePassword, attestationResult).errorCode
+        val result = OTPAuthorizationResult(oneTimePassword.uuid, errorCode == null, Instant.now())
         oneTimePasswordRepo.otpAuthorizationResult = result
 
         if (result.authorized) {
             return Survey(
                 type = Type.HIGH_RISK_ENCOUNTER,
-                surveyLink = urlProvider.provideUrl(type, otp.uuid)
+                surveyLink = urlProvider.provideUrl(type, oneTimePassword.uuid)
             )
         } else {
             throw SurveyException(SurveyException.Type.OTP_NOT_AUTHORIZED, errorCode)
