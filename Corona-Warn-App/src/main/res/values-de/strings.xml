@@ -1807,7 +1807,7 @@
     <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Die Befragung konnte aus Sicherheitsgründen nicht aufgerufen werden. Sie können im nächsten Kalendermonat wieder teilnehmen (Fehlercode {0})."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Die Befragung konnte auf Ihrem Smartphone nicht aufgerufen werden (Fehlercode {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Danke, dass Sie mithelfen wollen. Leider verwenden Sie ein Smartphone, mit dem Sie aus technischen Gründen nicht an der Umfrage teilnehmen können. (Fehlercode {0})."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden, nachdem Sie die App installiert oder aktualisiert haben, an der Befragung teilnehmen (Fehlercode {0})."</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
