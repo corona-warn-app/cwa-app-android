@@ -17,5 +17,5 @@ class SurveyException constructor(
 fun SurveyException.errorMsgRes(): Int = when (type) {
     SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH ->
         R.string.datadonation_details_survey_consent_error_ALREADY_PARTICIPATED
-    else -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
+    SurveyException.Type.OTP_NOT_AUTHORIZED -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
 }
