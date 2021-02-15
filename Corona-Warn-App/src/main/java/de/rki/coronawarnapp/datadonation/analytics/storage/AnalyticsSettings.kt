@@ -84,20 +84,6 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
-    val testRegistrationTime = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_REGISTRATION_TIME,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
-    )
-
     val analyticsEnabled = prefs.createFlowPreference(
         key = PKEY_ANALYTICS_ENABLED,
         defaultValue = false
@@ -110,6 +96,5 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
-        private const val PREFS_KEY_TEST_REGISTRATION_TIME = "analytics.testResult.testRegistrationTime"
     }
 }
