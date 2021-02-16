@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.storage.OTPRepository
 import de.rki.coronawarnapp.datadonation.survey.server.SurveyServer
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
@@ -54,7 +55,10 @@ class Surveys @Inject constructor(
         // check device
         val attestationResult = deviceAttestation.attest(object : DeviceAttestation.Request {
             override val scenarioPayload: ByteArray
-                get() = oneTimePassword.payloadForRequest
+                get() = EdusOtp.EDUSOneTimePassword.newBuilder()
+                    .setOtp(oneTimePassword.uuid.toString())
+                    .build()
+                    .toByteArray()
         })
         attestationResult.requirePass(config.safetyNetRequirements)
 
