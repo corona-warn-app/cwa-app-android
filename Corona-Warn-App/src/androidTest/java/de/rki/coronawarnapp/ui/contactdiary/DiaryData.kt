@@ -4,10 +4,13 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
-import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
+import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
-import de.rki.coronawarnapp.util.ui.toLazyString
+import org.joda.time.LocalDate
 
 object DiaryData {
 
@@ -49,57 +52,75 @@ object DiaryData {
         R.drawable.ic_low_risk_alert
     )
 
-    val LOCATIONS: List<SelectableDiaryItem<ContactDiaryLocation>> = listOf(
-        SelectableDiaryItem(
-            selected = true,
+    val LOCATIONS: List<DiaryLocationListItem> = listOf(
+        DiaryLocationListItem(
             item = DefaultContactDiaryLocation(locationName = "Sport"),
-            contentDescription = "".toLazyString(),
-            onClickDescription = "".toLazyString(),
-            clickLabel = R.string.accessibility_location,
-            onClickLabel = R.string.accessibility_location
+            visit = DefaultContactDiaryLocationVisit(
+                contactDiaryLocation = DefaultContactDiaryLocation(locationName = ""),
+                date = LocalDate.now()
+            ),
+            onItemClick = {},
+            onDurationChanged = { _, _ -> },
+            onCircumstancesChanged = { _, _ -> },
+            onCircumStanceInfoClicked = {}
         ),
-        SelectableDiaryItem(
-            selected = true,
+        DiaryLocationListItem(
             item = DefaultContactDiaryLocation(locationName = "Büro"),
-            contentDescription = "".toLazyString(),
-            onClickDescription = "".toLazyString(),
-            clickLabel = R.string.accessibility_location,
-            onClickLabel = R.string.accessibility_location
+            visit = DefaultContactDiaryLocationVisit(
+                contactDiaryLocation = DefaultContactDiaryLocation(locationName = ""),
+                date = LocalDate.now()
+            ),
+            onItemClick = {},
+            onDurationChanged = { _, _ -> },
+            onCircumstancesChanged = { _, _ -> },
+            onCircumStanceInfoClicked = {}
         ),
-        SelectableDiaryItem(
-            selected = false,
+        DiaryLocationListItem(
             item = DefaultContactDiaryLocation(locationName = "Supermarkt"),
-            contentDescription = "".toLazyString(),
-            onClickDescription = "".toLazyString(),
-            clickLabel = R.string.accessibility_location,
-            onClickLabel = R.string.accessibility_location
+            visit = null,
+            onItemClick = {},
+            onDurationChanged = { _, _ -> },
+            onCircumstancesChanged = { _, _ -> },
+            onCircumStanceInfoClicked = {}
         )
     )
 
-    val PERSONS: List<SelectableDiaryItem<ContactDiaryPerson>> = listOf(
-        SelectableDiaryItem(
-            selected = true,
+    val PERSONS: List<DiaryPersonListItem> = listOf(
+        DiaryPersonListItem(
             item = DefaultContactDiaryPerson(fullName = "Erika Mustermann"),
-            contentDescription = "".toLazyString(),
-            onClickDescription = "".toLazyString(),
-            clickLabel = R.string.accessibility_person,
-            onClickLabel = R.string.accessibility_person
+            personEncounter = DefaultContactDiaryPersonEncounter(
+                contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
+                date = LocalDate.now()
+            ),
+            onItemClick = {},
+            onDurationChanged = { _, _ -> },
+            onCircumstancesChanged = { _, _ -> },
+            onWithMaskChanged = { _, _ -> },
+            onWasOutsideChanged = { _, _ -> },
+            onCircumstanceInfoClicked = {}
         ),
-        SelectableDiaryItem(
-            selected = true,
+        DiaryPersonListItem(
             item = DefaultContactDiaryPerson(fullName = "Max Mustermann"),
-            contentDescription = "".toLazyString(),
-            onClickDescription = "".toLazyString(),
-            clickLabel = R.string.accessibility_person,
-            onClickLabel = R.string.accessibility_person
+            personEncounter = DefaultContactDiaryPersonEncounter(
+                contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
+                date = LocalDate.now()
+            ),
+            onItemClick = {},
+            onDurationChanged = { _, _ -> },
+            onCircumstancesChanged = { _, _ -> },
+            onWithMaskChanged = { _, _ -> },
+            onWasOutsideChanged = { _, _ -> },
+            onCircumstanceInfoClicked = {}
         ),
-        SelectableDiaryItem(
-            selected = false,
+        DiaryPersonListItem(
             item = DefaultContactDiaryPerson(fullName = "John Doe"),
-            contentDescription = "".toLazyString(),
-            onClickDescription = "".toLazyString(),
-            clickLabel = R.string.accessibility_person,
-            onClickLabel = R.string.accessibility_person
+            personEncounter = null,
+            onItemClick = {},
+            onDurationChanged = { _, _ -> },
+            onCircumstancesChanged = { _, _ -> },
+            onWithMaskChanged = { _, _ -> },
+            onWasOutsideChanged = { _, _ -> },
+            onCircumstanceInfoClicked = {}
         )
     )
 

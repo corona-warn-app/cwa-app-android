@@ -7,17 +7,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
-import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListViewModel
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListViewModel
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LOCATIONS
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.PERSONS
@@ -103,8 +102,8 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     }
 
     private fun captureScreen(
-        persons: List<SelectableDiaryItem<ContactDiaryPerson>>,
-        locations: List<SelectableDiaryItem<ContactDiaryLocation>>,
+        persons: List<DiaryPersonListItem>,
+        locations: List<DiaryLocationListItem>,
         suffix: String
     ) {
         every { personListViewModel.uiList } returns MutableLiveData(persons)

@@ -51,7 +51,7 @@ class ContactDiaryDatabaseTest : BaseTest() {
         id = 4,
         date = date,
         fkLocationId = location.locationId,
-        duration = Duration.standardMinutes(99).millis,
+        duration = Duration.standardMinutes(99),
         circumstances = "I had to buy snacks."
     )
 
@@ -143,14 +143,14 @@ class ContactDiaryDatabaseTest : BaseTest() {
             id = 7,
             date = yesterday,
             fkLocationId = location.locationId,
-            duration = Duration.standardMinutes(42).millis,
+            duration = Duration.standardMinutes(42),
             circumstances = "visit-yesterday"
         )
         val locationVisitTomorrow = ContactDiaryLocationVisitEntity(
             id = 8,
             date = tomorrow,
             fkLocationId = location.locationId,
-            duration = Duration.standardMinutes(1).millis,
+            duration = Duration.standardMinutes(1),
             circumstances = "visit-today"
         )
         val encounterList = listOf(personEncounter, personEncounterYesterday, personEncounterTomorrow)
@@ -198,7 +198,7 @@ class ContactDiaryDatabaseTest : BaseTest() {
         locationVisitFlow.first().single() shouldBe locationVisit
 
         val updatedLocation = locationVisit.copy(
-            duration = 123L,
+            duration = Duration.millis(123L),
             circumstances = "Suspicious"
         )
         locationVisitDao.update(updatedLocation)
