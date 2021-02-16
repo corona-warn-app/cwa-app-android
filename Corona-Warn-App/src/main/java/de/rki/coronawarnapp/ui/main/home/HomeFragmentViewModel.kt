@@ -251,14 +251,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 add(
                     ReenableRiskCard.Item(
                         state = submissionState,
-                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) })
+                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) }
+                    )
                 )
             }
 
             if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
-                    popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
-                }))
+                add(
+                    StatisticsHomeCard.Item(
+                        data = statsData,
+                        onHelpAction = {
+                            popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                        }
+                    )
+                )
             }
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))

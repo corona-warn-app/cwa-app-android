@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
@@ -17,4 +18,6 @@ interface ConfigMapping :
     val rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid
 
     val survey: SurveyConfig
+
+    val analytics: AnalyticsConfig
 }

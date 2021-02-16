@@ -68,8 +68,7 @@
             android:focusable="true"
             android:text="@{body}"
             android:textColorLink="@color/colorTextTint"
-            android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
-            tools:text="@tools:sample/lorem/random" />
+            android:visibility="@{FormatterHelper.formatVisibilityText(body)}" />
 
     </LinearLayout>
 

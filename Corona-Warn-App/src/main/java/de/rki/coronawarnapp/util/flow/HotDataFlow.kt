@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.flow
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -80,8 +81,11 @@ class HotDataFlow<T : Any>(
             }
         }
         .onCompletion { err ->
-            if (err != null) Timber.tag(tag).w(err, "internal onCompletion due to error")
-            else Timber.tag(tag).v("internal onCompletion")
+            when {
+                err is CancellationException -> Timber.tag(tag).d("internal onCompletion due to cancelation")
+                err != null -> Timber.tag(tag).e(err, "internal onCompletion due to error")
+                else -> Timber.tag(tag).v("internal onCompletion")
+            }
         }
         .shareIn(
             scope = scope + coroutineContext,

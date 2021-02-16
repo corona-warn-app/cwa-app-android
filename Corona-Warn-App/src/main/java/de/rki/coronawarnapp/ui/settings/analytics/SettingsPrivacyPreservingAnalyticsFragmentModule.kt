@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.onboarding
+package de.rki.coronawarnapp.ui.settings.analytics
 
 import dagger.Binds
 import dagger.Module
@@ -9,14 +9,15 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class OnboardingFragmentModule {
+abstract class SettingsPrivacyPreservingAnalyticsFragmentModule {
+
     @Binds
     @IntoMap
-    @CWAViewModelKey(OnboardingFragmentViewModel::class)
-    abstract fun onboardingFragmentVM(
-        factory: OnboardingFragmentViewModel.Factory
+    @CWAViewModelKey(SettingsPrivacyPreservingAnalyticsViewModel::class)
+    abstract fun settingsScreenVM(
+        factory: SettingsPrivacyPreservingAnalyticsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
-    abstract fun onboardingFragment(): OnboardingFragment
+    abstract fun privacyPreservingAnalyticsScreen(): SettingsPrivacyPreservingAnalyticsFragment
 }

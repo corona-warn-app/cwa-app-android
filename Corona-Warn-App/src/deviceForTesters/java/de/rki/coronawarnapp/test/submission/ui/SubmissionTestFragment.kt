@@ -48,11 +48,14 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         }
 
         vm.shareTEKsEvent.observe2(this) { tekExport ->
-            val share = Intent.createChooser(Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, tekExport.exportText)
-            }, null)
+            val share = Intent.createChooser(
+                Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, tekExport.exportText)
+                },
+                null
+            )
             startActivity(share)
         }
 

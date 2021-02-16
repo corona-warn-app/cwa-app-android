@@ -63,12 +63,45 @@ class TEKHistoryUpdaterTest : BaseTest() {
     )
 
     @Test
-    fun `request is forwaded to enf client`() = runBlockingTest {
+    fun `request is forwarded to enf client`() = runBlockingTest {
+        every { tekHistoryStorage.tekData } returns flowOf(listOf())
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
         instance.updateTEKHistoryOrRequestPermission()
         coVerify {
+            enfClient.getTEKHistoryOrRequestPermission(
+                any(),
+                any()
+            )
+        }
+    }
+
+    @Test
+    fun `request checks if there are cached keys`() = runBlockingTest {
+        every { tekHistoryStorage.tekData } returns flowOf(listOf())
+        val callback = mockk<TEKHistoryUpdater.Callback>()
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.updateTEKHistoryOrRequestPermission()
+        coVerify(exactly = 1) { tekHistoryStorage.tekData }
+    }
+
+    @Test
+    fun `request checks if there are cached keys and returns callback directly`() = runBlockingTest {
+        val teks = listOf<TemporaryExposureKey>(mockk(), mockk())
+        val mockedBatch = mockk<TEKHistoryStorage.TEKBatch>().apply {
+            every { keys } returns teks
+        }
+        every { tekHistoryStorage.tekData } returns flowOf(listOf(mockedBatch))
+        val callback = mockk<TEKHistoryUpdater.Callback>().apply {
+            every { onTEKAvailable(any()) } just Runs
+        }
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.updateTEKHistoryOrRequestPermission()
+        verify(exactly = 1) { callback.onTEKAvailable(teks) }
+        coVerify(exactly = 0) {
             enfClient.getTEKHistoryOrRequestPermission(
                 any(),
                 any()

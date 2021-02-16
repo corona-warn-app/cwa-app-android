@@ -523,6 +523,8 @@
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
 
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
+    <string name="onboarding_ppa_consent_title">"Ihr Einverständnis"</string>
     <!-- XACT: onboarding privacy preserving analytics (ppa) - illustraction description, header image -->
     <string name="onboarding_ppa_illustration_description">"Darstellung einer Person, die ihr Smartphone in der Hand hält"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
@@ -603,11 +605,9 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 1 text-->
     <string name="onboarding_ppa_more_info_other_info_point_1_text">"Angaben dazu, welche Altersgruppe Sie angegeben haben."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 2 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Angaben dazu, welche Altersgruppe Sie angegeben haben."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_2_text">"Angaben zum Zeitraum zwischen der letzten Begegnung mit erhöhtem Risiko und der Testregistrierung."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 3 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Angaben zum Zeitraum zwischen der letzten Begegnung mit erhöhtem Risiko und der Testregistrierung."</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - other info point 4 text-->
-    <string name="onboarding_ppa_more_info_other_info_point_4_text">"Angaben dazu, ob Sie Ihr Testergebnis geteilt und andere gewarnt haben."</string>
+    <string name="onboarding_ppa_more_info_other_info_point_3_text">"Angaben dazu, ob Sie Ihr Testergebnis geteilt und andere gewarnt haben."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - very secret body-->
     <string name="onboarding_ppa_more_info_much_privacy_body">"Die Angaben können nicht mit Ihrer Person verknüpft werden. Ihre Identität bleibt weiterhin geheim.\nDie Angaben werden statistisch ausgewertet, sie werden nicht zu einem Profil gespeichert."</string>
 
@@ -1799,20 +1799,46 @@
     <!-- XHED: Title of the survey consent detail screen -->
     <string name="datadonation_details_survey_consent_details_title">"Ausführliche Informationen zur Datenverarbeitung bei der Teilnahme an der Befragung"</string>
 
-    <!-- ####################################
-       Data donation
-    ###################################### -->
+    <!-- XHED: Dialog error title for survey request error informations 1 -->
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren Sie die Uhrzeit in den Einstellungen Ihres Smartphones (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 2-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Die Befragung kann nicht aufgerufen werden (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 3-->
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte aktualisieren Sie die Google Play Services (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte versuchen Sie es später noch mal (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 5-->
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Die Befragung konnte aus Sicherheitsgründen nicht aufgerufen werden. Sie können im nächsten Kalendermonat wieder teilnehmen (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Danke, dass Sie mithelfen wollen. Leider verwenden Sie ein Smartphone, mit dem Sie aus technischen Gründen nicht an der Umfrage teilnehmen können. (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden, nachdem Sie die App installiert oder aktualisiert haben, an der Befragung teilnehmen (Fehlercode {0})."</string>
+    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Sie haben bereits an der Befragung teilgenommen. Sie können nur einmal im Monat an der Befragung teilnehmen (Fehlercode {0})."</string>
+
+    <!-- XHED: Dialog error title for survey request error informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_title">"Fehler"</string>
+    <!-- XHED: Dialog error confirm button for survey request  informations dialog-->
+    <string name="datadonation_details_survey_consent_error_dialog_pos_button">"ok"</string>
+
+    <!-- XHED: Dialog progress message for survey request -->
+    <string name="datadonation_details_survey_consent_progress_dialog_msg">"Befragung wird geladen…"</string>
+
+    <!-- XTXT: Title for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_title_below">"<b>Zur Befragung durch das RKI</b>"</string>
+    <!-- XHED: Text for the information below the box in the survey consent detail screen -->
+    <string name="datadonation_survey_consent_details_text_below">"Nachdem die Echtheit Ihrer App geprüft wurde, werden Sie auf eine Internetseite des RKI mit einem für Sie generierten Teilnahmelink zur Befragung weitergeleitet. Die Internetseite wird im Browser Ihres Smartphones geöffnet. Der Teilnahmelink enthält ein vorab durch die Corona-Warn-App generiertes Einmal-Passwort. Wenn Sie den Teilnahmelink antippen und die Internetseite mit der Befragung aufrufen, wird das Einmal-Passwort in Ihrem Browser zwischengespeichert. Auf dieser Seite werden weiterführenden Informationen zur Befragung und Handlungshinweise, z.B. wie die Befragung gestartet werden kann, dargestellt. Zum Start der Befragung wird das Einmal-Passwort an Server der Corona-Warn-App übermittelt und dort als verbraucht markiert. Durch den Server wird geprüft, ob Sie an der Befragung teilnehmen können oder nicht. So wird sichergestellt, dass jede Person nur einmal an der Befragung teilnehmen kann."</string>
 
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
-    <string name="analytics_userinput_agegroup_title">Ihr Alter</string>
+    <string name="analytics_userinput_agegroup_title">Ihre Altersgruppe</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">keine Angabe</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">bis 30 Jahre</string>
+    <string name="analytics_userinput_agegroup_0_to_29">0-29 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
-    <string name="analytics_userinput_agegroup_30_to_59">30 bis 60</string>
+    <string name="analytics_userinput_agegroup_30_to_59">30-59 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
-    <string name="analytics_userinput_agegroup_from_60">60 oder älter</string>
+    <string name="analytics_userinput_agegroup_from_60">60+ Jahre</string>
 
     <!-- XHED: Analytics voluntary user input, federal state toolbar title -->
     <string name="analytics_userinput_federalstate_title">Ihr Bundesland</string>

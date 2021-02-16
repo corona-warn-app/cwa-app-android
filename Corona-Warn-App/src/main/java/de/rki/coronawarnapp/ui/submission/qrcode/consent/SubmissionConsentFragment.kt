@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -37,6 +39,11 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
+                is SubmissionNavigationEvents.ResolvePlayServicesException ->
+                    it.exception.status.startResolutionForResult(
+                        requireActivity(),
+                        REQUEST_USER_RESOLUTION
+                    )
             }
         }
         viewModel.countries.observe2(this) {
@@ -47,5 +54,16 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     override fun onResume() {
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_USER_RESOLUTION) {
+            viewModel.giveGoogleConsentResult(resultCode == Activity.RESULT_OK)
+        }
+    }
+
+    companion object {
+        private const val REQUEST_USER_RESOLUTION = 3000
     }
 }

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.util.HashExtensions
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
@@ -37,7 +38,7 @@ class CWASafetyNet @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun calculateNonce(salt: ByteArray, payload: ByteArray): String {
         val concat = salt + payload
-        return concat.toSHA256()
+        return concat.toSHA256(format = HashExtensions.Format.BASE64)
     }
 
     override suspend fun attest(request: DeviceAttestation.Request): DeviceAttestation.Result {

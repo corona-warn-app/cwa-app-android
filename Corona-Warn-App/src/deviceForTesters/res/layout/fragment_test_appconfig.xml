@@ -90,6 +90,12 @@
                 android:layout_weight="1"
                 android:text="Fake correct device time" />
 
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="This sets the offset between server time and device time to 0 and therefore allows device time travelling while still getting positive device time checks." />
         </LinearLayout>
 
         <LinearLayout

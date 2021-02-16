@@ -66,8 +66,8 @@ class AppConfigServer @Inject constructor(
 
         val serverTime = response.getServerDate() ?: localTime
         val offset = if (CWADebug.isDeviceForTestersBuild && testSettings.fakeCorrectDeviceTime.value) {
-            Timber.tag(TAG).w("Test setting 'fakeCorrectDeviceTime' is active; time offset is now +90min.")
-            Duration.standardMinutes(90)
+            Timber.tag(TAG).w("Test setting 'fakeCorrectDeviceTime' is active; time offset is now 0")
+            Duration.ZERO
         } else {
             Duration(serverTime, localTime)
         }
