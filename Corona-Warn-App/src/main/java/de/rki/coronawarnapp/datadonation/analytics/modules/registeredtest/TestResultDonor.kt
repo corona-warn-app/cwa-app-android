@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionState
@@ -24,7 +23,6 @@ class TestResultDonor @Inject constructor(
     private val submissionStateProvider: SubmissionStateProvider,
     private val analyticsSettings: AnalyticsSettings,
     private val appConfigProvider: AppConfigProvider,
-    private val riskLevelStorage: RiskLevelStorage,
     private val riskLevelSettings: RiskLevelSettings,
 ) : DonorModule {
 
@@ -56,21 +54,20 @@ class TestResultDonor @Inject constructor(
         val isHoursDiffAcceptable = hoursSinceTestRegistrationTime >= configHours
 
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = Duration(
-            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp, registrationTime
+            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
+            registrationTime
         ).standardDays.toInt()
 
-        val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
-            .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            // TODO verify setters below
-            .setHoursSinceHighRiskWarningAtTestRegistration(0)
-            .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
-            )
-            .setTestResult(submissionState.toPPATestResult())
-            .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
-            .build()
         return if (isHoursDiffAcceptable && isTestResultReceived) {
             analyticsSettings.riskLevelAtTestRegistration.value
+            val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
+                .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
+                // TODO verify setters below
+                .setHoursSinceHighRiskWarningAtTestRegistration(0)
+                .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(daysSinceMostRecentDateAtRiskLevelAtTestRegistration)
+                .setTestResult(submissionState.toPPATestResult())
+                .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
+                .build()
 
             TestResultMetadataContribution(testResultMetaData, ::cleanUp)
         } else {

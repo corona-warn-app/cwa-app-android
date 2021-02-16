@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.datadonation.analytics.common
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 
 val PpaData.PPAAgeGroup.labelStringRes: Int
