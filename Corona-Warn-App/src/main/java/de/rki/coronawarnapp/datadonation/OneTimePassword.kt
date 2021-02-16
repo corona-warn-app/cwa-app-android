@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import org.joda.time.Instant
 import java.util.UUID
 
@@ -14,5 +15,8 @@ data class OneTimePassword(
 ) {
 
     @Transient
-    val payloadForRequest = uuid.toString().toByteArray()
+    val payloadForRequest: ByteArray = EdusOtp.EDUSOneTimePassword.newBuilder()
+        .setOtp(uuid.toString())
+        .build()
+        .toByteArray()
 }
