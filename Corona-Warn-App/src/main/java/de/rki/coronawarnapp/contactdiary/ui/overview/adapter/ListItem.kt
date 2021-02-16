@@ -19,6 +19,7 @@ data class ListItem(
     data class Risk(
         @StringRes val title: Int,
         @StringRes val body: Int,
+        @StringRes val bodyExtended: Int? = null,
         @DrawableRes val drawableId: Int
     )
 

@@ -71,8 +71,10 @@
     <string name="contact_diary_low_risk_title">"Low Risk"</string>
     <!-- XTXT: Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body">"based on the encounters evaluated by the app."</string>
+    <!-- XTXT: Body for contact diary overview screen risk information when high risk due to low risk encounters-->
+    <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"based on several encounters with low risk."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
-    <string name="contact_diary_risk_body_extended">"based on the encounters evaluated by the app. They are not necessarily related to the people and places you have recorded."</string>
+    <string name="contact_diary_risk_body_extended">"They are not necessarily related to the people and places you have recorded."</string>
 
 
     <!-- XTXT: content description of contact journal image on home screen -->

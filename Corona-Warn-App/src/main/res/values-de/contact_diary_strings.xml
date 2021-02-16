@@ -71,8 +71,10 @@
     <string name="contact_diary_low_risk_title">"Niedriges Risiko"</string>
     <!-- XTXT: Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body">"aufgrund der von der App ausgewerteten Begegnungen."</string>
+    <!-- XTXT: Body for contact diary overview screen risk information when high risk due to low risk encounters-->
+    <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"aufgrund von mehreren Begegnungen mit niedrigem Risiko."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
-    <string name="contact_diary_risk_body_extended">"aufgrund der von der App ausgewerteten Begegnungen. Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen."</string>
+    <string name="contact_diary_risk_body_extended">"Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen."</string>
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
