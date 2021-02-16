@@ -10,12 +10,12 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragmentViewModel.Event
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -88,26 +88,28 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     }
 
     private fun setButtonOnClickListener() {
-        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
-        val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
-        val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
-        val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
-        val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
 
+        binding.toolbar.setNavigationOnClickListener {
+            popBackStack()
+        }
+
+        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         switch.setOnCheckedChangeListener { view, isChecked ->
             if (!view.isPressed) return@setOnCheckedChangeListener
             onTracingToggled(isChecked)
         }
 
-        back.setOnClickListener {
-            (activity as MainActivity).goBack()
-        }
+        val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         bluetooth.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
+
+        val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
+
+        val interoperability = binding.settingsInteroperabilityRow
         interoperability.setOnClickListener {
             navigateToInteroperability()
         }
