@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
@@ -109,6 +110,19 @@ class CWASafetyNetTest : BaseTest() {
             payload
         )
         nonce shouldBe "M2EqczgxveKiptESiBNRmKqxYv5raTdzyeSZyzsCvjg="
+    }
+
+    @Test
+    fun `nonce matches server calculation - serverstyle - OTP Payload`() {
+        // Server get's base64 encoded data and has to decode it first.
+        val salt = "Ri0AXC9U+b9hE58VqupI8Q==".decodeBase64()!!.toByteArray()
+        val payload = "CgtoZWxsby13b3JsZA==".decodeBase64()!!.toByteArray()
+
+        val otp = EdusOtp.EDUSOneTimePassword.parseFrom(payload)
+        otp.otp shouldBe "hello-world"
+
+        val nonce = createInstance().calculateNonce(salt, payload)
+        nonce shouldBe "ANjVoDcS8v8iQdlNrcxehSggE9WZwIp7VNpjoU7cPsg="
     }
 
     @Test
