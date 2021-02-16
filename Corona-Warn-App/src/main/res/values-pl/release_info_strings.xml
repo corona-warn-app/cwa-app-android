@@ -11,5 +11,27 @@
     <string name="release_info_version_body">"Oprócz poprawek błędów ta aktualizacja zawiera również nowe i ulepszone funkcje."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Dalej"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Zmiany w tej wersji można znaleźć w ustawieniach aplikacji w sekcji „Nowe funkcje”."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Link do ankiety RKI"</item>
+        <item>"Zgoda na udostępnianie danych (opcjonalnie)"</item>
+        <item>"Zmiany w kafelkach ryzyka"</item>
+        <item>"Kontynuacja rejestrowania narażenia po udostępnieniu losowych identyfikatorów"</item>
+        <item>"Implementacja kart"</item>
+        <item>"Więcej informacji o procedurze testowania"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Jeśli masz podwyższone ryzyko, możesz rozpocząć i wypełnić ankietę przeprowadzaną przez Instytut Roberta Kocha z poziomu aplikacji."</item>
+        <item>"Masz teraz możliwość udostępnienia swoich danych na temat użytkowania, co pomoże nam ulepszyć aplikację."</item>
+        <item>"Niewielkie zmiany w tekstach na kafelkach ryzyka."</item>
+        <item>"Po udostępnieniu zaszyfrowanych losowych identyfikatorów możesz zdecydować, czy i kiedy chcesz ponownie włączyć rejestrowanie narażenia."</item>
+        <item>"Dostępna jest teraz oddzielna karta dla Twojego dziennika kontaktów. Dzięki niej uzyskasz dostęp do swojego dziennika i szybciej przełączysz się z dziennika kontaktów z powrotem na ekran główny aplikacji."</item>
+        <item>"Aplikacja zawiera teraz bardziej szczegółowe informacje na temat procedury testowania."</item>
+    </string-array>
 
 </resources>

@@ -137,6 +137,7 @@
 
     <style name="switchBase" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="android:colorControlActivated">@color/colorAccentTintIcon</item>
+        <item name="colorControlActivated">@color/colorAccentTintIcon</item>
     </style>
 
     <!-- ####################################
@@ -147,9 +148,8 @@
         <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
         <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
-        <item name="android:elevation">@dimen/elevation_weak</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:background">@drawable/row</item>
+        <item name="android:background">?selectableItemBackground</item>
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 

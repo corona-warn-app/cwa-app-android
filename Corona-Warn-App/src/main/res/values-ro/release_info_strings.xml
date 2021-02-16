@@ -11,5 +11,27 @@
     <string name="release_info_version_body">"Pe lângă remedierile de erori, această actualizare include și caracteristici noi și îmbunătățiri."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Înainte"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Modificările din această versiune pot fi găsite în setările aplicației, la „Caracteristici noi”."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Legătură la chestionarul RKI"</item>
+        <item>"Consimțământ pentru partajarea datelor (opțional)"</item>
+        <item>"Modificări la mozaicurile riscului"</item>
+        <item>"Continuarea înregistrării în jurnal a expunerilor după partajarea ID-urilor dvs. aleatorii"</item>
+        <item>"Implementarea taburilor"</item>
+        <item>"Mai multe informații despre procedura de testare"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Dacă aveți risc crescut, puteți începe cu participarea la un chestionar desfășurat de Institutul Robert Koch în aplicație."</item>
+        <item>"Acum aveți opțiunea de partajare a datelor de utilizare, ceea ce ne va ajuta să îmbunătățim aplicația."</item>
+        <item>"Modificări minore ale textelor de pe mozaicurile riscului."</item>
+        <item>"După ce ați partajat ID-urile dvs. aleatorii criptate, puteți decide dacă și când doriți să activați din nou înregistrarea în jurnal a expunerilor."</item>
+        <item>"Acum există o pagină de tab separată pentru jurnalul dvs. de contacte. Acesta vă permite să accesați jurnalul dvs. și să comutați de la jurnalul de contacte înapoi la ecranul inițial al aplicației mai rapid."</item>
+        <item>"Aplicația conține acum informații mai detaliate despre procedura de testare."</item>
+    </string-array>
 
 </resources>

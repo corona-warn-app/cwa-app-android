@@ -13,6 +13,8 @@ class SurveyConsentDetailFragment : Fragment(R.layout.survey_consent_detail_frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.headerButtonBack.buttonIcon.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 }
