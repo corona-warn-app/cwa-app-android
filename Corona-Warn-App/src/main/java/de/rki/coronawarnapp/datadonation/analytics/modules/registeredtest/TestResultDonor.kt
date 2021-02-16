@@ -53,18 +53,20 @@ class TestResultDonor @Inject constructor(
         val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
         val isHoursDiffAcceptable = hoursSinceTestRegistrationTime >= configHours
 
-        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = Duration(
-            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
-            registrationTime
-        ).standardDays.toInt()
+        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
+            Duration(
+                riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
+                registrationTime
+            ).standardDays.toInt()
 
         return if (isHoursDiffAcceptable && isTestResultReceived) {
-            analyticsSettings.riskLevelAtTestRegistration.value
             val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
                 .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
                 // TODO verify setters below
                 .setHoursSinceHighRiskWarningAtTestRegistration(0)
-                .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(daysSinceMostRecentDateAtRiskLevelAtTestRegistration)
+                .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                    daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+                )
                 .setTestResult(submissionState.toPPATestResult())
                 .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
                 .build()
