@@ -56,8 +56,9 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
                 if (args.comesFromInfoScreen) {
                     popBackStack()
                 } else {
-                    doNavigate(NewReleaseInfoFragmentDirections
-                        .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
+                    doNavigate(
+                        NewReleaseInfoFragmentDirections
+                            .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
                     )
                 }
             }
