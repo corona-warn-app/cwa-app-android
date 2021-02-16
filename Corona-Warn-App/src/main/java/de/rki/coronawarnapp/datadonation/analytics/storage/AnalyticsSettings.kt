@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
 import de.rki.coronawarnapp.util.di.AppContext
@@ -99,6 +100,21 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
+    val riskLevelAtTestRegistration = prefs.createFlowPreference(
+        key = PREFS_KEY_RISK_LEVEL_AT_REGISTRATION,
+        reader = { key ->
+            val ordinal = getInt(key, -1)
+            if (ordinal != -1) {
+                RiskState.values()[ordinal]
+            } else {
+                null
+            }
+        },
+        writer = { key, value ->
+            putInt(key, value?.ordinal ?: -1)
+        }
+    )
+
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
@@ -107,5 +123,6 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
+        private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
     }
 }

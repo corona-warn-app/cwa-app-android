@@ -65,7 +65,8 @@ class TestResultDonor @Inject constructor(
 
     private fun cleanUp() {
         with(analyticsSettings) {
-            // TODO clean all saved values
+            testScannedAfterConsent.update { false }
+            riskLevelAtTestRegistration.update { null }
         }
     }
 
