@@ -74,7 +74,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/row_saved_days"
-            gone="@{state.getRiskContactLast(context) != null}"
+            gone="@{state.isGoneOnContentLowView(context)}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
