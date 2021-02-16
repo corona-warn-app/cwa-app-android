@@ -61,7 +61,8 @@ class TracingDetailsItemProvider @Inject constructor(
             }.also { add(it) }
 
             if (latestCalc.riskState == RiskState.INCREASED_RISK &&
-                                        availableSurveys.contains(Surveys.Type.HIGH_RISK_ENCOUNTER)) {
+                availableSurveys.contains(Surveys.Type.HIGH_RISK_ENCOUNTER)
+            ) {
                 add(UserSurveyBox.Item(Surveys.Type.HIGH_RISK_ENCOUNTER))
             }
 

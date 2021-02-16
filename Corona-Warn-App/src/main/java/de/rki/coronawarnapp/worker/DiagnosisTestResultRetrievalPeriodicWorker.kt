@@ -89,11 +89,11 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             return true
         }
 
-        if (TimeAndDateExtensions.calculateDays(
-                LocalData.initialPollingForTestResultTimeStamp(),
-                currentMillis
-            ) >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
-        ) {
+        val calculateDays = TimeAndDateExtensions.calculateDays(
+            LocalData.initialPollingForTestResultTimeStamp(),
+            currentMillis
+        )
+        if (calculateDays >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS) {
             Timber.tag(TAG)
                 .d(" $id Maximum of ${BackgroundConstants.POLLING_VALIDITY_MAX_DAYS} days for polling exceeded.")
             return true

@@ -15,7 +15,8 @@ import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class KeySubmissionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsKeysubmissionsLayoutBinding>(
-        R.layout.home_statistics_cards_basecard_layout, parent
+        R.layout.home_statistics_cards_basecard_layout,
+        parent
     ) {
 
     override val viewBinding = lazy {
@@ -50,8 +51,13 @@ class KeySubmissionsCard(parent: ViewGroup) :
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
-                .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayAverage.value,
-                    sevenDayAverage.decimals))
+                .appendWithTrailingSpace(
+                    formatStatisticalValue(
+                        context,
+                        sevenDayAverage.value,
+                        sevenDayAverage.decimals
+                    )
+                )
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_submission_title))
                 .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 

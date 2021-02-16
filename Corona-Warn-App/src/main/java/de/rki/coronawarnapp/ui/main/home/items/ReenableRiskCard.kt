@@ -10,7 +10,8 @@ import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard.Item
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class ReenableRiskCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeReenableRiskCardLayoutBinding>(
-    R.layout.home_card_container_layout, parent
+    R.layout.home_card_container_layout,
+    parent
 ) {
 
     override val viewBinding = lazy {

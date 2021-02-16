@@ -43,7 +43,9 @@ class SettingsResetViewModel @AssistedInject constructor(
                 }
             } catch (apiException: ApiException) {
                 apiException.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
+                    ExceptionCategory.EXPOSURENOTIFICATION,
+                    TAG,
+                    null
                 )
             }
             shareTestResultNotificationService.resetSharePositiveTestResultNotification()

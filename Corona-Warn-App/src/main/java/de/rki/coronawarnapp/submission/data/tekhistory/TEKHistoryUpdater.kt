@@ -30,23 +30,25 @@ class TEKHistoryUpdater @AssistedInject constructor(
 ) {
 
     private val tracingPermissionHelper by lazy {
-        tracingPermissionHelperFactory.create(object : TracingPermissionHelper.Callback {
-            override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
-                if (isTracingEnabled) {
-                    updateTEKHistoryOrRequestPermission()
-                } else {
-                    Timber.tag(TAG).w("Can't start TEK update, tracing permission was declined.")
+        tracingPermissionHelperFactory.create(
+            object : TracingPermissionHelper.Callback {
+                override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
+                    if (isTracingEnabled) {
+                        updateTEKHistoryOrRequestPermission()
+                    } else {
+                        Timber.tag(TAG).w("Can't start TEK update, tracing permission was declined.")
+                    }
                 }
+
+                override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) =
+                    callback.onTracingConsentRequired(onConsentResult)
+
+                override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) =
+                    callback.onPermissionRequired(permissionRequest)
+
+                override fun onError(error: Throwable) = callback.onError(error)
             }
-
-            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) =
-                callback.onTracingConsentRequired(onConsentResult)
-
-            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) =
-                callback.onPermissionRequired(permissionRequest)
-
-            override fun onError(error: Throwable) = callback.onError(error)
-        })
+        )
     }
 
     fun updateTEKHistoryOrRequestPermission() {

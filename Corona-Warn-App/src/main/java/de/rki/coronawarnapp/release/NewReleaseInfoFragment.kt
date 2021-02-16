@@ -73,18 +73,19 @@ private class ItemAdapter(
     private val items: List<NewReleaseInfoItem>
 ) : BaseAdapter<ItemAdapter.ViewHolder>() {
 
-    inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.new_release_info_item, parent),
+    inner class ViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.new_release_info_item, parent),
         BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
         override val viewBinding:
             Lazy<NewReleaseInfoItemBinding> =
-            lazy { NewReleaseInfoItemBinding.bind(itemView) }
+                lazy { NewReleaseInfoItemBinding.bind(itemView) }
 
         override val onBindData:
             NewReleaseInfoItemBinding.(item: NewReleaseInfoItem, payloads: List<Any>) -> Unit =
-            { item, _ ->
-                title.text = item.title
-                body.text = item.body
-            }
+                { item, _ ->
+                    title.text = item.title
+                    body.text = item.body
+                }
     }
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)

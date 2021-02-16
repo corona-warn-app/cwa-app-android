@@ -21,5 +21,5 @@ fun ContactDiaryPersonEncounterWrapper.toContactDiaryPersonEncounter(): ContactD
 
 fun List<ContactDiaryPersonEncounterWrapper>.toContactDiaryPersonEncounterSortedList():
     List<ContactDiaryPersonEncounter> =
-    this.map { it.toContactDiaryPersonEncounter() }
-        .sortByNameAndIdASC()
+        this.map { it.toContactDiaryPersonEncounter() }
+            .sortByNameAndIdASC()

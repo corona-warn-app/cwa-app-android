@@ -50,20 +50,20 @@ class TimeAndDateExtensionsTest {
     fun test_daysAgo() {
         Assert.assertEquals(
             0,
-                LocalDate(2012, 3, 4).ageInDays(
-                    LocalDate(2012, 3, 4)
+            LocalDate(2012, 3, 4).ageInDays(
+                LocalDate(2012, 3, 4)
             )
         )
         Assert.assertEquals(
             2,
             LocalDate(2013, 12, 31).ageInDays(
-            LocalDate(2014, 1, 2)
+                LocalDate(2014, 1, 2)
             )
         )
         Assert.assertEquals(
             3,
             LocalDate(2014, 5, 2).ageInDays(
-            LocalDate(2014, 5, 5)
+                LocalDate(2014, 5, 5)
             )
         )
     }

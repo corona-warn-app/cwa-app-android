@@ -130,7 +130,8 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
             R.string.onboarding_manual_required_dialog_body,
             R.string.onboarding_manual_required_dialog_button,
             null,
-            false, {
+            false,
+            {
                 // close dialog
             }
         )

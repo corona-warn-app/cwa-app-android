@@ -114,7 +114,8 @@ class TaskController @Inject constructor(
             } else {
                 Timber.tag(TAG).w(
                     "TaskRequest was already used. Existing: %s\nNew request: %s",
-                    existingRequest, newRequest
+                    existingRequest,
+                    newRequest
                 )
             }
         }
@@ -150,7 +151,8 @@ class TaskController @Inject constructor(
 
         Timber.tag(TAG).v(
             "Tasks after processing (count=%d):\n%s",
-            size, values.sortedBy { it.finishedAt }.joinToString("\n") {
+            size,
+            values.sortedBy { it.finishedAt }.joinToString("\n") {
                 it.toLogString()
             }
         )

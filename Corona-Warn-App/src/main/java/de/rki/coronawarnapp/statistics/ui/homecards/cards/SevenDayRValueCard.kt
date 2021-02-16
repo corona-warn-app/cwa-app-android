@@ -16,7 +16,8 @@ import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class SevenDayRValueCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsSevendayrvalueLayoutBinding>(
-        R.layout.home_statistics_cards_basecard_layout, parent
+        R.layout.home_statistics_cards_basecard_layout,
+        parent
     ) {
 
     override val viewBinding = lazy {
@@ -50,8 +51,13 @@ class SevenDayRValueCard(parent: ViewGroup) :
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_title_reproduction))
                 .appendWithTrailingSpace(getPrimaryLabel(context))
-                .appendWithTrailingSpace(formatStatisticalValue(context, reproductionNumber.value,
-                    reproductionNumber.decimals))
+                .appendWithTrailingSpace(
+                    formatStatisticalValue(
+                        context,
+                        reproductionNumber.value,
+                        reproductionNumber.decimals
+                    )
+                )
                 .append(getContentDescriptionForTrends(context, reproductionNumber.trend))
 
             trendArrow.setTrend(reproductionNumber.trend, reproductionNumber.trendSemantic)
@@ -67,8 +73,13 @@ class SevenDayRValueCard(parent: ViewGroup) :
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_title_reproduction))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithTrailingSpace(formatStatisticalValue(context, reproductionNumber.value,
-                reproductionNumber.decimals))
+            .appendWithTrailingSpace(
+                formatStatisticalValue(
+                    context,
+                    reproductionNumber.value,
+                    reproductionNumber.decimals
+                )
+            )
             .appendWithTrailingSpace(context.getString(R.string.statistics_reproduction_average))
             .appendWithLineBreak(getContentDescriptionForTrends(context, reproductionNumber.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
