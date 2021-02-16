@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.common
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import de.rki.coronawarnapp.R
+import timber.log.Timber
 
 class DiaryCircumstancesTextView @JvmOverloads constructor(
     context: Context,
@@ -20,26 +19,19 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
     private val infoButton: ImageView
 
     private var afterTextChangedListener: ((String) -> Unit)? = null
-    private val circumStanceTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // NOOP
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            // NOOP
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-            if (s == null) return
-            afterTextChangedListener?.invoke(s.toString())
-        }
-    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_diary_circumstances_textview, this, true)
 
         input = findViewById<EditText>(R.id.input).apply {
-            addTextChangedListener(circumStanceTextWatcher)
+            setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    Timber.v("Focused on %s", v)
+                } else {
+                    Timber.v("Lost focus on %s", v)
+                    afterTextChangedListener?.invoke(text.toString())
+                }
+            }
         }
         infoButton = findViewById(R.id.info_button)
     }
