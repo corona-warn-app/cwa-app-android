@@ -50,7 +50,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         fun start(context: Context, action: MainActivityActions? = null) {
             val intent = Intent(context, MainActivity::class.java).apply {
-                putExtra(EXTRA_ACTION, action?.name)
+                if (action != null) {
+                    putExtra(EXTRA_ACTION, action.name)
+                    flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
             }
             context.startActivity(intent)
         }
