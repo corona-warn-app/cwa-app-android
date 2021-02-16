@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentDirections
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayNavigationEvents
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -42,6 +45,15 @@ class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary),
             normalPersonEncountersButton.setOnClickListener { vm.createPersonEncounters(false) }
             locationVisitsCleanButton.setOnClickListener { vm.clearLocationVisits() }
             personEncountersCleanButton.setOnClickListener { vm.clearPersonEncounters() }
+            durationPickerButton.setOnClickListener {
+                doNavigate(ContactDiaryTestFragmentDirections.actionTestContactDiaryFragmentToTestContactDiaryDurationPickerDialogFragment())
+//                ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet -> doNavigate(
+//                ContactDiaryDayFragmentDirections
+//                    .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment(
+//                        addedAt = navArgs.selectedDay
+//                    )
+//                )
+            }
         }
     }
 

@@ -102,11 +102,21 @@
         android:id="@+id/test_contact_diary_fragment"
         android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment"
         android:label="ContactDiaryTestFragment"
-        tools:layout="@layout/fragment_test_contact_diary" />
+        tools:layout="@layout/fragment_test_contact_diary" >
+        <action
+            android:id="@+id/action_test_contact_diary_fragment_to_test_contact_diary_duration_picker_dialog_fragment"
+            app:destination="@id/test_contact_diary_duration_picker_dialog_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/test_datadonation_fragment"
         tools:layout="@layout/fragment_test_datadonation"
         android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment"
         android:label="DataDonationFragment" />
+    <dialog
+        android:id="@+id/test_contact_diary_duration_picker_dialog_fragment"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.durationpicker.ContactDiaryDurationPickerFragment"
+        android:label="ContactDiaryDurationPickerFragment"
+        tools:layout="@layout/contact_diary_duration_picker_dialog_fragment">
+    </dialog>
 
 </navigation>
