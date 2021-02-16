@@ -5,7 +5,7 @@ package testhelpers
  * the test currently being implemented.
  * In fastlane folder. replace `Screenshot` with `ScreenshotUnderTest` in Screengrabfile
  *
- * Note: this is only for testing purposes and should be used in final tests
+ * Note: this is only for testing purposes and should NOT be used in final tests
  */
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 @Target(
