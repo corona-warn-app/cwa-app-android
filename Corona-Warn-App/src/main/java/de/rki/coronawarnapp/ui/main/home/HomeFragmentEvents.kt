@@ -17,5 +17,5 @@ sealed class HomeFragmentEvents {
 
     object GoToStatisticsExplanation : HomeFragmentEvents()
 
-    object GoToContactJournalDay: HomeFragmentEvents()
+    object GoToContactJournalDay : HomeFragmentEvents()
 }

@@ -67,8 +67,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
-import java.util.Timer
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
