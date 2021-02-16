@@ -10,6 +10,5 @@ fun MaterialButtonToggleGroup.setOnCheckedChangeListener(listener: (checkedId: I
             isChecked -> listener.invoke(checkedId)
             group.checkedButtonId == View.NO_ID -> listener.invoke(null)
         }
-
     }
 }

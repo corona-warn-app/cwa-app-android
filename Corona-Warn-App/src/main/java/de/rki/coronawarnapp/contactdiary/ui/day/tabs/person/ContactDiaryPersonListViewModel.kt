@@ -133,4 +133,3 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
 }
 
 private val TAG = ContactDiaryPersonListViewModel::class.java.simpleName
-

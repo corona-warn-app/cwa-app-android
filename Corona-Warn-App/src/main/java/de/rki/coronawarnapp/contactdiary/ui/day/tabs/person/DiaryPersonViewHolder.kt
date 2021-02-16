@@ -19,7 +19,8 @@ class DiaryPersonViewHolder(
     override val viewBinding = lazy { ContactDiaryPersonListItemBinding.bind(itemView) }
 
     override val onBindData: ContactDiaryPersonListItemBinding.(
-        DiaryPersonListItem, List<Any>
+        item: DiaryPersonListItem,
+        changes: List<Any>
     ) -> Unit = { initial, changes ->
         val item = changes.firstOrNull() as? DiaryPersonListItem ?: initial
 
