@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 
@@ -17,7 +18,7 @@ data class DiaryPersonListItem(
     val onWasOutsideChanged: (DiaryPersonListItem, Boolean?) -> Unit,
     val onCircumstancesChanged: (DiaryPersonListItem, String) -> Unit,
     val onCircumstanceInfoClicked: () -> Unit
-) : SelectableDiaryItem<ContactDiaryPerson>() {
+) : SelectableDiaryItem<ContactDiaryPerson>(), HasPayloadDiffer {
 
     override val selected: Boolean
         get() = personEncounter != null
@@ -48,6 +49,12 @@ data class DiaryPersonListItem(
             DESELECT_ACTION_DESCRIPTION
         }
 
+    override fun diffPayload(old: Any, new: Any): Any? {
+        old as DiaryPersonListItem
+        new as DiaryPersonListItem
+        return if (old.item != new.item) null else new
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -55,14 +62,14 @@ data class DiaryPersonListItem(
         other as DiaryPersonListItem
 
         if (item != other.item) return false
-        if (selected != other.selected) return false
+        if (personEncounter != other.personEncounter) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = item.hashCode()
-        result = 31 * result + selected.hashCode()
+        result = 31 * result + (personEncounter?.hashCode() ?: 0)
         return result
     }
 }

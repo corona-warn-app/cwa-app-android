@@ -19,25 +19,26 @@ class DiaryPersonViewHolder(
     override val viewBinding = lazy { ContactDiaryPersonListItemBinding.bind(itemView) }
 
     override val onBindData: ContactDiaryPersonListItemBinding.(
-        key: DiaryPersonListItem,
-        payloads: List<Any>
-    ) -> Unit = { key, _ ->
+        DiaryPersonListItem, List<Any>
+    ) -> Unit = { initial, changes ->
+        val item = changes.firstOrNull() as? DiaryPersonListItem ?: initial
+
         mainBox.apply {
             header.setOnClickListenerThrottled {
-                it.contentDescription = key.onClickDescription.get(context)
+                it.contentDescription = item.onClickDescription.get(context)
                 it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
-                key.onItemClick(key)
+                item.onItemClick(item)
             }
 
-            title = key.item.fullName
-            isExpanded = key.selected
-            contentDescription = key.contentDescription.get(context)
-            setClickLabel(context.getString(key.clickLabel))
+            title = item.item.fullName
+            isExpanded = item.selected
+            contentDescription = item.contentDescription.get(context)
+            setClickLabel(context.getString(item.clickLabel))
         }
 
         durationGroup.apply {
             clearOnButtonCheckedListeners()
-            when (key.personEncounter?.durationClassification) {
+            when (item.personEncounter?.durationClassification) {
                 DurationClassification.MORE_THAN_15_MINUTES -> check(R.id.duration_above_15)
                 DurationClassification.LESS_THAN_15_MINUTES -> check(R.id.duration_below_15)
                 null -> clearChecked()
@@ -47,13 +48,13 @@ class DiaryPersonViewHolder(
                     R.id.duration_above_15 -> DurationClassification.MORE_THAN_15_MINUTES
                     R.id.duration_below_15 -> DurationClassification.LESS_THAN_15_MINUTES
                     else -> null
-                }.let { key.onDurationChanged(key, it) }
+                }.let { item.onDurationChanged(item, it) }
             }
         }
 
         maskGroup.apply {
             clearOnButtonCheckedListeners()
-            when (key.personEncounter?.withMask) {
+            when (item.personEncounter?.withMask) {
                 true -> check(R.id.mask_with)
                 false -> check(R.id.mask_without)
                 null -> clearChecked()
@@ -63,13 +64,13 @@ class DiaryPersonViewHolder(
                     R.id.mask_with -> true
                     R.id.mask_without -> false
                     else -> null
-                }.let { key.onWithMaskChanged(key, it) }
+                }.let { item.onWithMaskChanged(item, it) }
             }
         }
 
         environmentGroup.apply {
             clearOnButtonCheckedListeners()
-            when (key.personEncounter?.wasOutside) {
+            when (item.personEncounter?.wasOutside) {
                 true -> check(R.id.environment_outside)
                 false -> check(R.id.environment_inside)
                 null -> clearChecked()
@@ -79,14 +80,16 @@ class DiaryPersonViewHolder(
                     R.id.environment_outside -> true
                     R.id.environment_inside -> false
                     else -> null
-                }.let { key.onWasOutsideChanged(key, it) }
+                }.let { item.onWasOutsideChanged(item, it) }
             }
         }
 
         circumstances.apply {
-            setInputText(key.personEncounter?.circumstances ?: "")
-            circumstances.setInputTextChangedListener { key.onCircumstancesChanged(key, it) }
-            setInfoButtonClickListener { key.onCircumstanceInfoClicked() }
+            // When data changes, we get that via payload
+            // To not update the edittext while typing, only the the text input on the first "bind"
+            if (changes.isEmpty()) setInputText(item.personEncounter?.circumstances ?: "")
+            circumstances.setInputTextChangedListener { item.onCircumstancesChanged(item, it) }
+            setInfoButtonClickListener { item.onCircumstanceInfoClicked() }
         }
     }
 }

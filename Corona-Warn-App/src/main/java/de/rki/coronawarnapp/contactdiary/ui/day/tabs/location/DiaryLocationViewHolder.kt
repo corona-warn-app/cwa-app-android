@@ -17,26 +17,27 @@ class DiaryLocationViewHolder(
     override val viewBinding = lazy { ContactDiaryLocationListItemBinding.bind(itemView) }
 
     override val onBindData: ContactDiaryLocationListItemBinding.(
-        key: DiaryLocationListItem,
-        payloads: List<Any>
-    ) -> Unit = { key, _ ->
+        DiaryLocationListItem, List<Any>
+    ) -> Unit = { initial, changes ->
+        val item = changes.firstOrNull() as? DiaryLocationListItem ?: initial
+
         mainBox.apply {
             header.setOnClickListenerThrottled {
-                it.contentDescription = key.onClickDescription.get(context)
+                it.contentDescription = item.onClickDescription.get(context)
                 it.sendAccessibilityEvent(AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
-                key.onItemClick(key)
+                item.onItemClick(item)
             }
 
-            title = key.item.locationName
-            isExpanded = key.selected
-            contentDescription = key.contentDescription.get(context)
-            setClickLabel(context.getString(key.clickLabel))
+            title = item.item.locationName
+            isExpanded = item.selected
+            contentDescription = item.contentDescription.get(context)
+            setClickLabel(context.getString(item.clickLabel))
         }
 
         circumstances.apply {
-            setInputText(key.visit?.circumstances ?: "")
-            circumstances.setInputTextChangedListener { key.onCircumstancesChanged(key, it) }
-            setInfoButtonClickListener { key.onCircumStanceInfoClicked() }
+            if (changes.isEmpty()) setInputText(item.visit?.circumstances ?: "")
+            circumstances.setInputTextChangedListener { item.onCircumstancesChanged(item, it) }
+            setInfoButtonClickListener { item.onCircumStanceInfoClicked() }
         }
     }
 }

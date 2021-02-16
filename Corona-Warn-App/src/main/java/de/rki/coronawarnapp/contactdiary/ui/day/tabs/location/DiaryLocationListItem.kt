@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import org.joda.time.Duration
@@ -16,7 +17,7 @@ data class DiaryLocationListItem(
     val onDurationChanged: (DiaryLocationListItem, Duration?) -> Unit,
     val onCircumstancesChanged: (DiaryLocationListItem, String) -> Unit,
     val onCircumStanceInfoClicked: () -> Unit
-) : SelectableDiaryItem<ContactDiaryLocation>() {
+) : SelectableDiaryItem<ContactDiaryLocation>(), HasPayloadDiffer {
     override val selected: Boolean
         get() = visit != null
 
@@ -45,6 +46,12 @@ data class DiaryLocationListItem(
             DESELECT_ACTION_DESCRIPTION
         }
 
+    override fun diffPayload(old: Any, new: Any): Any? {
+        old as DiaryLocationListItem
+        new as DiaryLocationListItem
+        return if (old.item != new.item) null else new
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -52,14 +59,14 @@ data class DiaryLocationListItem(
         other as DiaryLocationListItem
 
         if (item != other.item) return false
-        if (selected != other.selected) return false
+        if (visit != other.visit) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = item.hashCode()
-        result = 31 * result + selected.hashCode()
+        result = 31 * result + (visit?.hashCode() ?: 0)
         return result
     }
 }
