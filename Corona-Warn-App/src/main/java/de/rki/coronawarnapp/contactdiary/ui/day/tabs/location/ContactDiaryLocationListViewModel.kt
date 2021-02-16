@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.trimToLength
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -85,8 +86,9 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         circumstances: String
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
+        val sanitized = circumstances.trim().trimToLength(250)
         launch {
-            contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = circumstances))
+            contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = sanitized))
         }
     }
 

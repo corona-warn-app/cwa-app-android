@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.trimToLength
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -122,7 +123,8 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         Timber.d("onCircumstancesChanged(item=%s, circumstances=%s)", item, circumstances)
         val encounter = item.personEncounter?.toEditableVariant() ?: return
         launch {
-            contactDiaryRepository.updatePersonEncounter(encounter.copy(circumstances = circumstances))
+            val sanitized = circumstances.trim().trimToLength(250)
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(circumstances = sanitized))
         }
     }
 
