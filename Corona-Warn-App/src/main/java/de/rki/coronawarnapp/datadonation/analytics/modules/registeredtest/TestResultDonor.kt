@@ -23,8 +23,16 @@ class TestResultDonor @Inject constructor(
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        if (!analyticsSettings.testScannedAfterConsent.value) {
-            Timber.d("Skipping TestResultMetadata donation(Test scanned before consent) ")
+        val scannedAfterConsent = analyticsSettings.testScannedAfterConsent.value
+        if (!scannedAfterConsent) {
+            Timber.d("Skipping TestResultMetadata donation (testScannedAfterConsent=%s)", scannedAfterConsent)
+            return TestResultMetadataNoContribution
+        }
+
+        val timestampAtRegistration = LocalData.initialTestResultReceivedTimestamp()
+
+        if (timestampAtRegistration == null) {
+            Timber.d("Skipping TestResultMetadata donation timestampAtRegistration isn't found")
             return TestResultMetadataNoContribution
         }
 
@@ -36,18 +44,20 @@ class TestResultDonor @Inject constructor(
             .getAppConfig()
             .analytics
             .hoursSinceTestRegistrationToSubmitTestResultMetadata
-        val registrationTime = Instant.ofEpochMilli(LocalData.initialPollingForTestResultTimeStamp())
+
+        val registrationTime = Instant.ofEpochMilli(timestampAtRegistration)
         val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
         val isHoursDiffAcceptable = hoursSinceTestRegistrationTime >= configHours
 
         return if (isHoursDiffAcceptable && isTestResultReceived) {
+            analyticsSettings.riskLevelAtTestRegistration.value
             val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
                 .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
                 // TODO verify setters below
                 .setHoursSinceHighRiskWarningAtTestRegistration(0)
                 .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(0)
                 .setTestResult(PpaData.PPATestResult.TEST_RESULT_POSITIVE)
-                .setRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+                .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
                 .build()
 
             TestResultMetadataContribution(testResultMetaData, ::cleanUp)
@@ -66,7 +76,7 @@ class TestResultDonor @Inject constructor(
     private fun cleanUp() {
         with(analyticsSettings) {
             testScannedAfterConsent.update { false }
-            riskLevelAtTestRegistration.update { null }
+            riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
         }
     }
 

@@ -4,14 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -25,14 +27,12 @@ import timber.log.Timber
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val analyticsSettings: AnalyticsSettings,
-    tracingStateProviderFactory: TracingStateProvider.Factory,
+    private val riskLevelStorage: RiskLevelStorage,
 ) :
     CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
-
-    private val tracingStateProvider = tracingStateProviderFactory.create(false)
 
     open class InvalidQRCodeException : Exception("error in qr code")
 
@@ -87,9 +87,15 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     // To exclude any registered test result before giving a consent
     private suspend fun saveTestResultAnalyticsSettings() = with(analyticsSettings) {
         if (analyticsEnabled.value) {
-            val riskState = tracingStateProvider.state.first().riskState
+            val lastRiskResult = riskLevelStorage
+                .latestAndLastSuccessful
+                .first()
+                .tryLatestResultsWithDefaults()
+                .lastCalculated
+
+            val ppaRiskLevel = lastRiskResult.toMetadataRiskLevel()
             testScannedAfterConsent.update { true }
-            riskLevelAtTestRegistration.update { riskState }
+            riskLevelAtTestRegistration.update { ppaRiskLevel }
         }
     }
 

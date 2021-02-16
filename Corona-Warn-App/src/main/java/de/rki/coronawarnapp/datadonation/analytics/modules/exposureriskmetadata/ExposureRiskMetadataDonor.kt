@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata
 
+import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -72,10 +71,3 @@ class ExposureRiskMetadataDonor @Inject constructor(
         }
     }
 }
-
-private fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
-    when (riskState) {
-        RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-        else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
-    }
