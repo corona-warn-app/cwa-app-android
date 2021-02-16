@@ -102,7 +102,8 @@ class AnalyticsSettings @Inject constructor(
     val riskLevelAtTestRegistration = prefs.createFlowPreference(
         key = PREFS_KEY_RISK_LEVEL_AT_REGISTRATION,
         reader = { key ->
-            PpaData.PPARiskLevel.forNumber(getInt(key, 0)) ?: PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
+            PpaData.PPARiskLevel.forNumber(getInt(key, PpaData.PPARiskLevel.RISK_LEVEL_LOW.number))
+                ?: PpaData.PPARiskLevel.RISK_LEVEL_LOW
         },
         writer = { key, value ->
             putInt(key, value.number)

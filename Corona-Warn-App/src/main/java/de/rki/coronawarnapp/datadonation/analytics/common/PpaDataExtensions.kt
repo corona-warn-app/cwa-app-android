@@ -66,10 +66,3 @@ val PpaData.PPAFederalState.federalStateShortName: String
             "PpaData.PPAFederalState.UNRECOGNIZED has no short name"
         )
     }
-
-fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
-    when (riskState) {
-        RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-        else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
-    }
