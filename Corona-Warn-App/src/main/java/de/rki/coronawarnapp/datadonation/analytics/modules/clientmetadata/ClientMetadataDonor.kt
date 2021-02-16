@@ -46,7 +46,7 @@ class ClientMetadataDonor @Inject constructor(
         }
 
         override suspend fun finishDonation(successful: Boolean) {
-            // No post processing needed for User Metadata
+            // No post processing needed for Client Metadata
         }
     }
 }
