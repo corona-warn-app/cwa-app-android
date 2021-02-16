@@ -15,8 +15,10 @@ data class OneTimePassword(
 ) {
 
     @Transient
-    val payloadForRequest: ByteArray = EdusOtp.EDUSOneTimePassword.newBuilder()
+    val edusOneTimePassword: EdusOtp.EDUSOneTimePassword = EdusOtp.EDUSOneTimePassword.newBuilder()
         .setOtp(uuid.toString())
         .build()
-        .toByteArray()
+
+    @Transient
+    val payloadForRequest: ByteArray = edusOneTimePassword.toByteArray()
 }
