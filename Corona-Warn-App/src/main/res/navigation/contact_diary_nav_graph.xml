@@ -83,9 +83,23 @@
             app:destination="@id/contactDiaryOverviewFragment"
             app:popUpTo="@id/contact_diary_nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryDayFragment"
+            app:destination="@id/contactDiaryDayFragment"
+            app:popUpTo="@id/contactDiaryOverviewFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_contactDiaryOnboardingFragment_to_contactDiaryOnboarding"
+            app:destination="@id/contactDiaryOnboardingFragment"
+            app:popUpTo="@id/contact_diary_nav_graph"
+            app:popUpToInclusive="true" />
         <argument
             android:name="showBottomNav"
             android:defaultValue="true"
+            app:argType="boolean" />
+        <argument
+            android:name="goToCurrentDay"
+            android:defaultValue="false"
             app:argType="boolean" />
     </fragment>
     <fragment

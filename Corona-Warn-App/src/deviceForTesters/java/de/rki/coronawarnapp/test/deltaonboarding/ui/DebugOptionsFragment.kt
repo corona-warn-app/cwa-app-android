@@ -25,6 +25,8 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.switchContactJournalOnboarding.isChecked = vm.isContactJournalOnboardingDone()
+        binding.switchDeltaOnboarding.isChecked = vm.isDeltaOnboardingDone()
         vm.changelogVersion.observe(viewLifecycleOwner) {
             binding.lastChangelogEdittext.setText(it.toString())
         }
@@ -35,7 +37,19 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
         }
 
         binding.buttonClear.setOnClickListener {
+            vm.clearChangelogVersion()
+        }
+
+        binding.buttonReset.setOnClickListener {
             vm.resetChangelogVersion()
+        }
+
+        binding.switchContactJournalOnboarding.setOnCheckedChangeListener { _, value ->
+            vm.setContactJournalOnboardingDone(value)
+        }
+
+        binding.switchDeltaOnboarding.setOnCheckedChangeListener { _, value ->
+            vm.setDeltaOboardinDone(value)
         }
     }
 
