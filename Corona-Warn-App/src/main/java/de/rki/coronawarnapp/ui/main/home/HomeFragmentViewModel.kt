@@ -67,6 +67,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
+import java.util.Timer
 
 @Suppress("LongParameterList")
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -95,6 +97,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
 
+    var goToContactJournal = false
+
+    fun activateContactJournalShortcut() {
+        goToContactJournal = true
+    }
+
     fun showPopUpsOrNavigate() {
         when {
             !LocalData.isInteroperabilityShownAtLeastOnce -> {
@@ -102,6 +110,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
             cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
                 popupEvents.postValue(HomeFragmentEvents.ShowNewReleaseFragment)
+            }
+            goToContactJournal -> {
+                goToContactJournal = false
+                popupEvents.postValue(HomeFragmentEvents.GoToContactJournalDay)
             }
             else -> {
                 launch {

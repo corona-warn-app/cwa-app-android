@@ -7,9 +7,11 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -18,6 +20,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -43,6 +46,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
+    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
 
     private val homeAdapter = HomeAdapter()
 
@@ -108,6 +112,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
                     showReactivateRiskCheckDialog()
                 }
+                HomeFragmentEvents.GoToContactJournalDay -> {
+                    (activity as MainActivity).goToContactJournal()
+                }
             }
         }
 
@@ -128,6 +135,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         super.onResume()
         vm.refreshRequiredData()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        appShortcutsHelper.createAppShortcut()
     }
 
     private fun showRemoveTestDialog() {

@@ -16,4 +16,6 @@ sealed class HomeFragmentEvents {
     object ShowNewReleaseFragment : HomeFragmentEvents()
 
     object GoToStatisticsExplanation : HomeFragmentEvents()
+
+    object GoToContactJournalDay: HomeFragmentEvents()
 }

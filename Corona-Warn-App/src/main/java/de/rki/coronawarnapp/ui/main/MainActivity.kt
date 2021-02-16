@@ -17,18 +17,19 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentDirections
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -45,13 +46,21 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
-        private const val EXTRA_ACTION = "action"
+        const val EXTRA_ACTION = "action"
 
         fun start(context: Context, action: MainActivityActions? = null) {
             val intent = Intent(context, MainActivity::class.java).apply {
                 putExtra(EXTRA_ACTION, action?.name)
             }
             context.startActivity(intent)
+        }
+
+        private fun getActionFromIntent(intent: Intent): MainActivityActions? {
+            val extra = intent.getStringExtra(EXTRA_ACTION)
+            if (extra != null) {
+                return MainActivityActions.valueOf(extra)
+            }
+            return null
         }
     }
 
@@ -64,13 +73,17 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         factoryProducer = { viewModelFactory }
     )
 
+    private val homeFragmentVm: HomeFragmentViewModel by cwaViewModels(
+        ownerProducer = { viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
+
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
-    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -101,25 +114,38 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         if (savedInstanceState == null) {
-            val extra = intent.getStringExtra(EXTRA_ACTION)
-            if (extra != null) {
-                when (MainActivityActions.valueOf(extra)) {
-                    MainActivityActions.ADD_DIARY_ENTRY -> navController.goToContactDiary()
-                }
-            }
+            processExtraParameters()
         }
-
-        appShortcutsHelper.createAppShortcut()
     }
 
-    private fun NavController.goToContactDiary() {
-        val today = LocalDate().toString()
-        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId = R.id.contact_diary_nav_graph
-        navigate(
-            ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
-                today
+    private fun processExtraParameters() {
+        when (getActionFromIntent(intent)) {
+            MainActivityActions.ADD_DIARY_ENTRY -> {
+                homeFragmentVm.activateContactJournalShortcut()
+            }
+        }
+    }
+
+    fun goToContactJournal() {
+        val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
+            R.id.contact_diary_nav_graph
+
+        if (vm.isOnboardingDone.value == true) {
+            val today = LocalDate().toString()
+            navController.navigate(
+                ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
+                    selectedDay = today
+                )
             )
-        )
+        } else {
+            navController.navigate(
+                ContactDiaryOnboardingFragmentDirections.actionContactDiaryOnboardingFragmentToContactDiaryOnboarding(
+                    showBottomNav = true,
+                    goToCurrentDay = true
+                )
+            )
+        }
     }
 
     private fun startNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {

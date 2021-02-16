@@ -19,7 +19,6 @@ import javax.inject.Inject
 class LauncherActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
 
     private val vm: LauncherActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
@@ -38,7 +37,7 @@ class LauncherActivity : AppCompatActivity() {
                     finish()
                 }
                 LauncherEvent.GoToAppShortcutOrMainActivity -> {
-                    when (appShortcutsHelper.getShortcutType(intent)) {
+                    when (AppShortcutsHelper.getShortcutType(intent)) {
                         AppShortcuts.CONTACT_DIARY -> MainActivity.start(this, MainActivityActions.ADD_DIARY_ENTRY)
                         else -> MainActivity.start(this)
                     }
@@ -63,5 +62,4 @@ class LauncherActivity : AppCompatActivity() {
             }
             .show()
     }
-
 }
