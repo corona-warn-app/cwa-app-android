@@ -529,6 +529,8 @@
     <string name="onboarding_ppa_illustration_description">"Darstellung einer Person, die ihr Smartphone in der Hand hält"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
     <string name="onboarding_ppa_headline">"Datenspende"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body short text -->
+    <string name="onboarding_ppa_body_short">"Teilen Sie Daten über Ihre App-Nutzung mit uns und helfen Sie uns so, die Wirksamkeit der App zu bewerten."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
     <string name="onboarding_ppa_body">"Sie können uns helfen, die Corona-Warn-App zu verbessern. Teilen Sie Daten über Ihre App-Nutzung mit dem RKI. Sie helfen damit dem RKI bei der Bewertung der Wirksamkeit der App. Ihre Daten ermöglichen außerdem, die Funktionen und Nutzerfreundlichkeit der App zu verbessern."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
