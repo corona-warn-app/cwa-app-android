@@ -8,26 +8,19 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import io.kotest.matchers.shouldBe
-import io.mockk.Call
 import io.mockk.Called
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-import testhelpers.coroutines.runBlockingTest2
 import testhelpers.preferences.mockFlowPreference
 
 class TestResultDonorTest {
