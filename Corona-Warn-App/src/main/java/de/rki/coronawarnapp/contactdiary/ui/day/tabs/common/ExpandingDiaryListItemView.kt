@@ -20,6 +20,7 @@ class ExpandingDiaryListItemView @JvmOverloads constructor(
     private val titleView: TextView
     private val checkboxView: ImageView
     private val container: ViewGroup
+    private val divider: View
     val header: ViewGroup
 
     init {
@@ -29,6 +30,7 @@ class ExpandingDiaryListItemView @JvmOverloads constructor(
         checkboxView = findViewById(R.id.header_checkbox)
         header = findViewById(R.id.header)
         container = findViewById(R.id.container)
+        divider = findViewById(R.id.divider)
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
@@ -47,10 +49,11 @@ class ExpandingDiaryListItemView @JvmOverloads constructor(
 
     var isExpanded: Boolean
         get() = isSelected
-        set(value) {
-            checkboxView.setImageResource(if (value) R.drawable.ic_selected else R.drawable.ic_unselected)
-            container.setGone(!value)
-            isSelected = value
+        set(expanded) {
+            isSelected = expanded
+            checkboxView.setImageResource(if (expanded) R.drawable.ic_selected else R.drawable.ic_unselected)
+            container.setGone(!expanded)
+            divider.setGone(!expanded)
         }
 
     companion object {

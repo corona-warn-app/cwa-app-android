@@ -52,7 +52,12 @@ data class DiaryPersonListItem(
     override fun diffPayload(old: Any, new: Any): Any? {
         old as DiaryPersonListItem
         new as DiaryPersonListItem
-        return if (old.item != new.item) null else new
+        // null causes a full re-layout to be executed
+        return when {
+            old.item != new.item -> null // Major change
+            old.personEncounter == null && new.personEncounter != null -> null // Container needs to grow
+            else -> new
+        }
     }
 
     override fun equals(other: Any?): Boolean {

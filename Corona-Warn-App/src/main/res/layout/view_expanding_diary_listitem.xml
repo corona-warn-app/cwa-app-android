@@ -11,18 +11,18 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:clickable="true"
         android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:minHeight="@dimen/spacing_huge">
 
         <ImageView
             android:id="@+id/header_checkbox"
             android:layout_width="@dimen/spacing_medium"
             android:layout_height="@dimen/spacing_medium"
+            android:layout_marginStart="@dimen/spacing_small"
             android:clickable="false"
             android:focusable="false"
-            android:layout_marginStart="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,21 +42,25 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Primary list item title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header" />
+        app:layout_constraintTop_toBottomOf="@id/header"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/spacing_huge"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider"
