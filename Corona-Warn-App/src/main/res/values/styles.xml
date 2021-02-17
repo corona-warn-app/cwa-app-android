@@ -404,6 +404,18 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
+    <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/colorBackground</item>
+        <item name="android:textColorHint">@color/colorTextPrimary2</item>
+        <item name="hintTextColor">@color/colorTextPrimary2</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
         <item name="android:height">@dimen/button_icon</item>
         <item name="android:width">@dimen/button_icon</item>
