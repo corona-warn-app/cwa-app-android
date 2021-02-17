@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import org.joda.time.Instant
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
@@ -64,7 +65,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
             // Order here is important. Save Analytics after SUCCESS
-            saveTestResultAnalyticsSettings()
+            saveTestResultAnalyticsSettings(testResult)
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
@@ -87,7 +88,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     // Collect Test result registration only after user has given a consent.
     // To exclude any registered test result before giving a consent
-    private suspend fun saveTestResultAnalyticsSettings() = with(analyticsSettings) {
+    private suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) = with(analyticsSettings) {
         if (analyticsEnabled.value) {
             val lastRiskResult = riskLevelStorage
                 .latestAndLastSuccessful
@@ -98,6 +99,9 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             val ppaRiskLevel = lastRiskResult.toMetadataRiskLevel()
             testScannedAfterConsent.update { true }
             riskLevelAtTestRegistration.update { ppaRiskLevel }
+            if (testResult == TestResult.PENDING) {
+                pendingResultReceivedAt.update { Instant.now() }
+            }
         }
     }
 
