@@ -88,12 +88,12 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             }
     }
 
-    private fun AggregatedRiskPerDateResult.toRisk(LocationOrPerson: Boolean): ListItem.Risk {
+    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): ListItem.Risk {
         @StringRes val title: Int
         @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int
 
-        @StringRes val bodyExtend: Int? = when (LocationOrPerson) {
+        @StringRes val bodyExtend: Int? = when (locationOrPerson) {
             true -> R.string.contact_diary_risk_body_extended
             false -> null
         }
