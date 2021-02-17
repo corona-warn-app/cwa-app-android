@@ -48,9 +48,11 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
             tab.setText(tabSource.tabNameResource)
         }.attach()
 
+
         binding.apply {
             contactDiaryDayViewPager.registerOnPageChangeCallback {
-                binding.contactDiaryDayFab.setText(adapter.tabs[it].fabTextResource)
+                binding.contactDiaryDayFab.text = getString(adapter.tabs[it].fabTextResource)
+                binding.contactDiaryDayFab.contentDescription = getString(adapter.tabs[it].fabTextResourceAccessibility)
             }
 
             contactDiaryDayFab.setOnClickListener {
