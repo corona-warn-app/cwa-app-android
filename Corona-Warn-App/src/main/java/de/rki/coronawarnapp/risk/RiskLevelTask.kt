@@ -5,8 +5,9 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.ExposureWindowRepository
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.createExposureWindowContribution
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowRepository
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.createAnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
@@ -46,7 +48,8 @@ class RiskLevelTask @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
-    private val exposureWindowRepository: ExposureWindowRepository
+    private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository,
+    private val analyticsSettings: AnalyticsSettings
 ) : Task<DefaultProgress, RiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -183,16 +186,23 @@ class RiskLevelTask @Inject constructor(
                 riskLevels.calculateRisk(appConfig, window)?.let { window to it }
             }.toMap()
 
+        if (analyticsSettings.analyticsEnabled.value) {
+            collectAnalyticsData(riskResultsPerWindow)
+        }
+
+        return riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
+    }
+
+    private suspend fun collectAnalyticsData(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
         riskResultsPerWindow.keys.forEach { window ->
             riskResultsPerWindow[window]?.let { result ->
-                val contribution = createExposureWindowContribution(
+                val contribution = createAnalyticsExposureWindow(
                     window,
                     result
                 )
-                exposureWindowRepository.add(contribution)
+                analyticsExposureWindowRepository.addNew(contribution)
             }
         }
-        return riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
     }
 
     private suspend fun backgroundJobsEnabled() =
