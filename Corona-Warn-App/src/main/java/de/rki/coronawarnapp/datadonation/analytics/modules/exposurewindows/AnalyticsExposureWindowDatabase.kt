@@ -27,14 +27,14 @@ import javax.inject.Inject
     version = 1
 )
 abstract class AnalyticsExposureWindowDatabase : RoomDatabase() {
-    abstract fun exposureWindowContributionDao(): AnalyticsExposureWindowDao
+    abstract fun analyticsExposureWindowDao(): AnalyticsExposureWindowDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
         fun create(): AnalyticsExposureWindowDatabase = Room
             .databaseBuilder(
                 context,
                 AnalyticsExposureWindowDatabase::class.java,
-                "AnalyticsExposureWindowDatabase"
+                "AnalyticsExposureWindow-db"
             )
             .fallbackToDestructiveMigration()
             .build()
@@ -48,7 +48,7 @@ interface AnalyticsExposureWindowDao {
     suspend fun getAllNew(): List<AnalyticsExposureWindowEntityWrapper>
 
     @Query("SELECT * FROM AnalyticsReportedExposureWindowEntity WHERE sha256Hash LIKE :sha256Hash")
-    fun getReported(sha256Hash: String): AnalyticsReportedExposureWindowEntity?
+    suspend fun getReported(sha256Hash: String): AnalyticsReportedExposureWindowEntity?
 
     @Query("SELECT * FROM AnalyticsReportedExposureWindowEntity")
     suspend fun getAllReported(): List<AnalyticsReportedExposureWindowEntity>
@@ -109,17 +109,7 @@ class AnalyticsExposureWindowEntityWrapper(
     @Embedded val exposureWindowEntity: AnalyticsExposureWindowEntity,
     @Relation(parentColumn = PARENT_COLUMN, entityColumn = CHILD_COLUMN)
     val scanInstanceEntities: List<AnalyticsScanInstanceEntity>
-) {
-    fun toAnalyticsExposureWindow() = AnalyticsExposureWindow(
-        calibrationConfidence = exposureWindowEntity.calibrationConfidence,
-        dateMillis = exposureWindowEntity.dateMillis,
-        infectiousness = exposureWindowEntity.infectiousness,
-        reportType = exposureWindowEntity.reportType,
-        analyticsScanInstances = scanInstanceEntities.map { it.toAnalyticsScanInstance() },
-        normalizedTime = exposureWindowEntity.normalizedTime,
-        transmissionRiskLevel = exposureWindowEntity.transmissionRiskLevel
-    )
-}
+)
 
 @Entity
 data class AnalyticsExposureWindowEntity(

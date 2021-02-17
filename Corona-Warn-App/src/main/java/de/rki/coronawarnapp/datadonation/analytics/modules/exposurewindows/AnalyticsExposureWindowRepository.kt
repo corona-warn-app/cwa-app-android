@@ -1,22 +1,21 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AnalyticsExposureWindowRepository @Inject constructor(
     private val databaseFactory: AnalyticsExposureWindowDatabase.Factory,
-    val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper
 ) {
     private val database by lazy {
         databaseFactory.create()
     }
 
     private val dao by lazy {
-        database.exposureWindowContributionDao()
+        database.analyticsExposureWindowDao()
     }
 
     suspend fun getAllNew(): List<AnalyticsExposureWindowEntityWrapper> {
@@ -24,11 +23,10 @@ class AnalyticsExposureWindowRepository @Inject constructor(
     }
 
     suspend fun addNew(analyticsExposureWindow: AnalyticsExposureWindow) {
-        analyticsExposureWindow.sha256Hash()?.let { hash ->
-            if (dao.getReported(hash) == null) {
-                val wrapper = analyticsExposureWindow.toWrapper(hash)
-                dao.insert(listOf(wrapper))
-            }
+        val hash = analyticsExposureWindow.sha256Hash()
+        if (dao.getReported(hash) == null) {
+            val wrapper = analyticsExposureWindow.toWrapper(hash)
+            dao.insert(listOf(wrapper))
         }
     }
 
@@ -52,20 +50,7 @@ class AnalyticsExposureWindowRepository @Inject constructor(
     }
 }
 
-private fun AnalyticsExposureWindow.sha256Hash() = toString().getSha256Hash()
-
-private fun String.getSha256Hash(): String? {
-    return try {
-        val messageDigest = MessageDigest.getInstance("SHA-256")
-        messageDigest.reset()
-        messageDigest.digest(toByteArray()).toHexString()
-    } catch (e1: NoSuchAlgorithmException) {
-        e1.printStackTrace()
-        null
-    }
-}
-
-private fun ByteArray.toHexString(): String = joinToString("") { "%02x".format(it) }
+private fun AnalyticsExposureWindow.sha256Hash() = toString().toSHA256()
 
 private fun AnalyticsExposureWindow.toWrapper(key: String) =
     AnalyticsExposureWindowEntityWrapper(

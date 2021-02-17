@@ -36,12 +36,11 @@ class NewExposureWindowsDonor @Inject constructor(
     }
 
     private suspend fun skipSubmission(): Boolean {
-        // Skip if generated random number between 0 and 1 is greater than
-        // the value of Configuration Parameter probabilityToSubmitExposureWindows.
+        // load balancing
         val random = Random.nextDouble()
         val configData: ConfigData = appConfigProvider.getAppConfig()
         val probability = configData.analytics.probabilityToSubmitNewExposureWindows
-        Timber.w("Random number is $random. probabilityToSubmitNewExposureWindows is $probability")
+        Timber.w("Random number is $random. probabilityToSubmitNewExposureWindows is $probability. Skip if random number is greater than probability.")
         return random > probability
     }
 
