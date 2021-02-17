@@ -33,29 +33,26 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
 
     val shouldClose = SingleLiveEvent<Unit>()
 
-    private val _locationName = MutableStateFlow("")
-    val locationName: StateFlow<String> = _locationName
+    private val locationName = MutableStateFlow("")
 
-    private val _phoneNumber = MutableStateFlow("")
-    val phoneNumber: StateFlow<String> = _phoneNumber
+    private val phoneNumber = MutableStateFlow("")
 
-    private val _emailAddress = MutableStateFlow("")
-    val emailAddress: StateFlow<String> = _emailAddress
+    private val emailAddress = MutableStateFlow("")
 
     val isValid = locationName
         .map { it.isNotEmpty() }
         .asLiveData()
 
     fun locationChanged(value: String) {
-        _locationName.value = value.trim().take(MAX_LOCATION_NAME_LENGTH)
+        locationName.value = value.trim().take(MAX_LOCATION_NAME_LENGTH)
     }
 
     fun phoneNumberChanged(value: String) {
-        _phoneNumber.value = value.trim()
+        phoneNumber.value = value.trim()
     }
 
     fun emailAddressChanged(value: String) {
-        _emailAddress.value = value.trim()
+        emailAddress.value = value.trim()
     }
 
     fun addLocation() = launch(coroutineExceptionHandler) {

@@ -9,14 +9,6 @@ import org.junit.jupiter.api.Test
 class ContactDiaryExtensionsTest {
 
     @Test
-    fun testFormatContactDiaryNameField() {
-        Assert.assertEquals("   Granny   ".formatContactDiaryNameField(5), "Grann")
-        Assert.assertEquals("   Grann y".formatContactDiaryNameField(5), "Grann")
-        Assert.assertEquals("Granny   ".formatContactDiaryNameField(5), "Grann")
-        Assert.assertEquals("    ".formatContactDiaryNameField(2), "  ")
-    }
-
-    @Test
     fun `upper and lowercase mix sorting for names`() {
         val testList = listOf(
             DefaultContactDiaryPerson(1, "Max Mustermann"),

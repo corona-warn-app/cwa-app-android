@@ -146,13 +146,13 @@ class DefaultContactDiaryRepository @Inject constructor(
             .map { it.sortByNameAndIdASC() }
     }
 
-    override suspend fun addEntries(contactDiaryPerson: ContactDiaryPerson): ContactDiaryPerson {
+    override suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson): ContactDiaryPerson {
         Timber.d("Adding person $contactDiaryPerson")
         val id = contactDiaryPersonDao.insert(contactDiaryPerson.toContactDiaryPersonEntity())
         return contactDiaryPersonDao.entityForId(id)
     }
 
-    override suspend fun updateEntries(contactDiaryPerson: ContactDiaryPerson) {
+    override suspend fun updatePerson(contactDiaryPerson: ContactDiaryPerson) {
         Timber.d("Updating person $contactDiaryPerson")
         val contactDiaryPersonEntity = contactDiaryPerson.toContactDiaryPersonEntity()
         executeWhenIdNotDefault(contactDiaryPersonEntity.personId) {
@@ -160,7 +160,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteEntries(contactDiaryPerson: ContactDiaryPerson) {
+    override suspend fun deletePerson(contactDiaryPerson: ContactDiaryPerson) {
         Timber.d("Deleting person $contactDiaryPerson")
         val contactDiaryPersonEntity = contactDiaryPerson.toContactDiaryPersonEntity()
         executeWhenIdNotDefault(contactDiaryPersonEntity.personId) {

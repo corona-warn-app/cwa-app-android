@@ -29,9 +29,9 @@ interface ContactDiaryRepository {
 
     // Person
     val people: Flow<List<ContactDiaryPerson>>
-    suspend fun addEntries(contactDiaryPerson: ContactDiaryPerson): ContactDiaryPerson
-    suspend fun updateEntries(contactDiaryPerson: ContactDiaryPerson)
-    suspend fun deleteEntries(contactDiaryPerson: ContactDiaryPerson)
+    suspend fun addPerson(contactDiaryPerson: ContactDiaryPerson): ContactDiaryPerson
+    suspend fun updatePerson(contactDiaryPerson: ContactDiaryPerson)
+    suspend fun deletePerson(contactDiaryPerson: ContactDiaryPerson)
     suspend fun deletePeople(contactDiaryPeople: List<ContactDiaryPerson>)
     suspend fun deleteAllPeople()
 

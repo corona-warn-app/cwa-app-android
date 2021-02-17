@@ -32,33 +32,30 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
 
     val shouldClose = SingleLiveEvent<Unit>()
 
-    private val _name = MutableStateFlow("")
-    val name: StateFlow<String> = _name
+    private val name = MutableStateFlow("")
 
-    private val _phoneNumber = MutableStateFlow("")
-    val phoneNumber: StateFlow<String> = _phoneNumber
+    private val phoneNumber = MutableStateFlow("")
 
-    private val _emailAddress = MutableStateFlow("")
-    val emailAddress: StateFlow<String> = _emailAddress
+    private val emailAddress = MutableStateFlow("")
 
     val isNameValid = name
         .map { it.isNotEmpty() }
         .asLiveData()
 
     fun nameChanged(value: String) {
-        _name.value = value.trim().take(MAX_PERSON_NAME_LENGTH)
+        name.value = value.trim().take(MAX_PERSON_NAME_LENGTH)
     }
 
     fun phoneNumberChanged(value: String) {
-        _phoneNumber.value = value.trim()
+        phoneNumber.value = value.trim()
     }
 
     fun emailAddressChanged(value: String) {
-        _emailAddress.value = value.trim()
+        emailAddress.value = value.trim()
     }
 
     fun addPerson() = launch(coroutineExceptionHandler) {
-        val person = contactDiaryRepository.addEntries(
+        val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
                 fullName = name.value,
                 phoneNumber = phoneNumber.value,
@@ -78,7 +75,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     }
 
     fun updatePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
-        contactDiaryRepository.updateEntries(
+        contactDiaryRepository.updatePerson(
             DefaultContactDiaryPerson(
                 person.personId,
                 fullName = name.value,
@@ -95,7 +92,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
             if (it.contactDiaryPerson.personId == person.personId)
                 contactDiaryRepository.deletePersonEncounter(it)
         }
-        contactDiaryRepository.deleteEntries(person)
+        contactDiaryRepository.deletePerson(person)
         shouldClose.postValue(null)
     }
 

@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,8 +15,8 @@
             android:layout_height="@dimen/button_icon"
             android:layout_marginStart="@dimen/spacing_tiny"
             android:layout_marginTop="@dimen/spacing_tiny"
-            android:padding="@dimen/spacing_mega_tiny"
             android:contentDescription="@string/accessibility_close"
+            android:padding="@dimen/spacing_mega_tiny"
             android:src="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +109,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <android.widget.Button
+        <Button
             android:id="@+id/contact_diary_add_location_save_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
@@ -128,5 +125,5 @@
             app:layout_constraintTop_toBottomOf="@+id/contact_diary_add_location_email_input_layout"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</layout>
+</ScrollView>
+

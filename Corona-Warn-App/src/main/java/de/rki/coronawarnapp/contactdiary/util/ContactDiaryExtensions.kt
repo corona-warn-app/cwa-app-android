@@ -41,16 +41,6 @@ fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
         DateTimeFormat.longDate().withLocale(locale).print(this)
 }
 
-fun String.formatContactDiaryNameField(maxLength: Int): String {
-    val newName = if (isNotBlank()) {
-        trim()
-    } else {
-        // allow only spaces as a name
-        this
-    }
-    return newName.take(maxLength)
-}
-
 fun View.focusAndShowKeyboard() {
     /**
      * This is to be called when the window already has focus.
