@@ -180,7 +180,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 cont.resume(intent)
-                Timber.d("unregisterReceiver")
+                Timber.d("Pre-Auth unregisterReceiver")
                 context.unregisterReceiver(this)
             }
         }
@@ -189,7 +189,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
             IntentFilter(ACTION_PRE_AUTHORIZE_RELEASE_PHONE_UNLOCKED)
         )
         cont.invokeOnCancellation {
-            Timber.d(it, "unregisterReceiver")
+            Timber.d(it, "Pre-Auth  unregisterReceiver")
             context.unregisterReceiver(receiver)
         }
     }
