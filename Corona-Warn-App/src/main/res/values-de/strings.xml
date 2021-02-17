@@ -523,8 +523,6 @@
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
 
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_consent_title">"Ihr Einverständnis"</string>
     <!-- XACT: onboarding privacy preserving analytics (ppa) - illustraction description, header image -->
     <string name="onboarding_ppa_illustration_description">"Darstellung einer Person, die ihr Smartphone in der Hand hält"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
