@@ -134,9 +134,9 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Bearbeiten"</string>
 
-    <!-- XBUT: Add Person Button (description for screen readers) -->
+    <!-- XACT: Add Person Button (description for screen readers) -->
     <string name="accessibility_day_add_person">"Person hinzufügen"</string>
-    <!-- XBUT: Add Location Button (description for screen readers) -->
+    <!-- XACT: Add Location Button (description for screen readers) -->
     <string name="accessibility_day_add_location">"Ort hinzufügen"</string>
 
     <!-- XBUT: Option - person encounter - below 15 Min -->
