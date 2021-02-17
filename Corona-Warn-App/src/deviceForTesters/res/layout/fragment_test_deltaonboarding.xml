@@ -27,7 +27,7 @@
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Delta onboarding"
+                    android:text="New release info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="By changing the last changelog version you may invoke the 'New release' screen in the next app start."
+                    android:text="By changing the last changelog version you may invoke the 'New release' screen in the home screen."
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/delta_onboarding_title" />
