@@ -36,6 +36,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { highAggregatedRiskResult.isIncreasedRisk() } returns true
         every { highAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
         every { lowAggregatedRiskResult.isIncreasedRisk() } returns false
+        every { lowAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
     }
 
     @AfterEach
