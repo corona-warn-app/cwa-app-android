@@ -102,18 +102,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
     @Test
     fun `risk metadata change is properly collected`() {
-        val recentDate = Instant.now()
-
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(recentDate.millis)
+            .setMostRecentDateAtRiskLevel(baseDate.millis)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .build()
 
         val expectedMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(recentDate.millis)
+            .setMostRecentDateAtRiskLevel(baseDate.millis)
             .setRiskLevelChangedComparedToPreviousSubmission(false)
             .setDateChangedComparedToPreviousSubmission(false)
             .build()
@@ -125,12 +123,12 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
                 createRiskLevelResult(
                     aggregatedRiskResult = highAggregatedRiskResult,
                     failureReason = null,
-                    calculatedAt = recentDate
+                    calculatedAt = baseDate
                 ),
                 createRiskLevelResult(
                     aggregatedRiskResult = lowAggregatedRiskResult,
                     failureReason = RiskLevelResult.FailureReason.UNKNOWN,
-                    calculatedAt = recentDate
+                    calculatedAt = baseDate
                 )
             )
         )
