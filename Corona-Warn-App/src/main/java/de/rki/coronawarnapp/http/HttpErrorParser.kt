@@ -71,7 +71,8 @@ class HttpErrorParser : Interceptor {
                 else -> {
                     if (code in 100..199) throw CwaInformationalNotSupportedError(code, message)
                     if (code in 200..299) throw CwaSuccessResponseWithCodeMismatchNotSupportedError(
-                        code, message
+                        code,
+                        message
                     )
                     if (code in 300..399) throw CwaRedirectNotSupportedError(code, message)
                     if (code in 400..499) throw CwaClientError(code, message)

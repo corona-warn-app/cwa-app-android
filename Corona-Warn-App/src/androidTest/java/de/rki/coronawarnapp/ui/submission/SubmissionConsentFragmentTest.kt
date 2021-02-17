@@ -52,9 +52,11 @@ class SubmissionConsentFragmentTest : BaseUITest() {
                 TestDispatcherProvider(),
                 tekHistoryProvider
             )
-        setupMockViewModel(object : SubmissionConsentViewModel.Factory {
-            override fun create(): SubmissionConsentViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionConsentViewModel.Factory {
+                override fun create(): SubmissionConsentViewModel = viewModel
+            }
+        )
     }
 
     @After

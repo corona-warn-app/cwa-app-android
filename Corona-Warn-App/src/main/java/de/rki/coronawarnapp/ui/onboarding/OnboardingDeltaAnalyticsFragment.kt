@@ -36,23 +36,23 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
-                    )
+                        )
                 )
             }
             districtRow.setOnClickListener {
                 doNavigate(
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
-                        type = AnalyticsUserInputFragment.InputType.DISTRICT
-                    )
+                            type = AnalyticsUserInputFragment.InputType.DISTRICT
+                        )
                 )
             }
             ageGroupRow.setOnClickListener {
                 doNavigate(
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
-                        type = AnalyticsUserInputFragment.InputType.AGE_GROUP
-                    )
+                            type = AnalyticsUserInputFragment.InputType.AGE_GROUP
+                        )
                 )
             }
             moreInfoRow.setOnClickListener {

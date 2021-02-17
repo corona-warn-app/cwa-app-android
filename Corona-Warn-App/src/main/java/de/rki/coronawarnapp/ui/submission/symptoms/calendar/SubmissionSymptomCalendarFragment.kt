@@ -21,7 +21,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class SubmissionSymptomCalendarFragment : Fragment(R.layout.fragment_submission_symptom_calendar),
+class SubmissionSymptomCalendarFragment :
+    Fragment(R.layout.fragment_submission_symptom_calendar),
     AutoInject {
 
     private val navArgs by navArgs<SubmissionSymptomCalendarFragmentArgs>()

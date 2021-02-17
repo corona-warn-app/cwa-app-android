@@ -49,10 +49,12 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        coEvery { districts.loadDistricts() } returns listOf(Districts.District(
-            districtId = 11011004,
-            districtName = "SK Berlin Charlottenburg-Wilmersdorf"
-        ))
+        coEvery { districts.loadDistricts() } returns listOf(
+            Districts.District(
+                districtId = 11011004,
+                districtName = "SK Berlin Charlottenburg-Wilmersdorf"
+            )
+        )
 
         viewModel = onboardingAnalyticsViewModelSpy()
         with(viewModel) {

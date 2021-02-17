@@ -25,7 +25,8 @@ class SurveyConfigMapper @Inject constructor() : SurveyConfig.Mapper {
         val surveyConfig: SurveyConfig
         if (hasEventDrivenUserSurveyParameters() &&
             eventDrivenUserSurveyParameters.hasCommon() &&
-            eventDrivenUserSurveyParameters.hasPpac()) {
+            eventDrivenUserSurveyParameters.hasPpac()
+        ) {
             val safetyNetRequirements: SafetyNetRequirements
             eventDrivenUserSurveyParameters.ppac.also {
                 safetyNetRequirements = SafetyNetRequirementsContainer(

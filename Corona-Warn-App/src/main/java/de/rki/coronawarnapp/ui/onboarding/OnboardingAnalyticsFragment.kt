@@ -33,7 +33,7 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
             federalStateRow.setOnClickListener {
                 doNavigate(
                     OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
-                            type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
+                        type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
                     )
                 )
             }
