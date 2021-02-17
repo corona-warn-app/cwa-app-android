@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.datadonation.survey.consent
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -73,16 +72,16 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         }
 
         vm.showErrorDialog.observe2(this) {
-            showErrorDialog(it.msgRes)
+            showErrorDialog(it.errorMessage.get(requireContext()))
         }
     }
 
-    private fun showErrorDialog(@StringRes stringRes: Int) {
+    private fun showErrorDialog(message: String) {
         context?.let {
             val dialog = DialogHelper.DialogInstance(
                 context = it,
                 title = R.string.datadonation_details_survey_consent_error_dialog_title,
-                message = stringRes,
+                message = message,
                 positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
                 cancelable = false
             )
