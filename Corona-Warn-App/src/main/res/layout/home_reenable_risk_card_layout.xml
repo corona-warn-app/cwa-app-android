@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    
     <data>
         <variable
             name="state"
@@ -67,9 +67,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
             android:text="@{state.formatTestRegistrationText(context)}"
+            tools:text="@string/reenable_risk_card_test_registration_string"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reenable_risk_card_positive_body"
-            tools:text="@string/reenable_risk_card_test_registration_string" />
+            app:layout_constraintTop_toBottomOf="@id/reenable_risk_card_positive_body" />
 
         <View
             android:id="@+id/reenable_risk_card_divider"
