@@ -33,32 +33,20 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
 
     private val name = MutableStateFlow("")
 
-    private val phoneNumber = MutableStateFlow("")
-
-    private val emailAddress = MutableStateFlow("")
-
     val isNameValid = name
         .map { it.isNotEmpty() }
         .asLiveData()
 
     fun nameChanged(value: String) {
-        name.value = value.trim().take(MAX_PERSON_NAME_LENGTH)
+        name.value = value.trim()
     }
 
-    fun phoneNumberChanged(value: String) {
-        phoneNumber.value = value.trim()
-    }
-
-    fun emailAddressChanged(value: String) {
-        emailAddress.value = value.trim()
-    }
-
-    fun addPerson() = launch(coroutineExceptionHandler) {
+    fun addPerson(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
         val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
                 fullName = name.value,
-                phoneNumber = phoneNumber.value,
-                emailAddress = emailAddress.value
+                phoneNumber = phoneNumber,
+                emailAddress = emailAddress
             )
         )
 
@@ -73,18 +61,19 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
         shouldClose.postValue(null)
     }
 
-    fun updatePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
-        contactDiaryRepository.updatePerson(
-            DefaultContactDiaryPerson(
-                person.personId,
-                fullName = name.value,
-                phoneNumber = phoneNumber.value,
-                emailAddress = emailAddress.value
+    fun updatePerson(person: ContactDiaryPersonEntity, phoneNumber: String, emailAddress: String) =
+        launch(coroutineExceptionHandler) {
+            contactDiaryRepository.updatePerson(
+                DefaultContactDiaryPerson(
+                    person.personId,
+                    fullName = name.value,
+                    phoneNumber = phoneNumber,
+                    emailAddress = emailAddress
 
+                )
             )
-        )
-        shouldClose.postValue(null)
-    }
+            shouldClose.postValue(null)
+        }
 
     fun deletePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
         contactDiaryRepository.personEncounters.firstOrNull()?.forEach {
@@ -100,7 +89,6 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     }
 
     companion object {
-        private const val MAX_PERSON_NAME_LENGTH = 250
         private val TAG = ContactDiaryAddPersonViewModel::class.java.simpleName
     }
 

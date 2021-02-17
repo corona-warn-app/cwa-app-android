@@ -34,32 +34,20 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
 
     private val locationName = MutableStateFlow("")
 
-    private val phoneNumber = MutableStateFlow("")
-
-    private val emailAddress = MutableStateFlow("")
-
     val isValid = locationName
         .map { it.isNotEmpty() }
         .asLiveData()
 
     fun locationChanged(value: String) {
-        locationName.value = value.trim().take(MAX_LOCATION_NAME_LENGTH)
+        locationName.value = value.trim()
     }
 
-    fun phoneNumberChanged(value: String) {
-        phoneNumber.value = value.trim()
-    }
-
-    fun emailAddressChanged(value: String) {
-        emailAddress.value = value.trim()
-    }
-
-    fun addLocation() = launch(coroutineExceptionHandler) {
+    fun addLocation(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
         val location = contactDiaryRepository.addLocation(
             DefaultContactDiaryLocation(
                 locationName = locationName.value,
-                phoneNumber = phoneNumber.value,
-                emailAddress = emailAddress.value
+                phoneNumber = phoneNumber,
+                emailAddress = emailAddress
             )
         )
 
@@ -74,17 +62,18 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
         shouldClose.postValue(null)
     }
 
-    fun updateLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
-        contactDiaryRepository.updateLocation(
-            DefaultContactDiaryLocation(
-                location.locationId,
-                locationName = locationName.value,
-                phoneNumber = phoneNumber.value,
-                emailAddress = emailAddress.value
+    fun updateLocation(location: ContactDiaryLocationEntity, phoneNumber: String, emailAddress: String) =
+        launch(coroutineExceptionHandler) {
+            contactDiaryRepository.updateLocation(
+                DefaultContactDiaryLocation(
+                    location.locationId,
+                    locationName = locationName.value,
+                    phoneNumber = phoneNumber,
+                    emailAddress = emailAddress
+                )
             )
-        )
-        shouldClose.postValue(null)
-    }
+            shouldClose.postValue(null)
+        }
 
     fun deleteLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
         contactDiaryRepository.locationVisits.firstOrNull()?.forEach {
@@ -100,7 +89,6 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
     }
 
     companion object {
-        private const val MAX_LOCATION_NAME_LENGTH = 250
         private val TAG = ContactDiaryAddLocationViewModel::class.java.simpleName
     }
 

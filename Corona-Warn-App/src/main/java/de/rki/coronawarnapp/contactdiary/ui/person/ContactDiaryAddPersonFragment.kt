@@ -50,19 +50,22 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
                 }
                 contactDiaryPersonSaveButton.setOnClickListener {
                     it.hideKeyboard()
-                    viewModel.updatePerson(person)
+                    viewModel.updatePerson(
+                        person,
+                        phoneNumber = binding.contactDiaryPersonPhoneNumberEditText.text.toString().trim(),
+                        emailAddress = binding.contactDiaryPersonEmailEditText.text.toString().trim()
+                    )
                 }
             }
-            viewModel.apply {
-                nameChanged(person.fullName)
-                person.phoneNumber?.let { phoneNumberChanged(it) }
-                person.emailAddress?.let { emailAddressChanged(it) }
-            }
+            viewModel.nameChanged(person.fullName)
         } else {
             binding.contactDiaryPersonDeleteButton.visibility = View.GONE
             binding.contactDiaryPersonSaveButton.setOnClickListener {
                 it.hideKeyboard()
-                viewModel.addPerson()
+                viewModel.addPerson(
+                    phoneNumber = binding.contactDiaryPersonPhoneNumberEditText.text.toString().trim(),
+                    emailAddress = binding.contactDiaryPersonEmailEditText.text.toString().trim()
+                )
             }
         }
 
@@ -76,13 +79,7 @@ class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person
             contactDiaryPersonNameEditText.doAfterTextChanged {
                 viewModel.nameChanged(it.toString())
             }
-            contactDiaryPersonPhoneNumberEditText.doAfterTextChanged {
-                viewModel.phoneNumberChanged(it.toString())
-            }
 
-            contactDiaryPersonEmailEditText.doAfterTextChanged {
-                viewModel.emailAddressChanged(it.toString())
-            }
             contactDiaryPersonEmailEditText.setOnEditorActionListener { _, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
                     IME_ACTION_DONE -> {

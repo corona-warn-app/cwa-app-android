@@ -49,18 +49,23 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                 }
                 contactDiaryAddLocationSaveButton.setOnClickListener {
                     it.hideKeyboard()
-                    viewModel.updateLocation(location)
+                    viewModel.updateLocation(
+                        location,
+                        phoneNumber = binding.contactDiaryAddLocationPhoneInputEditText.text.toString().trim(),
+                        emailAddress = binding.contactDiaryAddLocationEmailInputEditText.text.toString().trim()
+                    )
                 }
-                viewModel.locationChanged(location.locationName)
-                location.phoneNumber?.let { viewModel.phoneNumberChanged(it) }
-                location.emailAddress?.let { viewModel.emailAddressChanged(it) }
             }
+            viewModel.locationChanged(location.locationName)
         } else {
             binding.apply {
                 contactDiaryAddLocationDeleteButton.visibility = View.GONE
                 contactDiaryAddLocationSaveButton.setOnClickListener {
                     it.hideKeyboard()
-                    viewModel.addLocation()
+                    viewModel.addLocation(
+                        phoneNumber = binding.contactDiaryAddLocationPhoneInputEditText.text.toString().trim(),
+                        emailAddress = binding.contactDiaryAddLocationEmailInputEditText.text.toString().trim()
+                    )
                 }
             }
         }
@@ -74,14 +79,6 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
             }
             contactDiaryAddLocationNameInputEditText.doAfterTextChanged {
                 viewModel.locationChanged(it.toString())
-            }
-
-            contactDiaryAddLocationPhoneInputEditText.doAfterTextChanged {
-                viewModel.phoneNumberChanged(it.toString())
-            }
-
-            contactDiaryAddLocationEmailInputEditText.doAfterTextChanged {
-                viewModel.emailAddressChanged(it.toString())
             }
 
             contactDiaryAddLocationEmailInputEditText.setOnEditorActionListener { _, actionId, _ ->
