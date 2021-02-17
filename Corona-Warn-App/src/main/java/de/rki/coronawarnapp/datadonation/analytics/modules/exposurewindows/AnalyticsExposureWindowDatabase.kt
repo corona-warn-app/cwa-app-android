@@ -144,11 +144,5 @@ data class AnalyticsReportedExposureWindowEntity(
     val timestamp: Long
 )
 
-private fun AnalyticsScanInstanceEntity.toAnalyticsScanInstance() = AnalyticsScanInstance(
-    minAttenuation = minAttenuation,
-    typicalAttenuation = typicalAttenuation,
-    secondsSinceLastScan = secondsSinceLastScan
-)
-
 private const val PARENT_COLUMN = "sha256Hash"
 private const val CHILD_COLUMN = "fkSha256Hash"
