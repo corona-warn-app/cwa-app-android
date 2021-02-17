@@ -27,13 +27,14 @@ class ExposureRiskMetadataDonor @Inject constructor(
             .lastCalculated
 
         val riskLevelForMetadata = lastRiskResult.toMetadataRiskLevel()
+        val mostRecentDateAtRiskLevel = lastRiskResult.lastRiskEncounterAt?.millis ?: -1
 
         val newMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(riskLevelForMetadata)
             .setRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.riskLevel != riskLevelForMetadata)
-            .setMostRecentDateAtRiskLevel(lastRiskResult.calculatedAt.millis)
+            .setMostRecentDateAtRiskLevel(mostRecentDateAtRiskLevel)
             .setDateChangedComparedToPreviousSubmission(
-                previousMetadata?.mostRecentDateAtRiskLevel != lastRiskResult.calculatedAt.millis
+                previousMetadata?.mostRecentDateAtRiskLevel != mostRecentDateAtRiskLevel
             )
             .build()
 
