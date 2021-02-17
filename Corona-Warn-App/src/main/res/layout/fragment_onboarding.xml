@@ -31,9 +31,9 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/onboarding_illustration_description"
                     android:focusable="true"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_illustration_together" />
 
                 <TextView
@@ -120,9 +120,9 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@string/onboarding_button_start"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@string/onboarding_button_start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

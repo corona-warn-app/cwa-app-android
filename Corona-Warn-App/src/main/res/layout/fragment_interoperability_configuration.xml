@@ -34,8 +34,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/interoperability_configuration_title"
-            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header">
+            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header"
+            android:contentDescription="@string/interoperability_configuration_title">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

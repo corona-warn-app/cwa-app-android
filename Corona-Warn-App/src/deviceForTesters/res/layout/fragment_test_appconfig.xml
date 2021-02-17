@@ -84,11 +84,11 @@
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/fake_correct_devicetime_toggle"
                 android:layout_width="match_parent"
-                android:text="Fake correct device time"
+                app:thumbTint="@color/colorAccent"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:layout_weight="1"
-                app:thumbTint="@color/colorAccent" />
+                android:text="Fake correct device time" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Caption"

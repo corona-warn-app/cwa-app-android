@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import kotlin.Exception
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,

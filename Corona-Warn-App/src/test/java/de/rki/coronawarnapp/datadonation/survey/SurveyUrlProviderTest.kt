@@ -38,10 +38,7 @@ internal class SurveyUrlProviderTest {
         val otp = UUID.randomUUID()
         coEvery { appConfigProvider.getAppConfig().survey.surveyOnHighRiskUrl } returns "http://www.example.com".toHttpUrl()
 
-        createInstance().provideUrl(
-            Surveys.Type.HIGH_RISK_ENCOUNTER,
-            otp
-        ) shouldBe "http://www.example.com/?queryParamNameOtp=$otp"
+        createInstance().provideUrl(Surveys.Type.HIGH_RISK_ENCOUNTER, otp) shouldBe "http://www.example.com/?queryParamNameOtp=$otp"
     }
 
     @Test
