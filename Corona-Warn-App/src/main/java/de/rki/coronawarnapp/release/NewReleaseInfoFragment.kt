@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.BindableVH
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -52,7 +53,14 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
 
         vm.routeToScreen.observe2(this) {
             if (it is NewReleaseInfoNavigationEvents.CloseScreen) {
-                popBackStack()
+                if (args.comesFromInfoScreen) {
+                    popBackStack()
+                } else {
+                    doNavigate(
+                        NewReleaseInfoFragmentDirections
+                            .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
+                    )
+                }
             }
         }
     }
@@ -73,18 +81,19 @@ private class ItemAdapter(
     private val items: List<NewReleaseInfoItem>
 ) : BaseAdapter<ItemAdapter.ViewHolder>() {
 
-    inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.new_release_info_item, parent),
+    inner class ViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.new_release_info_item, parent),
         BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
         override val viewBinding:
             Lazy<NewReleaseInfoItemBinding> =
-            lazy { NewReleaseInfoItemBinding.bind(itemView) }
+                lazy { NewReleaseInfoItemBinding.bind(itemView) }
 
         override val onBindData:
             NewReleaseInfoItemBinding.(item: NewReleaseInfoItem, payloads: List<Any>) -> Unit =
-            { item, _ ->
-                title.text = item.title
-                body.text = item.body
-            }
+                { item, _ ->
+                    title.text = item.title
+                    body.text = item.body
+                }
     }
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)

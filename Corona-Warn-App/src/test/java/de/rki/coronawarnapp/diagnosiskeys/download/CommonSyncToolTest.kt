@@ -59,10 +59,14 @@ abstract class CommonSyncToolTest : BaseIOTest() {
         }
 
         coEvery { keyServer.getDayIndex(any()) } returns listOf(
-            "2020-01-01".day, "2020-01-02".day, "2020-01-03".day
+            "2020-01-01".day,
+            "2020-01-02".day,
+            "2020-01-03".day
         )
         coEvery { keyServer.getHourIndex(any(), "2020-01-04".day) } returns listOf(
-            "00:00".hour, "01:00".hour, "02:00".hour
+            "00:00".hour,
+            "01:00".hour,
+            "02:00".hour
         )
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T03:15:00.000Z")
@@ -104,7 +108,10 @@ abstract class CommonSyncToolTest : BaseIOTest() {
         dayIdentifier: LocalDate,
         isComplete: Boolean = true
     ): CachedKey = mockCacheEntry(
-        location, dayIdentifier, null, isComplete
+        location,
+        dayIdentifier,
+        null,
+        isComplete
     )
 
     internal fun mockCachedHour(
@@ -113,7 +120,10 @@ abstract class CommonSyncToolTest : BaseIOTest() {
         hourIdentifier: LocalTime,
         isComplete: Boolean = true
     ): CachedKey = mockCacheEntry(
-        location, dayIdentifier, hourIdentifier, isComplete
+        location,
+        dayIdentifier,
+        hourIdentifier,
+        isComplete
     )
 
     private fun mockCacheEntry(

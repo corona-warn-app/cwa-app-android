@@ -95,7 +95,7 @@ class AppConfigStorageTest : BaseIOTest() {
                 "localOffset": 3600000,
                 "cacheValidity": 123000
             }
-        """.trimIndent()
+            """.trimIndent()
         )
         val storage = createStorage()
         storage.getStoredConfig() shouldBe testConfigDownload
@@ -198,7 +198,7 @@ class AppConfigStorageTest : BaseIOTest() {
             {
                
             }
-        """.trimIndent()
+            """.trimIndent()
         )
         val storage = createStorage()
         storage.getStoredConfig() shouldBe null

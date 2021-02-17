@@ -29,6 +29,7 @@ class UserSurveyBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        itemView.setOnClickListener { onItemClickListener(item) }
         tracingDetailsSurveyCardButton.setOnClickListener { onItemClickListener(item) }
     }
 

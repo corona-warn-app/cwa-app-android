@@ -10,7 +10,8 @@ class InsufficientStorageException(
     val result: DeviceStorage.CheckResult
 ) : IOException(
     "Not enough free space: ${result.requiredBytes}B are required and only ${result.freeBytes}B are available."
-), HasHumanReadableError {
+),
+    HasHumanReadableError {
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         val formattedRequired = Formatter.formatShortFileSize(context, result.requiredBytes)

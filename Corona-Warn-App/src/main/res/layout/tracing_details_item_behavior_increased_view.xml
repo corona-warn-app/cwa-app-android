@@ -33,6 +33,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:layout_marginTop="@dimen/spacing_normal"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:foregroundTint="@color/colorStableLight"
@@ -42,6 +43,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_risk_details_distance"
@@ -50,6 +52,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_risk_details_contact"
@@ -59,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_tiny"
-            android:focusable="true">
+            android:focusable="false">
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_1_icon"
@@ -80,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="false"
+                android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
@@ -106,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="false"
+                android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_2"
                 app:layout_constraintBottom_toBottomOf="@+id/risk_details_behavior_bullet_point_2_icon"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="false"
+                android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_3"
                 app:layout_constraintBottom_toBottomOf="@+id/risk_details_behavior_bullet_point_3_icon"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -145,6 +148,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:foregroundTint="@color/colorStableLight"

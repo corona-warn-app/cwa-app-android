@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.survey
 
 import android.content.Context
 import com.google.gson.Gson
+import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
@@ -42,7 +43,31 @@ class SurveySettings @Inject constructor(
                 .putString(KEY_OTP, if (value == null) null else gson.toJson(value))
                 .apply()
 
+    var otpAuthorizationResult: OTPAuthorizationResult?
+        get() {
+            try {
+                val json = preferences.getString(KEY_OTP_RESULT, null)
+                if (json != null) {
+                    val result = gson.fromJson(json, OTPAuthorizationResult::class.java)
+                    requireNotNull(result.uuid)
+                    requireNotNull(result.authorized)
+                    requireNotNull(result.redeemedAt)
+                    return result
+                }
+                return null
+            } catch (t: Throwable) {
+                Timber.e(t, "failed to parse OTP from preferences")
+                return null
+            }
+        }
+        set(value) =
+            preferences
+                .edit()
+                .putString(KEY_OTP_RESULT, if (value == null) null else gson.toJson(value))
+                .apply()
+
     fun clear() = preferences.clearAndNotify()
 }
 
 private const val KEY_OTP = "one_time_password"
+private const val KEY_OTP_RESULT = "otp_result"

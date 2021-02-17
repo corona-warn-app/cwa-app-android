@@ -32,12 +32,16 @@ class RiskLevelTaskConfigTest : BaseTest() {
 
     @Test
     fun `risk level preconditions are met`() {
-        every { exposureDetectionTracker.calculations } returns MutableStateFlow(mapOf("" to TrackedExposureDetection(
-            identifier = "",
-            startedAt = Instant(),
-            result = TrackedExposureDetection.Result.NO_MATCHES,
-            enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
-        )))
+        every { exposureDetectionTracker.calculations } returns MutableStateFlow(
+            mapOf(
+                "" to TrackedExposureDetection(
+                    identifier = "",
+                    startedAt = Instant(),
+                    result = TrackedExposureDetection.Result.NO_MATCHES,
+                    enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
+                )
+            )
+        )
         runBlocking {
             RiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
@@ -49,7 +53,7 @@ class RiskLevelTaskConfigTest : BaseTest() {
     @Test
     fun `risk level preconditions are not met, because there are no detections`() {
         every { exposureDetectionTracker.calculations } returns MutableStateFlow(emptyMap())
-            runBlocking {
+        runBlocking {
             RiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
@@ -59,12 +63,16 @@ class RiskLevelTaskConfigTest : BaseTest() {
 
     @Test
     fun `risk level preconditions are not met, because there are no enf V2 detections`() {
-        every { exposureDetectionTracker.calculations } returns MutableStateFlow(mapOf("" to TrackedExposureDetection(
-            identifier = "",
-            startedAt = Instant(),
-            result = TrackedExposureDetection.Result.NO_MATCHES,
-            enfVersion = TrackedExposureDetection.EnfVersion.V1_LEGACY_MODE
-        )))
+        every { exposureDetectionTracker.calculations } returns MutableStateFlow(
+            mapOf(
+                "" to TrackedExposureDetection(
+                    identifier = "",
+                    startedAt = Instant(),
+                    result = TrackedExposureDetection.Result.NO_MATCHES,
+                    enfVersion = TrackedExposureDetection.EnfVersion.V1_LEGACY_MODE
+                )
+            )
+        )
         runBlocking {
             RiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
@@ -75,11 +83,15 @@ class RiskLevelTaskConfigTest : BaseTest() {
 
     @Test
     fun `risk level preconditions are not met, because detection is not finished yet`() {
-        every { exposureDetectionTracker.calculations } returns MutableStateFlow(mapOf("" to TrackedExposureDetection(
-            identifier = "",
-            startedAt = Instant(),
-            enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
-        )))
+        every { exposureDetectionTracker.calculations } returns MutableStateFlow(
+            mapOf(
+                "" to TrackedExposureDetection(
+                    identifier = "",
+                    startedAt = Instant(),
+                    enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
+                )
+            )
+        )
         runBlocking {
             RiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->

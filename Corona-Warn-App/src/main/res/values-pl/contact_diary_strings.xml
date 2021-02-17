@@ -22,9 +22,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Rejestruj odwiedzane miejsca i spotykane osoby."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Zarządzaj dziennikiem"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Otwórz dziennik"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Zarządzaj dziennikiem"</string>
+    <string name="contact_diary_onboarding_button_text">"Otwórz dziennik"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Rejestruj swoje kontakty."</string>
@@ -59,7 +59,7 @@
     <!-- XTXT: Title for contact diary overview screen -->
     <string name="contact_diary_overview_title">"Dziennik kontaktów"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">"Zapisuj dane spotykanych osób i odwiedzanych miejsc."</string>
+    <string name="contact_diary_overview_subtitle">"Zapisuj dane spotykanych osób i odwiedzanych miejsc. W przypadku wystąpienia ryzyka w danym dniu możesz ostrzec osoby, z którymi przebywałeś(-aś) w tym dniu, jeśli nie używają one aplikacji Corona-Warn-App."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Strona startowa"</string>
 
@@ -132,4 +132,5 @@
     <string name="accessibility_action_deselect">"Anuluj wybór"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Edytuj"</string>
+
 </resources>

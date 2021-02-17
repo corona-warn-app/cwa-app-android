@@ -117,7 +117,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_NO_RESULT
-                ), Date()
+                ),
+                Date()
             )
         )
         captureScreenshot<SubmissionTestResultPendingFragment>()
