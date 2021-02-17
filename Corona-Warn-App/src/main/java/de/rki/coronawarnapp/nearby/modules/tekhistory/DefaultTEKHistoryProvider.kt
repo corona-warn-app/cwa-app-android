@@ -157,16 +157,21 @@ class DefaultTEKHistoryProvider @Inject constructor(
         }
     }
 
-    // Timeout after 2 sec if receiver did not get called
+    // Timeout after 5 sec if receiver did not get called
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = withTimeout(2_000) {
+    internal suspend fun getPreAuthorizedExposureKeys(): List<TemporaryExposureKey> = withTimeout(5_000) {
         coroutineScope {
             // Register receiver before hitting the API to avoid race conditions
             val deferredIntent = async { awaitReceivedBroadcast() }
             client.requestPreAuthorizedTemporaryExposureKeyRelease().await()
-            Timber.i("requestPreAuthorizedTemporaryExposureKeyRelease is done")
+            Timber.i("Pre-Auth requestPreAuthorizedTemporaryExposureKeyRelease is done")
+            val startTime = System.currentTimeMillis()
+            Timber.i("Pre-Auth Receiver StartTime:$startTime")
             val intent = deferredIntent.await()
-            Timber.d("getPreAuthorizedExposureKeys():intent=%s", intent)
+            val endTime = System.currentTimeMillis()
+            Timber.i("Pre-Auth Receiver EndTime:$endTime")
+            Timber.i("Pre-Auth Receiver WaitingTime:${endTime - startTime}")
+            Timber.d("Pre-Auth getPreAuthorizedExposureKeys():intent=%s", intent)
             intent.getParcelableArrayListExtra(EXTRA_TEMPORARY_EXPOSURE_KEY_LIST) ?: emptyList()
         }
     }
