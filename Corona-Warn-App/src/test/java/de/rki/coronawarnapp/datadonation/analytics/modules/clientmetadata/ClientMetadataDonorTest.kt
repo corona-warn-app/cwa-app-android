@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.ApiLevel
@@ -12,7 +13,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.SpyK
+import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -26,18 +27,23 @@ class ClientMetadataDonorTest : BaseTest() {
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var enfClient: ENFClient
 
-    @SpyK var clientVersionParser = ClientVersionParser()
-
     private val eTag = "testETag"
     private val enfVersion = 1611L
-    private val appVersionCode = 6969420
     private val androidVersionCode = 42L
+
+    private val versionMajor = 1
+    private val versionMinor = 11
+    private val versionPatch = 1
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { clientVersionParser.appVersionCode } returns appVersionCode
+        mockkObject(BuildConfigWrap)
+        every { BuildConfigWrap.VERSION_MAJOR } returns versionMajor
+        every { BuildConfigWrap.VERSION_MINOR } returns versionMinor
+        every { BuildConfigWrap.VERSION_PATCH } returns versionPatch
+
         every { apiLevel.currentLevel } returns androidVersionCode.toInt()
         every { configData.identifier } returns eTag
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
@@ -50,7 +56,6 @@ class ClientMetadataDonorTest : BaseTest() {
     }
 
     private fun createInstance() = ClientMetadataDonor(
-        clientVersionParser = clientVersionParser,
         apiLevel = apiLevel,
         appConfigProvider = appConfigProvider,
         enfClient = enfClient
@@ -58,7 +63,7 @@ class ClientMetadataDonorTest : BaseTest() {
 
     @Test
     fun `client metadata is properly collected`() {
-        val version = clientVersionParser.parseClientVersion(appVersionCode).toPPASemanticVersion()
+        val version = ClientMetadataDonor.ClientVersion().toPPASemanticVersion()
 
         val expectedMetadata = PpaData.PPAClientMetadataAndroid.newBuilder()
             .setAppConfigETag(eTag)
