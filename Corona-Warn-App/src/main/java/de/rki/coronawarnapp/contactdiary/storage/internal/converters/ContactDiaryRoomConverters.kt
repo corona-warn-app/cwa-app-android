@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.contactdiary.storage.internal.converters
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import org.joda.time.Duration
 
 class ContactDiaryRoomConverters {
-    private val gson = Gson()
-
     @TypeConverter
     fun toContactDurationClassification(value: String?): ContactDiaryPersonEncounter.DurationClassification? {
         if (value == null) return null
@@ -16,5 +14,15 @@ class ContactDiaryRoomConverters {
     @TypeConverter
     fun fromContactDurationClassification(value: ContactDiaryPersonEncounter.DurationClassification?): String? {
         return value?.key
+    }
+
+    @TypeConverter
+    fun toJodaDuration(millis: Long?): Duration? {
+        return millis?.let { Duration.millis(it) }
+    }
+
+    @TypeConverter
+    fun fromJodaDuration(duration: Duration?): Long? {
+        return duration?.millis
     }
 }
