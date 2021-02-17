@@ -1,11 +1,17 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata
 
 import dagger.Reusable
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import javax.inject.Inject
 
 @Reusable
 class ClientVersionParser @Inject constructor() {
+    val appVersionCode: Int get() = BuildConfig.VERSION_CODE
+
+    fun parseClientVersion(): ClientVersion =
+        parseClientVersion(appVersionCode)
+
     fun parseClientVersion(buildNumber: Int): ClientVersion {
         val major = buildNumber / MAJOR_OFFSET
         val minor = buildNumber % MAJOR_OFFSET / MINOR_OFFSET
@@ -27,6 +33,15 @@ class ClientVersionParser @Inject constructor() {
                 .setMinor(minor)
                 .setPatch(patch)
                 .build()
+
+        fun toVersionString(): String {
+            var versionString = "$major.$minor.$patch"
+            if (build != 0) {
+                versionString += "-RC$build"
+            }
+
+            return versionString
+        }
     }
 
     companion object {
