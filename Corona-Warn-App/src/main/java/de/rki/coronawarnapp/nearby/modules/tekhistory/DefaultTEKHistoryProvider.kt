@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
