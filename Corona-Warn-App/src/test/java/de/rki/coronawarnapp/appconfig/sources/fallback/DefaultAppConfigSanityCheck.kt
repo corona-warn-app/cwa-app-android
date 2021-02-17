@@ -47,7 +47,7 @@ class DefaultAppConfigSanityCheck : BaseTest() {
     fun `current default matches checksum`() {
         val config = context.assets.open(configName).readBytes()
         val sha256 = context.assets.open(checkSumName).readBytes().toString(Charsets.UTF_8)
-        sha256 shouldBe "827fb746a1128e465d65ec77030fdf38c823dec593ae18aed55195069cf8b701"
+        sha256 shouldBe "12d0b93c0c02c6870ef75c173a53a8ffb9cab6828fbf22e751053329c425eef2"
         config.toSHA256() shouldBe sha256
     }
 
