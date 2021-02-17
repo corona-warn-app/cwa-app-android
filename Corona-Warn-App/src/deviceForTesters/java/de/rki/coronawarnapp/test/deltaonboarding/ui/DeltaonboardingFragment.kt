@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDeltaonboardingBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -53,14 +52,10 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
         }
     }
 
-    private fun showSnackBar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-    }
-
     companion object {
         val MENU_ITEM = TestMenuItem(
-            title = "Delta onboarding",
-            description = "Set last Changelog Version",
+            title = "Onboarding options",
+            description = "Set delta onboarding or new release screen",
             targetId = R.id.test_deltaonboarding_fragment
         )
     }
