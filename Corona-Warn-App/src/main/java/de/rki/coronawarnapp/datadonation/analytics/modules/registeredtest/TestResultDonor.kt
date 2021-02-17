@@ -40,10 +40,6 @@ class TestResultDonor @Inject constructor(
             return TestResultMetadataNoContribution
         }
 
-        val submissionState = submissionStateProvider.state.first()
-        val isTestResultReceived = submissionState is TestPositive ||
-            submissionState is TestNegative
-
         val configHours = appConfigProvider
             .getAppConfig()
             .analytics
@@ -53,47 +49,97 @@ class TestResultDonor @Inject constructor(
         val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
         val isHoursDiffAcceptable = hoursSinceTestRegistrationTime >= configHours
 
+        val submissionState = submissionStateProvider.state.first()
+
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             Duration(
                 riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
                 registrationTime
             ).standardDays.toInt()
 
-        return if (isHoursDiffAcceptable && isTestResultReceived) {
-            val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
-                .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-                // TODO verify setters below
-                .setHoursSinceHighRiskWarningAtTestRegistration(0)
-                .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                    daysSinceMostRecentDateAtRiskLevelAtTestRegistration
-                )
-                .setTestResult(submissionState.toPPATestResult())
-                .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
-                .build()
-
-            TestResultMetadataContribution(testResultMetaData, ::cleanUp)
-        } else {
-            Timber.d(
-                "Skipping Data Donation (isHoursDiffAcceptable=%s,isTestResultReceived=%s)",
-                isHoursDiffAcceptable,
-                isTestResultReceived
+        return when {
+            /**
+             * If test is pending and
+             * More than <hoursSinceTestRegistration> hours have passed since the test was registered,
+             * it is included in the next submission and removed afterwards.
+             * That means if the test result turns POS or NEG afterwards, this will not submitted
+             */
+            isHoursDiffAcceptable && submissionState.isPending -> pendingTestMetadataDonation(
+                registrationTime,
+                submissionState,
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
-            TestResultMetadataNoContribution
+
+            /**
+             * If the test result turns POSITIVE or NEGATIVE,
+             * it is included in the next submission. Afterwards,
+             * the collected metric data is removed.
+             */
+            submissionState.isFinal -> finalTestMetadataDonation(
+                registrationTime,
+                submissionState,
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            )
+            else -> {
+                Timber.d("Skipping Data donation")
+                TestResultMetadataNoContribution
+            }
         }
+    }
+
+    private fun pendingTestMetadataDonation(
+        registrationTime: Instant,
+        submissionState: SubmissionState,
+        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+    ): DonorModule.Contribution {
+        val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
+        val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
+            .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
+            // TODO verify setters below
+            .setHoursSinceHighRiskWarningAtTestRegistration(0)
+            .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            )
+            .setTestResult(submissionState.toPPATestResult())
+            .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
+            .build()
+
+        return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
+    }
+
+    private fun finalTestMetadataDonation(
+        registrationTime: Instant,
+        submissionState: SubmissionState,
+        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+    ): DonorModule.Contribution {
+        val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
+        val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
+            .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
+            // TODO verify setters below
+            .setHoursSinceHighRiskWarningAtTestRegistration(0)
+            .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            )
+            .setTestResult(submissionState.toPPATestResult())
+            .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
+            .build()
+
+        return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
     }
 
     override suspend fun deleteData() = cleanUp()
 
     private fun cleanUp() {
+        Timber.d("Cleaning data")
         with(analyticsSettings) {
             testScannedAfterConsent.update { false }
             riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
+            pendingResultReceivedAt.update { null }
         }
     }
 
-    private fun SubmissionState.isValid(): Boolean {
-        return this is TestNegative || this is TestPositive || this is TestPending
-    }
+    private inline val SubmissionState.isFinal: Boolean get() = this is TestNegative || this is TestPositive
+    private inline val SubmissionState.isPending get() = this is TestPending
 
     private fun SubmissionState.toPPATestResult(): PpaData.PPATestResult {
         return when (this) {

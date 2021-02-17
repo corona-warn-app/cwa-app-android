@@ -91,12 +91,7 @@ class AnalyticsSettings @Inject constructor(
 
     val testScannedAfterConsent = prefs.createFlowPreference(
         key = PREFS_KEY_TEST_SCANNED_AFTER_CONSENT,
-        reader = { key ->
-            getBoolean(key, false)
-        },
-        writer = { key, value ->
-            putBoolean(key, value)
-        }
+        defaultValue = false
     )
 
     val riskLevelAtTestRegistration = prefs.createFlowPreference(
@@ -110,6 +105,20 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
+    val pendingResultReceivedAt = prefs.createFlowPreference(
+        key = PREFS_KEY_PENDING_RESULT_AT,
+        reader = { key ->
+            getLong(key, 0L).let {
+                if (it != 0L) {
+                    Instant.ofEpochMilli(it)
+                } else null
+            }
+        },
+        writer = { key, value ->
+            putLong(key, value?.millis ?: 0L)
+        }
+    )
+
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
@@ -119,5 +128,6 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
+        private const val PREFS_KEY_PENDING_RESULT_AT = "analytics.pendingResultReceivedAt"
     }
 }
