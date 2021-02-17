@@ -1812,21 +1812,21 @@
     <string name="datadonation_details_survey_consent_details_title">"Detailed Information on Data Processing Involved in Taking the Survey"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
-    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"The time on your smartphone does not match the current time. Please correct the time in your smartphone settings (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"The time on your smartphone does not match the current time. Please correct the time in your smartphone settings (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"The survey cannot be retrieved (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"The survey cannot be retrieved (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 3-->
-    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"The survey cannot be retrieved right now. Please update the Google Play Services (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"The survey cannot be retrieved right now. Please update the Google Play Services (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 4-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"The survey cannot be retrieved right now. Please try again later (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"The survey cannot be retrieved right now. Please try again later (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"The survey cannot be retrieved due to security reasons. You can take the survey again in the next calendar month (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"The survey cannot be retrieved due to security reasons. You can take the survey again in the next calendar month (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"The survey could not be retrieved on your smartphone (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"The survey could not be retrieved on your smartphone (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
-    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"For security reasons, you cannot take the survey less than 24 hours after you install or update the app (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"For security reasons, you cannot take the survey less than 24 hours after you install or update the app (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
-    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"You have already taken the survey. You can only take the survey once per month (error code {0})."</string>
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"You have already taken the survey. You can only take the survey once per month (error code %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Error"</string>
