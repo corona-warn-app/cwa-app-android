@@ -37,7 +37,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("ReturnCount")
+@Suppress("ReturnCount", "LongParameterList")
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     @AppContext private val context: Context,

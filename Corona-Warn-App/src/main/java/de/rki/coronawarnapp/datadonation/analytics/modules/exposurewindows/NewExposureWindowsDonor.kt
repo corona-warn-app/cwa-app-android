@@ -11,7 +11,7 @@ import kotlin.random.Random
 
 @Singleton
 class NewExposureWindowsDonor @Inject constructor(
-    private val repository: AnalyticsExposureWindowRepository,
+    private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository,
     private val appConfigProvider: AppConfigProvider
 ) : DonorModule {
 
@@ -21,18 +21,18 @@ class NewExposureWindowsDonor @Inject constructor(
             return emptyContribution()
         }
 
-        val newWrappers = repository.getAllNew()
-        val reported = repository.moveToReported(newWrappers)
+        val newWrappers = analyticsExposureWindowRepository.getAllNew()
+        val reported = analyticsExposureWindowRepository.moveToReported(newWrappers)
         return Contribution(
             data = newWrappers.asPpaData(),
             onDonationFailed = {
-                repository.rollback(newWrappers, reported)
+                analyticsExposureWindowRepository.rollback(newWrappers, reported)
             }
         )
     }
 
     override suspend fun deleteData() {
-        repository.deleteAllData()
+        analyticsExposureWindowRepository.deleteAllData()
     }
 
     private suspend fun skipSubmission(): Boolean {
