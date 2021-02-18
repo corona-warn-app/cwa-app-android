@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -62,6 +63,10 @@ class Analytics @Inject constructor(
 
             return true
         } catch (err: Exception) {
+            err.reportProblem(
+                tag = TAG,
+                info = "An error occurred during analytics submission"
+            )
             Timber.e(err, "Error during analytics submission")
             return false
         }
@@ -112,7 +117,7 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun stopDueToNoAnalyticsConfig(analyticsConfig: AnalyticsConfig): Boolean {
+    fun stopDueToNoAnalyticsConfig(analyticsConfig: AnalyticsConfig): Boolean {
         return !analyticsConfig.analyticsEnabled
     }
 
@@ -122,7 +127,7 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun stopDueToProbabilityToSubmit(analyticsConfig: AnalyticsConfig): Boolean {
+    fun stopDueToProbabilityToSubmit(analyticsConfig: AnalyticsConfig): Boolean {
         val submitRoll = Random.nextDouble(0.0, 1.0)
         return submitRoll > analyticsConfig.probabilityToSubmit
     }
@@ -193,6 +198,7 @@ class Analytics @Inject constructor(
         settings.analyticsEnabled.flow
 
     companion object {
+        private val TAG = Analytics::class.java.simpleName
         private const val LAST_SUBMISSION_MIN_AGE_HOURS = 23
         private const val ONBOARDING_DELAY_HOURS = 24
 
