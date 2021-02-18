@@ -106,7 +106,7 @@ class AnalyticsSettings @Inject constructor(
     )
 
     val finalTestResultReceivedAt = prefs.createFlowPreference(
-        key = PREFS_KEY_PENDING_RESULT_AT,
+        key = PREFS_KEY_FINAL_TEST_RESULT_AT,
         reader = { key ->
             getLong(key, 0L).let {
                 if (it != 0L) {
@@ -128,6 +128,6 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
-        private const val PREFS_KEY_PENDING_RESULT_AT = "analytics.pendingResultReceivedAt"
+        private const val PREFS_KEY_FINAL_TEST_RESULT_AT = "analytics.finalTestResultReceivedAt"
     }
 }
