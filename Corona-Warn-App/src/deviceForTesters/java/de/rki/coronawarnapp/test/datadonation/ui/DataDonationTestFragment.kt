@@ -161,6 +161,14 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
 
             surveyExceptionSimulationButton.setOnClickListener { vm.showSurveyErrorDialog() }
         }
+
+        vm.isSafetyNetTimeCheckSkipped.observe2(this) {
+            binding.disableSafetynetToggle.isChecked = it
+        }
+
+        binding.disableSafetynetToggle.setOnClickListener {
+            vm.toggleSkipSafetyNetTimeCheck()
+        }
     }
 
     private fun RadioGroup.addRadioButton(text: String) {
