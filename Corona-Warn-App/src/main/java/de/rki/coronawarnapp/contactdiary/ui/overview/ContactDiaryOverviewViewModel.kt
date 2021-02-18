@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -32,13 +34,14 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     taskController: TaskController,
     dispatcherProvider: DispatcherProvider,
     contactDiaryRepository: ContactDiaryRepository,
-    riskLevelStorage: RiskLevelStorage
+    riskLevelStorage: RiskLevelStorage,
+    timeStamper: TimeStamper
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
     val exportLocationsAndPersons: SingleLiveEvent<String> = SingleLiveEvent()
 
-    private val dates = (0 until DAY_COUNT).map { LocalDate.now().minusDays(it) }
+    private val dates = (0 until DAY_COUNT).map { timeStamper.nowUTC.toLocalDate().minusDays(it) }
 
     private val locationVisitsFlow = contactDiaryRepository.locationVisits
     private val personEncountersFlow = contactDiaryRepository.personEncounters
