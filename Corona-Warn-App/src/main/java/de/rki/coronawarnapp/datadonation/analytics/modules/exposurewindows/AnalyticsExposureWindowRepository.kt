@@ -31,8 +31,9 @@ class AnalyticsExposureWindowRepository @Inject constructor(
         }
     }
 
-    suspend fun moveToReported(wrapperEntities: List<AnalyticsExposureWindowEntityWrapper>):
-        List<AnalyticsReportedExposureWindowEntity> {
+    suspend fun moveToReported(
+        wrapperEntities: List<AnalyticsExposureWindowEntityWrapper>
+    ): List<AnalyticsReportedExposureWindowEntity> {
         return dao.moveToReported(wrapperEntities, timeStamper.nowUTC.millis)
     }
 

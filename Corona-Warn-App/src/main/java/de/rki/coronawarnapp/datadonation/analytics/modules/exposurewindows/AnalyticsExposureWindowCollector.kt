@@ -48,4 +48,3 @@ private fun ScanInstance.toAnalyticsScanInstance() = AnalyticsScanInstance(
     typicalAttenuation = typicalAttenuationDb,
     secondsSinceLastScan = secondsSinceLastScan
 )
-

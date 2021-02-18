@@ -96,7 +96,6 @@ class RiskLevelTaskTest : BaseTest() {
         riskLevelStorage = riskLevelStorage,
         keyCacheRepository = keyCacheRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector
-
     )
 
     @Test
@@ -241,6 +240,7 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevels.calculateRisk(any(), any()) } returns null
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
+        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
 
         createTask().run(arguments) shouldBe RiskLevelTaskResult(
             calculatedAt = now,

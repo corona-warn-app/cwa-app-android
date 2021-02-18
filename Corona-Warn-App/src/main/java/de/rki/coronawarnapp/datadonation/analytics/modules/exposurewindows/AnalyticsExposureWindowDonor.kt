@@ -43,7 +43,7 @@ class AnalyticsExposureWindowDonor @Inject constructor(
         val random = Random.nextDouble()
         val configData: ConfigData = appConfigProvider.getAppConfig()
         val probability = configData.analytics.probabilityToSubmitNewExposureWindows
-        Timber.w("Random number is $random. probabilityToSubmitNewExposureWindows is $probability. Skip if random number is greater than probability.")
+        Timber.w("Random number is $random. probabilityToSubmitNewExposureWindows is $probability.")
         return random > probability
     }
 
