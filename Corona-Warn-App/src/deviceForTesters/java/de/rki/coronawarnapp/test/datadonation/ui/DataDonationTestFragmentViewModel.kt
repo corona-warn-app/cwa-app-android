@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.storage.OTPRepository
 import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -32,7 +33,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger,
     private val cwaSafetyNet: CWASafetyNet,
     otpRepository: OTPRepository,
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val testSettings: TestSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val infoEvents = SingleLiveEvent<String>()
@@ -51,6 +53,9 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
 
     private val lastAnalyticsDataInternal = MutableStateFlow<LastAnalyticsSubmission?>(null)
     val lastAnalyticsData = lastAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
+
+    val isSafetyNetTimeCheckSkipped = testSettings.skipSafetyNetTimeCheck.flow
+        .asLiveData(context = dispatcherProvider.Default)
 
     val otp: String = otpRepository.otpAuthorizationResult?.toString() ?: "No OTP generated and authorized yet"
 
@@ -152,6 +157,10 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
             Timber.e(e, "checkLastAnalytics() failed.")
             infoEvents.postValue(e.toString())
         }
+    }
+
+    fun toggleSkipSafetyNetTimeCheck() {
+        testSettings.skipSafetyNetTimeCheck.update { !it }
     }
 
     fun selectSafetyNetExceptionType(type: SafetyNetException.Type) {

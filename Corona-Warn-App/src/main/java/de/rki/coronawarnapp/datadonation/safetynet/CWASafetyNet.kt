@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.HashExtensions
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
@@ -27,7 +28,8 @@ class CWASafetyNet @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val googleApiVersion: GoogleApiVersion,
     private val cwaSettings: CWASettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val testSettings: TestSettings
 ) : DeviceAttestation {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -55,11 +57,16 @@ class CWASafetyNet @Inject constructor(
             }
         }
 
-        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
-        if (firstReliableTimeStamp == Instant.EPOCH) {
-            throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "No first reliable timestamp available")
-        } else if (Duration(firstReliableTimeStamp, timeStamper.nowUTC) < Duration.standardHours(24)) {
-            throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "Time since first reliable timestamp <24h")
+        if (!testSettings.skipSafetyNetTimeCheck.value) {
+            val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
+            if (firstReliableTimeStamp == Instant.EPOCH) {
+                throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "No first reliable timestamp available")
+            } else if (Duration(firstReliableTimeStamp, timeStamper.nowUTC) < Duration.standardHours(24)) {
+                throw SafetyNetException(
+                    Type.TIME_SINCE_ONBOARDING_UNVERIFIED,
+                    "Time since first reliable timestamp <24h"
+                )
+            }
         }
 
         val salt = generateSalt()

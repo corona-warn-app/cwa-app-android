@@ -35,6 +35,11 @@ class TestSettings @Inject constructor(
         writer = FlowPreference.gsonWriter(gson)
     )
 
+    val skipSafetyNetTimeCheck = prefs.createFlowPreference(
+        key = "safetynet.skip.time.check",
+        defaultValue = false
+    )
+
     enum class FakeExposureWindowTypes {
         @SerializedName("DISABLED")
         DISABLED,

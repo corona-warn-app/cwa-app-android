@@ -257,6 +257,30 @@
                     app:layout_constraintTop_toBottomOf="@id/survey_exception_simulation_radio_group" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <LinearLayout
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/disable_safetynet_toggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_weight="1"
+                    android:text="Skip 24H SafetyNet Check"
+                    app:thumbTint="@color/colorAccent" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="This disables the 24H time since valid time check for SafetyNet attestation" />
+            </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/last_analytics_container"
                 style="@style/Card"
