@@ -99,8 +99,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             val ppaRiskLevel = lastRiskResult.toMetadataRiskLevel()
             testScannedAfterConsent.update { true }
             riskLevelAtTestRegistration.update { ppaRiskLevel }
-            if (testResult == TestResult.PENDING) {
-                pendingResultReceivedAt.update { Instant.now() }
+            if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
+                finalTestResultReceivedAt.update { Instant.now() }
             }
         }
     }

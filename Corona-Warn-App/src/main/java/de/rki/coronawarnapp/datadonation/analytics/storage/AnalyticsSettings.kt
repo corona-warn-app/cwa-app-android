@@ -105,7 +105,7 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
-    val pendingResultReceivedAt = prefs.createFlowPreference(
+    val finalTestResultReceivedAt = prefs.createFlowPreference(
         key = PREFS_KEY_PENDING_RESULT_AT,
         reader = { key ->
             getLong(key, 0L).let {

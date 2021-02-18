@@ -47,7 +47,7 @@ class TestResultDonor @Inject constructor(
 
         val registrationTime = Instant.ofEpochMilli(timestampAtRegistration)
         val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
-        val isHoursDiffAcceptable = hoursSinceTestRegistrationTime >= configHours
+        val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
         val submissionState = submissionStateProvider.state.first()
 
@@ -64,7 +64,7 @@ class TestResultDonor @Inject constructor(
              * it is included in the next submission and removed afterwards.
              * That means if the test result turns POS or NEG afterwards, this will not submitted
              */
-            isHoursDiffAcceptable && submissionState.isPending -> pendingTestMetadataDonation(
+            isDiffHoursMoreThanConfigHoursForPendingTest && submissionState.isPending -> pendingTestMetadataDonation(
                 registrationTime,
                 submissionState,
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
@@ -112,7 +112,13 @@ class TestResultDonor @Inject constructor(
         submissionState: SubmissionState,
         daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
     ): DonorModule.Contribution {
-        val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
+        val finalTestResultReceivedAt = analyticsSettings.finalTestResultReceivedAt.value
+        val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
+            Duration(registrationTime, finalTestResultReceivedAt).standardHours.toInt()
+        } else {
+            0 // Default value for hoursSinceTestRegistrationTime
+        }
+
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
             // TODO verify setters below
@@ -134,7 +140,7 @@ class TestResultDonor @Inject constructor(
         with(analyticsSettings) {
             testScannedAfterConsent.update { false }
             riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
-            pendingResultReceivedAt.update { null }
+            finalTestResultReceivedAt.update { null }
         }
     }
 
