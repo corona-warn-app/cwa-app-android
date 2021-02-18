@@ -66,7 +66,7 @@ class ContactDiaryEditLocationsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditLocationClick(location)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity())
+            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment(location.toContactDiaryLocationEntity())
     }
 
     @Test

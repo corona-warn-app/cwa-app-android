@@ -12,7 +12,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="dialogTheme">@style/DialogTheme</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -67,11 +66,6 @@
     <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTheme</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButtonTheme</item>
-    </style>
-
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
-        <item name="colorPrimary">@color/colorBrandSecondary</item>
-        <item name="colorPrimaryDark">@color/colorStableDark</item>
     </style>
 
     <style name="DialogButtonTheme" parent="Widget.MaterialComponents.Button.TextButton">
@@ -431,6 +425,20 @@
     <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2">
         <item name="android:textSize">@dimen/font_title</item>
         <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/colorContactDiaryListItem</item>
+        <item name="android:textColorHint">@color/colorTextPrimary2</item>
+        <item name="hintTextColor">@color/colorTextPrimary2</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="counterTextAppearance">@color/colorTransparent</item>
+        <item name="android:maxLength">5</item>
     </style>
 
 </resources>
