@@ -57,6 +57,15 @@ class TestResultDonor @Inject constructor(
                 registrationTime
             ).standardDays.toInt()
 
+        val riskLevelAtRegistration = analyticsSettings.riskLevelAtTestRegistration.value
+
+        val hoursSinceHighRiskWarningAtTestRegistration =
+            if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
+                -1
+            } else {
+                TODO()
+            }
+
         return when {
             /**
              * If test is pending and
@@ -64,22 +73,26 @@ class TestResultDonor @Inject constructor(
              * it is included in the next submission and removed afterwards.
              * That means if the test result turns POS or NEG afterwards, this will not submitted
              */
-            isDiffHoursMoreThanConfigHoursForPendingTest && submissionState.isPending -> pendingTestMetadataDonation(
-                registrationTime,
-                submissionState,
-                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
-            )
+            isDiffHoursMoreThanConfigHoursForPendingTest && submissionState.isPending ->
+                pendingTestMetadataDonation(
+                    hoursSinceTestRegistrationTime,
+                    submissionState,
+                    daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
+                    hoursSinceHighRiskWarningAtTestRegistration
+                )
 
             /**
              * If the test result turns POSITIVE or NEGATIVE,
              * it is included in the next submission. Afterwards,
              * the collected metric data is removed.
              */
-            submissionState.isFinal -> finalTestMetadataDonation(
-                registrationTime,
-                submissionState,
-                daysSinceMostRecentDateAtRiskLevelAtTestRegistration
-            )
+            submissionState.isFinal ->
+                finalTestMetadataDonation(
+                    registrationTime,
+                    submissionState,
+                    daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
+                    hoursSinceHighRiskWarningAtTestRegistration
+                )
             else -> {
                 Timber.d("Skipping Data donation")
                 TestResultMetadataNoContribution
@@ -88,15 +101,14 @@ class TestResultDonor @Inject constructor(
     }
 
     private fun pendingTestMetadataDonation(
-        registrationTime: Instant,
+        hoursSinceTestRegistrationTime: Int,
         submissionState: SubmissionState,
-        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
+        hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
-        val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            // TODO verify setters below
-            .setHoursSinceHighRiskWarningAtTestRegistration(0)
+            .setHoursSinceHighRiskWarningAtTestRegistration(hoursSinceHighRiskWarningAtTestRegistration)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
@@ -110,7 +122,8 @@ class TestResultDonor @Inject constructor(
     private fun finalTestMetadataDonation(
         registrationTime: Instant,
         submissionState: SubmissionState,
-        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+        daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
+        hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
         val finalTestResultReceivedAt = analyticsSettings.finalTestResultReceivedAt.value
         val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
@@ -121,8 +134,7 @@ class TestResultDonor @Inject constructor(
 
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            // TODO verify setters below
-            .setHoursSinceHighRiskWarningAtTestRegistration(0)
+            .setHoursSinceHighRiskWarningAtTestRegistration(hoursSinceHighRiskWarningAtTestRegistration)
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
