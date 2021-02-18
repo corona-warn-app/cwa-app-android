@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
@@ -119,6 +120,21 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
+    val testResultAtRegistration = prefs.createFlowPreference(
+        key = PREFS_KEY_TEST_RESULT_AT_REGISTRATION,
+        reader = { key ->
+            val value = getInt(key, -1)
+            if (value == -1) {
+                TestResult.INVALID
+            } else {
+                TestResult.fromInt(value)
+            }
+        },
+        writer = { key, result ->
+            putInt(key, result.value)
+        }
+    )
+
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
@@ -129,6 +145,7 @@ class AnalyticsSettings @Inject constructor(
 
         // Test Result Keys
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
+        private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "analytics.testResultAtRegistration"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
         private const val PREFS_KEY_FINAL_TEST_RESULT_AT = "analytics.finalTestResultReceivedAt"
     }

@@ -7,11 +7,7 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionState
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestNegative
-import de.rki.coronawarnapp.submission.ui.homecards.TestPending
-import de.rki.coronawarnapp.submission.ui.homecards.TestPositive
+import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -21,7 +17,6 @@ import javax.inject.Singleton
 
 @Singleton
 class TestResultDonor @Inject constructor(
-    private val submissionStateProvider: SubmissionStateProvider,
     private val analyticsSettings: AnalyticsSettings,
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelSettings: RiskLevelSettings,
@@ -51,7 +46,7 @@ class TestResultDonor @Inject constructor(
         val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
-        val submissionState = submissionStateProvider.state.first()
+        val testResultAtRegistration = analyticsSettings.testResultAtRegistration.value
 
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             Duration(
@@ -75,10 +70,10 @@ class TestResultDonor @Inject constructor(
              * it is included in the next submission and removed afterwards.
              * That means if the test result turns POS or NEG afterwards, this will not submitted
              */
-            isDiffHoursMoreThanConfigHoursForPendingTest && submissionState.isPending ->
+            isDiffHoursMoreThanConfigHoursForPendingTest && testResultAtRegistration.isPending ->
                 pendingTestMetadataDonation(
                     hoursSinceTestRegistrationTime,
-                    submissionState,
+                    testResultAtRegistration,
                     daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
                     hoursSinceHighRiskWarningAtTestRegistration
                 )
@@ -88,10 +83,10 @@ class TestResultDonor @Inject constructor(
              * it is included in the next submission. Afterwards,
              * the collected metric data is removed.
              */
-            submissionState.isFinal ->
+            testResultAtRegistration.isFinal ->
                 finalTestMetadataDonation(
                     registrationTime,
-                    submissionState,
+                    testResultAtRegistration,
                     daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
                     hoursSinceHighRiskWarningAtTestRegistration
                 )
@@ -115,7 +110,7 @@ class TestResultDonor @Inject constructor(
 
     private fun pendingTestMetadataDonation(
         hoursSinceTestRegistrationTime: Int,
-        submissionState: SubmissionState,
+        testResult: TestResult,
         daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
         hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
@@ -125,7 +120,7 @@ class TestResultDonor @Inject constructor(
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
-            .setTestResult(submissionState.toPPATestResult())
+            .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
             .build()
 
@@ -134,7 +129,7 @@ class TestResultDonor @Inject constructor(
 
     private fun finalTestMetadataDonation(
         registrationTime: Instant,
-        submissionState: SubmissionState,
+        testResult: TestResult,
         daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
         hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
@@ -151,7 +146,7 @@ class TestResultDonor @Inject constructor(
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
-            .setTestResult(submissionState.toPPATestResult())
+            .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
             .build()
 
@@ -172,14 +167,14 @@ class TestResultDonor @Inject constructor(
         ).standardHours.toInt()
     }
 
-    private inline val SubmissionState.isFinal: Boolean get() = this is TestNegative || this is TestPositive
-    private inline val SubmissionState.isPending get() = this is TestPending
+    private inline val TestResult.isFinal: Boolean get() = this in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)
+    private inline val TestResult.isPending get() = this == TestResult.PENDING
 
-    private fun SubmissionState.toPPATestResult(): PpaData.PPATestResult {
+    private fun TestResult.toPPATestResult(): PpaData.PPATestResult {
         return when (this) {
-            is TestPending -> PpaData.PPATestResult.TEST_RESULT_PENDING
-            is TestPositive -> PpaData.PPATestResult.TEST_RESULT_POSITIVE
-            is TestNegative -> PpaData.PPATestResult.TEST_RESULT_NEGATIVE
+            TestResult.PENDING -> PpaData.PPATestResult.TEST_RESULT_PENDING
+            TestResult.POSITIVE -> PpaData.PPATestResult.TEST_RESULT_POSITIVE
+            TestResult.NEGATIVE -> PpaData.PPATestResult.TEST_RESULT_NEGATIVE
             else -> PpaData.PPATestResult.TEST_RESULT_UNKNOWN
         }
     }

@@ -10,12 +10,7 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
-import de.rki.coronawarnapp.submission.ui.homecards.NoTest
-import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
-import de.rki.coronawarnapp.submission.ui.homecards.TestError
-import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
-import de.rki.coronawarnapp.submission.ui.homecards.TestResultReady
+import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -26,7 +21,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -36,8 +30,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.preferences.mockFlowPreference
 
 class TestResultDonorTest {
-
-    @MockK lateinit var submissionStateProvider: SubmissionStateProvider
     @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
@@ -62,7 +54,6 @@ class TestResultDonorTest {
         every { analyticsSettings.riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
 
         testResultDonor = TestResultDonor(
-            submissionStateProvider,
             analyticsSettings,
             appConfigProvider,
             riskLevelSettings,
@@ -89,42 +80,18 @@ class TestResultDonorTest {
     }
 
     @Test
-    fun `No donation when test result is invalid`() = runBlockingTest {
+    fun `No donation when test result is INVALID`() = runBlockingTest {
         every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         every { LocalData.initialTestResultReceivedTimestamp() } returns SystemClock.currentThreadTimeMillis()
-        every { submissionStateProvider.state } returns flowOf(TestInvalid)
+        every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.INVALID)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
-    fun `No donation when test result is TestError`() = runBlockingTest {
+    fun `No donation when test result is REDEEMED`() = runBlockingTest {
         every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         every { LocalData.initialTestResultReceivedTimestamp() } returns SystemClock.currentThreadTimeMillis()
-        every { submissionStateProvider.state } returns flowOf(TestError)
-        testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
-    }
-
-    @Test
-    fun `No donation when test result is TestResultReady`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { LocalData.initialTestResultReceivedTimestamp() } returns SystemClock.currentThreadTimeMillis()
-        every { submissionStateProvider.state } returns flowOf(TestResultReady)
-        testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
-    }
-
-    @Test
-    fun `No donation when test result is FetchingResult`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { LocalData.initialTestResultReceivedTimestamp() } returns SystemClock.currentThreadTimeMillis()
-        every { submissionStateProvider.state } returns flowOf(FetchingResult)
-        testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
-    }
-
-    @Test
-    fun `No donation when test result is NoTest`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { LocalData.initialTestResultReceivedTimestamp() } returns SystemClock.currentThreadTimeMillis()
-        every { submissionStateProvider.state } returns flowOf(NoTest)
+        every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
