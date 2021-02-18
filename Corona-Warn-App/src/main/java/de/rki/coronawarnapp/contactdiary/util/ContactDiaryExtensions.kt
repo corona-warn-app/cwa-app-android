@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.contactdiary.util
 import android.content.Context
 import android.os.Build
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
@@ -42,16 +41,6 @@ fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
         DateTimeFormat.longDate().withLocale(locale).print(this)
 }
 
-fun String.formatContactDiaryNameField(maxLength: Int): String {
-    val newName = if (isNotBlank()) {
-        trim()
-    } else {
-        // allow only spaces as a name
-        this
-    }
-    return newName.take(maxLength)
-}
-
 fun View.focusAndShowKeyboard() {
     /**
      * This is to be called when the window already has focus.
@@ -68,16 +57,13 @@ fun View.focusAndShowKeyboard() {
     requestFocus()
     if (hasWindowFocus()) {
         showTheKeyboardNow()
-    } else {
-        viewTreeObserver.addOnWindowFocusChangeListener(
-            object : ViewTreeObserver.OnWindowFocusChangeListener {
-                override fun onWindowFocusChanged(hasFocus: Boolean) {
-                    if (hasFocus) {
-                        this@focusAndShowKeyboard.showTheKeyboardNow()
-                        viewTreeObserver.removeOnWindowFocusChangeListener(this)
-                    }
-                }
-            })
+    }
+}
+
+fun View.hideKeyboard() {
+    post {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.windowToken, 0)
     }
 }
 
