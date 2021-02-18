@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
@@ -135,6 +136,19 @@ class CWASafetyNetTest : BaseTest() {
             payload
         )
         nonce shouldBe "Alzb6UASmHCdnnT0M8pQv5bQ/r/+lfS/jb760+ikhxc="
+    }
+
+    @Test
+    fun `nonce matches server calculation - serverstyle - PPA Payload`() {
+        // Server get's base64 encoded data and has to decode it first.
+        val salt = "Ri0AXC9U+b9hE58VqupI8Q==".decodeBase64()!!.toByteArray()
+        val payload = "Eg0IAxABGMGFyOT6LiABOgkIBBDdj6AFGAI=".decodeBase64()!!.toByteArray()
+
+        val ppa = PpaData.PPADataAndroid.parseFrom(payload)
+        ppa.exposureRiskMetadataSetList.first().riskLevel shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+
+        val nonce = createInstance().calculateNonce(salt, payload)
+        nonce shouldBe "bd6kMfLKby3pzEqW8go1ZgmHN/bU1p/4KG6+1GeB288="
     }
 
     @Test
