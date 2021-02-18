@@ -54,7 +54,7 @@ class CWASafetyNetTest : BaseTest() {
 
     private val defaultPayload = "Computer says no.".toByteArray()
     private val firstSalt = "LMK0jFCu/lOzl07ZHmtOqQ==".decodeBase64()!!
-    private val defaultNonce = (firstSalt.toByteArray() + defaultPayload).toSHA256(format = BASE64)
+    private val defaultNonce = (firstSalt.toByteArray() + defaultPayload).toSHA256(format = BASE64).decodeBase64()!!
 
     @BeforeEach
     fun setup() {
@@ -122,7 +122,7 @@ class CWASafetyNetTest : BaseTest() {
             salt,
             payload
         )
-        nonce shouldBe "M2EqczgxveKiptESiBNRmKqxYv5raTdzyeSZyzsCvjg="
+        nonce shouldBe "M2EqczgxveKiptESiBNRmKqxYv5raTdzyeSZyzsCvjg=".decodeBase64()
     }
 
     @Test
@@ -135,7 +135,7 @@ class CWASafetyNetTest : BaseTest() {
         otp.otp shouldBe "hello-world"
 
         val nonce = createInstance().calculateNonce(salt, payload)
-        nonce shouldBe "ANjVoDcS8v8iQdlNrcxehSggE9WZwIp7VNpjoU7cPsg="
+        nonce shouldBe "ANjVoDcS8v8iQdlNrcxehSggE9WZwIp7VNpjoU7cPsg=".decodeBase64()
     }
 
     @Test
@@ -147,7 +147,7 @@ class CWASafetyNetTest : BaseTest() {
             salt,
             payload
         )
-        nonce shouldBe "Alzb6UASmHCdnnT0M8pQv5bQ/r/+lfS/jb760+ikhxc="
+        nonce shouldBe "Alzb6UASmHCdnnT0M8pQv5bQ/r/+lfS/jb760+ikhxc=".decodeBase64()
     }
 
     @Test
@@ -160,7 +160,7 @@ class CWASafetyNetTest : BaseTest() {
         ppa.exposureRiskMetadataSetList.first().riskLevel shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
 
         val nonce = createInstance().calculateNonce(salt, payload)
-        nonce shouldBe "bd6kMfLKby3pzEqW8go1ZgmHN/bU1p/4KG6+1GeB288="
+        nonce shouldBe "bd6kMfLKby3pzEqW8go1ZgmHN/bU1p/4KG6+1GeB288=".decodeBase64()
     }
 
     @Test
@@ -168,7 +168,7 @@ class CWASafetyNetTest : BaseTest() {
         val payload = "Computer says no.".toByteArray()
         val salt = "Don't be so salty".toByteArray()
         val nonce = createInstance().calculateNonce(salt, payload)
-        nonce shouldBe (salt + payload).toSHA256(format = BASE64)
+        nonce shouldBe (salt + payload).toSHA256(format = BASE64).decodeBase64()
     }
 
     @Test
@@ -198,7 +198,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `request nonce must match response nonce`() = runBlockingTest {
-        every { clientReport.nonce } returns "missmatch"
+        every { clientReport.nonce } returns "missmatch".decodeBase64()
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }

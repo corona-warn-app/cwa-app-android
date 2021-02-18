@@ -508,9 +508,9 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three persons have activated exposure logging on their smartphones, which will log their encounters with each other."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Allow location access"</string>
+    <string name="onboarding_tracing_location_headline">"Activate Location Setting"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Your location cannot be accessed. Google and/or Android requires access to your smartphone’s location to use Bluetooth."</string>
+    <string name="onboarding_tracing_location_body">"Your device location cannot determined by the app, but device location is required to use Bluetooth Low Energy in some Android versions."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Open Device Settings"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -539,7 +539,7 @@
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
     <string name="onboarding_ppa_headline">"Share Data"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body short text -->
-    <string name="onboarding_ppa_body_short">"Teilen Sie Daten über Ihre App-Nutzung mit uns und helfen Sie uns so, die Wirksamkeit der App zu bewerten."</string>
+    <string name="onboarding_ppa_body_short">"Let us know how you use the app and help us to assess its effectiveness."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
     <string name="onboarding_ppa_body">"You can help us to improve the Corona-Warn-App. Share the data about your app usage with the RKI. This will help the RKI assess the app’s effectiveness. Your data will also help to improve the features and usability of the app."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
@@ -551,7 +551,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Your age (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_more_info_title">"Detailed Information about This Data Processing and Data Protection Risks in the U.S."</string>
+    <string name="onboarding_ppa_more_info_title">"Detailed Information about This Data Processing and Data Protection Risks in the U.S. and Other Third Countries"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Share Data"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
@@ -564,7 +564,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Data Processing in the Data Sharing Process"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
-    <string name="onboarding_ppa_more_info_data_processing_body">"If you consent to share your data, the app sends various data to the RKI each day. The transmitted data will be analyzed for a variety of purposes:"</string>
+    <string name="onboarding_ppa_more_info_data_processing_body">"If you consent to share your data, the app sends various data to the RKI each day. The transmitted data will help us assess the effectiveness of the app and will be analyzed to support the following improvements:"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
     <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Improved exposure logging – We want to improve the accuracy and reliability of the technical calculation of infection risks. To do so, we will evaluate information about risk exposures and the warnings you see. As a result, we will be able to refine the calculation method."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
@@ -1822,7 +1822,7 @@
     <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"The survey cannot be retrieved due to security reasons. You can take the survey again in the next calendar month (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"The survey could not be retrieved on your smartphone (error code %1$s)."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Thank you for wanting to help. Unfortunately, you use a smartphone that does not support the survey for technical reasons (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"For security reasons, you cannot take the survey less than 24 hours after you install or update the app (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
