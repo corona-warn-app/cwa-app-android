@@ -23,8 +23,8 @@ import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
@@ -46,22 +46,22 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
-        const val EXTRA_ACTION = "action"
+        private const val EXTRA_DATA = "shortcut"
 
-        fun start(context: Context, action: MainActivityActions? = null) {
+        fun start(context: Context, shortcut: AppShortcuts? = null) {
             val intent = Intent(context, MainActivity::class.java).apply {
-                if (action != null) {
-                    putExtra(EXTRA_ACTION, action.name)
+                if (shortcut != null) {
+                    putExtra(EXTRA_DATA, shortcut.toString())
                     flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 }
             }
             context.startActivity(intent)
         }
 
-        private fun getActionFromIntent(intent: Intent): MainActivityActions? {
-            val extra = intent.getStringExtra(EXTRA_ACTION)
+        private fun getShortcutFromIntent(intent: Intent): AppShortcuts? {
+            val extra = intent.getStringExtra(EXTRA_DATA)
             if (extra != null) {
-                return MainActivityActions.valueOf(extra)
+                return AppShortcuts.valueOf(extra)
             }
             return null
         }
@@ -72,11 +72,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: MainActivityViewModel by cwaViewModels(
-        ownerProducer = { viewModelStore },
-        factoryProducer = { viewModelFactory }
-    )
-
-    private val homeFragmentVm: HomeFragmentViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -122,14 +117,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun processExtraParameters() {
-        when (getActionFromIntent(intent)) {
-            MainActivityActions.ADD_DIARY_ENTRY -> {
-                homeFragmentVm.activateContactJournalShortcut()
+        when (getShortcutFromIntent(intent)) {
+            AppShortcuts.CONTACT_DIARY -> {
+                goToContactJournal()
             }
         }
     }
 
-    fun goToContactJournal() {
+    private fun goToContactJournal() {
         val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.contact_diary_nav_graph

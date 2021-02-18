@@ -196,16 +196,10 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
 
         with(createInstance()) {
-            showPopUpsOrNavigate()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowInteropDeltaOnboarding
-
-            showPopUpsOrNavigate()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowNewReleaseFragment
-
-            showPopUpsOrNavigate()
+            showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
 
-            showPopUpsOrNavigate()
+            showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }
     }

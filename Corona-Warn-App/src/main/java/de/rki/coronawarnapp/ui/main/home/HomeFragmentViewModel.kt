@@ -7,7 +7,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -50,7 +49,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -95,39 +93,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
 
-    var goToContactJournal = false
-
-    fun activateContactJournalShortcut() {
-        goToContactJournal = true
-    }
-
-    fun showPopUpsOrNavigate() {
-        when {
-            !LocalData.isInteroperabilityShownAtLeastOnce -> {
-                popupEvents.postValue(ShowInteropDeltaOnboarding)
+    fun showPopUps() {
+        launch {
+            if (!LocalData.tracingExplanationDialogWasShown()) {
+                popupEvents.postValue(
+                    ShowTracingExplanation(
+                        TimeVariables.getActiveTracingDaysInRetentionPeriod()
+                    )
+                )
             }
-            cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
-                popupEvents.postValue(HomeFragmentEvents.ShowNewReleaseFragment)
-            }
-            goToContactJournal -> {
-                goToContactJournal = false
-                popupEvents.postValue(HomeFragmentEvents.GoToContactJournalDay)
-            }
-            else -> {
-                launch {
-                    if (!LocalData.tracingExplanationDialogWasShown()) {
-                        popupEvents.postValue(
-                            ShowTracingExplanation(
-                                TimeVariables.getActiveTracingDaysInRetentionPeriod()
-                            )
-                        )
-                    }
-                }
-                launch {
-                    if (errorResetTool.isResetNoticeToBeShown) {
-                        popupEvents.postValue(ShowErrorResetDialog)
-                    }
-                }
+        }
+        launch {
+            if (errorResetTool.isResetNoticeToBeShown) {
+                popupEvents.postValue(ShowErrorResetDialog)
             }
         }
     }

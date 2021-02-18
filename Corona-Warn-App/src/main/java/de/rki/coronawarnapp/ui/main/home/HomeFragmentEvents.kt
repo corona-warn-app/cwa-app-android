@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.main.home
 
 sealed class HomeFragmentEvents {
-    object ShowInteropDeltaOnboarding : HomeFragmentEvents()
 
     data class ShowTracingExplanation(
         val activeTracingDaysInRetentionPeriod: Long
@@ -13,9 +12,5 @@ sealed class HomeFragmentEvents {
 
     object ShowReactivateRiskCheckDialog : HomeFragmentEvents()
 
-    object ShowNewReleaseFragment : HomeFragmentEvents()
-
     object GoToStatisticsExplanation : HomeFragmentEvents()
-
-    object GoToContactJournalDay : HomeFragmentEvents()
 }
