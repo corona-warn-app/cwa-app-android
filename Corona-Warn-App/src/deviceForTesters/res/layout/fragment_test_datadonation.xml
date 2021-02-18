@@ -270,8 +270,7 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:layout_weight="1"
-                    android:text="Skip 24H SafetyNet Check"
-                    app:thumbTint="@color/colorAccent" />
+                    android:text="Skip 24H SafetyNet Check" />
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Caption"
