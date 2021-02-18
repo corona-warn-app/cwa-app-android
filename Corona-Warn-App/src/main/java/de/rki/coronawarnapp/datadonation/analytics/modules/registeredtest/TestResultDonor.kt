@@ -184,11 +184,11 @@ class TestResultDonor @Inject constructor(
     private fun formString(testResultMetadata: PpaData.PPATestResultMetadata) =
         with(testResultMetadata) {
             """
-               testResult=$testResult
-               riskLevelAtTestRegistration=$riskLevelAtTestRegistration
-               hoursSinceTestRegistration=$hoursSinceTestRegistration
-               hoursSinceHighRiskWarningAtTestRegistration=$hoursSinceHighRiskWarningAtTestRegistration
-               daysSinceMostRecentDateAtRiskLevelAtTestRegistration=$daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+             testResult=$testResult
+             riskLevelAtTestRegistration=$riskLevelAtTestRegistration
+             hoursSinceTestRegistration=$hoursSinceTestRegistration
+             hoursSinceHighRiskWarningAtTestRegistration=$hoursSinceHighRiskWarningAtTestRegistration
+             daysSinceMostRecentDateAtRiskLevelAtTestRegistration=$daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             """.trimIndent()
         }
 
