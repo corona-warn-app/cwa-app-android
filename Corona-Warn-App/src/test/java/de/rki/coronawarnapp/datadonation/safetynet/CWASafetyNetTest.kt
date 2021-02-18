@@ -8,10 +8,12 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -21,6 +23,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
@@ -55,6 +58,9 @@ class CWASafetyNetTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkObject(CWADebug)
+        every { CWADebug.isDeviceForTestersBuild } returns false
+
         every { environmentSetup.safetyNetApiKey } returns "very safe"
         coEvery { safetyNetClientWrapper.attest(any()) } returns clientReport
         every { secureRandom.nextBytes(any()) } answers {
@@ -212,6 +218,27 @@ class CWASafetyNetTest : BaseTest() {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }
         exception.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+    }
+
+    @Test
+    fun `24h since onboarding can be skipped on deviceForTester builds`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+
+        shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+
+        every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(true)
+
+        shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+
+        every { CWADebug.isDeviceForTestersBuild } returns true
+
+        shouldNotThrowAny {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }
     }
 
     @Test
