@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 import java.security.SecureRandom
 import kotlin.random.Random
 
@@ -44,6 +46,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appConfigData: ConfigData
+    @MockK lateinit var testSettings: TestSettings
 
     private val defaultPayload = "Computer says no.".toByteArray()
     private val firstSalt = "LMK0jFCu/lOzl07ZHmtOqQ==".decodeBase64()!!
@@ -75,6 +78,8 @@ class CWASafetyNetTest : BaseTest() {
 
         every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.standardDays(7))
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(8))
+
+        every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(false)
     }
 
     @AfterEach
@@ -89,7 +94,8 @@ class CWASafetyNetTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         googleApiVersion = googleApiVersion,
         timeStamper = timeStamper,
-        cwaSettings = cwaSettings
+        cwaSettings = cwaSettings,
+        testSettings = testSettings
     )
 
     @Test
