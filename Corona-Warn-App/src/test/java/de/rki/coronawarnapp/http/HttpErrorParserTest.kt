@@ -121,6 +121,6 @@ class HttpErrorParserTest : BaseTest() {
         exception.statusCode shouldBe 501
         val start = exception.message!!.indexOf("body=")
         val body = exception.message!!.substring(start + "body=".length)
-        body.length shouldBe 4097
+        body.length shouldBe 2049
     }
 }

@@ -64,7 +64,7 @@ class HttpErrorParser : Interceptor {
             }
 
             val body: String? = try {
-                response.peekBody(4096).string()
+                response.peekBody(2048).string()
             } catch (e: Exception) {
                 Timber.w("Failed to get http error body.")
                 null
