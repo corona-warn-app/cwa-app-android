@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.Days
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,6 +41,11 @@ class AnalyticsExposureWindowRepository @Inject constructor(
         reported: List<AnalyticsReportedExposureWindowEntity>
     ) {
         dao.rollback(wrappers, reported)
+    }
+
+    suspend fun deleteStaleData() {
+        val timestamp = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration()).millis
+        dao.deleteReportedOlderThan(timestamp)
     }
 
     suspend fun deleteAllData() {

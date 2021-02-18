@@ -6,8 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowRepository
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -51,8 +50,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
-    @MockK lateinit var analyticsExposureWindowRepository: AnalyticsExposureWindowRepository
-    @MockK lateinit var analyticsSettings: AnalyticsSettings
+    @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -97,8 +95,8 @@ class RiskLevelTaskTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
         keyCacheRepository = keyCacheRepository,
-        analyticsExposureWindowRepository = analyticsExposureWindowRepository,
-        analyticsSettings = analyticsSettings
+        analyticsExposureWindowCollector = analyticsExposureWindowCollector
+
     )
 
     @Test

@@ -103,6 +103,9 @@ interface AnalyticsExposureWindowDao {
         insertExposureWindows(wrappers.map { it.exposureWindowEntity })
         insertScanInstances(wrappers.flatMap { it.scanInstanceEntities })
     }
+
+    @Query("DELETE FROM AnalyticsReportedExposureWindowEntity WHERE timestamp < :timestamp")
+    suspend fun deleteReportedOlderThan(timestamp: Long)
 }
 
 class AnalyticsExposureWindowEntityWrapper(

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
@@ -10,24 +11,25 @@ import javax.inject.Singleton
 import kotlin.random.Random
 
 @Singleton
-class NewExposureWindowsDonor @Inject constructor(
+class AnalyticsExposureWindowDonor @Inject constructor(
     private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository,
     private val appConfigProvider: AppConfigProvider
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
+        // clean up
+        analyticsExposureWindowRepository.deleteStaleData()
+
         if (skipSubmission()) {
             Timber.w("Submission skipped.")
-            return emptyContribution()
+            return emptyContribution
         }
 
         val newWrappers = analyticsExposureWindowRepository.getAllNew()
         val reported = analyticsExposureWindowRepository.moveToReported(newWrappers)
         return Contribution(
             data = newWrappers.asPpaData(),
-            onDonationFailed = {
-                analyticsExposureWindowRepository.rollback(newWrappers, reported)
-            }
+            onDonationFailed = { onDonationFailed(newWrappers, reported) }
         )
     }
 
@@ -35,7 +37,8 @@ class NewExposureWindowsDonor @Inject constructor(
         analyticsExposureWindowRepository.deleteAllData()
     }
 
-    private suspend fun skipSubmission(): Boolean {
+    @VisibleForTesting
+    internal suspend fun skipSubmission(): Boolean {
         // load balancing
         val random = Random.nextDouble()
         val configData: ConfigData = appConfigProvider.getAppConfig()
@@ -44,10 +47,21 @@ class NewExposureWindowsDonor @Inject constructor(
         return random > probability
     }
 
-    private fun emptyContribution() = Contribution(
-        data = emptyList(),
-        onDonationFailed = {}
-    )
+    @VisibleForTesting
+    internal val emptyContribution by lazy {
+        Contribution(
+            data = emptyList(),
+            onDonationFailed = {}
+        )
+    }
+
+    @VisibleForTesting
+    internal suspend fun onDonationFailed(
+        newWrappers: List<AnalyticsExposureWindowEntityWrapper>,
+        reported: List<AnalyticsReportedExposureWindowEntity>
+    ) {
+        analyticsExposureWindowRepository.rollback(newWrappers, reported)
+    }
 
     data class Contribution(
         val data: List<PpaData.PPANewExposureWindow>,
@@ -63,7 +77,8 @@ class NewExposureWindowsDonor @Inject constructor(
     }
 }
 
-private fun List<AnalyticsExposureWindowEntityWrapper>.asPpaData() = map {
+@VisibleForTesting
+internal fun List<AnalyticsExposureWindowEntityWrapper>.asPpaData() = map {
     val scanInstances = it.scanInstanceEntities.map { scanInstance ->
         PpaData.PPAExposureWindowScanInstance.newBuilder()
             .setMinAttenuation(scanInstance.minAttenuation)

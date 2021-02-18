@@ -6,7 +6,7 @@ import dagger.Reusable
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.NewExposureWindowsDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
 import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsSubmissionLogger
@@ -41,7 +41,7 @@ class AnalyticsModule {
 
     @IntoSet
     @Provides
-    fun newExposureWindows(module: NewExposureWindowsDonor): DonorModule = module
+    fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
 
 //    Add these back later when they actually collect data
 //
