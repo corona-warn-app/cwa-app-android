@@ -496,9 +496,9 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Üç kişi akıllı telefonlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Konum erişimine izin ver"</string>
+    <string name="onboarding_tracing_location_headline">"Konum Ayarını Etkinleştir"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Konumunuza erişilemiyor. Bluetooth\'u kullanmak için Google ve/veya Android\'in akıllı telefonunuzun konumuna erişmesi gerekiyor."</string>
+    <string name="onboarding_tracing_location_body">"Uygulama, cihazınızın konumunu belirleyemiyor ancak bazı Android sürümlerinde Bluetooth Düşük Enerji işlevinin kullanılması için cihazın konumu gereklidir."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -526,6 +526,8 @@
     <string name="onboarding_ppa_illustration_description">"Bir kişi elinde akıllı telefon tutuyor"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
     <string name="onboarding_ppa_headline">"Verileri Paylaş"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body short text -->
+    <string name="onboarding_ppa_body_short">"Uygulamayı nasıl kullandığınızı belirtin ve uygulamanın etkinliğini değerlendirmemize yardımcı olun."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
     <string name="onboarding_ppa_body">"Corona-Warn-App’i iyileştirmemize yardımcı olabilirsiniz. Uygulamayı kullanımınız hakkındaki verileri RKI ile paylaşın. Bu, RKI’nin uygulamanın etkinliğini değerlendirmesine yardımcı olacaktır. Verileriniz aynı zamanda uygulamanın özelliklerinin ve kullanılabilirliğinin iyileştirilmesine yardımcı olacaktır."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
@@ -537,7 +539,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Yaşınız (isteğe bağlı)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_more_info_title">"ABD’de Veri İşleme ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
+    <string name="onboarding_ppa_more_info_title">"ABD’de ve Diğer Üçüncü Ülkelerde Veri İşleme ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Verileri Paylaş"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
@@ -550,7 +552,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Veri Paylaşma Sürecinde Veri İşleme"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
-    <string name="onboarding_ppa_more_info_data_processing_body">"Verilerinizi paylaşma izni vermeniz halinde uygulama RKI’ye her gün çeşitli veriler gönderir. Aktarılan veriler çeşitli amaçlarla analiz edilir:"</string>
+    <string name="onboarding_ppa_more_info_data_processing_body">"Verilerinizi paylaşma izni vermeniz halinde uygulama RKI’ye her gün çeşitli veriler gönderir. Aktarılan veriler, uygulamanın etkinliğini değerlendirmemize yardımcı olacaktır ve çeşitli amaçlarla analiz edilecektir:"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
     <string name="onboarding_ppa_more_info_data_processing_point_1_text">"İyileştirilmiş maruz kalma günlüğü – Teknik olarak enfeksiyon risklerini hesaplama doğruluğunu ve güvenilirliğini iyileştirmek istiyoruz. Bunun için, maruz kalma riskleri ve size gösterilen uyarlar hakkındaki bilgileri değerlendireceğiniz. Bunun sonucunda, hesaplama yöntemini geliştirebileceğiz."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
@@ -1794,21 +1796,21 @@
     <string name="datadonation_details_survey_consent_details_title">"Anketi Yanıtlamaya İlişkin Veri İşleme Hakkında Ayrıntılı Bilgiler"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
-    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Akıllı telefonunuzun saati, geçerli saat ile eşleşmiyor. Lütfen akıllı telefonunuzun saatini düzeltin (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Akıllı telefonunuzun saati, geçerli saat ile eşleşmiyor. Lütfen akıllı telefonunuzun saatini düzeltin (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Anket alınamıyor (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Anket alınamıyor (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 3-->
-    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Anket şu anda alınamıyor. Lütfen Google Plat Hizmetlerini güncelleyin (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Anket şu anda alınamıyor. Lütfen Google Plat Hizmetlerini güncelleyin (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 4-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Anket şu anda alınamıyor. Lütfen daha sonra tekrar deneyin (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Anket şu anda alınamıyor. Lütfen daha sonra tekrar deneyin (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Güvenlik nedenleriyle anket alınamıyor. Sonraki takvim ayında anketi yeniden yanıtlayabilirsiniz (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Güvenlik nedenleriyle anket alınamıyor. Sonraki takvim ayında anketi yeniden yanıtlayabilirsiniz (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Anket akıllı telefonunuzda alınamıyor (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Yardımcı olmak istediğiniz için teşekkür ederiz. Ne yazık ki teknik nedenlerle anketi desteklemeyen bir akıllı telefon kullanıyorsunuz (hata kodu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
-    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Güvenlik nedenleriyle uygulamayı yüklemenizin veya güncellemenizin üzerinden en az 24 saat geçmeden anketi yanıtlayamazsınız (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Güvenlik nedenleriyle uygulamayı yüklemenizin veya güncellemenizin üzerinden en az 24 saat geçmeden anketi yanıtlayamazsınız (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
-    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Anketi zaten yanıtladınız. Anketi yalnızca ayda bir kez yanıtlayabilirsiniz (hata kodu: {0})."</string>
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Anketi zaten yanıtladınız. Anketi yalnızca ayda bir kez yanıtlayabilirsiniz (hata kodu: %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Hata"</string>
