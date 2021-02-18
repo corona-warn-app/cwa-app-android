@@ -12,10 +12,10 @@
             style="@style/headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_tiny"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="@dimen/spacing_small"
             android:padding="@dimen/spacing_mega_tiny"
-            android:text="@string/contact_diary_person_bottom_sheet_title"
+            android:text="@string/duration_dialog_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Dauer" />
@@ -24,6 +24,7 @@
             android:id="@+id/hours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="67dp"
             app:layout_constraintBottom_toBottomOf="@+id/divider"
             app:layout_constraintEnd_toStartOf="@+id/divider"
             app:layout_constraintHorizontal_bias="0.5"
@@ -35,23 +36,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/minutes"
             app:layout_constraintEnd_toStartOf="@+id/minutes"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/hours"
             app:layout_constraintTop_toTopOf="@+id/minutes"
-            tools:text=":" />
+            android:text=":"
+            tools:text=":"
+            tools:ignore="HardcodedText" />
 
         <NumberPicker
             android:id="@+id/minutes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:layout_marginEnd="67dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/divider"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
+        <android.widget.Button
+            android:id="@+id/cancel_button"
+            style="@style/buttonLight"
+            android:textColor="@color/colorTextTint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/duration_dialog_cancel_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ok_button"
+            app:layout_constraintTop_toBottomOf="@+id/minutes" />
+
+        <android.widget.Button
+            android:id="@+id/ok_button"
+            style="@style/buttonLight"
+            android:textColor="@color/colorTextTint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginEnd="14dp"
+            android:text="@string/duration_dialog_ok_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/minutes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -287,6 +287,10 @@
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
+    <style name="bodyNeutral" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextSemanticNeutral</item>
+    </style>
+
     <!-- ####################################
               Icons
     ###################################### -->
