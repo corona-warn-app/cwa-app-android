@@ -46,7 +46,8 @@ class TestResultDonor @Inject constructor(
         val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
-        val testResultAtRegistration = analyticsSettings.testResultAtRegistration.value
+        val testResultAtRegistration =
+            analyticsSettings.testResultAtRegistration.value ?: return TestResultMetadataNoContribution
 
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             Duration(
@@ -105,6 +106,7 @@ class TestResultDonor @Inject constructor(
             testScannedAfterConsent.update { false }
             riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
             finalTestResultReceivedAt.update { null }
+            testResultAtRegistration.update { null }
         }
     }
 

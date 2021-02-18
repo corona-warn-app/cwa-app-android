@@ -107,7 +107,7 @@ class AnalyticsSettings @Inject constructor(
     )
 
     val finalTestResultReceivedAt = prefs.createFlowPreference(
-        key = PREFS_KEY_FINAL_TEST_RESULT_AT,
+        key = PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT,
         reader = { key ->
             getLong(key, 0L).let {
                 if (it != 0L) {
@@ -125,13 +125,13 @@ class AnalyticsSettings @Inject constructor(
         reader = { key ->
             val value = getInt(key, -1)
             if (value == -1) {
-                TestResult.INVALID
+                null
             } else {
                 TestResult.fromInt(value)
             }
         },
         writer = { key, result ->
-            putInt(key, result.value)
+            putInt(key, result?.value ?: -1)
         }
     )
 
@@ -147,6 +147,6 @@ class AnalyticsSettings @Inject constructor(
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
         private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "analytics.testResultAtRegistration"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
-        private const val PREFS_KEY_FINAL_TEST_RESULT_AT = "analytics.finalTestResultReceivedAt"
+        private const val PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT = "analytics.finalTestResultReceivedAt"
     }
 }

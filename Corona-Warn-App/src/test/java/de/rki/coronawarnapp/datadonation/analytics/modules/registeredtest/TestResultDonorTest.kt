@@ -101,6 +101,7 @@ class TestResultDonorTest {
             every { testScannedAfterConsent } returns mockFlowPreference(false)
             every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
             every { finalTestResultReceivedAt } returns mockFlowPreference(Instant.EPOCH)
+            every { testResultAtRegistration } returns mockFlowPreference(TestResult.INVALID)
         }
 
         testResultDonor.deleteData()
@@ -109,6 +110,7 @@ class TestResultDonorTest {
             analyticsSettings.testScannedAfterConsent
             analyticsSettings.riskLevelAtTestRegistration
             analyticsSettings.finalTestResultReceivedAt
+            analyticsSettings.testResultAtRegistration
 
             analyticsSettings.analyticsEnabled wasNot Called
         }
