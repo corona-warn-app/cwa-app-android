@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
+import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 import javax.inject.Inject
@@ -95,7 +96,7 @@ class SafetyNetClientWrapper @Inject constructor(
         val body: JsonObject,
         val signature: ByteArray
     ) {
-        val nonce: String? = body.get("nonce")?.asString?.decodeBase64()?.utf8()
+        val nonce: ByteString? = body.get("nonce")?.asString?.decodeBase64()
 
         val apkPackageName: String? = body.get("apkPackageName")?.asString
 
