@@ -52,7 +52,7 @@ class SurveyConsentViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             val errorMsg = when (e) {
                 is HasHumanReadableError -> e.toResolvingString()
-                else -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER.toResolvingString()
+                else -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER.toResolvingString(e.javaClass.simpleName)
             }
             Timber.e(e)
             State.Error(errorMsg)
