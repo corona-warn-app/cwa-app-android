@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
 import android.os.SystemClock
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -13,8 +16,10 @@ import de.rki.coronawarnapp.submission.ui.homecards.TestInvalid
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -40,6 +45,18 @@ class TestResultDonorTest {
     fun setUp() {
         MockKAnnotations.init(this, true)
         mockkObject(LocalData)
+
+        coEvery { appConfigProvider.getAppConfig() } returns
+            mockk<ConfigData>().apply {
+                every { analytics } returns
+                    mockk<AnalyticsConfig>().apply {
+                        every { hoursSinceTestRegistrationToSubmitTestResultMetadata } returns 50
+                    }
+            }
+
+        every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.now()
+        every { analyticsSettings.riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+
         testResultDonor = TestResultDonor(
             submissionStateProvider,
             analyticsSettings,
