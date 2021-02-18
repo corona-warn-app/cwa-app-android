@@ -124,6 +124,7 @@ class TestResultDonor @Inject constructor(
             .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
             .build()
 
+        Timber.i("Pending test result metadata:%s", formString(testResultMetaData))
         return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
     }
 
@@ -150,6 +151,7 @@ class TestResultDonor @Inject constructor(
             .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
             .build()
 
+        Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
         return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
     }
 
@@ -178,6 +180,17 @@ class TestResultDonor @Inject constructor(
             else -> PpaData.PPATestResult.TEST_RESULT_UNKNOWN
         }
     }
+
+    private fun formString(testResultMetadata: PpaData.PPATestResultMetadata) =
+        with(testResultMetadata) {
+            """
+               testResult=$testResult
+               riskLevelAtTestRegistration=$riskLevelAtTestRegistration
+               hoursSinceTestRegistration=$hoursSinceTestRegistration
+               hoursSinceHighRiskWarningAtTestRegistration=$hoursSinceHighRiskWarningAtTestRegistration
+               daysSinceMostRecentDateAtRiskLevelAtTestRegistration=$daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            """.trimIndent()
+        }
 
     data class TestResultMetadataContribution(
         private val testResultMetadata: PpaData.PPATestResultMetadata,
