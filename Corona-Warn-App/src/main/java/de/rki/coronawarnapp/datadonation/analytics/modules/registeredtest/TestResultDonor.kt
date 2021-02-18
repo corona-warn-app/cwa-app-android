@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionState
@@ -24,6 +25,7 @@ class TestResultDonor @Inject constructor(
     private val analyticsSettings: AnalyticsSettings,
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelSettings: RiskLevelSettings,
+    private val riskLevelStorage: RiskLevelStorage,
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
@@ -61,9 +63,9 @@ class TestResultDonor @Inject constructor(
 
         val hoursSinceHighRiskWarningAtTestRegistration =
             if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
-                -1
+                DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING
             } else {
-                TODO()
+                calculatedHoursSinceHighRiskWarning(registrationTime)
             }
 
         return when {
@@ -100,6 +102,17 @@ class TestResultDonor @Inject constructor(
         }
     }
 
+    override suspend fun deleteData() = cleanUp()
+
+    private fun cleanUp() {
+        Timber.d("Cleaning data")
+        with(analyticsSettings) {
+            testScannedAfterConsent.update { false }
+            riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
+            finalTestResultReceivedAt.update { null }
+        }
+    }
+
     private fun pendingTestMetadataDonation(
         hoursSinceTestRegistrationTime: Int,
         submissionState: SubmissionState,
@@ -129,7 +142,7 @@ class TestResultDonor @Inject constructor(
         val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
             Duration(registrationTime, finalTestResultReceivedAt).standardHours.toInt()
         } else {
-            0 // Default value for hoursSinceTestRegistrationTime
+            DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME
         }
 
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
@@ -145,15 +158,18 @@ class TestResultDonor @Inject constructor(
         return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
     }
 
-    override suspend fun deleteData() = cleanUp()
+    private suspend fun calculatedHoursSinceHighRiskWarning(registrationTime: Instant): Int {
+        val highRiskResultCalculatedAt = riskLevelStorage
+            .latestAndLastSuccessful
+            .first()
+            .filter { it.isIncreasedRisk }
+            .minByOrNull { it.calculatedAt }
+            ?.calculatedAt ?: return DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING
 
-    private fun cleanUp() {
-        Timber.d("Cleaning data")
-        with(analyticsSettings) {
-            testScannedAfterConsent.update { false }
-            riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
-            finalTestResultReceivedAt.update { null }
-        }
+        return Duration(
+            highRiskResultCalculatedAt,
+            registrationTime
+        ).standardHours.toInt()
     }
 
     private inline val SubmissionState.isFinal: Boolean get() = this is TestNegative || this is TestPositive
@@ -182,5 +198,10 @@ class TestResultDonor @Inject constructor(
     object TestResultMetadataNoContribution : DonorModule.Contribution {
         override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
         override suspend fun finishDonation(successful: Boolean) = Unit
+    }
+
+    companion object {
+        private const val DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING = -1
+        private const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME = 0
     }
 }

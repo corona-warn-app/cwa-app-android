@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.ui.homecards.FetchingResult
@@ -40,6 +41,7 @@ class TestResultDonorTest {
     @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
+    @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     private lateinit var testResultDonor: TestResultDonor
 
@@ -63,7 +65,8 @@ class TestResultDonorTest {
             submissionStateProvider,
             analyticsSettings,
             appConfigProvider,
-            riskLevelSettings
+            riskLevelSettings,
+            riskLevelStorage,
         )
     }
 
