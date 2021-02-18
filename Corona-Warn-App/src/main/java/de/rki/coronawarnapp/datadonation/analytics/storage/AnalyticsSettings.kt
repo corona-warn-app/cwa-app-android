@@ -126,6 +126,8 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
+
+        // Test Result Keys
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
         private const val PREFS_KEY_FINAL_TEST_RESULT_AT = "analytics.finalTestResultReceivedAt"
