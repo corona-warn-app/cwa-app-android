@@ -12,10 +12,8 @@
         style="@style/ContactDiaryCircumstancesTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/contact_diary_person_encounter_circumstances_hint"
         android:scrollHorizontally="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toStartOf="@id/info_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/environment_group">
@@ -24,23 +22,19 @@
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_tiny"
             android:maxLength="250"
+            android:hint="@string/contact_diary_person_encounter_circumstances_hint"
             tools:text="This was a triumph. I'm making a note here; 'Huge success'. It's hard to overstate my satisfaction. We do what we must, because we can." />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/info_button"
-        android:layout_width="@dimen/button_icon"
-        android:layout_height="@dimen/button_icon"
-        android:layout_marginTop="2dp"
-        android:background="?selectableItemBackground"
-        android:contentDescription="@string/statistics_info_button"
-        android:padding="10dp"
-        android:src="@drawable/ic_info"
+        style="@style/ContactDiaryInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/input_layout"
-        app:layout_constraintTop_toTopOf="@id/input_layout"
-        app:tint="@color/colorAccent" />
+        app:layout_constraintTop_toBottomOf="@id/environment_group" />
 
 </merge>

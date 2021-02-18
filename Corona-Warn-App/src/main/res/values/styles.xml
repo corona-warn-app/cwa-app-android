@@ -404,9 +404,10 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
-    <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxBackgroundColor">@color/colorBackground</item>
         <item name="android:textColorHint">@color/colorTextPrimary2</item>
+        <item name="android:textSize">@dimen/font_small</item>
         <item name="hintTextColor">@color/colorTextPrimary2</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
@@ -414,6 +415,18 @@
         <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
+    <style name="ContactDiaryInfoButton" parent="buttonIcon">
+        <item name="android:height">@dimen/button_icon</item>
+        <item name="android:width">@dimen/button_icon</item>
+        <item name="android:src">@drawable/ic_info</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:contentDescription">@string/statistics_info_button</item>
+        <item name="android:tint">@color/colorAccent</item>
     </style>
 
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
