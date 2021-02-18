@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -67,8 +68,13 @@ class Analytics @Inject constructor(
         }
     }
 
-    suspend fun collectContributions(ppaDataBuilder: PpaData.PPADataAndroid.Builder): List<DonorModule.Contribution> {
-        val request: DonorModule.Request = object : DonorModule.Request {}
+    suspend fun collectContributions(
+        configData: ConfigData,
+        ppaDataBuilder: PpaData.PPADataAndroid.Builder
+    ): List<DonorModule.Contribution> {
+        val request: DonorModule.Request = object : DonorModule.Request {
+            override val currentConfig: ConfigData = configData
+        }
 
         val contributions = donorModules.map {
             Timber.d("Beginning donation for module: %s", it::class.simpleName)
@@ -84,16 +90,16 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun submitAnalyticsData(analyticsConfig: AnalyticsConfig) {
+    suspend fun submitAnalyticsData(configData: ConfigData) {
         Timber.d("Starting analytics submission")
 
         val ppaDataBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        val contributions = collectContributions(ppaDataBuilder = ppaDataBuilder)
+        val contributions = collectContributions(configData, ppaDataBuilder)
 
         val analyticsProto = ppaDataBuilder.build()
 
-        val success = trySubmission(analyticsConfig, analyticsProto)
+        val success = trySubmission(configData.analytics, analyticsProto)
 
         contributions.forEach {
             Timber.d("Finishing contribution: %s", it::class.simpleName)
@@ -143,9 +149,9 @@ class Analytics @Inject constructor(
 
     suspend fun submitIfWanted() = submissionLockoutMutex.withLock {
         Timber.d("Checking analytics conditions")
-        val analyticsConfig: AnalyticsConfig = appConfigProvider.getAppConfig().analytics
+        val configData: ConfigData = appConfigProvider.getAppConfig()
 
-        if (stopDueToNoAnalyticsConfig(analyticsConfig)) {
+        if (stopDueToNoAnalyticsConfig(configData.analytics)) {
             Timber.w("Aborting Analytics submission due to noAnalyticsConfig")
             return
         }
@@ -155,7 +161,7 @@ class Analytics @Inject constructor(
             return
         }
 
-        if (stopDueToProbabilityToSubmit(analyticsConfig)) {
+        if (stopDueToProbabilityToSubmit(configData.analytics)) {
             Timber.w("Aborting Analytics submission due to probabilityToSubmit")
             return
         }
@@ -170,7 +176,7 @@ class Analytics @Inject constructor(
             return
         }
 
-        submitAnalyticsData(analyticsConfig)
+        submitAnalyticsData(configData)
     }
 
     private suspend fun deleteAllData() = submissionLockoutMutex.withLock {
