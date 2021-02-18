@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.util.ContactDiaryData
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
@@ -33,6 +34,8 @@ internal class ContactDiaryOverviewViewModelTest {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var context: Context
 
+    private val testDispatcherProvider = TestDispatcherProvider()
+
     @BeforeEach
     fun setUp() {
         val fromSlot = slot<String>()
@@ -57,15 +60,19 @@ internal class ContactDiaryOverviewViewModelTest {
 
     private fun createInstance() = ContactDiaryOverviewViewModel(
         taskController,
-        TestDispatcherProvider(),
+        testDispatcherProvider,
         repository,
         riskLevelStorage,
-        timeStamper
+        timeStamper,
+        ContactDiaryExporter(
+            context,
+            timeStamper,
+            testDispatcherProvider
+        )
     )
 
     @Test
-    fun onExportPress() {
-
+    fun `onExportPress() should post export`() {
         // In this test, now = January, 15
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
 
@@ -74,7 +81,7 @@ internal class ContactDiaryOverviewViewModelTest {
 
         val vm = createInstance()
 
-        vm.onExportPress(context)
+        vm.onExportPress()
 
         vm.exportLocationsAndPersons.observeForTesting {
             vm.exportLocationsAndPersons.value shouldBe """
