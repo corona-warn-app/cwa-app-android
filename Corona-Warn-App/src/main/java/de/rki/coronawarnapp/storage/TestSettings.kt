@@ -36,7 +36,7 @@ class TestSettings @Inject constructor(
     )
 
     val skipSafetyNetTimeCheck = prefs.createFlowPreference(
-        key = "safetynet.skip.time.check",
+        key = "safetynet.skip.timecheck",
         defaultValue = false
     )
 
