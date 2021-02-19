@@ -9,6 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
@@ -152,32 +154,23 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
 
-    private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> {
-        val attributes = mutableListOf<Int>()
-        personEncounter.durationClassification?.let {
-            when (it) {
-                ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES ->
-                    attributes.add(R.string.contact_diary_person_encounter_duration_below_15_min)
-                ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES ->
-                    attributes.add(R.string.contact_diary_person_encounter_duration_above_15_min)
+    private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> =
+        mutableListOf<Int>().apply {
+            when (personEncounter.durationClassification) {
+                LESS_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_below_15_min)
+                MORE_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_above_15_min)
             }
-        }
 
-        personEncounter.withMask?.let {
-            when (it) {
-                true -> attributes.add(R.string.contact_diary_person_encounter_mask_with)
-                false -> attributes.add(R.string.contact_diary_person_encounter_mask_without)
+            when (personEncounter.withMask) {
+                true -> add(R.string.contact_diary_person_encounter_mask_with)
+                false -> add(R.string.contact_diary_person_encounter_mask_without)
             }
-        }
 
-        personEncounter.wasOutside?.let {
-            when (it) {
-                true -> attributes.add(R.string.contact_diary_person_encounter_environment_outside)
-                false -> attributes.add(R.string.contact_diary_person_encounter_environment_inside)
+            when (personEncounter.wasOutside) {
+                true -> add(R.string.contact_diary_person_encounter_environment_outside)
+                false -> add(R.string.contact_diary_person_encounter_environment_inside)
             }
         }
-        return attributes
-    }
 
     fun onExportPress(ctx: Context) {
         Timber.d("Exporting person and location entries")

@@ -45,16 +45,11 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
                     getAttributes(key.duration, key.attributes, key.circumstances)
             }
 
-        private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String? {
-            val attributes = mutableListOf<String>()
-            duration?.let { attributes.add(it.toStandardHours().toString()) }
-            if (resources != null) {
-                for (resource in resources) {
-                    attributes.add(context.getString(resource))
-                }
-            }
-            circumstances?.let { attributes.add(it) }
-            return attributes.joinToString(separator = ", ")
-        }
+        private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String =
+            mutableListOf<String>().apply {
+                duration?.run { add(toStandardHours().toString()) }
+                resources?.run { forEach { add(context.getString(it)) } }
+                circumstances?.run { add(this) }
+            }.joinToString()
     }
 }
