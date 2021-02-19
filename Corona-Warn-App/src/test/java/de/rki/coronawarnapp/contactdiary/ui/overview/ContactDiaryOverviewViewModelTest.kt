@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -56,6 +57,7 @@ internal class ContactDiaryOverviewViewModelTest {
 
     @AfterEach
     fun tearDown() {
+        clearAllMocks()
     }
 
     private fun createInstance() = ContactDiaryOverviewViewModel(
@@ -76,8 +78,8 @@ internal class ContactDiaryOverviewViewModelTest {
         // In this test, now = January, 15
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
 
-        every { repository.locationVisits } answers { flowOf(ContactDiaryData.TWO_LOCATIONS) }
-        every { repository.personEncounters } returns flowOf(ContactDiaryData.TWO_PERSONS)
+        every { repository.locationVisits } answers { flowOf(ContactDiaryData.TWO_LOCATIONS_NO_ADDITIONAL_DATA) }
+        every { repository.personEncounters } returns flowOf(ContactDiaryData.TWO_PERSONS_NO_ADDITIONAL_DATA)
 
         val vm = createInstance()
 
@@ -93,8 +95,7 @@ internal class ContactDiaryOverviewViewModelTest {
                 01.01.2021 Andrea Steinhauer
                 01.01.2021 Bakery
                 
-                """
-                .trimIndent()
+                """.trimIndent()
         }
     }
 }
