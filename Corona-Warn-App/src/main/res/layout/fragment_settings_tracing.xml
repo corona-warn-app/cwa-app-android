@@ -17,8 +17,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_tracing_container"
-        android:layout_width="match_parent"
         invisible="@{loggedPeriod == null || settingsTracingState== null}"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">
@@ -28,9 +28,9 @@
             style="@style/CWAToolbar.Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:title="@string/settings_tracing_title" />
 
         <ScrollView
@@ -88,6 +88,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/information_details_header_headline"
                     app:showDivider="@{true}"
+                    app:status="@{settingsTracingState.isTracingSwitchChecked()}"
                     app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
@@ -141,10 +142,10 @@
 
                     <include
                         android:id="@+id/settings_tracing_status_location"
+                        gone="@{!settingsTracingState.isLocationCardVisible()}"
                         layout="@layout/include_tracing_status_card_location"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        gone="@{!settingsTracingState.isLocationCardVisible()}"
                         app:buttonText="@{@string/settings_tracing_status_location_button}"
                         app:headline="@{@string/settings_tracing_status_location_headline}"
                         app:icon="@{@drawable/ic_location}"
@@ -154,10 +155,10 @@
 
                     <include
                         android:id="@+id/settings_tracing_status_bluetooth"
+                        gone="@{!settingsTracingState.isBluetoothCardVisible()}"
                         layout="@layout/include_tracing_status_card"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        gone="@{!settingsTracingState.isBluetoothCardVisible()}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
                         app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
                         app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
@@ -169,42 +170,42 @@
                     <TextView
                         android:id="@+id/risk_details_period_logged_body_notice"
                         style="@style/subtitleMedium"
+                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:focusable="true"
-                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:text="@string/risk_details_information_body_period_logged"
-                        app:layout_constraintStart_toStartOf="@+id/guideline_start"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                        app:layout_constraintStart_toStartOf="@+id/guideline_start"
                         app:layout_constraintTop_toBottomOf="@+id/settings_tracing_status_bluetooth" />
 
                     <TextView
                         android:id="@+id/risk_details_period_logged_subtitle"
                         style="@style/subtitle"
+                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
                         android:layout_marginStart="@dimen/spacing_small"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:focusable="true"
-                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:text="@{loggedPeriod.getRiskActiveTracingDaysInRetentionPeriodLogged(context)}"
-                        app:layout_constraintStart_toEndOf="@+id/risk_details_investigation_period_circle_progress"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                        app:layout_constraintStart_toEndOf="@+id/risk_details_investigation_period_circle_progress"
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_period_logged_body_notice" />
 
                     <de.rki.coronawarnapp.ui.view.CircleProgress
                         android:id="@+id/risk_details_investigation_period_circle_progress"
+                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:layout_width="@dimen/spacing_huge"
                         android:layout_height="@dimen/spacing_huge"
-                        gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                         android:importantForAccessibility="no"
                         app:circleWidth="@dimen/circle_large_width"
-                        app:layout_constraintTop_toTopOf="@+id/risk_details_period_logged_subtitle"
                         app:layout_constraintBottom_toBottomOf="@+id/risk_details_period_logged_subtitle"
                         app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                        app:layout_constraintTop_toTopOf="@+id/risk_details_period_logged_subtitle"
                         app:progress="@{loggedPeriod.activeTracingDaysInRetentionPeriod}"
-                        app:progressColor="@{loggedPeriod.getProgressColor(context)}"/>
+                        app:progressColor="@{loggedPeriod.getProgressColor(context)}" />
 
                     <include layout="@layout/merge_guidelines_card" />
 
