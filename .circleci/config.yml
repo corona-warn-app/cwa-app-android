@@ -570,6 +570,10 @@ workflows:
           requires:
             - ktlint_device_release_check
             - detekt
+      - device_screenshots:
+          requires:
+            - ktlint_device_release_check
+            - detekt
 
   check_buildtype_device_for_testers:
     jobs:
