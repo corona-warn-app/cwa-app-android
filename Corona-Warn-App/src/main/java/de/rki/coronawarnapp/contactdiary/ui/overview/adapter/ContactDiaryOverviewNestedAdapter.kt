@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
+import org.joda.time.Duration
 
 class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
 
@@ -35,11 +36,25 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
             ContactDiaryOverviewNestedListItemBinding.(item: ListItem.Data, payloads: List<Any>) -> Unit =
             { key, _ ->
                 contactDiaryOverviewElementImage.setImageResource(key.drawableId)
-                contactDiaryOverviewElementName.text = key.text
+                contactDiaryOverviewElementName.text = key.name
                 contactDiaryOverviewElementName.contentDescription = when (key.type) {
-                    ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.text)
-                    ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.text)
+                    ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
+                    ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
+                }
+                contactDiaryOverviewElementAttributes.text =
+                    getAttributes(key.duration, key.attributes, key.circumstances)
+            }
+
+        private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String? {
+            val attributes = mutableListOf<String>()
+            duration?.let { attributes.add(it.toStandardHours().toString()) }
+            if (resources != null) {
+                for (resource in resources) {
+                    attributes.add(context.getString(resource))
                 }
             }
+            circumstances?.let { attributes.add(it) }
+            return attributes.joinToString(separator = ", ")
+        }
     }
 }

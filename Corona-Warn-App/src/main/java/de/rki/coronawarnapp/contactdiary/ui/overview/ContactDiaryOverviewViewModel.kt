@@ -117,7 +117,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .map { personEncounter ->
                 ListItem.Data(
                     R.drawable.ic_contact_diary_person_item,
-                    personEncounter.contactDiaryPerson.fullName,
+                    name = personEncounter.contactDiaryPerson.fullName,
+                    duration = null,
+                    attributes = getPersonAttributes(personEncounter),
+                    circumstances = personEncounter.circumstances,
                     ListItem.Type.PERSON
                 )
             }
@@ -133,6 +136,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ListItem.Data(
                     R.drawable.ic_contact_diary_location_item,
                     locationVisit.contactDiaryLocation.locationName,
+                    duration = locationVisit.duration,
+                    attributes = null,
+                    circumstances = locationVisit.circumstances,
                     ListItem.Type.LOCATION
                 )
             }
@@ -144,6 +150,33 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     fun onItemPress(listItem: ListItem) {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
+    }
+
+    private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> {
+        val attributes = mutableListOf<Int>()
+        personEncounter.durationClassification?.let {
+            when (it) {
+                ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES ->
+                    attributes.add(R.string.contact_diary_person_encounter_duration_below_15_min)
+                ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES ->
+                    attributes.add(R.string.contact_diary_person_encounter_duration_above_15_min)
+            }
+        }
+
+        personEncounter.withMask?.let {
+            when (it) {
+                true -> attributes.add(R.string.contact_diary_person_encounter_mask_with)
+                false -> attributes.add(R.string.contact_diary_person_encounter_mask_without)
+            }
+        }
+
+        personEncounter.wasOutside?.let {
+            when (it) {
+                true -> attributes.add(R.string.contact_diary_person_encounter_environment_outside)
+                false -> attributes.add(R.string.contact_diary_person_encounter_environment_inside)
+            }
+        }
+        return attributes
     }
 
     fun onExportPress(ctx: Context) {
@@ -158,9 +191,13 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 .groupBy({ it.date }, { it.contactDiaryPerson.fullName })
 
             val sb = StringBuilder()
-                .appendLine(ctx.getString(R.string.contact_diary_export_intro_one,
-                    dates.last().toFormattedString(),
-                    dates.first().toFormattedString()))
+                .appendLine(
+                    ctx.getString(
+                        R.string.contact_diary_export_intro_one,
+                        dates.last().toFormattedString(),
+                        dates.first().toFormattedString()
+                    )
+                )
                 .appendLine(ctx.getString(R.string.contact_diary_export_intro_two))
                 .appendLine()
 
