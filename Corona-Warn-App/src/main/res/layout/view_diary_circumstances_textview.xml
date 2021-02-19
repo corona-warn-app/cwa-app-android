@@ -12,7 +12,6 @@
         style="@style/ContactDiaryCircumstancesTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:scrollHorizontally="false"
         app:hintEnabled="false"
         app:layout_constraintEnd_toStartOf="@id/info_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,9 +21,10 @@
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_tiny"
-            android:maxLength="250"
             android:hint="@string/contact_diary_person_encounter_circumstances_hint"
+            android:inputType="textMultiLine"
+            android:maxLength="250"
+            android:padding="@dimen/spacing_tiny"
             tools:text="This was a triumph. I'm making a note here; 'Huge success'. It's hard to overstate my satisfaction. We do what we must, because we can." />
 
     </com.google.android.material.textfield.TextInputLayout>
