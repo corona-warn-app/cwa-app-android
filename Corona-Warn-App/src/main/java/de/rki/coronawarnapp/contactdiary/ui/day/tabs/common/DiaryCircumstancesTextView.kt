@@ -32,6 +32,10 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
                     afterTextChangedListener?.invoke(text.toString())
                 }
             }
+            // When the user entered something and puts the app into the background
+            viewTreeObserver.addOnWindowFocusChangeListener {
+                afterTextChangedListener?.invoke(text.toString())
+            }
         }
         infoButton = findViewById(R.id.info_button)
     }
