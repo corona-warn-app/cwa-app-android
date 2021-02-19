@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
@@ -24,8 +25,10 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -71,6 +74,8 @@ class AnalyticsTest : BaseTest() {
         every { LocalData.onboardingCompletedTimestamp() } returns twoDaysAgo.millis
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
+
+        coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
     }
 
     @AfterEach
@@ -78,14 +83,12 @@ class AnalyticsTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createDonorModules(): Set<DonorModule> = setOf(exposureRiskMetadataDonor)
-
-    private fun createInstance() = spyk(
+    private fun createInstance(modules: Set<DonorModule> = setOf(exposureRiskMetadataDonor)) = spyk(
         Analytics(
             dataDonationAnalyticsServer = dataDonationAnalyticsServer,
             appConfigProvider = appConfigProvider,
             deviceAttestation = deviceAttestation,
-            donorModules = createDonorModules(),
+            donorModules = modules,
             settings = settings,
             logger = lastAnalyticsSubmissionLogger,
             timeStamper = timeStamper
@@ -233,8 +236,6 @@ class AnalyticsTest : BaseTest() {
                 override fun requirePass(requirements: SafetyNetRequirements) {}
             }
 
-        coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
-
         val analytics = createInstance()
 
         runBlockingTest2 {
@@ -244,6 +245,86 @@ class AnalyticsTest : BaseTest() {
         coVerify(exactly = 1) {
             analytics.submitAnalyticsData(analyticsConfig)
             dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
+        }
+    }
+
+    @Test
+    fun `despite error on beginDonation modules can still cleanup`() {
+        val userMetadataDonor = mockk<UserMetadataDonor>().apply {
+            coEvery { beginDonation(any()) } throws Exception("KABOOM!")
+        }
+        val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
+
+        val mockExposureRisk = mockk<DonorModule.Contribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns mockExposureRisk
+
+        coEvery { deviceAttestation.attest(any()) } returns object : DeviceAttestation.Result {
+            override val accessControlProtoBuf: PpacAndroid.PPACAndroid
+                get() = PpacAndroid.PPACAndroid.getDefaultInstance()
+
+            override fun requirePass(requirements: SafetyNetRequirements) {}
+        }
+
+        val analytics = createInstance(modules = modules)
+
+        runBlockingTest {
+            analytics.submitIfWanted()
+        }
+
+        coVerify(exactly = 1) {
+            userMetadataDonor.beginDonation(any())
+
+            exposureRiskMetadataDonor.beginDonation(any())
+            mockExposureRisk.injectData(any())
+            mockExposureRisk.finishDonation(true)
+
+            analytics.submitAnalyticsData(any())
+        }
+    }
+
+    @Test
+    fun `despite errors during donation modules can still cleanup`() {
+        val userMetaDataDonation = mockk<DonorModule.Contribution>().apply {
+            coEvery { injectData(any()) } throws Exception("KAPOW!")
+            coEvery { finishDonation(any()) } throws Exception("CRUNCH!")
+        }
+        val userMetadataDonor = mockk<UserMetadataDonor>().apply {
+            coEvery { beginDonation(any()) } returns userMetaDataDonation
+        }
+        val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
+
+        val exposureRiskDonation = mockk<ExposureRiskMetadataDonor.ExposureRiskMetadataContribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns exposureRiskDonation
+
+        coEvery { deviceAttestation.attest(any()) } returns object : DeviceAttestation.Result {
+            override val accessControlProtoBuf: PpacAndroid.PPACAndroid
+                get() = PpacAndroid.PPACAndroid.getDefaultInstance()
+
+            override fun requirePass(requirements: SafetyNetRequirements) {}
+        }
+
+        val analytics = createInstance(modules = modules)
+
+        runBlockingTest {
+            analytics.submitIfWanted()
+        }
+
+        coVerify(exactly = 1) {
+            exposureRiskMetadataDonor.beginDonation(any())
+            exposureRiskDonation.injectData(any())
+            exposureRiskDonation.finishDonation(true)
+
+            userMetadataDonor.beginDonation(any())
+            userMetaDataDonation.injectData(any())
+            userMetaDataDonation.finishDonation(true)
+
+            analytics.submitAnalyticsData(any())
         }
     }
 }
