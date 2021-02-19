@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.common
 
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,12 +31,14 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
                     Timber.v("Focused on %s", v)
                 } else {
                     Timber.v("Lost focus on %s", v)
-                    afterTextChangedListener?.invoke(text.toString())
+                    notifyTextChanged(text.toString())
                 }
             }
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            setRawInputType(InputType.TYPE_CLASS_TEXT)
             // When the user entered something and puts the app into the background
             viewTreeObserver.addOnWindowFocusChangeListener {
-                afterTextChangedListener?.invoke(text.toString())
+                notifyTextChanged(text.toString())
             }
         }
         infoButton = findViewById(R.id.info_button)
@@ -43,6 +47,11 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
     override fun onFinishInflate() {
         input.clearFocus()
         super.onFinishInflate()
+    }
+
+    private fun notifyTextChanged(text: String) {
+        // Prevent Copy&Paste inserting new lines.
+        afterTextChangedListener?.invoke(text.trim().replace("\n", ""))
     }
 
     fun setInfoButtonClickListener(listener: () -> Unit) {
