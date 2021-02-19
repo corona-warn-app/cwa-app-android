@@ -136,8 +136,10 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
             appConfigProvider
         )
 
+
     companion object {
         @AfterAll
+        @JvmStatic
         fun cleanup() {
             unmockkAll()
         }
