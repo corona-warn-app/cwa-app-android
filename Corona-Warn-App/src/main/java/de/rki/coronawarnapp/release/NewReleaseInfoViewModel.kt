@@ -34,8 +34,10 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
         linkTargets: Array<String>
     ): List<NewReleaseInfoItem> {
         if (titles.size != bodies.size || titles.size != linkifiedLabels.size || titles.size != linkTargets.size) {
-            Timber.e("R.array.new_release_title AND R.array.new_release_body AND " +
-                "R.array.new_release_linkified_AND R.array.new_release_target_urls arrays must have the same size!")
+            Timber.e(
+                "R.array.new_release_title AND R.array.new_release_body AND " +
+                    "R.array.new_release_linkified_AND R.array.new_release_target_urls arrays must have the same size!"
+            )
             return emptyList()
         }
         val items = mutableListOf<NewReleaseInfoItem>()

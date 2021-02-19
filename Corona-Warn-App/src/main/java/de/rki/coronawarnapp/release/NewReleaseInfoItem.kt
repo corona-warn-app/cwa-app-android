@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.release
 
-interface NewReleaseInfoItem{
+interface NewReleaseInfoItem {
     val title: String
     val body: String
 }
