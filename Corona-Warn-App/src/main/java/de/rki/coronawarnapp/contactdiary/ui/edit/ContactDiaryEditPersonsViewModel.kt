@@ -48,7 +48,7 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
     }
 
     fun onEditPersonClick(person: ContactDiaryPerson) {
-        navigationEvent.postValue(NavigationEvent.ShowPersonDetailSheet(person.toContactDiaryPersonEntity()))
+        navigationEvent.postValue(NavigationEvent.ShowPersonDetailFragment(person.toContactDiaryPersonEntity()))
     }
 
     @AssistedFactory
@@ -56,7 +56,7 @@ class ContactDiaryEditPersonsViewModel @AssistedInject constructor(
 
     sealed class NavigationEvent {
         object ShowDeletionConfirmationDialog : NavigationEvent()
-        data class ShowPersonDetailSheet(val person: ContactDiaryPersonEntity) : NavigationEvent()
+        data class ShowPersonDetailFragment(val person: ContactDiaryPersonEntity) : NavigationEvent()
     }
 }
 

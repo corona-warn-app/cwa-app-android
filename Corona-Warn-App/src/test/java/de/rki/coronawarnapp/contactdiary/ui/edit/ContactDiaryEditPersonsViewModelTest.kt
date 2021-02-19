@@ -67,7 +67,7 @@ class ContactDiaryEditPersonsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditPersonClick(person)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailSheet(person.toContactDiaryPersonEntity())
+            ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailFragment(person.toContactDiaryPersonEntity())
     }
 
     @Test

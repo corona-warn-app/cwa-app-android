@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import java.util.Locale
 
@@ -11,7 +12,7 @@ interface ContactDiaryLocationVisit {
     /*
         Value in miliseconds
      */
-    val duration: Long?
+    val duration: Duration?
     val circumstances: String?
 }
 
