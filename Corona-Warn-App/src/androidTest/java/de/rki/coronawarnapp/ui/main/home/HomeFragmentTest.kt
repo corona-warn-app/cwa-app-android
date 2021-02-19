@@ -63,7 +63,7 @@ class HomeFragmentTest : BaseUITest() {
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
-            every { showPopUpsOrNavigate() } just Runs
+            every { showPopUps() } just Runs
         }
         every { appShortcutsHelper.createAppShortcut() } just Runs
 

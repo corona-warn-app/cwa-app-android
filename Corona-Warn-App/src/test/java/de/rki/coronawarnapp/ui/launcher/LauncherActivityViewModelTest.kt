@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.launcher
 
+import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.update.UpdateChecker
 import io.kotest.matchers.shouldBe
@@ -16,11 +18,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class LauncherActivityViewModelTest {
 
     @MockK lateinit var updateChecker: UpdateChecker
+    @MockK lateinit var cwaSettings: CWASettings
 
     @BeforeEach
     fun setupFreshViewModel() {
@@ -29,12 +33,16 @@ class LauncherActivityViewModelTest {
         mockkObject(LocalData)
         every { LocalData.isOnboarded() } returns false
 
+        mockkObject(BuildConfigWrap)
+        every { BuildConfigWrap.VERSION_CODE } returns 10L
+
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
     }
 
     private fun createViewModel() = LauncherActivityViewModel(
         updateChecker = updateChecker,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        cwaSettings = cwaSettings
     )
 
     @Test
@@ -59,9 +67,11 @@ class LauncherActivityViewModelTest {
     @Test
     fun `onboarding finished`() {
         every { LocalData.isOnboarded() } returns true
+        every { LocalData.isInteroperabilityShownAtLeastOnce } returns true
+        every { cwaSettings.lastChangelogVersion } returns mockFlowPreference(10L)
 
         val vm = createViewModel()
 
-        vm.events.value shouldBe LauncherEvent.GoToAppShortcutOrMainActivity
+        vm.events.value shouldBe LauncherEvent.GoToMainActivity
     }
 }

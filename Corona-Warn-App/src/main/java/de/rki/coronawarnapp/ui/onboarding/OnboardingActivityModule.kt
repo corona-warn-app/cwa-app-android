@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
+import de.rki.coronawarnapp.release.NewReleaseInfoFragment
+import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 
 @Module
 internal abstract class OnboardingActivityModule {
@@ -26,4 +28,12 @@ internal abstract class OnboardingActivityModule {
     abstract fun onboardingAnalyticsFragment(): OnboardingAnalyticsFragment
     @ContributesAndroidInjector(modules = [AnalyticsUIModule::class])
     abstract fun ppaUserInfoSelection(): AnalyticsUserInputFragment
+    @ContributesAndroidInjector(modules = [OnboardingLoadingModule::class])
+    abstract fun onboardingLoadingScreen(): OnboardingLoadingFragment
+    @ContributesAndroidInjector(modules = [NewReleaseInfoFragmentModule::class])
+    abstract fun newReleaseInfoFragment(): NewReleaseInfoFragment
+    @ContributesAndroidInjector(modules = [OnboardingDeltaInteroperabilityModule::class])
+    abstract fun onboardingDeltaInteroperabilityFragment(): OnboardingDeltaInteroperabilityFragment
+    @ContributesAndroidInjector(modules = [OnboardingDeltaAnalyticsModule::class])
+    abstract fun onboardingDeltaAnalyticsFragment(): OnboardingDeltaAnalyticsFragment
 }

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -83,11 +82,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.popupEvents.observe2(this) { event ->
             when (event) {
-                HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
-                    doNavigate(
-                        HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
-                    )
-                }
                 is HomeFragmentEvents.ShowTracingExplanation -> {
                     tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
                         vm.tracingExplanationWasShown()
@@ -100,24 +94,16 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     )
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
-
-                HomeFragmentEvents.ShowNewReleaseFragment -> doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false)
-                )
-
                 HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                     HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
                 )
                 HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
                     showReactivateRiskCheckDialog()
                 }
-                HomeFragmentEvents.GoToContactJournalDay -> {
-                    (activity as MainActivity).goToContactJournal()
-                }
             }
         }
 
-        vm.showPopUpsOrNavigate()
+        vm.showPopUps()
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()
