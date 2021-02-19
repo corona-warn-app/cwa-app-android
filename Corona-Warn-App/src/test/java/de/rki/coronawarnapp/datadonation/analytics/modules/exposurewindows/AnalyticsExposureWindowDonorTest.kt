@@ -5,13 +5,13 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -50,7 +50,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
+        unmockkAll()
     }
 
     @Test
