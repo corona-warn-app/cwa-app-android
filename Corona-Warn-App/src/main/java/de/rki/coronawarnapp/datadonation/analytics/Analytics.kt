@@ -63,11 +63,8 @@ class Analytics @Inject constructor(
 
             return true
         } catch (err: Exception) {
-            err.reportProblem(
-                tag = TAG,
-                info = "An error occurred during analytics submission"
-            )
             Timber.e(err, "Error during analytics submission")
+            err.reportProblem(tag = TAG, info = "An error occurred during analytics submission")
             return false
         }
     }
@@ -75,14 +72,25 @@ class Analytics @Inject constructor(
     suspend fun collectContributions(ppaDataBuilder: PpaData.PPADataAndroid.Builder): List<DonorModule.Contribution> {
         val request: DonorModule.Request = object : DonorModule.Request {}
 
-        val contributions = donorModules.map {
-            Timber.d("Beginning donation for module: %s", it::class.simpleName)
-            it.beginDonation(request)
+        val contributions = donorModules.mapNotNull {
+            val moduleName = it::class.simpleName
+            Timber.d("Beginning donation for module: %s", moduleName)
+            try {
+                it.beginDonation(request)
+            } catch (e: Exception) {
+                e.reportProblem(TAG, "beginDonation($request): $moduleName failed")
+                null
+            }
         }
 
         contributions.forEach {
-            Timber.d("Injecting contribution: %s", it::class.simpleName)
-            it.injectData(ppaDataBuilder)
+            val moduleName = it::class.simpleName
+            Timber.d("Injecting contribution: %s", moduleName)
+            try {
+                it.injectData(ppaDataBuilder)
+            } catch (e: Exception) {
+                e.reportProblem(TAG, "injectData($ppaDataBuilder): $moduleName failed")
+            }
         }
 
         return contributions
@@ -101,8 +109,13 @@ class Analytics @Inject constructor(
         val success = trySubmission(analyticsConfig, analyticsProto)
 
         contributions.forEach {
-            Timber.d("Finishing contribution: %s", it::class.simpleName)
-            it.finishDonation(success)
+            val moduleName = it::class.simpleName
+            Timber.d("Finishing contribution: %s", moduleName)
+            try {
+                it.finishDonation(success)
+            } catch (e: Exception) {
+                e.reportProblem(TAG, "finishDonation($success): $moduleName failed")
+            }
         }
 
         if (success) {
@@ -142,8 +155,7 @@ class Analytics @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToTimeSinceOnboarding(): Boolean {
         val onboarding = LocalData.onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) } ?: return true
-        return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration())
-            .isAfter(timeStamper.nowUTC)
+        return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfter(timeStamper.nowUTC)
     }
 
     suspend fun submitIfWanted() = submissionLockoutMutex.withLock {
