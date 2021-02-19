@@ -320,10 +320,14 @@ class MainActivityTest : BaseUITest() {
         MutableLiveData(
             (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
                 .map { LocalDate.now().minusDays(it) }
-                .map {
-                    ListItem(it).apply {
+                .mapIndexed { index, localDate ->
+                    ListItem(localDate).apply {
                         data.addAll(DiaryData.DATA_ITEMS)
-                        risk = if (it.dayOfYear % 2 == 0) DiaryData.HIGH_RISK else DiaryData.LOW_RISK
+                        risk = when (index % 3) {
+                            0 -> DiaryData.HIGH_RISK
+                            1 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS
+                            else -> DiaryData.LOW_RISK
+                        }
                     }
                 }
         )
