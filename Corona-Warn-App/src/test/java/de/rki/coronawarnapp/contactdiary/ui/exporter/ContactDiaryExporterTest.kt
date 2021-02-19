@@ -53,6 +53,21 @@ internal class ContactDiaryExporterTest {
         every {
             context.getString(R.string.contact_diary_export_intro_two)
         } answers { "Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG." }
+
+        every { context.getString(R.string.contact_diary_export_prefix_phone) } returns "Tel."
+        every { context.getString(R.string.contact_diary_export_prefix_email) } returns "eMail"
+
+        every { context.getString(R.string.contact_diary_export_durations_less_than_15min) } returns "Kontaktdauer < 15 Minuten"
+        every { context.getString(R.string.contact_diary_export_durations_longer_than_15min) } returns "Kontaktdauer > 15 Minuten"
+
+        every { context.getString(R.string.contact_diary_export_wearing_mask) } returns "mit Maske"
+        every { context.getString(R.string.contact_diary_export_wearing_no_mask) } returns "ohne Maske"
+
+        every { context.getString(R.string.contact_diary_export_outdoor) } returns "im Freien"
+        every { context.getString(R.string.contact_diary_export_indoor) } returns "im Gebäude"
+
+        every { context.getString(R.string.contact_diary_export_location_duration_prefix) } returns "Dauer"
+        every { context.getString(R.string.contact_diary_export_location_duration_suffix) } returns "h"
     }
 
     @AfterEach
@@ -91,7 +106,6 @@ internal class ContactDiaryExporterTest {
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
                     
-                    
                     """.trimIndent()
             ),
             ExporterTestItem(
@@ -129,8 +143,8 @@ internal class ContactDiaryExporterTest {
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
-                    02.01.2021 Constantin Frenzel; Tel. +49 987 654321; constantin.frenzel@example.com
-                    02.01.2021 Barber; Tel. +11 222 333333; eMail barber@icutyourhair.com
+                    02.01.2021 Constantin Frenzel; Tel. +49 987 654321; eMail constantin.frenzel@example.com
+                    02.01.2021 Barber; Tel. +99 888 777777; eMail barber@icutyourhair.com
                     01.01.2021 Andrea Steinhauer; Tel. +49 123 456789; eMail andrea.steinhauer@example.com
                     01.01.2021 Bakery; Tel. +11 222 333333; eMail baker@ibakeyourbread.com
                 
@@ -144,16 +158,16 @@ internal class ContactDiaryExporterTest {
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
                     02.01.2021 Constantin Frenzel; Kontaktdauer > 15 Minuten; ohne Maske; im Gebäude
-                    02.01.2021 Barber; Tel. +11 222 333333; Dauer 01:45h 
+                    02.01.2021 Barber; Dauer 01:45 h
                     01.01.2021 Andrea Steinhauer; Kontaktdauer < 15 Minuten; mit Maske; im Freien
-                    01.01.2021 Bakery; Tel. +11 222 333333; Dauer 00:15h
+                    01.01.2021 Bakery; Dauer 00:15 h
                 
                     """.trimIndent()
             ),
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_CIRCUMSTANCES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_CIRCUMSTANCES,
-                expectedExport = """
+                expectedExport = """    
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -173,5 +187,4 @@ internal class ContactDiaryExporterTest {
         val expectedExport: String
     )
 }
-
 
