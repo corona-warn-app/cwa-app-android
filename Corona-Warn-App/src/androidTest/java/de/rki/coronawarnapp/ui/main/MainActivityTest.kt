@@ -151,7 +151,7 @@ class MainActivityTest : BaseUITest() {
 
         // also scroll down and capture a screenshot of the faq card
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
-        takeScreenshot<HomeFragment>("faq_card")
+        takeScreenshot<HomeFragment>("faq_card", delay = DELAY)
     }
 
     @Screenshot
@@ -271,7 +271,7 @@ class MainActivityTest : BaseUITest() {
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
         Statistics.statisticsData?.items?.forEachIndexed { index, _ ->
             onView(withId(R.id.statistics_recyclerview)).perform(recyclerScrollTo(index))
-            takeScreenshot<HomeFragment>("statistics_card_$index")
+            takeScreenshot<HomeFragment>("statistics_card_$index", delay = DELAY)
         }
     }
 
@@ -282,16 +282,16 @@ class MainActivityTest : BaseUITest() {
         launchActivity<MainActivity>()
         onView(withId(R.id.main_bottom_navigation))
             .perform(selectBottomNavTab(R.id.contact_diary_nav_graph))
-        takeScreenshot<ContactDiaryOverviewFragment>()
+        takeScreenshot<ContactDiaryOverviewFragment>(delay = DELAY)
 
         onView(withId(R.id.contact_diary_overview_recyclerview))
             .perform(recyclerScrollTo(1))
-        takeScreenshot<ContactDiaryOverviewFragment>("2")
+        takeScreenshot<ContactDiaryOverviewFragment>("2", delay = DELAY)
     }
 
     private fun captureHomeFragment(nameSuffix: String) {
         launchActivity<MainActivity>()
-        takeScreenshot<HomeFragment>(nameSuffix)
+        takeScreenshot<HomeFragment>(nameSuffix, delay = DELAY)
     }
 
     // LiveData item for fragments
@@ -414,6 +414,10 @@ class MainActivityTest : BaseUITest() {
                 override fun create(): MainActivityViewModel = mainActivityViewModel
             }
         )
+    }
+
+    companion object {
+        private const val DELAY = 10_000L
     }
 }
 
