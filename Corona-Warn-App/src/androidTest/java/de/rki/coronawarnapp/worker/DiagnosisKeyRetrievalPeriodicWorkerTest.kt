@@ -132,7 +132,6 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest : BaseTest() {
     @After
     fun cleanUp() {
         workManager.cancelAllWork()
-        )
     }
 
     private fun runPeriodicJobInitialDelayMet() {
