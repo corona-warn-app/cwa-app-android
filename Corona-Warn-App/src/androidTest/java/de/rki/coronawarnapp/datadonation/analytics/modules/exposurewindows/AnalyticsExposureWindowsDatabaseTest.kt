@@ -54,7 +54,7 @@ class AnalyticsExposureWindowsDatabaseTest : BaseTest() {
     }
 
     @Test
-    fun testTestDeleteStaleReported() = runBlocking {
+    fun testDeleteStaleReported() = runBlocking {
         //insert new
         val exposureWindowEntity = AnalyticsExposureWindowEntity("hash", 1, 1, 1, 1, 1.0, 1)
         val scanInstance = AnalyticsScanInstanceEntity(null, "hash", 1, 1, 1)
