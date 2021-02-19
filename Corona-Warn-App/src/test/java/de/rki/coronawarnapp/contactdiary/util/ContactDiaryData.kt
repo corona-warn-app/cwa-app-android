@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 object ContactDiaryData {
@@ -150,23 +151,21 @@ object ContactDiaryData {
         )
     )
 
-    private const val FIFTEEN_MINUTES_IN_MS = 15L * 60L * 1000L
-    private const val ONE_HOUR_FORTY_FIVE_MINUTES_IN_MS = (60L + 45L) * 60L * 1000L
-
     val TWO_LOCATIONS_WITH_DURATION = listOf(
         DefaultContactDiaryLocationVisit(
             date = LocalDate.parse("2021-01-01"),
             contactDiaryLocation = DefaultContactDiaryLocation(
                 locationName = "Bakery"
             ),
-            duration = FIFTEEN_MINUTES_IN_MS
+            duration = Duration.standardMinutes(15)
         ),
         DefaultContactDiaryLocationVisit(
             date = LocalDate.parse("2021-01-02"),
             contactDiaryLocation = DefaultContactDiaryLocation(
                 locationName = "Barber"
             ),
-            duration = ONE_HOUR_FORTY_FIVE_MINUTES_IN_MS
+            // 105 minutes = 1h45min
+            duration = Duration.standardMinutes(105)
         )
     )
 

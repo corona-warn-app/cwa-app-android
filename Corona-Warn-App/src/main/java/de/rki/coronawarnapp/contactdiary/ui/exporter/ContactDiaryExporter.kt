@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.withContext
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
@@ -135,10 +136,10 @@ class ContactDiaryExporter @Inject constructor(
     private fun LocalDate.toFormattedString(): String = toString("dd.MM.yyyy", Locale.GERMAN)
 
     // returns readable durations as e.g. "Dauer 01:30 h"
-    private fun getReadableDuration(durationInMs: Long?): String? {
-        if (durationInMs == null) return null
+    private fun getReadableDuration(duration: Duration?): String? {
+        if (duration == null) return null
 
-        val durationInMinutes = durationInMs / 1000 / 60
+        val durationInMinutes = duration.standardMinutes
         val durationString = String.format("%02d:%02d", durationInMinutes / 60, (durationInMinutes % 60))
 
         return "$durationPrefix $durationString $durationSuffix"
