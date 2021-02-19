@@ -31,4 +31,20 @@
         <item>Auf https://www.coronawarn.app stehen nun alle Screenshots der App zu Verfügung. So können Sie sich nun auch über geplante Funktionen der App informieren.</item>
     </string-array>
 
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>https://www.coronawarn.app</item>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>https://www.coronawarn.app/de/screenshots</item>
+    </string-array>
+
 </resources>

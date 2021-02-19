@@ -1,6 +1,18 @@
 package de.rki.coronawarnapp.release
 
-data class NewReleaseInfoItem(
-    val title: String,
+interface NewReleaseInfoItem{
+    val title: String
     val body: String
-)
+}
+
+data class NewReleaseInfoItemText(
+    override val title: String,
+    override val body: String
+) : NewReleaseInfoItem
+
+data class NewReleaseInfoItemLinked(
+    override val title: String,
+    override val body: String,
+    val linkifiedLabel: String,
+    val linkTarget: String
+) : NewReleaseInfoItem
