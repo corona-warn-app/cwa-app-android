@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewMod
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -51,7 +51,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
+        clearAllMocks()
     }
 
     @Test

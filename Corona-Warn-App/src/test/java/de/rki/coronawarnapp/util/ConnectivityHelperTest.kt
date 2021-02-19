@@ -5,22 +5,23 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkRequest
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
 /**
  * ConnectivityHelper test.
  */
-class ConnectivityHelperTest {
+class ConnectivityHelperTest : BaseTest() {
 
     @MockK private lateinit var context: Context
 
@@ -28,6 +29,11 @@ class ConnectivityHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkStatic(BluetoothAdapter::class)
+    }
+
+    @After
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     /**
@@ -75,10 +81,5 @@ class ConnectivityHelperTest {
         // unregister
         ConnectivityHelper.unregisterNetworkStatusCallback(context, callback)
         assertEquals(registered, false)
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifyOrder
@@ -32,11 +33,13 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class SubmissionRepositoryTest {
+class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var submissionService: SubmissionService
@@ -85,6 +88,11 @@ class SubmissionRepositoryTest {
         coEvery { tekHistoryStorage.clear() } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH
+    }
+
+    @AfterEach
+    fun teardown() {
+        clearAllMocks()
     }
 
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(

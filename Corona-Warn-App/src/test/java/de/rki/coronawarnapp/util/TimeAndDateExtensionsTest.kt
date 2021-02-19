@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.calculateDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.joda.time.DateTime
@@ -17,18 +17,24 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 import java.util.concurrent.TimeUnit
 
 /**
  * TimeAndDateExtensions test.
  */
 
-class TimeAndDateExtensionsTest {
+class TimeAndDateExtensionsTest : BaseTest() {
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication)
+    }
+
+    @After
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     @Test
@@ -66,10 +72,5 @@ class TimeAndDateExtensionsTest {
                 LocalDate(2014, 5, 5)
             )
         )
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

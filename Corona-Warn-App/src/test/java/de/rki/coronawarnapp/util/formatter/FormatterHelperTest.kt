@@ -7,17 +7,18 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.ContextExtensions
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class FormatterHelperTest {
+class FormatterHelperTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -32,6 +33,11 @@ class FormatterHelperTest {
         mockkObject(ContextExtensions)
 
         every { CoronaWarnApplication.getAppContext() } returns context
+    }
+
+    @After
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     private fun formatVisibilityBase(bValue: Boolean, iResult: Int) {
@@ -108,10 +114,5 @@ class FormatterHelperTest {
 
         // Check formatColor when value false
         formatColorBase(bValue = false, iColor = 2)
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

@@ -2,21 +2,22 @@ package de.rki.coronawarnapp.storage.tracing
 
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 import java.util.Date
 
 /**
  * TracingIntervalRepository test.
  */
-class TracingIntervalRepositoryTest {
+class TracingIntervalRepositoryTest : BaseTest() {
 
     @MockK
     private lateinit var dao: TracingIntervalDao
@@ -30,6 +31,11 @@ class TracingIntervalRepositoryTest {
         coEvery { dao.deleteOutdatedIntervals(any()) } just Runs
         coEvery { dao.insertInterval(any()) } just Runs
         coEvery { dao.getAllIntervals() } returns listOf()
+    }
+
+    @After
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     /**
@@ -61,10 +67,5 @@ class TracingIntervalRepositoryTest {
                 dao.getAllIntervals()
             }
         }
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

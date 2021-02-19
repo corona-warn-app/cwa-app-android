@@ -9,10 +9,10 @@ import androidx.work.WorkRequest
 import androidx.work.testing.TestDriver
 import androidx.work.testing.WorkManagerTestInitHelper
 import io.mockk.Runs
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.CoreMatchers.nullValue
@@ -22,17 +22,19 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
+import testhelpers.BaseTest
 
 /**
  * DiagnosisKeyRetrievalPeriodicWorker test.
  */
 @Ignore("FixMe:DiagnosisKeyRetrievalPeriodicWorkerTest")
 @RunWith(AndroidJUnit4::class)
-class DiagnosisKeyRetrievalPeriodicWorkerTest {
+class DiagnosisKeyRetrievalPeriodicWorkerTest : BaseTest() {
     private lateinit var context: Context
     private lateinit var workManager: WorkManager
     private lateinit var request: WorkRequest
     private lateinit var request2: WorkRequest
+
     // small delay because WorkManager does not run work instantly when delay is off
     private val delay = 500L
 
@@ -51,6 +53,11 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
             request = this.callOriginal() as WorkRequest
             request
         }
+    }
+
+    @After
+    fun teardown() {
+        clearAllMocks()
     }
 
     /**
@@ -131,7 +138,7 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
     @After
     fun cleanUp() {
         workManager.cancelAllWork()
-        unmockkAll()
+        clearAllMocks()
     }
 
     private fun runPeriodicJobInitialDelayMet() {

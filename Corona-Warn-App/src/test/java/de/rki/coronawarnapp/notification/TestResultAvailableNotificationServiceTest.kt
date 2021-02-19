@@ -25,9 +25,10 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import javax.inject.Provider
 
-class TestResultAvailableNotificationServiceTest {
+class TestResultAvailableNotificationServiceTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState

@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -32,6 +33,7 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -72,6 +74,11 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
 
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop() } returns operation
+    }
+
+    @After
+    fun teardown() {
+        clearAllMocks()
     }
 
     @Test

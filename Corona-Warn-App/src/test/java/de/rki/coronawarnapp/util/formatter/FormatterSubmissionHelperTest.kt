@@ -14,20 +14,22 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import testhelpers.BaseTest
 
-class FormatterSubmissionHelperTest {
+class FormatterSubmissionHelperTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -76,6 +78,11 @@ class FormatterSubmissionHelperTest {
         every { context.getString(R.string.submission_status_card_body_pending) } returns R.string.submission_status_card_body_pending.toString()
 
         every { context.getString(R.string.submission_status_card_button_show_results) } returns R.string.submission_status_card_button_show_results.toString()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        clearAllMocks()
     }
 
     private fun formatTestResultStatusTextBase(
@@ -137,6 +144,11 @@ class FormatterSubmissionHelperTest {
 
         val result = formatTestResult(context = context, uiState = oUiState)
         assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
+    }
+
+    @After
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     @Test
@@ -317,10 +329,5 @@ class FormatterSubmissionHelperTest {
         formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL))
         formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL))
         formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED))
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

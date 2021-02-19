@@ -16,10 +16,11 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.matchers.shouldBe
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -32,6 +33,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -81,6 +83,11 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns emptyList()
 
         coEvery { riskLevelStorage.storeResult(any()) } just Runs
+    }
+
+    @AfterEach
+    fun tearDown() {
+        clearAllMocks()
     }
 
     private fun createTask() = RiskLevelTask(

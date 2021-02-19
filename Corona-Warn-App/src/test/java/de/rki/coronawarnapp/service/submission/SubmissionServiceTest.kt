@@ -17,8 +17,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-class SubmissionServiceTest {
+class SubmissionServiceTest : BaseTest() {
 
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"

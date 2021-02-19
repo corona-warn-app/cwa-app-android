@@ -4,17 +4,18 @@ import android.content.Context
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.CameraPermissionHelper.hasCameraPermission
 import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class CameraPermissionHelperTest {
+class CameraPermissionHelperTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -23,6 +24,11 @@ class CameraPermissionHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication)
+    }
+
+    @After
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     /**
@@ -42,10 +48,5 @@ class CameraPermissionHelperTest {
 
         val result = hasCameraPermission(context)
         MatcherAssert.assertThat(result, CoreMatchers.`is`(false))
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

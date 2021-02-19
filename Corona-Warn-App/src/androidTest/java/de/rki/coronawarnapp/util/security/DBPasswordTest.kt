@@ -28,9 +28,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import testhelpers.BaseTest
 
 @RunWith(JUnit4::class)
-class DBPasswordTest {
+class DBPasswordTest : BaseTest() {
 
     @MockK lateinit var applicationComponent: ApplicationComponent
     @MockK lateinit var encryptedSharedPreferencesFactory: EncryptedPreferencesFactory
