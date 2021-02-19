@@ -24,13 +24,13 @@ class LauncherActivityViewModel @AssistedInject constructor(
             val updateResult = updateChecker.checkForUpdate()
             when {
                 updateResult.isUpdateNeeded -> LauncherEvent.ShowUpdateDialog(updateResult.updateIntent?.invoke()!!)
-                noOnboaringOrNewFunctionality() -> LauncherEvent.GoToOnboarding
+                isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
                 else -> LauncherEvent.GoToMainActivity
             }.let { events.postValue(it) }
         }
     }
 
-    private fun noOnboaringOrNewFunctionality() =
+    private fun isJustInstalledOrUpdated() =
         !LocalData.isOnboarded() || !LocalData.isInteroperabilityShownAtLeastOnce ||
             cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE
 

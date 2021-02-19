@@ -11,21 +11,21 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class OnboardingLoadingViewModel @AssistedInject constructor(private val cwaSettings: CWASettings) : CWAViewModel() {
 
-    val popupEvents = SingleLiveEvent<OnboardingFragmentEvents>()
+    val navigationEvents = SingleLiveEvent<OnboardingFragmentEvents>()
 
-    fun showPopUpsOrNavigate() {
+    fun navigate() {
         when {
             !LocalData.isOnboarded() -> {
-                popupEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
+                navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
             !LocalData.isInteroperabilityShownAtLeastOnce -> {
-                popupEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
+                navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
             }
             cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
-                popupEvents.postValue(OnboardingFragmentEvents.ShowNewReleaseFragment)
+                navigationEvents.postValue(OnboardingFragmentEvents.ShowNewReleaseFragment)
             }
             else -> {
-                popupEvents.postValue(OnboardingFragmentEvents.OnboardingDone)
+                navigationEvents.postValue(OnboardingFragmentEvents.OnboardingDone)
             }
         }
     }

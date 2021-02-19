@@ -23,7 +23,7 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.popupEvents.observe2(this) { event ->
+        vm.navigationEvents.observe2(this) { event ->
             when (event) {
                 OnboardingFragmentEvents.ShowInteropDeltaOnboarding ->
                     doNavigate(
@@ -48,6 +48,6 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
             }
         }
 
-        vm.showPopUpsOrNavigate()
+        vm.navigate()
     }
 }
