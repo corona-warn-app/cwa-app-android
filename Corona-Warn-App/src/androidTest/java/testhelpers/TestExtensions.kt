@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.R
 
 /** Delay time before taking screenshot
  */
-const val SCREENSHOT_DELAY_TIME = 2000L
+const val SCREENSHOT_DELAY_TIME = 5_000L
 
 /**
  * Launches Fragment in Activity root container.
