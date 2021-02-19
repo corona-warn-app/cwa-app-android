@@ -101,7 +101,6 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
-    @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var exporter: ContactDiaryExporter
 
     // ViewModels
@@ -365,7 +364,7 @@ class MainActivityTest : BaseUITest() {
             dispatcherProvider = TestDispatcherProvider(),
             contactDiaryRepository = contactDiaryRepository,
             riskLevelStorage = riskLevelStorage,
-            timeStamper = timeStamper,
+            timeStamper = TimeStamper(),
             exporter = exporter
         )
     )
