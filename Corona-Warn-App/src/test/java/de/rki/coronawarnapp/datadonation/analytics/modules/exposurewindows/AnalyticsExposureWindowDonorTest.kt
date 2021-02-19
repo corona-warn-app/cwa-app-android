@@ -55,11 +55,6 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         clearAllMocks()
     }
 
-    @AfterAll
-    fun cleanup() {
-        unmockkAll()
-    }
-
     @Test
     fun `skip submission when random number greater than probability`() {
         val donor = newInstance()
@@ -140,4 +135,11 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
             analyticsExposureWindowRepository,
             appConfigProvider
         )
+
+    companion object {
+        @AfterAll
+        fun cleanup() {
+            unmockkAll()
+        }
+    }
 }
