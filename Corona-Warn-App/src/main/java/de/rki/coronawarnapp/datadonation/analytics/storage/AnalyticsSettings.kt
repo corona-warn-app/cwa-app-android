@@ -135,6 +135,16 @@ class AnalyticsSettings @Inject constructor(
         }
     )
 
+    /**
+     * Rest Test result settings
+     */
+    fun clearTestResultSettings() {
+        testScannedAfterConsent.update { false }
+        riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
+        finalTestResultReceivedAt.update { null }
+        testResultAtRegistration.update { null }
+    }
+
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
         private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"

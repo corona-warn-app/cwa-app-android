@@ -102,12 +102,7 @@ class TestResultDonor @Inject constructor(
 
     private fun cleanUp() {
         Timber.d("Cleaning data")
-        with(analyticsSettings) {
-            testScannedAfterConsent.update { false }
-            riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
-            finalTestResultReceivedAt.update { null }
-            testResultAtRegistration.update { null }
-        }
+        analyticsSettings.clearTestResultSettings()
     }
 
     private fun pendingTestMetadataDonation(

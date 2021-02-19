@@ -14,9 +14,11 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
@@ -97,21 +99,12 @@ class TestResultDonorTest {
 
     @Test
     fun deleteData() = runBlockingTest {
-        analyticsSettings.apply {
-            every { testScannedAfterConsent } returns mockFlowPreference(false)
-            every { riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
-            every { finalTestResultReceivedAt } returns mockFlowPreference(Instant.EPOCH)
-            every { testResultAtRegistration } returns mockFlowPreference(TestResult.INVALID)
-        }
+        every { analyticsSettings.clearTestResultSettings() } just Runs
 
         testResultDonor.deleteData()
 
         verify {
-            analyticsSettings.testScannedAfterConsent
-            analyticsSettings.riskLevelAtTestRegistration
-            analyticsSettings.finalTestResultReceivedAt
-            analyticsSettings.testResultAtRegistration
-
+            analyticsSettings.clearTestResultSettings()
             analyticsSettings.analyticsEnabled wasNot Called
         }
     }

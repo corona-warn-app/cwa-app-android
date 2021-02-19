@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -58,7 +59,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         val testResult: TestResult? = null
     )
 
-    private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
@@ -90,19 +92,18 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     // To exclude any registered test result before giving a consent
     private suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) = with(analyticsSettings) {
         if (analyticsEnabled.value) {
+            testScannedAfterConsent.update { true }
+            testResultAtRegistration.update { testResult }
+            if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
+                finalTestResultReceivedAt.update { Instant.now() }
+            }
+
             val lastRiskResult = riskLevelStorage
                 .latestAndLastSuccessful
                 .first()
                 .tryLatestResultsWithDefaults()
                 .lastCalculated
-
-            val ppaRiskLevel = lastRiskResult.toMetadataRiskLevel()
-            testScannedAfterConsent.update { true }
-            riskLevelAtTestRegistration.update { ppaRiskLevel }
-            testResultAtRegistration.update { testResult }
-            if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
-                finalTestResultReceivedAt.update { Instant.now() }
-            }
+            riskLevelAtTestRegistration.update { lastRiskResult.toMetadataRiskLevel() }
         }
     }
 
