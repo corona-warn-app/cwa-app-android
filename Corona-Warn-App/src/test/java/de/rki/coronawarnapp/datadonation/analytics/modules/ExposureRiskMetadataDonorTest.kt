@@ -9,12 +9,10 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -33,11 +31,6 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         every { highAggregatedRiskResult.isIncreasedRisk() } returns true
         every { lowAggregatedRiskResult.isIncreasedRisk() } returns false
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createRiskLevelResult(

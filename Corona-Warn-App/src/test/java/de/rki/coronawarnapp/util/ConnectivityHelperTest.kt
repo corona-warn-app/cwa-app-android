@@ -5,14 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkRequest
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -29,11 +27,6 @@ class ConnectivityHelperTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkStatic(BluetoothAdapter::class)
-    }
-
-    @After
-    fun cleanUp() {
-        clearAllMocks()
     }
 
     /**

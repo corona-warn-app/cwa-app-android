@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -21,7 +20,6 @@ import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SQLiteException
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
-import org.junit.After
 import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -62,11 +60,6 @@ class DBPasswordTest : BaseTest() {
 
         clearSharedPreferences()
         AppDatabase.reset(appContext)
-    }
-
-    @After
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

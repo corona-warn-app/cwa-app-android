@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResu
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -69,7 +68,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

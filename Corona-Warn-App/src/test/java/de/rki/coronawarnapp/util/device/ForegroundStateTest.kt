@@ -5,11 +5,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -28,11 +26,6 @@ class ForegroundStateTest : BaseTest() {
         MockKAnnotations.init(this)
         lifecycle = LifecycleRegistry(lifecycleOwner)
         every { lifecycleOwner.lifecycle } returns lifecycle
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance() = ForegroundState(

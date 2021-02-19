@@ -9,7 +9,6 @@ import androidx.work.WorkRequest
 import androidx.work.testing.TestDriver
 import androidx.work.testing.WorkManagerTestInitHelper
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkObject
@@ -53,11 +52,6 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest : BaseTest() {
             request = this.callOriginal() as WorkRequest
             request
         }
-    }
-
-    @After
-    fun teardown() {
-        clearAllMocks()
     }
 
     /**
@@ -138,7 +132,7 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest : BaseTest() {
     @After
     fun cleanUp() {
         workManager.cancelAllWork()
-        clearAllMocks()
+        )
     }
 
     private fun runPeriodicJobInitialDelayMet() {

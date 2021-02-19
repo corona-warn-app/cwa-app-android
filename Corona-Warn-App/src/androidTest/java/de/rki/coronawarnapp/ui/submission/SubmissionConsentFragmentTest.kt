@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
@@ -62,7 +61,6 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

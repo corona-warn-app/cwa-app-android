@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -74,7 +73,6 @@ class HomeFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

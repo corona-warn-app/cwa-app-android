@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.verification.VerificationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -43,7 +42,6 @@ class VerificationApiV1Test : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
         testDir.deleteRecursively()
     }

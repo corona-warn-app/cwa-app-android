@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -72,7 +71,6 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

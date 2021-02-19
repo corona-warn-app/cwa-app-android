@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -51,7 +50,6 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

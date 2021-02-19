@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFra
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -49,7 +48,6 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

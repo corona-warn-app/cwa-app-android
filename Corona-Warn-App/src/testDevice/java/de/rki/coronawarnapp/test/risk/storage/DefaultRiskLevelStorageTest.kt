@@ -91,11 +91,6 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         coEvery { exposureWindowTables.deleteByRiskResultId(any()) } returns 1
     }
 
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
-    }
-
     private fun createInstance(
         scope: CoroutineScope = TestCoroutineScope()
     ) = DefaultRiskLevelStorage(

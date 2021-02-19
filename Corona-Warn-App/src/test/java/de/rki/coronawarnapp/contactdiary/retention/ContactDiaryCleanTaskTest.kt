@@ -2,14 +2,12 @@ package de.rki.coronawarnapp.contactdiary.retention
 
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifyOrder
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -26,11 +24,6 @@ class ContactDiaryCleanTaskTest : BaseTest() {
         coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } returns Unit
         coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } returns Unit
         coEvery { retentionCalculation.clearObsoleteRiskPerDate() } returns Unit
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = ContactDiaryCleanTask(

@@ -6,14 +6,12 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.CoronaWarnApplication
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -30,11 +28,6 @@ class ExternalActionHelperTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication)
-    }
-
-    @After
-    fun cleanUp() {
-        clearAllMocks()
     }
 
     @Test

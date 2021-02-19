@@ -2,13 +2,11 @@ package de.rki.coronawarnapp.storage.tracing
 
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -31,11 +29,6 @@ class TracingIntervalRepositoryTest : BaseTest() {
         coEvery { dao.deleteOutdatedIntervals(any()) } just Runs
         coEvery { dao.insertInterval(any()) } just Runs
         coEvery { dao.getAllIntervals() } returns listOf()
-    }
-
-    @After
-    fun cleanUp() {
-        clearAllMocks()
     }
 
     /**

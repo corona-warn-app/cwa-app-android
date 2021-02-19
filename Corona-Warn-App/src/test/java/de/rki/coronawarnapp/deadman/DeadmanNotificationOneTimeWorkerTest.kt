@@ -5,13 +5,11 @@ import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,11 +23,6 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createWorker() = DeadmanNotificationOneTimeWorker(

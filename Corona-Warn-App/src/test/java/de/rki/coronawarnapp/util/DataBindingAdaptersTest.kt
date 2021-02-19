@@ -9,7 +9,6 @@ import com.airbnb.lottie.LottieDrawable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -17,7 +16,6 @@ import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -34,11 +32,6 @@ class DataBindingAdaptersTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(ContextExtensions)
-    }
-
-    @After
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun setChecked(status: Boolean?) {

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.every
@@ -61,7 +60,6 @@ class LocalAppConfigSourceTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

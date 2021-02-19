@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.onboarding
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import io.mockk.clearAllMocks
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -39,7 +38,6 @@ class OnboardingPrivacyFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

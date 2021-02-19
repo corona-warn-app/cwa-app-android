@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LOCATIONS
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.PERSONS
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -79,7 +78,6 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

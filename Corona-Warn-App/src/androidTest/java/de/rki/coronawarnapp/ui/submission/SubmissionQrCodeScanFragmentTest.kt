@@ -6,7 +6,6 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -33,7 +32,6 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

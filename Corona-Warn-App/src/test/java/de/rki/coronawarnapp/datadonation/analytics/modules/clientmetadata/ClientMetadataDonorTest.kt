@@ -9,13 +9,11 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.ApiLevel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -48,11 +46,6 @@ class ClientMetadataDonorTest : BaseTest() {
         every { configData.identifier } returns eTag
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
         coEvery { enfClient.getENFClientVersion() } returns enfVersion
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = ClientMetadataDonor(

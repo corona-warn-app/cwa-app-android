@@ -2,11 +2,9 @@ package de.rki.coronawarnapp.service.submission
 
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -27,11 +25,6 @@ class ScanResultTest : BaseTest() {
         MockKAnnotations.init(this)
         mockkObject(scanResult)
         every { scanResult.isValid } returns false
-    }
-
-    @After
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun buildQRCodeCases(prefixString: String, guid: String, conditionToMatch: Boolean) {

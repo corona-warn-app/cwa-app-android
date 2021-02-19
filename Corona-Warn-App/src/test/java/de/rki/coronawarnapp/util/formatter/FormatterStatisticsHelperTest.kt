@@ -9,14 +9,12 @@ import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.slot
 import org.joda.time.DateTime
 import org.joda.time.Instant
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -49,11 +47,6 @@ class FormatterStatisticsHelperTest : BaseTest() {
                 )
             } answers { "Until ${slot.captured}" }
         }
-    }
-
-    @After
-    fun cleanUp() {
-        clearAllMocks()
     }
 
     @Test

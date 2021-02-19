@@ -1,10 +1,8 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import io.kotest.matchers.shouldBe
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkObject
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -15,11 +13,6 @@ class EasyLanguageLinkTest : BaseTest() {
     @BeforeEach
     fun setup() {
         mockkObject(Locale.getDefault())
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

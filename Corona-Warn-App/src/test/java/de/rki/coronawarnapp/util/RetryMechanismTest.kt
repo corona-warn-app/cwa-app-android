@@ -8,11 +8,9 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -27,11 +25,6 @@ class RetryMechanismTest : BaseTest() {
         every { mockFunction.invoke() } answers {
             throw RuntimeException(UUID.randomUUID().toString())
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

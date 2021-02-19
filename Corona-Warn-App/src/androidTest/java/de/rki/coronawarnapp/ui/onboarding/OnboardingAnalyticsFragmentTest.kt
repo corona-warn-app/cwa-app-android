@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -82,7 +81,6 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

@@ -26,11 +26,6 @@ class ExposureWindowProviderTest : BaseTest() {
         coEvery { googleENFClient.exposureWindows } returns MockGMSTask.forValue(emptyList())
     }
 
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
-    }
-
     private fun createProvider() = DefaultExposureWindowProvider(
         client = googleENFClient
     )

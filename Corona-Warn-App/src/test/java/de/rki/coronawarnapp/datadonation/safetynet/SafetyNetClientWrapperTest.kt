@@ -12,7 +12,6 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.Called
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -20,7 +19,6 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -42,11 +40,6 @@ class SafetyNetClientWrapperTest : BaseTest() {
         every { safetyNetClient.attest(any(), any()) } returns MockGMSTask.forValue(report)
 
         every { report.jwsResult } returns JWS_BASE64
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = SafetyNetClientWrapper(

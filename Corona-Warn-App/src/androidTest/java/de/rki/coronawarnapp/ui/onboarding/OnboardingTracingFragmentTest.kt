@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.nearby.TracingPermissionHelper
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -65,7 +64,6 @@ class OnboardingTracingFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

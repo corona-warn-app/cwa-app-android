@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -99,7 +98,6 @@ abstract class CommonSyncToolTest : BaseIOTest() {
 
     @AfterEach
     open fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

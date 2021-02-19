@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragme
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LOCATIONS_EDIT_LIST
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -57,9 +56,8 @@ class ContactDiaryEditLocationsFragmentTest : BaseUITest() {
     }
 
     @After
-    fun tearDown() {
+    fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test

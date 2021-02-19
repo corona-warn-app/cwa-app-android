@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_Factory
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -68,7 +67,6 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        clearAllMocks()
     }
 
     @Test
