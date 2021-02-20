@@ -582,7 +582,7 @@ jobs:
               --results-dir ${BUCKETDIR} \
               --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
               --environment-variables clearPackageData=true \
-              --test-targets "notAnnotation testhelpers.Screenshot" \
+              --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
               --device-ids flame \
               --os-version-ids 29 \
