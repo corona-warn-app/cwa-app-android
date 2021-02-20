@@ -553,7 +553,7 @@ jobs:
   firebase_screenshots:
     resource_class: xlarge
     docker:
-        - image: circleci/android:api-28
+      - image: circleci/android:api-28
     steps:
       - skip-for-external-pull-requests
       - setup-google-cloud
@@ -566,11 +566,11 @@ jobs:
             :Corona-Warn-App:assembleDebug
             :Corona-Warn-App:assembleAndroidTest
       - run:
-         name: Setup Testlab environment
-         command: |
-              echo "export BUCKETDIR=\"`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}\"" >> $BASH_ENV
-              source $BASH_ENV
-              echo "$BUCKETDIR is setup."
+          name: Setup Testlab environment
+          command: |
+            echo "export BUCKETDIR=\"`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}\"" >> $BASH_ENV
+            source $BASH_ENV
+            echo "$BUCKETDIR is setup."
       - run:
           name: Test with Firebase Test Lab
           command: |
@@ -601,7 +601,9 @@ jobs:
             sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
           when: always
       - store_test_results:
-          path: ./firebase-screenshots/flame-*/*.xml
+          path: ./firebase-screenshots/flame-29-en_US-portrait/*.xml
+      - store_test_results:
+          path: ./firebase-screenshots/flame-29-de_DE-portrait/*.xml
       - compress-path:
           input: ./firebase-screenshots
           output: /tmp/screenshots.zip
