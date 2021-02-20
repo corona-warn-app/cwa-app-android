@@ -508,7 +508,7 @@ jobs:
       - store_artifacts:
           path: /tmp/instrumentation_tests_device.zip
           destination: zips/instrumentation_tests_device.zip
-
+  # Keep it until Firebase Test Lab proves reliability
   device_screenshots:
     macos:
       xcode: "12.3.0"
@@ -629,10 +629,7 @@ workflows:
           requires:
             - ktlint_device_release_check
             - detekt
-      - firebase_screenshots:
-          requires:
-            - ktlint_device_release_check
-            - detekt
+
   check_buildtype_device_for_testers:
     jobs:
       - detekt
@@ -650,7 +647,7 @@ workflows:
                 - /^v.*/
             branches:
               ignore: /.*/
-      - device_screenshots:
+      - firebase_screenshots:
           filters:
             tags:
               only:
