@@ -550,6 +550,65 @@ jobs:
           path: /tmp/device_screenshots.zip
           destination: zips/device_screenshots.zip
 
+  firebase_screenshots:
+    resource_class: xlarge
+      docker:
+          - image: circleci/android:api-28
+    steps:
+      - skip-for-external-pull-requests
+        - setup-google-cloud
+        - checkout
+        - restore-gradle-cache
+        - restore-android-build-cache
+      - run-gradle-cmd:
+          desc: Build APKs for screenshots
+          cmd: >
+            :Corona-Warn-App:assembleDebug
+            :Corona-Warn-App:assembleAndroidTest
+      - run:
+          name: Setup Testlab environment
+            command: |
+              echo "export BUCKETDIR=\"`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}\"" >> $BASH_ENV
+              source $BASH_ENV
+              echo "$BUCKETDIR is setup."
+      - run:
+          name: Test with Firebase Test Lab
+          command: |
+            echo "Using bucketdir $BUCKETDIR"
+            sudo gcloud firebase test android run \
+              --type instrumentation \
+              --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
+              --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+              --results-dir ${BUCKETDIR} \
+              --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
+              --environment-variables clearPackageData=true \
+              --test-targets "notAnnotation testhelpers.Screenshot" \
+              --timeout 20m \
+              --device-ids flame \
+              --os-version-ids 29 \
+              --locales de_DE,en_US \
+              --orientations portrait \
+              --no-record-video
+          no_output_timeout: 30m
+      - run:
+          name: Create directory to store test results
+          command: mkdir firebase-screenshots
+          when: always
+      - run:
+          name: Install gsutil dependency and copy test results data
+          command: |
+            sudo pip install -U crcmod
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
+          when: always
+      - store_test_results:
+          path: ./firebase-screenshots
+      - compress-path:
+          input: ./firebase-results/*.xml
+          output: /tmp/screenshots.zip
+      - store_artifacts:
+          path: /tmp/screenshots.zip
+          destination: zips/screenshots.zip
+
 #######################
 # Workflow section
 # Job execution orders
