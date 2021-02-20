@@ -601,9 +601,9 @@ jobs:
             sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
           when: always
       - store_test_results:
-          path: ./firebase-screenshots
+          path: ./firebase-screenshots/flame-*/*.xml
       - compress-path:
-          input: ./firebase-results/*.xml
+          input: ./firebase-screenshots
           output: /tmp/screenshots.zip
       - store_artifacts:
           path: /tmp/screenshots.zip
