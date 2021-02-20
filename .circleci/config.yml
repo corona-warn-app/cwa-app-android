@@ -556,10 +556,10 @@ jobs:
           - image: circleci/android:api-28
     steps:
       - skip-for-external-pull-requests
-        - setup-google-cloud
-        - checkout
-        - restore-gradle-cache
-        - restore-android-build-cache
+      - setup-google-cloud
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run-gradle-cmd:
           desc: Build APKs for screenshots
           cmd: >
