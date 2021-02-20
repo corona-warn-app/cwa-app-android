@@ -588,6 +588,7 @@ jobs:
               --os-version-ids 29 \
               --locales de_DE,en_US \
               --orientations portrait \
+              --directories-to-pull /sdcard/screenshots \
               --no-record-video
           no_output_timeout: 30m
       - run:
@@ -626,6 +627,10 @@ workflows:
           requires:
             - unit_tests_device_release
       - instrumentation_tests_device:
+          requires:
+            - ktlint_device_release_check
+            - detekt
+      - firebase_screenshots:
           requires:
             - ktlint_device_release_check
             - detekt
