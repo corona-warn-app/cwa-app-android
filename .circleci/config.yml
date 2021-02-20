@@ -552,8 +552,8 @@ jobs:
 
   firebase_screenshots:
     resource_class: xlarge
-      docker:
-          - image: circleci/android:api-28
+    docker:
+        - image: circleci/android:api-28
     steps:
       - skip-for-external-pull-requests
       - setup-google-cloud
@@ -566,8 +566,8 @@ jobs:
             :Corona-Warn-App:assembleDebug
             :Corona-Warn-App:assembleAndroidTest
       - run:
-          name: Setup Testlab environment
-            command: |
+         name: Setup Testlab environment
+         command: |
               echo "export BUCKETDIR=\"`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}\"" >> $BASH_ENV
               source $BASH_ENV
               echo "$BUCKETDIR is setup."
