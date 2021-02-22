@@ -26,6 +26,7 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("ReturnCount")
 class DownloadDiagnosisKeysTask @Inject constructor(
     private val enfClient: ENFClient,
     private val environmentSetup: EnvironmentSetup,
