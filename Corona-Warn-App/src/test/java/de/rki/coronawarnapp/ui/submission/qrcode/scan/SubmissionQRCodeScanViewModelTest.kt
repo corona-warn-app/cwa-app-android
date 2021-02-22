@@ -108,7 +108,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
             every { guid } returns "123456-12345678-1234-4DA7-B166-B86D85475064"
         }
         every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(false)
+        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(null)
         coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns TestResult.POSITIVE
 
