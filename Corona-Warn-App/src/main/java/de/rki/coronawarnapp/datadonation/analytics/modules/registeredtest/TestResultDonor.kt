@@ -190,8 +190,8 @@ class TestResultDonor @Inject constructor(
         }
 
     data class TestResultMetadataContribution(
-        private val testResultMetadata: PpaData.PPATestResultMetadata,
-        private val onFinishDonation: suspend () -> Unit
+        val testResultMetadata: PpaData.PPATestResultMetadata,
+        val onFinishDonation: suspend () -> Unit
     ) : DonorModule.Contribution {
         override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
             protobufContainer.addTestResultMetadataSet(testResultMetadata)
