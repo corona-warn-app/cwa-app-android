@@ -52,6 +52,7 @@ class SurveySettings @Inject constructor(
                     requireNotNull(result.uuid)
                     requireNotNull(result.authorized)
                     requireNotNull(result.redeemedAt)
+                    requireNotNull(result.invalidated)
                     return result
                 }
                 return null

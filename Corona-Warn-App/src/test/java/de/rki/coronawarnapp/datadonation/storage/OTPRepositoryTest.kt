@@ -69,7 +69,8 @@ class OTPRepositoryTest : BaseTest() {
         settings.otpAuthorizationResult = OTPAuthorizationResult(
             UUID.randomUUID(),
             true,
-            Instant.now()
+            Instant.now(),
+            false
         )
 
         settings.otpAuthorizationResult shouldNotBe null
@@ -87,7 +88,8 @@ class OTPRepositoryTest : BaseTest() {
         OTPRepository(settings).otpAuthorizationResult = OTPAuthorizationResult(
             UUID.randomUUID(),
             true,
-            Instant.now()
+            Instant.now(),
+            false
         )
         settings.oneTimePassword shouldBe null
     }

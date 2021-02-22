@@ -37,6 +37,36 @@ class Surveys @Inject constructor(
             }
     }
 
+    suspend fun isConsentNeeded(type: Type): ConsentResult {
+
+        when (type) {
+            Type.HIGH_RISK_ENCOUNTER -> {
+
+                // If no OTP was ever authorized, we need a consent.
+                val authResult = oneTimePasswordRepo.otpAuthorizationResult ?: return ConsentResult.Needed
+
+                // If we already have an authorized OTP for this high-risk state
+                // we can skip the consent and directly show the url in the browser.
+                // We know that the otp belongs to the current high-risk state, because the authResult gets
+                // invalidated on high to low risk state transitions.
+                if (authResult.authorized && !authResult.invalidated) {
+                    val surveyLink = urlProvider.provideUrl(type, authResult.uuid)
+                    return ConsentResult.AlreadyGiven(surveyLink)
+                }
+
+                // Finally, we need a consent for stored OTPs where the authorization failed (authorized == false)
+                // or when the app shows a new high-risk card (and therefore authResult was previously invalidated when the
+                // risk changed from high to low)
+                return ConsentResult.Needed
+            }
+        }
+    }
+
+    sealed class ConsentResult {
+        object Needed : ConsentResult()
+        data class AlreadyGiven(val surveyLink: String) : ConsentResult()
+    }
+
     suspend fun requestDetails(type: Type): Survey {
         val config = appConfigProvider.getAppConfig().survey
         Timber.v("Requested survey: %s", config)
@@ -60,7 +90,12 @@ class Surveys @Inject constructor(
 
         // request validation from server
         val errorCode = surveyServer.authOTP(oneTimePassword, attestationResult).errorCode
-        val result = OTPAuthorizationResult(oneTimePassword.uuid, errorCode == null, now)
+        val result = OTPAuthorizationResult(
+            uuid = oneTimePassword.uuid,
+            authorized = errorCode == null,
+            redeemedAt = now,
+            invalidated = false
+        )
         oneTimePasswordRepo.otpAuthorizationResult = result
 
         if (result.authorized) {
@@ -74,9 +109,10 @@ class Surveys @Inject constructor(
     }
 
     fun resetSurvey(type: Type) {
-        if (type == Type.HIGH_RISK_ENCOUNTER) {
-            Timber.d("Discarding one time password for survey about previous high-risk state.")
-            oneTimePasswordRepo.clear()
+        val authResult = oneTimePasswordRepo.otpAuthorizationResult
+        if (type == Type.HIGH_RISK_ENCOUNTER && authResult != null) {
+            Timber.d("Invalidating one time password for survey about previous high-risk state.")
+            oneTimePasswordRepo.otpAuthorizationResult = authResult.toInvalidatedInstance()
         }
     }
 
