@@ -7,7 +7,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
-import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailSheet
+import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.PersonEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
@@ -54,10 +54,10 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
 
             when (it) {
                 ShowDeletionConfirmationDialog -> DialogHelper.showDialog(deleteAllPersonsConfirmationDialog)
-                is ShowPersonDetailSheet -> {
+                is ShowPersonDetailFragment -> {
                     doNavigate(
                         ContactDiaryEditPersonsFragmentDirections
-                            .actionContactDiaryEditPersonsFragmentToContactDiaryPersonBottomSheetDialogFragment(
+                            .actionContactDiaryEditPersonsFragmentToContactDiaryAddPersonFragment(
                                 it.person
                             )
                     )

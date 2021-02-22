@@ -11,12 +11,14 @@
     <string name="contact_diary_location_list_no_items_subtitle">"Create a place and add it to your contact journal."</string>
     <string name="contact_diary_person_list_no_items_title">"No people defined yet"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Create a person and add them to your contact journal."</string>
-    <string name="contact_diary_person_bottom_sheet_title">"Person"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Name"</string>
-    <string name="contact_diary_person_bottom_sheet_save_button">"Save"</string>
-    <string name="contact_diary_location_bottom_sheet_title">"Place"</string>
-    <string name="contact_diary_location_bottom_sheet_text_input_hint">"Description"</string>
-    <string name="contact_diary_location_bottom_sheet_save_button">"Save"</string>
+    <string name="contact_diary_add_person_title">"Person"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Name"</string>
+    <string name="contact_diary_add_text_input_phone_hint" />
+    <string name="contact_diary_add_text_input_email_hint"/>
+    <string name="contact_diary_add_person_save_button">"Save"</string>
+    <string name="contact_diary_add_location_title">"Place"</string>
+    <string name="contact_diary_add_location_text_input_hint">"Description"</string>
+    <string name="contact_diary_add_location_save_button">"Save"</string>
 
     <!-- XHED: Title for the contact diary card displayed in the homescreen -->
     <string name="contact_diary_homescreen_card_header">"Contact Journal"</string>
@@ -119,6 +121,13 @@
     <!-- XTXT: Intro text  for the contact journal email export part two-->
     <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
 
+    <!-- XHED: Title for the contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_title">"Notiz"</string>
+    <!-- XTXT: Description for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_description">"Hier können Sie Notizen machen, die Ihnen helfen, das Risiko einer Infektion besser einzuschätzen."</string>
+    <!-- XTXT: Body for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_body">"Notieren Sie Umstände, die zu einem erhöhten Risiko führen könnten, z.B. räumliche Nähe zu anderen Personen oder die Ausübung einer Tätigkeit, die sich auf die Luftqualität auswirkt (Beispiele: „saßen nah beieinander“, „es wurde Sport getrieben“, „wir haben gesungen“).\n\nSollten Sie sich tatsächlich anstecken, können diese Notizen auch dem Gesundheitsamt bei der Nachverfolgung möglicher Infektionsketten helfen."</string>
+
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Place %s"</string>
     <!-- XTXT: person (description for screen readers) -->
@@ -141,5 +150,24 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Edit"</string>
 
+    <!-- XBUT: Option - person encounter - below 15 Min -->
+    <string name="contact_diary_person_encounter_duration_below_15_min">unter 15 Min</string>
+    <!-- XBUT: Option - person encounter - above 15 Min -->
+    <string name="contact_diary_person_encounter_duration_above_15_min">über 15 Min</string>
+    <!-- XBUT: Option - person encounter - with mask -->
+    <string name="contact_diary_person_encounter_mask_with">mit Maske</string>
+    <!-- XBUT: Option - person encounter - without mask -->
+    <string name="contact_diary_person_encounter_mask_without">ohne Maske</string>
+    <!-- XBUT: Option - person encounter - outside -->
+    <string name="contact_diary_person_encounter_environment_outside">im Freien</string>
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_person_encounter_environment_inside">drinnen</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_person_encounter_circumstances_hint">Notiz (z.B. geringer Abstand)</string>
 
+
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_location_visit_duration_label">Dauer</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_location_visit_circumstances_hint">Notiz (z.B. sehr voll)</string>
 </resources>
