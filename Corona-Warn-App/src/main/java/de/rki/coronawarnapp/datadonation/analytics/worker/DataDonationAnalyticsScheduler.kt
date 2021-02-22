@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.datadonation.analytics.worker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
