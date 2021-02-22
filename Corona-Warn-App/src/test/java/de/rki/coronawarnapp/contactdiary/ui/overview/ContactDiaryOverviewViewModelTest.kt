@@ -305,7 +305,7 @@ open class ContactDiaryOverviewViewModelTest {
         @JvmStatic
         @BeforeAll
         fun setup() {
-            mockkStatic(LocalDate::class)
+            //mockkStatic(LocalDate::class)
             every { LocalDate.now() } returns date
         }
 
