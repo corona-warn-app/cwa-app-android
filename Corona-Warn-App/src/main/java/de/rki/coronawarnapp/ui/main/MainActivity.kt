@@ -17,6 +17,7 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -108,6 +110,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         scheduleWork()
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
+        dataDonationAnalyticsScheduler.schedulePeriodic()
         if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
             deadmanScheduler.schedulePeriodic()
         }
