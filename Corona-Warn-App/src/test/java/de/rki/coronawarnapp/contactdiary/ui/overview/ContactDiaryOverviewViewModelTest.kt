@@ -15,7 +15,7 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
+import io.mockk.clearStaticMockk
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -305,14 +305,14 @@ open class ContactDiaryOverviewViewModelTest {
         @JvmStatic
         @BeforeAll
         fun setup() {
-           // mockkStatic(LocalDate::class)
+            mockkStatic(LocalDate::class)
             every { LocalDate.now() } returns date
         }
 
         @JvmStatic
         @AfterAll
         fun teardown() {
-            clearAllMocks()
+            clearStaticMockk(LocalDate::class)
         }
     }
 }
