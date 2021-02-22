@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -110,6 +111,11 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
+
+            if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
+                Timber.tag(TAG).i("task aborted, positive test result")
+                return object : Task.Result {}
+            }
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
