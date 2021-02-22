@@ -55,7 +55,8 @@ class TestResultDonorTest : BaseTest() {
             }
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.now()
-        every { analyticsSettings.riskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+        every { analyticsSettings.riskLevelAtTestRegistration } returns
+            mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
         every { LocalData.initialTestResultReceivedTimestamp() } returns System.currentTimeMillis()
 
         testResultDonor = TestResultDonor(
