@@ -25,21 +25,20 @@
             android:layout_width="match_parent"
             app:backgroundTint="@color/colorBackground"
             style="@style/contactDiaryPersonButton"
-            android:letterSpacing="0"
-            android:textColor="#000000"
-            app:textAllCaps="false"
-            android:textStyle="normal"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingHorizontal="5dp"
             android:text="@string/contact_diary_person_encounter_duration_below_15_min" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cwaGrayHighlight" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_above_15"
             style="@style/contactDiaryPersonButton"
             app:backgroundTint="@color/colorBackground"
-            android:textColor="#000000"
-            android:letterSpacing="0"
-            app:textAllCaps="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -64,8 +63,6 @@
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             app:backgroundTint="@color/colorBackground"
-            app:textAllCaps="false"
-            android:letterSpacing="0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_mask_with" />
@@ -74,9 +71,6 @@
             android:id="@+id/mask_without"
             style="@style/contactDiaryPersonButton"
             app:backgroundTint="@color/colorBackground"
-            android:textColor="#000000"
-            app:textAllCaps="false"
-            android:letterSpacing="0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -102,10 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:backgroundTint="@color/colorBackground"
-            android:textColor="#000000"
-            app:textAllCaps="false"
             android:layout_weight="1"
-            android:letterSpacing="0"
             android:text="@string/contact_diary_person_encounter_environment_outside" />
 
         <com.google.android.material.button.MaterialButton
@@ -114,9 +105,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:backgroundTint="@color/colorBackground"
-            android:textColor="#000000"
-            android:letterSpacing="0"
-            app:textAllCaps="false"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_environment_inside" />
 
