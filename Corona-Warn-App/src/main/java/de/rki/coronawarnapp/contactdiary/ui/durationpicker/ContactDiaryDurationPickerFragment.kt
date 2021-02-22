@@ -16,30 +16,32 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
         fun onChange(duration: Duration)
     }
 
-    private var _binding: ContactDiaryDurationPickerDialogFragmentBinding? = null
-    private val binding get() = _binding!!
+    val binding: Lazy<ContactDiaryDurationPickerDialogFragmentBinding> = lazy {
+        ContactDiaryDurationPickerDialogFragmentBinding.inflate(
+            layoutInflater
+        )
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = ContactDiaryDurationPickerDialogFragmentBinding.inflate(inflater)
-        return binding.root
+        return binding.value.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding.hours) {
+        with(binding.value.hours) {
             minValue = 0
             maxValue = hoursArray.size - 1
             displayedValues = hoursArray
         }
 
-        with(binding.minutes) {
+        with(binding.value.minutes) {
             minValue = 0
             maxValue = minutesArray.size - 1
             displayedValues = minutesArray
         }
 
-        with(binding) {
+        with(binding.value) {
             val duration = requireArguments().getString(DURATION_ARGUMENT_KEY)!!.split(":").toTypedArray()
             hours.value = hoursArray.indexOf(duration[0])
             minutes.value = minutesArray.indexOf(duration[1])
@@ -52,22 +54,11 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     companion object {
         const val DURATION_ARGUMENT_KEY = "duration"
 
         val minutesArray = arrayOf("00", "15", "30", "45")
-        val hoursArray = Array(24) {
-            if (it < 10) {
-                "0$it"
-            } else {
-                it.toString()
-            }
-        }
+        val hoursArray = Array(24) { "%02d".format(it) }
 
         fun getDuration(hours: Int, minutes: Int): Duration {
             val durationString = hoursArray[hours] + ":" + minutesArray[minutes]

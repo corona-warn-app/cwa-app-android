@@ -433,4 +433,8 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+
 </resources>
