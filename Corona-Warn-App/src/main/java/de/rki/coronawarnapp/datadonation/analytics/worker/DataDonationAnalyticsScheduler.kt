@@ -24,7 +24,8 @@ class DataDonationAnalyticsScheduler @Inject constructor(
      */
     fun schedulePeriodic() {
         val additionalDelay = timeCalculation.getDelay()
-        Timber.d("DataDonationAnalyticsScheduler: schedulePeriodic() delay=%s", additionalDelay)
+        // TODO Replace with logic that checks if already scheduled workManager. workManager.getWorkInfosByTag()
+        Timber.d("schedulePeriodic() delay(if not yet scheduled)=%s", additionalDelay)
         // Create unique work and enqueue
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
