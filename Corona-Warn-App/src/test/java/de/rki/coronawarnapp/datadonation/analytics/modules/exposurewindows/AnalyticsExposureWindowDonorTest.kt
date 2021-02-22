@@ -58,18 +58,16 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     @Test
     fun `skip submission when random number greater than probability`() {
         val donor = newInstance()
-        coEvery { appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows } returns .3
         runBlockingTest {
-            donor.skipSubmission() shouldBe true
+            donor.skipSubmission(.3) shouldBe true
         }
     }
 
     @Test
     fun `execute submission when random number less or equal than probability`() {
         val donor = newInstance()
-        coEvery { appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows } returns .5
         runBlockingTest {
-            donor.skipSubmission() shouldBe false
+            donor.skipSubmission(.5) shouldBe false
         }
     }
 
