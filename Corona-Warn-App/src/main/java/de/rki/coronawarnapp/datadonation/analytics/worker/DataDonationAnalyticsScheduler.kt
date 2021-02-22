@@ -25,11 +25,6 @@ class DataDonationAnalyticsScheduler @Inject constructor(
     fun schedulePeriodic() {
         val initialDelay = timeCalculation.getDelay()
 
-        Timber.d(
-            "scheduling Analytics job for %s Hours in the future, will repeat every 24 Hours from there",
-            initialDelay.standardHours
-        )
-
         // Create unique work and enqueue
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
