@@ -498,7 +498,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Activați setarea locației"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Locația dispozitivului dvs. nu poate fi determinată de aplicație, dar locația dispozitivului este necesară pentru a utiliza Bluetooth Low Energy pe unele versiuni Android."</string>
+    <string name="onboarding_tracing_location_body">"Locația dispozitivului dvs. nu poate fi determinată de aplicație, dar setarea locației dispozitivului trebuie să fie activată pentru a utiliza Bluetooth Low Energy pe unele versiuni Android."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Deschideți configurările dispozitivului"</string>
     <!-- XACT: Onboarding (test) page title -->

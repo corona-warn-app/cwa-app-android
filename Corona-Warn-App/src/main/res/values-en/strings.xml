@@ -339,7 +339,7 @@
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
-    <string name="risk_details_headline_period_logged">"Period logged"</string>
+    <string name="risk_details_headline_period_logged">"Period Logged"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
@@ -498,7 +498,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Activate Location Setting"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Your device location cannot determined by the app, but device location is required to use Bluetooth Low Energy in some Android versions."</string>
+    <string name="onboarding_tracing_location_body">"Your device location cannot be determined by the app, but the device location setting must be activated to use Bluetooth Low Energy in some Android versions."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Open Device Settings"</string>
     <!-- XACT: Onboarding (test) page title -->
