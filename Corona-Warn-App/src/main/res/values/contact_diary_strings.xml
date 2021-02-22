@@ -123,7 +123,7 @@
     <!-- XTXT: Phone number prefix in the contact journal export-->
     <string name="contact_diary_export_prefix_phone" translatable="false">"Tel."</string>
     <!-- XTXT: EMail prefix in the contact journal export-->
-    <string name="contact_diary_export_prefix_email" translatable="false">"eMail"</string>
+    <string name="contact_diary_export_prefix_email" translatable="false">"E-Mail"</string>
     <!-- XTXT: Additional information about duration that was longer than 15 minutes in the contact journal export-->
     <string name="contact_diary_export_durations_longer_than_15min" translatable="false">"Kontaktdauer &gt; 15 Minuten"</string>
     <!-- XTXT: Additional information about duration that was less than 15 minutes in the contact journal export-->
