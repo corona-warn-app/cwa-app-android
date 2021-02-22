@@ -42,6 +42,9 @@ class TestSettings @Inject constructor(
         @SerializedName("INCREASED_RISK_DEFAULT")
         INCREASED_RISK_DEFAULT,
 
+        @SerializedName("INCREASED_RISK_DUE_LOW_RISK_ENCOUNTER_DEFAULT")
+        INCREASED_RISK_DUE_LOW_RISK_ENCOUNTER_DEFAULT,
+
         @SerializedName("LOW_RISK_DEFAULT")
         LOW_RISK_DEFAULT
     }
