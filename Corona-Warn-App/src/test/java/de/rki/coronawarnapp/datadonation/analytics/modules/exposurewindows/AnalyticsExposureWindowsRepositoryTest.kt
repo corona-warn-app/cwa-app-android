@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.clearAllMocks
@@ -85,6 +87,18 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
             newInstance().addNew(analyticsExposureWindow)
             coVerify(exactly = 0) { analyticsExposureWindowDao.insert(any()) }
         }
+    }
+
+    @Test
+    fun `hash value equal for two instances with same data`() {
+        val copy = analyticsExposureWindow.copy()
+        copy.sha256Hash() shouldBe analyticsExposureWindow.sha256Hash()
+    }
+
+    @Test
+    fun `hash value not equal for two instances with different data`() {
+        val copy = analyticsExposureWindow.copy(dateMillis = 9999)
+        copy.sha256Hash() shouldNotBe analyticsExposureWindow.sha256Hash()
     }
 
     private fun addDatabase() {

@@ -18,14 +18,12 @@ class AnalyticsExposureWindowCollector @Inject constructor(
     }
 
     private suspend fun collectAnalyticsData(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
-        riskResultsPerWindow.keys.forEach { window ->
-            riskResultsPerWindow[window]?.let { result ->
-                val analyticsExposureWindow = createAnalyticsExposureWindow(
-                    window,
-                    result
-                )
-                analyticsExposureWindowRepository.addNew(analyticsExposureWindow)
-            }
+        riskResultsPerWindow.forEach {
+            val analyticsExposureWindow = createAnalyticsExposureWindow(
+                it.key,
+                it.value
+            )
+            analyticsExposureWindowRepository.addNew(analyticsExposureWindow)
         }
     }
 }
