@@ -5,8 +5,8 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.AlreadyGiven
 import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.Needed
-import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.NotNeeded
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -119,7 +119,7 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
                                 item.type
                             )
                         )
-                        is NotNeeded -> routeToScreen.postValue(
+                        is AlreadyGiven -> routeToScreen.postValue(
                             TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser(
                                 consentResult.surveyLink
                             )

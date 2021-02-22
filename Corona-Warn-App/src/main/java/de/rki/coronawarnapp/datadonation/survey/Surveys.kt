@@ -51,7 +51,7 @@ class Surveys @Inject constructor(
                 // invalidated on high to low risk state transitions.
                 if (authResult.authorized && !authResult.invalidated) {
                     val surveyLink = urlProvider.provideUrl(type, authResult.uuid)
-                    return ConsentResult.NotNeeded(surveyLink)
+                    return ConsentResult.AlreadyGiven(surveyLink)
                 }
 
                 // Finally, we need a consent for stored OTPs where the authorization failed (authorized == false)
@@ -64,7 +64,7 @@ class Surveys @Inject constructor(
 
     sealed class ConsentResult {
         object Needed : ConsentResult()
-        data class NotNeeded(val surveyLink: String) : ConsentResult()
+        data class AlreadyGiven(val surveyLink: String) : ConsentResult()
     }
 
     suspend fun requestDetails(type: Type): Survey {
