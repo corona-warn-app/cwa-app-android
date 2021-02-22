@@ -57,6 +57,7 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -79,7 +80,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val appShortcutsHelper: AppShortcutsHelper
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -292,6 +294,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             submissionRepository.refreshDeviceUIState()
             tracingRepository.refreshRiskLevel()
             tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+        }
+    }
+
+    fun restoreAppShortcuts() {
+        launch {
+            appShortcutsHelper.restoreAppShortcut()
         }
     }
 

@@ -64,8 +64,8 @@ class HomeFragmentTest : BaseUITest() {
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
             every { showPopUps() } just Runs
+            every { restoreAppShortcuts() } just Runs
         }
-        every { appShortcutsHelper.createAppShortcut() } just Runs
 
         setupMockViewModel(
             object : HomeFragmentViewModel.Factory {
@@ -99,7 +99,8 @@ class HomeFragmentTest : BaseUITest() {
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
-            deadmanNotificationScheduler = deadmanNotificationScheduler
+            deadmanNotificationScheduler = deadmanNotificationScheduler,
+            appShortcutsHelper = appShortcutsHelper
         )
     )
 }

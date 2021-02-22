@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -44,7 +43,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
     @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
-    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
 
     private val homeAdapter = HomeAdapter()
 
@@ -119,8 +117,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
+        vm.restoreAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        appShortcutsHelper.createAppShortcut()
     }
 
     private fun showRemoveTestDialog() {

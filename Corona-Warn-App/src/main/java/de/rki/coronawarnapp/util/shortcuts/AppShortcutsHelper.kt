@@ -10,21 +10,25 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AppShortcutsHelper @Inject constructor(@AppContext private val context: Context) {
 
-    fun createAppShortcut() {
-        val shortcut = ShortcutInfoCompat.Builder(context, CONTACT_DIARY_SHORTCUT_ID)
-            .setShortLabel(context.getString(R.string.app_shortcut_contact_diary_title))
-            .setLongLabel(context.getString(R.string.app_shortcut_contact_diary_title))
-            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_contact_diary_shortcut_icon))
-            .setIntent(createContactDiaryIntent())
-            .build()
+    suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
+        if (ShortcutManagerCompat.getDynamicShortcuts(context).size == 0) {
+            val shortcut = ShortcutInfoCompat.Builder(context, CONTACT_DIARY_SHORTCUT_ID)
+                .setShortLabel(context.getString(R.string.app_shortcut_contact_diary_title))
+                .setLongLabel(context.getString(R.string.app_shortcut_contact_diary_title))
+                .setIcon(IconCompat.createWithResource(context, R.drawable.ic_contact_diary_shortcut_icon))
+                .setIntent(createContactDiaryIntent())
+                .build()
 
-        ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcut))
+            ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcut))
+        }
     }
 
     fun disableAppShortcut() {
