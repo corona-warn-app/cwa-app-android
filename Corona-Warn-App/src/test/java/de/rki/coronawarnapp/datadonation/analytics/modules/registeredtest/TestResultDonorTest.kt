@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -38,6 +39,7 @@ class TestResultDonorTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var timeStamper: TimeStamper
 
     private lateinit var testResultDonor: TestResultDonor
 
@@ -54,6 +56,7 @@ class TestResultDonorTest : BaseTest() {
                     }
             }
 
+        every { timeStamper.nowUTC } returns Instant.now()
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.now()
         every { analyticsSettings.riskLevelAtTestRegistration } returns
             mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
@@ -64,6 +67,7 @@ class TestResultDonorTest : BaseTest() {
             appConfigProvider,
             riskLevelSettings,
             riskLevelStorage,
+            timeStamper,
         )
     }
 
@@ -124,7 +128,7 @@ class TestResultDonorTest : BaseTest() {
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_PENDING
-                hoursSinceTestRegistration shouldBe 24
+                hoursSinceTestRegistration shouldBe 23
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe -1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 0
             }

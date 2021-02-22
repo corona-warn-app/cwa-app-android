@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
@@ -21,6 +22,7 @@ class TestResultDonor @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelSettings: RiskLevelSettings,
     private val riskLevelStorage: RiskLevelStorage,
+    private val timeStamper: TimeStamper,
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
@@ -43,7 +45,7 @@ class TestResultDonor @Inject constructor(
             .hoursSinceTestRegistrationToSubmitTestResultMetadata
 
         val registrationTime = Instant.ofEpochMilli(timestampAtRegistration)
-        val hoursSinceTestRegistrationTime = Duration(registrationTime, Instant.now()).standardHours.toInt()
+        val hoursSinceTestRegistrationTime = Duration(registrationTime, timeStamper.nowUTC).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
         val testResultAtRegistration =
