@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.worker
 
 import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import dagger.Reusable
@@ -25,5 +27,11 @@ class DataDonationAnalyticsWorkBuilder @Inject constructor() {
                 BackgroundConstants.BACKOFF_INITIAL_DELAY,
                 TimeUnit.MINUTES
             )
+            .setConstraints(buildConstraints())
+            .build()
+
+    private fun buildConstraints() =
+        Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 }
