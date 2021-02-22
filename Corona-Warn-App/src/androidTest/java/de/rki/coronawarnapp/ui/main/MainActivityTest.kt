@@ -47,6 +47,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.mockk.MockKAnnotations
@@ -88,6 +89,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -351,7 +353,8 @@ class MainActivityTest : BaseUITest() {
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
-            deadmanNotificationScheduler = deadmanNotificationScheduler
+            deadmanNotificationScheduler = deadmanNotificationScheduler,
+            appShortcutsHelper = appShortcutsHelper
         )
     )
 
@@ -396,6 +399,7 @@ class MainActivityTest : BaseUITest() {
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
             every { showPopUps() } just Runs
+            every { restoreAppShortcuts() } just Runs
         }
 
         setupMockViewModel(

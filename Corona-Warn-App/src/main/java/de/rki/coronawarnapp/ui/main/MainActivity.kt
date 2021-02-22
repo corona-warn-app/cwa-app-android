@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -17,7 +18,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
-import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentDirections
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -128,21 +128,18 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.contact_diary_nav_graph
+        val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
 
         if (vm.isOnboardingDone.value == true) {
-            val today = LocalDate().toString()
+            nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
-                    selectedDay = today
+                    selectedDay = LocalDate().toString()
                 )
             )
         } else {
-            navController.navigate(
-                ContactDiaryOnboardingFragmentDirections.actionContactDiaryOnboardingFragmentToContactDiaryOnboarding(
-                    showBottomNav = true,
-                    goToCurrentDay = true
-                )
-            )
+            nestedGraph.startDestination = R.id.contactDiaryOnboardingFragment
+            navController.navigate("coronawarnapp://contact-journal/oboarding/?goToDay=true".toUri())
         }
     }
 

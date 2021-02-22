@@ -31,15 +31,14 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
 
         fun start(context: Context, shortcut: AppShortcuts? = null) {
             val intent = Intent(context, OnboardingActivity::class.java).apply {
-                putExtra(EXTRA_DATA, shortcut.toString())
+                putExtra(EXTRA_DATA, shortcut?.toString())
             }
             context.startActivity(intent)
         }
 
         fun getShortcutFromIntent(intent: Intent?): AppShortcuts? {
-            val extra = intent?.getStringExtra(EXTRA_DATA)
-            if (extra != null) {
-                return AppShortcuts.valueOf(extra)
+            intent?.getStringExtra(EXTRA_DATA)?.let {
+                return AppShortcuts.valueOf(it)
             }
             return null
         }
