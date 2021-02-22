@@ -53,18 +53,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/onboarding_illustration"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:contentDescription="@string/onboarding_ppa_illustration_description"
-                    android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_illustration_ppa" />
-
                 <TextView
                     android:id="@+id/onboarding_headline"
                     style="@style/headline4"
@@ -76,21 +64,21 @@
                     android:contentDescription="@string/onboarding_ppa_headline"
                     android:focusable="true"
                     android:text="@string/onboarding_ppa_headline"
-                    app:layout_constraintEnd_toEndOf="@id/body_end"
-                    app:layout_constraintStart_toStartOf="@id/body_start"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/onboarding_body"
+                    android:id="@+id/onboarding_body_short"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="35dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/onboarding_ppa_body"
+                    android:contentDescription="@string/onboarding_ppa_body_short"
                     android:focusable="true"
-                    android:text="@string/onboarding_ppa_body"
+                    android:text="@string/onboarding_ppa_body_short"
                     app:layout_constraintEnd_toEndOf="@id/body_end"
                     app:layout_constraintStart_toStartOf="@id/body_start"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_headline" />
@@ -103,7 +91,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body">
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body_short">
 
                     <TextView
                         android:id="@+id/federal_state_row_subtitle"
@@ -234,16 +222,31 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/age_group_row" />
 
+                <TextView
+                    android:id="@+id/onboarding_body_long"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="47dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/onboarding_ppa_body"
+                    android:focusable="true"
+                    android:text="@string/onboarding_ppa_body"
+                    app:layout_constraintEnd_toEndOf="@id/body_end"
+                    app:layout_constraintStart_toStartOf="@id/body_start"
+                    app:layout_constraintTop_toBottomOf="@+id/age_group_row" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/consent_layout"
                     style="@style/cardTracing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="42dp"
+                    android:layout_marginTop="34dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/age_group_row">
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body_long">
 
                     <TextView
                         android:id="@+id/legal_title"
