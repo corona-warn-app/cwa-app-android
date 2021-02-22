@@ -15,18 +15,14 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.mockk.MockKAnnotations
-import io.mockk.clearStaticMockk
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -41,6 +37,7 @@ open class ContactDiaryOverviewViewModelTest {
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     private val testDispatcherProvider = TestDispatcherProvider()
+    private val date = LocalDate.now()
     private val dateMillis = date.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
 
     @BeforeEach
@@ -296,23 +293,6 @@ open class ContactDiaryOverviewViewModelTest {
         bodyExtended shouldBe when (hasPersonOrLocation) {
             true -> R.string.contact_diary_risk_body_extended
             false -> null
-        }
-    }
-
-    companion object {
-        private val date = LocalDate.parse("2021-02-13")
-
-        @JvmStatic
-        @BeforeAll
-        fun setup() {
-            //mockkStatic(LocalDate::class)
-            every { LocalDate.now() } returns date
-        }
-
-        @JvmStatic
-        @AfterAll
-        fun teardown() {
-            clearStaticMockk(LocalDate::class)
         }
     }
 }
