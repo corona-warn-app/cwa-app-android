@@ -15,7 +15,7 @@ import javax.inject.Inject
 class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: OnboardingLoadingViewModel by cwaViewModels(
+    private val viewModel: OnboardingLoadingViewModel by cwaViewModels(
         ownerProducer = { requireActivity().viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -23,7 +23,7 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.navigationEvents.observe2(this) { event ->
+        viewModel.navigationEvents.observe2(this) { event ->
             when (event) {
                 OnboardingFragmentEvents.ShowInteropDeltaOnboarding ->
                     doNavigate(
@@ -48,6 +48,6 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
             }
         }
 
-        vm.navigate()
+        viewModel.navigate()
     }
 }

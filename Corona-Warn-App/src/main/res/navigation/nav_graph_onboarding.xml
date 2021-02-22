@@ -96,6 +96,7 @@
     <fragment
         android:id="@+id/newReleaseInfoFragment"
         android:name="de.rki.coronawarnapp.release.NewReleaseInfoFragment"
+        tools:layout="@layout/new_release_info_screen_fragment"
         android:label="NewReleaseInfoFragment">
         <argument
             android:name="comesFromInfoScreen"
@@ -122,7 +123,8 @@
     <fragment
         android:id="@+id/onboardingDeltaInteroperabilityFragment2"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
-        android:label="OnboardingDeltaInteroperabilityFragment">
+        android:label="OnboardingDeltaInteroperabilityFragment"
+        tools:layout="@layout/fragment_onboarding_delta_interoperability">
         <action
             android:id="@+id/action_onboardingDeltaInteroperabilityFragment_to_informationTermsFragment"
             app:destination="@id/informationTermsFragment" />

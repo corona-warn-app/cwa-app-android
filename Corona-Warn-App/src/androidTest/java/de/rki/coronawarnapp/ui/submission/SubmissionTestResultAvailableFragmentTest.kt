@@ -52,7 +52,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
         every { submissionRepository.deviceUIStateFlow } returns flowOf()
         every { submissionRepository.testResultReceivedDateFlow } returns flowOf()
-        every { appShortcutsHelper.disableAppShortcut() } just Runs
+        every { appShortcutsHelper.removeAppShortcut() } just Runs
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(

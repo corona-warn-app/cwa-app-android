@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -52,7 +53,7 @@ class OnboardingDeltaInteroperabilityFragment :
 
         vm.navigateBack.observe2(this) {
             if (it) {
-                activity?.onBackPressed()
+                popBackStack()
             }
         }
     }

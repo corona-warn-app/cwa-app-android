@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util.shortcuts
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -31,10 +30,8 @@ class AppShortcutsHelper @Inject constructor(@AppContext private val context: Co
         }
     }
 
-    fun disableAppShortcut() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(CONTACT_DIARY_SHORTCUT_ID))
-        }
+    fun removeAppShortcut() {
+        ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(CONTACT_DIARY_SHORTCUT_ID))
     }
 
     private fun createContactDiaryIntent() = Intent(context, LauncherActivity::class.java).apply {

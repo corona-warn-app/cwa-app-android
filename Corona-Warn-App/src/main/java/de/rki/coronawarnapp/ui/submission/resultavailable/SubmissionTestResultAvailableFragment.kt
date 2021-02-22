@@ -79,7 +79,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultAvailableContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        appShortcutsHelper.disableAppShortcut()
+        appShortcutsHelper.removeAppShortcut()
     }
 
     private fun showCloseDialog() {

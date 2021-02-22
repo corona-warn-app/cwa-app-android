@@ -17,38 +17,38 @@ import javax.inject.Inject
 class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: DeltaOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: DeltaOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestDeltaonboardingBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.switchContactJournalOnboarding.isChecked = vm.isContactJournalOnboardingDone()
-        binding.switchDeltaOnboarding.isChecked = vm.isDeltaOnboardingDone()
-        vm.changelogVersion.observe(viewLifecycleOwner) {
+        binding.switchContactJournalOnboarding.isChecked = viewModel.isContactJournalOnboardingDone()
+        binding.switchDeltaOnboarding.isChecked = viewModel.isDeltaOnboardingDone()
+        viewModel.changelogVersion.observe(viewLifecycleOwner) {
             binding.lastChangelogEdittext.setText(it.toString())
         }
 
         binding.buttonSet.setOnClickListener {
             val value = binding.lastChangelogEdittext.text.toString().toLong()
-            vm.updateChangelogVersion(value)
+            viewModel.updateChangelogVersion(value)
         }
 
         binding.buttonClear.setOnClickListener {
-            vm.clearChangelogVersion()
+            viewModel.clearChangelogVersion()
         }
 
         binding.buttonReset.setOnClickListener {
-            vm.resetChangelogVersion()
+            viewModel.resetChangelogVersion()
         }
 
         binding.switchContactJournalOnboarding.setOnCheckedChangeListener { _, value ->
-            vm.setContactJournalOnboardingDone(value)
+            viewModel.setContactJournalOnboardingDone(value)
         }
 
         binding.switchDeltaOnboarding.setOnCheckedChangeListener { _, value ->
-            vm.setDeltaOboardinDone(value)
+            viewModel.setDeltaOboardinDone(value)
         }
     }
 
