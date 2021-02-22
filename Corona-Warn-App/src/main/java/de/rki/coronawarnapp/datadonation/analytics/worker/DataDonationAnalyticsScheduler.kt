@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.worker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -23,6 +24,7 @@ class DataDonationAnalyticsScheduler @Inject constructor(
      */
     fun schedulePeriodic() {
         val additionalDelay = timeCalculation.getDelay()
+        Timber.d("DataDonationAnalyticsScheduler: schedulePeriodic() delay=%s", additionalDelay)
         // Create unique work and enqueue
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
