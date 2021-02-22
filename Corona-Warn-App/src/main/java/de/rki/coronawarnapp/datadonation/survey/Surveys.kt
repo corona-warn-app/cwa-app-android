@@ -63,8 +63,7 @@ class Surveys @Inject constructor(
         val result = OTPAuthorizationResult(
             uuid = oneTimePassword.uuid,
             authorized = errorCode == null,
-            redeemedAt = now,
-            invalidated = false
+            redeemedAt = now
         )
         oneTimePasswordRepo.otpAuthorizationResult = result
 
