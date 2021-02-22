@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -24,12 +25,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -41,6 +42,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var tracingDetailsItemProvider: TracingDetailsItemProvider
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var tracingRepository: TracingRepository
+    @MockK lateinit var surveys: Surveys
 
     private lateinit var viewModel: TracingDetailsFragmentViewModel
 
@@ -63,7 +65,8 @@ class TracingDetailsFragmentTest : BaseUITest() {
                 riskLevelStorage = riskLevelStorage,
                 tracingDetailsItemProvider = tracingDetailsItemProvider,
                 tracingStateProviderFactory = tracingStateProviderFactory,
-                tracingRepository = tracingRepository
+                tracingRepository = tracingRepository,
+                surveys = surveys
             )
         )
 
