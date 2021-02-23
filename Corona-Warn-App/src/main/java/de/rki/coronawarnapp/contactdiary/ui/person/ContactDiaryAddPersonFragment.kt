@@ -19,7 +19,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class ContactDiaryAddPersonFragment : Fragment(R.layout.contact_diary_add_person_fragment),
+class ContactDiaryAddPersonFragment :
+    Fragment(R.layout.contact_diary_add_person_fragment),
     AutoInject {
 
     private val binding: ContactDiaryAddPersonFragmentBinding by viewBindingLazy()

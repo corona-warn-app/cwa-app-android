@@ -61,9 +61,11 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         with(viewModel) {
             every { symptomStart } returns MutableLiveData(Symptoms.StartOf.LastSevenDays)
         }
-        setupMockViewModel(object : SubmissionSymptomCalendarViewModel.Factory {
-            override fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionSymptomCalendarViewModel.Factory {
+                override fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel = viewModel
+            }
+        )
     }
 
     @After

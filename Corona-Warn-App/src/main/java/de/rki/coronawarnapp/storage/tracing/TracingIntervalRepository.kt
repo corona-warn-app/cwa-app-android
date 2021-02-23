@@ -35,10 +35,12 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
     suspend fun createInterval(from: Long, to: Long) {
         Timber.v("Insert Tracing Interval $from, $to")
         if (to < from) throw IllegalArgumentException("to cannot be before from")
-        tracingIntervalDao.insertInterval(TracingIntervalEntity().apply {
-            this.from = from
-            this.to = to
-        })
+        tracingIntervalDao.insertInterval(
+            TracingIntervalEntity().apply {
+                this.from = from
+                this.to = to
+            }
+        )
     }
 
     suspend fun getIntervals(): List<Pair<Long, Long>> {

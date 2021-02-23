@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
@@ -27,7 +29,8 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
-    val isOnboardingDone = SingleLiveEvent<Boolean>()
+    private val mutableIsOnboardingDone = MutableLiveData<Boolean>()
+    val isOnboardingDone: LiveData<Boolean> = mutableIsOnboardingDone
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
@@ -64,7 +67,7 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun onBottomNavSelected() {
-        isOnboardingDone.value = contactDiarySettings.isOnboardingDone
+        mutableIsOnboardingDone.value = contactDiarySettings.isOnboardingDone
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

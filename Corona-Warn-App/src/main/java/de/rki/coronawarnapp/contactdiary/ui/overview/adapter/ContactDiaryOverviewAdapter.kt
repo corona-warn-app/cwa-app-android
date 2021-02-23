@@ -44,9 +44,10 @@ class ContactDiaryOverviewAdapter(
                 contactDiaryOverviewNestedRecyclerView.suppressLayout(true)
                 contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(item) }
 
+                contactDiaryOverviewElementBody.contentDescription = dateFormatterForAccessibility(item.date)
+
                 contactDiaryOverviewElementName.apply {
                     text = dateFormatter(item.date)
-                    contentDescription = dateFormatterForAccessibility(item.date)
                 }
 
                 contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()

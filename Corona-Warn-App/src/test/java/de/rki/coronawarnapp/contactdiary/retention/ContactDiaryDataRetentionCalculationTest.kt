@@ -33,7 +33,8 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     @MockK lateinit var contactDiaryRepository: DefaultContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
-    private val testDates = arrayListOf<String>("2020-08-20T14:00:00.000Z",
+    private val testDates = arrayListOf<String>(
+        "2020-08-20T14:00:00.000Z",
         "2020-08-20T13:00:00.000Z",
         "2020-08-19T14:00:00.000Z",
         "2020-08-05T14:00:00.000Z",

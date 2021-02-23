@@ -36,28 +36,32 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of today`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(0), POSITIVE), now
+            Symptoms(timeStamper.nowUTC.startMinusDays(0), POSITIVE),
+            now
         ).raw shouldBe intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of yesterday`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(1), POSITIVE), now
+            Symptoms(timeStamper.nowUTC.startMinusDays(1), POSITIVE),
+            now
         ).raw shouldBe intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of 5 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(5), POSITIVE), now
+            Symptoms(timeStamper.nowUTC.startMinusDays(5), POSITIVE),
+            now
         ).raw shouldBe intArrayOf(2, 3, 5, 6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1)
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of 21 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(21), POSITIVE), now
+            Symptoms(timeStamper.nowUTC.startMinusDays(21), POSITIVE),
+            now
         ).raw shouldBe intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 

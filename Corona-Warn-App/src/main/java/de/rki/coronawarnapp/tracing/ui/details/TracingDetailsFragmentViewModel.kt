@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.AlreadyGiven
+import de.rki.coronawarnapp.datadonation.survey.Surveys.ConsentResult.Needed
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
@@ -42,7 +45,8 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     riskLevelStorage: RiskLevelStorage,
     tracingDetailsItemProvider: TracingDetailsItemProvider,
     tracingStateProviderFactory: TracingStateProvider.Factory,
-    private val tracingRepository: TracingRepository
+    private val tracingRepository: TracingRepository,
+    private val surveys: Surveys
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = true) }
@@ -108,7 +112,20 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
     fun onItemClicked(item: DetailsItem) {
         when (item) {
             is UserSurveyBox.Item ->
-                routeToScreen.postValue(TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment(item.type))
+                launch {
+                    when (val consentResult = surveys.isConsentNeeded(Surveys.Type.HIGH_RISK_ENCOUNTER)) {
+                        is Needed -> routeToScreen.postValue(
+                            TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment(
+                                item.type
+                            )
+                        )
+                        is AlreadyGiven -> routeToScreen.postValue(
+                            TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser(
+                                consentResult.surveyLink
+                            )
+                        )
+                    }
+                }
         }
     }
 

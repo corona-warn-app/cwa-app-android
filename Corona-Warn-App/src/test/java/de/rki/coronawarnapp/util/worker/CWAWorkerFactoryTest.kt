@@ -48,7 +48,9 @@ class CWAWorkerFactoryTest : BaseTest() {
     fun `instantiate one of our workers`() {
         val instance = createInstance()
         instance.createWorker(
-            context, DiagnosisKeyRetrievalOneTimeWorker::class.qualifiedName!!, workerParameters
+            context,
+            DiagnosisKeyRetrievalOneTimeWorker::class.qualifiedName!!,
+            workerParameters
         ) shouldBe ourWorker
     }
 

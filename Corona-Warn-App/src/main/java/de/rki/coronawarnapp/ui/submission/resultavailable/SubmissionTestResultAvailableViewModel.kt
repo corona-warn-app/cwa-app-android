@@ -32,42 +32,51 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
+    val showKeyRetrievalProgress = SingleLiveEvent<Boolean>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
-    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
-        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-            Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
+        object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
+                autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
 
-            routeToScreen.postValue(
-                SubmissionTestResultAvailableFragmentDirections
-                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
-            )
-        }
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
+                )
 
-        override fun onTEKPermissionDeclined() {
-            routeToScreen.postValue(
-                SubmissionTestResultAvailableFragmentDirections
-                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
-            )
-        }
+                showKeyRetrievalProgress.postValue(false)
+            }
 
-        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            showTracingConsentDialog.postValue(onConsentResult)
-        }
+            override fun onTEKPermissionDeclined() {
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                )
+                showKeyRetrievalProgress.postValue(false)
+            }
 
-        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            showPermissionRequest.postValue(permissionRequest)
-        }
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                showTracingConsentDialog.postValue(onConsentResult)
+                showKeyRetrievalProgress.postValue(false)
+            }
 
-        override fun onError(error: Throwable) {
-            Timber.e(error, "Failed to update TEKs.")
-            error.report(
-                exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
-                prefix = "SubmissionTestResultAvailableViewModel"
-            )
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                showPermissionRequest.postValue(permissionRequest)
+                showKeyRetrievalProgress.postValue(false)
+            }
+
+            override fun onError(error: Throwable) {
+                Timber.e(error, "Failed to update TEKs.")
+                error.report(
+                    exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
+                    prefix = "SubmissionTestResultAvailableViewModel"
+                )
+                showKeyRetrievalProgress.postValue(false)
+            }
         }
-    })
+    )
 
     init {
         submissionRepository.refreshDeviceUIState(refreshTestResult = false)
@@ -94,6 +103,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun proceed() {
+        showKeyRetrievalProgress.value = true
         launch {
             if (consentFlow.first()) {
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
@@ -107,6 +117,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        showKeyRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
