@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -57,8 +56,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         val testResult: TestResult? = null
     )
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
+    private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
