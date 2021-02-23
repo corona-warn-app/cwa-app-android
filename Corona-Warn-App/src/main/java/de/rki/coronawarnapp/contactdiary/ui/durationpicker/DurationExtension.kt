@@ -16,3 +16,9 @@ fun Duration.toContactDiaryFormat(): String {
     }
     return "$hours:$minutes"
 }
+
+fun Duration.toReadableDuration(durationSuffix: String?): String {
+    val durationInMinutes = standardMinutes
+    val durationString = String.format("%02d:%02d", durationInMinutes / 60, (durationInMinutes % 60))
+    return "$durationString $durationSuffix"
+}

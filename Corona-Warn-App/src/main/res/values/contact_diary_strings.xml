@@ -140,6 +140,8 @@
     <string name="contact_diary_export_location_duration_prefix" translatable="false">"Dauer"</string>
     <!-- XTXT: Location duration postfix in the contact journal export-->
     <string name="contact_diary_export_location_duration_suffix" translatable="false">"h"</string>
+    <!-- XTXT: Location duration prefix in the contact journal overview-->
+    <string name="contact_diary_overview_location_duration_suffix" translatable="false">"Std."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Notiz"</string>
