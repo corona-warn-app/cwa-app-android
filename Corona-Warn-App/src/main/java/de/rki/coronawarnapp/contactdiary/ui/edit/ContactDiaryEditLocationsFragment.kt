@@ -7,7 +7,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
-import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet
+import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.LocationEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
@@ -56,10 +56,10 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
 
             when (it) {
                 ShowDeletionConfirmationDialog -> DialogHelper.showDialog(deleteAllLocationsConfirmationDialog)
-                is ShowLocationDetailSheet -> {
+                is ShowLocationDetailFragment -> {
                     doNavigate(
                         ContactDiaryEditLocationsFragmentDirections
-                            .actionContactDiaryEditLocationsFragmentToContactDiaryLocationBottomSheetDialogFragment(
+                            .actionContactDiaryEditLocationsFragmentToContactDiaryAddLocationFragment(
                                 it.location
                             )
                     )

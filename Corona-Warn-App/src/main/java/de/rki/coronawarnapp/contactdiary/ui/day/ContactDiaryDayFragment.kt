@@ -73,15 +73,15 @@ class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), A
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 ContactDiaryDayNavigationEvents.NavigateToOverviewFragment -> popBackStack()
-                ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet -> doNavigate(
+                ContactDiaryDayNavigationEvents.NavigateToAddPersonFragment -> doNavigate(
                     ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryPersonBottomSheetDialogFragment(
+                        .actionContactDiaryDayFragmentToContactDiaryAddPersonFragment(
                             addedAt = navArgs.selectedDay
                         )
                 )
-                ContactDiaryDayNavigationEvents.NavigateToAddLocationBottomSheet -> doNavigate(
+                ContactDiaryDayNavigationEvents.NavigateToAddLocationFragment -> doNavigate(
                     ContactDiaryDayFragmentDirections
-                        .actionContactDiaryDayFragmentToContactDiaryLocationBottomSheetDialogFragment(
+                        .actionContactDiaryDayFragmentToContactDiaryAddLocationFragment(
                             addedAt = navArgs.selectedDay
                         )
                 )
