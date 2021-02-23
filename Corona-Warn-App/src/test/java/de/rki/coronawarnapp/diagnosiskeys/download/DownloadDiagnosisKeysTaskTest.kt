@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -52,6 +53,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1080005
+        mockkObject(LocalData)
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
 
         availableKey1.apply {
             every { path } returns File("availableKey1")
@@ -217,6 +220,22 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         coVerifySequence {
             enfClient.isTracingEnabled
+        }
+
+        coVerify(exactly = 0) {
+            enfClient.provideDiagnosisKeys(any(), any())
+        }
+    }
+
+    @Test
+    fun `we do not submit keys if user got positive test results`() = runBlockingTest {
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns true
+
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
+
+        coVerifySequence {
+            enfClient.isTracingEnabled
+            enfClient.latestTrackedExposureDetection()
         }
 
         coVerify(exactly = 0) {

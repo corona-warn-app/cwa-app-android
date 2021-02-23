@@ -37,8 +37,8 @@ class CrashReportAdapter(private val itemClickListener: (bugEvent: BugEvent) -> 
     class CrashHolder(private val binding: ViewCrashreportListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bugEvent: BugEvent, pos: Int) {
-            binding.crashReportTitle = "Error #${pos + 1}"
-            binding.message = bugEvent.exceptionMessage
+            binding.crashReportTitle = "#${pos + 1} ${bugEvent.exceptionClass}"
+            binding.message = bugEvent.info ?: bugEvent.exceptionMessage
             binding.crashReportDateFormatted =
                 bugEvent.createdAt.toDateTime(DateTimeZone.getDefault()).toString()
                     .replace("T", "  ")

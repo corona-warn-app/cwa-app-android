@@ -6,11 +6,15 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
+import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.HashExtensions.Format.BASE64
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -19,6 +23,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
@@ -26,6 +31,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 import java.security.SecureRandom
 import kotlin.random.Random
 
@@ -42,14 +48,18 @@ class CWASafetyNetTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appConfigData: ConfigData
+    @MockK lateinit var testSettings: TestSettings
 
     private val defaultPayload = "Computer says no.".toByteArray()
     private val firstSalt = "LMK0jFCu/lOzl07ZHmtOqQ==".decodeBase64()!!
-    private val defaultNonce = (firstSalt.toByteArray() + defaultPayload).toSHA256(format = BASE64)
+    private val defaultNonce = (firstSalt.toByteArray() + defaultPayload).toSHA256(format = BASE64).decodeBase64()!!
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkObject(CWADebug)
+        every { CWADebug.isDeviceForTestersBuild } returns false
+
         every { environmentSetup.safetyNetApiKey } returns "very safe"
         coEvery { safetyNetClientWrapper.attest(any()) } returns clientReport
         every { secureRandom.nextBytes(any()) } answers {
@@ -73,6 +83,8 @@ class CWASafetyNetTest : BaseTest() {
 
         every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.standardDays(7))
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(8))
+
+        every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(false)
     }
 
     private fun createInstance() = CWASafetyNet(
@@ -82,7 +94,8 @@ class CWASafetyNetTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         googleApiVersion = googleApiVersion,
         timeStamper = timeStamper,
-        cwaSettings = cwaSettings
+        cwaSettings = cwaSettings,
+        testSettings = testSettings
     )
 
     @Test
@@ -102,7 +115,7 @@ class CWASafetyNetTest : BaseTest() {
             salt,
             payload
         )
-        nonce shouldBe "M2EqczgxveKiptESiBNRmKqxYv5raTdzyeSZyzsCvjg="
+        nonce shouldBe "M2EqczgxveKiptESiBNRmKqxYv5raTdzyeSZyzsCvjg=".decodeBase64()
     }
 
     @Test
@@ -115,7 +128,7 @@ class CWASafetyNetTest : BaseTest() {
         otp.otp shouldBe "hello-world"
 
         val nonce = createInstance().calculateNonce(salt, payload)
-        nonce shouldBe "ANjVoDcS8v8iQdlNrcxehSggE9WZwIp7VNpjoU7cPsg="
+        nonce shouldBe "ANjVoDcS8v8iQdlNrcxehSggE9WZwIp7VNpjoU7cPsg=".decodeBase64()
     }
 
     @Test
@@ -127,7 +140,20 @@ class CWASafetyNetTest : BaseTest() {
             salt,
             payload
         )
-        nonce shouldBe "Alzb6UASmHCdnnT0M8pQv5bQ/r/+lfS/jb760+ikhxc="
+        nonce shouldBe "Alzb6UASmHCdnnT0M8pQv5bQ/r/+lfS/jb760+ikhxc=".decodeBase64()
+    }
+
+    @Test
+    fun `nonce matches server calculation - serverstyle - PPA Payload`() {
+        // Server get's base64 encoded data and has to decode it first.
+        val salt = "Ri0AXC9U+b9hE58VqupI8Q==".decodeBase64()!!.toByteArray()
+        val payload = "Eg0IAxABGMGFyOT6LiABOgkIBBDdj6AFGAI=".decodeBase64()!!.toByteArray()
+
+        val ppa = PpaData.PPADataAndroid.parseFrom(payload)
+        ppa.exposureRiskMetadataSetList.first().riskLevel shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+
+        val nonce = createInstance().calculateNonce(salt, payload)
+        nonce shouldBe "bd6kMfLKby3pzEqW8go1ZgmHN/bU1p/4KG6+1GeB288=".decodeBase64()
     }
 
     @Test
@@ -135,7 +161,7 @@ class CWASafetyNetTest : BaseTest() {
         val payload = "Computer says no.".toByteArray()
         val salt = "Don't be so salty".toByteArray()
         val nonce = createInstance().calculateNonce(salt, payload)
-        nonce shouldBe (salt + payload).toSHA256(format = BASE64)
+        nonce shouldBe (salt + payload).toSHA256(format = BASE64).decodeBase64()
     }
 
     @Test
@@ -165,7 +191,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `request nonce must match response nonce`() = runBlockingTest {
-        every { clientReport.nonce } returns "missmatch"
+        every { clientReport.nonce } returns "missmatch".decodeBase64()
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }
@@ -199,6 +225,27 @@ class CWASafetyNetTest : BaseTest() {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }
         exception.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+    }
+
+    @Test
+    fun `24h since onboarding can be skipped on deviceForTester builds`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+
+        shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+
+        every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(true)
+
+        shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
+
+        every { CWADebug.isDeviceForTestersBuild } returns true
+
+        shouldNotThrowAny {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }
     }
 
     @Test
