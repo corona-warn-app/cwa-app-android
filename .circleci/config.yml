@@ -599,7 +599,7 @@ jobs:
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
-            sudo chown -R $USER:$USER firebase-screenshots
+            sudo chown -R circleci:circleci firebase-screenshots
           when: always
       - store_test_results:
           path: ./firebase-screenshots
