@@ -21,14 +21,14 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 
 /**
  * DiagnosisKeyRetrievalPeriodicWorker test.
  */
 @Ignore("FixMe:DiagnosisKeyRetrievalPeriodicWorkerTest")
 @RunWith(AndroidJUnit4::class)
-class DiagnosisKeyRetrievalPeriodicWorkerTest : BaseTest() {
+class DiagnosisKeyRetrievalPeriodicWorkerTest : BaseTestInstrumentation() {
     private lateinit var context: Context
     private lateinit var workManager: WorkManager
     private lateinit var request: WorkRequest
