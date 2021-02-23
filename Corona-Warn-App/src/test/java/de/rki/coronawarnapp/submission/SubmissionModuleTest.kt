@@ -4,7 +4,6 @@ import android.content.Context
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -36,7 +35,6 @@ class SubmissionModuleTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

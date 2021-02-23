@@ -9,11 +9,13 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater_Factory_Impl
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
@@ -34,6 +36,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater_Factory_Impl
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
 
     @Rule
     @JvmField
@@ -48,6 +51,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
         every { submissionRepository.deviceUIStateFlow } returns flowOf()
         every { submissionRepository.testResultReceivedDateFlow } returns flowOf()
+        every { appShortcutsHelper.removeAppShortcut() } just Runs
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(
@@ -68,7 +72,6 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

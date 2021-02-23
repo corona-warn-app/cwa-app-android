@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelResult
@@ -10,12 +11,11 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -38,11 +38,6 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { highAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
         every { lowAggregatedRiskResult.isIncreasedRisk() } returns false
         every { lowAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createRiskLevelResult(
@@ -91,7 +86,11 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }
@@ -137,7 +136,11 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }

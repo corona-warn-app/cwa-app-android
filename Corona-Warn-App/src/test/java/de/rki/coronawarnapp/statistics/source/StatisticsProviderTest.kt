@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
@@ -16,7 +15,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -53,11 +51,6 @@ class StatisticsProviderTest : BaseTest() {
             every { load() } answers { testLocalCache }
             every { save(any()) } answers { testLocalCache = arg(0) }
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance(scope: CoroutineScope) = StatisticsProvider(

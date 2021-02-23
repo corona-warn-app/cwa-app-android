@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
@@ -72,8 +73,13 @@ class Analytics @Inject constructor(
         }
     }
 
-    suspend fun collectContributions(ppaDataBuilder: PpaData.PPADataAndroid.Builder): List<DonorModule.Contribution> {
-        val request: DonorModule.Request = object : DonorModule.Request {}
+    suspend fun collectContributions(
+        configData: ConfigData,
+        ppaDataBuilder: PpaData.PPADataAndroid.Builder
+    ): List<DonorModule.Contribution> {
+        val request: DonorModule.Request = object : DonorModule.Request {
+            override val currentConfig: ConfigData = configData
+        }
 
         val contributions = donorModules.mapNotNull {
             val moduleName = it::class.simpleName
@@ -100,12 +106,12 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun submitAnalyticsData(analyticsConfig: AnalyticsConfig): Result {
+    suspend fun submitAnalyticsData(configData: ConfigData): Result {
         Timber.tag(TAG).d("Starting analytics submission")
 
         val ppaDataBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        val contributions = collectContributions(ppaDataBuilder = ppaDataBuilder)
+        val contributions = collectContributions(configData, ppaDataBuilder)
 
         val analyticsProto = ppaDataBuilder.build()
 
@@ -113,7 +119,7 @@ class Analytics @Inject constructor(
             // 6min, if attestation and/or submission takes longer than that,
             // then we want to give modules still time to cleanup and get into a consistent state.
             withTimeout(360_000) {
-                trySubmission(analyticsConfig, analyticsProto)
+                trySubmission(configData.analytics, analyticsProto)
             }
         } catch (e: TimeoutCancellationException) {
             Timber.tag(TAG).e(e, "trySubmission() timed out after 360s.")
@@ -173,9 +179,9 @@ class Analytics @Inject constructor(
 
     suspend fun submitIfWanted(): Result = submissionLockoutMutex.withLock {
         Timber.tag(TAG).d("Checking analytics conditions")
-        val analyticsConfig: AnalyticsConfig = appConfigProvider.getAppConfig().analytics
+        val configData: ConfigData = appConfigProvider.getAppConfig()
 
-        if (stopDueToNoAnalyticsConfig(analyticsConfig)) {
+        if (stopDueToNoAnalyticsConfig(configData.analytics)) {
             Timber.tag(TAG).w("Aborting Analytics submission due to noAnalyticsConfig")
             return@withLock Result(successful = false)
         }
@@ -185,7 +191,7 @@ class Analytics @Inject constructor(
             return@withLock Result(successful = false)
         }
 
-        if (stopDueToProbabilityToSubmit(analyticsConfig)) {
+        if (stopDueToProbabilityToSubmit(configData.analytics)) {
             Timber.tag(TAG).w("Aborting Analytics submission due to probabilityToSubmit")
             return@withLock Result(successful = false)
         }
@@ -200,7 +206,7 @@ class Analytics @Inject constructor(
             return@withLock Result(successful = false)
         }
 
-        return@withLock submitAnalyticsData(analyticsConfig)
+        return@withLock submitAnalyticsData(configData)
     }
 
     private suspend fun deleteAllData() = submissionLockoutMutex.withLock {

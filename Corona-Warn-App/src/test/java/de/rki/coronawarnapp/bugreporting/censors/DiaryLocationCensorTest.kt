@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -34,7 +33,6 @@ class DiaryLocationCensorTest : BaseTest() {
     @AfterEach
     fun teardown() {
         QRCodeCensor.lastGUID = null
-        clearAllMocks()
     }
 
     private fun createInstance(scope: CoroutineScope) = DiaryLocationCensor(

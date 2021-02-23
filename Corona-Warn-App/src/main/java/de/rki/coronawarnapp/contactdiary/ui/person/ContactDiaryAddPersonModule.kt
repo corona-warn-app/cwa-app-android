@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.sheets.person
+package de.rki.coronawarnapp.contactdiary.ui.person
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ContactDiaryPersonBottomSheetDialogModule {
+abstract class ContactDiaryAddPersonModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(ContactDiaryPersonBottomSheetDialogViewModel::class)
-    abstract fun contactDiaryPersonBottomSheetDialogFragment(
-        factory: ContactDiaryPersonBottomSheetDialogViewModel.Factory
+    @CWAViewModelKey(ContactDiaryAddPersonViewModel::class)
+    abstract fun contactDiaryAddPersonFragment(
+        factory: ContactDiaryAddPersonViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

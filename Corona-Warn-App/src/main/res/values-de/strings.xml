@@ -1755,6 +1755,9 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">"Eintrag hinzufügen"</string>
+
     <!-- XTXT: Statistics information (Accessibilty) -->
     <string name="statistics_info_button">"Weitere Informationen"</string>
     <!-- XHED: Title for statistics reproduction card -->
@@ -1878,4 +1881,17 @@
     <string name="analytics_userinput_district_title">Ihr Kreis/Bezirk</string>
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">keine Angabe</string>
+
+    <!-- ####################################
+       Duration dialog
+   ###################################### -->
+
+    <!-- XHED: Duration dialog title -->
+    <string name="duration_dialog_title">Dauer</string>
+    <!-- XBUT: Duration dialog cancel button -->
+    <string name="duration_dialog_cancel_button">Cancel</string>
+    <!-- XBUT: Duration dialog ok button -->
+    <string name="duration_dialog_ok_button">OK</string>
+    <!-- NOTR -->
+    <string name="duration_dialog_default_value">00:00</string>
 </resources>

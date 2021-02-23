@@ -57,7 +57,6 @@ class NewReleaseInfoFragmentTest : BaseTest() {
     @Test
     fun `ensure DEFAULT aka FRENCH new release info arrays are of equal length`() = loadAndCompareStringArrayResources()
 
-
     private fun loadAndCompareStringArrayResources() {
         val titles = context.resources.getStringArray(R.array.new_release_title)
         val bodies = context.resources.getStringArray(R.array.new_release_body)
@@ -68,5 +67,4 @@ class NewReleaseInfoFragmentTest : BaseTest() {
         bodies.size shouldBe labels.size
         labels.size shouldBe urls.size
     }
-
 }

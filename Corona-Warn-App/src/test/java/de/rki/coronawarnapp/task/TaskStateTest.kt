@@ -3,11 +3,9 @@ package de.rki.coronawarnapp.task
 import de.rki.coronawarnapp.task.internal.InternalTaskState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.Deferred
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -19,11 +17,6 @@ class TaskStateTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

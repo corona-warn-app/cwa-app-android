@@ -6,24 +6,22 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.flakyTest
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
-class DebugOptionsFragmentViewModelTest : BaseTest() {
+class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var context: Context
@@ -48,11 +46,6 @@ class DebugOptionsFragmentViewModelTest : BaseTest() {
         every { environmentSetup.currentEnvironment } answers {
             currentEnvironment
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(

@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -47,7 +46,6 @@ class DataDonationAnalyticsServerTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
         testDir.deleteRecursively()
     }
