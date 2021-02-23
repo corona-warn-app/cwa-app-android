@@ -613,10 +613,10 @@ jobs:
             rm -f firebase-screenshots/*/test_result_1.xml
       - compress-path:
           input: ./firebase-screenshots
-          output: /tmp/screenshots.zip
+          output: /tmp/screenshots/CWA-Android-Screenshots-`${CIRCLE_SHA1}`.zip
       - store_artifacts:
-          path: /tmp/screenshots.zip
-          destination: zips/CWA-Android-Screenshots-${CIRCLE_SHA1}.zip
+          path: /tmp/screenshots
+          destination: zips/
 
 #######################
 # Workflow section
