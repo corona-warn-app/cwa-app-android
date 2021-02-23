@@ -85,7 +85,7 @@ class SubmissionRepository @Inject constructor(
             return
         }
 
-        if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
+        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
             return
         }
