@@ -17,22 +17,34 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Link to RKI survey"</item>
-        <item>"Consent to Share Data (optional)"</item>
-        <item>"Changes to the Risk Tiles"</item>
-        <item>"Continuation of Exposure Logging after Sharing Your Random IDs"</item>
-        <item>"Implementation of Tabs"</item>
-        <item>"More Information about the Testing Procedure"</item>
+        <item>EN: Zusatzfunktionen im Kontakt-Tagebuch</item>
+        <item>Direkter Zugriff auf Kontakt-Tagebuch</item>
+        <item>Mehr Details zum Risikostatus</item>
+        <item>Screenshots zur Corona-Warn-App</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"If you have an increased risk, you can start and take a survey conducted by the Robert Koch Institute from within the app."</item>
-        <item>"You now have the option of sharing your usage data, which will help us to improve the app."</item>
-        <item>"Minor changes to the texts on the risk tiles."</item>
-        <item>"After you have shared your encrypted random IDs, you can decide whether and when you want to switch exposure logging back on."</item>
-        <item>"There is now a separate tab page for your contact journal. This lets you access your journal and switch from the contact journal back to the home screen of the app more quickly."</item>
-        <item>"The app now contains more detailed information about the testing procedure."</item>
+        <item>EN: Sie können zu jedem Eintrag angeben, unter welchen Umständen die Begegnung stattfand. Sie können aus vorgegebenen Optionen auswählen (z.B. Dauer der Begegnung, mit oder ohne Maske) sowie zusätzlich in einer kurzen Notiz weitere Umstände erfassen, die zu einem erhöhten Risiko führen könnten. Sollten Sie sich tatsächlich anstecken, können diese Angaben dem Gesundheitsamt bei der Nachverfolgung möglicher Infektionsketten helfen.</item>
+        <item>Sie können nun direkt einen Eintrag im Kontakt-Tagebuch hinzufügen, ohne erst die App öffnen zu müssen. Tippen Sie dazu etwa 2 Sekunden lang auf das Icon der Corona-Warn-App bis ein Menü erscheint und tippen Sie dann auf "Tagebuch-Eintrag für heute hinzufügen“.</item>
+        <item>Wenn Ihnen in der App ein erhöhtes Risiko angezeigt wird, können Sie nun sehen, ob der Risikostatus aufgrund einer bzw. mehrerer Begegnungen mit erhöhtem Risiko angezeigt wird, oder aufgrund von mehreren Begegnungen mit niedrigem Risiko.</item>
+        <item>Auf https://www.coronawarn.app stehen nun alle Screenshots der App zu Verfügung. So können Sie sich nun auch über geplante Funktionen der App informieren.</item>
+    </string-array>
+
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>https://www.coronawarn.app</item>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>https://www.coronawarn.app/en/screenshots</item>
     </string-array>
 
 </resources>
