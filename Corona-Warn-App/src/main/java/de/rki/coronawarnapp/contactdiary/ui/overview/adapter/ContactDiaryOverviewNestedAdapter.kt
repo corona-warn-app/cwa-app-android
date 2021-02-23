@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
@@ -41,8 +42,10 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
                     ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
                     ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
                 }
-                contactDiaryOverviewElementAttributes.text =
-                    getAttributes(key.duration, key.attributes, key.circumstances)
+                val attributes = getAttributes(key.duration, key.attributes, key.circumstances)
+                if (attributes.isNotEmpty()) {
+                    contactDiaryOverviewElementAttributes.text = attributes
+                } else contactDiaryOverviewElementAttributes.visibility = View.GONE
             }
 
         private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String =
