@@ -7,20 +7,25 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
+import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.setupWithNavController2
+import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
@@ -30,6 +35,7 @@ import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import org.joda.time.LocalDate
 import javax.inject.Inject
 
 /**
@@ -41,8 +47,24 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
-        fun start(context: Context) {
-            context.startActivity(Intent(context, MainActivity::class.java))
+        private const val EXTRA_DATA = "shortcut"
+
+        fun start(context: Context, shortcut: AppShortcuts? = null) {
+            val intent = Intent(context, MainActivity::class.java).apply {
+                if (shortcut != null) {
+                    putExtra(EXTRA_DATA, shortcut.toString())
+                    flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            }
+            context.startActivity(intent)
+        }
+
+        private fun getShortcutFromIntent(intent: Intent): AppShortcuts? {
+            val extra = intent.getStringExtra(EXTRA_DATA)
+            if (extra != null) {
+                return AppShortcuts.valueOf(extra)
+            }
+            return null
         }
     }
 
@@ -61,6 +83,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
+    @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
@@ -89,6 +112,37 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.isOnboardingDone.observe(this) { isOnboardingDone ->
             startNestedGraphDestination(navController, isOnboardingDone)
         }
+
+        if (savedInstanceState == null) {
+            processExtraParameters()
+        }
+    }
+
+    private fun processExtraParameters() {
+        when (getShortcutFromIntent(intent)) {
+            AppShortcuts.CONTACT_DIARY -> {
+                goToContactJournal()
+            }
+        }
+    }
+
+    private fun goToContactJournal() {
+        val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
+            R.id.contact_diary_nav_graph
+        val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
+
+        if (vm.isOnboardingDone.value == true) {
+            nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
+            navController.navigate(
+                ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
+                    selectedDay = LocalDate().toString()
+                )
+            )
+        } else {
+            nestedGraph.startDestination = R.id.contactDiaryOnboardingFragment
+            navController.navigate("coronawarnapp://contact-journal/oboarding/?goToDay=true".toUri())
+        }
     }
 
     private fun startNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
@@ -108,6 +162,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         scheduleWork()
         vm.doBackgroundNoiseCheck()
         contactDiaryWorkScheduler.schedulePeriodic()
+        dataDonationAnalyticsScheduler.schedulePeriodic()
         if (!LocalData.isAllowedToSubmitDiagnosisKeys()) {
             deadmanScheduler.schedulePeriodic()
         }

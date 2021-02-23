@@ -24,7 +24,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 import testhelpers.gms.MockGMSTask
 import java.io.IOException
 
@@ -74,7 +73,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `attestation can time out`() = runBlockingTest2(ignoreActive = true) {
+    fun `attestation can time out`() = runBlockingTest {
         every { safetyNetClient.attest(any(), any()) } returns MockGMSTask.timeout()
 
         val resultAsync = async {
@@ -83,10 +82,8 @@ class SafetyNetClientWrapperTest : BaseTest() {
             }
         }
 
-        advanceTimeBy(31 * 1000L)
-
         val error = resultAsync.await()
-        error.type shouldBe SafetyNetException.Type.ATTESTATION_FAILED
+        error.type shouldBe SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
         error.cause shouldBe instanceOf(TimeoutCancellationException::class)
     }
 
@@ -148,7 +145,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
                 body shouldBe JsonParser.parseString(JWS_BODY)
                 signature shouldBe JWS_SIGNATURE_BASE64.decodeBase64()!!.toByteArray()
 
-                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()?.utf8()
+                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"
                 basicIntegrity shouldBe false
                 ctsProfileMatch shouldBe false
@@ -164,7 +161,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
             createInstance().attest("hodl".toByteArray()).apply {
                 body shouldBe JsonParser.parseString(JWS_BODY_MINIMAL)
 
-                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()?.utf8()
+                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"
                 basicIntegrity shouldBe false
                 ctsProfileMatch shouldBe false

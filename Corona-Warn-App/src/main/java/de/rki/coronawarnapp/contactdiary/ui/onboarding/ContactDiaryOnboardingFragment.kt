@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.contactdiary.ui.onboarding
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
@@ -15,6 +17,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.LocalDate
 import javax.inject.Inject
 
 class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboarding_fragment), AutoInject {
@@ -31,7 +34,6 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             contactDiaryOnboardingNextButton.setOnClickListener {
-
                 vm.onNextButtonClick()
             }
             if (!args.showBottomNav) {
@@ -63,10 +65,17 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToOverviewFragment -> {
                     onboardingComplete()
-                    doNavigate(
-                        ContactDiaryOnboardingFragmentDirections
-                            .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
-                    )
+                    if (arguments?.containsKey(OPEN_CURRENT_DAY) == true) {
+                        findNavController().apply {
+                            popBackStack(R.id.contactDiaryOnboardingFragment, true)
+                            navigate("coronawarnapp://contact-journal/day/${LocalDate()}".toUri())
+                        }
+                    } else {
+                        doNavigate(
+                            ContactDiaryOnboardingFragmentDirections
+                                .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
+                        )
+                    }
                 }
             }
         }
@@ -79,5 +88,9 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
     override fun onResume() {
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    companion object {
+        private const val OPEN_CURRENT_DAY = "goToDay"
     }
 }

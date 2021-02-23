@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.core.app.ShareCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
@@ -18,6 +17,7 @@ import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -111,7 +111,15 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         }
 
         vm.showErrorDialog.observe2(this) {
-            showErrorDialog(it)
+            val humanReadableError = it.tryHumanReadableError(requireContext())
+            val dialog = DialogHelper.DialogInstance(
+                context = requireContext(),
+                title = R.string.datadonation_details_survey_consent_error_dialog_title,
+                message = humanReadableError.description,
+                positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
+                cancelable = false
+            )
+            DialogHelper.showDialog(dialog)
         }
 
         vm.currentSafetyNetExceptionType.observe2(this) { type ->
@@ -153,6 +161,14 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
 
             surveyExceptionSimulationButton.setOnClickListener { vm.showSurveyErrorDialog() }
         }
+
+        vm.isSafetyNetTimeCheckSkipped.observe2(this) {
+            binding.disableSafetynetToggle.isChecked = it
+        }
+
+        binding.disableSafetynetToggle.setOnClickListener {
+            vm.toggleSkipSafetyNetTimeCheck()
+        }
     }
 
     private fun RadioGroup.addRadioButton(text: String) {
@@ -167,19 +183,6 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         forEach {
             it as RadioButton
             it.isChecked = it.text == name
-        }
-    }
-
-    private fun showErrorDialog(@StringRes stringRes: Int) {
-        context?.let {
-            val dialog = DialogHelper.DialogInstance(
-                context = it,
-                title = R.string.datadonation_details_survey_consent_error_dialog_title,
-                message = stringRes,
-                positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
-                cancelable = false
-            )
-            DialogHelper.showDialog(dialog)
         }
     }
 

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
@@ -144,6 +145,8 @@ class AnalyticsSettings @Inject constructor(
         finalTestResultReceivedAt.update { null }
         testResultAtRegistration.update { null }
     }
+
+    fun clear() = prefs.clearAndNotify()
 
     companion object {
         private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
