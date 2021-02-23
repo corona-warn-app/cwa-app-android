@@ -25,8 +25,8 @@
             android:id="@+id/contact_diary_overview_scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
@@ -34,6 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
 
@@ -64,20 +66,6 @@
 
         </androidx.core.widget.NestedScrollView>
 
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
