@@ -199,7 +199,11 @@ class TestResultDonor @Inject constructor(
             protobufContainer.addTestResultMetadataSet(testResultMetadata)
         }
 
-        override suspend fun finishDonation(successful: Boolean) = onFinishDonation()
+        override suspend fun finishDonation(successful: Boolean) {
+            if (successful) {
+                onFinishDonation()
+            } // else Keep data for next submission
+        }
     }
 
     object TestResultMetadataNoContribution : DonorModule.Contribution {
