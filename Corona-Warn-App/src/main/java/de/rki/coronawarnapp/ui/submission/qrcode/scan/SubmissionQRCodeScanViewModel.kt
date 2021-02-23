@@ -1,17 +1,15 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
@@ -21,14 +19,11 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
-    private val analyticsSettings: AnalyticsSettings,
-    private val testResultDonorSettings: TestResultDonorSettings,
-    private val riskLevelStorage: RiskLevelStorage,
+    private val testResultDataCollector: TestResultDataCollector
 ) :
     CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
@@ -56,14 +51,15 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         val testResult: TestResult? = null
     )
 
-    private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
             // Order here is important. Save Analytics after SUCCESS
-            saveTestResultAnalyticsSettings(testResult)
+            testResultDataCollector.saveTestResultAnalyticsSettings(testResult)
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
@@ -81,19 +77,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         } catch (err: Exception) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             err.report(ExceptionCategory.INTERNAL)
-        }
-    }
-
-    // Collect Test result registration only after user has given a consent.
-    // To exclude any registered test result before giving a consent
-    private suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) {
-        if (analyticsSettings.analyticsEnabled.value) {
-            val lastRiskResult = riskLevelStorage
-                .latestAndLastSuccessful
-                .first()
-                .tryLatestResultsWithDefaults()
-                .lastCalculated
-            testResultDonorSettings.saveTestResultDonorDataAtRegistration(testResult, lastRiskResult)
         }
     }
 

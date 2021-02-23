@@ -1,16 +1,19 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.playbook.BackgroundNoise
-import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
@@ -24,9 +27,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var analyticsSettings: AnalyticsSettings
-    @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
-    @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var testResultDataCollector: TestResultDataCollector
 
     @BeforeEach
     fun setUp() {
@@ -38,9 +39,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         submissionRepository,
-        analyticsSettings,
-        testResultDonorSettings,
-        riskLevelStorage
+        testResultDataCollector
     )
 
     @Test
@@ -63,5 +62,18 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         // invalid guid
         viewModel.validateTestGUID("https://no-guid-here")
         viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.INVALID, it.value) }
+    }
+
+    @Test
+    fun `doDeviceRegistration calls TestResultDataCollector`() {
+        val viewModel = createViewModel()
+        val mockResult = mockk<QRScanResult>().apply {
+            every { guid } returns "guid"
+        }
+
+        coEvery { submissionRepository.asyncRegisterDeviceViaGUID(any()) } returns TestResult.POSITIVE
+        viewModel.doDeviceRegistration(mockResult)
+
+        coVerify { testResultDataCollector.saveTestResultAnalyticsSettings(any()) }
     }
 }
