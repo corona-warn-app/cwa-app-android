@@ -85,29 +85,33 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                         data.addLocationVisitsForDate(locationVisitList, date)
                         risk = riskLevelPerDateList
                             .firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == it }
-                            ?.toRisk(data.isEmpty())
+                            ?.toRisk(data.isNotEmpty())
                     }
             }
     }
 
-    private fun AggregatedRiskPerDateResult.toRisk(noLocationOrPerson: Boolean): ListItem.Risk {
+    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): ListItem.Risk {
         @StringRes val title: Int
+        @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int
 
-        @StringRes val body: Int = when (noLocationOrPerson) {
-            true -> R.string.contact_diary_risk_body
-            false -> R.string.contact_diary_risk_body_extended
+        @StringRes val bodyExtend: Int? = when (locationOrPerson) {
+            true -> R.string.contact_diary_risk_body_extended
+            false -> null
         }
 
         if (this.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH) {
             title = R.string.contact_diary_high_risk_title
             drawableId = R.drawable.ic_high_risk_alert
+            if (minimumDistinctEncountersWithHighRisk == 0) {
+                body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters
+            }
         } else {
             title = R.string.contact_diary_low_risk_title
             drawableId = R.drawable.ic_low_risk_alert
         }
 
-        return ListItem.Risk(title, body, drawableId)
+        return ListItem.Risk(title, body, bodyExtend, drawableId)
     }
 
     private fun MutableList<ListItem.Data>.addPersonEncountersForDate(
