@@ -36,6 +36,10 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
             }
             imeOptions = EditorInfo.IME_ACTION_DONE
             setRawInputType(InputType.TYPE_CLASS_TEXT)
+            // When the user entered something and puts the app into the background
+            viewTreeObserver.addOnWindowFocusChangeListener {
+                notifyTextChanged(text.toString())
+            }
         }
         infoButton = findViewById(R.id.info_button)
     }
