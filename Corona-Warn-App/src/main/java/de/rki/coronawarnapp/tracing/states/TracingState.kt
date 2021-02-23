@@ -168,6 +168,8 @@ data class LowRisk(
         )
     }
 
+    fun isGoneOnContentLowView(context: Context) = getRiskContactLast(context) != null && !isInDetailsMode
+
     fun getProgressColorLowRisk(context: Context) = context.getColorCompat(R.color.colorStableLight)
 }
 

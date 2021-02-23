@@ -7,7 +7,8 @@ data class EnvironmentState(
     val available: List<EnvironmentSetup.Type>,
     val urlSubmission: String,
     val urlDownload: String,
-    val urlVerification: String
+    val urlVerification: String,
+    val urlDataDonation: String
 ) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
@@ -15,7 +16,8 @@ data class EnvironmentState(
             available = EnvironmentSetup.Type.values().toList(),
             urlSubmission = submissionCdnUrl,
             urlDownload = downloadCdnUrl,
-            urlVerification = verificationCdnUrl
+            urlVerification = verificationCdnUrl,
+            urlDataDonation = dataDonationCdnUrl
         )
     }
 }

@@ -57,13 +57,13 @@
 
             <TextView
                 android:id="@+id/textViewCrashReportShortMessage"
-                style="@style/body1"
+                style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:inputType="none"
-                android:maxLines="1"
+                android:maxLines="4"
                 android:text="@{message}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -29,54 +29,81 @@ import okhttp3.Response
 import timber.log.Timber
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.HttpsURLConnection.HTTP_ACCEPTED
+import javax.net.ssl.HttpsURLConnection.HTTP_BAD_GATEWAY
+import javax.net.ssl.HttpsURLConnection.HTTP_BAD_REQUEST
+import javax.net.ssl.HttpsURLConnection.HTTP_CONFLICT
+import javax.net.ssl.HttpsURLConnection.HTTP_CREATED
+import javax.net.ssl.HttpsURLConnection.HTTP_FORBIDDEN
+import javax.net.ssl.HttpsURLConnection.HTTP_GATEWAY_TIMEOUT
+import javax.net.ssl.HttpsURLConnection.HTTP_GONE
+import javax.net.ssl.HttpsURLConnection.HTTP_INTERNAL_ERROR
+import javax.net.ssl.HttpsURLConnection.HTTP_NOT_FOUND
+import javax.net.ssl.HttpsURLConnection.HTTP_NOT_IMPLEMENTED
+import javax.net.ssl.HttpsURLConnection.HTTP_NO_CONTENT
+import javax.net.ssl.HttpsURLConnection.HTTP_OK
+import javax.net.ssl.HttpsURLConnection.HTTP_UNAUTHORIZED
+import javax.net.ssl.HttpsURLConnection.HTTP_UNAVAILABLE
+import javax.net.ssl.HttpsURLConnection.HTTP_UNSUPPORTED_TYPE
+import javax.net.ssl.HttpsURLConnection.HTTP_VERSION
 
 class HttpErrorParser : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         try {
             val response = chain.proceed(chain.request())
 
-            val message: String? = try {
-                if (response.isSuccessful) {
-                    null
-                } else {
-                    response.message
-                }
+            if (response.isSuccessful) {
+                return response
+            }
+
+            val statusMessage: String? = try {
+                response.message
             } catch (e: Exception) {
-                Timber.w("Failed to get http error message.")
+                Timber.w("Failed to get http status-message.")
                 null
             }
+
+            val body: String? = try {
+                response.peekBody(2048).string()
+            } catch (e: Exception) {
+                Timber.w("Failed to get http error body.")
+                null
+            }
+
+            val errorDetails = "$statusMessage body=$body'"
+
             return when (val code = response.code) {
-                HttpsURLConnection.HTTP_OK -> response
-                HttpsURLConnection.HTTP_CREATED -> response
-                HttpsURLConnection.HTTP_ACCEPTED -> response
-                HttpsURLConnection.HTTP_NO_CONTENT -> response
-                HttpsURLConnection.HTTP_BAD_REQUEST -> throw BadRequestException(message)
-                HttpsURLConnection.HTTP_UNAUTHORIZED -> throw UnauthorizedException(message)
-                HttpsURLConnection.HTTP_FORBIDDEN -> throw ForbiddenException(message)
-                HttpsURLConnection.HTTP_NOT_FOUND -> throw NotFoundException(message)
-                HttpsURLConnection.HTTP_CONFLICT -> throw ConflictException(message)
-                HttpsURLConnection.HTTP_GONE -> throw GoneException(message)
-                HttpsURLConnection.HTTP_UNSUPPORTED_TYPE -> throw UnsupportedMediaTypeException(message)
-                429 -> throw TooManyRequestsException(message)
-                HttpsURLConnection.HTTP_INTERNAL_ERROR -> throw InternalServerErrorException(message)
-                HttpsURLConnection.HTTP_NOT_IMPLEMENTED -> throw NotImplementedException(message)
-                HttpsURLConnection.HTTP_BAD_GATEWAY -> throw BadGatewayException(message)
-                HttpsURLConnection.HTTP_UNAVAILABLE -> throw ServiceUnavailableException(message)
-                HttpsURLConnection.HTTP_GATEWAY_TIMEOUT -> throw GatewayTimeoutException(message)
-                HttpsURLConnection.HTTP_VERSION -> throw HTTPVersionNotSupported(message)
-                511 -> throw NetworkAuthenticationRequiredException(message)
-                598 -> throw NetworkReadTimeoutException(message)
-                599 -> throw NetworkConnectTimeoutException(message)
+                HTTP_OK -> response
+                HTTP_CREATED -> response
+                HTTP_ACCEPTED -> response
+                HTTP_NO_CONTENT -> response
+                HTTP_BAD_REQUEST -> throw BadRequestException(errorDetails)
+                HTTP_UNAUTHORIZED -> throw UnauthorizedException(errorDetails)
+                HTTP_FORBIDDEN -> throw ForbiddenException(errorDetails)
+                HTTP_NOT_FOUND -> throw NotFoundException(errorDetails)
+                HTTP_CONFLICT -> throw ConflictException(errorDetails)
+                HTTP_GONE -> throw GoneException(errorDetails)
+                HTTP_UNSUPPORTED_TYPE -> throw UnsupportedMediaTypeException(errorDetails)
+                429 -> throw TooManyRequestsException(errorDetails)
+                HTTP_INTERNAL_ERROR -> throw InternalServerErrorException(errorDetails)
+                HTTP_NOT_IMPLEMENTED -> throw NotImplementedException(errorDetails)
+                HTTP_BAD_GATEWAY -> throw BadGatewayException(errorDetails)
+                HTTP_UNAVAILABLE -> throw ServiceUnavailableException(errorDetails)
+                HTTP_GATEWAY_TIMEOUT -> throw GatewayTimeoutException(errorDetails)
+                HTTP_VERSION -> throw HTTPVersionNotSupported(errorDetails)
+                511 -> throw NetworkAuthenticationRequiredException(errorDetails)
+                598 -> throw NetworkReadTimeoutException(errorDetails)
+                599 -> throw NetworkConnectTimeoutException(errorDetails)
                 else -> {
-                    if (code in 100..199) throw CwaInformationalNotSupportedError(code, message)
+                    if (code in 100..199) throw CwaInformationalNotSupportedError(code, errorDetails)
                     if (code in 200..299) throw CwaSuccessResponseWithCodeMismatchNotSupportedError(
-                        code, message
+                        code,
+                        errorDetails
                     )
-                    if (code in 300..399) throw CwaRedirectNotSupportedError(code, message)
-                    if (code in 400..499) throw CwaClientError(code, message)
-                    if (code in 500..599) throw CwaServerError(code, message)
-                    throw CwaWebException(code, message)
+                    if (code in 300..399) throw CwaRedirectNotSupportedError(code, errorDetails)
+                    if (code in 400..499) throw CwaClientError(code, errorDetails)
+                    if (code in 500..599) throw CwaServerError(code, errorDetails)
+                    throw CwaWebException(code, errorDetails)
                 }
             }
         } catch (err: SocketTimeoutException) {

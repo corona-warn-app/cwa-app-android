@@ -35,9 +35,9 @@ object KeyFileHelper {
         fileList.map { file ->
             async(Dispatchers.IO) {
                 val createdExportString = "created export for batch ${file.header.batchNum}" +
-                        "(of ${file.header.batchSize}) with ${file.keysCount} keys, BEG:${Date(
-                            file.header.startTimestamp
-                        ).logUTCFormat()}, END:${Date(file.header.endTimestamp).logUTCFormat()}"
+                    "(of ${file.header.batchSize}) with ${file.keysCount} keys, BEG:${Date(
+                        file.header.startTimestamp
+                    ).logUTCFormat()}, END:${Date(file.header.endTimestamp).logUTCFormat()}"
                 Timber.d(createdExportString)
                 Pair(
                     TemporaryExposureKeyExport
@@ -63,8 +63,8 @@ object KeyFileHelper {
                     createBinaryFile(
                         storageDirectory,
                         "${source.first.batchNum}-" +
-                                "${source.first.startTimestamp}-" +
-                                "${source.first.endTimestamp}.zip",
+                            "${source.first.startTimestamp}-" +
+                            "${source.first.endTimestamp}.zip",
                         source
                     )
                 }

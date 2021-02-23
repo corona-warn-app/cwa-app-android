@@ -6,10 +6,14 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
+import okio.ByteString
+import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -26,7 +30,8 @@ class CWASafetyNet @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val googleApiVersion: GoogleApiVersion,
     private val cwaSettings: CWASettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val testSettings: TestSettings
 ) : DeviceAttestation {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -35,9 +40,10 @@ class CWASafetyNet @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun calculateNonce(salt: ByteArray, payload: ByteArray): String {
+    fun calculateNonce(salt: ByteArray, payload: ByteArray): ByteString {
         val concat = salt + payload
-        return concat.toSHA256()
+        // Default format is hex.
+        return concat.toSHA256().decodeHex()
     }
 
     override suspend fun attest(request: DeviceAttestation.Request): DeviceAttestation.Result {
@@ -54,10 +60,16 @@ class CWASafetyNet @Inject constructor(
             }
         }
 
+        val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.value
+        val nowUTC = timeStamper.nowUTC
         val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
+        val timeSinceOnboarding = Duration(firstReliableTimeStamp, nowUTC)
+        Timber.d("firstReliableTimeStamp=%s, now=%s", firstReliableTimeStamp, nowUTC)
+        Timber.d("skip24hCheck=%b, timeSinceOnboarding=%dh", skip24hCheck, timeSinceOnboarding.standardHours)
+
         if (firstReliableTimeStamp == Instant.EPOCH) {
             throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "No first reliable timestamp available")
-        } else if (Duration(firstReliableTimeStamp, timeStamper.nowUTC) < Duration.standardHours(24)) {
+        } else if (!skip24hCheck && timeSinceOnboarding < Duration.standardHours(24)) {
             throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "Time since first reliable timestamp <24h")
         }
 

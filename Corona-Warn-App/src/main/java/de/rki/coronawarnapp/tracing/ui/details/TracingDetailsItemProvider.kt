@@ -47,7 +47,10 @@ class TracingDetailsItemProvider @Inject constructor(
         val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
 
         mutableListOf<DetailsItem>().apply {
-            if (latestCalc.riskState == RiskState.LOW_RISK && latestCalc.matchedKeyCount > 0) {
+            if (status != Status.TRACING_INACTIVE &&
+                latestCalc.riskState == RiskState.LOW_RISK &&
+                latestCalc.matchedKeyCount > 0
+            ) {
                 add(AdditionalInfoLowRiskBox.Item)
             }
 
@@ -60,8 +63,10 @@ class TracingDetailsItemProvider @Inject constructor(
                 )
             }.also { add(it) }
 
-            if (latestCalc.riskState == RiskState.INCREASED_RISK &&
-                                        availableSurveys.contains(Surveys.Type.HIGH_RISK_ENCOUNTER)) {
+            if (status != Status.TRACING_INACTIVE &&
+                latestCalc.riskState == RiskState.INCREASED_RISK &&
+                availableSurveys.contains(Surveys.Type.HIGH_RISK_ENCOUNTER)
+            ) {
                 add(UserSurveyBox.Item(Surveys.Type.HIGH_RISK_ENCOUNTER))
             }
 

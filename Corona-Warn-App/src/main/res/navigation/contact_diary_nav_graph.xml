@@ -19,6 +19,7 @@
         <action
             android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryAddLocationFragment"
             app:destination="@id/contactDiaryAddLocationFragment" />
+        <deepLink app:uri="coronawarnapp://contact-journal/day/{selectedDay}" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPersonListFragment"
@@ -90,6 +91,10 @@
             android:name="showBottomNav"
             android:defaultValue="true"
             app:argType="boolean" />
+        <deepLink
+            app:popUpTo="@id/contact_diary_nav_graph"
+            app:popUpToInclusive="true"
+            app:uri="coronawarnapp://contact-journal/oboarding/?goToDay={goToDay}" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryInformationPrivacyFragment"

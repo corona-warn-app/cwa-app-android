@@ -8,10 +8,10 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -38,8 +38,10 @@ class OnboardingDeltaInteroperabilityFragment :
             .movementMethod = LinkMovementMethod.getInstance()
 
         binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
-            findNavController().doNavigate(OnboardingDeltaInteroperabilityFragmentDirections
-                .actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment())
+            findNavController().doNavigate(
+                OnboardingDeltaInteroperabilityFragmentDirections
+                    .actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment()
+            )
         }
 
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
@@ -51,7 +53,7 @@ class OnboardingDeltaInteroperabilityFragment :
 
         vm.navigateBack.observe2(this) {
             if (it) {
-                (requireActivity() as MainActivity).goBack()
+                popBackStack()
             }
         }
     }

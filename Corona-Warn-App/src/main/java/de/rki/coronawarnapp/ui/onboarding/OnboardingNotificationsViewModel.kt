@@ -8,10 +8,10 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class OnboardingNotificationsViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val completedOnboardingEvent = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
-        completedOnboardingEvent.postValue(Unit)
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingAnalytics)
     }
 
     @AssistedFactory

@@ -12,7 +12,8 @@ import javax.inject.Inject
 class ContactDiaryWorkBuilder @Inject constructor() {
 
     fun buildPeriodicWork(): PeriodicWorkRequest = PeriodicWorkRequestBuilder<ContactDiaryRetentionWorker>(
-        DateTimeConstants.HOURS_PER_DAY.toLong(), TimeUnit.HOURS
+        DateTimeConstants.HOURS_PER_DAY.toLong(),
+        TimeUnit.HOURS
     )
         .setInitialDelay(
             BackgroundConstants.KIND_DELAY,
