@@ -33,17 +33,11 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val personListAdapter = ContactDiaryPersonListAdapter() {
-            viewModel.onPersonSelectionChanged(it)
-        }
+        val personListAdapter = ContactDiaryPersonListAdapter()
 
         binding.contactDiaryPersonListRecyclerView.apply {
             adapter = personListAdapter
-            addItemDecoration(
-                MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.spacing_tiny)
-                )
-            )
+            addItemDecoration(MarginRecyclerViewDecoration(resources.getDimensionPixelSize(R.dimen.spacing_tiny)))
         }
 
         viewModel.uiList.observe2(this) {

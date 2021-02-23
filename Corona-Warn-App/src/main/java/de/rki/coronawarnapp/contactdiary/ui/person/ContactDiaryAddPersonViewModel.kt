@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.sheets.person
+package de.rki.coronawarnapp.contactdiary.ui.person
 
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
@@ -10,9 +10,8 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.contactdiary.util.formatContactDiaryNameField
-import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -21,35 +20,33 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 
-class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
+class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
-        shouldClose.postValue(null)
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 
-    private val text = MutableStateFlow("")
-
-    val isValid = text.map {
-        it.isNotEmpty() && it.length <= MAX_PERSON_NAME_LENGTH
-    }.asLiveData()
-
     val shouldClose = SingleLiveEvent<Unit>()
 
-    private val formattedName: String
-        get() = text.value.formatContactDiaryNameField(MAX_PERSON_NAME_LENGTH)
+    private val name = MutableStateFlow("")
 
-    fun textChanged(locationName: String) {
-        text.value = locationName
+    val isNameValid = name
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    fun nameChanged(value: String) {
+        name.value = value.trim()
     }
 
-    fun addPerson() = launch(coroutineExceptionHandler) {
+    fun addPerson(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
         val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
-                fullName = formattedName
+                fullName = name.value,
+                phoneNumber = phoneNumber,
+                emailAddress = emailAddress
             )
         )
 
@@ -61,19 +58,22 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
                 )
             )
         }
-
         shouldClose.postValue(null)
     }
 
-    fun updatePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
-        contactDiaryRepository.updatePerson(
-            DefaultContactDiaryPerson(
-                person.personId,
-                fullName = formattedName
+    fun updatePerson(person: ContactDiaryPersonEntity, phoneNumber: String, emailAddress: String) =
+        launch(coroutineExceptionHandler) {
+            contactDiaryRepository.updatePerson(
+                DefaultContactDiaryPerson(
+                    person.personId,
+                    fullName = name.value,
+                    phoneNumber = phoneNumber,
+                    emailAddress = emailAddress
+
+                )
             )
-        )
-        shouldClose.postValue(null)
-    }
+            shouldClose.postValue(null)
+        }
 
     fun deletePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
         contactDiaryRepository.personEncounters.firstOrNull()?.forEach {
@@ -89,12 +89,11 @@ class ContactDiaryPersonBottomSheetDialogViewModel @AssistedInject constructor(
     }
 
     companion object {
-        private const val MAX_PERSON_NAME_LENGTH = 250
-        private val TAG = ContactDiaryPersonBottomSheetDialogViewModel::class.java.simpleName
+        private val TAG = ContactDiaryAddPersonViewModel::class.java.simpleName
     }
 
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<ContactDiaryPersonBottomSheetDialogViewModel> {
-        fun create(addedAt: String?): ContactDiaryPersonBottomSheetDialogViewModel
+    interface Factory : CWAViewModelFactory<ContactDiaryAddPersonViewModel> {
+        fun create(addedAt: String?): ContactDiaryAddPersonViewModel
     }
 }
