@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_dataDonationFragment"
             app:destination="@id/test_datadonation_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
+            app:destination="@id/test_deltaonboarding_fragment" />
     </fragment>
 
     <fragment
@@ -116,4 +119,10 @@
         tools:layout="@layout/fragment_test_datadonation"
         android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment"
         android:label="DataDonationFragment" />
+    <fragment
+        android:id="@+id/test_deltaonboarding_fragment"
+        android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment"
+        android:label="DeltaonboardingFragment"
+        tools:layout="@layout/fragment_test_deltaonboarding" />
+
 </navigation>
