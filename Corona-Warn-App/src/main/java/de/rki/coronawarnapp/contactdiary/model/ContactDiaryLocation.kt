@@ -6,6 +6,8 @@ import java.util.Locale
 interface ContactDiaryLocation : HasStableId {
     val locationId: Long
     var locationName: String
+    val phoneNumber: String?
+    val emailAddress: String?
 }
 
 fun List<ContactDiaryLocation>.sortByNameAndIdASC(): List<ContactDiaryLocation> =

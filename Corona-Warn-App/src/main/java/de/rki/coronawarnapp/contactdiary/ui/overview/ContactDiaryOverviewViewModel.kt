@@ -9,6 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
@@ -83,29 +85,33 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                         data.addLocationVisitsForDate(locationVisitList, date)
                         risk = riskLevelPerDateList
                             .firstOrNull { riskLevelPerDate -> riskLevelPerDate.day == it }
-                            ?.toRisk(data.isEmpty())
+                            ?.toRisk(data.isNotEmpty())
                     }
             }
     }
 
-    private fun AggregatedRiskPerDateResult.toRisk(noLocationOrPerson: Boolean): ListItem.Risk {
+    private fun AggregatedRiskPerDateResult.toRisk(locationOrPerson: Boolean): ListItem.Risk {
         @StringRes val title: Int
+        @StringRes var body: Int = R.string.contact_diary_risk_body
         @DrawableRes val drawableId: Int
 
-        @StringRes val body: Int = when (noLocationOrPerson) {
-            true -> R.string.contact_diary_risk_body
-            false -> R.string.contact_diary_risk_body_extended
+        @StringRes val bodyExtend: Int? = when (locationOrPerson) {
+            true -> R.string.contact_diary_risk_body_extended
+            false -> null
         }
 
         if (this.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH) {
             title = R.string.contact_diary_high_risk_title
             drawableId = R.drawable.ic_high_risk_alert
+            if (minimumDistinctEncountersWithHighRisk == 0) {
+                body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters
+            }
         } else {
             title = R.string.contact_diary_low_risk_title
             drawableId = R.drawable.ic_low_risk_alert
         }
 
-        return ListItem.Risk(title, body, drawableId)
+        return ListItem.Risk(title, body, bodyExtend, drawableId)
     }
 
     private fun MutableList<ListItem.Data>.addPersonEncountersForDate(
@@ -117,7 +123,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .map { personEncounter ->
                 ListItem.Data(
                     R.drawable.ic_contact_diary_person_item,
-                    personEncounter.contactDiaryPerson.fullName,
+                    name = personEncounter.contactDiaryPerson.fullName,
+                    duration = null,
+                    attributes = getPersonAttributes(personEncounter),
+                    circumstances = personEncounter.circumstances,
                     ListItem.Type.PERSON
                 )
             }
@@ -133,6 +142,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ListItem.Data(
                     R.drawable.ic_contact_diary_location_item,
                     locationVisit.contactDiaryLocation.locationName,
+                    duration = locationVisit.duration,
+                    attributes = null,
+                    circumstances = locationVisit.circumstances,
                     ListItem.Type.LOCATION
                 )
             }
@@ -145,6 +157,24 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     fun onItemPress(listItem: ListItem) {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
+
+    private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> =
+        mutableListOf<Int>().apply {
+            when (personEncounter.durationClassification) {
+                LESS_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_below_15_min)
+                MORE_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_above_15_min)
+            }
+
+            when (personEncounter.withMask) {
+                true -> add(R.string.contact_diary_person_encounter_mask_with)
+                false -> add(R.string.contact_diary_person_encounter_mask_without)
+            }
+
+            when (personEncounter.wasOutside) {
+                true -> add(R.string.contact_diary_person_encounter_environment_outside)
+                false -> add(R.string.contact_diary_person_encounter_environment_inside)
+            }
+        }
 
     fun onExportPress(ctx: Context) {
         Timber.d("Exporting person and location entries")

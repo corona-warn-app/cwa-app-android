@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.durationpicker.ContactDiaryDurationPickerFragment
+import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -12,10 +14,14 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.Duration
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary), AutoInject {
+class ContactDiaryTestFragment :
+    Fragment(R.layout.fragment_test_contact_diary),
+    AutoInject,
+    ContactDiaryDurationPickerFragment.OnChangeListener {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: ContactDiaryTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
@@ -42,6 +48,31 @@ class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary),
             normalPersonEncountersButton.setOnClickListener { vm.createPersonEncounters(false) }
             locationVisitsCleanButton.setOnClickListener { vm.clearLocationVisits() }
             personEncountersCleanButton.setOnClickListener { vm.clearPersonEncounters() }
+            durationValue.setOnClickListener {
+                val args = Bundle()
+                args.putString(
+                    ContactDiaryDurationPickerFragment.DURATION_ARGUMENT_KEY,
+                    binding.durationValue.text.toString()
+                )
+
+                val durationPicker = ContactDiaryDurationPickerFragment()
+                durationPicker.arguments = args
+                durationPicker.setTargetFragment(this@ContactDiaryTestFragment, 0)
+                durationPicker.show(parentFragmentManager, "ContactDiaryDurationPickerFragment")
+            }
+        }
+    }
+
+    override fun onChange(duration: Duration) {
+        with(binding.durationValue) {
+            text = duration.toContactDiaryFormat()
+            if (duration.millis == 0L) {
+                setBackgroundResource(R.drawable.contact_diary_duration_background_default)
+                setTextAppearance(R.style.bodyNeutral)
+            } else {
+                setBackgroundResource(R.drawable.contact_diary_duration_background_selected)
+                setTextAppearance(R.style.body1)
+            }
         }
     }
 
