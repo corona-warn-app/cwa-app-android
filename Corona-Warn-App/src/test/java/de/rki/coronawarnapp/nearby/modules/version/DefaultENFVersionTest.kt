@@ -139,15 +139,6 @@ internal class DefaultENFVersionTest : BaseTest() {
     }
 
     @Test
-    fun `invalid input for isAtLeast throws IllegalArgumentException`() {
-        runBlockingTest {
-            shouldThrow<IllegalArgumentException> {
-                createInstance().isAtLeast(16)
-            }
-        }
-    }
-
-    @Test
     fun `isAtLeast returns false when client not connected`() {
         every { client.version } returns MockGMSTask.forError(ApiException(Status(API_NOT_CONNECTED)))
 

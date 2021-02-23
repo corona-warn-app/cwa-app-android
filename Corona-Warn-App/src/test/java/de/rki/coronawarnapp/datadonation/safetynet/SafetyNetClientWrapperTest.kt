@@ -24,7 +24,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 import testhelpers.gms.MockGMSTask
 import java.io.IOException
 
@@ -74,7 +73,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `attestation can time out`() = runBlockingTest2(ignoreActive = true) {
+    fun `attestation can time out`() = runBlockingTest {
         every { safetyNetClient.attest(any(), any()) } returns MockGMSTask.timeout()
 
         val resultAsync = async {
@@ -83,10 +82,8 @@ class SafetyNetClientWrapperTest : BaseTest() {
             }
         }
 
-        advanceTimeBy(31 * 1000L)
-
         val error = resultAsync.await()
-        error.type shouldBe SafetyNetException.Type.ATTESTATION_FAILED
+        error.type shouldBe SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
         error.cause shouldBe instanceOf(TimeoutCancellationException::class)
     }
 
@@ -148,7 +145,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
                 body shouldBe JsonParser.parseString(JWS_BODY)
                 signature shouldBe JWS_SIGNATURE_BASE64.decodeBase64()!!.toByteArray()
 
-                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()?.utf8()
+                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"
                 basicIntegrity shouldBe false
                 ctsProfileMatch shouldBe false
@@ -164,7 +161,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
             createInstance().attest("hodl".toByteArray()).apply {
                 body shouldBe JsonParser.parseString(JWS_BODY_MINIMAL)
 
-                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()?.utf8()
+                nonce shouldBe "AAAAAAAAAAAAAAAAAAAAAA==".decodeBase64()
                 apkPackageName shouldBe "de.rki.coronawarnapp.test"
                 basicIntegrity shouldBe false
                 ctsProfileMatch shouldBe false
@@ -183,7 +180,8 @@ class SafetyNetClientWrapperTest : BaseTest() {
             // Signature
             ""
         ).joinToString(".")
-        private val JWS_BODY_MINIMAL = """
+        private val JWS_BODY_MINIMAL =
+            """
             {
                 "nonce": "AAAAAAAAAAAAAAAAAAAAAA==",
                 "timestampMs": 1608558363702,
@@ -197,7 +195,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
                 "nobodyExpects":"TheSpanishInquisition",
                 "error":"Something went wrong"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         private val JWS_BASE64 = listOf(
             // Header
@@ -207,7 +205,8 @@ class SafetyNetClientWrapperTest : BaseTest() {
             // Signature
             "RJOCf-JTA58PitBWfYUAkJArnTE5r9QwQzApZk2tSk4r_CGoHzyI64i9HQFCp_ChhtemiHhtPk-20ifBZ4fIzCLeOdQABnF2ygKuheMrJxHbZFezO5WdQV3QpNkVBxoUqOq_Oq9NEf_3Bl8GHtyI4r-AczfJ9hlOIhJ2yAQpbxaeh-h4UJj6lSZ05-szYQXU3cukkHl1aSJmVK6hOJxtEv22MVK0fpIoi_4IzAuUFjcbrPsN8Lk5wisWCxnzfZ50AkrINXEQ4mMHZFwUQzRQ6zAakwyxH7gsGjU-0zkxyCIWg917Kpbp4MlVqOuUpDXcHJbh_-qduZ7jDTmP3zl7xg"
         ).joinToString(".")
-        private val JWS_BODY = """
+        private val JWS_BODY =
+            """
             {
                 "nonce": "AAAAAAAAAAAAAAAAAAAAAA==",
                 "timestampMs": 1608558363702,
@@ -221,8 +220,9 @@ class SafetyNetClientWrapperTest : BaseTest() {
                 "advice": "RESTORE_TO_FACTORY_ROM,LOCK_BOOTLOADER",
                 "evaluationType": "BASIC"
             }
-        """.trimIndent()
-        private val JWS_HEADER = """
+            """.trimIndent()
+        private val JWS_HEADER =
+            """
             {
                 "alg": "RS256",
                 "x5c": [
@@ -230,7 +230,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
                     "MIIESjCCAzKgAwIBAgINAeO0mqGNiqmBJWlQuDANBgkqhkiG9w0BAQsFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UEAxMKR2xvYmFsU2lnbjAeFw0xNzA2MTUwMDAwNDJaFw0yMTEyMTUwMDAwNDJaMEIxCzAJBgNVBAYTAlVTMR4wHAYDVQQKExVHb29nbGUgVHJ1c3QgU2VydmljZXMxEzARBgNVBAMTCkdUUyBDQSAxTzEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDQGM9F1IvN05zkQO9+tN1pIRvJzzyOTHW5DzEZhD2ePCnvUA0Qk28FgICfKqC9EksC4T2fWBYk/jCfC3R3VZMdS/dN4ZKCEPZRrAzDsiKUDzRrmBBJ5wudgzndIMYcLe/RGGFl5yODIKgjEv/SJH/UL+dEaltN11BmsK+eQmMF++AcxGNhr59qM/9il71I2dN8FGfcddwuaej4bXhp0LcQBbjxMcI7JP0aM3T4I+DsaxmKFsbjzaTNC9uzpFlgOIg7rR25xoynUxv8vNmkq7zdPGHXkxWY7oG9j+JkRyBABk7XrJfoucBZEqFJJSPk7XA0LKW0Y3z5oz2D0c1tJKwHAgMBAAGjggEzMIIBLzAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFJjR+G4Q68+b7GCfGJAboOt9Cf0rMB8GA1UdIwQYMBaAFJviB1dnHB7AagbeWbSaLd/cGYYuMDUGCCsGAQUFBwEBBCkwJzAlBggrBgEFBQcwAYYZaHR0cDovL29jc3AucGtpLmdvb2cvZ3NyMjAyBgNVHR8EKzApMCegJaAjhiFodHRwOi8vY3JsLnBraS5nb29nL2dzcjIvZ3NyMi5jcmwwPwYDVR0gBDgwNjA0BgZngQwBAgIwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly9wa2kuZ29vZy9yZXBvc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEAGoA+Nnn78y6pRjd9XlQWNa7HTgiZ/r3RNGkmUmYHPQq6Scti9PEajvwRT2iWTHQr02fesqOqBY2ETUwgZQ+lltoNFvhsO9tvBCOIazpswWC9aJ9xju4tWDQH8NVU6YZZ/XteDSGU9YzJqPjY8q3MDxrzmqepBCf5o8mw/wJ4a2G6xzUr6Fb6T8McDO22PLRL6u3M4Tzs3A2M1j6bykJYi8wWIRdAvKLWZu/axBVbzYmqmwkm5zLSDW5nIAJbELCQCZwMH56t2Dvqofxs6BBcCFIZUSpxu6x6td0V7SvJCCosirSmIatj/9dSSVDQibet8q/7UK4v4ZUN80atnZz1yg=="
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
         private const val JWS_SIGNATURE_BASE64 =
             "RJOCf-JTA58PitBWfYUAkJArnTE5r9QwQzApZk2tSk4r_CGoHzyI64i9HQFCp_ChhtemiHhtPk-20ifBZ4fIzCLeOdQABnF2ygKuheMrJxHbZFezO5WdQV3QpNkVBxoUqOq_Oq9NEf_3Bl8GHtyI4r-AczfJ9hlOIhJ2yAQpbxaeh-h4UJj6lSZ05-szYQXU3cukkHl1aSJmVK6hOJxtEv22MVK0fpIoi_4IzAuUFjcbrPsN8Lk5wisWCxnzfZ50AkrINXEQ4mMHZFwUQzRQ6zAakwyxH7gsGjU-0zkxyCIWg917Kpbp4MlVqOuUpDXcHJbh_-qduZ7jDTmP3zl7xg"
     }

@@ -38,11 +38,17 @@
             android:id="@+id/action_test_menu_fragment_to_contactDiaryTestFragment"
             app:destination="@id/test_contact_diary_fragment" />
         <action
+            android:id="@+id/action_test_menu_fragment_to_playgroundFragment"
+            app:destination="@id/playgroundFragment" />
+        <action
             android:id="@+id/action_test_menu_fragment_to_dataDonationFragment"
             app:destination="@id/test_datadonation_fragment" />
         <action
             android:id="@+id/action_test_menu_fragment_to_test_contact_diary_person_comment_fragment"
             app:destination="@id/test_contact_diary_comment_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
+            app:destination="@id/test_deltaonboarding_fragment" />
     </fragment>
 
     <fragment
@@ -107,10 +113,20 @@
         android:label="ContactDiaryTestFragment"
         tools:layout="@layout/fragment_test_contact_diary" />
     <fragment
+        android:id="@+id/playgroundFragment"
+        android:name="de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment"
+        android:label="PlaygroundFragment"
+        tools:layout="@layout/fragment_test_playground" />
+    <fragment
         android:id="@+id/test_datadonation_fragment"
-        tools:layout="@layout/fragment_test_datadonation"
         android:name="de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment"
-        android:label="DataDonationFragment" />
+        android:label="DataDonationFragment"
+        tools:layout="@layout/fragment_test_datadonation" />
+    <fragment
+        android:id="@+id/test_deltaonboarding_fragment"
+        android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment"
+        android:label="DeltaonboardingFragment"
+        tools:layout="@layout/fragment_test_deltaonboarding" />
     <fragment
         android:id="@+id/test_contact_diary_comment_fragment"
         android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryCommentInfoTestFragment"

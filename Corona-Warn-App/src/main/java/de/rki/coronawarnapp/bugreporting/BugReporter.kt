@@ -9,7 +9,7 @@ interface BugReporter {
 }
 
 fun Throwable.reportProblem(tag: String? = null, info: String? = null) {
-    Timber.tag("BugReporter").v(this, "report(tag=$tag, info=$info)")
+    Timber.tag(tag ?: "BugReporter").e(this, info)
 
     if (CWADebug.isAUnitTest) return
     val reporter = AppInjector.component.bugReporter

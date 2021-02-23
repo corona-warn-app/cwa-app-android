@@ -62,7 +62,8 @@ object TimeAndDateExtensions {
      * @see TimeUnit
      */
     fun Long.millisecondsToHMS() = String.format(
-        "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(this),
+        "%02d:%02d:%02d",
+        TimeUnit.MILLISECONDS.toHours(this),
         TimeUnit.MILLISECONDS.toMinutes(this) % TimeUnit.HOURS.toMinutes(1),
         TimeUnit.MILLISECONDS.toSeconds(this) % TimeUnit.MINUTES.toSeconds(1)
     )
@@ -84,4 +85,6 @@ object TimeAndDateExtensions {
     fun Instant.toLocalDate(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
     fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+
+    val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 }

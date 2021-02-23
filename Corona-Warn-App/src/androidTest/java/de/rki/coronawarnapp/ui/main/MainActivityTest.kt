@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
@@ -49,6 +50,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.mockk.MockKAnnotations
@@ -90,6 +92,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -354,7 +357,8 @@ class MainActivityTest : BaseUITest() {
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
-            deadmanNotificationScheduler = deadmanNotificationScheduler
+            deadmanNotificationScheduler = deadmanNotificationScheduler,
+            appShortcutsHelper = appShortcutsHelper
         )
     )
 
@@ -400,7 +404,8 @@ class MainActivityTest : BaseUITest() {
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
-            every { showPopUpsOrNavigate() } just Runs
+            every { showPopUps() } just Runs
+            every { restoreAppShortcuts() } just Runs
         }
 
         setupMockViewModel(
@@ -443,6 +448,12 @@ class MainProviderModule {
     @Provides
     fun contactDiaryWorkScheduler(): ContactDiaryWorkScheduler =
         mockk<ContactDiaryWorkScheduler>(relaxed = true).apply {
+            every { schedulePeriodic() } just Runs
+        }
+
+    @Provides
+    fun dataDonationAnalyticsScheduler(): DataDonationAnalyticsScheduler =
+        mockk<DataDonationAnalyticsScheduler>(relaxed = true).apply {
             every { schedulePeriodic() } just Runs
         }
 }

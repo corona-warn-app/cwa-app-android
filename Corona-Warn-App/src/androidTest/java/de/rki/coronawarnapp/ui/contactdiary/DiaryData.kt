@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounte
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 object DiaryData {
@@ -18,24 +19,42 @@ object DiaryData {
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Max Mustermann",
+            null,
+            listOf(
+                R.string.contact_diary_person_encounter_duration_below_15_min,
+                R.string.contact_diary_person_encounter_mask_with,
+                R.string.contact_diary_person_encounter_environment_inside
+            ),
+            "Notizen notizen",
             ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Erika Mustermann",
+            null,
+            listOf(
+                R.string.contact_diary_person_encounter_environment_inside
+            ),
+            "Notizen notizen",
             ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
             "Fitnessstudio",
+            Duration.millis(1800000),
+            null,
+            "Notizen notizen",
             ListItem.Type.LOCATION
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
             "Supermarket",
+            null,
+            null,
+            null,
             ListItem.Type.LOCATION
         )
     )
@@ -126,13 +145,21 @@ object DiaryData {
 
     val LOCATIONS_EDIT_LIST: List<ContactDiaryLocation> = listOf(
         DefaultContactDiaryLocation(locationName = "Sport"),
-        DefaultContactDiaryLocation(locationName = "Büro"),
+        DefaultContactDiaryLocation(
+            locationName = "Büro",
+            phoneNumber = "+49153397029",
+            emailAddress = "office@work.com"
+        ),
         DefaultContactDiaryLocation(locationName = "Supermarkt")
     )
 
     val PERSONS_EDIT_LIST: List<ContactDiaryPerson> = listOf(
-        DefaultContactDiaryPerson(fullName = "Max Mustermann"),
-        DefaultContactDiaryPerson(fullName = "Erika Mustermann"),
+        DefaultContactDiaryPerson(
+            fullName = "Max Mustermann",
+            phoneNumber = "+49151237865",
+            emailAddress = "max.musterman@me.com"
+        ),
+        DefaultContactDiaryPerson(fullName = "Erika Mustermann", emailAddress = "erika.mustermann@me.com"),
         DefaultContactDiaryPerson(fullName = "John Doe")
     )
 }
