@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules
 
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 
 interface DonorModule {
@@ -11,7 +12,14 @@ interface DonorModule {
     /**
      * Data that the modules may need to fullfil the request
      */
-    interface Request
+    interface Request {
+        /**
+         * The config data pulled at the start of the submission attempt.
+         * Should be used by modules to prevent unnecessary config refreshes,
+         * and to prevent the config from changing DURING the collection/submission.
+         */
+        val currentConfig: ConfigData
+    }
 
     /**
      * An object that adds the data to the protobuf container, such that the Analytics class doesn't need to know the
