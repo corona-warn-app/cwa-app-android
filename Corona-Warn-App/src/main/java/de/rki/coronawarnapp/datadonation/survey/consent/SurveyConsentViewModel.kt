@@ -1,19 +1,18 @@
 package de.rki.coronawarnapp.datadonation.survey.consent
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
-import de.rki.coronawarnapp.datadonation.safetynet.errorMsgRes
-import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.datadonation.survey.Surveys
-import de.rki.coronawarnapp.datadonation.survey.errorMsgRes
+import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toResolvingString
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,9 +51,11 @@ class SurveyConsentViewModel @AssistedInject constructor(
             State.Success(survey)
         } catch (e: Exception) {
             val errorMsg = when (e) {
-                is SafetyNetException -> e.errorMsgRes()
-                is SurveyException -> e.errorMsgRes()
-                else -> R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
+                is HasHumanReadableError -> e.toResolvingString()
+                else -> {
+                    R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
+                        .toResolvingString(e.javaClass.simpleName)
+                }
             }
             Timber.e(e)
             State.Error(errorMsg)
@@ -76,7 +77,7 @@ class SurveyConsentViewModel @AssistedInject constructor(
         object Loading : State()
 
         data class Error(
-            @StringRes val msgRes: Int
+            val errorMessage: LazyString
         ) : State()
 
         data class Success(
