@@ -50,17 +50,11 @@
             android:id="@+id/action_mainFragment_to_submissionDispatcher"
             app:destination="@id/submissionDispatcherFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
-            app:destination="@id/onboardingDeltaInteroperabilityFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_test_nav_graph"
             app:destination="@id/test_nav_graph" />
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_newReleaseInfoFragment"
-            app:destination="@id/newReleaseInfoFragment" />
         <action
             android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
             app:destination="@id/statisticsExplanationFragment" />
