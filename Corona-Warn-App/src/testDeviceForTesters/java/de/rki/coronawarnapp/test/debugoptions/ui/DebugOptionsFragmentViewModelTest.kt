@@ -14,14 +14,14 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.flakyTest
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
-class DebugOptionsFragmentViewModelTest : BaseTest() {
+class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var context: Context

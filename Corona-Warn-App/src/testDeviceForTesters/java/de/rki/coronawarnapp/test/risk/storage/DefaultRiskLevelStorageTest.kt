@@ -23,9 +23,9 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 
-class DefaultRiskLevelStorageTest : BaseTest() {
+class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
 
     @MockK lateinit var databaseFactory: RiskResultDatabase.Factory
     @MockK lateinit var database: RiskResultDatabase

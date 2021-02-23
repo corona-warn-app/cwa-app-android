@@ -1,11 +1,11 @@
 package testhelpers
 
 import io.mockk.unmockkAll
-import org.junit.jupiter.api.AfterAll
+import org.junit.AfterClass
 import testhelpers.logging.JUnitTree
 import timber.log.Timber
 
-abstract class BaseTest {
+abstract class BaseTestInstrumentation {
 
     init {
         Timber.uprootAll()
@@ -17,7 +17,7 @@ abstract class BaseTest {
         private var testClassName: String? = null
 
         @JvmStatic
-        @AfterAll
+        @AfterClass
         fun onTestClassFinished() {
             unmockkAll()
             Timber.tag(testClassName).v("onTestClassFinished()")
