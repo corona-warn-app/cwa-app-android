@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
@@ -28,7 +27,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -51,11 +49,6 @@ class ENFClientTest : BaseTest() {
         MockKAnnotations.init(this)
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns true
         every { exposureDetectionTracker.trackNewExposureDetection(any()) } just Runs
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createClient() = ENFClient(

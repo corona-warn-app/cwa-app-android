@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -22,12 +21,12 @@ import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import javax.inject.Provider
 
-class TestResultAvailableNotificationServiceTest {
+class TestResultAvailableNotificationServiceTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
@@ -49,11 +48,6 @@ class TestResultAvailableNotificationServiceTest {
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
         every { LocalData.isNotificationsTestEnabled } returns true
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance() = TestResultAvailableNotificationService(

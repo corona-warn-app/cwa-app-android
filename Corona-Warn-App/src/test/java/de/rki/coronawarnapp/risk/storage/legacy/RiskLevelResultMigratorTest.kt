@@ -6,12 +6,10 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -28,11 +26,6 @@ class RiskLevelResultMigratorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1337)
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     fun createInstance() = RiskLevelResultMigrator(

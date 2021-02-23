@@ -8,10 +8,8 @@ import de.rki.coronawarnapp.worker.DiagnosisKeyRetrievalOneTimeWorker
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -33,11 +31,6 @@ class CWAWorkerFactoryTest : BaseTest() {
 
         every { ourFactory.create(context, workerParameters) } returns ourWorker
         workerFactories[DiagnosisKeyRetrievalOneTimeWorker::class.java] = Provider { ourFactory }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance() = CWAWorkerFactory(

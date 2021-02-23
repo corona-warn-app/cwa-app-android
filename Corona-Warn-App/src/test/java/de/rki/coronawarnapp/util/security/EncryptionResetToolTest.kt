@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
@@ -52,8 +51,6 @@ class EncryptionResetToolTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
-
         testDir.deleteRecursively()
     }
 

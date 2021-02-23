@@ -7,9 +7,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,11 +23,6 @@ class DistrictsTest : BaseTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @After
-    fun tearDown() {
-        clearAllMocks()
     }
 
     val context: Context

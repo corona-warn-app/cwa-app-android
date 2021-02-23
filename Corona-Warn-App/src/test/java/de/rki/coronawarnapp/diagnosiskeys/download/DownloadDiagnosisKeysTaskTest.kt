@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -95,11 +93,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
             coEvery { latestTrackedExposureDetection() } returns flowOf(listOf(latestTrackedDetection))
             coEvery { provideDiagnosisKeys(any(), any()) } returns true
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance() = DownloadDiagnosisKeysTask(

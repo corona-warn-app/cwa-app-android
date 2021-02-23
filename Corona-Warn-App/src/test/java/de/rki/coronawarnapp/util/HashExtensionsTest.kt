@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.util.HashExtensions.toMD5
 import de.rki.coronawarnapp.util.HashExtensions.toSHA1
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.matchers.shouldBe
-import io.mockk.clearAllMocks
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,8 +24,6 @@ class HashExtensionsTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
-
         testDir.deleteRecursively()
     }
 
