@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
@@ -33,7 +34,8 @@ class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -121,17 +123,20 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         LocalData.registrationToken(registrationData.registrationToken)
-        updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
+        updateTestResult(registrationData.testResult)
         BackgroundNoise.getInstance().scheduleDummyPattern()
+        analyticsKeySubmissionCollector.reportTestRegistered(timeStamper.nowUTC.millis)
+        analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         LocalData.registrationToken(registrationData.registrationToken)
-        updateTestResult(registrationData.testResult)
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
+        updateTestResult(registrationData.testResult)
         BackgroundNoise.getInstance().scheduleDummyPattern()
+        analyticsKeySubmissionCollector.reportTestRegistered(timeStamper.nowUTC.millis)
         return registrationData.testResult
     }
 
@@ -147,6 +152,7 @@ class SubmissionRepository @Inject constructor(
 
         if (testResult == TestResult.POSITIVE) {
             LocalData.isAllowedToSubmitDiagnosisKeys(true)
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
