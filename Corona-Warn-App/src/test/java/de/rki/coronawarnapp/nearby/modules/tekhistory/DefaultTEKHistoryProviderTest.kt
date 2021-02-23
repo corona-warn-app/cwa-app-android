@@ -17,7 +17,6 @@ import io.kotest.matchers.types.instanceOf
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -29,7 +28,6 @@ import io.mockk.verifyOrder
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -96,11 +94,6 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
             )
         }
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forValue(null) }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = DefaultTEKHistoryProvider(

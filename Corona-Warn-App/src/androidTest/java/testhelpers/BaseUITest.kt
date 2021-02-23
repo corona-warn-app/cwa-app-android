@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.junit.Rule
 import testhelpers.viewmodels.MockViewModelModule
 
-abstract class BaseUITest : BaseTest() {
+abstract class BaseUITest : BaseTestInstrumentation() {
 
     @get:Rule
     val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(

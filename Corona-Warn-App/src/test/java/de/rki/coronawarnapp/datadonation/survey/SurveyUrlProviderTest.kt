@@ -4,12 +4,10 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -22,11 +20,6 @@ internal class SurveyUrlProviderTest {
     fun setUp() {
         MockKAnnotations.init(this)
         coEvery { appConfigProvider.getAppConfig().survey.otpQueryParameterName } returns "queryParamNameOtp"
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = SurveyUrlProvider(
