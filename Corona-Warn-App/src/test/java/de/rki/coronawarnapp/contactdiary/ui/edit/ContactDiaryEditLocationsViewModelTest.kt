@@ -26,6 +26,8 @@ class ContactDiaryEditLocationsViewModelTest {
     private val location = object : ContactDiaryLocation {
         override val locationId = 1L
         override var locationName = "Supermarket"
+        override val phoneNumber: String? = null
+        override val emailAddress: String? = null
         override val stableId = 1L
     }
     private val locationList = listOf(location)
@@ -64,7 +66,7 @@ class ContactDiaryEditLocationsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditLocationClick(location)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity())
+            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment(location.toContactDiaryLocationEntity())
     }
 
     @Test

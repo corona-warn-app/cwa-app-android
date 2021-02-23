@@ -1882,4 +1882,16 @@
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">keine Angabe</string>
 
+    <!-- ####################################
+       Duration dialog
+   ###################################### -->
+
+    <!-- XHED: Duration dialog title -->
+    <string name="duration_dialog_title">Dauer</string>
+    <!-- XBUT: Duration dialog cancel button -->
+    <string name="duration_dialog_cancel_button">Cancel</string>
+    <!-- XBUT: Duration dialog ok button -->
+    <string name="duration_dialog_ok_button">OK</string>
+    <!-- NOTR -->
+    <string name="duration_dialog_default_value">00:00</string>
 </resources>
