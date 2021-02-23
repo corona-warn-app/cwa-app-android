@@ -5,6 +5,8 @@ import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -40,7 +42,9 @@ class DataReset @Inject constructor(
     private var contactDiaryPreferences: ContactDiaryPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
-    private val surveySettings: SurveySettings
+    private val surveySettings: SurveySettings,
+    private val analyticsSettings: AnalyticsSettings,
+    private val analytics: Analytics
 ) {
 
     private val mutex = Mutex()
@@ -59,6 +63,9 @@ class DataReset @Inject constructor(
         // Shared Preferences Reset
         SecurityHelper.resetSharedPrefs()
 
+        // Triggers deletion of all analytics contributed data
+        analytics.setAnalyticsEnabled(false)
+
         // Reset the current states stored in LiveData
         submissionRepository.reset()
         keyCacheRepository.clear()
@@ -69,6 +76,7 @@ class DataReset @Inject constructor(
         contactDiaryPreferences.clear()
         cwaSettings.clear()
         surveySettings.clear()
+        analyticsSettings.clear()
 
         // Clear contact diary database
         contactDiaryRepository.clear()

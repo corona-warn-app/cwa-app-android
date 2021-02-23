@@ -20,8 +20,7 @@ class DataDonationAnalyticsPeriodicWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val analytics: Analytics
-) :
-    CoroutineWorker(context, workerParams) {
+) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         Timber.tag(TAG).d("Background job started. Run attempt: $runAttemptCount")
@@ -31,15 +30,19 @@ class DataDonationAnalyticsPeriodicWorker @AssistedInject constructor(
 
             return Result.failure()
         }
-        var result = Result.success()
-        try {
-            analytics.submitIfWanted()
-        } catch (e: Exception) {
-            Timber.tag(TAG).d(e)
-            result = Result.retry()
-        }
 
-        return result
+        return try {
+            val analyticsResult = analytics.submitIfWanted()
+            Timber.tag(TAG).d("submitIfWanted() finished: %s", analyticsResult)
+            when {
+                analyticsResult.successful -> Result.success()
+                analyticsResult.shouldRetry -> Result.retry()
+                else -> Result.failure()
+            }
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "submitIfWanted() failed unexpectedly")
+            Result.failure()
+        }
     }
 
     @AssistedFactory

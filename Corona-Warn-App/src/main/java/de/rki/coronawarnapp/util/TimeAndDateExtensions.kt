@@ -85,4 +85,6 @@ object TimeAndDateExtensions {
     fun Instant.toLocalDate(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
     fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+
+    val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 }

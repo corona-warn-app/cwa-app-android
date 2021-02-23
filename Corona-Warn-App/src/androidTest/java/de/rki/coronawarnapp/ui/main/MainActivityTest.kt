@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
@@ -442,6 +443,12 @@ class MainProviderModule {
     @Provides
     fun contactDiaryWorkScheduler(): ContactDiaryWorkScheduler =
         mockk<ContactDiaryWorkScheduler>(relaxed = true).apply {
+            every { schedulePeriodic() } just Runs
+        }
+
+    @Provides
+    fun dataDonationAnalyticsScheduler(): DataDonationAnalyticsScheduler =
+        mockk<DataDonationAnalyticsScheduler>(relaxed = true).apply {
             every { schedulePeriodic() } just Runs
         }
 }

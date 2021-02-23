@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface DataDonationAnalyticsApiV1 {
 
     data class DataDonationAnalyticsResponse(
-        @SerializedName("errorState") val errorState: String?
+        @SerializedName("errorCode") val errorCode: String?
     )
 
     @POST("/version/v1/android/dat")
