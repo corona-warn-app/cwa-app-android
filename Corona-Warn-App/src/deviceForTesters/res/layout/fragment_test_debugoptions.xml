@@ -104,6 +104,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_submission"
                     tools:text="Verification: ?" />
 
+                <TextView
+                    android:id="@+id/environment_url_datadonation"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_verification"
+                    tools:text="DataDonation: ?" />
+
                 <RadioGroup
                     android:id="@+id/environment_toggle_group"
                     android:layout_width="match_parent"
@@ -113,7 +124,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_verification" />
+                    app:layout_constraintTop_toBottomOf="@+id/environment_url_datadonation" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

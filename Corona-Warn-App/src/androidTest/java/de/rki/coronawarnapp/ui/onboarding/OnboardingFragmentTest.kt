@@ -39,8 +39,10 @@ class OnboardingFragmentTest : BaseUITest() {
         launchFragmentInContainer2<OnboardingFragment>()
         takeScreenshot<OnboardingFragment>()
 
-        onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
-        takeScreenshot<OnboardingFragment>("2")
+        if (showEasyLanguageLink()) {
+            onView(withId(R.id.onboarding_easy_language)).perform(scrollTo())
+            takeScreenshot<OnboardingFragment>("2")
+        }
     }
 }
 

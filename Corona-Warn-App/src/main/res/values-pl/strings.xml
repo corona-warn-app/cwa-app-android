@@ -323,8 +323,8 @@
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Jeśli poddasz się testowi, dodatkowe informacje na temat procedury testowania znajdziesz w „Często zadawanych pytaniach”."</string>
-    <!-- XTXT: Explanation screen increased risk level link label -->
-    <string name="risk_details_increased_risk_faq_link_label">"Często zadawane pytania: Procedura testowania"</string>
+    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="risk_details_increased_risk_faq_link_label">"Często zadawanych pytaniach"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
@@ -496,9 +496,9 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Trzy osoby aktywowały rejestrowanie narażenia na swoich smartfonach, które będą rejestrować ich wzajemne kontakty."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Zezwól na dostęp do lokalizacji"</string>
+    <string name="onboarding_tracing_location_headline">"Aktywuj ustawienie lokalizacji"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Nie można uzyskać dostępu do Twojej lokalizacji. Google i/lub Android wymaga dostępu do lokalizacji Twojego smartfona w celu użycia Bluetooth."</string>
+    <string name="onboarding_tracing_location_body">"Aplikacja nie może ustalić lokalizacji urządzenia, której ustawienie musi być aktywowane w niektórych wersjach Androida, aby możliwe było korzystanie z technologii Bluetooth Low Energy."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Otwórz ustawienia urządzenia"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -526,6 +526,8 @@
     <string name="onboarding_ppa_illustration_description">"Osoba trzyma w dłoni smartfon"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
     <string name="onboarding_ppa_headline">"Udostępnij dane"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body short text -->
+    <string name="onboarding_ppa_body_short">"Podziel się z nami informacjami na temat korzystania z aplikacji i pomóż nam ocenić jej skuteczność."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
     <string name="onboarding_ppa_body">"Możesz pomóc nam ulepszyć aplikację Corona-Warn-App. Udostępnij dane o korzystaniu z aplikacji instytutowi RKI, który będzie mógł wówczas ocenić jej skuteczność. Twoje dane pomogą również ulepszyć funkcje i użyteczność tej aplikacji."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
@@ -537,7 +539,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Twój wiek (opcjonalnie)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_more_info_title">"Szczegółowe informacje o ryzyku związanym z przetwarzaniem i ochroną danych w USA"</string>
+    <string name="onboarding_ppa_more_info_title">"Szczegółowe informacje o ryzyku związanym z przetwarzaniem i ochroną danych w USA i innych krajach trzecich"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Udostępnij dane"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
@@ -550,7 +552,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Przetwarzanie danych w procesie udostępniania danych"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
-    <string name="onboarding_ppa_more_info_data_processing_body">"Jeśli wyrazisz zgodę na udostępnienie swoich danych, aplikacja będzie codziennie wysyłać różne dane do RKI. Przekazane dane będą analizowane w różnych celach:"</string>
+    <string name="onboarding_ppa_more_info_data_processing_body">"Jeśli wyrazisz zgodę na udostępnienie swoich danych, aplikacja będzie codziennie wysyłać różne dane do RKI. Przesłane dane pomogą nam ocenić skuteczność aplikacji i będą analizowane w celu wprowadzenia następujących ulepszeń:"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
     <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Ulepszone rejestrowanie narażenia – Chcemy poprawić dokładność i wiarygodność technicznych obliczeń ryzyka zakażenia. Aby to osiągnąć, będziemy analizować otrzymywane przez Ciebie informacje o narażeniu na ryzyko i ostrzeżenia. Pozwoli to nam udoskonalić metodę obliczeń."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
@@ -1794,21 +1796,21 @@
     <string name="datadonation_details_survey_consent_details_title">"Szczegółowe informacje na temat przetwarzania danych związanego z ankietą"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
-    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Czas na Twoim smartfonie nie zgadza się z aktualnym czasem. Popraw czas w ustawieniach swojego smartfona (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Czas na Twoim smartfonie nie zgadza się z aktualnym czasem. Popraw czas w ustawieniach swojego smartfona (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Nie można pobrać ankiety (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Nie można pobrać ankiety (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 3-->
-    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"W tej chwili nie można pobrać ankiety. Zaktualizuj usługi Google Play (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"W tej chwili nie można pobrać ankiety. Zaktualizuj usługi Google Play (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 4-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"W tej chwili nie można pobrać ankiety. Spróbuj ponownie później (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"W tej chwili nie można pobrać ankiety. Spróbuj ponownie później (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Ankiety nie można pobrać ze względów bezpieczeństwa. Możesz ponownie wypełnić ankietę w następnym miesiącu kalendarzowym (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Ankiety nie można pobrać ze względów bezpieczeństwa. Możesz ponownie wypełnić ankietę w następnym miesiącu kalendarzowym (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Nie udało się pobrać ankiety na smartfon (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Dziękujemy za chęć pomocy. Niestety, korzystasz ze smartfona, który nie obsługuje ankiety z powodów technicznych (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
-    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Ze względów bezpieczeństwa nie możesz wypełnić ankiety wcześniej niż 24 godziny po zainstalowaniu lub zaktualizowaniu aplikacji (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Ze względów bezpieczeństwa nie możesz wypełnić ankiety wcześniej niż po upływie 24 godzin od zainstalowania lub zaktualizowania aplikacji (kod błędu %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
-    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Wypełniłeś(-aś) już ankietę. Ankietę można wypełnić tylko raz w miesiącu (kod błędu {0})."</string>
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Wypełniłeś(-aś) już ankietę. Ankietę można wypełnić tylko raz w miesiącu (kod błędu %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Błąd"</string>

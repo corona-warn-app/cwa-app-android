@@ -32,6 +32,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
+    val showKeyRetrievalProgress = SingleLiveEvent<Boolean>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
@@ -44,6 +45,8 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
                 )
+
+                showKeyRetrievalProgress.postValue(false)
             }
 
             override fun onTEKPermissionDeclined() {
@@ -51,14 +54,17 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
                 )
+                showKeyRetrievalProgress.postValue(false)
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
                 showTracingConsentDialog.postValue(onConsentResult)
+                showKeyRetrievalProgress.postValue(false)
             }
 
             override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
                 showPermissionRequest.postValue(permissionRequest)
+                showKeyRetrievalProgress.postValue(false)
             }
 
             override fun onError(error: Throwable) {
@@ -67,6 +73,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
                     prefix = "SubmissionTestResultAvailableViewModel"
                 )
+                showKeyRetrievalProgress.postValue(false)
             }
         }
     )
@@ -96,6 +103,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun proceed() {
+        showKeyRetrievalProgress.value = true
         launch {
             if (consentFlow.first()) {
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
@@ -109,6 +117,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        showKeyRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
