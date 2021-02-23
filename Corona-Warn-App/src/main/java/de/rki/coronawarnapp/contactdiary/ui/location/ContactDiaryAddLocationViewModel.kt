@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.sheets.location
+package de.rki.coronawarnapp.contactdiary.ui.location
 
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEnti
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.contactdiary.util.formatContactDiaryNameField
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -21,7 +20,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 
-class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor(
+class ContactDiaryAddLocationViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
@@ -31,25 +30,24 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 
-    private val text = MutableStateFlow("")
-
-    val isValid = text.map {
-        it.isNotEmpty() && it.length <= MAX_LOCATION_NAME_LENGTH
-    }.asLiveData()
-
     val shouldClose = SingleLiveEvent<Unit>()
 
-    private val formattedName: String
-        get() = text.value.formatContactDiaryNameField(MAX_LOCATION_NAME_LENGTH)
+    private val locationName = MutableStateFlow("")
 
-    fun textChanged(locationName: String) {
-        text.value = locationName
+    val isValid = locationName
+        .map { it.isNotEmpty() }
+        .asLiveData()
+
+    fun locationChanged(value: String) {
+        locationName.value = value.trim()
     }
 
-    fun addLocation() = launch(coroutineExceptionHandler) {
+    fun addLocation(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
         val location = contactDiaryRepository.addLocation(
             DefaultContactDiaryLocation(
-                locationName = formattedName
+                locationName = locationName.value,
+                phoneNumber = phoneNumber,
+                emailAddress = emailAddress
             )
         )
 
@@ -61,19 +59,21 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
                 )
             )
         }
-
         shouldClose.postValue(null)
     }
 
-    fun updateLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
-        contactDiaryRepository.updateLocation(
-            DefaultContactDiaryLocation(
-                location.locationId,
-                locationName = formattedName
+    fun updateLocation(location: ContactDiaryLocationEntity, phoneNumber: String, emailAddress: String) =
+        launch(coroutineExceptionHandler) {
+            contactDiaryRepository.updateLocation(
+                DefaultContactDiaryLocation(
+                    location.locationId,
+                    locationName = locationName.value,
+                    phoneNumber = phoneNumber,
+                    emailAddress = emailAddress
+                )
             )
-        )
-        shouldClose.postValue(null)
-    }
+            shouldClose.postValue(null)
+        }
 
     fun deleteLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
         contactDiaryRepository.locationVisits.firstOrNull()?.forEach {
@@ -89,12 +89,11 @@ class ContactDiaryLocationBottomSheetDialogViewModel @AssistedInject constructor
     }
 
     companion object {
-        private const val MAX_LOCATION_NAME_LENGTH = 250
-        private val TAG = ContactDiaryLocationBottomSheetDialogViewModel::class.java.simpleName
+        private val TAG = ContactDiaryAddLocationViewModel::class.java.simpleName
     }
 
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<ContactDiaryLocationBottomSheetDialogViewModel> {
-        fun create(addedAt: String?): ContactDiaryLocationBottomSheetDialogViewModel
+    interface Factory : CWAViewModelFactory<ContactDiaryAddLocationViewModel> {
+        fun create(addedAt: String?): ContactDiaryAddLocationViewModel
     }
 }
