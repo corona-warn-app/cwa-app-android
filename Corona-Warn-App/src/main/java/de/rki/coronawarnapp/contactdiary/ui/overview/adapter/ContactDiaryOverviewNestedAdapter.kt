@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
+import org.joda.time.Duration
 
 class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNestedAdapter.NestedItemViewHolder>() {
 
@@ -29,17 +30,26 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
         BindableVH<ListItem.Data, ContactDiaryOverviewNestedListItemBinding> {
         override val viewBinding:
             Lazy<ContactDiaryOverviewNestedListItemBinding> =
-                lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
+            lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
 
         override val onBindData:
             ContactDiaryOverviewNestedListItemBinding.(item: ListItem.Data, payloads: List<Any>) -> Unit =
-                { key, _ ->
-                    contactDiaryOverviewElementImage.setImageResource(key.drawableId)
-                    contactDiaryOverviewElementName.text = key.text
-                    contactDiaryOverviewElementName.contentDescription = when (key.type) {
-                        ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.text)
-                        ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.text)
-                    }
+            { key, _ ->
+                contactDiaryOverviewElementImage.setImageResource(key.drawableId)
+                contactDiaryOverviewElementName.text = key.name
+                contactDiaryOverviewElementName.contentDescription = when (key.type) {
+                    ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
+                    ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
                 }
+                contactDiaryOverviewElementAttributes.text =
+                    getAttributes(key.duration, key.attributes, key.circumstances)
+            }
+
+        private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String =
+            mutableListOf<String>().apply {
+                duration?.run { add(toStandardHours().toString()) }
+                resources?.run { forEach { add(context.getString(it)) } }
+                circumstances?.run { add(this) }
+            }.joinToString()
     }
 }
