@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
+import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
+import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
@@ -60,4 +62,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [DataDonationTestFragmentModule::class])
     abstract fun dataDonation(): DataDonationTestFragment
+
+    @ContributesAndroidInjector(modules = [DeltaOnboardingFragmentModule::class])
+    abstract fun deltaOnboarding(): DeltaonboardingFragment
 }

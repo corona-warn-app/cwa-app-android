@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE
 import de.rki.coronawarnapp.util.DeviceUIState.PAIRED_POSITIVE_TELETAN
 import de.rki.coronawarnapp.util.NetworkRequestWrapper
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -65,6 +66,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
 
     @BeforeEach
     fun setup() {
@@ -100,7 +102,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
-        deadmanNotificationScheduler = deadmanNotificationScheduler
+        deadmanNotificationScheduler = deadmanNotificationScheduler,
+        appShortcutsHelper = appShortcutsHelper
     )
 
     @Test
@@ -196,16 +199,10 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
 
         with(createInstance()) {
-            showPopUpsOrNavigate()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowInteropDeltaOnboarding
-
-            showPopUpsOrNavigate()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowNewReleaseFragment
-
-            showPopUpsOrNavigate()
+            showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
 
-            showPopUpsOrNavigate()
+            showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }
     }
