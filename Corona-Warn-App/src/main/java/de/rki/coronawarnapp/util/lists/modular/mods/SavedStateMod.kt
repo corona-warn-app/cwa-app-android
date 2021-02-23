@@ -9,7 +9,8 @@ import de.rki.coronawarnapp.util.ui.addLifecycleEventCallback
 import timber.log.Timber
 
 @Keep
-class SavedStateMod<T : ModularAdapter.VH> : ModularAdapter.Module.RecyclerViewLifecycle,
+class SavedStateMod<T : ModularAdapter.VH> :
+    ModularAdapter.Module.RecyclerViewLifecycle,
     ModularAdapter.Module.Binder<T> {
 
     private val savedStates = mutableMapOf<String, Parcelable>()

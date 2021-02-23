@@ -58,7 +58,9 @@ class ExpandingDiaryListItemView @JvmOverloads constructor(
 
     companion object {
         private val TOPLEVEL_IDS = listOf(
-            R.id.header, R.id.divider, R.id.container
+            R.id.header,
+            R.id.divider,
+            R.id.container
         )
     }
 }

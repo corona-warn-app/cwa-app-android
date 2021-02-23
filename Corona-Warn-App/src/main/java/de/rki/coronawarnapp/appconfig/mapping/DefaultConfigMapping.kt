@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
@@ -13,7 +14,8 @@ data class DefaultConfigMapping(
     val keyDownloadConfig: KeyDownloadConfig,
     val exposureDetectionConfig: ExposureDetectionConfig,
     val exposureWindowRiskCalculationConfig: ExposureWindowRiskCalculationConfig,
-    override val survey: SurveyConfig
+    override val survey: SurveyConfig,
+    override val analytics: AnalyticsConfig
 ) : ConfigMapping,
     CWAConfig by cwaConfig,
     KeyDownloadConfig by keyDownloadConfig,

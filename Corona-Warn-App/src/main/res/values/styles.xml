@@ -104,6 +104,17 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
+    <style name="contactDiaryPersonButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/button_contact_diary_person</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#000000</item>
+
+    </style>
+
     <style name="buttonReset" parent="button">
         <item name="android:backgroundTint">@color/button_red</item>
         <item name="android:textColor">@color/button_text_color_emphasized</item>
@@ -131,6 +142,7 @@
 
     <style name="switchBase" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="android:colorControlActivated">@color/colorAccentTintIcon</item>
+        <item name="colorControlActivated">@color/colorAccentTintIcon</item>
     </style>
 
     <!-- ####################################
@@ -141,9 +153,8 @@
         <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
         <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
-        <item name="android:elevation">@dimen/elevation_weak</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:background">@drawable/row</item>
+        <item name="android:background">?selectableItemBackground</item>
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
@@ -279,6 +290,10 @@
 
     <style name="subtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/colorTextSixteen</item>
+    </style>
+
+    <style name="bodyNeutral" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextSemanticNeutral</item>
     </style>
 
     <!-- ####################################
@@ -464,6 +479,10 @@
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="counterTextAppearance">@color/colorTransparent</item>
         <item name="android:maxLength">5</item>
+    </style>
+
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
 </resources>

@@ -140,7 +140,8 @@ class EnvironmentSetupTest : BaseTest() {
             EnvironmentSetup.Type.WRU_XA,
             EnvironmentSetup.Type.LOCAL
         )
-        private const val GOOD_JSON = """
+        private const val GOOD_JSON =
+            """
             {
                 "PROD": {
                     "USE_EUR_KEY_PKGS" : true,

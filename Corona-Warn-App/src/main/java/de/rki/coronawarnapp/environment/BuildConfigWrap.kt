@@ -10,4 +10,8 @@ object BuildConfigWrap {
     val ENVIRONMENT_TYPE_DEFAULT = BuildConfig.ENVIRONMENT_TYPE_DEFAULT
 
     val VERSION_CODE: Long = BuildConfig.VERSION_CODE.toLong()
+
+    val VERSION_MAJOR: Int = BuildConfig.VERSION_MAJOR
+    val VERSION_MINOR: Int = BuildConfig.VERSION_MINOR
+    val VERSION_PATCH: Int = BuildConfig.VERSION_PATCH
 }

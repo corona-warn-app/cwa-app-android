@@ -9,6 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
@@ -117,7 +119,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             .map { personEncounter ->
                 ListItem.Data(
                     R.drawable.ic_contact_diary_person_item,
-                    personEncounter.contactDiaryPerson.fullName,
+                    name = personEncounter.contactDiaryPerson.fullName,
+                    duration = null,
+                    attributes = getPersonAttributes(personEncounter),
+                    circumstances = personEncounter.circumstances,
                     ListItem.Type.PERSON
                 )
             }
@@ -133,6 +138,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 ListItem.Data(
                     R.drawable.ic_contact_diary_location_item,
                     locationVisit.contactDiaryLocation.locationName,
+                    duration = locationVisit.duration,
+                    attributes = null,
+                    circumstances = locationVisit.circumstances,
                     ListItem.Type.LOCATION
                 )
             }
@@ -146,6 +154,24 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment(listItem.date))
     }
 
+    private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> =
+        mutableListOf<Int>().apply {
+            when (personEncounter.durationClassification) {
+                LESS_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_below_15_min)
+                MORE_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_above_15_min)
+            }
+
+            when (personEncounter.withMask) {
+                true -> add(R.string.contact_diary_person_encounter_mask_with)
+                false -> add(R.string.contact_diary_person_encounter_mask_without)
+            }
+
+            when (personEncounter.wasOutside) {
+                true -> add(R.string.contact_diary_person_encounter_environment_outside)
+                false -> add(R.string.contact_diary_person_encounter_environment_inside)
+            }
+        }
+
     fun onExportPress(ctx: Context) {
         Timber.d("Exporting person and location entries")
         launch {
@@ -158,9 +184,13 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 .groupBy({ it.date }, { it.contactDiaryPerson.fullName })
 
             val sb = StringBuilder()
-                .appendLine(ctx.getString(R.string.contact_diary_export_intro_one,
-                    dates.last().toFormattedString(),
-                    dates.first().toFormattedString()))
+                .appendLine(
+                    ctx.getString(
+                        R.string.contact_diary_export_intro_one,
+                        dates.last().toFormattedString(),
+                        dates.first().toFormattedString()
+                    )
+                )
                 .appendLine(ctx.getString(R.string.contact_diary_export_intro_two))
                 .appendLine()
 

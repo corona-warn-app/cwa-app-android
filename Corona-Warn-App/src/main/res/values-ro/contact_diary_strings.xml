@@ -22,9 +22,9 @@
     <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
     <string name="contact_diary_homescreen_card_body">"Păstrați evidența locurilor prin care ați fost și a persoanelor cu care v-ați întâlnit."</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Gestionare jurnal"</string>
+    <string name="contact_diary_homescreen_card_button_text">"Deschidere jurnal"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_onboarding_button_text">"Gestionare jurnal"</string>
+    <string name="contact_diary_onboarding_button_text">"Deschidere jurnal"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Păstrați evidența contactelor dvs."</string>
@@ -59,7 +59,7 @@
     <!-- XTXT: Title for contact diary overview screen -->
     <string name="contact_diary_overview_title">"Jurnal de contacte"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
-    <string name="contact_diary_overview_subtitle">"Notați persoanele pe care le-ați întâlnit și locurile pe care le-ați vizitat."</string>
+    <string name="contact_diary_overview_subtitle">"Notați persoanele pe care le-ați întâlnit și locurile pe care le-ați vizitat. Dacă pentru o zi este afișat un risc, puteți avertiza persoanele cu care v-ați întâlnit în ziua respectivă dacă acestea nu utilizează încă aplicația Corona-Warn."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Pagina inițială"</string>
 
@@ -132,4 +132,5 @@
     <string name="accessibility_action_deselect">"Anulare selecție"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Editare"</string>
+
 </resources>

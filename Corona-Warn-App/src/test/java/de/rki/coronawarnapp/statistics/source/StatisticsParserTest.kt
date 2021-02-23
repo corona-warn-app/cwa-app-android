@@ -159,7 +159,8 @@ class StatisticsParserTest : BaseTest() {
                     decimals = 0
                     trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
                     trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build(), KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
                     value = 429181.0
                     decimals = 0
@@ -187,7 +188,8 @@ class StatisticsParserTest : BaseTest() {
                     decimals = 0
                     trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
                     trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build(), KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
                     value = 429181.0
                     decimals = 0

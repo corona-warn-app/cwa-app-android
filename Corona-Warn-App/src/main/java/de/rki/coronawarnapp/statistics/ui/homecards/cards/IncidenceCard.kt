@@ -16,7 +16,8 @@ import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class IncidenceCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsIncidenceLayoutBinding>(
-        R.layout.home_statistics_cards_basecard_layout, parent
+        R.layout.home_statistics_cards_basecard_layout,
+        parent
     ) {
 
     override val viewBinding = lazy {
@@ -50,8 +51,13 @@ class IncidenceCard(parent: ViewGroup) :
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
                 .appendWithTrailingSpace(getPrimaryLabel(context))
-                .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayIncidence.value,
-                    sevenDayIncidence.decimals))
+                .appendWithTrailingSpace(
+                    formatStatisticalValue(
+                        context,
+                        sevenDayIncidence.value,
+                        sevenDayIncidence.decimals
+                    )
+                )
                 .append(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
 
             trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
@@ -67,8 +73,13 @@ class IncidenceCard(parent: ViewGroup) :
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayIncidence.value,
-                sevenDayIncidence.decimals))
+            .appendWithTrailingSpace(
+                formatStatisticalValue(
+                    context,
+                    sevenDayIncidence.value,
+                    sevenDayIncidence.decimals
+                )
+            )
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_incidence_value_description))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))

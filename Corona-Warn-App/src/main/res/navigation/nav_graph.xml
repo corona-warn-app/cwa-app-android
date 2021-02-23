@@ -50,17 +50,11 @@
             android:id="@+id/action_mainFragment_to_submissionDispatcher"
             app:destination="@id/submissionDispatcherFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
-            app:destination="@id/onboardingDeltaInteroperabilityFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_test_nav_graph"
             app:destination="@id/test_nav_graph" />
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_newReleaseInfoFragment"
-            app:destination="@id/newReleaseInfoFragment" />
         <action
             android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
             app:destination="@id/statisticsExplanationFragment" />
@@ -99,6 +93,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_settingsBackgroundPriorityFragment"
             app:destination="@id/settingsBackgroundPriorityFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsPrivacyPreservingAnalyticsFragment"
+            app:destination="@id/settingsPrivacyPreservingAnalyticsFragment" />
     </fragment>
 
     <fragment
@@ -515,6 +512,11 @@
             android:name="comesFromInfoScreen"
             android:defaultValue="false"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaAnalyticsFragment"
+            app:destination="@id/onboardingDeltaAnalyticsFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/surveyConsentFragment"
@@ -533,5 +535,44 @@
         android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentDetailFragment"
         android:label="survey_consent_detail_fragment"
         tools:layout="@layout/survey_consent_detail_fragment">
+    </fragment>
+    <fragment
+        android:id="@+id/analyticsUserInputFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
+        android:label="AnalyticsUserInputFragment"
+        tools:layout="@layout/analytics_ppa_userinfo_input_fragment">
+        <argument
+            android:name="type"
+            app:argType="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment$InputType" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingDeltaAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsFragment"
+        android:label="OnboardingDeltaAnalyticsFragment"
+        tools:layout="@layout/fragment_onboarding_delta_ppa">
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_onboardingDeltaAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppaMoreInfoFragment"
+        android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
+        android:label="PpaMoreInfoFragment"
+        tools:layout="@layout/fragment_ppa_more_info">
+    </fragment>
+    <fragment
+        android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
+        android:label="SettingsPrivacyPreservingAnalyticsFragment"
+        tools:layout="@layout/fragment_settings_privacy_preserving_analytics">
+        <action
+            android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_analyticsUserInputFragment"
+            app:destination="@id/analyticsUserInputFragment" />
+        <action
+            android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_ppaMoreInfoFragment"
+            app:destination="@id/ppaMoreInfoFragment" />
     </fragment>
 </navigation>

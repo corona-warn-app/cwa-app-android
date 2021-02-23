@@ -14,11 +14,13 @@ import org.joda.time.format.DateTimeFormat
 import java.util.Locale
 
 fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
-    this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            cb(position)
+    this.registerOnPageChangeCallback(
+        object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                cb(position)
+            }
         }
-    })
+    )
 }
 
 fun Context.getLocale(): Locale {
@@ -68,16 +70,20 @@ fun View.hideKeyboard() {
 }
 
 fun View.setClickLabel(label: String) {
-    ViewCompat.setAccessibilityDelegate(this, object : AccessibilityDelegateCompat() {
-        override fun onInitializeAccessibilityNodeInfo(v: View, info: AccessibilityNodeInfoCompat) {
-            super.onInitializeAccessibilityNodeInfo(v, info)
-            info.addAction(
-                AccessibilityNodeInfoCompat.AccessibilityActionCompat(
-                    AccessibilityNodeInfoCompat.ACTION_CLICK, label
+    ViewCompat.setAccessibilityDelegate(
+        this,
+        object : AccessibilityDelegateCompat() {
+            override fun onInitializeAccessibilityNodeInfo(v: View, info: AccessibilityNodeInfoCompat) {
+                super.onInitializeAccessibilityNodeInfo(v, info)
+                info.addAction(
+                    AccessibilityNodeInfoCompat.AccessibilityActionCompat(
+                        AccessibilityNodeInfoCompat.ACTION_CLICK,
+                        label
+                    )
                 )
-            )
+            }
         }
-    })
+    )
 }
 
 fun <T> MutableList<T>.clearAndAddAll(newItems: List<T>) {

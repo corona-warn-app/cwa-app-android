@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -17,7 +18,8 @@ class SettingsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     notificationSettings: NotificationSettings,
-    backgroundModeStatus: BackgroundModeStatus
+    backgroundModeStatus: BackgroundModeStatus,
+    analytics: Analytics
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -40,7 +42,12 @@ class SettingsFragmentViewModel @AssistedInject constructor(
 
     val backgroundPriorityState: LiveData<SettingsBackgroundState> =
         backgroundModeStatus.isIgnoringBatteryOptimizations
-            .map { SettingsBackgroundState((it)) }
+            .map { SettingsBackgroundState(it) }
+            .asLiveData(dispatcherProvider.Default)
+
+    var analyticsState: LiveData<SettingsPrivacyPreservingAnalyticsState> =
+        analytics.isAnalyticsEnabledFlow()
+            .map { SettingsPrivacyPreservingAnalyticsState(it) }
             .asLiveData(dispatcherProvider.Default)
 
     @AssistedFactory
