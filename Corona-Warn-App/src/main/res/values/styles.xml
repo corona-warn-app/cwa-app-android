@@ -104,6 +104,17 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
+    <style name="contactDiaryPersonButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/button_contact_diary_person</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#000000</item>
+
+    </style>
+
     <style name="buttonReset" parent="button">
         <item name="android:backgroundTint">@color/button_red</item>
         <item name="android:textColor">@color/button_text_color_emphasized</item>
@@ -281,6 +292,10 @@
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
+    <style name="bodyNeutral" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextSemanticNeutral</item>
+    </style>
+
     <!-- ####################################
               Icons
     ###################################### -->
@@ -398,6 +413,31 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
+    <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxBackgroundColor">@color/colorBackground</item>
+        <item name="android:textColorHint">@color/colorTextPrimary2</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="hintTextColor">@color/colorTextPrimary2</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
+        <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
+    <style name="ContactDiaryInfoButton" parent="buttonIcon">
+        <item name="android:height">@dimen/button_icon</item>
+        <item name="android:width">@dimen/button_icon</item>
+        <item name="android:src">@drawable/ic_info</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:contentDescription">@string/statistics_info_button</item>
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
         <item name="android:height">@dimen/button_icon</item>
         <item name="android:width">@dimen/button_icon</item>
@@ -439,6 +479,10 @@
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="counterTextAppearance">@color/colorTransparent</item>
         <item name="android:maxLength">5</item>
+    </style>
+
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
 </resources>
