@@ -281,6 +281,10 @@
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
+    <style name="bodyNeutral" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextSemanticNeutral</item>
+    </style>
+
     <!-- ####################################
               Icons
     ###################################### -->
@@ -464,6 +468,10 @@
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="counterTextAppearance">@color/colorTransparent</item>
         <item name="android:maxLength">5</item>
+    </style>
+
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
 </resources>
