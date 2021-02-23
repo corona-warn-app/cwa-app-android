@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.trimToLength
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -27,6 +28,9 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
+
+    val openDialog = SingleLiveEvent<String>()
+    private var currentLocation: DiaryLocationListItem? = null
 
     private val localDate = LocalDate.parse(selectedDay)
 
@@ -50,6 +54,9 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                 },
                 onCircumStanceInfoClicked = {
                     // TODO
+                },
+                onDurationDialog = { item, durationString ->
+                    onDurationDialog(item, durationString)
                 }
             )
         }
@@ -69,6 +76,18 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                 .find { it.contactDiaryLocation.locationId == item.item.locationId }
             visit?.let { contactDiaryRepository.deleteLocationVisit(it) }
         }
+    }
+
+    private fun onDurationDialog(
+        listItem: DiaryLocationListItem,
+        durationString: String
+    ) {
+        currentLocation = listItem
+        openDialog.postValue(durationString)
+    }
+
+    fun onDurationSelected(duration: Duration) {
+        currentLocation?.let { onDurationChanged(it, duration) }
     }
 
     private fun onDurationChanged(

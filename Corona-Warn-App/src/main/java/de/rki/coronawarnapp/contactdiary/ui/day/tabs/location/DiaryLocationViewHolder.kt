@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
@@ -39,6 +40,22 @@ class DiaryLocationViewHolder(
             if (changes.isEmpty()) setInputText(item.visit?.circumstances ?: "")
             circumstances.setInputTextChangedListener { item.onCircumstancesChanged(item, it) }
             setInfoButtonClickListener { item.onCircumStanceInfoClicked() }
+        }
+
+        durationInput.apply {
+            val duration = item.visit?.duration
+            text = duration?.toContactDiaryFormat()
+            if (duration == null || duration.millis == 0L ) {
+                setBackgroundResource(R.drawable.contact_diary_duration_background_default)
+                setTextAppearance(R.style.bodyNeutral)
+            } else {
+                setBackgroundResource(R.drawable.contact_diary_duration_background_selected)
+                setTextAppearance(R.style.body1)
+            }
+        }
+
+        durationInput.setOnClickListener {
+            item.onDurationDialog(item, durationInput.text.toString())
         }
     }
 }
