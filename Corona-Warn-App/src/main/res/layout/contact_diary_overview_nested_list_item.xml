@@ -20,10 +20,10 @@
         android:importantForAccessibility="no"
         android:scaleType="centerInside"
         android:src="@drawable/ic_contact_diary_person_item"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_name"
         app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_element_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contact_diary_overview_element_name"
-        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_name"/>
+        app:layout_constraintTop_toTopOf="@+id/contact_diary_overview_element_name" />
 
     <TextView
         android:id="@+id/contact_diary_overview_element_name"
@@ -45,12 +45,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="3"
-        android:text="Acesta este un test, sugi pula. Iti pute pizda a cacat si peste mort, ce pula mea se intampla?"
-        app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_element_name"
+        android:text="unter 15 Min, im Freien"
         app:layout_constraintEnd_toEndOf="@+id/contact_diary_overview_element_name"
-        app:layout_constraintStart_toStartOf="@+id/contact_diary_overview_element_name">
-
-    </TextView>
+        app:layout_constraintStart_toStartOf="@+id/contact_diary_overview_element_name"
+        app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_element_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
