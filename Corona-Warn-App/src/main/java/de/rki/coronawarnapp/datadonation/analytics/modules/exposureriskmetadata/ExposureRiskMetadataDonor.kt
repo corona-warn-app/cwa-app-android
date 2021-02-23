@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,13 +28,14 @@ class ExposureRiskMetadataDonor @Inject constructor(
             .lastCalculated
 
         val riskLevelForMetadata = lastRiskResult.toMetadataRiskLevel()
+        val mostRecentDateAtRiskLevel = lastRiskResult.lastRiskEncounterAt?.seconds ?: -1
 
         val newMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(riskLevelForMetadata)
             .setRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.riskLevel != riskLevelForMetadata)
-            .setMostRecentDateAtRiskLevel(lastRiskResult.calculatedAt.millis)
+            .setMostRecentDateAtRiskLevel(mostRecentDateAtRiskLevel)
             .setDateChangedComparedToPreviousSubmission(
-                previousMetadata?.mostRecentDateAtRiskLevel != lastRiskResult.calculatedAt.millis
+                previousMetadata?.mostRecentDateAtRiskLevel != mostRecentDateAtRiskLevel
             )
             .build()
 
