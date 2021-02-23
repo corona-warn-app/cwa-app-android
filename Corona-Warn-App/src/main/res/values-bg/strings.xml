@@ -323,8 +323,8 @@
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Ако се тествате, ще получите допълнителна информация относно процедурата за тестване в ЧЗВ."</string>
-    <!-- XTXT: Explanation screen increased risk level link label -->
-    <string name="risk_details_increased_risk_faq_link_label">"ЧЗВ: Процедура за тестване"</string>
+    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="risk_details_increased_risk_faq_link_label">"ЧЗВ"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
@@ -496,9 +496,9 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Трима души са активирали регистрирането на излагания на риск и контактите им един с друг ще бъдат записани."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
+    <string name="onboarding_tracing_location_headline">"Активиране на настройките за местоположение"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Не може да бъде осъществен достъп до Вашето местоположение. За да използвате Bluetooth, Google и/или Android изискват от Вас да предоставите достъп до местоположението на смартфона си."</string>
+    <string name="onboarding_tracing_location_body">"Приложението не може да определи къде се намирате, но някои версии на Android изискват настройката за местоположение да бъде активирана, за да използват режима на Bluetooth с ниска консумация на енергия."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Към настройките на устройството"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -526,6 +526,8 @@
     <string name="onboarding_ppa_illustration_description">"Човек държи смартфон в ръка"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
     <string name="onboarding_ppa_headline">"Споделяне на данни"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body short text -->
+    <string name="onboarding_ppa_body_short">"Покажете ни как използвате приложението. Това ще ни помогне да оценим неговата ефективност."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
     <string name="onboarding_ppa_body">"Можете да ни помогнете да подобрим приложението Corona-Warn-App, като споделите с института „Роберт Кох“ данните за Вашето използване на приложението. Това ще помогне на института да оцени ефективността му, както и да подобри функциите и удобството при неговото използване."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
@@ -537,7 +539,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Вашата възраст (незадължително)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_more_info_title">"Подробна информация относно обработката на тези данни и рисковете относно защитата на данните в САЩ"</string>
+    <string name="onboarding_ppa_more_info_title">"Подробна информация относно обработката на тези данни и рисковете относно защитата на данните в САЩ и други държави."</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Споделяне на данни"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
@@ -550,7 +552,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Обработка на данните в процеса на споделяне на данни"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
-    <string name="onboarding_ppa_more_info_data_processing_body">"Ако предоставите съгласие за споделяне, приложението изпраща ежедневно различни Ваши данни до института „Роберт Кох“. Предадените данни ще бъдат анализирани за различни цели:"</string>
+    <string name="onboarding_ppa_more_info_data_processing_body">"Ако се съгласите да споделяте свои данни, приложението изпраща ежедневно такива до института „Роберт Кох“. Те ще ни помогнат да оценим ефективността на приложението, а извършеният върху тях анализ ще подпомогне следните подобрения:"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
     <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Подобряване на регистрирането на излагания - Бихме искали да подобрим точността и надеждността на техническото изчисление на рисковете от заразяване. За тази цел ще направим оценка на информацията относно излаганията на риск и предупрежденията, които виждате. Това ще ни даде възможност да подобрим метода на изчисление."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
@@ -1794,21 +1796,21 @@
     <string name="datadonation_details_survey_consent_details_title">"Подробна информация относно обработката на данни при участие в анкетата"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
-    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Часът, показван от Вашия смартфон, не съответства на текущия час. Моля, коригирайте това в настройките на устройството си. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Часът, показван от Вашия смартфон, не съответства на текущия час. Моля, коригирайте това в настройките на устройството. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Анкетата не може да бъде извлечена. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Анкетата не може да бъде извлечена. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 3-->
-    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Анкетата не може да бъде извлечена в момента. Моля, актуализирайте Google Play Services. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Анкетата не може да бъде извлечена в момента. Моля, актуализирайте Google Play Services. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 4-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Анкетата не може да бъде извлечена в момента. Моля, опитайте по-късно. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Анкетата не може да бъде извлечена в момента. Моля, опитайте по-късно. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Анкетата не може да бъде извлечена поради причини, свързани със сигурността. Може да попълните анкетата отново през следващия календарен месец. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Анкетата не може да бъде извлечена поради причини, свързани със сигурността. Може да попълните анкетата отново през следващия календарен месец. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Анкетата не може да бъде извлечена на Вашето устройство. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Благодарим Ви, че се опитахте да помогнете! За съжаление, използвате устройство, което по технически причини не поддържа анкетното проучване. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
-    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"От съображения за сигурност можете да участвате в анкетата най-рано 24 часа, след като инсталирате или актуализирате приложението. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"От съображения за сигурност можете да участвате в анкетата най-рано 24 часа, след като инсталирате или актуализирате приложението. Код на грешката: %1$s"</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
-    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Вече сте попълнили анкетата. Може да правите това само веднъж месечно. Код на грешката: {0}."</string>
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Вече сте попълнили анкетата. Може да правите това само веднъж месечно. Код на грешката: %1$s."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Грешка"</string>

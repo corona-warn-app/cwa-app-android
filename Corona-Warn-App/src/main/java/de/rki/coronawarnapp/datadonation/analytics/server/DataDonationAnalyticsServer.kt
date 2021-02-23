@@ -22,7 +22,7 @@ class DataDonationAnalyticsServer @Inject constructor(
         return when (code) {
             204 -> Timber.d("Analytics upload completed successfully")
             400, 401, 403 -> {
-                val explanation = response.body()?.errorState ?: "Unknown clientside error"
+                val explanation = response.body()?.errorCode ?: "Unknown clientside error"
                 throw AnalyticsException(message = explanation).also {
                     Timber.w(it, "Analytics upload failed with 40X")
                 }
