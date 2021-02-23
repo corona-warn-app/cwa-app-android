@@ -12,6 +12,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
@@ -68,7 +69,9 @@ class ClientMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(object : DonorModule.Request {
+                override val currentConfig: ConfigData = mockk()
+            })
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }

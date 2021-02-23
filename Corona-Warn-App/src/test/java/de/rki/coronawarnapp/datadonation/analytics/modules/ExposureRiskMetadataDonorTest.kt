@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelResult
@@ -12,6 +13,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -84,7 +86,11 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }
@@ -130,7 +136,11 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }

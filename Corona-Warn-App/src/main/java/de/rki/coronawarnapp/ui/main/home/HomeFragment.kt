@@ -80,11 +80,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         vm.popupEvents.observe2(this) { event ->
             when (event) {
-                HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
-                    doNavigate(
-                        HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
-                    )
-                }
                 is HomeFragmentEvents.ShowTracingExplanation -> {
                     tracingExplanationDialog.show(event.activeTracingDaysInRetentionPeriod) {
                         vm.tracingExplanationWasShown()
@@ -97,11 +92,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     )
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
-
-                HomeFragmentEvents.ShowNewReleaseFragment -> doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false)
-                )
-
                 HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                     HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
                 )
@@ -111,7 +101,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         }
 
-        vm.showPopUpsOrNavigate()
+        vm.showPopUps()
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()
@@ -127,6 +117,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
+        vm.restoreAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
