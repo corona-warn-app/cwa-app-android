@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import timber.log.Timber
 
 @Keep
-class SavedStateMod<T : ModularAdapter.VH> : ModularAdapter.Module.RecyclerViewLifecycle,
+class SavedStateMod<T : ModularAdapter.VH> :
+    ModularAdapter.Module.RecyclerViewLifecycle,
     ModularAdapter.Module.Binder<T> {
 
     private val savedStates = mutableMapOf<String, Parcelable>()

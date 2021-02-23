@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_wash"
@@ -43,6 +44,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_mask"
@@ -53,6 +55,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_distance"
@@ -63,6 +66,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_sneeze"

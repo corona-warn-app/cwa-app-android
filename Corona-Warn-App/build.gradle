@@ -64,6 +64,10 @@ android {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
+        buildConfigField "int", "VERSION_MAJOR", VERSION_MAJOR
+        buildConfigField "int", "VERSION_MINOR", VERSION_MINOR
+        buildConfigField "int", "VERSION_PATCH", VERSION_PATCH
     }
 
     def signingPropFile = file("../keystore.properties")
@@ -294,7 +298,9 @@ dependencies {
     def coroutineVersion = "1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
 
     // ANDROID STANDARD
     def nav_version = "2.3.3"
@@ -336,7 +342,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
 
     //ENA
-    implementation files('libs/play-services-nearby-exposurenotification-1.7.2-eap.aar')
+    implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"

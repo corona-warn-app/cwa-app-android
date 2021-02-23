@@ -29,8 +29,7 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
     inner class NestedItemViewHolder(parent: ViewGroup) :
         BaseAdapter.VH(R.layout.contact_diary_overview_nested_list_item, parent),
         BindableVH<ListItem.Data, ContactDiaryOverviewNestedListItemBinding> {
-        override val viewBinding:
-            Lazy<ContactDiaryOverviewNestedListItemBinding> =
+        override val viewBinding: Lazy<ContactDiaryOverviewNestedListItemBinding> =
             lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
 
         override val onBindData:

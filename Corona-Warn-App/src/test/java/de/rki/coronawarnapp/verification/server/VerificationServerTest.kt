@@ -73,7 +73,8 @@ class VerificationServerTest : BaseIOTest() {
         }
 
         server.retrieveRegistrationToken(
-            "testKey", VerificationKeyType.GUID
+            "testKey",
+            VerificationKeyType.GUID
         ) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }
@@ -96,7 +97,8 @@ class VerificationServerTest : BaseIOTest() {
         }
 
         server.retrieveRegistrationToken(
-            "testKey", VerificationKeyType.TELETAN
+            "testKey",
+            VerificationKeyType.TELETAN
         ) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }

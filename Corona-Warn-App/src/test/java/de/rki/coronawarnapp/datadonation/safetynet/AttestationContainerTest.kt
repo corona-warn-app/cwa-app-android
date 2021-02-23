@@ -37,11 +37,12 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `nothing required`() {
-        val attestation = """
+        val attestation =
+            """
             {
           
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         shouldNotThrowAny {
             attestation.requirePass(SafetyNetRequirementsContainer())
@@ -50,11 +51,12 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `basic integrity required`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "basicIntegrity": false
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -68,11 +70,12 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `basic integrity required bad JSON`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "basicIntegrity": "test"
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -86,12 +89,13 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `cts profile match required`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": false,
                 "basicIntegrity": true
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -106,12 +110,13 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `cts profile match required BAD JSON`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": "123",
                 "basicIntegrity": true
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -126,12 +131,13 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `evaluation type basic required`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": true,
                 "basicIntegrity": true
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -147,13 +153,14 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `evaluation type basic required BAD JSON`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": true,
                 "basicIntegrity": true,
                 "evaluationType": ""
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -169,13 +176,14 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `evaluation type hardwarebacked required`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": true,
                 "basicIntegrity": true,
                 "evaluationType": " BASIC "
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -192,13 +200,14 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `evaluation type hardwarebacked required BAD JSON`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": true,
                 "basicIntegrity": true,
                 "evaluationType": "BASIC, SURPRISE"
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         val exception = shouldThrow<SafetyNetException> {
             attestation.requirePass(
@@ -215,13 +224,14 @@ class AttestationContainerTest : BaseTest() {
 
     @Test
     fun `everything required and pass`() {
-        val attestation = """
+        val attestation =
+            """
             {
                 "ctsProfileMatch": true,
                 "basicIntegrity": true,
                 "evaluationType": "BASIC,HARDWARE_BACKED"
             }
-       """.trimIndent().let { create(it) }
+            """.trimIndent().let { create(it) }
 
         shouldNotThrowAny {
             attestation.requirePass(

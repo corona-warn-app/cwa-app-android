@@ -20,7 +20,8 @@ import javax.inject.Inject
  * If os notifications are disabled he can navigate to them with one click. And if the os is enabled
  * the user can decide which notifications he wants to get: risk updates and/or test results.
  */
-class NotificationSettingsFragment : Fragment(R.layout.fragment_settings_notifications),
+class NotificationSettingsFragment :
+    Fragment(R.layout.fragment_settings_notifications),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory

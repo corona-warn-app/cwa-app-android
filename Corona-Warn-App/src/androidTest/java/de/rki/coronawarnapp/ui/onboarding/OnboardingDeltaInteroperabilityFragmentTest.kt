@@ -37,13 +37,15 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        setupMockViewModel(object : OnboardingDeltaInteroperabilityFragmentViewModel.Factory {
-            override fun create(): OnboardingDeltaInteroperabilityFragmentViewModel =
-                OnboardingDeltaInteroperabilityFragmentViewModel(
-                    interopRepo = interopRepo,
-                    dispatcherProvider = TestDispatcherProvider()
-                )
-        })
+        setupMockViewModel(
+            object : OnboardingDeltaInteroperabilityFragmentViewModel.Factory {
+                override fun create(): OnboardingDeltaInteroperabilityFragmentViewModel =
+                    OnboardingDeltaInteroperabilityFragmentViewModel(
+                        interopRepo = interopRepo,
+                        dispatcherProvider = TestDispatcherProvider()
+                    )
+            }
+        )
     }
 
     @After

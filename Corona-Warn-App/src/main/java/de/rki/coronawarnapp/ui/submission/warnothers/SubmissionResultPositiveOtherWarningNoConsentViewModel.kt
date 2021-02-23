@@ -32,6 +32,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
+    val keysRetrievalProgress = SingleLiveEvent<Boolean>()
+
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
 
     val showEnableTracingEvent = SingleLiveEvent<Unit>()
@@ -41,34 +43,40 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     val showTracingConsentDialog = de.rki.coronawarnapp.ui.SingleLiveEvent<(Boolean) -> Unit>()
 
-    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
-        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-            Timber.d("onTEKAvailable(tek.size=%d)", teks.size)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
+        object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                Timber.d("onTEKAvailable(tek.size=%d)", teks.size)
+                autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+                keysRetrievalProgress.postValue(false)
+                routeToScreen.postValue(
+                    SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
+                )
+            }
 
-            routeToScreen.postValue(
-                SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                    .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
-            )
-        }
+            override fun onTEKPermissionDeclined() {
+                keysRetrievalProgress.postValue(false)
+                // stay on screen
+            }
 
-        override fun onTEKPermissionDeclined() {
-            // stay on screen
-        }
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                keysRetrievalProgress.postValue(false)
+                showTracingConsentDialog.postValue(onConsentResult)
+            }
 
-        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            showTracingConsentDialog.postValue(onConsentResult)
-        }
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                keysRetrievalProgress.postValue(false)
+                showPermissionRequest.postValue(permissionRequest)
+            }
 
-        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            showPermissionRequest.postValue(permissionRequest)
+            override fun onError(error: Throwable) {
+                keysRetrievalProgress.postValue(false)
+                Timber.e(error, "Couldn't access temporary exposure key history.")
+                error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
+            }
         }
-
-        override fun onError(error: Throwable) {
-            Timber.e(error, "Couldn't access temporary exposure key history.")
-            error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
-        }
-    })
+    )
 
     fun onBackPressed() {
         routeToScreen.postValue(
@@ -78,6 +86,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onConsentButtonClicked() {
+        keysRetrievalProgress.value = true
         submissionRepository.giveConsentToSubmission()
         launch {
             if (enfClient.isTracingEnabled.first()) {
@@ -96,6 +105,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun handleActivityRersult(requestCode: Int, resultCode: Int, data: Intent?) {
+        keysRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 

@@ -18,7 +18,8 @@ import org.joda.time.Duration
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary),
+class ContactDiaryTestFragment :
+    Fragment(R.layout.fragment_test_contact_diary),
     AutoInject,
     ContactDiaryDurationPickerFragment.OnChangeListener {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
@@ -49,8 +50,10 @@ class ContactDiaryTestFragment : Fragment(R.layout.fragment_test_contact_diary),
             personEncountersCleanButton.setOnClickListener { vm.clearPersonEncounters() }
             durationValue.setOnClickListener {
                 val args = Bundle()
-                args.putString(ContactDiaryDurationPickerFragment.DURATION_ARGUMENT_KEY,
-                    binding.durationValue.text.toString())
+                args.putString(
+                    ContactDiaryDurationPickerFragment.DURATION_ARGUMENT_KEY,
+                    binding.durationValue.text.toString()
+                )
 
                 val durationPicker = ContactDiaryDurationPickerFragment()
                 durationPicker.arguments = args
