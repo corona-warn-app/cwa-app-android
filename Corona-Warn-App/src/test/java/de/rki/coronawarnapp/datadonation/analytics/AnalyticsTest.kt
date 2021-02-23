@@ -29,6 +29,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
@@ -117,7 +118,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToNoUserConsent()
         }
     }
@@ -142,7 +143,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToProbabilityToSubmit(analyticsConfig)
         }
     }
@@ -168,7 +169,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToLastSubmittedTimestamp()
         }
     }
@@ -195,7 +196,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToTimeSinceOnboarding()
         }
     }
@@ -223,7 +224,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
         }
     }
 
@@ -245,7 +246,8 @@ class AnalyticsTest : BaseTest() {
             .setAuthentication(PpacAndroid.PPACAndroid.getDefaultInstance())
             .build()
 
-        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns
+        val donationRequestSlot = slot<DonorModule.Request>()
+        coEvery { exposureRiskMetadataDonor.beginDonation(capture(donationRequestSlot)) } returns
             ExposureRiskMetadataDonor.ExposureRiskMetadataContribution(
                 contributionProto = metadata,
                 onContributionFinished = {}
@@ -269,8 +271,10 @@ class AnalyticsTest : BaseTest() {
             }
         }
 
+        donationRequestSlot.captured.currentConfig shouldBe configData
+
         coVerify(exactly = 1) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
         }
     }
