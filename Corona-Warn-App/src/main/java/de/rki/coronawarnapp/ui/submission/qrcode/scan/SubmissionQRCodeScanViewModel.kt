@@ -6,15 +6,13 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
@@ -25,12 +23,12 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
-import org.joda.time.Instant
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val analyticsSettings: AnalyticsSettings,
+    private val testResultDonorSettings: TestResultDonorSettings,
     private val riskLevelStorage: RiskLevelStorage,
 ) :
     CWAViewModel() {
@@ -90,20 +88,14 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     // Collect Test result registration only after user has given a consent.
     // To exclude any registered test result before giving a consent
-    private suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) = with(analyticsSettings) {
-        if (analyticsEnabled.value) {
-            testScannedAfterConsent.update { true }
-            testResultAtRegistration.update { testResult }
-            if (testResult in listOf(TestResult.POSITIVE, TestResult.NEGATIVE)) {
-                finalTestResultReceivedAt.update { Instant.now() }
-            }
-
+    private suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) {
+        if (analyticsSettings.analyticsEnabled.value) {
             val lastRiskResult = riskLevelStorage
                 .latestAndLastSuccessful
                 .first()
                 .tryLatestResultsWithDefaults()
                 .lastCalculated
-            riskLevelAtTestRegistration.update { lastRiskResult.toMetadataRiskLevel() }
+            testResultDonorSettings.saveTestResultDonorDataAtRegistration(testResult, lastRiskResult)
         }
     }
 
@@ -122,12 +114,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
         }
     }
-
-    private fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
-        when (riskState) {
-            RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-            else -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        }
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)

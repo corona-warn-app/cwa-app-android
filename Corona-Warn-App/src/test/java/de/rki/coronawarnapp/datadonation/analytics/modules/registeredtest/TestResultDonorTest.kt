@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -33,7 +32,7 @@ import testhelpers.preferences.mockFlowPreference
 import java.util.concurrent.TimeUnit
 
 class TestResultDonorTest : BaseTest() {
-    @MockK lateinit var analyticsSettings: AnalyticsSettings
+    @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var timeStamper: TimeStamper
@@ -46,12 +45,12 @@ class TestResultDonorTest : BaseTest() {
         mockkObject(LocalData)
         every { timeStamper.nowUTC } returns Instant.now()
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.now()
-        every { analyticsSettings.riskLevelAtTestRegistration } returns
+        every { testResultDonorSettings.riskLevelAtTestRegistration } returns
             mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
         every { LocalData.initialTestResultReceivedTimestamp() } returns System.currentTimeMillis()
 
         testResultDonor = TestResultDonor(
-            analyticsSettings,
+            testResultDonorSettings,
             riskLevelSettings,
             riskLevelStorage,
             timeStamper,
@@ -65,36 +64,36 @@ class TestResultDonorTest : BaseTest() {
 
     @Test
     fun `No donation when user did not allow consent`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(false)
+        every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(false)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when timestamp at registration is missing`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+        every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         every { LocalData.initialTestResultReceivedTimestamp() } returns null
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is INVALID`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.INVALID)
+        every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+        every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.INVALID)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
-        every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-        every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.REDEEMED)
+        every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+        every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
         runBlockingTest {
-            every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
+            every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
 
             testResultDonor.beginDonation(TestRequest) shouldBe TestResultDonor.TestResultMetadataNoContribution
         }
@@ -103,8 +102,8 @@ class TestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
         runBlockingTest {
-            every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
+            every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.PENDING)
 
             val timeDayBefore = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)
             every { LocalData.initialTestResultReceivedTimestamp() } returns timeDayBefore
@@ -125,9 +124,9 @@ class TestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is POSITIVE`() {
         runBlockingTest {
-            every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.POSITIVE)
-            every { analyticsSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.now())
+            every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.POSITIVE)
+            every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.now())
 
             val donation = testResultDonor.beginDonation(TestRequest)
             donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
@@ -144,9 +143,9 @@ class TestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
-            every { analyticsSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-            every { analyticsSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.NEGATIVE)
-            every { analyticsSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.now())
+            every { testResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+            every { testResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(TestResult.NEGATIVE)
+            every { testResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.now())
 
             val donation = testResultDonor.beginDonation(TestRequest)
             donation.shouldBeInstanceOf<TestResultDonor.TestResultMetadataContribution>()
@@ -162,13 +161,12 @@ class TestResultDonorTest : BaseTest() {
 
     @Test
     fun deleteData() = runBlockingTest {
-        every { analyticsSettings.clearTestResultSettings() } just Runs
+        every { testResultDonorSettings.clear() } just Runs
 
         testResultDonor.deleteData()
 
         verify {
-            analyticsSettings.clearTestResultSettings()
-            analyticsSettings.analyticsEnabled wasNot Called
+            testResultDonorSettings.clear()
         }
     }
 

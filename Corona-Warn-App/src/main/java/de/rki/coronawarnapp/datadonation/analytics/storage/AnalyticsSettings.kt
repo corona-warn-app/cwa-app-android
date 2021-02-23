@@ -4,7 +4,6 @@ import android.content.Context
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import okio.ByteString.Companion.decodeBase64
@@ -91,61 +90,6 @@ class AnalyticsSettings @Inject constructor(
         defaultValue = false
     )
 
-    val testScannedAfterConsent = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_SCANNED_AFTER_CONSENT,
-        defaultValue = false
-    )
-
-    val riskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_RISK_LEVEL_AT_REGISTRATION,
-        reader = { key ->
-            PpaData.PPARiskLevel.forNumber(getInt(key, PpaData.PPARiskLevel.RISK_LEVEL_LOW.number))
-                ?: PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        },
-        writer = { key, value ->
-            putInt(key, value.number)
-        }
-    )
-
-    val finalTestResultReceivedAt = prefs.createFlowPreference(
-        key = PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
-    )
-
-    val testResultAtRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_RESULT_AT_REGISTRATION,
-        reader = { key ->
-            val value = getInt(key, -1)
-            if (value == -1) {
-                null
-            } else {
-                TestResult.fromInt(value)
-            }
-        },
-        writer = { key, result ->
-            putInt(key, result?.value ?: -1)
-        }
-    )
-
-    /**
-     * Rest Test result settings
-     */
-    fun clearTestResultSettings() {
-        testScannedAfterConsent.update { false }
-        riskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN }
-        finalTestResultReceivedAt.update { null }
-        testResultAtRegistration.update { null }
-    }
-
     fun clear() = prefs.clearAndNotify()
 
     companion object {
@@ -155,11 +99,5 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
-
-        // Test Result Keys
-        private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "analytics.testScannedAfterConsent"
-        private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "analytics.testResultAtRegistration"
-        private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION = "analytics.riskLevelAtRegistration"
-        private const val PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT = "analytics.finalTestResultReceivedAt"
     }
 }

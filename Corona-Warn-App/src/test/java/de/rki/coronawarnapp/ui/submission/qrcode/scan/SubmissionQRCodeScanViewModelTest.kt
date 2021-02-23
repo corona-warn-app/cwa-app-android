@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -24,6 +25,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var analyticsSettings: AnalyticsSettings
+    @MockK lateinit var testResultDonorSettings: TestResultDonorSettings
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
     @BeforeEach
@@ -37,6 +39,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         submissionRepository,
         analyticsSettings,
+        testResultDonorSettings,
         riskLevelStorage
     )
 

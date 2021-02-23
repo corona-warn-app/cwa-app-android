@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -17,14 +17,14 @@ import javax.inject.Singleton
 
 @Singleton
 class TestResultDonor @Inject constructor(
-    private val analyticsSettings: AnalyticsSettings,
+    private val testResultDonorSettings: TestResultDonorSettings,
     private val riskLevelSettings: RiskLevelSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val timeStamper: TimeStamper,
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        val scannedAfterConsent = analyticsSettings.testScannedAfterConsent.value
+        val scannedAfterConsent = testResultDonorSettings.testScannedAfterConsent.value
         if (!scannedAfterConsent) {
             Timber.d("Skipping TestResultMetadata donation (testScannedAfterConsent=%s)", scannedAfterConsent)
             return TestResultMetadataNoContribution
@@ -47,7 +47,7 @@ class TestResultDonor @Inject constructor(
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
         val testResultAtRegistration =
-            analyticsSettings.testResultAtRegistration.value ?: return TestResultMetadataNoContribution
+            testResultDonorSettings.testResultAtRegistration.value ?: return TestResultMetadataNoContribution
 
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             Duration(
@@ -55,7 +55,7 @@ class TestResultDonor @Inject constructor(
                 registrationTime
             ).standardDays.toInt()
 
-        val riskLevelAtRegistration = analyticsSettings.riskLevelAtTestRegistration.value
+        val riskLevelAtRegistration = testResultDonorSettings.riskLevelAtTestRegistration.value
 
         val hoursSinceHighRiskWarningAtTestRegistration =
             if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
@@ -102,7 +102,7 @@ class TestResultDonor @Inject constructor(
 
     private fun cleanUp() {
         Timber.d("Cleaning data")
-        analyticsSettings.clearTestResultSettings()
+        testResultDonorSettings.clear()
     }
 
     private fun pendingTestMetadataDonation(
@@ -118,7 +118,7 @@ class TestResultDonor @Inject constructor(
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setTestResult(testResult.toPPATestResult())
-            .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
+            .setRiskLevelAtTestRegistration(testResultDonorSettings.riskLevelAtTestRegistration.value)
             .build()
 
         Timber.i("Pending test result metadata:%s", formString(testResultMetaData))
@@ -131,7 +131,7 @@ class TestResultDonor @Inject constructor(
         daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int,
         hoursSinceHighRiskWarningAtTestRegistration: Int
     ): DonorModule.Contribution {
-        val finalTestResultReceivedAt = analyticsSettings.finalTestResultReceivedAt.value
+        val finalTestResultReceivedAt = testResultDonorSettings.finalTestResultReceivedAt.value
         val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
             Duration(registrationTime, finalTestResultReceivedAt).standardHours.toInt()
         } else {
@@ -145,7 +145,7 @@ class TestResultDonor @Inject constructor(
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration
             )
             .setTestResult(testResult.toPPATestResult())
-            .setRiskLevelAtTestRegistration(analyticsSettings.riskLevelAtTestRegistration.value)
+            .setRiskLevelAtTestRegistration(testResultDonorSettings.riskLevelAtTestRegistration.value)
             .build()
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
