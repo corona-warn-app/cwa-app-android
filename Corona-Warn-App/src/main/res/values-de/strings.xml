@@ -1756,7 +1756,7 @@
     <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
 
     <!-- XHED: Title of contact diary app shortcut -->
-    <string name="app_shortcut_contact_diary_title">"Tagebuch führen"</string>
+    <string name="app_shortcut_contact_diary_title">"Eintrag hinzufügen"</string>
 
     <!-- XTXT: Statistics information (Accessibilty) -->
     <string name="statistics_info_button">"Weitere Informationen"</string>
