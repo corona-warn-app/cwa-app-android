@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryDurationPickerDialogFragment
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
-import timber.log.Timber
 
 class ContactDiaryDurationPickerFragment : DialogFragment() {
 
@@ -44,7 +43,7 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
 
         with(binding.value) {
             var duration = requireArguments().getString(DURATION_ARGUMENT_KEY)!!.split(":").toTypedArray()
-            if(duration.size < 2) duration = arrayOf("00","00")
+            if (duration.size < 2) duration = arrayOf("00", "00")
 
             hours.value = if (hoursArray.size > duration[0].toInt()) hoursArray.indexOf(duration[0]) else 0
             minutes.value = if (minutesArray.size > duration[1].toInt()) minutesArray.indexOf(duration[1]) else 0

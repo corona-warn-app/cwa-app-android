@@ -73,7 +73,8 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = emptyList(),
                 locationVisits = emptyList(),
-                expectedExport = """
+                expectedExport =
+                    """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
                     
@@ -82,7 +83,8 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_NO_ADDITIONAL_DATA,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_NO_ADDITIONAL_DATA,
-                expectedExport = """
+                expectedExport =
+                    """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -96,7 +98,8 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_EMAIL,
-                expectedExport = """
+                expectedExport =
+                    """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -110,7 +113,8 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_PHONE_NUMBERS_AND_EMAIL,
-                expectedExport = """
+                expectedExport =
+                    """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -124,7 +128,8 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_ATTRIBUTES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_DURATION,
-                expectedExport = """
+                expectedExport =
+                    """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -138,7 +143,8 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_CIRCUMSTANCES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_CIRCUMSTANCES,
-                expectedExport = """    
+                expectedExport =
+                    """    
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -158,4 +164,3 @@ internal class ContactDiaryExporterTest {
         val expectedExport: String
     )
 }
-

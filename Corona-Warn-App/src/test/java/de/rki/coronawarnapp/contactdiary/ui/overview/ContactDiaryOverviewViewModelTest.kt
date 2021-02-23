@@ -81,7 +81,7 @@ internal class ContactDiaryOverviewViewModelTest {
                 01.01.2021 Andrea Steinhauer; Tel. +49 123 456789; eMail andrea.steinhauer@example.com
                 01.01.2021 Bakery; Dauer 00:15 h
                 
-                """.trimIndent()
+            """.trimIndent()
         }
     }
 }

@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.LocalDate
-import timber.log.Timber
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
