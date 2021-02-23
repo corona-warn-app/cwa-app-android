@@ -36,29 +36,58 @@ class NewReleaseInfoViewModelTest {
     }
 
     @Test
-    fun testGetInfoItem() {
-        val item1 = NewReleaseInfoItem("title", "body")
-        val item2 = NewReleaseInfoItem("title2", "body2")
+    fun `title and body shall be mapped to list of items`() {
+        val item1 = NewReleaseInfoItemText("title", "body")
+        val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body, item2.body)
-        viewModel.getItems(titles, bodies) shouldBe listOf(item1, item2)
+        viewModel.getItems(titles, bodies, arrayOf("",""),  arrayOf("","")) shouldBe listOf(item1, item2)
     }
 
     @Test
-    fun testGetInfoItemTitleMissing() {
-        val item1 = NewReleaseInfoItem("title", "body")
-        val item2 = NewReleaseInfoItem("title2", "body2")
+    fun `missing title results in an empty list`() {
+        val item1 = NewReleaseInfoItemText("title", "body")
+        val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title)
         val bodies = arrayOf(item1.body, item2.body)
-        viewModel.getItems(titles, bodies) shouldBe listOf(item1)
+        viewModel.getItems(titles, bodies,  arrayOf("",""),  arrayOf("","")) shouldBe emptyList()
     }
 
     @Test
-    fun testGetInfoItemBodyMissing() {
-        val item1 = NewReleaseInfoItem("title", "body")
-        val item2 = NewReleaseInfoItem("title2", "body2")
+    fun `missing body results in an empty list`() {
+        val item1 = NewReleaseInfoItemText("title", "body")
+        val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body)
-        viewModel.getItems(titles, bodies) shouldBe listOf(item1)
+        viewModel.getItems(titles, bodies,  arrayOf("",""),  arrayOf("","")) shouldBe emptyList()
+    }
+
+    @Test
+    fun `missing linkified label results in an empty list`() {
+        val item1 = NewReleaseInfoItemText("title", "body")
+        val item2 = NewReleaseInfoItemText("title2", "body2")
+        val titles = arrayOf(item1.title, item2.title)
+        val bodies = arrayOf(item1.body, item2.body)
+        viewModel.getItems(titles, bodies,  arrayOf(""),  arrayOf("","")) shouldBe emptyList()
+    }
+
+    @Test
+    fun `missing target url results in an empty list`() {
+        val item1 = NewReleaseInfoItemText("title", "body")
+        val item2 = NewReleaseInfoItemText("title2", "body2")
+        val titles = arrayOf(item1.title, item2.title)
+        val bodies = arrayOf(item1.body, item2.body)
+        viewModel.getItems(titles, bodies,  arrayOf("",""),  arrayOf("")) shouldBe emptyList()
+    }
+
+    @Test
+    fun `items with and without links are mapped successfully`() {
+        val item1 = NewReleaseInfoItemText("title", "body")
+        val item2 = NewReleaseInfoItemLinked("title2", "body2", "label2", "url2")
+        val titles = arrayOf(item1.title, item2.title)
+        val bodies = arrayOf(item1.body, item2.body)
+        val linkifiedLabels = arrayOf("", item2.linkifiedLabel)
+        val linkTargets = arrayOf("", item2.linkTarget)
+        viewModel.getItems(titles, bodies, linkifiedLabels, linkTargets) shouldBe listOf(item1, item2)
     }
 }

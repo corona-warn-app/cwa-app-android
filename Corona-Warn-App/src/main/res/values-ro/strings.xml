@@ -323,8 +323,8 @@
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Dacă vă testați, veți găsi mai multe informații despre procedura de testare în Întrebările frecvente."</string>
-    <!-- XTXT: Explanation screen increased risk level link label -->
-    <string name="risk_details_increased_risk_faq_link_label">"Întrebări frecvente: Procedura de testare"</string>
+    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="risk_details_increased_risk_faq_link_label">"Întrebările frecvente"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
@@ -496,9 +496,9 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Trei persoane și-au activat pe smartphone înregistrarea în jurnal a expunerilor, ceea ce va duce la înregistrarea întâlnirilor lor."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Permiteți accesul la locație"</string>
+    <string name="onboarding_tracing_location_headline">"Activați setarea locației"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Locația dvs. nu poate fi accesată. Google și/sau Android necesită acces la locația smartphone-ului dvs. pentru a utiliza Bluetooth-ul."</string>
+    <string name="onboarding_tracing_location_body">"Locația dispozitivului dvs. nu poate fi determinată de aplicație, dar setarea locației dispozitivului trebuie să fie activată pentru a utiliza Bluetooth Low Energy pe unele versiuni Android."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Deschideți configurările dispozitivului"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -526,6 +526,8 @@
     <string name="onboarding_ppa_illustration_description">"O persoană ține un smartphone în mână"</string>
     <!-- XHED: onboarding privacy preserving analytics (ppa) - headline -->
     <string name="onboarding_ppa_headline">"Partajare date"</string>
+    <!-- XTXT: onboarding privacy preserving analytics (ppa) - body short text -->
+    <string name="onboarding_ppa_body_short">"Spuneți-ne cum utilizați aplicația și ajutați-ne să evaluăm eficacitatea acesteia."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - body text -->
     <string name="onboarding_ppa_body">"Ne puteți ajuta să îmbunătățim aplicația Corona-Warn. Partajați datele dvs. despre utilizarea aplicației cu institutul RKI. Astfel, ajutați RKI să evalueze eficacitatea aplicației. De asemenea, datele dvs. vor ajuta la îmbunătățirea caracteristicilor și utilizării aplicației."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - state title -->
@@ -537,7 +539,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Vârsta dvs. (opțional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
-    <string name="onboarding_ppa_more_info_title">"Informații detaliate despre prelucrarea acestor date și riscurile privind prelucrarea datelor în SUA"</string>
+    <string name="onboarding_ppa_more_info_title">"Informații detaliate despre prelucrarea acestor date și riscurile privind prelucrarea datelor din SUA și din alte țări terțe"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
     <string name="onboarding_ppa_consent_donate_button">"Partajare date"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
@@ -550,7 +552,7 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Prelucrarea datelor în procesul de partajare a datelor"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
-    <string name="onboarding_ppa_more_info_data_processing_body">"Dacă sunteți de acord să partajați datele dvs., aplicația trimite diverse date către RKI în fiecare zi. Datele transmise vor fi analizate în scopuri variate:"</string>
+    <string name="onboarding_ppa_more_info_data_processing_body">"Dacă sunteți de acord să partajați datele dvs., aplicația trimite diverse date către RKI în fiecare zi. Datele transmise ne vor ajuta să evaluăm eficacitatea aplicației și vor fi analizate pentru a permite următoarele îmbunătățiri:"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
     <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Îmbunătățirea înregistrării în jurnal a expunerilor – Dorim să îmbunătățim precizia și încrederea calculului tehnic al riscurilor de infectare. Pentru aceasta, vom evalua informațiile despre expunerile la risc și avertizările pe care le vedeți. Drept rezultat, vom putea rafina metoda de calcul."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
@@ -1794,21 +1796,21 @@
     <string name="datadonation_details_survey_consent_details_title">"Informații detaliate despre prelucrarea datelor utilizate în timpul participării la sondaj"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
-    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Ora de pe smartphone-ul dvs. nu corespunde cu ora curentă. Vă rugăm să corectați ora în setările smartphone-ului dvs. (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Ora de pe smartphone-ul dvs. nu corespunde cu ora curentă. Vă rugăm să corectați ora în setările smartphone-ului dvs. (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Nu se poate obține sondajul (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Nu se poate obține sondajul (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 3-->
-    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Nu se poate obține sondajul chiar acum. Actualizați serviciile Google Play (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Nu se poate obține sondajul chiar acum. Actualizați serviciile Google Play (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 4-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Nu se poate obține sondajul chiar acum. Încercați din nou mai târziu (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Nu se poate obține sondajul chiar acum. Încercați din nou mai târziu (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Nu se poate obține sondajul din cauza unor motive de securitate. Puteți participa din nou la sondaj în următoarea lună calendaristică (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Nu se poate obține sondajul din cauza unor motive de securitate. Puteți participa din nou la sondaj în următoarea lună calendaristică (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 6-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Nu s-a putut obține sondajul pe smartphone-ul dvs. (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Vă mulțumim pentru că doriți să ajutați. Din păcate, utilizați un smartphone care nu acceptă sondajul, din motive tehnice (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 7-->
-    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Din motive de securitate, nu puteți participa la sondaj mai devreme de 24 de ore de la instalarea aplicației sau de la actualizarea aplicației (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Din motive de securitate, nu puteți participa la sondaj mai devreme de 24 de ore de la instalarea aplicației sau de la actualizarea aplicației (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 8-->
-    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Ați participat deja la sondaj. Puteți participa la sondaj doar o dată pe lună (cod de eroare {0})."</string>
+    <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Ați participat deja la sondaj. Puteți participa la sondaj doar o dată pe lună (cod de eroare %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
     <string name="datadonation_details_survey_consent_error_dialog_title">"Eroare"</string>

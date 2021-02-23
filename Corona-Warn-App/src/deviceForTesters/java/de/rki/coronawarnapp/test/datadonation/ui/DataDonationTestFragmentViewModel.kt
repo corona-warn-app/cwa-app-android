@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.datadonation.ui
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,11 +12,10 @@ import de.rki.coronawarnapp.datadonation.safetynet.CWASafetyNet
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
-import de.rki.coronawarnapp.datadonation.safetynet.errorMsgRes
 import de.rki.coronawarnapp.datadonation.storage.OTPRepository
 import de.rki.coronawarnapp.datadonation.survey.SurveyException
-import de.rki.coronawarnapp.datadonation.survey.errorMsgRes
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -35,7 +33,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger,
     private val cwaSafetyNet: CWASafetyNet,
     otpRepository: OTPRepository,
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val testSettings: TestSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val infoEvents = SingleLiveEvent<String>()
@@ -55,6 +54,9 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val lastAnalyticsDataInternal = MutableStateFlow<LastAnalyticsSubmission?>(null)
     val lastAnalyticsData = lastAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
 
+    val isSafetyNetTimeCheckSkipped = testSettings.skipSafetyNetTimeCheck.flow
+        .asLiveData(context = dispatcherProvider.Default)
+
     val otp: String = otpRepository.otpAuthorizationResult?.toString() ?: "No OTP generated and authorized yet"
 
     val surveyConfig = appConfigProvider.currentConfig
@@ -68,7 +70,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val currentSurveyExceptionTypeInternal = MutableStateFlow(SurveyException.Type.values().first())
     val currentSurveyExceptionType = currentSurveyExceptionTypeInternal.asLiveData(context = dispatcherProvider.Default)
 
-    val showErrorDialog = SingleLiveEvent<@StringRes Int>()
+    val showErrorDialog = SingleLiveEvent<Exception>()
 
     fun createSafetyNetReport() {
         launch {
@@ -159,14 +161,21 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    fun toggleSkipSafetyNetTimeCheck() {
+        testSettings.skipSafetyNetTimeCheck.update { !it }
+    }
+
     fun selectSafetyNetExceptionType(type: SafetyNetException.Type) {
         currentSafetyNetExceptionTypeInternal.value = type
     }
 
     fun showSafetyNetErrorDialog() {
-        currentSafetyNetExceptionTypeInternal.value.run {
-            SafetyNetException(this, "simulated")
-        }.also { showErrorDialog.postValue(it.errorMsgRes()) }
+        showErrorDialog.postValue(
+            SafetyNetException(
+                type = currentSafetyNetExceptionTypeInternal.value,
+                message = "simulated"
+            )
+        )
     }
 
     fun selectSurveyExceptionType(type: SurveyException.Type) {
@@ -174,9 +183,9 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     }
 
     fun showSurveyErrorDialog() {
-        currentSurveyExceptionTypeInternal.value.run {
-            SurveyException(this)
-        }.also { showErrorDialog.postValue(it.errorMsgRes()) }
+        showErrorDialog.postValue(
+            SurveyException(type = currentSurveyExceptionTypeInternal.value)
+        )
     }
 
     @AssistedFactory
