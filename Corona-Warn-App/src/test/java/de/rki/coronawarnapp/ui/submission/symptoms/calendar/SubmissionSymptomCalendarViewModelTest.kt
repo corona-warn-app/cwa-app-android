@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -17,7 +16,6 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -43,11 +41,6 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         every { autoSubmission.updateMode(any()) } just Runs
         coEvery { autoSubmission.runSubmissionNow() } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createViewModel(indication: Symptoms.Indication = Symptoms.Indication.POSITIVE) =

@@ -5,13 +5,11 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -32,11 +30,6 @@ class SecurityHelperTest : BaseTest() {
 
         every { appComponent.errorResetTool } returns errorResetTool
         every { appComponent.encryptedPreferencesFactory } returns preferenceFactory
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

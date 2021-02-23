@@ -18,8 +18,9 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class DataBindingAdaptersTest {
+class DataBindingAdaptersTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context

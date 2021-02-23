@@ -21,14 +21,12 @@ import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -49,11 +47,6 @@ class TracingDetailsItemProviderTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { context.resources } returns resources
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = TracingDetailsItemProvider(

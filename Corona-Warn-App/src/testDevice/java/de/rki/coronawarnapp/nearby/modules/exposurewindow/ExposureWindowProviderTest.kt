@@ -4,10 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -24,11 +22,6 @@ class ExposureWindowProviderTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { googleENFClient.exposureWindows } returns MockGMSTask.forValue(emptyList())
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createProvider() = DefaultExposureWindowProvider(

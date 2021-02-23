@@ -21,12 +21,12 @@ import org.joda.time.Instant
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 import timber.log.Timber
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class RiskResultDatabaseMigrationTest : BaseTest() {
+class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
     private val DB_NAME = "riskresults_migration_test.db"
 
     @get:Rule

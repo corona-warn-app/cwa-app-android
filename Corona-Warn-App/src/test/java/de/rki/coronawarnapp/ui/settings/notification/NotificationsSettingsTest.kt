@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -18,7 +17,6 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -43,11 +41,6 @@ class NotificationsSettingsTest : BaseTest() {
 
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = NotificationSettings(

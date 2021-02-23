@@ -16,8 +16,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.matchers.shouldBe
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
