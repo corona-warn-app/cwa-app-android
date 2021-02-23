@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -16,7 +15,6 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -36,7 +34,6 @@ import java.util.concurrent.TimeUnit
 
 class TestResultDonorTest : BaseTest() {
     @MockK lateinit var analyticsSettings: AnalyticsSettings
-    @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var timeStamper: TimeStamper
@@ -47,15 +44,6 @@ class TestResultDonorTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this, true)
         mockkObject(LocalData)
-
-        coEvery { appConfigProvider.getAppConfig() } returns
-            mockk<ConfigData>().apply {
-                every { analytics } returns
-                    mockk<AnalyticsConfig>().apply {
-                        every { hoursSinceTestRegistrationToSubmitTestResultMetadata } returns 20
-                    }
-            }
-
         every { timeStamper.nowUTC } returns Instant.now()
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp } returns Instant.now()
         every { analyticsSettings.riskLevelAtTestRegistration } returns
@@ -64,7 +52,6 @@ class TestResultDonorTest : BaseTest() {
 
         testResultDonor = TestResultDonor(
             analyticsSettings,
-            appConfigProvider,
             riskLevelSettings,
             riskLevelStorage,
             timeStamper,
@@ -185,5 +172,13 @@ class TestResultDonorTest : BaseTest() {
         }
     }
 
-    object TestRequest : DonorModule.Request
+    object TestRequest : DonorModule.Request {
+        override val currentConfig: ConfigData
+            get() = mockk<ConfigData>().apply {
+                every { analytics } returns
+                    mockk<AnalyticsConfig>().apply {
+                        every { hoursSinceTestRegistrationToSubmitTestResultMetadata } returns 20
+                    }
+            }
+    }
 }

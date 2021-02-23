@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest
 
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -19,7 +18,6 @@ import javax.inject.Singleton
 @Singleton
 class TestResultDonor @Inject constructor(
     private val analyticsSettings: AnalyticsSettings,
-    private val appConfigProvider: AppConfigProvider,
     private val riskLevelSettings: RiskLevelSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val timeStamper: TimeStamper,
@@ -39,8 +37,8 @@ class TestResultDonor @Inject constructor(
             return TestResultMetadataNoContribution
         }
 
-        val configHours = appConfigProvider
-            .getAppConfig()
+        val configHours = request
+            .currentConfig
             .analytics
             .hoursSinceTestRegistrationToSubmitTestResultMetadata
 
