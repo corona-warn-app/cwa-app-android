@@ -53,7 +53,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     private fun createViewModel(indication: Symptoms.Indication = Symptoms.Indication.POSITIVE) =
         SubmissionSymptomCalendarViewModel(
             symptomIndication = indication,
-            dispatcherProvider = TestDispatcherProvider,
+            dispatcherProvider = TestDispatcherProvider(),
             submissionRepository = submissionRepository,
             autoSubmission = autoSubmission
         )

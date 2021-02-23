@@ -18,7 +18,7 @@ class SubmissionTanViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
 
     private fun createInstance() = SubmissionTanViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository
     )
 

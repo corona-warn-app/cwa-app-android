@@ -43,7 +43,7 @@ class NotificationSettingsFragmentViewModelTest : BaseTest() {
 
     private fun createInstance(): NotificationSettingsFragmentViewModel =
         NotificationSettingsFragmentViewModel(
-            dispatcherProvider = TestDispatcherProvider,
+            dispatcherProvider = TestDispatcherProvider(),
             notificationSettings = notificationSettings
         )
 

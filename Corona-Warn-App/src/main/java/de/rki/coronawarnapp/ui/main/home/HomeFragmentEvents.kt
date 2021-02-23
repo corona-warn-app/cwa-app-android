@@ -13,5 +13,7 @@ sealed class HomeFragmentEvents {
 
     object GoToContactDiary : HomeFragmentEvents()
 
+    object ShowNewReleaseFragment : HomeFragmentEvents()
+
     object GoToStatisticsExplanation : HomeFragmentEvents()
 }

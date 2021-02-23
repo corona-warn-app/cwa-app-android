@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
+        android:id="@+id/seven_day_r_value_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -44,6 +45,7 @@
         <TextView
             android:id="@+id/primary_value"
             style="@style/StatisticsCardPrimaryValue"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"

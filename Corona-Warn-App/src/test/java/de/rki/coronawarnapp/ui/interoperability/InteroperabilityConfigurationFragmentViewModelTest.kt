@@ -29,7 +29,7 @@ class InteroperabilityConfigurationFragmentViewModelTest {
     }
 
     private fun createViewModel() =
-        InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository, TestDispatcherProvider)
+        InteroperabilityConfigurationFragmentViewModel(interoperabilityRepository, TestDispatcherProvider())
 
     @Test
     fun `viewmodel returns interop repo countryList`() {

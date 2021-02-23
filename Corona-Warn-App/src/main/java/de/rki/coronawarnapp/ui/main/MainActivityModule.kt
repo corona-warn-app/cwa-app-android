@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFra
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
+import de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment
+import de.rki.coronawarnapp.ui.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
 import de.rki.coronawarnapp.ui.settings.SettingsResetModule
@@ -25,7 +27,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         TracingDetailsFragmentModule::class,
         SettingFragmentsModule::class,
         SubmissionFragmentModule::class,
-        InformationFragmentModule::class
+        InformationFragmentModule::class,
+        NewReleaseInfoFragmentModule::class
     ]
 )
 abstract class MainActivityModule {
@@ -41,6 +44,9 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [SettingsResetModule::class])
     abstract fun settingsResetScreen(): SettingsResetFragment
+
+    @ContributesAndroidInjector(modules = [NewReleaseInfoFragmentModule::class])
+    abstract fun newReleaseInfoScreen(): NewReleaseInfoFragment
 
     @Binds
     @IntoMap

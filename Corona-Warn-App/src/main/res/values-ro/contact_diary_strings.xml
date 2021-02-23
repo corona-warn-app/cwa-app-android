@@ -11,7 +11,7 @@
     <string name="contact_diary_person_list_no_items_title">"Nicio persoană definită deocamdată"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Creați o persoană și adăugați-o la jurnalul dvs. de contacte."</string>
     <string name="contact_diary_person_bottom_sheet_title">"Persoană"</string>
-    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Prenume, nume"</string>
+    <string name="contact_diary_person_bottom_sheet_text_input_hint">"Nume"</string>
     <string name="contact_diary_person_bottom_sheet_save_button">"Salvare"</string>
     <string name="contact_diary_location_bottom_sheet_title">"Loc"</string>
     <string name="contact_diary_location_bottom_sheet_text_input_hint">"Descriere"</string>
@@ -40,6 +40,8 @@
     <string name="contact_diary_onboarding_functionality_fourth_section">"Puteți oricând elimina intrări de persoane și locuri din jurnal. Intrările din jurnal vor fi șterse automat după 16 zile."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"Puteți exporta jurnalul de contacte în format de text simplu și apoi puteți tipări sau edita intrările, sau le puteți pune la dispoziția autorității de sănătate publică, după cum este necesar."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section">"Expunerile indicate nu sunt legate neapărat de persoanele și locurile pe care le-ați înregistrat. Vă rugăm să nu trageți concluzii greșite."</string>
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_title">"Jurnal de contacte"</string>
     <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
@@ -60,6 +62,17 @@
     <string name="contact_diary_overview_subtitle">"Notați persoanele pe care le-ați întâlnit și locurile pe care le-ați vizitat."</string>
     <!-- XTXT: Header for contact diary overview screen -->
     <string name="contact_diary_overview_header">"Pagina inițială"</string>
+
+
+    <!-- XTXT: Title for contact diary overview screen high risk information -->
+    <string name="contact_diary_high_risk_title">"Risc crescut"</string>
+    <!-- XTXT: Title for contact diary overview screen low risk information -->
+    <string name="contact_diary_low_risk_title">"Risc redus"</string>
+    <!-- XTXT: Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body">"pe baza întâlnirilor evaluate de aplicație."</string>
+    <!-- XTXT: Extended Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body_extended">"pe baza întâlnirilor evaluate de aplicație. Acestea nu sunt legate neapărat de persoanele și locurile pe care le-ați înregistrat."</string>
+
 
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"O carte închisă cu un semn de citire"</string>

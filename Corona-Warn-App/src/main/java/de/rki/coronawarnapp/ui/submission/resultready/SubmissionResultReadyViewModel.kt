@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.resultready
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -41,6 +42,6 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionResultReadyViewModel>
 }

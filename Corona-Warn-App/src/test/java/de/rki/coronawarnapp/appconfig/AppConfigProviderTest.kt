@@ -63,7 +63,7 @@ class AppConfigProviderTest : BaseIOTest() {
 
     private fun createInstance(scope: CoroutineScope) = AppConfigProvider(
         appConfigSource = appConfigSource,
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         scope = scope
     )
 

@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ui.settings.start
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -42,6 +43,6 @@ class SettingsFragmentViewModel @AssistedInject constructor(
             .map { SettingsBackgroundState((it)) }
             .asLiveData(dispatcherProvider.Default)
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsFragmentViewModel>
 }

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
@@ -14,13 +15,11 @@ import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBo
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
-import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,8 +28,7 @@ import javax.inject.Inject
 class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     tracingRepository: TracingRepository,
-    riskLevelStorage: RiskLevelStorage,
-    private val timeStamper: TimeStamper
+    riskLevelStorage: RiskLevelStorage
 ) {
 
     val state: Flow<List<DetailsItem>> = combine(
@@ -56,26 +54,26 @@ class TracingDetailsItemProvider @Inject constructor(
                 )
             }.also { add(it) }
 
-            if (latestCalc.riskState != RiskState.CALCULATION_FAILED) {
+            if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
                     activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt()
                 ).also { add(it) }
             }
 
-            when (latestCalc.riskState) {
-                RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
+            when {
+                status == Status.TRACING_INACTIVE || latestCalc.riskState == RiskState.CALCULATION_FAILED -> {
+                    DetailsFailedCalculationBox.Item
+                }
+                latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
                     riskState = latestCalc.riskState,
                     matchedKeyCount = latestCalc.matchedKeyCount
                 )
-                RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
+                latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    lastEncounterDaysAgo = Duration(
-                        latestCalc.lastRiskEncounterAt ?: Instant.EPOCH,
-                        timeStamper.nowUTC
-                    ).standardDays.toInt()
+                    lastEncounteredAt = latestCalc.lastRiskEncounterAt ?: Instant.EPOCH
                 )
-                RiskState.CALCULATION_FAILED -> DetailsFailedCalculationBox.Item
-            }.also { add(it) }
+                else -> null
+            }?.let { add(it) }
         }
     }
         .onStart { Timber.v("TracingDetailsState FLOW start") }

@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.risk.storage
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
+import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
@@ -27,17 +29,19 @@ object RiskStorageTestData {
         )
     )
 
+    val testAggregatedRiskResult = AggregatedRiskResult(
+        totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
+        totalMinimumDistinctEncountersWithLowRisk = 1,
+        totalMinimumDistinctEncountersWithHighRisk = 2,
+        mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
+        mostRecentDateWithHighRisk = Instant.ofEpochMilli(4),
+        numberOfDaysWithLowRisk = 5,
+        numberOfDaysWithHighRisk = 6
+    )
+
     val testRisklevelResult = RiskLevelTaskResult(
         calculatedAt = Instant.ofEpochMilli(9999L),
-        aggregatedRiskResult = AggregatedRiskResult(
-            totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
-            totalMinimumDistinctEncountersWithLowRisk = 1,
-            totalMinimumDistinctEncountersWithHighRisk = 2,
-            mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
-            mostRecentDateWithHighRisk = Instant.ofEpochMilli(4),
-            numberOfDaysWithLowRisk = 5,
-            numberOfDaysWithHighRisk = 6
-        ),
+        aggregatedRiskResult = testAggregatedRiskResult,
         exposureWindows = null
     )
 
@@ -70,4 +74,24 @@ object RiskStorageTestData {
             setTypicalAttenuationDb(30)
         }.build().let { setScanInstances(listOf(it)) }
     }.build()
+
+    val testAggregatedRiskPerDateResult = AggregatedRiskPerDateResult(
+        dateMillisSinceEpoch = 9999L,
+        riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
+        minimumDistinctEncountersWithLowRisk = 0,
+        minimumDistinctEncountersWithHighRisk = 0
+    )
+
+    val testPersistedAggregatedRiskPerDateResult = PersistedAggregatedRiskPerDateResult(
+        dateMillisSinceEpoch = 9999L,
+        riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
+        minimumDistinctEncountersWithLowRisk = 0,
+        minimumDistinctEncountersWithHighRisk = 0
+    )
+
+    val testRisklevelResultWithAggregatedRiskPerDateResult = testRisklevelResult.copy(
+        aggregatedRiskResult = testAggregatedRiskResult.copy(
+            aggregatedRiskPerDateResults = listOf(testAggregatedRiskPerDateResult)
+        )
+    )
 }

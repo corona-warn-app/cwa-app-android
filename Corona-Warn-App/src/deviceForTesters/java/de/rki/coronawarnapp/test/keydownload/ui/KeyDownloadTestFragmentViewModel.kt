@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.test.keydownload.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyPackageSyncTool
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.TestSettings
@@ -75,6 +76,6 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
         keyCacheRepository.delete(listOf(it.info))
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<KeyDownloadTestFragmentViewModel>
 }

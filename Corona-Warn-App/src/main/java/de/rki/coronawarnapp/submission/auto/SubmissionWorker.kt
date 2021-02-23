@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.submission.auto
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.task.SubmissionTask
@@ -42,7 +43,7 @@ class SubmissionWorker @AssistedInject constructor(
         Result.retry()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : InjectedWorkerFactory<SubmissionWorker>
 
     companion object {

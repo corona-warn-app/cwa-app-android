@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.ui.submission.testresult.pending
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.exception.http.CwaWebException
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -89,7 +89,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     val cwaWebExceptionLiveData = submissionRepository.deviceUIStateFlow
-        .filterIsInstance<NetworkRequestWrapper.RequestFailed<DeviceUIState, CwaWebException>>()
+        .filterIsInstance<NetworkRequestWrapper.RequestFailed<DeviceUIState, Throwable>>()
         .map { it.error }
         .asLiveData()
 
@@ -122,7 +122,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         )
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultPendingViewModel>
 
     companion object {

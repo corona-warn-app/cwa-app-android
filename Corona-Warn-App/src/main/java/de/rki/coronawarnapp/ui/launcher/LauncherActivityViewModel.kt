@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.launcher
 
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -26,6 +27,6 @@ class LauncherActivityViewModel @AssistedInject constructor(
         }
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<LauncherActivityViewModel>
 }

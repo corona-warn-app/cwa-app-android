@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.interoperability
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -31,6 +32,6 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
         }
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<InteroperabilityConfigurationFragmentViewModel>
 }

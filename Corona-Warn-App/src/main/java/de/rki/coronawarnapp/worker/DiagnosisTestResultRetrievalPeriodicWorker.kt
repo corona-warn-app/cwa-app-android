@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -13,13 +14,14 @@ import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
 /**
- * Diagnosis Test Result Periodic retrieval
+ * Diagnosis test result retrieval by periodic polling
  *
  * @see BackgroundWorkScheduler
  */
@@ -29,16 +31,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
     private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
     private val notificationHelper: NotificationHelper,
     private val submissionSettings: SubmissionSettings,
-    private val submissionService: SubmissionService
+    private val submissionService: SubmissionService,
+    private val timeStamper: TimeStamper
 ) : CoroutineWorker(context, workerParams) {
 
-    /**
-     * If background job is running for less than 21 days, testResult is checked.
-     * If the job is running for more than 21 days, the job will be stopped
-     *
-     * @see LocalData.isTestResultAvailableNotificationSent
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     */
     override suspend fun doWork(): Result {
         Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
 
@@ -53,7 +49,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         var result = Result.success()
         try {
 
-            if (abortConditionsMet()) {
+            if (abortConditionsMet(timeStamper.nowUTC.millis)) {
                 Timber.tag(TAG).d(" $id Stopping worker.")
                 stopWorker()
             } else {
@@ -74,7 +70,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
                     stopWorker()
                 }
             }
-        } catch (e: Exception) {
+        } catch (ex: Exception) {
             result = Result.retry()
         }
 
@@ -83,7 +79,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         return result
     }
 
-    private fun abortConditionsMet(): Boolean {
+    private fun abortConditionsMet(currentMillis: Long): Boolean {
         if (LocalData.isTestResultAvailableNotificationSent()) {
             Timber.tag(TAG).d("$id: Notification already sent.")
             return true
@@ -95,7 +91,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
 
         if (TimeAndDateExtensions.calculateDays(
                 LocalData.initialPollingForTestResultTimeStamp(),
-                System.currentTimeMillis()
+                currentMillis
             ) >= BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
         ) {
             Timber.tag(TAG)
@@ -117,19 +113,13 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
         )
     }
 
-    /**
-     * Stops the Background Polling worker
-     *
-     * @see LocalData.initialPollingForTestResultTimeStamp
-     * @see BackgroundWorkScheduler.stop
-     */
     private fun stopWorker() {
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
         Timber.tag(TAG).d("$id: Background worker stopped")
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : InjectedWorkerFactory<DiagnosisTestResultRetrievalPeriodicWorker>
 
     companion object {

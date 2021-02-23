@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.contactdiary.ui.edit
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
@@ -49,7 +50,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
         navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity()))
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<ContactDiaryEditLocationsViewModel>
 
     sealed class NavigationEvent {

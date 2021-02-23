@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
@@ -54,6 +55,6 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
             " ${bugEvent.stackTrace}\n\n" +
             " # Corresponding Log: \n\n ${bugEvent.logHistory}"
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SettingsCrashReportViewModel>
 }

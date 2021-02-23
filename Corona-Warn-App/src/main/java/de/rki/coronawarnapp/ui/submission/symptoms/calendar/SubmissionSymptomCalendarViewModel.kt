@@ -2,8 +2,9 @@ package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -99,7 +100,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionSymptomCalendarViewModel> {
 
         fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel

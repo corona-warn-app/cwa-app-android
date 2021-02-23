@@ -34,7 +34,7 @@ class LauncherActivityViewModelTest {
 
     private fun createViewModel() = LauncherActivityViewModel(
         updateChecker = updateChecker,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test

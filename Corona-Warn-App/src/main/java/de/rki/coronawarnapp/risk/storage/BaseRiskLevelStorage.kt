@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.risk.storage
 
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
+import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
+import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
@@ -24,6 +26,7 @@ abstract class BaseRiskLevelStorage constructor(
     private val database by lazy { riskResultDatabaseFactory.create() }
     internal val riskResultsTables by lazy { database.riskResults() }
     internal val exposureWindowsTables by lazy { database.exposureWindows() }
+    internal val aggregatedRiskPerDateResultTables by lazy { database.aggregatedRiskPerDate() }
 
     abstract val storedResultLimit: Int
 
@@ -104,6 +107,10 @@ abstract class BaseRiskLevelStorage constructor(
                 Timber.d("Storing RiskLevelResult took %dms.", (System.currentTimeMillis() - startTime))
             }
 
+            result.aggregatedRiskResult?.aggregatedRiskPerDateResults?.let {
+                insertAggregatedRiskPerDateResults(it)
+            }
+
             resultToPersist.id
         } catch (e: Exception) {
             Timber.e(e, "Failed to store latest result: %s", result)
@@ -126,6 +133,37 @@ abstract class BaseRiskLevelStorage constructor(
 
         Timber.d("Deleting orphaned exposure windows.")
         deletedOrphanedExposureWindows()
+    }
+
+    override val aggregatedRiskPerDateResults: Flow<List<AggregatedRiskPerDateResult>> by lazy {
+        aggregatedRiskPerDateResultTables.allEntries()
+            .map { it.map {
+                persistedAggregatedRiskPerDateResult ->
+                persistedAggregatedRiskPerDateResult.toAggregatedRiskPerDateResult()
+            } }
+            .shareLatest(tag = TAG, scope = scope)
+    }
+
+    private suspend fun insertAggregatedRiskPerDateResults(
+        aggregatedRiskPerDateResults: List<AggregatedRiskPerDateResult>
+    ) {
+        Timber.d("insertAggregatedRiskPerDateResults(aggregatedRiskPerDateResults=%s)", aggregatedRiskPerDateResults)
+        try {
+            aggregatedRiskPerDateResultTables.insertRisk(aggregatedRiskPerDateResults.map {
+                it.toPersistedAggregatedRiskPerDateResult()
+            })
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to store risk level per date results")
+        }
+    }
+
+    override suspend fun deleteAggregatedRiskPerDateResults(results: List<AggregatedRiskPerDateResult>) {
+        Timber.d("deleteAggregatedRiskPerDateResults(results=%s)", results)
+        try {
+            aggregatedRiskPerDateResultTables.delete(results.map { it.toPersistedAggregatedRiskPerDateResult() })
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to delete risk level per date results")
+        }
     }
 
     internal abstract suspend fun storeExposureWindows(storedResultId: String, result: RiskLevelResult)

@@ -257,6 +257,12 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="subtitleBoldSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="subtitleSemanticRed" parent="@style/subtitle">
         <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>

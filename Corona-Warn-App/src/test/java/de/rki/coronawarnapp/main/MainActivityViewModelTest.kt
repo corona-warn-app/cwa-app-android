@@ -38,7 +38,7 @@ class MainActivityViewModelTest : BaseTest() {
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         environmentSetup = environmentSetup,
         backgroundModeStatus = backgroundModeStatus
     )

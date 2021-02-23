@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.ui.submission
 
-import androidx.fragment.app.testing.launchFragment
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -23,6 +21,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.spyk
+import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
@@ -34,6 +33,8 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
+import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.util.Date
 
@@ -60,7 +61,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
-                TestDispatcherProvider,
+                TestDispatcherProvider(),
                 shareTestResultNotificationService,
                 submissionRepository
             )
@@ -68,61 +69,45 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         with(viewModel) {
             every { observeTestResultToSchedulePositiveTestResultReminder() } just Runs
+            every { consentGiven } returns MutableLiveData(true)
+            every { testState } returns MutableLiveData(
+                TestResultUIState(
+                    deviceUiState = NetworkRequestWrapper.RequestSuccessful(data = DeviceUIState.PAIRED_POSITIVE),
+                    testResultReceivedDate = Date()
+                )
+            )
         }
 
-        setupMockViewModel(object : SubmissionTestResultPendingViewModel.Factory {
-            override fun create(): SubmissionTestResultPendingViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultPendingViewModel.Factory {
+                override fun create(): SubmissionTestResultPendingViewModel = viewModel
+            }
+        )
     }
 
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test
     fun launch_fragment() {
-        launchFragment<SubmissionTestResultPendingFragment>()
+        launchFragment2<SubmissionTestResultPendingFragment>()
     }
 
     @Test
     fun testEventPendingRefreshClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
-        Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_pending_refresh))
-            .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click())
-
-        // TODO verify result
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        onView(withId(R.id.submission_test_result_button_pending_refresh))
+            .perform(click())
     }
 
     @Test
     fun testEventPendingRemoveClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
-        Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_pending_remove_test))
-            .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click())
-
-        // TODO verify result
-    }
-
-    @Test
-    fun testEventInvalidRemoveClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
-        Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_invalid_remove_test))
-            .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click())
-
-        // TODO verify result
-    }
-
-    @Test
-    fun testEventNegativeRemoveClicked() {
-        val scenario = launchFragmentInContainer<SubmissionTestResultPendingFragment>()
-        Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_negative_remove_test))
-            .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click())
-
-        // TODO verify result
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>()
+        onView(withId(R.id.submission_test_result_button_pending_remove_test))
+            .perform(click())
     }
 
     @Test

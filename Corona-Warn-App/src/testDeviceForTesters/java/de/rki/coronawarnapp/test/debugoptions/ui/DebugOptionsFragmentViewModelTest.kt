@@ -56,7 +56,7 @@ class DebugOptionsFragmentViewModelTest : BaseTest() {
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
         envSetup = environmentSetup,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test

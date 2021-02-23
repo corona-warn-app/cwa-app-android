@@ -51,7 +51,8 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
                     TracingSettingsState.LocationDisabled -> setOnClickListener(null)
                     TracingSettingsState.TracingInactive,
                     TracingSettingsState.TracingActive -> setOnClickListener {
-                        binding.settingsTracingSwitchRow.settingsSwitchRowSwitch.performClick()
+                        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
+                        onTracingToggled(!switch.isChecked)
                     }
                 }
             }
@@ -92,13 +93,12 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
-        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
 
-        switch.setOnCheckedChangeListener { _, isChecked ->
-            if (switch.isPressed || row.isPressed) {
-                onTracingToggled(isChecked)
-            }
+        switch.setOnCheckedChangeListener { view, isChecked ->
+            if (!view.isPressed) return@setOnCheckedChangeListener
+            onTracingToggled(isChecked)
         }
+
         back.setOnClickListener {
             (activity as MainActivity).goBack()
         }
@@ -114,9 +114,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     }
 
     private fun onTracingToggled(isChecked: Boolean) {
-        // Focus on the body text after to announce the tracing status for accessibility reasons
-        binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
-            .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
         vm.onTracingToggled(isChecked)
     }
 

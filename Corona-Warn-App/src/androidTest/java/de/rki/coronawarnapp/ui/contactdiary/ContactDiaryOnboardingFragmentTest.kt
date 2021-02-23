@@ -6,6 +6,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragment
 import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentViewModel
 import io.mockk.MockKAnnotations
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -44,6 +45,7 @@ class ContactDiaryOnboardingFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test

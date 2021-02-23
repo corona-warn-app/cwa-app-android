@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -71,6 +72,6 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestResultConsentGivenViewModel>
 }

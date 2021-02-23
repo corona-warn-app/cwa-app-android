@@ -29,6 +29,9 @@ class ContactDiaryCleanTask @Inject constructor(
         retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
         Timber.tag(TAG).d("Obsolete contact diary person encounters cleaned up")
 
+        retentionCalculation.clearObsoleteRiskPerDate()
+        Timber.tag(TAG).d("Obsolete Aggregated Risk Per Date Results cleaned up")
+
         object : Task.Result {}
     } catch (error: Exception) {
         Timber.tag(TAG).e(error)

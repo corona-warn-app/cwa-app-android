@@ -103,6 +103,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentEvents.GoToContactDiary -> {
                     context?.let { ContactDiaryActivity.start(it) }
                 }
+
+                HomeFragmentEvents.ShowNewReleaseFragment -> {
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false))
+                }
                 HomeFragmentEvents.GoToStatisticsExplanation -> {
                     doNavigate(
                         HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
@@ -110,6 +114,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }
             }
         }
+
+        vm.showPopUpsOrNavigate()
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) showRiskLevelLoweredDialog()

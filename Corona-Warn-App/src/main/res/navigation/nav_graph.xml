@@ -56,6 +56,9 @@
             android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment" />
         <action
+            android:id="@+id/action_mainFragment_to_newReleaseInfoFragment"
+            app:destination="@id/newReleaseInfoFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
             app:destination="@id/statisticsExplanationFragment" />
     </fragment>
@@ -174,6 +177,9 @@
         <action
             android:id="@+id/action_informationFragment_to_debuglogFragment"
             app:destination="@id/debuglogFragment" />
+        <action
+            android:id="@+id/action_informationFragment_to_newReleaseInfoFragment"
+            app:destination="@id/newReleaseInfoFragment" />
     </fragment>
 
     <fragment
@@ -412,10 +418,6 @@
             android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeScanFragment"
             app:destination="@id/submissionQRCodeScanFragment" />
         <action
-            android:id="@+id/action_submissionConsentFragment_to_homeFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
     </fragment>
@@ -497,4 +499,19 @@
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
         android:label="DebuglogFragment" />
+
+    <!-- New Release -->
+    <fragment
+        android:id="@+id/newReleaseInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.release.NewReleaseInfoFragment"
+        android:label="NewReleaseInfoFragment" >
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_pop"
+            app:popUpTo="@id/newReleaseInfoFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="comesFromInfoScreen"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>

@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.GoogleApiAvailability
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
@@ -59,6 +60,6 @@ class MiscInfoFragmentViewModel @AssistedInject constructor(
         emit(TimeVariables.getActiveTracingDaysInRetentionPeriod())
     }.asLiveData(context = dispatcherProvider.Default)
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<MiscInfoFragmentViewModel>
 }

@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_details_information_subtitle"
-            tools:text="@plurals/risk_details_information_body_increased_risk" />
+            tools:text="@string/risk_details_information_body_increased_risk_date" />
 
         <TextView
             android:id="@+id/risk_details_information_body_notice"

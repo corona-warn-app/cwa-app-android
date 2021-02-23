@@ -122,7 +122,7 @@ class CalendarView @JvmOverloads constructor(
         }
 
         // Calculate dates to display
-        days.addAll(CalendarCalculation().getDates())
+        days.addAll(CalendarCalculation(context).getDates())
 
         // Set calendar adapter as adapter for recycler view
         adapter = CalendarAdapter(onItemClickListener)
@@ -190,6 +190,6 @@ class CalendarView @JvmOverloads constructor(
         val firstDate = days.first().date
         val lastDate = days.last().date
 
-        monthTextView.text = CalendarCalculation().getMonthText(firstDate, lastDate)
+        monthTextView.text = CalendarCalculation(context).getMonthText(firstDate, lastDate)
     }
 }

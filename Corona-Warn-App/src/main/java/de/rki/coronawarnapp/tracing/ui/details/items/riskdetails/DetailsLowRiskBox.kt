@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.tracing.ui.details.items.riskdetails
 
 import android.content.Context
-import android.text.method.LinkMovementMethod
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
@@ -9,7 +8,6 @@ import de.rki.coronawarnapp.databinding.TracingDetailsItemRiskdetailsLowViewBind
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox.Item
-import de.rki.coronawarnapp.util.convertToHyperlink
 
 class DetailsLowRiskBox(
     parent: ViewGroup,
@@ -32,11 +30,6 @@ class DetailsLowRiskBox(
         payloads: List<Any>
     ) -> Unit = { item, _ ->
         info = item
-        riskDetailsInformationLowriskBodyUrl.convertToHyperlink(
-            context.getString(R.string.risk_details_explanation_faq_link)
-        )
-
-        riskDetailsInformationLowriskBodyUrl.movementMethod = LinkMovementMethod.getInstance()
     }
 
     data class Item(

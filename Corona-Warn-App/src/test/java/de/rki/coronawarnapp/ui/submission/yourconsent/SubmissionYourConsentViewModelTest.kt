@@ -43,7 +43,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
     private fun createViewModel(): SubmissionYourConsentViewModel = SubmissionYourConsentViewModel(
         interoperabilityRepository = interoperabilityRepository,
         submissionRepository = submissionRepository,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @AfterEach

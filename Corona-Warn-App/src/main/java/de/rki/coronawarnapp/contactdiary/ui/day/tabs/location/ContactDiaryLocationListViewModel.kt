@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.location
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
@@ -73,7 +74,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         }
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : CWAViewModelFactory<ContactDiaryLocationListViewModel> {
         fun create(selectedDay: String): ContactDiaryLocationListViewModel
     }

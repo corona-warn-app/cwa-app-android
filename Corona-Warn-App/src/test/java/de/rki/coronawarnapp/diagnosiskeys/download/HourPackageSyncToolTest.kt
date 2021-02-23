@@ -41,7 +41,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         downloadTool = downloadTool,
         timeStamper = timeStamper,
         configProvider = configProvider,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test

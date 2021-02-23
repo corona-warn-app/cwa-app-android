@@ -46,7 +46,7 @@ class SettingsFragmentViewModelTest : BaseTest() {
     }
 
     private fun createInstance(): SettingsFragmentViewModel = SettingsFragmentViewModel(
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         tracingStatus = tracingStatus,
         backgroundModeStatus = backgroundModeStatus,
         notificationSettings = notificationSettings

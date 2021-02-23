@@ -39,7 +39,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         keyCache = keyCache,
         downloadTool = downloadTool,
         timeStamper = timeStamper,
-        dispatcherProvider = TestDispatcherProvider,
+        dispatcherProvider = TestDispatcherProvider(),
         configProvider = configProvider
     )
 

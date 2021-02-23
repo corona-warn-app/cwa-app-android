@@ -68,7 +68,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     private fun createInstance() = LocalAppConfigSource(
         storage = configStorage,
         parser = configParser,
-        dispatcherProvider = TestDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test

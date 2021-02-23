@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.android.gms.common.api.ApiException
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.risk.RiskLevelTask
@@ -33,7 +34,7 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
         return Result.success()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : InjectedWorkerFactory<ExposureStateUpdateWorker>
 
     companion object {

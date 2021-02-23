@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import androidx.fragment.app.testing.launchFragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -8,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -17,6 +17,7 @@ import testhelpers.BaseUITest
 import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -41,11 +42,12 @@ class OnboardingFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+        unmockkAll()
     }
 
     @Test
     fun launch_fragment() {
-        launchFragment<OnboardingFragment>()
+        launchFragment2<OnboardingFragment>()
     }
 
     @Screenshot

@@ -12,9 +12,12 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.coroutines.test
+import testhelpers.extensions.InstantExecutorExtension
 
+@ExtendWith(InstantExecutorExtension::class)
 class ForegroundStateTest : BaseTest() {
 
     @MockK lateinit var lifecycleOwner: LifecycleOwner

@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.risk.storage
 
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
@@ -8,9 +10,11 @@ import androidx.test.platform.app.InstrumentationRegistry
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
+import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -19,6 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseTest
 import timber.log.Timber
+import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class RiskResultDatabaseMigrationTest : BaseTest() {
@@ -220,5 +225,85 @@ class RiskResultDatabaseMigrationTest : BaseTest() {
 
         Timber.v("insertedResult=%s", insertedResult)
         insertedResult shouldBe expectedResult.copy(monotonicId = 1)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate2to3() {
+        val riskLevelValues = ContentValues().apply {
+            put("monotonicId", 1337L)
+            put("id", "72c4084a-43a9-4fcf-86d4-36103bfbd492")
+            put("calculatedAt", "2020-12-31T16:41:50.207Z")
+            put("totalRiskLevel", 2)
+            put("totalMinimumDistinctEncountersWithLowRisk", 8)
+            put("totalMinimumDistinctEncountersWithHighRisk", 1)
+            put("mostRecentDateWithLowRisk", "2020-12-29T16:41:50.038Z")
+            put("mostRecentDateWithHighRisk", "2020-12-30T16:41:50.038Z")
+            put("numberOfDaysWithLowRisk", 3)
+            put("numberOfDaysWithHighRisk", 1)
+        }
+
+        helper.createDatabase(DB_NAME, 2).apply {
+            insert("riskresults", SQLiteDatabase.CONFLICT_ABORT, riskLevelValues)
+            close()
+        }
+
+        val values = ContentValues().apply {
+            put("dateMillisSinceEpoch", Instant.parse("2020-12-31T16:28:25.400Z").millis)
+            put("riskLevel", 1)
+            put("minimumDistinctEncountersWithLowRisk", 0)
+            put("minimumDistinctEncountersWithHighRisk", 0)
+        }
+
+        // Run migration from 2 to 3
+        helper.runMigrationsAndValidate(DB_NAME, 3, true, RiskResultDatabaseMigration2To3).apply {
+            insert("riskperdate", SQLiteDatabase.CONFLICT_REPLACE, values)
+        }
+
+        val db = RiskResultDatabase.Factory(
+            context = ApplicationProvider.getApplicationContext()
+        ).create(databaseName = DB_NAME)
+
+        runBlocking {
+            // Check AggregatedRiskPerDateResult
+            val result = db.aggregatedRiskPerDate().allEntries().first().first()
+            result.dateMillisSinceEpoch shouldBe values["dateMillisSinceEpoch"]
+            result.riskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
+                values["riskLevel"] as Int
+            )
+            result.minimumDistinctEncountersWithLowRisk shouldBe values["minimumDistinctEncountersWithLowRisk"]
+            result.minimumDistinctEncountersWithHighRisk shouldBe values["minimumDistinctEncountersWithHighRisk"]
+
+            // Check RiskLevel
+            val riskLevel = db.riskResults().allEntries().first().first()
+            riskLevel.monotonicId shouldBe riskLevelValues["monotonicId"]
+            riskLevel.id shouldBe riskLevelValues["id"]
+            riskLevel.calculatedAt shouldBe Instant.parse(riskLevelValues["calculatedAt"] as String)
+            riskLevel.aggregatedRiskResult shouldNotBe null
+            riskLevel.aggregatedRiskResult?.totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(riskLevelValues["totalRiskLevel"] as Int)
+            riskLevel.aggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk shouldBe riskLevelValues["totalMinimumDistinctEncountersWithLowRisk"]
+            riskLevel.aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk shouldBe riskLevelValues["totalMinimumDistinctEncountersWithHighRisk"]
+            riskLevel.aggregatedRiskResult?.mostRecentDateWithLowRisk shouldBe Instant.parse(riskLevelValues["mostRecentDateWithLowRisk"] as String)
+            riskLevel.aggregatedRiskResult?.mostRecentDateWithHighRisk shouldBe Instant.parse(riskLevelValues["mostRecentDateWithHighRisk"] as String)
+            riskLevel.aggregatedRiskResult?.numberOfDaysWithLowRisk shouldBe riskLevelValues["numberOfDaysWithLowRisk"]
+            riskLevel.aggregatedRiskResult?.numberOfDaysWithHighRisk shouldBe riskLevelValues["numberOfDaysWithHighRisk"]
+        }
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrateAll() {
+        helper.createDatabase(DB_NAME, 1).apply {
+            close()
+        }
+
+        // Open latest version of the database. Room will validate the schema
+        // once all migrations execute.
+        RiskResultDatabase.Factory(
+            context = ApplicationProvider.getApplicationContext()
+        ).create(databaseName = DB_NAME).apply {
+            openHelper.writableDatabase
+            close()
+        }
     }
 }

@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -48,7 +49,15 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                     }
                     doSubmit()
                 }
-                Symptoms.Indication.NO_INFORMATION -> showCancelDialog.postValue(Unit)
+                Symptoms.Indication.NO_INFORMATION -> {
+                    submissionRepository.currentSymptoms.update {
+                        Symptoms(
+                            startOfSymptoms = null,
+                            symptomIndication = Symptoms.Indication.NO_INFORMATION
+                        )
+                    }
+                    doSubmit()
+                }
             }
         }
     }
@@ -99,6 +108,6 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
         autoSubmission.updateLastSubmissionUserActivity()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionSymptomIntroductionViewModel>
 }

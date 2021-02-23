@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -16,6 +17,6 @@ class OnboardingTestViewModel @AssistedInject constructor() : CWAViewModel() {
         routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTracing)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<OnboardingTestViewModel>
 }

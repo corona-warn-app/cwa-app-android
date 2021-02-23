@@ -62,7 +62,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
         val broadcastReceiverInjector = AndroidInjector<Any> {
             it as ExposureStateUpdateReceiver
             it.exposureDetectionTracker = exposureDetectionTracker
-            it.dispatcherProvider = TestDispatcherProvider
+            it.dispatcherProvider = TestDispatcherProvider()
             it.scope = scope
             it.workManager = workManager
         }

@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -24,6 +25,6 @@ class OnboardingDeltaInteroperabilityFragmentViewModel @AssistedInject construct
         interopRepo.saveInteroperabilityUsed()
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<OnboardingDeltaInteroperabilityFragmentViewModel>
 }

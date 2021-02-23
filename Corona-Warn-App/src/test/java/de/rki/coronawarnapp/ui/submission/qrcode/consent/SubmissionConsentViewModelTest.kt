@@ -36,7 +36,7 @@ class SubmissionConsentViewModelTest {
         viewModel = SubmissionConsentViewModel(
             submissionRepository,
             interoperabilityRepository,
-            dispatcherProvider = TestDispatcherProvider
+            dispatcherProvider = TestDispatcherProvider()
         )
     }
 

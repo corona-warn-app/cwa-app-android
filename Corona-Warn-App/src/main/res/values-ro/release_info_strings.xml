@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen 1.12
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Caracteristici noi"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Versiunea %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Pe lângă remedierile de erori, această actualizare include și caracteristici noi și îmbunătățiri."</string>
+    <!-- XTXT: Encounter history title for the release info screen -->
+    <string name="release_info_1_12_encounter_history_title">"Istoricul expunerilor"</string>
+    <!-- XTXT: Encounter history body for the release info screen -->
+    <string name="release_info_1_12_encounter_history_body">"Jurnalul de contacte vă arată zilele în care aveți un risc redus sau crescut, pe baza întâlnirilor evaluate de aplicație. Aceasta înseamnă că puteți avertiza persoanele cu care ați intrat în contact în acele zile dacă acestea nu utilizează încă aplicația Corona-Warn. Este posibil ca aceste persoane să fi fost expuse unui risc comparabil. Totuși, persoanele și locurile din jurnalul dvs. de contacte nu sunt legate neapărat de expunerile indicate."</string>
+    <!-- XTXT: Statistics title for the release info screen -->
+    <string name="release_info_1_12_statistics_title">"Statistică"</string>
+    <!-- XTXT: Statistics body for the release info screen -->
+    <string name="release_info_1_12_statistics_body">"Consultați sumarul ultimilor indicatori ai cifrelor de infectare din Germania."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Înainte"</string>
+
+</resources>

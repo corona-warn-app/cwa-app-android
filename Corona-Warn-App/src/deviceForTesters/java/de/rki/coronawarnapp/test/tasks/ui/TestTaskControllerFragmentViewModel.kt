@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.test.tasks.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskFactory
@@ -116,6 +117,6 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<TestTaskControllerFragmentViewModel>
 }

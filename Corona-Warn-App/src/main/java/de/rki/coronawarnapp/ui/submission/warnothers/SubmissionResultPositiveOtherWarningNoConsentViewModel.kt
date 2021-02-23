@@ -5,7 +5,8 @@ import android.content.Intent
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -98,7 +99,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
         fun create(): SubmissionResultPositiveOtherWarningNoConsentViewModel
     }

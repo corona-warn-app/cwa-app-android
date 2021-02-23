@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -32,9 +33,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToQRCodeScan -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment()
                 )
-                is SubmissionNavigationEvents.NavigateToDispatcher -> doNavigate(
-                    SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToHomeFragment()
-                )
+                is SubmissionNavigationEvents.NavigateToDispatcher -> popBackStack()
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )

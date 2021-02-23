@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -110,6 +111,6 @@ class DebugLogViewModel @AssistedInject constructor(
         val currentSize: Long = 0
     )
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DebugLogViewModel>
 }

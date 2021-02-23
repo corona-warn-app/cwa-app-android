@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.kotest.matchers.shouldBe
@@ -41,11 +42,13 @@ class TestResultAvailableNotificationServiceTest {
         MockKAnnotations.init(this)
 
         mockkObject(CoronaWarnApplication)
+        mockkObject(LocalData)
 
         every { CoronaWarnApplication.getAppContext() } returns context
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
+        every { LocalData.isNotificationsTestEnabled } returns true
     }
 
     @AfterEach
@@ -108,6 +111,25 @@ class TestResultAvailableNotificationServiceTest {
                 notificationId = any(),
                 pendingIntent = any()
             )
+        }
+    }
+
+    @Test
+    fun `test notification in background disabled`() = runBlockingTest {
+        coEvery { foregroundState.isInForeground } returns flow { emit(false) }
+        every { LocalData.isNotificationsTestEnabled } returns false
+
+        createInstance().apply {
+            showTestResultAvailableNotification(TestResult.POSITIVE)
+
+            verify(exactly = 0) {
+                notificationHelper.sendNotification(
+                    title = any(),
+                    content = any(),
+                    notificationId = any(),
+                    pendingIntent = any()
+                )
+            }
         }
     }
 }
