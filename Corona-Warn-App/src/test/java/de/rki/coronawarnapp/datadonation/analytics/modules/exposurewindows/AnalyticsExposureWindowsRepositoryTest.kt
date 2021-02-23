@@ -26,6 +26,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
     @MockK lateinit var analyticsExposureWindowDao: AnalyticsExposureWindowDao
     @MockK lateinit var analyticsExposureWindowDatabase: AnalyticsExposureWindowDatabase
     @MockK lateinit var analyticsReportedExposureWindowEntity: AnalyticsReportedExposureWindowEntity
+    @MockK lateinit var analyticsExposureWindowEntity: AnalyticsExposureWindowEntity
 
     private val analyticsScanInstance = AnalyticsScanInstance(
         1,
@@ -69,8 +70,9 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `insert if hash not reported`() {
+    fun `insert if hash not reported or new`() {
         coEvery { analyticsExposureWindowDao.getReported(any()) } returns null
+        coEvery { analyticsExposureWindowDao.getNew(any()) } returns null
         coEvery { analyticsExposureWindowDao.insert(any()) } just Runs
         addDatabase()
         runBlockingTest {
@@ -82,6 +84,18 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
     @Test
     fun `no insert if hash reported`() {
         coEvery { analyticsExposureWindowDao.getReported(any()) } returns analyticsReportedExposureWindowEntity
+        coEvery { analyticsExposureWindowDao.getNew(any()) } returns analyticsExposureWindowEntity
+        addDatabase()
+        runBlockingTest {
+            newInstance().addNew(analyticsExposureWindow)
+            coVerify(exactly = 0) { analyticsExposureWindowDao.insert(any()) }
+        }
+    }
+
+    @Test
+    fun `no insert if hash in new`() {
+        coEvery { analyticsExposureWindowDao.getReported(any()) } returns analyticsReportedExposureWindowEntity
+        coEvery { analyticsExposureWindowDao.getNew(any()) } returns analyticsExposureWindowEntity
         addDatabase()
         runBlockingTest {
             newInstance().addNew(analyticsExposureWindow)

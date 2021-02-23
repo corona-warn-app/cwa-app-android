@@ -47,6 +47,9 @@ interface AnalyticsExposureWindowDao {
     @Query("SELECT * FROM AnalyticsExposureWindowEntity")
     suspend fun getAllNew(): List<AnalyticsExposureWindowEntityWrapper>
 
+    @Query("SELECT * FROM AnalyticsExposureWindowEntity WHERE sha256Hash LIKE :sha256Hash")
+    suspend fun getNew(sha256Hash: String): AnalyticsExposureWindowEntity?
+
     @Query("SELECT * FROM AnalyticsReportedExposureWindowEntity WHERE sha256Hash LIKE :sha256Hash")
     suspend fun getReported(sha256Hash: String): AnalyticsReportedExposureWindowEntity?
 

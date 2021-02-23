@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -24,8 +24,11 @@ import kotlin.random.Random
 class AnalyticsExposureWindowDonorTest : BaseTest() {
 
     @MockK lateinit var analyticsExposureWindowRepository: AnalyticsExposureWindowRepository
-    @MockK lateinit var appConfigProvider: AppConfigProvider
-    private val request = object : DonorModule.Request {}
+    @MockK lateinit var configData: ConfigData
+    private val request = object : DonorModule.Request {
+        override val currentConfig: ConfigData
+            get() = configData
+    }
     private val window = AnalyticsExposureWindowEntity(
         "hash",
         1,
@@ -74,7 +77,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     @Test
     fun `skipped submission returns empty contribution`() {
         val donor = newInstance()
-        coEvery { appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows } returns .4
+        coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .4
         runBlockingTest {
             donor.beginDonation(request) shouldBe donor.emptyContribution
         }
@@ -90,7 +93,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
                 1L
             )
         )
-        coEvery { appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows } returns .8
+        coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .8
         coEvery { analyticsExposureWindowRepository.getAllNew() } returns wrappers
         coEvery { analyticsExposureWindowRepository.moveToReported(wrappers) } returns reported
         runBlockingTest {
@@ -108,7 +111,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
                 1L
             )
         )
-        coEvery { appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows } returns .8
+        coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .8
         coEvery { analyticsExposureWindowRepository.getAllNew() } returns wrappers
         coEvery { analyticsExposureWindowRepository.moveToReported(wrappers) } returns reported
         runBlockingTest {
@@ -121,7 +124,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     @Test
     fun `stale data clean up`() {
         val donor = newInstance()
-        coEvery { appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows } returns .4
+        coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .4
         runBlockingTest {
             donor.beginDonation(request)
             coVerify { analyticsExposureWindowRepository.deleteStaleData() }
@@ -130,8 +133,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
 
     private fun newInstance() =
         AnalyticsExposureWindowDonor(
-            analyticsExposureWindowRepository,
-            appConfigProvider
+            analyticsExposureWindowRepository
         )
 
 

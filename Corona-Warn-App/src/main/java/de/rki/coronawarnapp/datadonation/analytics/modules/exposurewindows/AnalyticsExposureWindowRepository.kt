@@ -26,7 +26,7 @@ class AnalyticsExposureWindowRepository @Inject constructor(
 
     suspend fun addNew(analyticsExposureWindow: AnalyticsExposureWindow) {
         val hash = analyticsExposureWindow.sha256Hash()
-        if (dao.getReported(hash) == null) {
+        if (dao.getReported(hash) == null && dao.getNew(hash) == null) {
             val wrapper = analyticsExposureWindow.toWrapper(hash)
             dao.insert(listOf(wrapper))
         }

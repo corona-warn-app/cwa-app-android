@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import timber.log.Timber
@@ -11,15 +10,14 @@ import kotlin.random.Random
 
 @Singleton
 class AnalyticsExposureWindowDonor @Inject constructor(
-    private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository,
-    private val appConfigProvider: AppConfigProvider
+    private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         // clean up
         analyticsExposureWindowRepository.deleteStaleData()
 
-        val probability = appConfigProvider.getAppConfig().analytics.probabilityToSubmitNewExposureWindows
+        val probability = request.currentConfig.analytics.probabilityToSubmitNewExposureWindows
         if (skipSubmission(probability)) {
             Timber.w("Submission skipped.")
             return emptyContribution
