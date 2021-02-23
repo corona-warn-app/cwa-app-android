@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.trimToLength
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -29,6 +30,8 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
+
+    val openCommentInfo = SingleLiveEvent<Unit>()
 
     private val localDate = LocalDate.parse(selectedDay)
 
@@ -60,7 +63,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                     onCircumstancesChanged(item, circumstances)
                 },
                 onCircumstanceInfoClicked = {
-                    // TODO
+                    openCommentInfo.postValue(Unit)
                 }
             )
         }

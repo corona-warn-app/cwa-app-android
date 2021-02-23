@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -29,6 +30,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
 
+    val openCommentInfo = SingleLiveEvent<Unit>()
     val openDialog = SingleLiveEvent<String>()
     private var currentLocation: DiaryLocationListItem? = null
 
@@ -53,7 +55,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                     onCircumstancesChanged(item, circumstances)
                 },
                 onCircumStanceInfoClicked = {
-                    // TODO
+                    openCommentInfo.postValue(Unit)
                 },
                 onDurationDialog = { item, durationString ->
                     onDurationDialog(item, durationString)

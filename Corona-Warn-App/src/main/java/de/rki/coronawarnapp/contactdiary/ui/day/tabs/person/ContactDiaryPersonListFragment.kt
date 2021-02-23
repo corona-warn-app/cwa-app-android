@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragmentDirections
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -43,6 +47,12 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
         viewModel.uiList.observe2(this) {
             personListAdapter.update(it)
             binding.contactDiaryPersonListNoItemsGroup.isGone = it.isNotEmpty()
+        }
+
+        viewModel.openCommentInfo.observe2(this) {
+            doNavigate(
+                ContactDiaryPersonListFragmentDirections
+                    .actionContactDiaryPersonListFragmentToContactDiaryCommentInfoFragment())
         }
     }
 }

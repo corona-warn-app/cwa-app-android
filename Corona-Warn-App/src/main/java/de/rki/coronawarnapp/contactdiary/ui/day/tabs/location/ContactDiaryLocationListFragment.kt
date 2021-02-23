@@ -4,18 +4,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.durationpicker.ContactDiaryDurationPickerFragment
 import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListFragmentBinding
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.Duration
+import timber.log.Timber
 import javax.inject.Inject
 
 class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_location_list_fragment), AutoInject, ContactDiaryDurationPickerFragment.OnChangeListener {
@@ -59,6 +64,11 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
             durationPicker.arguments = args
             durationPicker.setTargetFragment(this@ContactDiaryLocationListFragment, 0)
             durationPicker.show(parentFragmentManager, "ContactDiaryDurationPickerFragment")
+        }
+
+        viewModel.openCommentInfo.observe2(this) {
+            findNavController().doNavigate(ContactDiaryLocationListFragmentDirections
+                .actionContactDiaryPlaceListFragmentToContactDiaryCommentInfoFragment())
         }
     }
 

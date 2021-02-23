@@ -29,7 +29,7 @@
             android:name="selectedDay"
             app:argType="string" />
         <action
-            android:id="@+id/action_contactDiaryPersonListFragment_to_contactDiaryPersonCommentInfoFragment"
+            android:id="@+id/action_contactDiaryPersonListFragment_to_contactDiaryCommentInfoFragment"
             app:destination="@id/contactDiaryCommentInfoFragment" />
     </fragment>
     <fragment
@@ -40,6 +40,9 @@
         <argument
             android:name="selectedDay"
             app:argType="string" />
+        <action
+            android:id="@+id/action_contactDiaryPlaceListFragment_to_contactDiaryCommentInfoFragment"
+            app:destination="@id/contactDiaryCommentInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryAddPersonFragment"
