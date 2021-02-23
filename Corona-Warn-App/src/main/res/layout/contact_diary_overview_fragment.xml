@@ -20,32 +20,51 @@
             app:popupTheme="@style/CWAToolbar.Menu"
             app:title="@string/contact_diary_overview_title" />
 
-        <TextView
-            android:id="@+id/contact_diary_overview_subtitle"
-            style="@style/subtitleMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:focusable="true"
-            android:text="@string/contact_diary_overview_subtitle"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:text="Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind." />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contact_diary_overview_recyclerview"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginBottom="@dimen/spacing_mega_tiny"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_subtitle"
-            tools:listitem="@layout/contact_diary_overview_list_item" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/contact_diary_overview_subtitle"
+                    style="@style/subtitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:focusable="true"
+                    android:text="@string/contact_diary_overview_subtitle"
+                    tools:text="Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind." />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/contact_diary_overview_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_mega_tiny"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_diary_overview_subtitle"
+                    android:isScrollContainer="false"
+                    tools:listitem="@layout/contact_diary_overview_list_item" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
             android:layout_width="wrap_content"
