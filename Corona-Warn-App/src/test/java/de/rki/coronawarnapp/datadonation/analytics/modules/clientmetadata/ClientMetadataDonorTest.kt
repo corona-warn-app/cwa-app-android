@@ -76,9 +76,11 @@ class ClientMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {
-                override val currentConfig: ConfigData = mockk()
-            })
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }

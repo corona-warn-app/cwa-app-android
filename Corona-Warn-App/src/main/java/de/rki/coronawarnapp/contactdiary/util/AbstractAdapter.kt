@@ -8,6 +8,11 @@ import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 internal abstract class AbstractAdapter<T : HasStableId, U : BaseAdapter.VH> :
     BaseAdapter<U>(),
     AsyncDiffUtilAdapter<T> {
+
+    init {
+        setHasStableIds(true)
+    }
+
     override val asyncDiffer: AsyncDiffer<T> = AsyncDiffer(this)
 
     override fun getItemCount(): Int = data.size

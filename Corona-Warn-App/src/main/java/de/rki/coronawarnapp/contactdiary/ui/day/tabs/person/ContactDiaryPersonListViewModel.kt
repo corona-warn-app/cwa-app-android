@@ -1,24 +1,25 @@
 package de.rki.coronawarnapp.contactdiary.ui.day.tabs.person
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.toEditableVariant
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.contactdiary.util.SelectableItem
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.ui.toResolvingString
+import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.trimToLength
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -31,34 +32,43 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
 
     private val localDate = LocalDate.parse(selectedDay)
 
-    private val dayElement = contactDiaryRepository.personEncountersForDate(localDate)
+    private val dayEncounters = contactDiaryRepository.personEncountersForDate(localDate)
     private val selectablePersons = contactDiaryRepository.people
 
-    val uiList = selectablePersons.combine(dayElement) { persons, dayElement ->
-        persons.map { contactDiaryPerson ->
-            if (dayElement.any { it.contactDiaryPerson.personId == contactDiaryPerson.personId }) {
-                SelectableItem(
-                    true,
-                    contactDiaryPerson,
-                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
-                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
-                    DESELECT_ACTION_DESCRIPTION,
-                    SELECT_ACTION_DESCRIPTION
-                )
-            } else {
-                SelectableItem(
-                    false,
-                    contactDiaryPerson,
-                    UNSELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
-                    SELECTED_CONTENT_DESCRIPTION.toResolvingString(contactDiaryPerson.fullName),
-                    SELECT_ACTION_DESCRIPTION,
-                    DESELECT_ACTION_DESCRIPTION
-                )
+    val uiList: LiveData<List<DiaryPersonListItem>> = combine(
+        selectablePersons,
+        dayEncounters
+    ) { persons, encounters ->
+        persons.map { person ->
+            val encounter = encounters.singleOrNull {
+                it.contactDiaryPerson.personId == person.personId
             }
+            DiaryPersonListItem(
+                item = person,
+                personEncounter = encounter,
+                onItemClick = { onPersonSelectionChanged(it as DiaryPersonListItem) },
+                onDurationChanged = { item, duration ->
+                    onDurationChanged(item, duration)
+                },
+                onWasOutsideChanged = { item, wasOutside ->
+                    onWasOutsideChanged(item, wasOutside)
+                },
+                onWithMaskChanged = { item, withMask ->
+                    onWithmaskChanged(item, withMask)
+                },
+                onCircumstancesChanged = { item, circumstances ->
+                    onCircumstancesChanged(item, circumstances)
+                },
+                onCircumstanceInfoClicked = {
+                    // TODO
+                }
+            )
         }
-    }.asLiveData()
+    }.asLiveData(context = dispatcherProvider.Default)
 
-    fun onPersonSelectionChanged(item: SelectableItem<ContactDiaryPerson>) = launch(coroutineExceptionHandler) {
+    private fun onPersonSelectionChanged(
+        item: DiaryPersonListItem
+    ) = launch(coroutineExceptionHandler) {
         if (!item.selected) {
             contactDiaryRepository.addPersonEncounter(
                 DefaultContactDiaryPersonEncounter(
@@ -67,9 +77,54 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
                 )
             )
         } else {
-            val visit = dayElement.first()
+            val visit = dayEncounters.first()
                 .find { it.contactDiaryPerson.personId == item.item.personId }
             visit?.let { contactDiaryRepository.deletePersonEncounter(it) }
+        }
+    }
+
+    private fun onDurationChanged(
+        item: DiaryPersonListItem,
+        duration: ContactDiaryPersonEncounter.DurationClassification?
+    ) {
+        Timber.d("onDurationChanged(item=%s, duration=%s)", item, duration)
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(durationClassification = duration))
+        }
+    }
+
+    private fun onWithmaskChanged(
+        item: DiaryPersonListItem,
+        withMask: Boolean?
+    ) {
+        Timber.d("onWithmaskChanged(item=%s, withMask=%s)", item, withMask)
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(withMask = withMask))
+        }
+    }
+
+    private fun onWasOutsideChanged(
+        item: DiaryPersonListItem,
+        wasOutside: Boolean?
+    ) {
+        Timber.d("onWasOutsideChanged(item=%s, onWasOutside=%s)", item, wasOutside)
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(wasOutside = wasOutside))
+        }
+    }
+
+    private fun onCircumstancesChanged(
+        item: DiaryPersonListItem,
+        circumstances: String
+    ) {
+        Timber.d("onCircumstancesChanged(item=%s, circumstances=%s)", item, circumstances)
+        val encounter = item.personEncounter?.toEditableVariant() ?: return
+        launch {
+            val sanitized = circumstances.trim().trimToLength(250)
+            contactDiaryRepository.updatePersonEncounter(encounter.copy(circumstances = sanitized))
         }
     }
 
@@ -80,7 +135,3 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
 }
 
 private val TAG = ContactDiaryPersonListViewModel::class.java.simpleName
-private const val SELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_selected
-private const val UNSELECTED_CONTENT_DESCRIPTION = R.string.accessibility_person_unselected
-private const val SELECT_ACTION_DESCRIPTION = R.string.accessibility_action_select
-private const val DESELECT_ACTION_DESCRIPTION = R.string.accessibility_action_deselect

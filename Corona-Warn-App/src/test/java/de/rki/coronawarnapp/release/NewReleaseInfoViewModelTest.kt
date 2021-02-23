@@ -41,7 +41,7 @@ class NewReleaseInfoViewModelTest {
         val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body, item2.body)
-        viewModel.getItems(titles, bodies, arrayOf("",""),  arrayOf("","")) shouldBe listOf(item1, item2)
+        viewModel.getItems(titles, bodies, arrayOf("", ""), arrayOf("", "")) shouldBe listOf(item1, item2)
     }
 
     @Test
@@ -50,7 +50,7 @@ class NewReleaseInfoViewModelTest {
         val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title)
         val bodies = arrayOf(item1.body, item2.body)
-        viewModel.getItems(titles, bodies,  arrayOf("",""),  arrayOf("","")) shouldBe emptyList()
+        viewModel.getItems(titles, bodies, arrayOf("", ""), arrayOf("", "")) shouldBe emptyList()
     }
 
     @Test
@@ -59,7 +59,7 @@ class NewReleaseInfoViewModelTest {
         val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body)
-        viewModel.getItems(titles, bodies,  arrayOf("",""),  arrayOf("","")) shouldBe emptyList()
+        viewModel.getItems(titles, bodies, arrayOf("", ""), arrayOf("", "")) shouldBe emptyList()
     }
 
     @Test
@@ -68,7 +68,7 @@ class NewReleaseInfoViewModelTest {
         val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body, item2.body)
-        viewModel.getItems(titles, bodies,  arrayOf(""),  arrayOf("","")) shouldBe emptyList()
+        viewModel.getItems(titles, bodies, arrayOf(""), arrayOf("", "")) shouldBe emptyList()
     }
 
     @Test
@@ -77,7 +77,7 @@ class NewReleaseInfoViewModelTest {
         val item2 = NewReleaseInfoItemText("title2", "body2")
         val titles = arrayOf(item1.title, item2.title)
         val bodies = arrayOf(item1.body, item2.body)
-        viewModel.getItems(titles, bodies,  arrayOf("",""),  arrayOf("")) shouldBe emptyList()
+        viewModel.getItems(titles, bodies, arrayOf("", ""), arrayOf("")) shouldBe emptyList()
     }
 
     @Test

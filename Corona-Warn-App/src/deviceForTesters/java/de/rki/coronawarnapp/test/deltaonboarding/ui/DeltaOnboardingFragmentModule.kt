@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.contactdiary.ui.sheets.location
+package de.rki.coronawarnapp.test.deltaonboarding.ui
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ContactDiaryLocationBottomSheetDialogModule {
+abstract class DeltaOnboardingFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(ContactDiaryLocationBottomSheetDialogViewModel::class)
-    abstract fun contactDiaryLocationBottomSheetDialogFragment(
-        factory: ContactDiaryLocationBottomSheetDialogViewModel.Factory
+    @CWAViewModelKey(DeltaOnboardingFragmentViewModel::class)
+    abstract fun testTaskControllerFragment(
+        factory: DeltaOnboardingFragmentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

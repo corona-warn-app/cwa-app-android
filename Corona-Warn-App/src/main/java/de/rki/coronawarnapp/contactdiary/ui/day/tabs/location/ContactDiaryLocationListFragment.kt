@@ -33,9 +33,7 @@ class ContactDiaryLocationListFragment : Fragment(R.layout.contact_diary_locatio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val locationListAdapter = ContactDiaryLocationListAdapter {
-            viewModel.onLocationSelectionChanged(it)
-        }
+        val locationListAdapter = ContactDiaryLocationListAdapter()
 
         binding.contactDiaryLocationListRecyclerView.apply {
             adapter = locationListAdapter
