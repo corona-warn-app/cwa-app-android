@@ -22,15 +22,23 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_below_15"
-            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
+            app:backgroundTint="@color/colorBackground"
+            style="@style/contactDiaryPersonButton"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingHorizontal="5dp"
             android:text="@string/contact_diary_person_encounter_duration_below_15_min" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cwaGrayHighlight" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_above_15"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/contactDiaryPersonButton"
+            app:backgroundTint="@color/colorBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -52,15 +60,17 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mask_with"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
+            app:backgroundTint="@color/colorBackground"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_mask_with" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mask_without"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/contactDiaryPersonButton"
+            app:backgroundTint="@color/colorBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -82,17 +92,19 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/environment_outside"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:backgroundTint="@color/colorBackground"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_environment_outside" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/environment_inside"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:backgroundTint="@color/colorBackground"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_environment_inside" />
 
