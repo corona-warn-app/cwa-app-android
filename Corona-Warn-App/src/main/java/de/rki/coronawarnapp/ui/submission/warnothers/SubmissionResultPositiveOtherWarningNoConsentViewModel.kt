@@ -32,7 +32,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    val keysRetrievalProgress = SingleLiveEvent<Boolean>()
+    val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
 
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
 
@@ -47,7 +47,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
             Timber.d("onTEKAvailable(tek.size=%d)", teks.size)
             autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-            keysRetrievalProgress.postValue(false)
+            showKeysRetrievalProgress.postValue(false)
             routeToScreen.postValue(
                 SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                     .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
@@ -55,23 +55,26 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         }
 
         override fun onTEKPermissionDeclined() {
-            keysRetrievalProgress.postValue(false)
+            Timber.d("onTEKPermissionDeclined")
+            showKeysRetrievalProgress.postValue(false)
             // stay on screen
         }
 
         override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            keysRetrievalProgress.postValue(false)
+            Timber.d("onTracingConsentRequired")
+            showKeysRetrievalProgress.postValue(false)
             showTracingConsentDialog.postValue(onConsentResult)
         }
 
         override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            keysRetrievalProgress.postValue(false)
+            Timber.d("onPermissionRequired")
+            showKeysRetrievalProgress.postValue(false)
             showPermissionRequest.postValue(permissionRequest)
         }
 
         override fun onError(error: Throwable) {
-            keysRetrievalProgress.postValue(false)
             Timber.e(error, "Couldn't access temporary exposure key history.")
+            showKeysRetrievalProgress.postValue(false)
             error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
         }
     })
@@ -84,13 +87,16 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onConsentButtonClicked() {
-        keysRetrievalProgress.value = true
+        showKeysRetrievalProgress.value = true
         submissionRepository.giveConsentToSubmission()
         launch {
             if (enfClient.isTracingEnabled.first()) {
+                Timber.d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
+                Timber.d("showEnableTracingEvent:Unit")
                 showEnableTracingEvent.postValue(Unit)
+                showKeysRetrievalProgress.postValue(false)
             }
         }
     }
@@ -102,8 +108,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         )
     }
 
-    fun handleActivityRersult(requestCode: Int, resultCode: Int, data: Intent?) {
-        keysRetrievalProgress.value = true
+    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        showKeysRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
