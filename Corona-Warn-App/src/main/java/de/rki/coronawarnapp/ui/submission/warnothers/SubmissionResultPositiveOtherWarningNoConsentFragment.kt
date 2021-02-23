@@ -52,7 +52,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             doNavigate(it)
         }
 
-        viewModel.keysRetrievalProgress.observe2(this) { show ->
+        viewModel.showKeysRetrievalProgress.observe2(this) { show ->
             keysRetrievalProgress.setState(show)
             binding.submissionPositiveOtherWarningNoConsentButtonNext.isEnabled = !show
         }
@@ -93,6 +93,6 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        viewModel.handleActivityRersult(requestCode, resultCode, data)
+        viewModel.handleActivityResult(requestCode, resultCode, data)
     }
 }
