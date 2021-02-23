@@ -263,11 +263,9 @@ open class ContactDiaryOverviewViewModelTest {
             when (it.type) {
                 ListItem.Type.PERSON -> {
                     it.drawableId shouldBe R.drawable.ic_contact_diary_person_item
-                    it.text shouldBe person.fullName
                 }
                 ListItem.Type.LOCATION -> {
                     it.drawableId shouldBe R.drawable.ic_contact_diary_location_item
-                    it.text shouldBe location.locationName
                 }
             }
         }
