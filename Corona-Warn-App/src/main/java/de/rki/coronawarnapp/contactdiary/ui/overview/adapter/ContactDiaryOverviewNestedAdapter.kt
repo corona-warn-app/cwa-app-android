@@ -32,20 +32,19 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
         override val viewBinding: Lazy<ContactDiaryOverviewNestedListItemBinding> =
             lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }
 
-        override val onBindData:
-            ContactDiaryOverviewNestedListItemBinding.(item: ListItem.Data, payloads: List<Any>) -> Unit =
-            { key, _ ->
-                contactDiaryOverviewElementImage.setImageResource(key.drawableId)
-                contactDiaryOverviewElementName.text = key.name
-                contactDiaryOverviewElementName.contentDescription = when (key.type) {
-                    ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
-                    ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
-                }
-                val attributes = getAttributes(key.duration, key.attributes, key.circumstances)
-                if (attributes.isNotEmpty()) {
-                    contactDiaryOverviewElementAttributes.text = attributes
-                } else contactDiaryOverviewElementAttributes.visibility = View.GONE
+        override val onBindData: ContactDiaryOverviewNestedListItemBinding.(item: ListItem.Data, payloads: List<Any>)
+        -> Unit = { key, _ ->
+            contactDiaryOverviewElementImage.setImageResource(key.drawableId)
+            contactDiaryOverviewElementName.text = key.name
+            contactDiaryOverviewElementName.contentDescription = when (key.type) {
+                ListItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
+                ListItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
             }
+            val attributes = getAttributes(key.duration, key.attributes, key.circumstances)
+            if (attributes.isNotEmpty()) {
+                contactDiaryOverviewElementAttributes.text = attributes
+            } else contactDiaryOverviewElementAttributes.visibility = View.GONE
+        }
 
         private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String =
             mutableListOf<String>().apply {
