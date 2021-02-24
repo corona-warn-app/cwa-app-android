@@ -51,6 +51,6 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
                 duration?.run { add(toStandardHours().toString()) }
                 resources?.run { forEach { add(context.getString(it)) } }
                 circumstances?.run { add(this) }
-            }.joinToString()
+            }.filter { it.isNotEmpty() }.joinToString()
     }
 }
