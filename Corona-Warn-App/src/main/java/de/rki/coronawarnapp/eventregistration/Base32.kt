@@ -1,15 +1,23 @@
 package de.rki.coronawarnapp.eventregistration
 
 import com.google.common.io.BaseEncoding
+import okio.ByteString
+import okio.ByteString.Companion.toByteString
 
 /**
- * Decodes input String into byte array using Base32 decoder
+ * Decodes String into [ByteArray] using Base32 decoder
  * @return [ByteArray]
  */
 fun String.decodeBase32ToArray(): ByteArray = BaseEncoding.base32().decode(this)
 
 /**
- * Decodes input String into Base32 decodes String
+ * Decodes String into [ByteString] using Base32 decoder
+ * @return [ByteString]
+ */
+fun String.decodeBase32ToByteString(): ByteString = decodeBase32ToArray().toByteString()
+
+/**
+ * Decodes String into Base32 decoded String
  * @return [String]
  */
 fun String.decodeBase32ToString(): String = String(decodeBase32ToArray())

@@ -42,4 +42,16 @@ class Base32Test : BaseTest() {
     fun `Decoding with base32NoPadding Arrays`(expected: String, input: String) {
         input.decodeBase32ToArray() shouldBe expected.toByteArray(Charsets.UTF_8)
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(WithPaddingTestProvider::class)
+    fun `Decoding with base32WithPadding ByteString`(expected: String, input: String) {
+        input.decodeBase32ToByteString().string(Charsets.UTF_8) shouldBe expected
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(NoPaddingTestProvider::class)
+    fun `Decoding with base32NoPadding ByteString`(expected: String, input: String) {
+        input.decodeBase32ToByteString().string(Charsets.UTF_8) shouldBe expected
+    }
 }
