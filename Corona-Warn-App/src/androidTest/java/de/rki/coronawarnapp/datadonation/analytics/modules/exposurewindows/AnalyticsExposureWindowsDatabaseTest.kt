@@ -8,10 +8,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 
 @RunWith(AndroidJUnit4::class)
-class AnalyticsExposureWindowsDatabaseTest : BaseTest() {
+class AnalyticsExposureWindowsDatabaseTest : BaseTestInstrumentation() {
 
     private val database: AnalyticsExposureWindowDatabase =
         Room.inMemoryDatabaseBuilder(
