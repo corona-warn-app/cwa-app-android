@@ -46,28 +46,28 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
                 )
 
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onTEKPermissionDeclined() {
-            Timber.d("onTEKPermissionDeclined")
+                Timber.d("onTEKPermissionDeclined")
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
                 )
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            Timber.d("onTracingConsentRequired")
+                Timber.d("onTracingConsentRequired")
                 showTracingConsentDialog.postValue(onConsentResult)
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            Timber.d("onPermissionRequired")
+                Timber.d("onPermissionRequired")
                 showPermissionRequest.postValue(permissionRequest)
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onError(error: Throwable) {
@@ -76,7 +76,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
                     prefix = "SubmissionTestResultAvailableViewModel"
                 )
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
         }
     )
