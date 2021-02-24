@@ -38,15 +38,15 @@ object DiaryData {
     )
 
     val HIGH_RISK = ListItem.Risk(
-        R.string.contact_diary_risk_body,
-        R.string.contact_diary_high_risk_title,
-        R.drawable.ic_high_risk_alert
+        title = R.string.contact_diary_high_risk_title,
+        body = R.string.contact_diary_risk_body_extended,
+        drawableId = R.drawable.ic_high_risk_alert
     )
 
     val LOW_RISK = ListItem.Risk(
-        R.string.contact_diary_risk_body,
-        R.string.contact_diary_low_risk_title,
-        R.drawable.ic_low_risk_alert
+        title = R.string.contact_diary_low_risk_title,
+        body = R.string.contact_diary_risk_body_extended,
+        drawableId = R.drawable.ic_low_risk_alert
     )
 
     val LOCATIONS: List<SelectableItem<ContactDiaryLocation>> = listOf(
