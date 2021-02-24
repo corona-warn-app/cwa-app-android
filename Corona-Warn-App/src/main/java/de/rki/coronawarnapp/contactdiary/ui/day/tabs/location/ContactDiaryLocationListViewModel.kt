@@ -120,7 +120,8 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     }
 
     // Viewmodel may be cancelled before the data is saved
-    private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) = appScope.launch(coroutineExceptionHandler) {
+    private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) = 
+        appScope.launch(coroutineExceptionHandler) {
         block()
     }
 
