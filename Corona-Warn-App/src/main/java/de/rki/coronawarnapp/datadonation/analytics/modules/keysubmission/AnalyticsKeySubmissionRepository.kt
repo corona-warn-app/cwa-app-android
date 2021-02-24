@@ -49,6 +49,15 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
     val hoursSinceTestRegistration
         get() = Duration.millis(max(timeStamper.nowUTC.millis - testRegisteredAt, 0L)).toStandardHours().hours
 
+    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
+        Duration(
+            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
+            Instant.ofEpochMilli(testResultReceivedAt)
+        ).standardDays.toInt()
+
+    fun reset() = storage.clear()
+
+    // todo
     suspend fun hoursSinceHighRiskWarningAtTestRegistration(): Int {
         val riskLevelAtRegistration = storage.riskLevelAtTestRegistration.value
         return if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
@@ -57,14 +66,6 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
             calculatedHoursSinceHighRiskWarning(Instant.ofEpochMilli(testResultReceivedAt))
         }
     }
-
-    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
-        Duration(
-            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
-            Instant.ofEpochMilli(testResultReceivedAt)
-        ).standardDays.toInt()
-
-    fun reset() = storage.clear()
 
     private suspend fun calculatedHoursSinceHighRiskWarning(registrationTime: Instant): Int {
         val highRiskResultCalculatedAt = riskLevelStorage
