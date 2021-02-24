@@ -4,7 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.result.RiskResult
+import de.rki.coronawarnapp.util.debug.measureTime
+import timber.log.Timber
 import javax.inject.Inject
+
 
 class AnalyticsExposureWindowCollector @Inject constructor(
     private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository,
@@ -18,12 +21,14 @@ class AnalyticsExposureWindowCollector @Inject constructor(
     }
 
     private suspend fun collectAnalyticsData(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
-        riskResultsPerWindow.forEach {
-            val analyticsExposureWindow = createAnalyticsExposureWindow(
-                it.key,
-                it.value
-            )
-            analyticsExposureWindowRepository.addNew(analyticsExposureWindow)
+        measureTime(onMeasured = { Timber.d("Time per db insert of exposure window is $it") }) {
+            riskResultsPerWindow.forEach {
+                val analyticsExposureWindow = createAnalyticsExposureWindow(
+                    it.key,
+                    it.value
+                )
+                analyticsExposureWindowRepository.addNew(analyticsExposureWindow)
+            }
         }
     }
 }
