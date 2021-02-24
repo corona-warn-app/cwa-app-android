@@ -628,7 +628,6 @@ workflows:
   check_buildtype_device:
     jobs:
       - detekt
-      - firebase_screenshots
       - lint_device_release_check
       - ktlint_device_release_check
       - quick_build_device_release_no_tests
