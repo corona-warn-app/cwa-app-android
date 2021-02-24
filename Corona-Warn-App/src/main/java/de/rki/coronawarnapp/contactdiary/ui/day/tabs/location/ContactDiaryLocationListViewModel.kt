@@ -9,19 +9,26 @@ import de.rki.coronawarnapp.contactdiary.model.toEditableVariant
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.trimToLength
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import org.joda.time.LocalDate
+import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider,
+    val dispatcherProvider: DispatcherProvider,
+    @AppScope val appScope: CoroutineScope,
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -63,7 +70,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         }
     }.asLiveData()
 
-    private fun onLocationSelectionChanged(item: DiaryLocationListItem) = launch(coroutineExceptionHandler) {
+    private fun onLocationSelectionChanged(item: DiaryLocationListItem) = launchOnAppScope {
         if (!item.selected) {
             contactDiaryRepository.addLocationVisit(
                 DefaultContactDiaryLocationVisit(
@@ -96,7 +103,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         duration: Duration?
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
-        launch {
+        launchOnAppScope  {
             contactDiaryRepository.updateLocationVisit(visit.copy(duration = duration))
         }
     }
@@ -107,9 +114,14 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
         val sanitized = circumstances.trim().trimToLength(250)
-        launch {
+        launchOnAppScope  {
             contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = sanitized))
         }
+    }
+
+    // Viewmodel may be cancelled before the data is saved
+    private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) = appScope.launch(coroutineExceptionHandler) {
+        block()
     }
 
     @AssistedFactory
