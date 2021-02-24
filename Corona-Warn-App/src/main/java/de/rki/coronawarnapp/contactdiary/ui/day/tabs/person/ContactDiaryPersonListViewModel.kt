@@ -96,16 +96,16 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     ) {
         Timber.d("onDurationChanged(item=%s, duration=%s)", item, duration)
         val encounter = item.personEncounter?.toEditableVariant() ?: return
-        launchOnAppScope  {
+        launchOnAppScope {
             contactDiaryRepository.updatePersonEncounter(encounter.copy(durationClassification = duration))
         }
     }
 
     // Viewmodel may be cancelled before the data is saved
     private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) =
-        appScope.launch (coroutineExceptionHandler){
-        block()
-    }
+        appScope.launch(coroutineExceptionHandler) {
+            block()
+        }
 
     private fun onWithmaskChanged(
         item: DiaryPersonListItem,
@@ -113,7 +113,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     ) {
         Timber.d("onWithmaskChanged(item=%s, withMask=%s)", item, withMask)
         val encounter = item.personEncounter?.toEditableVariant() ?: return
-        launchOnAppScope  {
+        launchOnAppScope {
             contactDiaryRepository.updatePersonEncounter(encounter.copy(withMask = withMask))
         }
     }
@@ -124,7 +124,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     ) {
         Timber.d("onWasOutsideChanged(item=%s, onWasOutside=%s)", item, wasOutside)
         val encounter = item.personEncounter?.toEditableVariant() ?: return
-        launchOnAppScope  {
+        launchOnAppScope {
             contactDiaryRepository.updatePersonEncounter(encounter.copy(wasOutside = wasOutside))
         }
     }
@@ -135,7 +135,7 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
     ) {
         Timber.d("onCircumstancesChanged(item=%s, circumstances=%s)", item, circumstances)
         val encounter = item.personEncounter?.toEditableVariant() ?: return
-        launchOnAppScope  {
+        launchOnAppScope {
             val sanitized = circumstances.trim().trimToLength(250)
             contactDiaryRepository.updatePersonEncounter(encounter.copy(circumstances = sanitized))
         }

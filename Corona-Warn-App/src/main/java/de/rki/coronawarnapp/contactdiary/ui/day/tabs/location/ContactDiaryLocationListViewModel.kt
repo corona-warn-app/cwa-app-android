@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.trimToLength
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -23,8 +22,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import org.joda.time.LocalDate
-import timber.log.Timber
-import kotlin.coroutines.CoroutineContext
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,
@@ -103,7 +100,7 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         duration: Duration?
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
-        launchOnAppScope  {
+        launchOnAppScope {
             contactDiaryRepository.updateLocationVisit(visit.copy(duration = duration))
         }
     }
@@ -114,16 +111,16 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
         val sanitized = circumstances.trim().trimToLength(250)
-        launchOnAppScope  {
+        launchOnAppScope {
             contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = sanitized))
         }
     }
 
     // Viewmodel may be cancelled before the data is saved
-    private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) = 
+    private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) =
         appScope.launch(coroutineExceptionHandler) {
-        block()
-    }
+            block()
+        }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<ContactDiaryLocationListViewModel> {
