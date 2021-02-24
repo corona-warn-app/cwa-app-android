@@ -51,6 +51,10 @@ class AnalyticsModule {
 
     @IntoSet
     @Provides
+    fun registeredTest(module: TestResultDonor): DonorModule = module
+
+    @IntoSet
+    @Provides
     fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule = module
 
     @IntoSet
