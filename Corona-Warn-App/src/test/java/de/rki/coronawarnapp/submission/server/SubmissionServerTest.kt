@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -50,7 +49,6 @@ class SubmissionServerTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
         testDir.deleteRecursively()
     }

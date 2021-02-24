@@ -20,7 +20,6 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -35,7 +34,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -72,11 +70,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         every { aggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
         coEvery { aggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createInstance(

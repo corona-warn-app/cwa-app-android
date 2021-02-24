@@ -6,11 +6,9 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.AppFeaturesOuterClass.A
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.spyk
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -24,11 +22,6 @@ class CWAConfigMapperTest : BaseTest() {
         MockKAnnotations.init(this)
 
         mockkObject(CWADebug)
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     @Test

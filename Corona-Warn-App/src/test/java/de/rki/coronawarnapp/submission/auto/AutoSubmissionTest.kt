@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.mockk.Called
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -27,7 +26,6 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -62,11 +60,6 @@ class AutoSubmissionTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
 
         mockkStatic("de.rki.coronawarnapp.task.TaskControllerExtensionsKt")
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = AutoSubmission(

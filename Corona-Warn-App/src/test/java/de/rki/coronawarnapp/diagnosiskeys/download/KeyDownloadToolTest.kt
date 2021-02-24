@@ -12,7 +12,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -75,7 +74,6 @@ class KeyDownloadToolTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

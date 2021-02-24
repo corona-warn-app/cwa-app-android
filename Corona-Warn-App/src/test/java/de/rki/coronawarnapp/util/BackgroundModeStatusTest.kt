@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.util.device.PowerManagement
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
@@ -17,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -40,11 +38,6 @@ class BackgroundModeStatusTest : BaseTest() {
         every { apiLevel.hasAPILevel(any()) } returns true
 
         every { foregroundState.isInForeground } returns flowOf(true)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(scope: CoroutineScope): BackgroundModeStatus = BackgroundModeStatus(

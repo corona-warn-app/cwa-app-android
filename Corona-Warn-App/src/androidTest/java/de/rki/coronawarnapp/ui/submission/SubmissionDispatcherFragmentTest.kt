@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -24,10 +23,10 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
-import testhelpers.takeScreenshot
 import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -61,7 +60,6 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

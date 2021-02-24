@@ -9,11 +9,9 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -32,11 +30,6 @@ class DownloadDiagnosisKeysSettingsTest : BaseTest() {
         every { context.getSharedPreferences("keysync_localdata", Context.MODE_PRIVATE) } returns preferences
 
         mockkObject(BuildConfigWrap)
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     fun createInstance() = DownloadDiagnosisKeysSettings(

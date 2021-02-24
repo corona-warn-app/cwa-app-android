@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -35,7 +34,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -80,11 +78,6 @@ class AnalyticsTest : BaseTest() {
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
 
         coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     private fun createInstance(modules: Set<DonorModule> = setOf(exposureRiskMetadataDonor)) = spyk(

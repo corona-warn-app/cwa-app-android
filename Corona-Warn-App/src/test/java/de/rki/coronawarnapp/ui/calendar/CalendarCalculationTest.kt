@@ -5,12 +5,10 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -33,11 +31,6 @@ class CalendarCalculationTest : BaseTest() {
         every { resources.configuration } returns Configuration().apply {
             locale = Locale.ENGLISH
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance() = CalendarCalculation(context)

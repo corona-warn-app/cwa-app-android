@@ -8,11 +8,9 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -32,11 +30,6 @@ class SurveySettingsTest : BaseTest() {
             setPrettyPrinting()
         }.create()
         every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns preferences
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

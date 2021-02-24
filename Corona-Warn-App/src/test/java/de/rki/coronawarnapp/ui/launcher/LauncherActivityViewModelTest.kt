@@ -16,12 +16,13 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
-class LauncherActivityViewModelTest {
+class LauncherActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var updateChecker: UpdateChecker
     @MockK lateinit var cwaSettings: CWASettings

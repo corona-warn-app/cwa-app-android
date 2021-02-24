@@ -12,7 +12,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -22,7 +21,6 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -73,11 +71,6 @@ class NetworkStateProviderTest : BaseTest() {
         every { conMan.getLinkProperties(network) } returns linkProperties
 
         every { testSettings.fakeMeteredConnection } returns mockFlowPreference(false)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(scope: CoroutineScope) = NetworkStateProvider(

@@ -11,13 +11,11 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verifySequence
 import okio.ByteString.Companion.decodeHex
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -47,11 +45,6 @@ class ConfigParserTest : BaseTest() {
 
         appConfig171.exists() shouldBe true
         appConfig180.exists() shouldBe true
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(): ConfigParser = ConfigParser(

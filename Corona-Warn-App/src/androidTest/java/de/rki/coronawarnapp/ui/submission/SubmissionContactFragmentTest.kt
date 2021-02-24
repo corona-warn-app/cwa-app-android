@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -53,7 +52,6 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

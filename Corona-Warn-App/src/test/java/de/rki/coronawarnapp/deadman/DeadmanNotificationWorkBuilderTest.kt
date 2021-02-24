@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.deadman
 import androidx.work.BackoffPolicy
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -14,11 +12,6 @@ class DeadmanNotificationWorkBuilderTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test
