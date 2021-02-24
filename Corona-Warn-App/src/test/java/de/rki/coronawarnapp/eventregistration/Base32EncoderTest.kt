@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.eventregistration
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
+import testhelpers.BaseTest
 
-class Base32EncoderTest {
+class Base32EncoderTest : BaseTest() {
 
     private val encoder = Base32Encoder()
 
