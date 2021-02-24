@@ -3,11 +3,7 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
 
-option java_outer_classname = "PPACAndroidProto";
+message ELSOneTimePassword {
 
-message PPACAndroid {
-  
-  string safetyNetJws = 1;
-
-  string salt = 2;
+  string otp = 1;
 }

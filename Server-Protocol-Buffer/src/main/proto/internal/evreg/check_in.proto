@@ -1,0 +1,24 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.evreg;
+
+
+message CheckIn {
+  
+}
+
+message CheckInOption1 {
+  uint32 trl = 1;
+  bytes eventKey = 2; // 16 byte random string
+  uint32 checkinTime = 3; 
+  uint32 checkoutTime = 4; 
+}
+message CheckInOption2 {
+  uint32 trl = 1;
+  bytes rei = 2; // 16 byte random string
+}
+message CheckInOption3 {
+  uint32 trl = 1;
+  bytes checkinRei = 2; // 16 byte random string
+  bytes checkoutRei = 3; // 16 byte random string
+}

@@ -3,13 +3,11 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
 import "internal/ppdd/ppac_ios.proto";
-import "internal/ppdd/ppa_data.proto";
+import "internal/ppdd/els_otp.proto";
 
-option java_outer_classname = "PPADataRequestIOSProto";
-
-message PPADataRequestIOS {
+message ELSOneTimePasswordRequestIOS {
 
   PPACIOS authentication = 1;
 
-  PPADataIOS payload = 2;
+  ELSOneTimePassword payload = 2;
 }
