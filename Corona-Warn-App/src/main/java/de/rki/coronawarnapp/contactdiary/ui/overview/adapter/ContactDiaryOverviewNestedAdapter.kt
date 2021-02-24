@@ -57,6 +57,6 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
                 }
                 resources?.run { forEach { add(context.getString(it)) } }
                 circumstances?.run { add(this) }
-            }.joinToString()
+            }.filter { it.isNotEmpty() }.joinToString()
     }
 }
