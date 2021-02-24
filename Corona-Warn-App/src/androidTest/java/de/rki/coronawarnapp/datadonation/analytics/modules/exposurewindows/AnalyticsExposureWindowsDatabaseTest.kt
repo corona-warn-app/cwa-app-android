@@ -42,11 +42,10 @@ class AnalyticsExposureWindowsDatabaseTest : BaseTestInstrumentation() {
         dao.moveToReported(listOf(wrapper), 999999)
         dao.getAllNew() shouldBe listOf()
         val reported = dao.getReported("hash")
-        assert(reported != null)
-        reported?.sha256Hash shouldBe "hash"
+        reported!!.sha256Hash shouldBe "hash"
 
         //rollback
-        dao.rollback(listOf(wrapper), listOf(reported!!))
+        dao.rollback(listOf(wrapper), listOf(reported))
         val allNew2 = dao.getAllNew()
         allNew2.size shouldBe 1
         allNew2[0].exposureWindowEntity.sha256Hash shouldBe "hash"
