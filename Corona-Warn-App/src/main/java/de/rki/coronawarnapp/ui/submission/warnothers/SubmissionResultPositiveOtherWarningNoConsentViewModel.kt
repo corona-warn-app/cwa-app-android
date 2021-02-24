@@ -48,7 +48,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
                 Timber.d("onTEKAvailable(tek.size=%d)", teks.size)
                 autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                         .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment()
@@ -56,26 +56,26 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
             }
 
             override fun onTEKPermissionDeclined() {
-            Timber.d("onTEKPermissionDeclined")
-            showKeysRetrievalProgress.postValue(false)
+                Timber.d("onTEKPermissionDeclined")
+                showKeysRetrievalProgress.postValue(false)
                 // stay on screen
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            Timber.d("onTracingConsentRequired")
-            showKeysRetrievalProgress.postValue(false)
+                Timber.d("onTracingConsentRequired")
+                showKeysRetrievalProgress.postValue(false)
                 showTracingConsentDialog.postValue(onConsentResult)
             }
 
             override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            Timber.d("onPermissionRequired")
-            showKeysRetrievalProgress.postValue(false)
+                Timber.d("onPermissionRequired")
+                showKeysRetrievalProgress.postValue(false)
                 showPermissionRequest.postValue(permissionRequest)
             }
 
             override fun onError(error: Throwable) {
                 Timber.e(error, "Couldn't access temporary exposure key history.")
-            showKeysRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
                 error.report(ExceptionCategory.EXPOSURENOTIFICATION, "Failed to obtain TEKs.")
             }
         }
