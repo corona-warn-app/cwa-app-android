@@ -5,17 +5,13 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -53,11 +49,6 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         every { Random.nextDouble() } returns .5
     }
 
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
-    }
-
     @Test
     fun `skip submission when random number greater than probability`() {
         val donor = newInstance()
@@ -79,7 +70,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         val donor = newInstance()
         coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .4
         runBlockingTest {
-            donor.beginDonation(request) shouldBe donor.emptyContribution
+            donor.beginDonation(request) shouldBe AnalyticsExposureWindowNoContribution
         }
     }
 
@@ -135,13 +126,4 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         AnalyticsExposureWindowDonor(
             analyticsExposureWindowRepository
         )
-
-
-    companion object {
-        @AfterAll
-        @JvmStatic
-        fun cleanup() {
-            unmockkAll()
-        }
-    }
 }

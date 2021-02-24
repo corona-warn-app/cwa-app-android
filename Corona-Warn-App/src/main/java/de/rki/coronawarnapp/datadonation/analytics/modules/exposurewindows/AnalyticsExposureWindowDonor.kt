@@ -20,7 +20,7 @@ class AnalyticsExposureWindowDonor @Inject constructor(
         val probability = request.currentConfig.analytics.probabilityToSubmitNewExposureWindows
         if (skipSubmission(probability)) {
             Timber.w("Submission skipped.")
-            return emptyContribution
+            return AnalyticsExposureWindowNoContribution
         }
 
         val newWrappers = analyticsExposureWindowRepository.getAllNew()
@@ -41,14 +41,6 @@ class AnalyticsExposureWindowDonor @Inject constructor(
         val random = Random.nextDouble()
         Timber.w("Random number is $random. probabilityToSubmitNewExposureWindows is $probability.")
         return random > probability
-    }
-
-    @VisibleForTesting
-    internal val emptyContribution by lazy {
-        Contribution(
-            data = emptyList(),
-            onDonationFailed = {}
-        )
     }
 
     @VisibleForTesting
@@ -96,4 +88,10 @@ internal fun List<AnalyticsExposureWindowEntityWrapper>.asPpaData() = map {
         .setNormalizedTime(it.exposureWindowEntity.normalizedTime)
         .setTransmissionRiskLevel(it.exposureWindowEntity.transmissionRiskLevel)
         .build()
+}
+
+@VisibleForTesting
+object AnalyticsExposureWindowNoContribution : DonorModule.Contribution {
+    override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
+    override suspend fun finishDonation(successful: Boolean) = Unit
 }
