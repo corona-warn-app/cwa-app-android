@@ -56,6 +56,7 @@ class DiaryLocationViewHolder(
         }
 
         durationInput.setOnClickListener {
+            circumstances.clearFocus()
             item.onDurationDialog(item, durationInput.text.toString())
         }
     }
