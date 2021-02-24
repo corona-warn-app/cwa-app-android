@@ -16,27 +16,27 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import java.util.UUID
 
-@ExtendWith(MockKExtension::class)
-internal class SurveysTest {
+internal class SurveysTest : BaseTest() {
 
     @MockK lateinit var deviceAttestation: DeviceAttestation
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var surveyServer: SurveyServer
     @MockK lateinit var oneTimePasswordRepo: OTPRepository
     @MockK lateinit var urlProvider: SurveyUrlProvider
+    @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
     }
 
     private fun createInstance() = Surveys(
@@ -46,7 +46,7 @@ internal class SurveysTest {
         oneTimePasswordRepo,
         TestDispatcherProvider(),
         urlProvider,
-        TimeStamper()
+        timeStamper
     )
 
     @Test
@@ -60,7 +60,7 @@ internal class SurveysTest {
         every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
             UUID.randomUUID(),
             authorized = false,
-            redeemedAt = Instant.now(),
+            redeemedAt = timeStamper.nowUTC,
             invalidated = false
         )
         createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
@@ -72,7 +72,7 @@ internal class SurveysTest {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
-                redeemedAt = Instant.now(),
+                redeemedAt = timeStamper.nowUTC,
                 invalidated = true
             )
             createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
@@ -84,7 +84,7 @@ internal class SurveysTest {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
-                redeemedAt = Instant.now(),
+                redeemedAt = timeStamper.nowUTC,
                 invalidated = false
             )
             coEvery { urlProvider.provideUrl(any(), any()) } returns ""
