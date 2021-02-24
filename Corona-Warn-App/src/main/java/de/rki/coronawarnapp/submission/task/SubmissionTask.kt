@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -35,7 +36,8 @@ class SubmissionTask @Inject constructor(
     private val autoSubmission: AutoSubmission,
     private val timeStamper: TimeStamper,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -140,6 +142,8 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submitting %s", submissionData)
         playbook.submit(submissionData)
+
+        analyticsKeySubmissionCollector.reportSubmitted()
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

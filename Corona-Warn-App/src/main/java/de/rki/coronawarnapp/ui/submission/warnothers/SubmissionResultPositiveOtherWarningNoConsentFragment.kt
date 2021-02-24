@@ -81,10 +81,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
 
     override fun onResume() {
         super.onResume()
+        viewModel.onResume()
         binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        viewModel.handleActivityRersult(requestCode, resultCode, data)
+        viewModel.handleActivityResult(requestCode, resultCode, data)
     }
 }

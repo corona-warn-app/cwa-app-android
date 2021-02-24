@@ -126,7 +126,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         updateTestResult(registrationData.testResult)
         BackgroundNoise.getInstance().scheduleDummyPattern()
-        analyticsKeySubmissionCollector.reportTestRegistered(timeStamper.nowUTC.millis)
+        analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
 
@@ -136,7 +136,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         updateTestResult(registrationData.testResult)
         BackgroundNoise.getInstance().scheduleDummyPattern()
-        analyticsKeySubmissionCollector.reportTestRegistered(timeStamper.nowUTC.millis)
+        analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult
     }
 

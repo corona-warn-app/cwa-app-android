@@ -6,6 +6,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.SUBMISSION_FLOW_SCREEN_SYMPTOM_ONSET
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -21,7 +23,8 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @Assisted val symptomIndication: Symptoms.Indication,
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
-    private val autoSubmission: AutoSubmission
+    private val autoSubmission: AutoSubmission,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomStartInternal = MutableStateFlow<Symptoms.StartOf?>(null)
@@ -73,18 +76,19 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
                 startOfSymptoms = symptomStartInternal.value
             ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
         }
-        performSubmission()
+        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
     }
 
     fun onCancelConfirmed() {
         Timber.d("onCancelConfirmed() clicked on calendar screen.")
-        performSubmission()
+        performSubmission { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
     }
 
-    private fun performSubmission() {
+    private fun performSubmission(onSubmitted: () -> Unit) {
         launch {
             try {
                 autoSubmission.runSubmissionNow()
+                onSubmitted()
             } catch (e: Exception) {
                 Timber.tag(TAG).e(e, "performSubmission() failed.")
             } finally {
@@ -97,6 +101,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(SUBMISSION_FLOW_SCREEN_SYMPTOM_ONSET)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

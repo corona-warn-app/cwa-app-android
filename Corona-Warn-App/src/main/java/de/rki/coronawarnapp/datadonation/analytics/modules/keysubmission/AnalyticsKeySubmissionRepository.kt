@@ -12,8 +12,8 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
     val testResultReceivedAt
         get() = storage.testResultReceivedAt.value
 
-    val testRegisteredAt
-    //get() = storage.testResultReceivedAt.value
+    private val testRegisteredAt: Long
+        get() = storage.testRegisteredAt.value
 
     val submitted
         get() = storage.submitted.value
@@ -28,7 +28,7 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = storage.submittedAfterSymptomFlow.value
 
     val submittedWithTeleTAN
-        get() = storage.submittedWithTeleTAN.value
+        get() = storage.registeredWithTeleTAN.value
 
     val lastSubmissionFlowScreen
         get() = storage.lastSubmissionFlowScreen.value
@@ -40,14 +40,11 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = Duration.millis(max(timeStamper.nowUTC.millis - testResultReceivedAt, 0)).toStandardHours().hours
 
     val hoursSinceTestRegistration
-        get() = Duration.millis(max(timeStamper.nowUTC.millis - testRegisteredAt, 0)).toStandardHours().hours
+        get() = Duration.millis(max(timeStamper.nowUTC.millis - testRegisteredAt, 0L)).toStandardHours().hours
 
-    //////
-    val hoursSinceHighRiskWarningAtTestRegistration
-        get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value
+    val hoursSinceHighRiskWarningAtTestRegistration: Int
 
     val daysSinceMostRecentDateAtRiskLevelAtTestRegistration
-        get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
     fun reset() = storage.clear()
 }

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
@@ -12,13 +11,12 @@ import javax.inject.Singleton
 @Singleton
 class AnalyticsKeySubmissionDonor @Inject constructor(
     val repository: AnalyticsKeySubmissionRepository,
-    private val timeStamper: TimeStamper,
-    private val appConfigProvider: AppConfigProvider
+    private val timeStamper: TimeStamper
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
 
-        val hours = appConfigProvider.getAppConfig().analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
+        val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
         val duration = Duration.standardHours(hours.toLong())
 
         return if (shouldSubmitData(duration)) {

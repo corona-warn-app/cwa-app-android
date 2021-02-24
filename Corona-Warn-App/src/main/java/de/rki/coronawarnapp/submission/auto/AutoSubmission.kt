@@ -6,6 +6,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.task.SubmissionTask
 import de.rki.coronawarnapp.task.TaskController
@@ -26,7 +27,8 @@ class AutoSubmission @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionSettings: SubmissionSettings,
     private val workManager: WorkManager,
-    private val taskController: TaskController
+    private val taskController: TaskController,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) {
 
     private fun List<TaskInfo>.isSubmissionTaskRunning() = any {
