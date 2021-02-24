@@ -56,7 +56,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             binding.submissionTestResultAvailableConsentStatus.consent = it
         }
 
-        vm.showKeyRetrievalProgress.observe2(this) { show ->
+        vm.showKeysRetrievalProgress.observe2(this) { show ->
             Timber.i("SubmissionTestResult:showKeyRetrievalProgress:$show")
             keyRetrievalProgress.setState(show)
             binding.submissionTestResultAvailableProceedButton.isEnabled = !show
