@@ -599,15 +599,25 @@ jobs:
           command: |
             sudo pip install -U crcmod
             sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
+            sudo chown -R circleci:circleci firebase-screenshots
           when: always
       - store_test_results:
           path: ./firebase-screenshots
+      - run:
+          name: Clean up pulled bucket
+          command: |
+            rm -rf firebase-screenshots/*/artifacts/sdcard
+            rm -rf firebase-screenshots/*/test_cases
+            rm -f firebase-screenshots/*/instrumentation.results
+            rm -f firebase-screenshots/*/logcat
+            rm -f firebase-screenshots/*/test_result_1.xml
+            mkdir /tmp/screenshots
       - compress-path:
           input: ./firebase-screenshots
-          output: /tmp/screenshots.zip
+          output: /tmp/screenshots/CWA-Android-Screenshots-${CIRCLE_SHA1}.zip
       - store_artifacts:
-          path: /tmp/screenshots.zip
-          destination: zips/screenshots.zip
+          path: /tmp/screenshots
+          destination: zips/
 
 #######################
 # Workflow section
@@ -618,6 +628,7 @@ workflows:
   check_buildtype_device:
     jobs:
       - detekt
+      - firebase_screenshots
       - lint_device_release_check
       - ktlint_device_release_check
       - quick_build_device_release_no_tests
