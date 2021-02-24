@@ -8,12 +8,10 @@ import de.rki.coronawarnapp.util.debug.measureTime
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class AnalyticsExposureWindowCollector @Inject constructor(
     private val analyticsExposureWindowRepository: AnalyticsExposureWindowRepository,
     private val analyticsSettings: AnalyticsSettings
 ) {
-
     suspend fun reportRiskResultsPerWindow(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
         if (analyticsSettings.analyticsEnabled.value) {
             collectAnalyticsData(riskResultsPerWindow)
