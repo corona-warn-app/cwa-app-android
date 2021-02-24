@@ -34,9 +34,10 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class SubmissionRepositoryTest {
+class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var submissionService: SubmissionService

@@ -20,14 +20,13 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class FormatterSubmissionHelperTest {
+class FormatterSubmissionHelperTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -317,10 +316,5 @@ class FormatterSubmissionHelperTest {
         formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL))
         formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_INITIAL))
         formatTestResultBase(oUiState = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED))
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

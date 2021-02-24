@@ -7,17 +7,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragmentArgs
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayViewModel
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.ContactDiaryLocationListViewModel
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.ContactDiaryPersonListViewModel
-import de.rki.coronawarnapp.contactdiary.util.SelectableItem
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.LOCATIONS
 import de.rki.coronawarnapp.ui.contactdiary.DiaryData.PERSONS
@@ -25,7 +24,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -33,13 +31,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
 import java.util.Locale
@@ -79,7 +77,6 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test
@@ -103,8 +100,8 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     }
 
     private fun captureScreen(
-        persons: List<SelectableItem<ContactDiaryPerson>>,
-        locations: List<SelectableItem<ContactDiaryLocation>>,
+        persons: List<DiaryPersonListItem>,
+        locations: List<DiaryLocationListItem>,
         suffix: String
     ) {
         every { personListViewModel.uiList } returns MutableLiveData(persons)

@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata.ClientMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
 import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsSubmissionLogger
@@ -49,10 +50,11 @@ class AnalyticsModule {
     @IntoSet
     @Provides
     fun keySubmission(module: AnalyticsKeySubmissionDonor): DonorModule = module
-//
-//    @IntoSet
-//    @Provides
-//    fun registeredTest(module: RegisteredTestDonor): DonorModule = module
+
+    //
+    @IntoSet
+    @Provides
+    fun registeredTest(module: TestResultDonor): DonorModule = module
 
     @IntoSet
     @Provides

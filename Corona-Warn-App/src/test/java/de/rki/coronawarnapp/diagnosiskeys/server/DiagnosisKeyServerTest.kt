@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.server
 import dagger.Lazy
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -36,7 +35,6 @@ class DiagnosisKeyServerTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

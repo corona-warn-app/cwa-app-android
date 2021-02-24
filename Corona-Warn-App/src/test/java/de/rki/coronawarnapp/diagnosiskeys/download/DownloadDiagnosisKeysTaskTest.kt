@@ -8,10 +8,10 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -54,6 +53,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1080005
+        mockkObject(LocalData)
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
 
         availableKey1.apply {
             every { path } returns File("availableKey1")
@@ -92,11 +93,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
             coEvery { latestTrackedExposureDetection() } returns flowOf(listOf(latestTrackedDetection))
             coEvery { provideDiagnosisKeys(any(), any()) } returns true
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     fun createInstance() = DownloadDiagnosisKeysTask(
@@ -224,6 +220,22 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         coVerifySequence {
             enfClient.isTracingEnabled
+        }
+
+        coVerify(exactly = 0) {
+            enfClient.provideDiagnosisKeys(any(), any())
+        }
+    }
+
+    @Test
+    fun `we do not submit keys if user got positive test results`() = runBlockingTest {
+        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns true
+
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
+
+        coVerifySequence {
+            enfClient.isTracingEnabled
+            enfClient.latestTrackedExposureDetection()
         }
 
         coVerify(exactly = 0) {

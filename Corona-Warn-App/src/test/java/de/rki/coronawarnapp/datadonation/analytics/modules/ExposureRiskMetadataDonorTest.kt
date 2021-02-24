@@ -1,20 +1,21 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -27,17 +28,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     @MockK lateinit var highAggregatedRiskResult: AggregatedRiskResult
     @MockK lateinit var lowAggregatedRiskResult: AggregatedRiskResult
 
+    private val baseDate: Instant = Instant.ofEpochMilli(101010)
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { highAggregatedRiskResult.isIncreasedRisk() } returns true
+        every { highAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
         every { lowAggregatedRiskResult.isIncreasedRisk() } returns false
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
+        every { lowAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
     }
 
     private fun createRiskLevelResult(
@@ -60,11 +60,9 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
     @Test
     fun `risk metadata is properly collected`() {
-        val recentDate = Instant.now()
-
         val expectedMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(recentDate.millis)
+            .setMostRecentDateAtRiskLevel(baseDate.seconds)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .build()
@@ -75,12 +73,12 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
                 createRiskLevelResult(
                     aggregatedRiskResult = highAggregatedRiskResult,
                     failureReason = null,
-                    calculatedAt = recentDate
+                    calculatedAt = baseDate
                 ),
                 createRiskLevelResult(
                     aggregatedRiskResult = lowAggregatedRiskResult,
                     failureReason = RiskLevelResult.FailureReason.UNKNOWN,
-                    calculatedAt = recentDate
+                    calculatedAt = baseDate
                 )
             )
         )
@@ -88,7 +86,11 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }
@@ -100,18 +102,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
     @Test
     fun `risk metadata change is properly collected`() {
-        val recentDate = Instant.now()
-
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(recentDate.millis)
+            .setMostRecentDateAtRiskLevel(baseDate.seconds)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .build()
 
         val expectedMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(recentDate.millis)
+            .setMostRecentDateAtRiskLevel(baseDate.seconds)
             .setRiskLevelChangedComparedToPreviousSubmission(false)
             .setDateChangedComparedToPreviousSubmission(false)
             .build()
@@ -123,12 +123,12 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
                 createRiskLevelResult(
                     aggregatedRiskResult = highAggregatedRiskResult,
                     failureReason = null,
-                    calculatedAt = recentDate
+                    calculatedAt = baseDate
                 ),
                 createRiskLevelResult(
                     aggregatedRiskResult = lowAggregatedRiskResult,
                     failureReason = RiskLevelResult.FailureReason.UNKNOWN,
-                    calculatedAt = recentDate
+                    calculatedAt = baseDate
                 )
             )
         )
@@ -136,7 +136,11 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
         runBlockingTest2 {
-            val contribution = createInstance().beginDonation(object : DonorModule.Request {})
+            val contribution = createInstance().beginDonation(
+                object : DonorModule.Request {
+                    override val currentConfig: ConfigData = mockk()
+                }
+            )
             contribution.injectData(parentBuilder)
             contribution.finishDonation(true)
         }

@@ -24,6 +24,7 @@ class FakeExposureWindowProvider @Inject constructor(
     fun getExposureWindows(testSettings: FakeExposureWindowTypes): List<ExposureWindow> {
         val jsonInput = when (testSettings) {
             FakeExposureWindowTypes.INCREASED_RISK_DEFAULT -> "exposure-windows-increased-risk-random.json"
+            FakeExposureWindowTypes.INCREASED_RISK_DUE_LOW_RISK_ENCOUNTER_DEFAULT -> "exposure-windows-increased-risk-due-to-low-risk-encounter-random.json"
             FakeExposureWindowTypes.LOW_RISK_DEFAULT -> "exposure-windows-lowrisk-random.json"
             else -> throw NotImplementedError()
         }.let { context.assets.open(it) }.readBytes().toString(Charsets.UTF_8)

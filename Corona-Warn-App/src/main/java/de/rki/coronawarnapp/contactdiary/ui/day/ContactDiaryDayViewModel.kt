@@ -39,11 +39,9 @@ class ContactDiaryDayViewModel @AssistedInject constructor(
     fun onCreateButtonClicked(activeTab: ContactDiaryDayTab) {
         when (activeTab) {
             ContactDiaryDayTab.LocationTab ->
-                routeToScreen
-                    .postValue(ContactDiaryDayNavigationEvents.NavigateToAddLocationBottomSheet)
+                routeToScreen.postValue(ContactDiaryDayNavigationEvents.NavigateToAddLocationFragment)
             ContactDiaryDayTab.PersonTab ->
-                routeToScreen
-                    .postValue(ContactDiaryDayNavigationEvents.NavigateToAddPersonBottomSheet)
+                routeToScreen.postValue(ContactDiaryDayNavigationEvents.NavigateToAddPersonFragment)
         }
     }
 

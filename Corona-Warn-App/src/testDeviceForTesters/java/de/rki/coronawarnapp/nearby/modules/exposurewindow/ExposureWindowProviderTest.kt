@@ -5,17 +5,15 @@ import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 import testhelpers.gms.MockGMSTask
 import java.io.File
 
-class ExposureWindowProviderTest : BaseTest() {
+class ExposureWindowProviderTest : BaseTestInstrumentation() {
     @MockK lateinit var googleENFClient: ExposureNotificationClient
     @MockK lateinit var testSettings: TestSettings
     @MockK lateinit var fakeExposureWindowProvider: FakeExposureWindowProvider
@@ -27,11 +25,6 @@ class ExposureWindowProviderTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { googleENFClient.exposureWindows } returns MockGMSTask.forValue(emptyList())
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createProvider() = DefaultExposureWindowProvider(

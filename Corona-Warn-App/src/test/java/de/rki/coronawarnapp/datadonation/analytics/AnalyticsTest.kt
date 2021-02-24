@@ -7,28 +7,33 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsServer
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
+import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.spyk
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -71,21 +76,16 @@ class AnalyticsTest : BaseTest() {
         every { LocalData.onboardingCompletedTimestamp() } returns twoDaysAgo.millis
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
+
+        coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
     }
 
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
-    }
-
-    private fun createDonorModules(): Set<DonorModule> = setOf(exposureRiskMetadataDonor)
-
-    private fun createInstance() = spyk(
+    private fun createInstance(modules: Set<DonorModule> = setOf(exposureRiskMetadataDonor)) = spyk(
         Analytics(
             dataDonationAnalyticsServer = dataDonationAnalyticsServer,
             appConfigProvider = appConfigProvider,
             deviceAttestation = deviceAttestation,
-            donorModules = createDonorModules(),
+            donorModules = modules,
             settings = settings,
             logger = lastAnalyticsSubmissionLogger,
             timeStamper = timeStamper
@@ -99,7 +99,11 @@ class AnalyticsTest : BaseTest() {
         val analytics = createInstance()
 
         runBlockingTest2 {
-            analytics.submitIfWanted()
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe false
+                shouldRetry shouldBe false
+            }
         }
 
         coVerify(exactly = 1) {
@@ -107,7 +111,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToNoUserConsent()
         }
     }
@@ -119,7 +123,11 @@ class AnalyticsTest : BaseTest() {
         val analytics = createInstance()
 
         runBlockingTest2 {
-            analytics.submitIfWanted()
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe false
+                shouldRetry shouldBe false
+            }
         }
 
         coVerify(exactly = 1) {
@@ -128,7 +136,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToProbabilityToSubmit(analyticsConfig)
         }
     }
@@ -140,7 +148,11 @@ class AnalyticsTest : BaseTest() {
         val analytics = createInstance()
 
         runBlockingTest2 {
-            analytics.submitIfWanted()
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe false
+                shouldRetry shouldBe false
+            }
         }
 
         coVerify(exactly = 1) {
@@ -150,7 +162,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToLastSubmittedTimestamp()
         }
     }
@@ -162,7 +174,11 @@ class AnalyticsTest : BaseTest() {
         val analytics = createInstance()
 
         runBlockingTest2 {
-            analytics.submitIfWanted()
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe false
+                shouldRetry shouldBe false
+            }
         }
 
         coVerify(exactly = 1) {
@@ -173,7 +189,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
             analytics.stopDueToTimeSinceOnboarding()
         }
     }
@@ -185,7 +201,11 @@ class AnalyticsTest : BaseTest() {
         val analytics = createInstance()
 
         runBlockingTest2 {
-            analytics.submitIfWanted()
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe false
+                shouldRetry shouldBe false
+            }
         }
 
         coVerify(exactly = 1) {
@@ -197,7 +217,7 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            analytics.submitAnalyticsData(analyticsConfig)
+            analytics.submitAnalyticsData(configData)
         }
     }
 
@@ -219,7 +239,8 @@ class AnalyticsTest : BaseTest() {
             .setAuthentication(PpacAndroid.PPACAndroid.getDefaultInstance())
             .build()
 
-        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns
+        val donationRequestSlot = slot<DonorModule.Request>()
+        coEvery { exposureRiskMetadataDonor.beginDonation(capture(donationRequestSlot)) } returns
             ExposureRiskMetadataDonor.ExposureRiskMetadataContribution(
                 contributionProto = metadata,
                 onContributionFinished = {}
@@ -233,17 +254,202 @@ class AnalyticsTest : BaseTest() {
                 override fun requirePass(requirements: SafetyNetRequirements) {}
             }
 
-        coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
-
         val analytics = createInstance()
 
         runBlockingTest2 {
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe true
+                shouldRetry shouldBe false
+            }
+        }
+
+        donationRequestSlot.captured.currentConfig shouldBe configData
+
+        coVerify(exactly = 1) {
+            analytics.submitAnalyticsData(configData)
+            dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
+        }
+    }
+
+    @Test
+    fun `despite error on beginDonation modules can still cleanup`() {
+        val userMetadataDonor = mockk<UserMetadataDonor>().apply {
+            coEvery { beginDonation(any()) } throws Exception("KABOOM!")
+        }
+        val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
+
+        val mockExposureRisk = mockk<DonorModule.Contribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns mockExposureRisk
+
+        coEvery { deviceAttestation.attest(any()) } returns object : DeviceAttestation.Result {
+            override val accessControlProtoBuf: PpacAndroid.PPACAndroid
+                get() = PpacAndroid.PPACAndroid.getDefaultInstance()
+
+            override fun requirePass(requirements: SafetyNetRequirements) {}
+        }
+
+        val analytics = createInstance(modules = modules)
+
+        runBlockingTest {
             analytics.submitIfWanted()
         }
 
         coVerify(exactly = 1) {
-            analytics.submitAnalyticsData(analyticsConfig)
-            dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
+            userMetadataDonor.beginDonation(any())
+
+            exposureRiskMetadataDonor.beginDonation(any())
+            mockExposureRisk.injectData(any())
+            mockExposureRisk.finishDonation(true)
+
+            analytics.submitAnalyticsData(any())
+        }
+    }
+
+    @Test
+    fun `despite errors during donation modules can still cleanup`() {
+        val userMetaDataDonation = mockk<DonorModule.Contribution>().apply {
+            coEvery { injectData(any()) } throws Exception("KAPOW!")
+            coEvery { finishDonation(any()) } throws Exception("CRUNCH!")
+        }
+        val userMetadataDonor = mockk<UserMetadataDonor>().apply {
+            coEvery { beginDonation(any()) } returns userMetaDataDonation
+        }
+        val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
+
+        val exposureRiskDonation = mockk<ExposureRiskMetadataDonor.ExposureRiskMetadataContribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns exposureRiskDonation
+
+        coEvery { deviceAttestation.attest(any()) } returns object : DeviceAttestation.Result {
+            override val accessControlProtoBuf: PpacAndroid.PPACAndroid
+                get() = PpacAndroid.PPACAndroid.getDefaultInstance()
+
+            override fun requirePass(requirements: SafetyNetRequirements) {}
+        }
+
+        val analytics = createInstance(modules = modules)
+
+        runBlockingTest {
+            analytics.submitIfWanted()
+        }
+
+        coVerify(exactly = 1) {
+            exposureRiskMetadataDonor.beginDonation(any())
+            exposureRiskDonation.injectData(any())
+            exposureRiskDonation.finishDonation(true)
+
+            userMetadataDonor.beginDonation(any())
+            userMetaDataDonation.injectData(any())
+            userMetaDataDonation.finishDonation(true)
+
+            analytics.submitAnalyticsData(any())
+        }
+    }
+
+    @Test
+    fun `we catch safetynet timeout and enable retry`() {
+        val exposureRiskDonation = mockk<ExposureRiskMetadataDonor.ExposureRiskMetadataContribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns exposureRiskDonation
+
+        coEvery { deviceAttestation.attest(any()) } throws SafetyNetException(
+            type = SafetyNetException.Type.ATTESTATION_REQUEST_FAILED,
+            "Timeout???",
+            cause = Exception()
+        )
+
+        val analytics = createInstance()
+
+        runBlockingTest {
+            val result = analytics.submitIfWanted()
+            result.successful shouldBe false
+            result.shouldRetry shouldBe true
+        }
+
+        coVerify(exactly = 1) {
+            exposureRiskMetadataDonor.beginDonation(any())
+            exposureRiskDonation.injectData(any())
+            exposureRiskDonation.finishDonation(false)
+        }
+
+        coVerify(exactly = 0) { dataDonationAnalyticsServer.uploadAnalyticsData(any()) }
+    }
+
+    @Test
+    fun `overall submission can timeout on safetynet and still allow modules to cleanup`() {
+        val exposureRiskDonation = mockk<ExposureRiskMetadataDonor.ExposureRiskMetadataContribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns exposureRiskDonation
+
+        coEvery { deviceAttestation.attest(any()) } coAnswers {
+            // Timeout should be 360s
+            delay(370_000)
+            mockk()
+        }
+
+        val analytics = createInstance()
+
+        runBlockingTest {
+            val result = analytics.submitIfWanted()
+            result.successful shouldBe false
+            result.shouldRetry shouldBe true
+        }
+
+        coVerify(exactly = 1) {
+            exposureRiskMetadataDonor.beginDonation(any())
+            exposureRiskDonation.injectData(any())
+            exposureRiskDonation.finishDonation(false)
+        }
+
+        coVerify(exactly = 0) {
+            dataDonationAnalyticsServer.uploadAnalyticsData(any())
+        }
+    }
+
+    @Test
+    fun `overall submission can timeout on upload and still allow modules to cleanup`() {
+        val exposureRiskDonation = mockk<ExposureRiskMetadataDonor.ExposureRiskMetadataContribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns exposureRiskDonation
+
+        coEvery { deviceAttestation.attest(any()) } returns object : DeviceAttestation.Result {
+            override val accessControlProtoBuf: PpacAndroid.PPACAndroid
+                get() = PpacAndroid.PPACAndroid.getDefaultInstance()
+
+            override fun requirePass(requirements: SafetyNetRequirements) {}
+        }
+
+        coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } coAnswers {
+            // Timeout should be 360s
+            delay(370_000)
+            mockk()
+        }
+
+        val analytics = createInstance()
+
+        runBlockingTest {
+            val result = analytics.submitIfWanted()
+            result.successful shouldBe false
+            result.shouldRetry shouldBe true
+        }
+
+        coVerify(exactly = 1) {
+            exposureRiskMetadataDonor.beginDonation(any())
+            exposureRiskDonation.injectData(any())
+            exposureRiskDonation.finishDonation(false)
+            dataDonationAnalyticsServer.uploadAnalyticsData(any())
         }
     }
 }

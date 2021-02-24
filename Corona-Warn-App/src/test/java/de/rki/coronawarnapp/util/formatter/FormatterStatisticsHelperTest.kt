@@ -13,15 +13,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.slot
-import io.mockk.unmockkAll
 import org.joda.time.DateTime
 import org.joda.time.Instant
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 import java.util.Locale
 
-class FormatterStatisticsHelperTest {
+class FormatterStatisticsHelperTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -88,11 +87,6 @@ class FormatterStatisticsHelperTest {
             Instant.parse("2021-01-13T00:00:00Z"),
             listOf()
         ).getPrimaryLabel(context) shouldBe "Until 13.01.2021"
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 
     companion object {

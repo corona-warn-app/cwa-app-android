@@ -18,6 +18,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_huge"
             tools:listitem="@layout/contact_diary_person_list_item" />
 
         <androidx.constraintlayout.widget.Group

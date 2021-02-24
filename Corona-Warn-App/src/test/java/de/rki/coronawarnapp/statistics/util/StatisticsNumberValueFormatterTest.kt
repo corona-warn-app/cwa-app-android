@@ -8,17 +8,16 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
-import io.mockk.unmockkAll
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import testhelpers.BaseTest
 import java.util.Locale
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class StatisticsNumberValueFormatterTest {
+internal class StatisticsNumberValueFormatterTest : BaseTest() {
 
     @MockK
     private lateinit var context: Context
@@ -77,10 +76,5 @@ internal class StatisticsNumberValueFormatterTest {
             Arguments.of(12_654_321, 0, Locale.GERMANY, "12,7 Mio."),
             Arguments.of(12_654_321, 0, Locale.UK, "12.7 Mio.")
         )
-    }
-
-    @AfterAll
-    fun cleanUp() {
-        unmockkAll()
     }
 }

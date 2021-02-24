@@ -8,11 +8,9 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -37,11 +35,6 @@ class MainActivityViewModelTest : BaseTest() {
 
         every { LocalData.isBackgroundCheckDone() } returns true
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(

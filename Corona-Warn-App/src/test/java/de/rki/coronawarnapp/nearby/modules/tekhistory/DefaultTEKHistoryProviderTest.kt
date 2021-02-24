@@ -17,7 +17,6 @@ import io.kotest.matchers.types.instanceOf
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -29,7 +28,6 @@ import io.mockk.verifyOrder
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -96,11 +94,6 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
             )
         }
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forValue(null) }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = DefaultTEKHistoryProvider(
@@ -212,14 +205,14 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 pre authorized key release timeout after 20 seconds`() {
+    fun `ENFV1_8 pre authorized key release timeout after 5 seconds`() {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns MockGMSTask.timeout()
         verify(exactly = 0) { context.unregisterReceiver(any()) }
 
         runBlockingTest {
             val deferred = async { createInstance().getPreAuthorizedExposureKeys() }
-            advanceTimeBy(21_000)
+            advanceTimeBy(6_000)
             deferred.getCompletionExceptionOrNull() shouldBe instanceOf(TimeoutCancellationException::class)
         }
 
@@ -228,7 +221,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 pre authorized key release broadcast receiver timeout after 20 seconds`() {
+    fun `ENFV1_8 pre authorized key release broadcast receiver timeout after 5 seconds`() {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
 
         // We don't call onReceive
@@ -241,7 +234,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
 
         runBlockingTest {
             val deferred = async { createInstance().getPreAuthorizedExposureKeys() }
-            advanceTimeBy(21_000)
+            advanceTimeBy(6_000)
             deferred.getCompletionExceptionOrNull() shouldBe instanceOf(TimeoutCancellationException::class)
         }
 

@@ -9,7 +9,6 @@ import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Ordering
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -22,7 +21,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -47,11 +45,6 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
         coEvery { configProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.overallDetectionTimeout } returns Duration.standardMinutes(15)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(scope: CoroutineScope) = DefaultExposureDetectionTracker(

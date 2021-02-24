@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.task.TaskController
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -21,11 +19,6 @@ class ContactDiaryCleanWorkerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createWorker() = ContactDiaryRetentionWorker(

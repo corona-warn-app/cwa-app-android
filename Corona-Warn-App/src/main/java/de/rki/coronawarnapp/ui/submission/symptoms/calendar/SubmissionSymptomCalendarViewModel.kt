@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
@@ -32,8 +34,17 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val showCancelDialog = SingleLiveEvent<Unit>()
-    val showUploadDialog = autoSubmission.isSubmissionRunning
-        .asLiveData(context = dispatcherProvider.Default)
+    private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
+
+    init {
+        mediatorShowUploadDialog.addSource(
+            autoSubmission.isSubmissionRunning.asLiveData(context = dispatcherProvider.Default)
+        ) { show ->
+            mediatorShowUploadDialog.postValue(show)
+        }
+    }
+
+    val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
 
     fun onLastSevenDaysStart() {
         updateSymptomStart(Symptoms.StartOf.LastSevenDays)
@@ -92,6 +103,8 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
             } catch (e: Exception) {
                 Timber.tag(TAG).e(e, "performSubmission() failed.")
             } finally {
+                Timber.i("Hide uploading progress and navigate to HomeFragment")
+                mediatorShowUploadDialog.postValue(false)
                 routeToScreen.postValue(
                     SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
                 )

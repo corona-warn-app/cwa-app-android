@@ -25,7 +25,6 @@ import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -35,7 +34,6 @@ import kotlinx.coroutines.runBlocking
 import org.joda.time.DateTimeConstants
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -69,11 +67,6 @@ class ExposureWindowsCalculationTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.now()
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun debugLog(s: String, toShow: LogLevel = LogLevel.ALL) {

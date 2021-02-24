@@ -8,11 +8,9 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -32,11 +30,6 @@ class SurveySettingsTest : BaseTest() {
             setPrettyPrinting()
         }.create()
         every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns preferences
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test
@@ -101,7 +94,8 @@ class SurveySettingsTest : BaseTest() {
                 {
                     "uuid":"e103c755-0975-4588-a639-d0cd1ba421a1",
                     "authorized": true,
-                    "redeemedAt": 1612381217443
+                    "redeemedAt": 1612381217443,
+                    "invalidated": true
                 }
             """.trimIndent()
         ).apply()
@@ -111,6 +105,7 @@ class SurveySettingsTest : BaseTest() {
         value!!.uuid.toString() shouldBe "e103c755-0975-4588-a639-d0cd1ba421a1"
         value.authorized shouldBe true
         value.redeemedAt.millis shouldBe 1612381217443
+        value.invalidated shouldBe true
     }
 
     @Test
@@ -133,14 +128,15 @@ class SurveySettingsTest : BaseTest() {
         val redeemedAt = Instant.ofEpochMilli(1612381217445)
 
         val instance = SurveySettings(context, baseGson)
-        instance.otpAuthorizationResult = OTPAuthorizationResult(uuid, authorized, redeemedAt)
+        instance.otpAuthorizationResult = OTPAuthorizationResult(uuid, authorized, redeemedAt, false)
 
         val value = preferences.getString("otp_result", null)
         value shouldBe """
             {
               "uuid": "e103c755-0975-4588-a639-d0cd1ba421a0",
               "authorized": false,
-              "redeemedAt": 1612381217445
+              "redeemedAt": 1612381217445,
+              "invalidated": false
             }
         """.trimIndent()
     }

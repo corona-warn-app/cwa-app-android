@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
+import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -20,7 +22,8 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val testResultDataCollector: TestResultDataCollector
 ) :
     CWAViewModel() {
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
@@ -48,12 +51,15 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         val testResult: TestResult? = null
     )
 
-    private fun doDeviceRegistration(scanResult: QRScanResult) = launch {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun doDeviceRegistration(scanResult: QRScanResult) = launch {
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
+            // Order here is important. Save Analytics after SUCCESS
+            testResultDataCollector.saveTestResultAnalyticsSettings(testResult)
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
