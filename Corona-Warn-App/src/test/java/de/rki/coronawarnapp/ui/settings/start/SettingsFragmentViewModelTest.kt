@@ -7,13 +7,11 @@ import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -42,11 +40,6 @@ class SettingsFragmentViewModelTest : BaseTest() {
         every { backgroundModeStatus.isIgnoringBatteryOptimizations } returns flow { emit(true) }
 
         every { analytics.isAnalyticsEnabledFlow() } returns flow { emit(true) }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(): SettingsFragmentViewModel = SettingsFragmentViewModel(

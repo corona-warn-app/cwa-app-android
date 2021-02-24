@@ -15,7 +15,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
@@ -59,15 +58,16 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             )
         )
 
-        setupMockViewModel(object : SubmissionTestResultNegativeViewModel.Factory {
-            override fun create(): SubmissionTestResultNegativeViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultNegativeViewModel.Factory {
+                override fun create(): SubmissionTestResultNegativeViewModel = viewModel
+            }
+        )
     }
 
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test
@@ -77,7 +77,8 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_NEGATIVE
-                ), Date()
+                ),
+                Date()
             )
         )
         captureScreenshot<SubmissionTestResultNegativeFragment>()

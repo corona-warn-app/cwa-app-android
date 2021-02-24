@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
@@ -52,8 +51,6 @@ class EncryptionResetToolTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
-
         testDir.deleteRecursively()
     }
 
@@ -114,25 +111,25 @@ class EncryptionResetToolTest : BaseIOTest() {
     }
 
     /**
-    Based on https://github.com/corona-warn-app/cwa-app-android/issues/642#issuecomment-650199424
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: java.lang.SecurityException: Could not decrypt value. decryption failed
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at androidx.security.crypto.EncryptedSharedPreferences.getDecryptedObject(EncryptedSharedPreferences.java:33)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at androidx.security.crypto.EncryptedSharedPreferences.getBoolean(EncryptedSharedPreferences.java:1)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at de.rki.coronawarnapp.update.UpdateChecker.checkForUpdate(UpdateChecker.kt:23)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at de.rki.coronawarnapp.update.UpdateChecker$checkForUpdate$1.invokeSuspend(Unknown Source:11)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:2)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:18)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.os.Handler.handleCallback(Handler.java:809)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:102)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:166)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:7377)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:469)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:963)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: Caused by: java.security.GeneralSecurityException: decryption failed
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at com.google.crypto.tink.aead.AeadWrapper$WrappedAead.decrypt(AeadWrapper.java:15)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at androidx.security.crypto.EncryptedSharedPreferences.getDecryptedObject(EncryptedSharedPreferences.java:5)
-    06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	... 12 more
+     Based on https://github.com/corona-warn-app/cwa-app-android/issues/642#issuecomment-650199424
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: java.lang.SecurityException: Could not decrypt value. decryption failed
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at androidx.security.crypto.EncryptedSharedPreferences.getDecryptedObject(EncryptedSharedPreferences.java:33)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at androidx.security.crypto.EncryptedSharedPreferences.getBoolean(EncryptedSharedPreferences.java:1)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at de.rki.coronawarnapp.update.UpdateChecker.checkForUpdate(UpdateChecker.kt:23)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at de.rki.coronawarnapp.update.UpdateChecker$checkForUpdate$1.invokeSuspend(Unknown Source:11)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:2)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:18)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.os.Handler.handleCallback(Handler.java:809)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:102)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:166)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:7377)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:469)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:963)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: Caused by: java.security.GeneralSecurityException: decryption failed
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at com.google.crypto.tink.aead.AeadWrapper$WrappedAead.decrypt(AeadWrapper.java:15)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	at androidx.security.crypto.EncryptedSharedPreferences.getDecryptedObject(EncryptedSharedPreferences.java:5)
+     06-23 21:52:51.681 10311 17331 17331 E AndroidRuntime: 	... 12 more
      */
     @Test
     fun `reset is warranted if the first exception after upgrade was a GeneralSecurityException`() {

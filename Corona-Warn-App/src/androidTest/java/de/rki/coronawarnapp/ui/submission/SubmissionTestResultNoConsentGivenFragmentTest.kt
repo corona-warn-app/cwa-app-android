@@ -15,7 +15,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -48,15 +47,16 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel =
             spyk(SubmissionTestResultNoConsentViewModel(submissionRepository, testResultAvailableNotificationService))
-        setupMockViewModel(object : SubmissionTestResultNoConsentViewModel.Factory {
-            override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
-        })
+        setupMockViewModel(
+            object : SubmissionTestResultNoConsentViewModel.Factory {
+                override fun create(): SubmissionTestResultNoConsentViewModel = viewModel
+            }
+        )
     }
 
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test
@@ -66,7 +66,8 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_POSITIVE
-                ), Date()
+                ),
+                Date()
             )
         )
 

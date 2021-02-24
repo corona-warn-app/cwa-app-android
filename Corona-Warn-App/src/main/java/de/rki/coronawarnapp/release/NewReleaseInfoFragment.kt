@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.BindableVH
+import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -56,8 +57,9 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
                 if (args.comesFromInfoScreen) {
                     popBackStack()
                 } else {
-                    doNavigate(NewReleaseInfoFragmentDirections
-                        .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
+                    doNavigate(
+                        NewReleaseInfoFragmentDirections
+                            .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
                     )
                 }
             }
@@ -67,7 +69,9 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
     private fun getItems(): List<NewReleaseInfoItem> {
         val titles = resources.getStringArray(R.array.new_release_title)
         val textBodies = resources.getStringArray(R.array.new_release_body)
-        return vm.getItems(titles, textBodies)
+        val linkifiedLabels = resources.getStringArray(R.array.new_release_linkified_labels)
+        val linkTargets = resources.getStringArray(R.array.new_release_target_urls)
+        return vm.getItems(titles, textBodies, linkifiedLabels, linkTargets)
     }
 
     override fun onResume() {
@@ -80,18 +84,23 @@ private class ItemAdapter(
     private val items: List<NewReleaseInfoItem>
 ) : BaseAdapter<ItemAdapter.ViewHolder>() {
 
-    inner class ViewHolder(parent: ViewGroup) : BaseAdapter.VH(R.layout.new_release_info_item, parent),
+    inner class ViewHolder(parent: ViewGroup) :
+        BaseAdapter.VH(R.layout.new_release_info_item, parent),
         BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
         override val viewBinding:
             Lazy<NewReleaseInfoItemBinding> =
-            lazy { NewReleaseInfoItemBinding.bind(itemView) }
+                lazy { NewReleaseInfoItemBinding.bind(itemView) }
 
         override val onBindData:
             NewReleaseInfoItemBinding.(item: NewReleaseInfoItem, payloads: List<Any>) -> Unit =
-            { item, _ ->
-                title.text = item.title
-                body.text = item.body
-            }
+                { item, _ ->
+                    title.text = item.title
+                    if (item is NewReleaseInfoItemLinked) {
+                        body.setUrl(item.body, item.linkifiedLabel, item.linkTarget)
+                    } else {
+                        body.text = item.body
+                    }
+                }
     }
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)

@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -23,7 +24,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
@@ -47,6 +47,7 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
 
     private lateinit var viewModel: HomeFragmentViewModel
 
@@ -61,7 +62,8 @@ class HomeFragmentTest : BaseUITest() {
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { homeItems } returns MutableLiveData(emptyList())
             every { popupEvents } returns SingleLiveEvent()
-            every { showPopUpsOrNavigate() } just Runs
+            every { showPopUps() } just Runs
+            every { restoreAppShortcuts() } just Runs
         }
 
         setupMockViewModel(
@@ -74,7 +76,6 @@ class HomeFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test
@@ -96,7 +97,8 @@ class HomeFragmentTest : BaseUITest() {
             submissionStateProvider = submissionStateProvider,
             cwaSettings = cwaSettings,
             statisticsProvider = statisticsProvider,
-            deadmanNotificationScheduler = deadmanNotificationScheduler
+            deadmanNotificationScheduler = deadmanNotificationScheduler,
+            appShortcutsHelper = appShortcutsHelper
         )
     )
 }

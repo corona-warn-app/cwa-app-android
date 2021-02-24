@@ -25,7 +25,8 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_level_calculation),
+class TestRiskLevelCalculationFragment :
+    Fragment(R.layout.fragment_test_risk_level_calculation),
     AutoInject {
     private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()
 

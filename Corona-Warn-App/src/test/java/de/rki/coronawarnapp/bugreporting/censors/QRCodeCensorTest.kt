@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
@@ -28,7 +27,6 @@ class QRCodeCensorTest : BaseTest() {
     @AfterEach
     fun teardown() {
         QRCodeCensor.lastGUID = null
-        clearAllMocks()
     }
 
     private fun createInstance() = QRCodeCensor()

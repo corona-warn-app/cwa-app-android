@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClas
 import de.rki.coronawarnapp.submission.SubmissionModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -46,7 +45,6 @@ class SubmissionApiV1Test : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
     }
 

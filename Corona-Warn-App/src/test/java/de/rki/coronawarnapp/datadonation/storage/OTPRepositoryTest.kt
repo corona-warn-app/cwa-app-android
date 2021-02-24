@@ -8,11 +8,9 @@ import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -27,11 +25,6 @@ class OTPRepositoryTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test
@@ -69,8 +62,7 @@ class OTPRepositoryTest : BaseTest() {
         settings.otpAuthorizationResult = OTPAuthorizationResult(
             UUID.randomUUID(),
             true,
-            Instant.now(),
-            false
+            Instant.now()
         )
 
         settings.otpAuthorizationResult shouldNotBe null
@@ -88,8 +80,7 @@ class OTPRepositoryTest : BaseTest() {
         OTPRepository(settings).otpAuthorizationResult = OTPAuthorizationResult(
             UUID.randomUUID(),
             true,
-            Instant.now(),
-            false
+            Instant.now()
         )
         settings.oneTimePassword shouldBe null
     }

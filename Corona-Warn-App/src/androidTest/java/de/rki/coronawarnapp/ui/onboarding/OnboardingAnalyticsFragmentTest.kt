@@ -13,7 +13,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
@@ -49,10 +48,12 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        coEvery { districts.loadDistricts() } returns listOf(Districts.District(
-            districtId = 11011004,
-            districtName = "SK Berlin Charlottenburg-Wilmersdorf"
-        ))
+        coEvery { districts.loadDistricts() } returns listOf(
+            Districts.District(
+                districtId = 11011004,
+                districtName = "SK Berlin Charlottenburg-Wilmersdorf"
+            )
+        )
 
         viewModel = onboardingAnalyticsViewModelSpy()
         with(viewModel) {
@@ -80,7 +81,6 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

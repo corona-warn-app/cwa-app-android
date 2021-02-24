@@ -44,9 +44,10 @@ class ContactDiaryOverviewAdapter(
                 contactDiaryOverviewNestedRecyclerView.suppressLayout(true)
                 contactDiaryOverviewElementBody.setOnClickListener { onItemSelectionListener(item) }
 
+                contactDiaryOverviewElementBody.contentDescription = dateFormatterForAccessibility(item.date)
+
                 contactDiaryOverviewElementName.apply {
                     text = dateFormatter(item.date)
-                    contentDescription = dateFormatterForAccessibility(item.date)
                 }
 
                 contactDiaryOverviewNestedElementGroup.isGone = item.data.isEmpty()
@@ -56,8 +57,15 @@ class ContactDiaryOverviewAdapter(
                     item.risk?.let {
                         this.contactDiaryOverviewRiskItem.isGone = false
                         this.contactDiaryOverviewItemRiskTitle.text = context.getString(it.title)
-                        this.contactDiaryOverviewItemRiskBody.text = context.getString(it.body)
                         this.contactDiaryOverviewRiskItemImage.setImageResource(it.drawableId)
+
+                        val sb = StringBuilder().append(context.getString(it.body))
+
+                        it.bodyExtended?.let { extend ->
+                            sb.appendLine().append(context.getString(extend))
+                        }
+
+                        this.contactDiaryOverviewItemRiskBody.text = sb
                     } ?: run { this.contactDiaryOverviewRiskItem.isGone = true }
                 }
             }

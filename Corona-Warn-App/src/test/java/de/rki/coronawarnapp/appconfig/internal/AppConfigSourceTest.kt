@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.coVerifySequence
@@ -22,7 +21,6 @@ import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -88,11 +86,6 @@ class AppConfigSourceTest : BaseTest() {
         every { cwaSettings.lastDeviceTimeStateChangeAt = any() } just Runs
         every { cwaSettings.lastDeviceTimeStateChangeState } returns ConfigData.DeviceTimeState.INCORRECT
         every { cwaSettings.lastDeviceTimeStateChangeState = any() } just Runs
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = AppConfigSource(

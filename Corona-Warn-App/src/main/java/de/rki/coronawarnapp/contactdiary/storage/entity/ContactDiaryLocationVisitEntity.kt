@@ -6,6 +6,8 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
+import de.rki.coronawarnapp.util.trimToLength
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 @Entity(
@@ -25,8 +27,16 @@ import org.joda.time.LocalDate
 data class ContactDiaryLocationVisitEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0L,
     @ColumnInfo(name = "date") val date: LocalDate,
-    @ColumnInfo(name = "fkLocationId") val fkLocationId: Long
+    @ColumnInfo(name = "fkLocationId") val fkLocationId: Long,
+    @ColumnInfo(name = "duration") val duration: Duration?,
+    @ColumnInfo(name = "circumstances") val circumstances: String?
 )
 
 fun ContactDiaryLocationVisit.toContactDiaryLocationVisitEntity(): ContactDiaryLocationVisitEntity =
-    ContactDiaryLocationVisitEntity(id = this.id, date = this.date, fkLocationId = this.contactDiaryLocation.locationId)
+    ContactDiaryLocationVisitEntity(
+        id = this.id,
+        date = this.date,
+        fkLocationId = this.contactDiaryLocation.locationId,
+        duration = this.duration,
+        circumstances = this.circumstances?.trimToLength(250)
+    )

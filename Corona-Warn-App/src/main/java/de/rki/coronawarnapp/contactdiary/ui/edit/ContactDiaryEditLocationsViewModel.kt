@@ -47,7 +47,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     }
 
     fun onEditLocationClick(location: ContactDiaryLocation) {
-        navigationEvent.postValue(NavigationEvent.ShowLocationDetailSheet(location.toContactDiaryLocationEntity()))
+        navigationEvent.postValue(NavigationEvent.ShowLocationDetailFragment(location.toContactDiaryLocationEntity()))
     }
 
     @AssistedFactory
@@ -55,7 +55,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
 
     sealed class NavigationEvent {
         object ShowDeletionConfirmationDialog : NavigationEvent()
-        data class ShowLocationDetailSheet(val location: ContactDiaryLocationEntity) : NavigationEvent()
+        data class ShowLocationDetailFragment(val location: ContactDiaryLocationEntity) : NavigationEvent()
     }
 }
 

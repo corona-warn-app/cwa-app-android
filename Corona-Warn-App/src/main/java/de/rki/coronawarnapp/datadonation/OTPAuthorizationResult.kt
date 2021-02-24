@@ -14,8 +14,8 @@ data class OTPAuthorizationResult(
     @SerializedName("redeemedAt")
     val redeemedAt: Instant,
     @SerializedName("invalidated")
-    val invalidated: Boolean
+    val invalidated: Boolean = false
 ) {
 
-    fun toInvalidatedInstance() = OTPAuthorizationResult(uuid, authorized, redeemedAt, true)
+    fun toInvalidatedInstance() = copy(invalidated = true)
 }

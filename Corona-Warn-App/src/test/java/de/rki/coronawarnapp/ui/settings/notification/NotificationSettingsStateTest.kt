@@ -7,13 +7,11 @@ import de.rki.coronawarnapp.util.ContextExtensions
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -31,11 +29,6 @@ class NotificationSettingsStateTest : BaseTest() {
             every { getColor(any()) } returns 0
             every { getDrawableCompat(any()) } returns mockk()
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(

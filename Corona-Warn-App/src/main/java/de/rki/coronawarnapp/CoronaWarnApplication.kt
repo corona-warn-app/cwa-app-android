@@ -92,7 +92,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 deadmanNotificationScheduler.schedulePeriodic()
             }
             contactDiaryWorkScheduler.schedulePeriodic()
-            dataDonationAnalyticsScheduler.schedulePeriodic()
         }
 
         deviceTimeHandler.launch()
