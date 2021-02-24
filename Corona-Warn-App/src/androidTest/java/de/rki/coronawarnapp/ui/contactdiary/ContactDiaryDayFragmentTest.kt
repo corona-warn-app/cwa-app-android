@@ -24,6 +24,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -128,14 +129,16 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
         personListViewModel = spyk(
             ContactDiaryPersonListViewModel(
                 TestDispatcherProvider(),
+                TestCoroutineScope(),
                 selectedDay,
-                contactDiaryRepository
+                contactDiaryRepository,
             )
         )
 
         locationListViewModel = spyk(
             ContactDiaryLocationListViewModel(
                 TestDispatcherProvider(),
+                TestCoroutineScope(),
                 selectedDay,
                 contactDiaryRepository
             )
