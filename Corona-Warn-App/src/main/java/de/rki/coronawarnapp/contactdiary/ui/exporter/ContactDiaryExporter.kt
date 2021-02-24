@@ -122,9 +122,13 @@ class ContactDiaryExporter @Inject constructor(
 
     private fun getDateAndNameString(name: String, date: LocalDate) = "${date.toFormattedString()} $name"
 
-    private fun getPhoneWithPrefix(phone: String) = "$prefixPhone $phone"
+    private fun getPhoneWithPrefix(phone: String) = if (phone.isNotBlank()) {
+        "$prefixPhone $phone"
+    } else null
 
-    private fun getEMailWithPrefix(eMail: String) = "$prefixEMail $eMail"
+    private fun getEMailWithPrefix(eMail: String) = if (eMail.isNotBlank()) {
+        "$prefixEMail $eMail"
+    } else null
 
     private fun getDurationClassificationString(duration: ContactDiaryPersonEncounter.DurationClassification) =
         when (duration) {
