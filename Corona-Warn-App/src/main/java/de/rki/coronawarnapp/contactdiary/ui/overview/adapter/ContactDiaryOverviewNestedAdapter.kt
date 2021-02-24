@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
 import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
@@ -48,7 +49,12 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
 
         private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String =
             mutableListOf<String>().apply {
-                duration?.run { add(toStandardHours().toString()) }
+                duration?.run {
+                    if (duration != Duration.ZERO) {
+                        val durationSuffix = context.getString(R.string.contact_diary_overview_location_duration_suffix)
+                        add(toReadableDuration(durationSuffix))
+                    }
+                }
                 resources?.run { forEach { add(context.getString(it)) } }
                 circumstances?.run { add(this) }
             }.filter { it.isNotEmpty() }.joinToString()

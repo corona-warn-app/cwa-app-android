@@ -115,6 +115,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
 
     private fun newInstance() =
         AnalyticsExposureWindowRepository(
-            databaseFactory, timeStamper
+            databaseFactory,
+            timeStamper
         )
 }

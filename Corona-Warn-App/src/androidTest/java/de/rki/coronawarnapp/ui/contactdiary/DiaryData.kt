@@ -85,7 +85,8 @@ object DiaryData {
             onItemClick = {},
             onDurationChanged = { _, _ -> },
             onCircumstancesChanged = { _, _ -> },
-            onCircumStanceInfoClicked = {}
+            onCircumStanceInfoClicked = {},
+            onDurationDialog = { _, _ -> }
         ),
         DiaryLocationListItem(
             item = DefaultContactDiaryLocation(locationName = "Büro"),
@@ -96,7 +97,8 @@ object DiaryData {
             onItemClick = {},
             onDurationChanged = { _, _ -> },
             onCircumstancesChanged = { _, _ -> },
-            onCircumStanceInfoClicked = {}
+            onCircumStanceInfoClicked = {},
+            onDurationDialog = { _, _ -> }
         ),
         DiaryLocationListItem(
             item = DefaultContactDiaryLocation(locationName = "Supermarkt"),
@@ -104,7 +106,8 @@ object DiaryData {
             onItemClick = {},
             onDurationChanged = { _, _ -> },
             onCircumstancesChanged = { _, _ -> },
-            onCircumStanceInfoClicked = {}
+            onCircumStanceInfoClicked = {},
+            onDurationDialog = { _, _ -> }
         )
     )
 

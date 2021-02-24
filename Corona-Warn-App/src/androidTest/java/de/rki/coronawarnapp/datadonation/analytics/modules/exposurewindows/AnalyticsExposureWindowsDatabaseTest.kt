@@ -29,7 +29,7 @@ class AnalyticsExposureWindowsDatabaseTest : BaseTestInstrumentation() {
 
     @Test
     fun testMoveToReportedAndRollback() = runBlocking {
-        //insert new
+        // insert new
         val exposureWindowEntity = AnalyticsExposureWindowEntity("hash", 1, 1, 1, 1, 1.0, 1)
         val scanInstance = AnalyticsScanInstanceEntity(null, "hash", 1, 1, 1)
         val wrapper = AnalyticsExposureWindowEntityWrapper(exposureWindowEntity, listOf(scanInstance))
@@ -44,7 +44,7 @@ class AnalyticsExposureWindowsDatabaseTest : BaseTestInstrumentation() {
         val reported = dao.getReported("hash")
         reported!!.sha256Hash shouldBe "hash"
 
-        //rollback
+        // rollback
         dao.rollback(listOf(wrapper), listOf(reported))
         val allNew2 = dao.getAllNew()
         allNew2.size shouldBe 1
@@ -54,7 +54,7 @@ class AnalyticsExposureWindowsDatabaseTest : BaseTestInstrumentation() {
 
     @Test
     fun testDeleteStaleReported() = runBlocking {
-        //insert new
+        // insert new
         val exposureWindowEntity = AnalyticsExposureWindowEntity("hash", 1, 1, 1, 1, 1.0, 1)
         val scanInstance = AnalyticsScanInstanceEntity(null, "hash", 1, 1, 1)
         val wrapper = AnalyticsExposureWindowEntityWrapper(exposureWindowEntity, listOf(scanInstance))
@@ -67,7 +67,7 @@ class AnalyticsExposureWindowsDatabaseTest : BaseTestInstrumentation() {
         dao.moveToReported(listOf(wrapper), 999990)
         dao.moveToReported(listOf(wrapper2), 999999)
 
-        //delete stale
+        // delete stale
         dao.deleteReportedOlderThan(999999)
         dao.getReported("hash") shouldBe null
         dao.getReported("hash2")!!.sha256Hash shouldBe "hash2"
