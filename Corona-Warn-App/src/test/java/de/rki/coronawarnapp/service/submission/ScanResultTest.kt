@@ -7,8 +7,9 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class ScanResultTest {
+class ScanResultTest : BaseTest() {
     private val guidUpperCase = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val guidLowerCase = "123456-12345678-1234-4da7-b166-b86d85475064"
     private val guidMixedCase = "123456-12345678-1234-4dA7-b166-B86d85475064"

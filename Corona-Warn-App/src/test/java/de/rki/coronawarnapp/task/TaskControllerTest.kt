@@ -21,7 +21,6 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -87,7 +86,6 @@ class TaskControllerTest : BaseIOTest() {
     @AfterEach
     fun teardown() {
         taskFactoryMap.clear()
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

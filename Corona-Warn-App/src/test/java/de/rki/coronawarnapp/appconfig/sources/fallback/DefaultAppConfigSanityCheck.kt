@@ -10,8 +10,6 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,11 +28,6 @@ class DefaultAppConfigSanityCheck : BaseTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @After
-    fun teardown() {
-        clearAllMocks()
     }
 
     val context: Context

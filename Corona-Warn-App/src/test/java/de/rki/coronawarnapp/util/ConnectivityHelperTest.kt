@@ -11,16 +11,15 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.unmockkAll
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
 /**
  * ConnectivityHelper test.
  */
-class ConnectivityHelperTest {
+class ConnectivityHelperTest : BaseTest() {
 
     @MockK private lateinit var context: Context
 
@@ -75,10 +74,5 @@ class ConnectivityHelperTest {
         // unregister
         ConnectivityHelper.unregisterNetworkStatusCallback(context, callback)
         assertEquals(registered, false)
-    }
-
-    @After
-    fun cleanUp() {
-        unmockkAll()
     }
 }

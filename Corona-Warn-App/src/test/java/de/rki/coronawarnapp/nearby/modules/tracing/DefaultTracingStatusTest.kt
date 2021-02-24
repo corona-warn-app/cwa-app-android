@@ -4,7 +4,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -13,7 +12,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -30,11 +28,6 @@ class DefaultTracingStatusTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { client.isEnabled } answers { MockGMSTask.forValue(true) }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(scope: CoroutineScope): DefaultTracingStatus = DefaultTracingStatus(
