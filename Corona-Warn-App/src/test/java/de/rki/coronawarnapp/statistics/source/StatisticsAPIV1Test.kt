@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.statistics.StatisticsModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
@@ -36,7 +35,6 @@ class StatisticsAPIV1Test : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         webServer.shutdown()
         testDir.deleteRecursively()
     }

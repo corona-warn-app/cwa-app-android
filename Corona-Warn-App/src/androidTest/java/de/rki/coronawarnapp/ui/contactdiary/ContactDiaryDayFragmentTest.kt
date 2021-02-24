@@ -24,7 +24,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -78,7 +77,6 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test

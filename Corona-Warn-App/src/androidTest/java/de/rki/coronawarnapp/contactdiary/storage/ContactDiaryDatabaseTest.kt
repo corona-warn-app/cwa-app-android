@@ -19,10 +19,10 @@ import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 
 @RunWith(AndroidJUnit4::class)
-class ContactDiaryDatabaseTest : BaseTest() {
+class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
 
     // TestData
     private val date = LocalDate.now()

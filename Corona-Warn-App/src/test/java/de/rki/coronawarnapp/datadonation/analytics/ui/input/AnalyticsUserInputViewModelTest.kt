@@ -8,13 +8,11 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAAgeGroup
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAFederalState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -46,11 +44,6 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
         every { analyticsSettings.userInfoDistrict } returns userInfoDistrict
 
         coEvery { districtsSource.loadDistricts() } returns emptyList()
-    }
-
-    @AfterEach
-    fun tearDown() {
-        clearAllMocks()
     }
 
     fun createInstance(

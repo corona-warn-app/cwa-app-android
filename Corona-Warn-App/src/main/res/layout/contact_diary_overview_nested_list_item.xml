@@ -20,10 +20,9 @@
         android:importantForAccessibility="no"
         android:scaleType="centerInside"
         android:src="@drawable/ic_contact_diary_person_item"
-        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_name"
+        app:layout_constraintBaseline_toBaselineOf="@id/contact_diary_overview_element_name"
         app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_element_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/contact_diary_overview_element_name" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/contact_diary_overview_element_name"
@@ -35,9 +34,10 @@
         android:ellipsize="end"
         android:focusable="true"
         android:maxLines="3"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_diary_overview_element_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_element_image"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/contact_diary_overview_element_image"
         tools:text="Andrea Steinhauer" />
 
     <TextView

@@ -4,17 +4,15 @@ import android.content.Context
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.task.TaskController
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
-class TestForApiFragmentViewModelTest : BaseTest() {
+class TestForApiFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var context: Context
     @MockK lateinit var taskController: TaskController
@@ -24,10 +22,5 @@ class TestForApiFragmentViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 }

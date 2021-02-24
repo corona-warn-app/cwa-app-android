@@ -21,11 +21,11 @@ import org.joda.time.LocalDate
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.BaseTest
+import testhelpers.BaseTestInstrumentation
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class ContactDiaryDatabaseMigrationTest : BaseTest() {
+class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
     private val DB_NAME = "contactdiary_migration_test.db"
 
     @get:Rule

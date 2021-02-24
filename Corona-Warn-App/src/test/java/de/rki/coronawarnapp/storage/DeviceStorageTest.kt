@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.storage.StatsFsProvider
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -71,8 +70,6 @@ class DeviceStorageTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
-
         privateDataDir.deleteRecursively()
     }
 
