@@ -52,7 +52,7 @@ class ContactDiaryOverviewNestedAdapter : BaseAdapter<ContactDiaryOverviewNested
                 duration?.run {
                     if (duration != Duration.ZERO) {
                         val durationSuffix = context.getString(R.string.contact_diary_overview_location_duration_suffix)
-                        add(toReadableDuration(durationSuffix))
+                        add(toReadableDuration(suffix = durationSuffix))
                     }
                 }
                 resources?.run { forEach { add(context.getString(it)) } }
