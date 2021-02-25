@@ -8,12 +8,7 @@ message EventRegistrationParameters {
 
   // Note: this is very much work in progress!
 
-  repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 1;
+  // repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 1;
 
-  repeated NormalizedTimeToRiskLevelMapping normalizedTimePerCheckInToRiskLevelMapping = 2;
+  // repeated NormalizedTimeToRiskLevelMapping normalizedTimePerCheckInToRiskLevelMapping = 2;
 }
-
-message TransmissionRiskValueMapping {
-  int32 transmissionRiskLevel = 1;
-  double transmissionRiskValue = 2;
-} 

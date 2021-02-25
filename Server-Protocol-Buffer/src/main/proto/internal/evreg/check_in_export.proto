@@ -6,7 +6,14 @@ package de.rki.coronawarnapp.server.protocols.internal.evreg;
 import "internal/evreg/check_in.proto";
 
 message CheckInExport {
-  repeated CheckIn checkIns = 1;
+  repeated CheckInExportItem checkIns = 1;
+}
+
+message CheckInExportItem {
+  uint32 trl = 1;
+  bytes eventKey = 2; // 16 byte random string
+  uint32 checkinTime = 3; 
+  uint32 checkoutTime = 4; 
 }
 
 message CheckInExportOption1 {
@@ -20,3 +27,4 @@ message CheckInExportOption2 {
 message CheckInExportOption3 {
   repeated CheckInOption3 checkIns = 1;
 }
+
