@@ -37,7 +37,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { context.getString(any(), *anyVararg()) } returns ""
+        every { context.getString(any()) } returns ""
 
         every { analyticsSettings.userInfoAgeGroup } returns userInfoAgeGroup
         every { analyticsSettings.userInfoFederalState } returns userInfoFederalState
