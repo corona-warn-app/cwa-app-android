@@ -92,12 +92,7 @@ class AnalyticsSettings @Inject constructor(
 
     val lastOnboardingVersionCode = prefs.createFlowPreference(
         key = PKEY_ONBOARDED_VERSION_CODE,
-        reader = { key ->
-            getLong(key, 0L)
-        },
-        writer = { key, value ->
-            putLong(key, value)
-        }
+        defaultValue = 0L
     )
 
     fun clear() = prefs.clearAndNotify()
