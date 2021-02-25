@@ -14,7 +14,10 @@ fun String.decodeBase32(): ByteString = BaseEncoding.base32().decode(this).toByt
  * Encodes [ByteString] into base32 [String]
  * @return [String]
  */
-fun ByteString.base32(): String = BaseEncoding.base32().encode(toByteArray())
+fun ByteString.base32(padding: Boolean = true): String = when {
+    padding -> BaseEncoding.base32().encode(toByteArray())
+    else -> BaseEncoding.base32().omitPadding().encode(toByteArray())
+}
 
 /**
  * Returns Base32 encoded string using [Charsets.UTF_8]

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.eventregistration
 
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.toByteString
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
@@ -17,6 +18,20 @@ class Base32Test : BaseTest() {
     @ArgumentsSource(WithPaddingTestProvider::class)
     fun `Encoding with base32WithPadding`(input: String, expected: String) {
         input.base32() shouldBe expected
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(NoPaddingTestProvider::class)
+    fun `Encoding ByteString with base32NoPadding`(input: String, expected: String) {
+        val byteString = input.toByteArray().toByteString()
+        byteString.base32(padding = false) shouldBe expected
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(WithPaddingTestProvider::class)
+    fun `Encoding ByteString with base32WithPadding`(input: String, expected: String) {
+        val byteString = input.toByteArray().toByteString()
+        byteString.base32() shouldBe expected
     }
 
     @ParameterizedTest

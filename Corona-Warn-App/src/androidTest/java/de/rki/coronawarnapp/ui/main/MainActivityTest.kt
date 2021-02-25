@@ -60,7 +60,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
-import okio.ByteString.Companion.toByteString
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
