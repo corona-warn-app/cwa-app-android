@@ -3,13 +3,16 @@ package de.rki.coronawarnapp.ui.launcher
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.preferences.EncryptedPreferencesMigration
 import de.rki.coronawarnapp.update.UpdateChecker
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
@@ -26,10 +29,13 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var updateChecker: UpdateChecker
     @MockK lateinit var cwaSettings: CWASettings
+    @MockK lateinit var encryptedPreferencesMigration: EncryptedPreferencesMigration
 
     @BeforeEach
     fun setupFreshViewModel() {
         MockKAnnotations.init(this)
+
+        every { encryptedPreferencesMigration.migrate() } just Runs
 
         mockkObject(LocalData)
         every { LocalData.isOnboarded() } returns false
@@ -43,7 +49,8 @@ class LauncherActivityViewModelTest : BaseTest() {
     private fun createViewModel() = LauncherActivityViewModel(
         updateChecker = updateChecker,
         dispatcherProvider = TestDispatcherProvider(),
-        cwaSettings = cwaSettings
+        cwaSettings = cwaSettings,
+        encryptedPreferencesMigration = encryptedPreferencesMigration
     )
 
     @Test

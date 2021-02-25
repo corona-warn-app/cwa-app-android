@@ -48,7 +48,7 @@ class NotificationsSettingsTest : BaseTest() {
     private fun createInstance() = NotificationSettings(
         foregroundState = foregroundState,
         notificationManagerCompat = notificationManagerCompat,
-        settingsData = settingsPreferences
+        settingsPreferences = settingsPreferences
     )
 
     @Test

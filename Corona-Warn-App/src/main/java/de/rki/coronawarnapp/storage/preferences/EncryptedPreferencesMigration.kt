@@ -13,8 +13,8 @@ class EncryptedPreferencesMigration @Inject constructor(
     fun migrate() {
         Timber.d("EncryptedPreferencesMigration START")
         if (encryptedSettingsPreferences.containsData()) {
+            Timber.d("EncryptedPreferencesMigration encryptedSettingsData")
             settingsPreferences.isNotificationsRiskEnabled = encryptedSettingsPreferences.isNotificationsRiskEnabled
-            Timber.d("EncryptedPreferencesMigration encryptedSettingsData.isNotificationsRiskEnabled(${encryptedSettingsPreferences.isNotificationsRiskEnabled}) > settingsData.isNotificationsRiskEnabled(${settingsPreferences.isNotificationsRiskEnabled})")
             encryptedSettingsPreferences.clear()
         }
         Timber.d("EncryptedPreferencesMigration END")
