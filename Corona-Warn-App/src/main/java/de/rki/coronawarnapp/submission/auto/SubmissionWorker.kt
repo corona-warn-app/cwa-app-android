@@ -6,7 +6,6 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.task.SubmissionTask
@@ -20,8 +19,7 @@ import timber.log.Timber
 class SubmissionWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val taskController: TaskController,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val taskController: TaskController
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = try {
@@ -38,7 +36,6 @@ class SubmissionWorker @AssistedInject constructor(
         result.error?.let { throw it }
 
         Timber.tag(TAG).d("Submission task completed with: %s", result.result)
-        analyticsKeySubmissionCollector.reportSubmittedInBackground()
         Result.success()
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "TEK submission failed.")

@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.datadonation.analytics.common
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.risk.RiskLevelResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 
 val PpaData.PPAAgeGroup.labelStringRes: Int
@@ -64,3 +66,10 @@ val PpaData.PPAFederalState.federalStateShortName: String
             "PpaData.PPAFederalState.UNRECOGNIZED has no short name"
         )
     }
+
+fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
+    when (riskState) {
+        RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        else -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
+    }
+

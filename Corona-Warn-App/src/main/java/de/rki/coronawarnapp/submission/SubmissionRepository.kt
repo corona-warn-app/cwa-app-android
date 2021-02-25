@@ -128,6 +128,7 @@ class SubmissionRepository @Inject constructor(
         BackgroundNoise.getInstance().scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
+
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
@@ -181,6 +182,7 @@ class SubmissionRepository @Inject constructor(
     fun removeTestFromDevice() {
         submissionSettings.hasViewedTestResult.update { false }
         submissionSettings.hasGivenConsent.update { false }
+        analyticsKeySubmissionCollector.reset()
         revokeConsentToSubmission()
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)

@@ -63,6 +63,11 @@ class AnalyticsKeySubmissionStorage @Inject constructor(
         defaultValue = -1
     )
 
+    val hoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
+        key = "analytics_key_submission_hoursSinceHighRiskWarningAtTestRegistration",
+        defaultValue = -1
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }

@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -49,6 +50,10 @@ class SubmissionTask @Inject constructor(
         try {
             Timber.tag(TAG).d("Running with arguments=%s", arguments)
             arguments as Arguments
+
+            if (arguments.checkUserActivity && submissionSettings.lastSubmissionUserActivityUTC.value == Instant.EPOCH) {
+                analyticsKeySubmissionCollector.reportSubmittedInBackground()
+            }
 
             if (arguments.checkUserActivity && hasRecentUserActivity()) {
                 Timber.tag(TAG).w("User has recently been active in submission, skipping submission.")
