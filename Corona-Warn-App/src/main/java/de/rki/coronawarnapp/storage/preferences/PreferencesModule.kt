@@ -5,9 +5,9 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.di.EncryptedPreferences
+import de.rki.coronawarnapp.util.di.Preferences
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import java.lang.annotation.Documented
-import javax.inject.Qualifier
 
 @Module
 class PreferencesModule {
@@ -17,24 +17,16 @@ class PreferencesModule {
         context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     @Provides
-    @Named(PREFERENCES_NAME)
-    fun provideSettingsData(preferences: SharedPreferences): SettingsData =
-        SettingsData(preferences)
+    @Preferences
+    fun provideSettingsData(preferences: SharedPreferences): SettingsPreferences =
+        SettingsPreferences(preferences)
 
     @Provides
-    @Named(ENCRYPTED_PREFERENCES_NAME)
-    fun provideSettingsDataEncrypted(): SettingsData =
-        SettingsData(SecurityHelper.globalEncryptedSharedPreferencesInstance)
+    @EncryptedPreferences
+    fun provideSettingsDataEncrypted(): SettingsPreferences =
+        SettingsPreferences(SecurityHelper.globalEncryptedSharedPreferencesInstance)
 
     companion object {
-        const val SHARED_PREFERENCES_NAME = "shared_preferences"
-        const val ENCRYPTED_PREFERENCES_NAME = "encrypted_preferences"
-        const val PREFERENCES_NAME = "preferences"
+        private const val SHARED_PREFERENCES_NAME = "shared_preferences"
     }
 }
-
-@Qualifier
-@Documented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Named(val value: String = "")
-

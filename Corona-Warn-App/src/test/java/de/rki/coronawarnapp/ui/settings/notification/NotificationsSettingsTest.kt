@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.settings.notification
 
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.preferences.SettingsData
+import de.rki.coronawarnapp.storage.preferences.SettingsPreferences
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
@@ -26,16 +26,16 @@ class NotificationsSettingsTest : BaseTest() {
 
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
-    @MockK lateinit var settingsData: SettingsData
+    @MockK lateinit var settingsPreferences: SettingsPreferences
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         mockkObject(LocalData)
 
-        every { settingsData.isNotificationsRiskEnabledFlow } returns flow { emit(true) }
-        every { settingsData.isNotificationsRiskEnabled = any() } just Runs
-        every { settingsData.isNotificationsRiskEnabled } returns true
+        every { settingsPreferences.isNotificationsRiskEnabledFlow } returns flow { emit(true) }
+        every { settingsPreferences.isNotificationsRiskEnabled = any() } just Runs
+        every { settingsPreferences.isNotificationsRiskEnabled } returns true
 
         every { LocalData.isNotificationsTestEnabledFlow } returns flow { emit(true) }
         every { LocalData.isNotificationsTestEnabled = any() } just Runs
@@ -48,7 +48,7 @@ class NotificationsSettingsTest : BaseTest() {
     private fun createInstance() = NotificationSettings(
         foregroundState = foregroundState,
         notificationManagerCompat = notificationManagerCompat,
-        settingsData = settingsData
+        settingsData = settingsPreferences
     )
 
     @Test
@@ -79,7 +79,7 @@ class NotificationsSettingsTest : BaseTest() {
     @Test
     fun toggleNotificationsRiskEnabled() {
         createInstance().toggleNotificationsRiskEnabled()
-        verify { settingsData.isNotificationsRiskEnabled = false }
+        verify { settingsPreferences.isNotificationsRiskEnabled = false }
     }
 
     @Test

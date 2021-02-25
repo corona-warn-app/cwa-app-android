@@ -4,11 +4,8 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
 
-class SettingsData constructor(
-    private val sharedPreferences: SharedPreferences
-) {
+class SettingsPreferences(private val sharedPreferences: SharedPreferences) {
 
     private val isNotificationsRiskEnabledFlowInternal by lazy {
         MutableStateFlow(isNotificationsRiskEnabled)
