@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.ui.exporter
 
 import android.content.Context
+import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
@@ -13,9 +14,8 @@ import org.joda.time.Duration
 import org.joda.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class ContactDiaryExporter @Inject constructor(
     @AppContext private val context: Context,
     private val timeStamper: TimeStamper,
