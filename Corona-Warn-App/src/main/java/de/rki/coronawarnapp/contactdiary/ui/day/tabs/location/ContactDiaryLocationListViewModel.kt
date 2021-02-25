@@ -9,24 +9,33 @@ import de.rki.coronawarnapp.contactdiary.model.toEditableVariant
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.trimToLength
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
-    dispatcherProvider: DispatcherProvider,
+    val dispatcherProvider: DispatcherProvider,
+    @AppScope val appScope: CoroutineScope,
     @Assisted selectedDay: String,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
         ex.report(ExceptionCategory.INTERNAL, TAG)
     }
+
+    val openCommentInfo = SingleLiveEvent<Unit>()
+    val openDialog = SingleLiveEvent<String>()
+    private var currentLocation: DiaryLocationListItem? = null
 
     private val localDate = LocalDate.parse(selectedDay)
 
@@ -49,13 +58,16 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
                     onCircumstancesChanged(item, circumstances)
                 },
                 onCircumStanceInfoClicked = {
-                    // TODO
+                    openCommentInfo.postValue(Unit)
+                },
+                onDurationDialog = { item, durationString ->
+                    onDurationDialog(item, durationString)
                 }
             )
         }
     }.asLiveData()
 
-    private fun onLocationSelectionChanged(item: DiaryLocationListItem) = launch(coroutineExceptionHandler) {
+    private fun onLocationSelectionChanged(item: DiaryLocationListItem) = launchOnAppScope {
         if (!item.selected) {
             contactDiaryRepository.addLocationVisit(
                 DefaultContactDiaryLocationVisit(
@@ -71,12 +83,24 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
         }
     }
 
+    private fun onDurationDialog(
+        listItem: DiaryLocationListItem,
+        durationString: String
+    ) {
+        currentLocation = listItem
+        openDialog.postValue(durationString)
+    }
+
+    fun onDurationSelected(duration: Duration) {
+        currentLocation?.let { onDurationChanged(it, duration) }
+    }
+
     private fun onDurationChanged(
         item: DiaryLocationListItem,
         duration: Duration?
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
-        launch {
+        launchOnAppScope {
             contactDiaryRepository.updateLocationVisit(visit.copy(duration = duration))
         }
     }
@@ -87,10 +111,16 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
     ) {
         val visit = item.visit?.toEditableVariant() ?: return
         val sanitized = circumstances.trim().trimToLength(250)
-        launch {
+        launchOnAppScope {
             contactDiaryRepository.updateLocationVisit(visit.copy(circumstances = sanitized))
         }
     }
+
+    // Viewmodel may be cancelled before the data is saved
+    private fun launchOnAppScope(block: suspend CoroutineScope.() -> Unit) =
+        appScope.launch(coroutineExceptionHandler) {
+            block()
+        }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<ContactDiaryLocationListViewModel> {
