@@ -1,16 +1,21 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
+import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.contactdiary.util.ContactDiaryData
+import de.rki.coronawarnapp.contactdiary.util.mockStringsForContactDiaryExporterTests
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
@@ -22,6 +27,7 @@ import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
+import testhelpers.extensions.observeForTesting
 
 @ExtendWith(InstantExecutorExtension::class)
 open class ContactDiaryOverviewViewModelTest {
@@ -36,6 +43,9 @@ open class ContactDiaryOverviewViewModelTest {
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var context: Context
+
     private val testDispatcherProvider = TestDispatcherProvider()
     private val date = LocalDate.now()
     private val dateMillis = date.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
@@ -48,6 +58,9 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.locationVisits } returns flowOf(emptyList())
         every { contactDiaryRepository.personEncounters } returns flowOf(emptyList())
         every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(emptyList())
+
+        mockStringsForContactDiaryExporterTests(context)
+        every { timeStamper.nowUTC } returns Instant.now()
     }
 
     private val person = DefaultContactDiaryPerson(123, "Romeo")
@@ -80,7 +93,13 @@ open class ContactDiaryOverviewViewModelTest {
         taskController = taskController,
         dispatcherProvider = testDispatcherProvider,
         contactDiaryRepository = contactDiaryRepository,
-        riskLevelStorage = riskLevelStorage
+        riskLevelStorage = riskLevelStorage,
+        timeStamper,
+        ContactDiaryExporter(
+            context,
+            timeStamper,
+            testDispatcherProvider
+        )
     )
 
     @Test
@@ -250,6 +269,32 @@ open class ContactDiaryOverviewViewModelTest {
                 dueToLowEncounters = true,
                 hasPersonOrLocation = false
             )
+        }
+    }
+
+    @Test
+    fun `onExportPress() should post export`() {
+        // In this test, now = January, 15
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
+
+        every { contactDiaryRepository.personEncounters } returns flowOf(ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL)
+        every { contactDiaryRepository.locationVisits } answers { flowOf(ContactDiaryData.TWO_LOCATIONS_WITH_DURATION) }
+
+        val vm = createInstance()
+
+        vm.onExportPress()
+
+        vm.exportLocationsAndPersons.observeForTesting {
+            vm.exportLocationsAndPersons.value shouldBe """
+                Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
+                Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
+
+                02.01.2021 Constantin Frenzel; Tel. +49 987 654321; eMail constantin.frenzel@example.com
+                02.01.2021 Barber; Dauer 01:45 h
+                01.01.2021 Andrea Steinhauer; Tel. +49 123 456789; eMail andrea.steinhauer@example.com
+                01.01.2021 Bakery; Dauer 00:15 h
+                
+            """.trimIndent()
         }
     }
 

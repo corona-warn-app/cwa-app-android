@@ -34,7 +34,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
-    val showKeyRetrievalProgress = SingleLiveEvent<Boolean>()
+    val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
@@ -48,26 +48,29 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
                 )
 
-                showKeyRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onTEKPermissionDeclined() {
+                Timber.d("onTEKPermissionDeclined")
                 analyticsKeySubmissionCollector.reportConsentWithdrawn()
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
                 )
-                showKeyRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                Timber.d("onTracingConsentRequired")
                 showTracingConsentDialog.postValue(onConsentResult)
-                showKeyRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                Timber.d("onPermissionRequired")
                 showPermissionRequest.postValue(permissionRequest)
-                showKeyRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
 
             override fun onError(error: Throwable) {
@@ -76,7 +79,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
                     prefix = "SubmissionTestResultAvailableViewModel"
                 )
-                showKeyRetrievalProgress.postValue(false)
+                showKeysRetrievalProgress.postValue(false)
             }
         }
     )
@@ -106,11 +109,14 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun proceed() {
-        showKeyRetrievalProgress.value = true
+        showKeysRetrievalProgress.value = true
         launch {
             if (consentFlow.first()) {
+                Timber.d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission")
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
+                Timber.d("routeToScreen:SubmissionTestResultNoConsentFragment")
+                showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
@@ -120,7 +126,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        showKeyRetrievalProgress.value = true
+        showKeysRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 

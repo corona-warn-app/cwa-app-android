@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata.Client
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
 import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsSubmissionLogger
@@ -41,17 +42,14 @@ class AnalyticsModule {
             .create(DataDonationAnalyticsApiV1::class.java)
     }
 
-    //    Add these back later when they actually collect data
-//
-//    @IntoSet
-//    @Provides
-//    fun newExposureWindows(module: NewExposureWindowsDonor): DonorModule = module
-//
+    @IntoSet
+    @Provides
+    fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
+
     @IntoSet
     @Provides
     fun keySubmission(module: AnalyticsKeySubmissionDonor): DonorModule = module
 
-    //
     @IntoSet
     @Provides
     fun registeredTest(module: TestResultDonor): DonorModule = module

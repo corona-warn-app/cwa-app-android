@@ -52,7 +52,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             doNavigate(it)
         }
 
-        viewModel.keysRetrievalProgress.observe2(this) { show ->
+        viewModel.showKeysRetrievalProgress.observe2(this) { show ->
             keysRetrievalProgress.setState(show)
             binding.submissionPositiveOtherWarningNoConsentButtonNext.isEnabled = !show
         }
