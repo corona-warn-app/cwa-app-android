@@ -1,21 +1,21 @@
 package de.rki.coronawarnapp.contactdiary.ui.exporter
 
 import android.content.Context
+import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.withContext
-import org.joda.time.Duration
 import org.joda.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class ContactDiaryExporter @Inject constructor(
     @AppContext private val context: Context,
     private val timeStamper: TimeStamper,
@@ -101,7 +101,7 @@ class ContactDiaryExporter @Inject constructor(
     private fun getStringToSortBy(name: String) = name.toLowerCase(Locale.ROOT)
 
     private fun ContactDiaryPersonEncounter.getExportInfo(date: LocalDate) = listOfNotNull(
-        getDateAndNameString(contactDiaryPerson.fullName, date),
+        date.toFormattedStringWithName(contactDiaryPerson.fullName),
         contactDiaryPerson.phoneNumber?.let { getPhoneWithPrefix(it) },
         contactDiaryPerson.emailAddress?.let { getEMailWithPrefix(it) },
         durationClassification?.let { getDurationClassificationString(it) },
@@ -112,15 +112,15 @@ class ContactDiaryExporter @Inject constructor(
 
     private fun ContactDiaryLocationVisit.getExportInfo(date: LocalDate): String {
         return listOfNotNull(
-            getDateAndNameString(contactDiaryLocation.locationName, date),
+            date.toFormattedStringWithName(contactDiaryLocation.locationName),
             contactDiaryLocation.phoneNumber?.let { getPhoneWithPrefix(it) },
             contactDiaryLocation.emailAddress?.let { getEMailWithPrefix(it) },
-            getReadableDuration(duration),
+            duration?.toReadableDuration(durationPrefix, durationSuffix),
             circumstances
         ).joinToString(separator = "; ")
     }
 
-    private fun getDateAndNameString(name: String, date: LocalDate) = "${date.toFormattedString()} $name"
+    private fun LocalDate.toFormattedStringWithName(name: String) = "${toFormattedString()} $name"
 
     private fun getPhoneWithPrefix(phone: String) = if (phone.isNotBlank()) {
         "$prefixPhone $phone"
@@ -138,14 +138,4 @@ class ContactDiaryExporter @Inject constructor(
 
     // According to tech spec german locale only
     private fun LocalDate.toFormattedString(): String = toString("dd.MM.yyyy", Locale.GERMAN)
-
-    // returns readable durations as e.g. "Dauer 01:30 h"
-    private fun getReadableDuration(duration: Duration?): String? {
-        if (duration == null) return null
-
-        val durationInMinutes = duration.standardMinutes
-        val durationString = String.format("%02d:%02d", durationInMinutes / 60, (durationInMinutes % 60))
-
-        return "$durationPrefix $durationString $durationSuffix"
-    }
 }
