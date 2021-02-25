@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.release
 
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -10,29 +12,49 @@ import io.mockk.just
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
-class NewReleaseInfoViewModelTest {
+class NewReleaseInfoViewModelTest : BaseTest() {
 
-    @MockK lateinit var settings: CWASettings
+    @MockK lateinit var appSettings: CWASettings
+    @MockK lateinit var analyticsSettings: AnalyticsSettings
+    private lateinit var lastOnboardingVersionCode: FlowPreference<Long>
     lateinit var viewModel: NewReleaseInfoViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { settings.lastChangelogVersion.update(any()) } just Runs
+        lastOnboardingVersionCode = mockFlowPreference(0L)
+        every { analyticsSettings.lastOnboardingVersionCode } returns lastOnboardingVersionCode
+
+        every { appSettings.lastChangelogVersion.update(any()) } just Runs
         viewModel = NewReleaseInfoViewModel(
             TestDispatcherProvider(),
-            settings
+            appSettings,
+            analyticsSettings
         )
     }
 
     @Test
-    fun testOnNextButtonClick() {
+    fun `if analytics onboarding has not yet been done, navigate to it`() {
+        lastOnboardingVersionCode.value shouldBe 0L
+
+        viewModel.onNextButtonClick()
+        viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment
+    }
+
+    @Test
+    fun `if analytics onboarding is done, just close the release screen`() {
+        lastOnboardingVersionCode.update { 1130000L }
+
         viewModel.onNextButtonClick()
         viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.CloseScreen
+
+        lastOnboardingVersionCode.value shouldBe 1130000L
     }
 
     @Test

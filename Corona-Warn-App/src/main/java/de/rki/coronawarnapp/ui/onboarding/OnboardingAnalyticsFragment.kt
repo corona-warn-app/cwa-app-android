@@ -26,8 +26,8 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            onboardingButtonNext.setOnClickListener { viewModel.onNextButtonClick() }
-            onboardingButtonDisable.setOnClickListener { viewModel.onDisableClick() }
+            onboardingButtonNext.setOnClickListener { viewModel.onProceed(true) }
+            onboardingButtonDisable.setOnClickListener { viewModel.onProceed(false) }
             onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
 
             federalStateRow.setOnClickListener {
