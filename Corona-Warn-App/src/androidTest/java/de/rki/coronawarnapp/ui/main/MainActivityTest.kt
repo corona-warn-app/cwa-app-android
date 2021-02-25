@@ -75,7 +75,6 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
-import testhelpers.testFirebaseScreenshot
 import timber.log.Timber
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -289,11 +288,11 @@ class MainActivityTest : BaseUITest() {
         launchActivity<MainActivity>()
         onView(withId(R.id.main_bottom_navigation))
             .perform(selectBottomNavTab(R.id.contact_diary_nav_graph))
-        testFirebaseScreenshot<ContactDiaryOverviewFragment>()
+        takeScreenshot<ContactDiaryOverviewFragment>()
 
         onView(withId(R.id.contact_diary_overview_recyclerview))
             .perform(recyclerScrollTo(1))
-        testFirebaseScreenshot<ContactDiaryOverviewFragment>("2")
+        takeScreenshot<ContactDiaryOverviewFragment>("2")
     }
 
     private fun captureHomeFragment(nameSuffix: String) {
