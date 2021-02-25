@@ -9,6 +9,7 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.ViewAction
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import de.rki.coronawarnapp.R
 import tools.fastlane.screengrab.Screengrab
@@ -31,7 +32,8 @@ inline fun <reified T> takeScreenshot(suffix: String = "", delay: Long = SCREENS
 
     val contentResolver = getInstrumentation().targetContext.contentResolver
     val testLabSetting = Settings.System.getString(contentResolver, "firebase.test.lab")
-    if ("true" == testLabSetting) {
+    val androidStudioMode = InstrumentationRegistry.getArguments().getString("androidStudioMode")
+    if ("true" in listOf(testLabSetting, androidStudioMode)) {
         Screengrab.screenshot(
             name,
             UiAutomatorScreenshotStrategy(),
@@ -56,24 +58,6 @@ inline fun <reified F : Fragment> captureScreenshot(
 ) {
     launchFragmentInContainer2<F>(fragmentArgs, themeResId, factory)
     takeScreenshot<F>(suffix)
-}
-
-/**
- * Takes a screenshot and save it in the device's sdcard.
- * This function should only be used while testing screenshots phase.
- * It is better to test screenshots on Android API 29, new APIs might not work as expected
- * because of storage API restrictions.
- */
-@TestFirebaseScreenshot
-inline fun <reified T> testFirebaseScreenshot(suffix: String = "", delay: Long = SCREENSHOT_DELAY_TIME) {
-    Thread.sleep(delay)
-    val simpleName = T::class.simpleName
-    val name = if (suffix.isEmpty()) simpleName else simpleName.plus("_$suffix")
-    Screengrab.screenshot(
-        name,
-        UiAutomatorScreenshotStrategy(),
-        SDCardCallback
-    )
 }
 
 /**
