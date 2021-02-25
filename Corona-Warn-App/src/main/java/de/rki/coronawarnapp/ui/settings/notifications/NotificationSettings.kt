@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.ui.settings.notifications
 
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.preferences.Named
+import de.rki.coronawarnapp.storage.preferences.PreferencesModule.Companion.PREFERENCES_NAME
+import de.rki.coronawarnapp.storage.preferences.SettingsData
 import de.rki.coronawarnapp.util.device.ForegroundState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -11,6 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class NotificationSettings @Inject constructor(
     foregroundState: ForegroundState,
+    @Named(PREFERENCES_NAME) private val settingsData: SettingsData,
     private val notificationManagerCompat: NotificationManagerCompat
 ) {
 
@@ -20,7 +24,7 @@ class NotificationSettings @Inject constructor(
         notificationManagerCompat.areNotificationsEnabled()
     }
 
-    val isNotificationsRiskEnabled: Flow<Boolean> = LocalData.isNotificationsRiskEnabledFlow
+    val isNotificationsRiskEnabled: Flow<Boolean> = settingsData.isNotificationsRiskEnabledFlow
 
     /**
      * Toggle notifications risk updates.
@@ -28,7 +32,7 @@ class NotificationSettings @Inject constructor(
      * @see LocalData
      */
     fun toggleNotificationsRiskEnabled() {
-        LocalData.isNotificationsRiskEnabled = !LocalData.isNotificationsRiskEnabled
+        settingsData.isNotificationsRiskEnabled = !settingsData.isNotificationsRiskEnabled
     }
 
     val isNotificationsTestEnabled: Flow<Boolean> = LocalData.isNotificationsTestEnabledFlow
