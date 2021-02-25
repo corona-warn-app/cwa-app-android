@@ -7,6 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
@@ -15,7 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.flow
 
 class OnboardingAnalyticsViewModel @AssistedInject constructor(
-    settings: AnalyticsSettings,
+    private val settings: AnalyticsSettings,
     dispatcherProvider: DispatcherProvider,
     private val analytics: Analytics,
     val districts: Districts
@@ -32,19 +33,11 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
         districtsList.singleOrNull { it.districtId == id }
     }.asLiveData(dispatcherProvider.IO)
 
-    fun onNextButtonClick() {
+    fun onProceed(enable: Boolean) {
         launch {
-            analytics.setAnalyticsEnabled(enabled = true)
+            analytics.setAnalyticsEnabled(enabled = enable)
         }
-
-        completedOnboardingEvent.postValue(Unit)
-    }
-
-    fun onDisableClick() {
-        launch {
-            analytics.setAnalyticsEnabled(enabled = false)
-        }
-
+        settings.lastOnboardingVersionCode.update { BuildConfigWrap.VERSION_CODE }
         completedOnboardingEvent.postValue(Unit)
     }
 

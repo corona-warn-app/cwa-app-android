@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.release
 
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.main.CWASettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -16,21 +17,33 @@ import testhelpers.extensions.InstantExecutorExtension
 @ExtendWith(InstantExecutorExtension::class)
 class NewReleaseInfoViewModelTest {
 
-    @MockK lateinit var settings: CWASettings
+    @MockK lateinit var appSettings: CWASettings
+    @MockK lateinit var analyticsSettings: AnalyticsSettings
     lateinit var viewModel: NewReleaseInfoViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { settings.lastChangelogVersion.update(any()) } just Runs
+        every { appSettings.lastChangelogVersion.update(any()) } just Runs
         viewModel = NewReleaseInfoViewModel(
             TestDispatcherProvider(),
-            settings
+            appSettings,
+            analyticsSettings
         )
     }
 
     @Test
-    fun testOnNextButtonClick() {
+    fun testOnNextButtonClickNoOnboardingAnalyticsVersion() {
+        every { analyticsSettings.lastOnboardingVersionCode.value } returns 0L
+
+        viewModel.onNextButtonClick()
+        viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment
+    }
+
+    @Test
+    fun testOnNextButtonClickOnboardingAnalyticsVersionProvided() {
+        every { analyticsSettings.lastOnboardingVersionCode.value } returns 1130000L
+
         viewModel.onNextButtonClick()
         viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.CloseScreen
     }

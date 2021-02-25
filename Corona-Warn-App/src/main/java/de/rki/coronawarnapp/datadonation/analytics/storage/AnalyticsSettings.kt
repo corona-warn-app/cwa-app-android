@@ -90,6 +90,16 @@ class AnalyticsSettings @Inject constructor(
         defaultValue = false
     )
 
+    val lastOnboardingVersionCode = prefs.createFlowPreference(
+        key = PKEY_ONBOARDED_VERSION_CODE,
+        reader = { key ->
+            getLong(key, 0L)
+        },
+        writer = { key, value ->
+            putLong(key, value)
+        }
+    )
+
     fun clear() = prefs.clearAndNotify()
 
     companion object {
@@ -99,5 +109,6 @@ class AnalyticsSettings @Inject constructor(
         private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
         private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
         private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
+        private const val PKEY_ONBOARDED_VERSION_CODE = "analytics.onboarding.versionCode"
     }
 }
