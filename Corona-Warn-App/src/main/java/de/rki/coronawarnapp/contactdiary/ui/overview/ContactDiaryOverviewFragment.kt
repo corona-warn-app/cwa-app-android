@@ -101,7 +101,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     true
                 }
                 R.id.menu_contact_diary_export_entries -> {
-                    vm.onExportPress(context)
+                    vm.onExportPress()
                     true
                 }
                 R.id.menu_contact_diary_edit_persons -> {

@@ -19,6 +19,7 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
 
     private val input: EditText
     private val infoButton: ImageView
+    private var lastSavedText: String? = null
 
     private var afterTextChangedListener: ((String) -> Unit)? = null
 
@@ -36,9 +37,13 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
             }
             imeOptions = EditorInfo.IME_ACTION_DONE
             setRawInputType(InputType.TYPE_CLASS_TEXT)
+
             // When the user entered something and puts the app into the background
-            viewTreeObserver.addOnWindowFocusChangeListener {
-                notifyTextChanged(text.toString())
+            viewTreeObserver.addOnWindowFocusChangeListener { windowFocus ->
+                if (hasFocus() && !windowFocus) {
+                    Timber.v("User has left app, input had focus, triggering notifyTextChanged")
+                    notifyTextChanged(text.toString())
+                }
             }
         }
         infoButton = findViewById(R.id.info_button)
@@ -50,8 +55,15 @@ class DiaryCircumstancesTextView @JvmOverloads constructor(
     }
 
     private fun notifyTextChanged(text: String) {
+        if (lastSavedText == text) {
+            Timber.v("New text equals last text, skipping notify.")
+            return
+        }
         // Prevent Copy&Paste inserting new lines.
-        afterTextChangedListener?.invoke(text.trim().replace("\n", ""))
+        afterTextChangedListener?.let {
+            it.invoke(text.trim().replace("\n", ""))
+            lastSavedText = text
+        }
     }
 
     fun setInfoButtonClickListener(listener: () -> Unit) {
