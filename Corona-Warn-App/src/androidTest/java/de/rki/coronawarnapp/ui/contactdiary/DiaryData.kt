@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.contactdiary
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
@@ -18,40 +19,35 @@ object DiaryData {
     val DATA_ITEMS = listOf(
         ListItem.Data(
             R.drawable.ic_contact_diary_person_item,
-            "Max Mustermann",
+            "Rewe",
+            Duration.standardMinutes(30),
+            attributes = null,
+            circumstances = null,
+            ListItem.Type.LOCATION
+        ),
+        ListItem.Data(
+            R.drawable.ic_contact_diary_person_item,
+            "Andrea Steinhauer",
             null,
             listOf(
                 R.string.contact_diary_person_encounter_duration_below_15_min,
-                R.string.contact_diary_person_encounter_mask_with,
-                R.string.contact_diary_person_encounter_environment_inside
+                R.string.contact_diary_person_encounter_environment_outside
             ),
-            "Notizen notizen",
-            ListItem.Type.PERSON
-        ),
-
-        ListItem.Data(
-            R.drawable.ic_contact_diary_person_item,
-            "Erika Mustermann",
             null,
-            listOf(
-                R.string.contact_diary_person_encounter_environment_inside
-            ),
-            "Notizen notizen",
             ListItem.Type.PERSON
         ),
 
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
-            "Fitnessstudio",
-            Duration.millis(1800000),
+            "Bäcker",
             null,
-            "Notizen notizen",
+            null,
+            null,
             ListItem.Type.LOCATION
         ),
-
         ListItem.Data(
             R.drawable.ic_contact_diary_location,
-            "Supermarket",
+            "Büro",
             null,
             null,
             null,
@@ -77,10 +73,11 @@ object DiaryData {
 
     val LOCATIONS: List<DiaryLocationListItem> = listOf(
         DiaryLocationListItem(
-            item = DefaultContactDiaryLocation(locationName = "Sport"),
+            item = DefaultContactDiaryLocation(locationName = "Physiotherapie"),
             visit = DefaultContactDiaryLocationVisit(
                 contactDiaryLocation = DefaultContactDiaryLocation(locationName = ""),
-                date = LocalDate.now()
+                date = LocalDate.now(),
+                duration = Duration.standardMinutes(90)
             ),
             onItemClick = {},
             onDurationChanged = { _, _ -> },
@@ -89,19 +86,7 @@ object DiaryData {
             onDurationDialog = { _, _ -> }
         ),
         DiaryLocationListItem(
-            item = DefaultContactDiaryLocation(locationName = "Büro"),
-            visit = DefaultContactDiaryLocationVisit(
-                contactDiaryLocation = DefaultContactDiaryLocation(locationName = ""),
-                date = LocalDate.now()
-            ),
-            onItemClick = {},
-            onDurationChanged = { _, _ -> },
-            onCircumstancesChanged = { _, _ -> },
-            onCircumStanceInfoClicked = {},
-            onDurationDialog = { _, _ -> }
-        ),
-        DiaryLocationListItem(
-            item = DefaultContactDiaryLocation(locationName = "Supermarkt"),
+            item = DefaultContactDiaryLocation(locationName = "Hausarzt"),
             visit = null,
             onItemClick = {},
             onDurationChanged = { _, _ -> },
@@ -113,10 +98,14 @@ object DiaryData {
 
     val PERSONS: List<DiaryPersonListItem> = listOf(
         DiaryPersonListItem(
-            item = DefaultContactDiaryPerson(fullName = "Erika Mustermann"),
+            item = DefaultContactDiaryPerson(fullName = "Andrea Steinhauer"),
             personEncounter = DefaultContactDiaryPersonEncounter(
                 contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
-                date = LocalDate.now()
+                date = LocalDate.now(),
+                durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES,
+                withMask = false,
+                wasOutside = true,
+                circumstances = "saßen nah beieinander"
             ),
             onItemClick = {},
             onDurationChanged = { _, _ -> },
@@ -126,21 +115,11 @@ object DiaryData {
             onCircumstanceInfoClicked = {}
         ),
         DiaryPersonListItem(
-            item = DefaultContactDiaryPerson(fullName = "Max Mustermann"),
+            item = DefaultContactDiaryPerson(fullName = "Constantin Frenzel"),
             personEncounter = DefaultContactDiaryPersonEncounter(
                 contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
                 date = LocalDate.now()
             ),
-            onItemClick = {},
-            onDurationChanged = { _, _ -> },
-            onCircumstancesChanged = { _, _ -> },
-            onWithMaskChanged = { _, _ -> },
-            onWasOutsideChanged = { _, _ -> },
-            onCircumstanceInfoClicked = {}
-        ),
-        DiaryPersonListItem(
-            item = DefaultContactDiaryPerson(fullName = "John Doe"),
-            personEncounter = null,
             onItemClick = {},
             onDurationChanged = { _, _ -> },
             onCircumstancesChanged = { _, _ -> },
