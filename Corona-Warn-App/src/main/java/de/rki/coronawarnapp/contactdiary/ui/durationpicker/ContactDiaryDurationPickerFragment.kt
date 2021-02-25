@@ -45,9 +45,6 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
             var duration = requireArguments().getString(DURATION_ARGUMENT_KEY)!!.split(":").toTypedArray()
             if (duration.size < 2) duration = arrayOf("00", "00")
 
-           // hours.value = if (hoursArray.size > duration[0].toInt()) hoursArray.indexOf(duration[0]) else 0
-           // minutes.value = if (minutesArray.size > duration[1].toInt()) minutesArray.indexOf(duration[1]) else 0
-
             hours.value = hoursArray.indexOf(duration[0])
             minutes.value = minutesArray.indexOf(duration[1])
 
