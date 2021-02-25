@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingData
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -20,7 +20,8 @@ class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val environmentSetup: EnvironmentSetup,
     private val backgroundModeStatus: BackgroundModeStatus,
-    private val contactDiarySettings: ContactDiarySettings
+    private val contactDiarySettings: ContactDiarySettings,
+    private val onboardingData: OnboardingData
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -43,8 +44,10 @@ class MainActivityViewModel @AssistedInject constructor(
         }
 
         launch {
-            if (!LocalData.isBackgroundCheckDone()) {
-                LocalData.isBackgroundCheckDone(true)
+            if (!onboardingData.isBackgroundCheckDone.value) {
+                onboardingData.isBackgroundCheckDone.update {
+                    true
+                }
                 if (backgroundModeStatus.isBackgroundRestricted.first()) {
                     showBackgroundJobDisabledNotification.postValue(Unit)
                 } else {

@@ -6,7 +6,7 @@ import android.os.PowerManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
@@ -27,7 +27,8 @@ class WatchdogService @Inject constructor(
     @AppContext private val context: Context,
     private val taskController: TaskController,
     private val backgroundModeStatus: BackgroundModeStatus,
-    @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner
+    @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
+    private val onboardingData: OnboardingData
 ) {
 
     private val powerManager by lazy {
@@ -73,7 +74,9 @@ class WatchdogService @Inject constructor(
 
         // if the user is onboarded we will schedule period background jobs
         // in case the app was force stopped and woken up again by the Google WakeUpService
-        if (LocalData.onboardingCompletedTimestamp() != null) BackgroundWorkScheduler.startWorkScheduler()
+        if (onboardingData.isOnboarded.value) {
+            BackgroundWorkScheduler.startWorkScheduler()
+        }
     }
 
     private fun createWakeLock(): PowerManager.WakeLock = powerManager

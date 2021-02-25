@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.OnboardingData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -27,7 +27,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
@@ -50,14 +49,13 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
     @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var onboardingData: OnboardingData
 
     private val baseTime: Instant = Instant.ofEpochMilli(0)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockkObject(LocalData)
 
         coEvery { appConfigProvider.getAppConfig() } returns configData
         every { configData.analytics } returns analyticsConfig
@@ -73,7 +71,7 @@ class AnalyticsTest : BaseTest() {
 
         val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
-        every { LocalData.onboardingCompletedTimestamp() } returns twoDaysAgo.millis
+        every { onboardingData.onboardingCompletedTimestamp } returns mockFlowPreference(twoDaysAgo)
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
 
@@ -88,7 +86,8 @@ class AnalyticsTest : BaseTest() {
             donorModules = modules,
             settings = settings,
             logger = lastAnalyticsSubmissionLogger,
-            timeStamper = timeStamper
+            timeStamper = timeStamper,
+            onboardingData = onboardingData
         )
     )
 
@@ -196,7 +195,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to time since onboarding`() {
-        every { LocalData.onboardingCompletedTimestamp() } returns baseTime.millis
+        every { onboardingData.onboardingCompletedTimestamp } returns mockFlowPreference(baseTime)
 
         val analytics = createInstance()
 
