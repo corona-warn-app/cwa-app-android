@@ -101,7 +101,7 @@ class ContactDiaryExporter @Inject constructor(
     private fun getStringToSortBy(name: String) = name.toLowerCase(Locale.ROOT)
 
     private fun ContactDiaryPersonEncounter.getExportInfo(date: LocalDate) = listOfNotNull(
-        getDateAndNameString(contactDiaryPerson.fullName, date),
+        date.toFormattedStringWithName(contactDiaryPerson.fullName),
         contactDiaryPerson.phoneNumber?.let { getPhoneWithPrefix(it) },
         contactDiaryPerson.emailAddress?.let { getEMailWithPrefix(it) },
         durationClassification?.let { getDurationClassificationString(it) },
@@ -112,7 +112,7 @@ class ContactDiaryExporter @Inject constructor(
 
     private fun ContactDiaryLocationVisit.getExportInfo(date: LocalDate): String {
         return listOfNotNull(
-            getDateAndNameString(contactDiaryLocation.locationName, date),
+            date.toFormattedStringWithName(contactDiaryLocation.locationName),
             contactDiaryLocation.phoneNumber?.let { getPhoneWithPrefix(it) },
             contactDiaryLocation.emailAddress?.let { getEMailWithPrefix(it) },
             getReadableDuration(duration),
@@ -120,7 +120,7 @@ class ContactDiaryExporter @Inject constructor(
         ).joinToString(separator = "; ")
     }
 
-    private fun getDateAndNameString(name: String, date: LocalDate) = "${date.toFormattedString()} $name"
+    private fun LocalDate.toFormattedStringWithName(name: String) = "${toFormattedString()} $name"
 
     private fun getPhoneWithPrefix(phone: String) = if (phone.isNotBlank()) {
         "$prefixPhone $phone"
