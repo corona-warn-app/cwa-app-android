@@ -20,6 +20,9 @@
             android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryAddLocationFragment"
             app:destination="@id/contactDiaryAddLocationFragment" />
         <deepLink app:uri="coronawarnapp://contact-journal/day/{selectedDay}" />
+        <action
+            android:id="@+id/action_contactDiaryDayFragment_to_contactDiaryCommentInfoFragment"
+            app:destination="@id/contactDiaryCommentInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPersonListFragment"
@@ -29,9 +32,6 @@
         <argument
             android:name="selectedDay"
             app:argType="string" />
-        <action
-            android:id="@+id/action_contactDiaryPersonListFragment_to_contactDiaryPersonCommentInfoFragment"
-            app:destination="@id/contactDiaryCommentInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryPlaceListFragment"
