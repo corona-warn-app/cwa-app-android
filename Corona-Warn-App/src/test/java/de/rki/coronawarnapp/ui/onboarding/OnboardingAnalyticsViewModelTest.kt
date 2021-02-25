@@ -16,6 +16,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -31,7 +33,6 @@ class OnboardingAnalyticsViewModelTest : BaseTest() {
     @MockK lateinit var analytics: Analytics
     @MockK lateinit var districts: Districts
     private lateinit var lastOnboardingVersionCode: FlowPreference<Long>
-    lateinit var viewModel: OnboardingAnalyticsViewModel
 
     @BeforeEach
     fun setUp() {
@@ -47,20 +48,23 @@ class OnboardingAnalyticsViewModelTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1234567890L
-
-        viewModel = OnboardingAnalyticsViewModel(
-            dispatcherProvider = TestDispatcherProvider(),
-            analytics = analytics,
-            districts = districts,
-            settings = settings
-        )
     }
+
+    private fun createInstance(scope: CoroutineScope) = OnboardingAnalyticsViewModel(
+        appScope = scope,
+        dispatcherProvider = TestDispatcherProvider(),
+        analytics = analytics,
+        districts = districts,
+        settings = settings
+    )
 
     @Test
     fun `accepting ppa updates versioncode and state `() {
         lastOnboardingVersionCode.value shouldBe 0L
 
-        viewModel.onProceed(true)
+        runBlockingTest {
+            createInstance(scope = this).onProceed(true)
+        }
 
         coVerify { analytics.setAnalyticsEnabled(true) }
         lastOnboardingVersionCode.value shouldBe 1234567890L
@@ -70,7 +74,9 @@ class OnboardingAnalyticsViewModelTest : BaseTest() {
     fun `declining ppa updates versioncode and state`() {
         lastOnboardingVersionCode.value shouldBe 0L
 
-        viewModel.onProceed(false)
+        runBlockingTest {
+            createInstance(scope = this).onProceed(false)
+        }
 
         coVerify { analytics.setAnalyticsEnabled(false) }
         lastOnboardingVersionCode.value shouldBe 1234567890L
