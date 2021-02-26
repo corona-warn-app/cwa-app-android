@@ -3,9 +3,7 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
 
-message PPACIOS {
+message ELSOneTimePassword {
 
-  string deviceToken = 1;
-
-  string apiToken = 2;
+  string otp = 1;
 }

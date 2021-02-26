@@ -1,0 +1,14 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/risk_calculation_parameters.proto";
+
+message EventRegistrationParameters {
+
+  // Note: this is very much work in progress!
+
+  // repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 1;
+
+  // repeated NormalizedTimeToRiskLevelMapping normalizedTimePerCheckInToRiskLevelMapping = 2;
+}
