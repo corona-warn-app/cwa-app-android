@@ -333,7 +333,6 @@ class MainActivityTest : BaseUITest() {
                             data.add(DiaryData.DATA_ITEMS[1])
                         } else if (index == 3) {
                             data.add(DiaryData.DATA_ITEMS[2])
-                            data.add(DiaryData.DATA_ITEMS[3])
                         }
                         risk = when (index % 5) {
                             3 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS

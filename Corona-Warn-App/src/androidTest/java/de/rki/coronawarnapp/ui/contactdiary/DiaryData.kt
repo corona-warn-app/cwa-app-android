@@ -18,7 +18,7 @@ object DiaryData {
 
     val DATA_ITEMS = listOf(
         ListItem.Data(
-            R.drawable.ic_contact_diary_person_item,
+            R.drawable.ic_contact_diary_location_item,
             "Rewe",
             Duration.standardMinutes(30),
             attributes = null,
@@ -36,17 +36,8 @@ object DiaryData {
             null,
             ListItem.Type.PERSON
         ),
-
         ListItem.Data(
-            R.drawable.ic_contact_diary_location,
-            "Bäcker",
-            null,
-            null,
-            null,
-            ListItem.Type.LOCATION
-        ),
-        ListItem.Data(
-            R.drawable.ic_contact_diary_location,
+            R.drawable.ic_contact_diary_location_item,
             "Büro",
             null,
             null,
