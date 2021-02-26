@@ -66,8 +66,7 @@ object DiaryData {
         drawableId = R.drawable.ic_high_risk_alert
     )
 
-    val HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS =
-        HIGH_RISK.copy(body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters)
+    val HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS = HIGH_RISK.copy(body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters)
 
     val LOW_RISK = ListItem.Risk(
         title = R.string.contact_diary_low_risk_title,
