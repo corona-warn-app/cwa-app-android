@@ -291,7 +291,7 @@ class MainActivityTest : BaseUITest() {
         takeScreenshot<ContactDiaryOverviewFragment>()
 
         onView(withId(R.id.contact_diary_overview_recyclerview))
-            .perform(recyclerScrollTo(1))
+            .perform(recyclerScrollTo(4))
         takeScreenshot<ContactDiaryOverviewFragment>("2")
     }
 
@@ -328,11 +328,15 @@ class MainActivityTest : BaseUITest() {
                 .map { LocalDate.now().minusDays(it) }
                 .mapIndexed { index, localDate ->
                     ListItem(localDate).apply {
-                        data.addAll(DiaryData.DATA_ITEMS)
-                        risk = when (index % 3) {
-                            0 -> DiaryData.HIGH_RISK
-                            1 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS
-                            else -> DiaryData.LOW_RISK
+                        if (index == 1) {
+                            data.add(DiaryData.DATA_ITEMS[0])
+                            data.add(DiaryData.DATA_ITEMS[1])
+                        } else if (index == 3) {
+                            data.add(DiaryData.DATA_ITEMS[2])
+                        }
+                        risk = when (index % 5) {
+                            3 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS
+                            else -> null // DiaryData.LOW_RISK OR DiaryData.HIGH_RISK POSSIBLE
                         }
                     }
                 }
