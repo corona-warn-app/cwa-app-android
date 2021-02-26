@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_normal"
+        tools:showIn="@layout/home_card_container_layout">
+
+        <ImageView
+            android:id="@+id/main_card_header_icon"
+            android:layout_width="@dimen/icon_size_button"
+            android:layout_height="@dimen/icon_size_button"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_high_risk_alert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/main_card_header_headline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/main_card_header_headline"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
+            android:text="@string/incompatible_headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/main_card_header_icon"
+            app:layout_constraintTop_toTopOf="@+id/main_card_header_icon"
+            app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/main_card_content_body"
+            style="@style/subtitleMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/incompatible_advertising_not_supported"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_card_header_headline" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

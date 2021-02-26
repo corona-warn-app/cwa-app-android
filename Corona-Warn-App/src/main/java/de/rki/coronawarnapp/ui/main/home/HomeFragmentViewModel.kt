@@ -52,9 +52,12 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
 import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
+import de.rki.coronawarnapp.util.bluetooth.isAdvertisingSupported
+import de.rki.coronawarnapp.util.bluetooth.isScanningSupported
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -88,6 +91,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val openFAQUrlEvent = SingleLiveEvent<Unit>()
+    val openIncompatibleEvent = SingleLiveEvent<Unit>()
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
@@ -221,6 +225,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
+            }
+
+            if (isAdvertisingSupported() == false) {
+                add(IncompatibleCard.Item({ openIncompatibleEvent.postValue(Unit) }, isScanningSupported() != false))
             }
 
             add(submissionItem)

@@ -1909,4 +1909,16 @@
     <string name="duration_dialog_ok_button">OK</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
+
+    <!-- ####################################
+       Incompatibility warning card
+   ###################################### -->
+    <string name="incompatible_headline">Incompatibility warning</string>
+    <string name="incompatible_advertising_not_supported">Unfortunately, your device is only
+        partially compatible with Exposure Notifications. You can be notified for risk contacts
+        but won\'t be able to warn others.
+    </string>
+    <string name="incompatible_scanning_not_supported">Unfortunately, your device is not
+        compatible with Exposure Notifications.
+    </string>
 </resources>
