@@ -28,7 +28,8 @@ fun isAdvertisingSupported(): Boolean? {
     val adapter = BluetoothAdapter.getDefaultAdapter()
     return when {
         adapter == null -> false
-        Build.VERSION.SDK_INT >= 26 && (adapter.isLeExtendedAdvertisingSupported || adapter.isLePeriodicAdvertisingSupported) -> true
+        Build.VERSION.SDK_INT >= 26
+            && (adapter.isLeExtendedAdvertisingSupported || adapter.isLePeriodicAdvertisingSupported) -> true
         adapter.state != BluetoothAdapter.STATE_ON -> null
         adapter.bluetoothLeAdvertiser != null -> true
         else -> false
