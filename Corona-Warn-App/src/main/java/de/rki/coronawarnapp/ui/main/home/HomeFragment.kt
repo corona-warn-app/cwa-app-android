@@ -80,6 +80,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
         }
 
+        viewModel.openIncompatibleEvent.observe2(this) {
+            // TODO give further information about the incompatibility
+        }
+
         viewModel.openTraceLocationOrganizerFlow.observe2(this) {
             if (viewModel.wasQRInfoWasAcknowledged()) {
                 val nestedGraph =

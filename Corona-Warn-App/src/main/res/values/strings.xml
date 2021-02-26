@@ -1986,7 +1986,19 @@
     <!-- XACT: Button/Dialog label to cancel something-->
     <string name="generic_action_abort">"Cancel"</string>
     <!-- XACT: Button/Dialog label to remove something-->
-    <string name="generic_action_remove">"Remove"</string>
+    <string name="generic_action_remove">Remove</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+    <string name="incompatible_headline">Incompatibility warning</string>
+    <string name="incompatible_advertising_not_supported">Unfortunately, your device is only
+        partially compatible with Exposure Notifications. You can be notified for risk contacts
+        but won\'t be able to warn others.
+    </string>
+    <string name="incompatible_scanning_not_supported">Unfortunately, your device is not
+        compatible with Exposure Notifications.
+    </string>
 
     <!-- ####################################
        Trace Location
