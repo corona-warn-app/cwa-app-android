@@ -21,7 +21,7 @@ data class ContactDiaryLocationEntity(
 }
 
 private const val MAX_CHARACTERS = 250
-private fun String.trimMaxCharacters(): String = this.trim().trimToLength(MAX_CHARACTERS)
+private fun String.trimMaxCharacters(): String = this.trimToLength(MAX_CHARACTERS)
 
 fun ContactDiaryLocation.toContactDiaryLocationEntity(): ContactDiaryLocationEntity =
     ContactDiaryLocationEntity(
