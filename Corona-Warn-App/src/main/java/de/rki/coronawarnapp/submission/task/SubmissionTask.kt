@@ -27,6 +27,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("LongParameterList")
 class SubmissionTask @Inject constructor(
     private val playbook: Playbook,
     private val appConfigProvider: AppConfigProvider,
