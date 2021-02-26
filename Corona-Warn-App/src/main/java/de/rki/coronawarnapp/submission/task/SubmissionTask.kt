@@ -46,6 +46,8 @@ class SubmissionTask @Inject constructor(
 
     private var isCanceled = false
 
+    private var inBackground = false
+
     override suspend fun run(arguments: Task.Arguments): Result {
         try {
             Timber.tag(TAG).d("Running with arguments=%s", arguments)
@@ -56,7 +58,7 @@ class SubmissionTask @Inject constructor(
                     Timber.tag(TAG).w("User has recently been active in submission, skipping submission.")
                     return Result(state = Result.State.SKIPPED)
                 } else {
-                    analyticsKeySubmissionCollector.reportSubmittedInBackground()
+                    inBackground = true
                 }
             }
 
@@ -149,6 +151,7 @@ class SubmissionTask @Inject constructor(
         playbook.submit(submissionData)
 
         analyticsKeySubmissionCollector.reportSubmitted()
+        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

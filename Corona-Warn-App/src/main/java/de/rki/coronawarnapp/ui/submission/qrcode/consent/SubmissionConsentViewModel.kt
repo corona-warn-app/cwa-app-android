@@ -30,10 +30,10 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     fun onConsentButtonClick() {
         submissionRepository.giveConsentToSubmission()
+        analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
-                if (preAuthorized) analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
                 // Routes to QR code screen either user has already granted permission or it is older Api
                 routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
                 Timber.i("Pre-authorized:$preAuthorized")
@@ -61,7 +61,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     fun giveGoogleConsentResult(accepted: Boolean) {
         Timber.i("User allowed Google consent:$accepted")
-        if (accepted) analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         // Navigate to QR code scan anyway regardless of consent result
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }

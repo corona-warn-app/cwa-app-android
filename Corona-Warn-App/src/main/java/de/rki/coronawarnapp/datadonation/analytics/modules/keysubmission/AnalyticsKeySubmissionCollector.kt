@@ -24,11 +24,12 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     }
 
     fun reportPositiveTestResultReceived() {
-        if (isEnabled) analyticsKeySubmissionStorage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
+        if (disabled) return
+        analyticsKeySubmissionStorage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
     }
 
     suspend fun reportTestRegistered() {
-        if (isDisabled) return
+        if (disabled) return
         val testRegisteredAt = timeStamper.nowUTC
         analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
 
@@ -56,42 +57,47 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     }
 
     fun reportSubmitted() {
-        if (isEnabled) analyticsKeySubmissionStorage.submitted.update { true }
+        if (disabled) return
+        analyticsKeySubmissionStorage.submitted.update { true }
     }
 
     fun reportSubmittedInBackground() {
-        if (isEnabled) analyticsKeySubmissionStorage.submittedInBackground.update { true }
+        if (disabled) return
+        analyticsKeySubmissionStorage.submittedInBackground.update { true }
     }
 
     fun reportSubmittedAfterCancel() {
-        if (isEnabled) analyticsKeySubmissionStorage.submittedAfterCancel.update { true }
+        if (disabled) return
+        analyticsKeySubmissionStorage.submittedAfterCancel.update { true }
     }
 
     fun reportSubmittedAfterSymptomFlow() {
-        if (isEnabled) analyticsKeySubmissionStorage.submittedAfterSymptomFlow.update { true }
+        if (disabled) return
+        analyticsKeySubmissionStorage.submittedAfterSymptomFlow.update { true }
     }
 
     fun reportLastSubmissionFlowScreen(screen: Screen) {
-        if (isEnabled) analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen.code }
+        if (disabled) return
+        analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen.code }
     }
 
     fun reportAdvancedConsentGiven() {
-        if (isEnabled) analyticsKeySubmissionStorage.advancedConsentGiven.update { true }
+        if (disabled) return
+        analyticsKeySubmissionStorage.advancedConsentGiven.update { true }
     }
 
     fun reportConsentWithdrawn() {
-        if (isEnabled) analyticsKeySubmissionStorage.advancedConsentGiven.update { false }
+        if (disabled) return
+        analyticsKeySubmissionStorage.advancedConsentGiven.update { false }
     }
 
     fun reportRegisteredWithTeleTAN() {
-        if (isEnabled) analyticsKeySubmissionStorage.registeredWithTeleTAN.update { true }
+        if (disabled) return
+        analyticsKeySubmissionStorage.registeredWithTeleTAN.update { true }
     }
 
-    private val isEnabled: Boolean
-        get() = analyticsSettings.analyticsEnabled.value
-
-    private val isDisabled: Boolean
-        get() = !isEnabled
+    private val disabled: Boolean
+        get() = !analyticsSettings.analyticsEnabled.value
 }
 
 enum class Screen(val code: Int) {

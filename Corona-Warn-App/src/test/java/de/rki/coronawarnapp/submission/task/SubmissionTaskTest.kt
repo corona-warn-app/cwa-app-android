@@ -134,7 +134,6 @@ class SubmissionTaskTest : BaseTest() {
 
         coVerifySequence {
             settingLastUserActivityUTC.value
-            analyticsKeySubmissionCollector.reportSubmittedInBackground()
             settingHasGivenConsent.value
 
             LocalData.registrationToken()
@@ -154,6 +153,7 @@ class SubmissionTaskTest : BaseTest() {
             )
 
             analyticsKeySubmissionCollector.reportSubmitted()
+            analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })

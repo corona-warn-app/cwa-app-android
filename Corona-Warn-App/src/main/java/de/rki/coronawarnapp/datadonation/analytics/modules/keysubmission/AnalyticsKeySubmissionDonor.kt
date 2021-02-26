@@ -60,13 +60,13 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             )
     }
 
-    private val positiveTestResultReceived
+    private val positiveTestResultReceived: Boolean
         get() = repository.testResultReceivedAt > 0
 
-    private val keysSubmitted
+    private val keysSubmitted: Boolean
         get() = repository.submitted
 
-    private fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration) =
+    private fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
         timeStamper.nowUTC.minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
 
     override suspend fun deleteData() {

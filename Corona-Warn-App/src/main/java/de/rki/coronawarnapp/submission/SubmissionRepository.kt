@@ -123,8 +123,8 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         updateTestResult(registrationData.testResult)
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
@@ -133,8 +133,8 @@ class SubmissionRepository @Inject constructor(
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
         LocalData.registrationToken(registrationData.registrationToken)
-        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         updateTestResult(registrationData.testResult)
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult

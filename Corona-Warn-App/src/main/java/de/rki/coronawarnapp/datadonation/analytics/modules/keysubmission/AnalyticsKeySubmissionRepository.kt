@@ -12,40 +12,40 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val riskLevelSettings: RiskLevelSettings
 ) {
-    val testResultReceivedAt
+    val testResultReceivedAt: Long
         get() = storage.testResultReceivedAt.value
 
     private val testRegisteredAt: Long
         get() = storage.testRegisteredAt.value
 
-    val submitted
+    val submitted: Boolean
         get() = storage.submitted.value
 
-    val submittedInBackground
+    val submittedInBackground: Boolean
         get() = submitted && storage.submittedInBackground.value
 
-    val submittedAfterCancel
+    val submittedAfterCancel: Boolean
         get() = submitted && storage.submittedAfterCancel.value
 
-    val submittedAfterSymptomFlow
+    val submittedAfterSymptomFlow: Boolean
         get() = storage.submittedAfterSymptomFlow.value
 
-    val submittedWithTeleTAN
+    val submittedWithTeleTAN: Boolean
         get() = submitted && storage.registeredWithTeleTAN.value
 
-    val lastSubmissionFlowScreen
+    val lastSubmissionFlowScreen: Int
         get() = storage.lastSubmissionFlowScreen.value
 
-    val advancedConsentGiven
+    val advancedConsentGiven: Boolean
         get() = submitted && storage.advancedConsentGiven.value
 
     val hoursSinceTestResult: Int
         get() = Duration.millis(max(timeStamper.nowUTC.millis - testResultReceivedAt, 0)).toStandardHours().hours
 
-    val hoursSinceTestRegistration
+    val hoursSinceTestRegistration: Int
         get() = Duration.millis(max(timeStamper.nowUTC.millis - testRegisteredAt, 0L)).toStandardHours().hours
 
-    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
         get() = Duration(
             riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
             Instant.ofEpochMilli(testRegisteredAt)

@@ -53,7 +53,6 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 
             override fun onTEKPermissionDeclined() {
                 Timber.d("onTEKPermissionDeclined")
-                analyticsKeySubmissionCollector.reportConsentWithdrawn()
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
@@ -116,6 +115,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.d("routeToScreen:SubmissionTestResultNoConsentFragment")
+                analyticsKeySubmissionCollector.reportConsentWithdrawn()
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
