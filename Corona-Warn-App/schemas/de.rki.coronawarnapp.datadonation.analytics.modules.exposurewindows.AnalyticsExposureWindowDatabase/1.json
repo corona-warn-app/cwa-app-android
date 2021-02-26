@@ -1,0 +1,140 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7353e2a0b1a9b8a18e316fccdf3ee651",
+    "entities": [
+      {
+        "tableName": "AnalyticsExposureWindowEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sha256Hash` TEXT NOT NULL, `calibrationConfidence` INTEGER NOT NULL, `dateMillis` INTEGER NOT NULL, `infectiousness` INTEGER NOT NULL, `reportType` INTEGER NOT NULL, `normalizedTime` REAL NOT NULL, `transmissionRiskLevel` INTEGER NOT NULL, PRIMARY KEY(`sha256Hash`))",
+        "fields": [
+          {
+            "fieldPath": "sha256Hash",
+            "columnName": "sha256Hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "calibrationConfidence",
+            "columnName": "calibrationConfidence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateMillis",
+            "columnName": "dateMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "infectiousness",
+            "columnName": "infectiousness",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reportType",
+            "columnName": "reportType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedTime",
+            "columnName": "normalizedTime",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transmissionRiskLevel",
+            "columnName": "transmissionRiskLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "sha256Hash"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "AnalyticsScanInstanceEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `fkSha256Hash` TEXT NOT NULL, `minAttenuation` INTEGER NOT NULL, `typicalAttenuation` INTEGER NOT NULL, `secondsSinceLastScan` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fkSha256Hash",
+            "columnName": "fkSha256Hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minAttenuation",
+            "columnName": "minAttenuation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "typicalAttenuation",
+            "columnName": "typicalAttenuation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondsSinceLastScan",
+            "columnName": "secondsSinceLastScan",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "AnalyticsReportedExposureWindowEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sha256Hash` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`sha256Hash`))",
+        "fields": [
+          {
+            "fieldPath": "sha256Hash",
+            "columnName": "sha256Hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "sha256Hash"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7353e2a0b1a9b8a18e316fccdf3ee651')"
+    ]
+  }
+}

@@ -26,11 +26,16 @@
 
         <TextView
             android:id="@+id/duration_input"
-            android:layout_width="wrap_content"
+            style="@style/bodyNeutral"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:padding="8dp"
-            android:text="00:00" />
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:text="@string/duration_dialog_default_value"
+            android:background="@drawable/contact_diary_duration_background_default"/>
     </FrameLayout>
 
     <de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.DiaryCircumstancesTextView
