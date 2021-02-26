@@ -43,7 +43,7 @@ class HomeAdapter :
                 StableIdMod(data),
                 DataBinderMod<HomeItem, HomeItemVH<HomeItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is FAQCard.Item }) { FAQCard(it) },
-                TypedVHCreatorMod({ data[it] is IncompatibleCard.Item}) { IncompatibleCard(it) },
+                TypedVHCreatorMod({ data[it] is IncompatibleCard.Item }) { IncompatibleCard(it) },
                 TypedVHCreatorMod({ data[it] is ReenableRiskCard.Item }) { ReenableRiskCard(it) },
                 TypedVHCreatorMod({ data[it] is IncreasedRiskCard.Item }) { IncreasedRiskCard(it) },
                 TypedVHCreatorMod({ data[it] is LowRiskCard.Item }) { LowRiskCard(it) },
