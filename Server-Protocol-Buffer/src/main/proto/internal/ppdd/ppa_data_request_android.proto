@@ -5,8 +5,6 @@ package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 import "internal/ppdd/ppac_android.proto";
 import "internal/ppdd/ppa_data.proto";
 
-option java_outer_classname = "PPADataRequestAndroidProto";
-
 message PPADataRequestAndroid {
 
   PPACAndroid authentication = 1;

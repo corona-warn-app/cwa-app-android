@@ -3,8 +3,6 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
 
-option java_outer_classname = "PPACIOSProto";
-
 message PPACIOS {
 
   string deviceToken = 1;
