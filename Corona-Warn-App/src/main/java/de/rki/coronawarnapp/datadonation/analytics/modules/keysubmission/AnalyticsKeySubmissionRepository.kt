@@ -21,6 +21,9 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
     val submitted: Boolean
         get() = storage.submitted.value
 
+    private val submittedAt: Long
+        get() = storage.submittedAt.value
+
     val submittedInBackground: Boolean
         get() = submitted && storage.submittedInBackground.value
 
@@ -40,10 +43,10 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = submitted && storage.advancedConsentGiven.value
 
     val hoursSinceTestResult: Int
-        get() = Duration.millis(max(timeStamper.nowUTC.millis - testResultReceivedAt, 0)).toStandardHours().hours
+        get() = Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
 
     val hoursSinceTestRegistration: Int
-        get() = Duration.millis(max(timeStamper.nowUTC.millis - testRegisteredAt, 0L)).toStandardHours().hours
+        get() = Duration.millis(max(submittedAt - testRegisteredAt, 0L)).toStandardHours().hours
 
     val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
         get() = Duration(

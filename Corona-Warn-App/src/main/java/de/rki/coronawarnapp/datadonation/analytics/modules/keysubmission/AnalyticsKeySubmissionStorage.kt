@@ -28,6 +28,11 @@ class AnalyticsKeySubmissionStorage @Inject constructor(
         defaultValue = false
     )
 
+    val submittedAt = prefs.createFlowPreference(
+        key = "analytics_key_submission_submittedAt",
+        defaultValue = -1L
+    )
+
     val submittedInBackground = prefs.createFlowPreference(
         key = "analytics_key_submission_submittedInBackground",
         defaultValue = false

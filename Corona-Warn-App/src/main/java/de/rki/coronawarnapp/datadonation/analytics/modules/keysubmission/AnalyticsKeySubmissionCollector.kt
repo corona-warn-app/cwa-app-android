@@ -59,6 +59,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     fun reportSubmitted() {
         if (disabled) return
         analyticsKeySubmissionStorage.submitted.update { true }
+        analyticsKeySubmissionStorage.submittedAt.update { timeStamper.nowUTC.millis }
     }
 
     fun reportSubmittedInBackground() {
