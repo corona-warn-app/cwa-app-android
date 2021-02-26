@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.databinding.HomeIncompatibleCardLayoutBinding
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class IncompatibleCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<IncompatibleCard.Item, HomeIncompatibleCardLayoutBinding>(
+class IncompatibleCard(parent: ViewGroup)
+    : HomeAdapter.HomeItemVH<IncompatibleCard.Item, HomeIncompatibleCardLayoutBinding>(
     R.layout.home_card_container_layout,
     parent
 ) {
