@@ -128,7 +128,6 @@ class SubmissionRepository @Inject constructor(
         BackgroundNoise.getInstance().scheduleDummyPattern()
         analyticsKeySubmissionCollector.reportTestRegistered()
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
-
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testavailable
 
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
@@ -29,6 +30,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @BeforeEach
     fun setUp() {
@@ -46,7 +48,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         submissionRepository = submissionRepository,
         dispatcherProvider = TestDispatcherProvider(),
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
-        autoSubmission = autoSubmission
+        autoSubmission = autoSubmission,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
     )
 
     @Test

@@ -55,9 +55,9 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
 
     private fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
-        return positiveTestResultReceived && (keysSubmitted || enoughTimeHasPassedSinceResult(
-            timeSinceTestResultToSubmit
-        ))
+        return positiveTestResultReceived && (
+            keysSubmitted || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit)
+            )
     }
 
     private val positiveTestResultReceived
