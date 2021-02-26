@@ -10,22 +10,22 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 object DiaryData {
 
     val DATA_ITEMS = listOf(
-        ListItem.Data(
+        DayOverviewItem.Data(
             R.drawable.ic_contact_diary_location_item,
             "Rewe",
             Duration.standardMinutes(30),
             attributes = null,
             circumstances = null,
-            ListItem.Type.LOCATION
+            DayOverviewItem.Type.LOCATION
         ),
-        ListItem.Data(
+        DayOverviewItem.Data(
             R.drawable.ic_contact_diary_person_item,
             "Andrea Steinhauer",
             null,
@@ -34,19 +34,19 @@ object DiaryData {
                 R.string.contact_diary_person_encounter_environment_outside
             ),
             null,
-            ListItem.Type.PERSON
+            DayOverviewItem.Type.PERSON
         ),
-        ListItem.Data(
+        DayOverviewItem.Data(
             R.drawable.ic_contact_diary_location_item,
             "Büro",
             null,
             null,
             null,
-            ListItem.Type.LOCATION
+            DayOverviewItem.Type.LOCATION
         )
     )
 
-    val HIGH_RISK = ListItem.Risk(
+    val HIGH_RISK = DayOverviewItem.Risk(
         title = R.string.contact_diary_high_risk_title,
         body = R.string.contact_diary_risk_body,
         bodyExtended = R.string.contact_diary_risk_body_extended,
@@ -55,7 +55,7 @@ object DiaryData {
 
     val HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS = HIGH_RISK.copy(body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters)
 
-    val LOW_RISK = ListItem.Risk(
+    val LOW_RISK = DayOverviewItem.Risk(
         title = R.string.contact_diary_low_risk_title,
         body = R.string.contact_diary_risk_body,
         bodyExtended = R.string.contact_diary_risk_body_extended,
