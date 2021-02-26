@@ -38,7 +38,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
             DataDonationTestFragment.MENU_ITEM,
             DeltaonboardingFragment.MENU_ITEM,
             ContactDiaryCommentInfoTestFragment.MENU_ITEM,
-            EventRegistrationTestFragment.MENU_ITEM
+            EventRegistrationTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()

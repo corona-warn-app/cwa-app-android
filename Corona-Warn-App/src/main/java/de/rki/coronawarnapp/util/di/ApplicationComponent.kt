@@ -74,7 +74,7 @@ import javax.inject.Singleton
         StatisticsModule::class,
         DataDonationModule::class,
         SecurityModule::class,
-        EventRegistrationModule::class
+        EventRegistrationModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
