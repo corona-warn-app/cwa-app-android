@@ -45,7 +45,7 @@ class AnalyticsKeySubmissionStorage @Inject constructor(
 
     val lastSubmissionFlowScreen = prefs.createFlowPreference(
         key = "analytics_key_submission_lastSubmissionFlowScreen",
-        defaultValue = SUBMISSION_FLOW_SCREEN_UNKNOWN
+        defaultValue = Screen.UNKNOWN.code
     )
 
     val advancedConsentGiven = prefs.createFlowPreference(

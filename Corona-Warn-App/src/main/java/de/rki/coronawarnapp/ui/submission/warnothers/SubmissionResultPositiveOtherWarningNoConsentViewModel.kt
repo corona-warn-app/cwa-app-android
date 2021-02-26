@@ -8,7 +8,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.SUBMISSION_FLOW_SCREEN_WARN_OTHERS
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -119,7 +119,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     }
 
     fun onResume() {
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(SUBMISSION_FLOW_SCREEN_WARN_OTHERS)
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
     }
 
     @AssistedFactory

@@ -2,20 +2,21 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.risk.tryLatestResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
-import org.joda.time.Instant
 import javax.inject.Inject
 
 class AnalyticsKeySubmissionCollector @Inject constructor(
     private val timeStamper: TimeStamper,
     private val analyticsSettings: AnalyticsSettings,
     private val analyticsKeySubmissionStorage: AnalyticsKeySubmissionStorage,
-    private val riskLevelStorage: RiskLevelStorage
+    private val riskLevelStorage: RiskLevelStorage,
+    private val riskLevelSettings: RiskLevelSettings
 ) {
 
     fun reset() {
@@ -42,26 +43,17 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         }
 
         if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            calculateHoursSinceHighRiskWarning(testRegisteredAt)?.let {
+            riskLevelSettings.lastChangeToHighRiskLevelTimestamp?.let {
+                val hours = Duration(
+                    it,
+                    testRegisteredAt
+                ).standardHours.toInt()
                 analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration.update {
-                    it
+                    hours
                 }
             }
         }
     }
-
-    private suspend fun calculateHoursSinceHighRiskWarning(registrationTime: Instant) =
-        riskLevelStorage
-            .latestAndLastSuccessful
-            .first()
-            .filter { it.isIncreasedRisk }
-            .minByOrNull { it.calculatedAt }
-            ?.calculatedAt?.let {
-                Duration(
-                    it,
-                    registrationTime
-                ).standardHours.toInt()
-            }
 
     fun reportSubmitted() {
         if (isEnabled) analyticsKeySubmissionStorage.submitted.update { true }
@@ -79,8 +71,8 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         if (isEnabled) analyticsKeySubmissionStorage.submittedAfterSymptomFlow.update { true }
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Int) {
-        if (isEnabled) analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen }
+    fun reportLastSubmissionFlowScreen(screen: Screen) {
+        if (isEnabled) analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen.code }
     }
 
     fun reportAdvancedConsentGiven() {
@@ -102,9 +94,10 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         get() = !isEnabled
 }
 
-const val SUBMISSION_FLOW_SCREEN_UNKNOWN = 0
-const val SUBMISSION_FLOW_SCREEN_TEST_RESULT = 2
-const val SUBMISSION_FLOW_SCREEN_WARN_OTHERS = 3
-const val SUBMISSION_FLOW_SCREEN_SYMPTOMS = 4
-const val SUBMISSION_FLOW_SCREEN_SYMPTOM_ONSET = 5
-
+enum class Screen(val code: Int) {
+    UNKNOWN(PpaData.PPALastSubmissionFlowScreen.SUBMISSION_FLOW_SCREEN_UNKNOWN_VALUE),
+    TEST_RESULT(PpaData.PPALastSubmissionFlowScreen.SUBMISSION_FLOW_SCREEN_TEST_RESULT_VALUE),
+    WARN_OTHERS(PpaData.PPALastSubmissionFlowScreen.SUBMISSION_FLOW_SCREEN_WARN_OTHERS_VALUE),
+    SYMPTOMS(PpaData.PPALastSubmissionFlowScreen.SUBMISSION_FLOW_SCREEN_SYMPTOMS_VALUE),
+    SYMPTOM_ONSET(PpaData.PPALastSubmissionFlowScreen.SUBMISSION_FLOW_SCREEN_SYMPTOM_ONSET_VALUE)
+}

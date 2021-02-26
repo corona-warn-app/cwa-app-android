@@ -48,7 +48,7 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
     val daysSinceMostRecentDateAtRiskLevelAtTestRegistration
         get() = Duration(
             riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
-            Instant.ofEpochMilli(testResultReceivedAt)
+            Instant.ofEpochMilli(testRegisteredAt)
         ).standardDays.toInt()
 
     val hoursSinceHighRiskWarningAtTestRegistration: Int

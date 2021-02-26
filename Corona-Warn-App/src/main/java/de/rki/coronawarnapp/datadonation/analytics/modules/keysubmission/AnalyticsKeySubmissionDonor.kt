@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
@@ -17,9 +18,9 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
 
         val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
-        val duration = Duration.standardHours(hours.toLong())
+        val timeSinceTestResultToSubmit = Duration.standardHours(hours.toLong())
 
-        return if (shouldSubmitData(duration)) {
+        return if (shouldSubmitData(timeSinceTestResultToSubmit)) {
             object : DonorModule.Contribution {
                 override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
                     val data = createContribution()
@@ -31,15 +32,7 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
                 }
             }
         } else {
-            object : DonorModule.Contribution {
-                override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
-                    // nope
-                }
-
-                override suspend fun finishDonation(successful: Boolean) {
-                    // nope
-                }
-            }
+            AnalyticsKeySubmissionNoContribution
         }
     }
 
@@ -61,13 +54,28 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             .setSubmittedInBackground(repository.submittedInBackground)
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
 
-    private fun shouldSubmitData(duration: Duration): Boolean {
-        return repository.testResultReceivedAt > 0 &&
-            (repository.submitted ||
-                timeStamper.nowUTC.minus(duration) > Instant.ofEpochMilli(repository.testResultReceivedAt))
+    private fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
+        return positiveTestResultReceived && (keysSubmitted || enoughTimeHasPassedSinceResult(
+            timeSinceTestResultToSubmit
+        ))
     }
+
+    private val positiveTestResultReceived
+        get() = repository.testResultReceivedAt > 0
+
+    private val keysSubmitted
+        get() = repository.submitted
+
+    private fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration) =
+        timeStamper.nowUTC.minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
 
     override suspend fun deleteData() {
         repository.reset()
     }
+}
+
+@VisibleForTesting
+object AnalyticsKeySubmissionNoContribution : DonorModule.Contribution {
+    override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
+    override suspend fun finishDonation(successful: Boolean) = Unit
 }

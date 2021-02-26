@@ -5,7 +5,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.SUBMISSION_FLOW_SCREEN_SYMPTOMS
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -108,7 +108,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(SUBMISSION_FLOW_SCREEN_SYMPTOMS)
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

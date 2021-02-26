@@ -61,6 +61,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     fun giveGoogleConsentResult(accepted: Boolean) {
         Timber.i("User allowed Google consent:$accepted")
+        if (accepted) analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
         // Navigate to QR code scan anyway regardless of consent result
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
