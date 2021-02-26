@@ -39,7 +39,7 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
         .asLiveData()
 
     fun locationChanged(value: String) {
-        locationName.value = value.trim()
+        locationName.value = value
     }
 
     fun addLocation(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
