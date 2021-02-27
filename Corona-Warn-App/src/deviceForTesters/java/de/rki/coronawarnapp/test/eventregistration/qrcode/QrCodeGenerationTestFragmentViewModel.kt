@@ -77,7 +77,7 @@ class QrCodeGenerationTestFragmentViewModel @AssistedInject constructor(
             document.writeTo(FileOutputStream(file))
             document.close()
             intentLiveDate.postValue(
-                fileSharing.getIntentProvider(file, "Scan and Share")
+                fileSharing.getIntentProvider(file, "Scan and Help")
             )
         } catch (e: Exception) {
             errorLiveDate.postValue(e.localizedMessage ?: "Generating PDF Failed")

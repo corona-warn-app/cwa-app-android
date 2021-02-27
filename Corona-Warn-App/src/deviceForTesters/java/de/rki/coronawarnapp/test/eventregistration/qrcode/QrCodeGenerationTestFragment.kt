@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestQrcodeGenerationBinding
-import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -38,22 +37,11 @@ class QrCodeGenerationTestFragment : Fragment(R.layout.fragment_test_qrcode_gene
         }
 
         binding.generateQrCode.setOnClickListener {
-            viewModel.generateQrCode(
-                getString(R.string.qr_code_input)
-            )
+            viewModel.generateQrCode(binding.qrCodeText.text.toString())
         }
 
         binding.printPDF.setOnClickListener {
             viewModel.generatePDF(requireContext(), binding.pdfPage)
         }
-    }
-
-    companion object {
-        val MENU_ITEM = TestMenuItem(
-            iconRes = R.drawable.ic_qr_code,
-            title = "QR Code generation",
-            description = "QR Code generation from App",
-            targetId = R.id.test_qr_code_generation_fragment
-        )
     }
 }

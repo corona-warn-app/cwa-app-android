@@ -52,9 +52,6 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_eventRegistrationTestFragment"
             app:destination="@id/eventRegistrationTestFragment" />
-        <action
-            android:id="@+id/action_test_menu_fragment_to_qr_code_generation_fragment"
-            app:destination="@id/test_qr_code_generation_fragment" />
 
     </fragment>
 
@@ -143,7 +140,11 @@
         android:id="@+id/eventRegistrationTestFragment"
         android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
         android:label="EventRegistrationTestFragment"
-        tools:layout="@layout/fragment_test_eventregistration" />
+        tools:layout="@layout/fragment_test_eventregistration" >
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_test_qr_code_generation_fragment"
+            app:destination="@id/test_qr_code_generation_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/test_qr_code_generation_fragment"
