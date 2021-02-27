@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.eventregistration.qrcode
 import android.graphics.Bitmap
 import android.graphics.Color.BLACK
 import android.graphics.Color.WHITE
-import android.graphics.pdf.PdfDocument
 import androidx.lifecycle.MutableLiveData
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType

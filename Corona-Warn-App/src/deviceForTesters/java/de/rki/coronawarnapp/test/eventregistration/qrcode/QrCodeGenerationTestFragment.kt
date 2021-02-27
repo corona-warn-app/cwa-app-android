@@ -1,14 +1,8 @@
 package de.rki.coronawarnapp.test.eventregistration.qrcode
 
-import android.content.Context.PRINT_SERVICE
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.os.Environment
-import android.print.PrintAttributes
-import android.print.PrintAttributes.Margins
-import android.print.pdf.PrintedPdfDocument
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -30,13 +24,15 @@ import javax.inject.Inject
 class QrCodeGenerationTestFragment : Fragment(R.layout.fragment_test_qrcode_generation), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: QrCodeGenerationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
+    private val viewModel: QrCodeGenerationTestFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentTestQrcodeGenerationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.generateQrCode.setOnClickListener {
-            viewModel.generateQrCode(getString(R.string.qr_code_input))
+            viewModel.generateQrCode(
+                getString(R.string.qr_code_input)
+            )
         }
 
         viewModel.bitmapLiveDate.observe2(this) {
