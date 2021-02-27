@@ -71,8 +71,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/qrCodeImage"
-                android:layout_width="280dp"
-                android:layout_height="280dp"
+                android:layout_width="270dp"
+                android:layout_height="270dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
