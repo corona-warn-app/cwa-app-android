@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="qr_code_input" translatable="false">"HTTPS://CORONAWARN.APP/E1/BIPEY33SMVWSA2LQON2W2IDEN5WG64RAONUXIIDBNVSXILBAMNXRBCM4UQARRKM6UQASAHRKCC7CTDWGQ4JCO7RVZSWVIMQK4UPA====.GBCAEIA7TEORBTUA25QHBOCWT26BCA5PORBS2E4FFWMJ3UU3P6SXOL7SHUBCA7UEZBDDQ2R6VRJH7WBJKVF7GZYJA6YMRN27IPEP7NKGGJSWX3XQ"</string>
+    <string name="generate_qr_code" translatable="false">"Generate QR Code"</string>
+    <string name="generate_pdf" translatable="false">"Generate PDF"</string>
+    <string name="share_pdf" translatable="false">"Share PDF"</string>
+</resources>
