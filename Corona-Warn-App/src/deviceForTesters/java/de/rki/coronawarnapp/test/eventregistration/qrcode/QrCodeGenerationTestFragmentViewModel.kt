@@ -20,15 +20,11 @@ class QrCodeGenerationTestFragmentViewModel @AssistedInject constructor() : CWAV
 
     val bitmapLiveDate = MutableLiveData<Bitmap>()
 
-    fun generateQrCode(input: String) {
-
-        launch {
-            bitmapLiveDate.postValue(encodeAsBitmap(input))
-        }
+    fun generateQrCode(input: String) = launch {
+        bitmapLiveDate.postValue(encodeAsBitmap(input))
     }
 
-    @Throws(WriterException::class)
-    fun encodeAsBitmap(input: String, size: Int = 150): Bitmap? {
+    private fun encodeAsBitmap(input: String, size: Int = 200): Bitmap? {
         return try {
             val hints = mapOf(
                 EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H,
@@ -41,7 +37,7 @@ class QrCodeGenerationTestFragmentViewModel @AssistedInject constructor() : CWAV
                 size,
                 hints
             ).toBitmap()
-        } catch (e: IllegalArgumentException) {
+        } catch (e: Exception) {
             Timber.d(e, "Qr Code generation failed")
             null
         }
