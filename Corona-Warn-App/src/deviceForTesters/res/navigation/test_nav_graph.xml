@@ -50,6 +50,9 @@
             android:id="@+id/action_test_menu_fragment_to_deltaonboardingFragment"
             app:destination="@id/test_deltaonboarding_fragment" />
         <action
+            android:id="@+id/action_test_menu_fragment_to_eventRegistrationTestFragment"
+            app:destination="@id/eventRegistrationTestFragment" />
+        <action
             android:id="@+id/action_test_menu_fragment_to_qr_code_generation_fragment"
             app:destination="@id/test_qr_code_generation_fragment" />
 
@@ -136,6 +139,11 @@
         android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryCommentInfoTestFragment"
         android:label="CommentInfoTestFragment"
         tools:layout="@layout/contact_diary_comment_info_fragment" />
+    <fragment
+        android:id="@+id/eventRegistrationTestFragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
+        android:label="EventRegistrationTestFragment"
+        tools:layout="@layout/fragment_test_eventregistration" />
 
     <fragment
         android:id="@+id/test_qr_code_generation_fragment"
