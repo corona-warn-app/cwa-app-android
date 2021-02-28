@@ -140,16 +140,16 @@
         android:id="@+id/eventRegistrationTestFragment"
         android:name="de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragment"
         android:label="EventRegistrationTestFragment"
-        tools:layout="@layout/fragment_test_eventregistration" >
+        tools:layout="@layout/fragment_test_eventregistration">
         <action
-            android:id="@+id/action_eventRegistrationTestFragment_to_test_qr_code_generation_fragment"
-            app:destination="@id/test_qr_code_generation_fragment" />
+            android:id="@+id/action_eventRegistrationTestFragment_to_test_qr_code_creation_fragment"
+            app:destination="@id/test_qr_code_creation_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/test_qr_code_generation_fragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.qrcode.QrCodeGenerationTestFragment"
-        android:label="QrCodeGenerationTestFragment"
-        tools:layout="@layout/fragment_test_qrcode_generation" />
+        android:id="@+id/test_qr_code_creation_fragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.qrcode.QrCodeCreationTestFragment"
+        android:label="QrCodeCreationTestFragment"
+        tools:layout="@layout/fragment_test_qrcode_creation" />
 
 </navigation>

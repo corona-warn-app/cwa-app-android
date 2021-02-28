@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.eventregistration.qrcode
+package de.rki.coronawarnapp.test.eventregistration.ui.qrcode
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class QrCodeGenerationTestFragmentModule {
+abstract class QrCodeCreationTestFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(QrCodeGenerationTestFragmentViewModel::class)
-    abstract fun qrCodeGeneration(
-        factory: QrCodeGenerationTestFragmentViewModel.Factory
+    @CWAViewModelKey(QrCodeCreationTestViewModel::class)
+    abstract fun qrCodeCreation(
+        factory: QrCodeCreationTestViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

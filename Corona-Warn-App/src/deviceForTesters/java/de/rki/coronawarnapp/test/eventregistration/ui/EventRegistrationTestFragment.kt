@@ -18,17 +18,17 @@ import javax.inject.Inject
 class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregistration), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.testQrCodeGeneration.setOnClickListener {
+        binding.testQrCodeCreation.setOnClickListener {
             findNavController().navigate(
                 EventRegistrationTestFragmentDirections
-                    .actionEventRegistrationTestFragmentToTestQrCodeGenerationFragment()
+                    .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
             )
         }
     }

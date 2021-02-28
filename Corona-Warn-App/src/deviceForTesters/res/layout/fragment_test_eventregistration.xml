@@ -28,11 +28,11 @@
                 android:text="QRCode, PDF event registration" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/testQrCodeGeneration"
+                android:id="@+id/testQrCodeCreation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Test QR Code generation" />
+                android:text="Test QR Code Creation" />
 
         </LinearLayout>
 
