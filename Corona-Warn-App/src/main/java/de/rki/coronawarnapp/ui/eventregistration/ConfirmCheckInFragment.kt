@@ -15,7 +15,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO implement Event verification and verify check in
+        // TODO implement Event verification and confirm check in
         binding.encodedEvent.text = "Encoded event:${args.event}"
     }
 }
