@@ -29,13 +29,16 @@ import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import org.joda.time.LocalDate
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -59,6 +62,21 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             context.startActivity(intent)
         }
 
+        fun start(context: Context, launchIntent: Intent) {
+            val shortcut = AppShortcutsHelper.getShortcutType(launchIntent)
+            val intent = Intent(context, MainActivity::class.java).apply {
+                if (shortcut != null) {
+                    putExtra(EXTRA_DATA, shortcut.toString())
+                    flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            }
+
+            Timber.i("launchIntent:$launchIntent")
+            intent.fillIn(launchIntent, Intent.FILL_IN_DATA)
+            Timber.i("filledIntent:$intent")
+            context.startActivity(intent)
+        }
+
         private fun getShortcutFromIntent(intent: Intent): AppShortcuts? {
             val extra = intent.getStringExtra(EXTRA_DATA)
             if (extra != null) {
@@ -79,6 +97,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
+
+    private val navController by lazy { supportFragmentManager.findNavController(R.id.nav_host_fragment) }
 
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
@@ -105,7 +125,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             showEnergyOptimizedEnabledForBackground()
         }
 
-        val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
         binding.mainBottomNavigation.setupWithNavController2(navController) {
             vm.onBottomNavSelected()
         }
@@ -124,10 +143,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 goToContactJournal()
             }
         }
+
+        val uri = intent.data ?: return
+        Timber.i("Uri:$uri")
+        navController.navigate(uri)
     }
 
     private fun goToContactJournal() {
-        val navController = supportFragmentManager.findNavController(R.id.nav_host_fragment)
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.contact_diary_nav_graph
         val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph

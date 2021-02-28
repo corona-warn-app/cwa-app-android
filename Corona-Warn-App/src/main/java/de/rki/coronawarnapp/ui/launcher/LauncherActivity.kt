@@ -35,7 +35,7 @@ class LauncherActivity : AppCompatActivity() {
                     finish()
                 }
                 LauncherEvent.GoToMainActivity -> {
-                    MainActivity.start(this, AppShortcutsHelper.getShortcutType(intent))
+                    MainActivity.start(this, intent)
                     this.overridePendingTransition(0, 0)
                     finish()
                 }

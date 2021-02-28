@@ -54,11 +54,29 @@
 
         <activity
             android:name=".ui.launcher.LauncherActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wwww.coronawarn.app"
+                    android:pathPrefix="/E1"
+                    android:scheme="https" />
+
+                <data
+                    android:host="coronawarn.app"
+                    android:pathPrefix="/E1"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
