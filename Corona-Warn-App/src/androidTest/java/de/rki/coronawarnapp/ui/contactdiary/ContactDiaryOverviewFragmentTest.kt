@@ -4,10 +4,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -25,6 +27,8 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var exporter: ContactDiaryExporter
 
     private lateinit var viewModel: ContactDiaryOverviewViewModel
 
@@ -36,7 +40,9 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                 taskController = taskController,
                 dispatcherProvider = TestDispatcherProvider(),
                 contactDiaryRepository = contactDiaryRepository,
-                riskLevelStorage = riskLevelStorage
+                riskLevelStorage = riskLevelStorage,
+                timeStamper = timeStamper,
+                exporter = exporter
             )
         )
 
