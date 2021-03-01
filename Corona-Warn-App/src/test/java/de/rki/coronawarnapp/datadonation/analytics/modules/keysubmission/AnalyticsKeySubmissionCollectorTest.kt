@@ -40,11 +40,9 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun testReportTestRegistered() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
-
         every { riskLevelResult.riskState } returns RiskState.INCREASED_RISK
         coEvery {
-            riskLevelStorage
-                .latestAndLastSuccessful
+            riskLevelStorage.latestAndLastSuccessful
         } returns flowOf(listOf(riskLevelResult))
         every { riskLevelSettings.lastChangeToHighRiskLevelTimestamp } returns now.minus(
             Hours.hours(2).toStandardDuration()
@@ -62,6 +60,117 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             verify { testRegisteredAt.update(any()) }
             verify { riskLevelAtTestRegistration.update(any()) }
             verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportSubmitted() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val submittedFlow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.submitted } returns submittedFlow
+        val submittedAtFlow = mockFlowPreference(now.millis)
+        every { analyticsKeySubmissionStorage.submittedAt } returns submittedAtFlow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportSubmitted()
+            verify { submittedFlow.update(any()) }
+            verify { submittedAtFlow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportSubmittedAfterCancel() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.submittedAfterCancel } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportSubmittedAfterCancel()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportSubmittedInBackground() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.submittedInBackground } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportSubmittedInBackground()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportSubmittedAfterSymptomFlow() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.submittedAfterSymptomFlow } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportSubmittedAfterSymptomFlow()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportPositiveTestResultReceived() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(now.millis)
+        every { analyticsKeySubmissionStorage.testResultReceivedAt } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportPositiveTestResultReceived()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportAdvancedConsentGiven() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.advancedConsentGiven } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportAdvancedConsentGiven()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportConsentWithdrawn() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.advancedConsentGiven } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportConsentWithdrawn()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportRegisteredWithTeleTAN() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(false)
+        every { analyticsKeySubmissionStorage.registeredWithTeleTAN } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportRegisteredWithTeleTAN()
+            verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun testReportLastSubmissionFlowScreen() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(0)
+        every { analyticsKeySubmissionStorage.lastSubmissionFlowScreen } returns flow
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
+            verify { flow.update(any()) }
         }
     }
 
