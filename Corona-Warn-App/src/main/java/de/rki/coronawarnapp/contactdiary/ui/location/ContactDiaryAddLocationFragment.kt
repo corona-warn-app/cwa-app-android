@@ -107,7 +107,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         DialogHelper.DialogInstance(
             requireActivity(),
             R.string.contact_diary_delete_location_title,
-            R.string.contact_diary_delete_locations_message,
+            R.string.contact_diary_delete_location_message,
             R.string.contact_diary_delete_button_positive,
             R.string.contact_diary_delete_button_negative,
             positiveButtonFunction = {
