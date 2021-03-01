@@ -130,21 +130,16 @@ class DefaultTEKHistoryProvider @Inject constructor(
     }
 
     private suspend fun getPreAuthTEKHistoryOnV18(): List<TemporaryExposureKey> {
-        return if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
-            try {
-                Timber.d("Pre-Auth retrieving TEK.")
-                getPreAuthorizedExposureKeys().also {
-                    Timber.d("Pre-Auth TEK: %s", it.joinToString("\n"))
-                }
-            } catch (exception: Exception) {
-                Timber.d(exception, "Pre-Auth retrieving TEK failed")
-                if (exception.isResolvable) throw exception
-
-                Timber.d("Fallback: Retrieving TEK on pre v1.8")
-                getTEKHistoryOnPreV18()
+        return try {
+            Timber.d("Pre-Auth retrieving TEK.")
+            getPreAuthorizedExposureKeys().also {
+                Timber.d("Pre-Auth TEK: %s", it.joinToString("\n"))
             }
-        } else {
-            Timber.d("Retrieving TEK on pre v1.8")
+        } catch (exception: Exception) {
+            Timber.d(exception, "Pre-Auth retrieving TEK failed")
+            if (exception.isResolvable) throw exception
+
+            Timber.d("Fallback: Retrieving TEK on pre v1.8")
             getTEKHistoryOnPreV18()
         }
     }
