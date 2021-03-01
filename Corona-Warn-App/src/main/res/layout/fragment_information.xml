@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:subtitle="@{@string/information_legal_title}" />
-                
+
                 <TextView
                     android:id="@+id/information_version"
                     style="@style/body2Medium"
