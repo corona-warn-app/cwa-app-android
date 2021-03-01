@@ -54,10 +54,10 @@
             android:textColor="@color/colorTextPrimary1InvertedStable"
             app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/headline"
             tools:text="@plurals/risk_card_low_risk_encounter_days_body" />
-
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_contact_last"
             gone="@{state.getRiskContactLast(context) == null}"
@@ -74,26 +74,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/row_saved_days"
-            gone="@{state.isGoneOnContentLowView(context)}"
+            gone="@{!state.appInstalledForOverTwoWeeks()}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_contact_last">
 
-            <de.rki.coronawarnapp.ui.view.CircleProgress
+            <ImageView
                 android:id="@+id/risk_card_row_saved_days_circle_progress"
-                android:layout_width="@dimen/circle_small"
-                android:layout_height="@dimen/circle_small"
-                android:layout_marginStart="8dp"
-                app:circleColor="@color/colorStableHairlineLight"
-                app:circleWidth="@dimen/circle_small_width"
-                app:disableText="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_download"
+                android:layout_marginStart="@dimen/spacing_tiny"
                 app:layout_constraintBottom_toBottomOf="@+id/risk_card_row_saved_days_body"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/risk_card_row_saved_days_body"
-                app:progress="@{state.activeTracingDays}"
-                app:progressColor="@{state.getProgressColorLowRisk(context)}" />
+                android:contentDescription="Days since installation" />
+
 
             <TextView
                 android:id="@+id/risk_card_row_saved_days_body"
@@ -103,7 +101,7 @@
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:layout_marginBottom="@dimen/spacing_tiny"
                 android:layout_marginStart="24dp"
-                android:text="@{state.getRiskActiveTracingDaysInRetentionPeriod(context)}"
+                android:text="@{state.getDaysSinceInstall(context)}"
                 android:textColor="@color/colorTextPrimary1InvertedStable"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -4,10 +4,13 @@ import android.content.Context
 import android.text.format.DateUtils
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -108,7 +111,8 @@ data class LowRisk(
     val lastEncounterAt: Instant?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
-    val activeTracingDays: Int
+    val activeTracingDays: Int,
+    val daysSinceInstallation: Long
 ) : TracingState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
@@ -144,12 +148,11 @@ data class LowRisk(
         )
     }
 
-    fun getRiskActiveTracingDaysInRetentionPeriod(context: Context): String =
-        if (activeTracingDays < TimeVariables.getDefaultRetentionPeriodInDays()) {
-            context.getString(R.string.risk_card_body_saved_days).format(activeTracingDays)
-        } else {
-            context.getString(R.string.risk_card_body_saved_days_full)
-        }
+    fun getDaysSinceInstall(context: Context): String =
+        context.getString(R.string.risk_card_body_days_since_installation)
+            .format(daysSinceInstallation.roundUpMsToDays())
+
+    fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation.roundUpMsToDays() <= 14
 
     fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null

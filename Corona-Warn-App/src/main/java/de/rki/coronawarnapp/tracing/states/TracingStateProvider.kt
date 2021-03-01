@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.states
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
 import de.rki.coronawarnapp.risk.RiskState
@@ -25,9 +26,9 @@ class TracingStateProvider @AssistedInject constructor(
     backgroundModeStatus: BackgroundModeStatus,
     tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
-    exposureDetectionTracker: ExposureDetectionTracker
+    exposureDetectionTracker: ExposureDetectionTracker,
+    installTimeProvider: InstallTimeProvider
 ) {
-
     val state: Flow<TracingState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.v("tracingStatus: $it")
@@ -44,6 +45,9 @@ class TracingStateProvider @AssistedInject constructor(
         exposureDetectionTracker.latestSubmission().onEach {
             Timber.v("latestSubmission: $it")
         },
+        installTimeProvider.daysSinceInstallation.onEach {
+          Timber.v("installedOverTwoWeeksAgo: $it")
+        },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.v("isAutoModeEnabled: $it")
         }
@@ -52,6 +56,7 @@ class TracingStateProvider @AssistedInject constructor(
         riskLevelResults,
         activeTracingDaysInRetentionPeriod,
         latestSubmission,
+        installTime,
         isBackgroundJobEnabled ->
 
         val (
@@ -77,7 +82,8 @@ class TracingStateProvider @AssistedInject constructor(
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
-                allowManualUpdate = !isBackgroundJobEnabled
+                allowManualUpdate = !isBackgroundJobEnabled,
+                daysSinceInstallation = installTime
             )
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
                 isInDetailsMode = isDetailsMode,
@@ -98,6 +104,7 @@ class TracingStateProvider @AssistedInject constructor(
         .onStart { Timber.v("TracingStateProvider FLOW start") }
         .onEach { Timber.d("TracingStateProvider FLOW emission: %s", it) }
         .onCompletion { Timber.v("TracingStateProvider FLOW completed.") }
+
 
     @AssistedFactory
     interface Factory {
