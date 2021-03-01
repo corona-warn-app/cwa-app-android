@@ -15,6 +15,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.sharing.FileSharing
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -25,6 +26,7 @@ import java.io.FileOutputStream
 class QrCodeCreationTestViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val fileSharing: FileSharing,
+    @AppContext private val context: Context
 ) : CWAViewModel(dispatcher) {
 
     val qrCodeBitmap = SingleLiveEvent<Bitmap>()
@@ -43,11 +45,10 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
      * as a sharing [FileSharing.ShareIntentProvider]
      */
     fun createPDF(
-        context: Context,
         view: View
     ) = launch(dispatcher.IO) {
         try {
-            val file = pdfFile(context)
+            val file = pdfFile()
             val pageInfo = PdfDocument.PageInfo.Builder(
                 view.width,
                 view.height,
@@ -75,13 +76,13 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
         }
     }
 
-    private fun pdfFile(context: Context): File {
+    private fun pdfFile(): File {
         val dir = File(context.filesDir, "events")
         if (!dir.exists()) dir.mkdirs()
         return File(dir, "CoronaWarnApp-Event.pdf")
     }
 
-    private fun encodeAsBitmap(input: String, size: Int = 200): Bitmap? {
+    private fun encodeAsBitmap(input: String, size: Int = 1000): Bitmap? {
         return try {
             val hints = mapOf(
                 EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.H,
@@ -103,6 +104,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
 
     private fun BitMatrix.toBitmap() =
         Bitmap.createBitmap(
+            context.resources.displayMetrics,
             width,
             height,
             Bitmap.Config.ARGB_8888
