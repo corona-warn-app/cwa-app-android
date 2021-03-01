@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import android.text.TextUtils
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
@@ -92,7 +93,8 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             .map { it.riskLevel }
             .firstOrNull()
 
-    override fun calculateRisk(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun calculateRisk(
         appConfig: ExposureWindowRiskCalculationConfig,
         exposureWindow: ExposureWindow
     ): RiskResult? {
@@ -114,6 +116,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             return null
         }
 
+        //TODO(Adjust once the protobufs are updated)
         val transmissionRiskValue: Double =
             transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
 
@@ -135,8 +138,12 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         )
 
         if (riskLevel == null) {
-            Timber.e("Exposure Window: $exposureWindow could not be mapped to a risk level")
-            throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
+            Timber.d(
+                "%s dropped due to risk level filter is %s",
+                exposureWindow,
+                riskLevel
+            )
+            return null
         }
 
         Timber.d("%s's riskLevel is: %s", exposureWindow, riskLevel)
@@ -148,11 +155,12 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         )
     }
 
-    override fun aggregateResults(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun aggregateResults(
         appConfig: ExposureWindowRiskCalculationConfig,
-        exposureWindowResultMap: Map<ExposureWindow, RiskResult>
+        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
-        val uniqueDatesMillisSinceEpoch = exposureWindowResultMap.keys
+        val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
             .map { it.dateMillisSinceEpoch }
             .toSet()
 
@@ -161,7 +169,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             { TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch) }
         )
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
-            aggregateRiskPerDate(appConfig, it, exposureWindowResultMap)
+            aggregateRiskPerDate(appConfig, it, exposureWindowsAndResult)
         }
 
         Timber.d("exposureHistory size: ${exposureHistory.size}")
@@ -169,11 +177,11 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         // 6. Determine `Total Risk`
         val totalRiskLevel =
             if (exposureHistory.any {
-                it.riskLevel == RiskCalculationParametersOuterClass
-                    .NormalizedTimeToRiskLevelMapping
-                    .RiskLevel
-                    .HIGH
-            }
+                    it.riskLevel == RiskCalculationParametersOuterClass
+                        .NormalizedTimeToRiskLevelMapping
+                        .RiskLevel
+                        .HIGH
+                }
             ) {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
             } else {
