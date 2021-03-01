@@ -38,10 +38,15 @@ class DebugLogViewModel @AssistedInject constructor(
     }
     private val manualTick = MutableStateFlow(Unit)
     private val sharingInProgress = MutableStateFlow(false)
-    val state: LiveData<State> = combine(ticker, manualTick, sharingInProgress) { _, _, sharingInProgress ->
+    val state: LiveData<State> = combine(
+        ticker,
+        manualTick,
+        sharingInProgress,
+        debugLogger.logState
+    ) { _, _, sharingInProgress, logState ->
         State(
-            isRecording = debugLogger.isLogging,
-            currentSize = debugLogger.getLogSize() + debugLogger.getShareSize(),
+            isRecording = logState.isLogging,
+            currentSize = logState.logSize + debugLogger.getShareSize(),
             sharingInProgress = sharingInProgress
         )
     }.asLiveData(context = dispatcherProvider.Default)
@@ -51,7 +56,7 @@ class DebugLogViewModel @AssistedInject constructor(
 
     fun toggleRecording() = launch {
         try {
-            if (debugLogger.isLogging) {
+            if (debugLogger.isLogging.value) {
                 debugLogger.stop()
             } else {
                 debugLogger.start()
