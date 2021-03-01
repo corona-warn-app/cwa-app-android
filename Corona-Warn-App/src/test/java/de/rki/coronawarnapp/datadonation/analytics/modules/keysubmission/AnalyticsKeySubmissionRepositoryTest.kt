@@ -71,7 +71,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun testHoursSinceTestRegistrationNotSubmitted() {
-        coEvery { storage.submittedAt.value } returns now.millis
+        coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testRegisteredAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
         repository.hoursSinceTestRegistration shouldBe 0
