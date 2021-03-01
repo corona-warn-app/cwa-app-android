@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -27,7 +28,11 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
         vm.state.observe2(this) {
             binding.apply {
-                debuglogActivityIndicator.isGone = !it.isRecording
+
+                debuglogActivityIndicator.setImageDrawable(context?.getDrawableCompat(
+                    if (it.isRecording) R.drawable.ic_debug_log_indicator_activated
+                    else R.drawable.ic_debug_log_indicator_deactivated))
+
                 debuglogStatusPrimary.text = getString(
                     if (it.isRecording) R.string.debugging_debuglog_status_recording
                     else R.string.debugging_debuglog_status_not_recording
@@ -40,7 +45,10 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     if (it.isRecording) R.string.debugging_debuglog_action_stop_recording
                     else R.string.debugging_debuglog_action_start_recording
                 )
+                /*
                 shareRecording.isEnabled = it.currentSize > 0L && !it.sharingInProgress
+                 */
+
                 toggleRecording.isEnabled = !it.sharingInProgress
             }
         }
@@ -55,7 +63,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
         binding.apply {
             toggleRecording.setOnClickListener { vm.toggleRecording() }
-            shareRecording.setOnClickListener { vm.shareRecording() }
+            // shareRecording.setOnClickListener { vm.shareRecording() }
             toolbar.setNavigationOnClickListener { popBackStack() }
         }
     }

@@ -866,7 +866,7 @@
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Raport de erori"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"Această opțiune înregistrează comportamentul aplicației într-un fișier text de jurnal. Dacă opțiunea este activată înainte de apariția unei erori, puteți face disponibil acest raport pentru a-i ajuta pe dezvoltatori să rezolve problema.\nDacă lăsați activată această opțiune, acest lucru va conduce la cerințe de stocare ridicate. Dacă dezactivați opțiunea, raportul de erori este șters."</string>
+    <string name="debugging_debuglog_intro_explanation_section_one">"Această opțiune înregistrează comportamentul aplicației într-un fișier text de jurnal. Dacă opțiunea este activată înainte de apariția unei erori, puteți face disponibil acest raport pentru a-i ajuta pe dezvoltatori să rezolve problema.\nDacă lăsați activată această opțiune, acest lucru va conduce la cerințe de stocare ridicate. Dacă dezactivați opțiunea, raportul de erori este șters."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Rețineți că rapoartele de erori pot conține date sensibile (precum un rezultat al testului sau intrări în jurnal ale contactelor). În consecință, nu este recomandat să împărtășiți public aceste rapoarte de erori."</string>
     <!-- XBUT: Button text to start the log recording -->
