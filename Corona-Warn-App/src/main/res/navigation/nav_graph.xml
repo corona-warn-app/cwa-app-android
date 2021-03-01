@@ -587,4 +587,9 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/scanCheckInQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.ScanCheckInQrCodeFragment"
+        android:label="ScanCheckInQrCodeFragment"
+        tools:layout="@layout/fragment_scan_check_in_qr_code" />
 </navigation>

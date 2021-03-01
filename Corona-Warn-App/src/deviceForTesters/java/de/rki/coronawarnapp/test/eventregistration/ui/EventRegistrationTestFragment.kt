@@ -1,11 +1,15 @@
 package de.rki.coronawarnapp.test.eventregistration.ui
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -18,6 +22,12 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     private val vm: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.scanCheckInQrCode.setOnClickListener {
+            findNavController().navigate(R.id.scanCheckInQrCodeFragment)
+        }
+    }
 
     companion object {
         val MENU_ITEM = TestMenuItem(
