@@ -97,6 +97,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @Test
     fun `go to test result without updating TEK history if NO consent is given`() {
         every { submissionRepository.hasGivenConsentToSubmission } returns flowOf(false)
+        every { analyticsKeySubmissionCollector.reportConsentWithdrawn() } just Runs
         val viewModel = createViewModel()
 
         viewModel.proceed()
