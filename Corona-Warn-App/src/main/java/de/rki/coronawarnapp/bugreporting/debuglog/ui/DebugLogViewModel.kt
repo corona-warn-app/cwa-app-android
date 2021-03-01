@@ -1,17 +1,17 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.bugreporting.debuglog.sharing.LogSnapshotter
+import de.rki.coronawarnapp.bugreporting.debuglog.sharing.SAFLogSharing
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.compression.Zipper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.sharing.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -19,16 +19,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
-import java.io.File
 
 class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
-    private val timeStamper: TimeStamper,
-    private val fileSharing: FileSharing,
-    private val enfClient: ENFClient
+    private val logSnapshotter: LogSnapshotter,
+    private val safLogSharing: SAFLogSharing,
+    private val enfClient: ENFClient,
+    private val contentResolver: ContentResolver
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     private val ticker = flow {
         while (true) {
@@ -46,13 +45,13 @@ class DebugLogViewModel @AssistedInject constructor(
     ) { _, _, sharingInProgress, logState ->
         State(
             isRecording = logState.isLogging,
-            currentSize = logState.logSize + debugLogger.getShareSize(),
+            currentSize = logState.logSize,
             sharingInProgress = sharingInProgress
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errorEvent = SingleLiveEvent<Throwable>()
-    val shareEvent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
+    val shareEvent = SingleLiveEvent<SAFLogSharing.Request>()
 
     fun toggleRecording() = launch {
         try {
@@ -83,26 +82,38 @@ class DebugLogViewModel @AssistedInject constructor(
         sharingInProgress.value = true
         launch {
             try {
-                debugLogger.clearSharedFiles()
-
-                val now = timeStamper.nowUTC
-                val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
-                val formattedFileName = "CWA Log ${now.toString(formatter)}"
-                val zipFile = File(debugLogger.sharedDirectory, "$formattedFileName.zip")
-
-                Zipper(zipFile).zip(
-                    listOf(Zipper.Entry(name = "$formattedFileName.txt", path = debugLogger.runningLog))
-                )
-
-                val intentProvider = fileSharing.getIntentProvider(
-                    path = zipFile,
-                    title = zipFile.name,
-                    chooserTitle = R.string.debugging_debuglog_sharing_dialog_title
-                )
-
-                shareEvent.postValue(intentProvider)
+                val snapshot = logSnapshotter.snapshot()
+                val shareRequest = safLogSharing.createSAFRequest(snapshot)
+                shareEvent.postValue(shareRequest)
             } catch (e: Exception) {
                 Timber.e(e, "Sharing debug log failed.")
+                errorEvent.postValue(e)
+            } finally {
+                sharingInProgress.value = false
+            }
+        }
+    }
+
+    fun processSAFResult(requestCode: Int, safPath: Uri?) {
+        if (safPath == null) {
+            errorEvent.postValue(IllegalStateException("Received positive result, but storage path was null"))
+            return
+        }
+
+        val request = safLogSharing.getRequest(requestCode)
+        if (request == null) {
+            Timber.w("Unknown request with code $requestCode")
+            return
+        }
+
+        sharingInProgress.value = true
+
+        launch {
+            try {
+                request.storeSnapshot(contentResolver, safPath)
+                Timber.i("Log stored to %s", safPath)
+            } catch (e: Exception) {
+                Timber.e(e, "Storing to SAF Uri failed.")
                 errorEvent.postValue(e)
             } finally {
                 sharingInProgress.value = false

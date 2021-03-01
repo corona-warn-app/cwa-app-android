@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.format.Formatter
 import android.view.View
@@ -14,6 +16,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), AutoInject {
@@ -50,13 +53,20 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         vm.shareEvent.observe2(this) {
-            startActivity(it.get(requireActivity()))
+            startActivityForResult(it.createIntent(), it.id)
         }
 
         binding.apply {
             toggleRecording.setOnClickListener { vm.toggleRecording() }
             shareRecording.setOnClickListener { vm.shareRecording() }
             toolbar.setNavigationOnClickListener { popBackStack() }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        Timber.d("onActivityResult(requestCode=$requestCode, resultCode=$resultCode, resultData=$resultData")
+        if (resultCode == Activity.RESULT_OK) {
+            vm.processSAFResult(requestCode, resultData?.data)
         }
     }
 }

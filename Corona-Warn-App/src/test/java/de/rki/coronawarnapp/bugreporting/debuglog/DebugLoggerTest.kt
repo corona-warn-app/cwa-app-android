@@ -23,7 +23,6 @@ import testhelpers.coroutines.test
 import testhelpers.logging.JUnitTree
 import timber.log.Timber
 import java.io.File
-import kotlin.random.Random
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class DebugLoggerTest : BaseIOTest() {
@@ -35,7 +34,6 @@ class DebugLoggerTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
     private val debugLogDir = File(cacheDir, "debuglog")
-    private val sharedDir = File(debugLogDir, "shared")
     private val runningLog = File(debugLogDir, "debug.log")
     private val triggerFile = File(debugLogDir, "debug.trigger")
 
@@ -140,24 +138,17 @@ class DebugLoggerTest : BaseIOTest() {
 
         Timber.forest().none { it is DebugLogTree } shouldBe true
 
-        File(sharedDir, "1").apply {
-            parentFile?.mkdirs()
-            appendBytes(Random.nextBytes(10))
-        }
-
         instance.start()
         instance.start()
         instance.start()
 
         Timber.forest().single { it is DebugLogTree } shouldNotBe null
-        sharedDir.listFiles()!!.size shouldBe 1
 
         instance.stop()
         instance.stop()
 
         Timber.forest().none { it is DebugLogTree } shouldBe true
         instance.isLogging.value shouldBe false
-        sharedDir.listFiles()!!.size shouldBe 0
     }
 
     @Test
@@ -178,17 +169,6 @@ class DebugLoggerTest : BaseIOTest() {
         instance.isLogging.value shouldBe false
 
         runningLog.exists() shouldBe false
-    }
-
-    @Test
-    fun `shared size aggregates shared folder size`() = runBlockingTest {
-        sharedDir.mkdirs()
-        File(sharedDir, "1").apply { appendBytes(Random.nextBytes(10)) }
-        File(sharedDir, "2").apply { appendBytes(Random.nextBytes(15)) }
-        createInstance(scope = this).apply {
-            init()
-            getShareSize() shouldBe 25
-        }
     }
 
     @Test
