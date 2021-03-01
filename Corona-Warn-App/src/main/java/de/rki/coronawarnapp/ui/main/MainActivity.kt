@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.navUri
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -137,6 +138,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Timber.i("onNewIntent:$intent")
+        checkDataAndNavigate(intent)
+    }
+
     private fun processExtraParameters() {
         when (getShortcutFromIntent(intent)) {
             AppShortcuts.CONTACT_DIARY -> {
@@ -144,9 +151,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             }
         }
 
-        val uri = intent.data ?: return
-        Timber.i("Uri:$uri")
-        navController.navigate(uri)
+        checkDataAndNavigate(intent)
     }
 
     private fun goToContactJournal() {
@@ -174,6 +179,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         } else {
             R.id.contactDiaryOnboardingFragment
         }
+    }
+
+    private fun checkDataAndNavigate(intent: Intent?) {
+        val uri = intent?.data ?: return
+        Timber.i("Uri:$uri")
+        Timber.i("NavUri:%s", uri.navUri)
+        navController.navigate(uri.navUri)
     }
 
     /**
