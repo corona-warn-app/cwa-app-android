@@ -1,0 +1,18 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/ppdd_ppac_parameters.proto";
+
+message PPDDErrorLogSharingParametersIOS {
+  PPDDErrorLogSharingParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersIOS ppac = 2;
+}
+
+message PPDDErrorLogSharingParametersAndroid {
+  PPDDErrorLogSharingParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersAndroid ppac = 2;
+}
+
+message PPDDErrorLogSharingParametersCommon {
+}

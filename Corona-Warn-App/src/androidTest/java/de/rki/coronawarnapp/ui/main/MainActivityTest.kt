@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
@@ -45,6 +46,7 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.statistics.Statistics
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
@@ -102,6 +104,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var taskController: TaskController
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var exporter: ContactDiaryExporter
 
     // ViewModels
     private lateinit var mainActivityViewModel: MainActivityViewModel
@@ -368,7 +371,9 @@ class MainActivityTest : BaseUITest() {
             taskController = taskController,
             dispatcherProvider = TestDispatcherProvider(),
             contactDiaryRepository = contactDiaryRepository,
-            riskLevelStorage = riskLevelStorage
+            riskLevelStorage = riskLevelStorage,
+            timeStamper = TimeStamper(),
+            exporter = exporter
         )
     )
 
