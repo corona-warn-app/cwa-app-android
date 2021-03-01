@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
-import de.rki.coronawarnapp.storage.OnboardingData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -49,7 +49,7 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
     @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var onboardingData: OnboardingData
+    @MockK lateinit var onboardingSettings: OnboardingSettings
 
     private val baseTime: Instant = Instant.ofEpochMilli(0)
 
@@ -71,7 +71,7 @@ class AnalyticsTest : BaseTest() {
 
         val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
-        every { onboardingData.onboardingCompletedTimestamp } returns mockFlowPreference(twoDaysAgo)
+        every { onboardingSettings.onboardingCompletedTimestamp } returns twoDaysAgo
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
 
@@ -87,7 +87,7 @@ class AnalyticsTest : BaseTest() {
             settings = settings,
             logger = lastAnalyticsSubmissionLogger,
             timeStamper = timeStamper,
-            onboardingData = onboardingData
+            onboardingSettings = onboardingSettings
         )
     )
 
@@ -195,7 +195,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to time since onboarding`() {
-        every { onboardingData.onboardingCompletedTimestamp } returns mockFlowPreference(baseTime)
+        every { onboardingSettings.onboardingCompletedTimestamp } returns baseTime
 
         val analytics = createInstance()
 

@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.OnboardingData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
@@ -71,7 +71,6 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.preferences.mockFlowPreference
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
@@ -93,7 +92,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
-    @MockK lateinit var onboardingData: OnboardingData
+    @MockK lateinit var onboardingSettings: OnboardingSettings
 
     // MainActivity mocks
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -127,7 +126,7 @@ class MainActivityTest : BaseUITest() {
         // Common mocks
         every { CWADebug.isDeviceForTestersBuild } returns false
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
-        every { onboardingData.isBackgroundCheckDone } returns mockFlowPreference(true)
+        every { onboardingSettings.isBackgroundCheckDone } returns true
         every { LocalData.submissionWasSuccessful() } returns false
         every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
@@ -345,7 +344,7 @@ class MainActivityTest : BaseUITest() {
             environmentSetup = environmentSetup,
             backgroundModeStatus = backgroundModeStatus,
             contactDiarySettings = diarySettings,
-            onboardingData = onboardingData
+            onboardingSettings = onboardingSettings
         )
     )
 

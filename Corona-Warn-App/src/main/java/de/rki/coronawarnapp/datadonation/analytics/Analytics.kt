@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
-import de.rki.coronawarnapp.storage.OnboardingData
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +36,7 @@ class Analytics @Inject constructor(
     private val settings: AnalyticsSettings,
     private val logger: LastAnalyticsSubmissionLogger,
     private val timeStamper: TimeStamper,
-    private val onboardingData: OnboardingData
+    private val onboardingSettings: OnboardingSettings
 ) {
     private val submissionLockoutMutex = Mutex()
 
@@ -173,7 +173,7 @@ class Analytics @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToTimeSinceOnboarding(): Boolean {
-        val onboarding = onboardingData.onboardingCompletedTimestamp.value ?: return true
+        val onboarding = onboardingSettings.onboardingCompletedTimestamp ?: return true
         return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfter(timeStamper.nowUTC)
     }
 
