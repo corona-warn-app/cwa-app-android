@@ -56,10 +56,11 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
+            // Order here is important.to void race condition the coroutine will get cancelled
+            // when registrationState.postValue() is called before
+            testResultDataCollector.saveTestResultAnalyticsSettings(testResult)
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
-            // Order here is important. Save Analytics after SUCCESS
-            testResultDataCollector.saveTestResultAnalyticsSettings(testResult)
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
