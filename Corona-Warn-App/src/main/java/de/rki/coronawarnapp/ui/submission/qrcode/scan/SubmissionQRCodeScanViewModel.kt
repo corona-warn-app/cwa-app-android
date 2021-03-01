@@ -56,8 +56,9 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
         try {
             registrationState.postValue(RegistrationState(ApiRequestState.STARTED))
             val testResult = submissionRepository.asyncRegisterDeviceViaGUID(scanResult.guid!!)
-            // Order here is important.to void race condition the coroutine will get cancelled
-            // when registrationState.postValue() is called before
+            // Order here is important. When `registrationState.postValue` is called before
+            // `saveTestResultAnalyticsSettings`, this coroutine will get canceled due to the navigation
+            // to the next screen.
             testResultDataCollector.saveTestResultAnalyticsSettings(testResult)
             checkTestResult(testResult)
             registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, testResult))
