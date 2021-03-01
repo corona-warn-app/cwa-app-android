@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -32,6 +33,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @Rule
     @JvmField
@@ -46,7 +48,13 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel =
-            spyk(SubmissionTestResultNoConsentViewModel(submissionRepository, testResultAvailableNotificationService))
+            spyk(
+                SubmissionTestResultNoConsentViewModel(
+                    submissionRepository,
+                    testResultAvailableNotificationService,
+                    analyticsKeySubmissionCollector
+                )
+            )
         setupMockViewModel(
             object : SubmissionTestResultNoConsentViewModel.Factory {
                 override fun create(): SubmissionTestResultNoConsentViewModel = viewModel

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import com.google.android.gms.common.api.ApiException
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -30,6 +31,7 @@ class SubmissionConsentViewModelTest {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     lateinit var viewModel: SubmissionConsentViewModel
 
@@ -40,11 +42,13 @@ class SubmissionConsentViewModelTest {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
         every { submissionRepository.giveConsentToSubmission() } just Runs
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
         viewModel = SubmissionConsentViewModel(
             submissionRepository,
             interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
-            tekHistoryProvider
+            tekHistoryProvider,
+            analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
         )
     }
 
@@ -74,6 +78,7 @@ class SubmissionConsentViewModelTest {
 
     @Test
     fun `giveGoogleConsentResult when user Allows routes to QR Code scan`() {
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
         viewModel.giveGoogleConsentResult(true)
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToQRCodeScan
     }
