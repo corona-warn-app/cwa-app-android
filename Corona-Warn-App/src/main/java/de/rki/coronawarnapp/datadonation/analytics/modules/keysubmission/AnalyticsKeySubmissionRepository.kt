@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
 import org.joda.time.Instant
 import javax.inject.Inject
@@ -9,7 +8,6 @@ import kotlin.math.max
 
 class AnalyticsKeySubmissionRepository @Inject constructor(
     private val storage: AnalyticsKeySubmissionStorage,
-    private val timeStamper: TimeStamper,
     private val riskLevelSettings: RiskLevelSettings
 ) {
     val testResultReceivedAt: Long
@@ -31,7 +29,7 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = submitted && storage.submittedAfterCancel.value
 
     val submittedAfterSymptomFlow: Boolean
-        get() = storage.submittedAfterSymptomFlow.value
+        get() = submitted && storage.submittedAfterSymptomFlow.value
 
     val submittedWithTeleTAN: Boolean
         get() = submitted && storage.registeredWithTeleTAN.value
@@ -40,7 +38,7 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = storage.lastSubmissionFlowScreen.value
 
     val advancedConsentGiven: Boolean
-        get() = submitted && storage.advancedConsentGiven.value
+        get() = storage.advancedConsentGiven.value
 
     val hoursSinceTestResult: Int
         get() = Duration.millis(max(submittedAt - testResultReceivedAt, 0)).toStandardHours().hours
