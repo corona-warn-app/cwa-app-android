@@ -17,7 +17,9 @@ import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewViewModel
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -322,25 +324,35 @@ class MainActivityTest : BaseUITest() {
             }
         )
 
-    private fun contactDiaryOverviewItemLiveData(): LiveData<List<ListItem>> =
-        MutableLiveData(
-            (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
-                .map { LocalDate.now().minusDays(it) }
-                .mapIndexed { index, localDate ->
-                    ListItem(localDate).apply {
-                        if (index == 1) {
-                            data.add(DiaryData.DATA_ITEMS[0])
-                            data.add(DiaryData.DATA_ITEMS[1])
-                        } else if (index == 3) {
-                            data.add(DiaryData.DATA_ITEMS[2])
-                        }
-                        risk = when (index % 5) {
-                            3 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS
-                            else -> null // DiaryData.LOW_RISK OR DiaryData.HIGH_RISK POSSIBLE
-                        }
+    private fun contactDiaryOverviewItemLiveData(): LiveData<List<DiaryOverviewItem>> {
+        val data = mutableListOf<DiaryOverviewItem>()
+        data.add(OverviewSubHeaderItem)
+        val dayData = (0 until ContactDiaryOverviewViewModel.DAY_COUNT)
+            .map { LocalDate.now().minusDays(it) }
+            .mapIndexed { index, localDate ->
+                val dayData = mutableListOf<DayOverviewItem.Data>().apply {
+                    if (index == 1) {
+                        add(DiaryData.DATA_ITEMS[0])
+                        add(DiaryData.DATA_ITEMS[1])
+                    } else if (index == 3) {
+                        add(DiaryData.DATA_ITEMS[2])
                     }
                 }
-        )
+                val risk = when (index % 5) {
+                    3 -> DiaryData.HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS
+                    else -> null // DiaryData.LOW_RISK OR DiaryData.HIGH_RISK POSSIBLE
+                }
+                DayOverviewItem(
+                    date = localDate,
+                    data = dayData,
+                    risk = risk
+                ) {
+                    // onClick
+                }
+            }
+        data.addAll(dayData)
+        return MutableLiveData(data)
+    }
 
     // ViewModels creators
     private fun mainActivityViewModelSpy() = spyk(

@@ -11,7 +11,9 @@
     <string name="contact_diary_person_list_no_items_title">"Henüz hiçbir kişi tanımlanmadı"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Bir kişi oluşturun ve temas güncenize ekleyin."</string>
     <string name="contact_diary_add_person_title">"Kişi"</string>
-    <string name="contact_diary_add_person_text_input_name_hint">"Ad"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Ad, soyadı"</string>
+    <string name="contact_diary_add_text_input_phone_hint">"Telefon"</string>
+    <string name="contact_diary_add_text_input_email_hint">"e-posta"</string>
     <string name="contact_diary_add_person_save_button">"Kaydet"</string>
     <string name="contact_diary_add_location_title">"Yer"</string>
     <string name="contact_diary_add_location_text_input_hint">"Tanım"</string>
@@ -70,8 +72,10 @@
     <string name="contact_diary_low_risk_title">"Düşük Risk"</string>
     <!-- XTXT: Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body">"uygulama tarafından değerlendirilen karşılaşmalar temel alınır."</string>
+    <!-- XTXT: Body for contact diary overview screen risk information when high risk due to low risk encounters-->
+    <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"(düşük riskli birden fazla maruz kalmaya göre)."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
-    <string name="contact_diary_risk_body_extended">"uygulama tarafından değerlendirilen karşılaşmalar temel alınır. Kaydettiğiniz kişilerle ve yerlerle ilgili olmaları şart değildir."</string>
+    <string name="contact_diary_risk_body_extended">"Kaydettiğiniz kişilerle ve yerlerle ilgili olmaları şart değildir."</string>
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
@@ -111,6 +115,13 @@
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Bu kişiyi gerçekten kaldırmak istiyor musunuz?"</string>
 
+    <!-- XHED: Title for the contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_title">"Not"</string>
+    <!-- XTXT: Description for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_description">"Enfeksiyon riskinizi daha iyi tahmin etmenize yardımcı olacak notları bu bölüme girebilirsiniz."</string>
+    <!-- XTXT: Body for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_body">"Başka insanlara ne kadar yakın olduğunuz ya da yaptığınız şeyler gibi hava kalitesini etkileyebilecek ve riskin artmasına neden olabilecek koşulları yazın (örnekler: “yakın bir şekilde birlikte oturduk”, “spor yaptık”, “az alan vardı”, “şarkı söyledik”).\n\nEnfekte olmanız halinde bu bilgiler, kamu sağlığı yetkilisinin potansiyel enfeksiyon zincirlerini takip etmesine de yardımcı olabilir."</string>
+
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Yer %s"</string>
     <!-- XTXT: person (description for screen readers) -->
@@ -133,4 +144,29 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Düzenle"</string>
 
+    <!-- XACT: Add Person Button (description for screen readers) -->
+    <string name="accessibility_day_add_person">"Kişi Ekle"</string>
+    <!-- XACT: Add Location Button (description for screen readers) -->
+    <string name="accessibility_day_add_location">"Yer Ekle"</string>
+
+    <!-- XBUT: Option - person encounter - below 15 Min -->
+    <string name="contact_diary_person_encounter_duration_below_15_min">"15 dakikadan az"</string>
+    <!-- XBUT: Option - person encounter - above 15 Min -->
+    <string name="contact_diary_person_encounter_duration_above_15_min">"15 dakikadan fazla"</string>
+    <!-- XBUT: Option - person encounter - with mask -->
+    <string name="contact_diary_person_encounter_mask_with">"Maskeli"</string>
+    <!-- XBUT: Option - person encounter - without mask -->
+    <string name="contact_diary_person_encounter_mask_without">"Maskesiz"</string>
+    <!-- XBUT: Option - person encounter - outside -->
+    <string name="contact_diary_person_encounter_environment_outside">"Açık hava"</string>
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_person_encounter_environment_inside">"Kapalı ortam"</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_person_encounter_circumstances_hint">"Not (ör. yakın mesafe)"</string>
+
+
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_location_visit_duration_label">"Süre"</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_location_visit_circumstances_hint">"Not (ör. çok dolu)"</string>
 </resources>
