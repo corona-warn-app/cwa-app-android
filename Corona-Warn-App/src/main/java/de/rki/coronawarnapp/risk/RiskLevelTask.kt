@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.risk
 
 import android.content.Context
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -11,6 +13,7 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
+import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.Task
@@ -31,7 +34,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("ReturnCount")
+@Suppress("ReturnCount", "LongParameterList")
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     @AppContext private val context: Context,
@@ -41,7 +44,8 @@ class RiskLevelTask @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
-    private val keyCacheRepository: KeyCacheRepository
+    private val keyCacheRepository: KeyCacheRepository,
+    private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
 ) : Task<DefaultProgress, RiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -153,7 +157,7 @@ class RiskLevelTask @Inject constructor(
         Timber.tag(TAG).d("Calculating risklevel")
         val exposureWindows = enfClient.exposureWindows()
 
-        return riskLevels.determineRisk(configData, exposureWindows).let {
+        return determineRisk(configData, exposureWindows).let {
             Timber.tag(TAG).d("Risklevel calculated: %s", it)
             if (it.isIncreasedRisk()) {
                 Timber.tag(TAG).i("Risk is increased!")
@@ -167,6 +171,20 @@ class RiskLevelTask @Inject constructor(
                 exposureWindows = exposureWindows
             )
         }
+    }
+
+    private suspend fun determineRisk(
+        appConfig: ExposureWindowRiskCalculationConfig,
+        exposureWindows: List<ExposureWindow>
+    ): AggregatedRiskResult {
+        val riskResultsPerWindow =
+            exposureWindows.mapNotNull { window ->
+                riskLevels.calculateRisk(appConfig, window)?.let { window to it }
+            }.toMap()
+
+        analyticsExposureWindowCollector.reportRiskResultsPerWindow(riskResultsPerWindow)
+
+        return riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
     }
 
     private suspend fun backgroundJobsEnabled() =

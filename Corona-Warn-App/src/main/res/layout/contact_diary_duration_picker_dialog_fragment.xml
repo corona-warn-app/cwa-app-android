@@ -61,11 +61,12 @@
 
     <Button
         android:id="@+id/cancel_button"
-        style="@style/buttonLight"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="29dp"
         android:layout_marginBottom="@dimen/spacing_small"
+        android:letterSpacing="0.08"
         android:text="@string/duration_dialog_cancel_button"
         android:textColor="@color/colorTextTint"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,12 +75,13 @@
 
     <Button
         android:id="@+id/ok_button"
-        style="@style/buttonLight"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="29dp"
-        android:layout_marginEnd="14dp"
+        android:layout_marginEnd="26dp"
         android:layout_marginBottom="@dimen/spacing_small"
+        android:letterSpacing="0.08"
         android:text="@string/duration_dialog_ok_button"
         android:textColor="@color/colorTextTint"
         app:layout_constraintBottom_toBottomOf="parent"
