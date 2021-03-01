@@ -19,12 +19,13 @@ class TestResultDataCollector @Inject constructor(
      *  exclude any registered test result before giving a consent
      */
     suspend fun saveTestResultAnalyticsSettings(testResult: TestResult) {
-        if (testResult !in listOf(
-                TestResult.POSITIVE,
-                TestResult.PENDING,
-                TestResult.NEGATIVE
-            )
-        ) return // Not interested in other values
+        val validTestResults = listOf(
+            TestResult.POSITIVE,
+            TestResult.PENDING,
+            TestResult.NEGATIVE
+        )
+
+        if (testResult !in validTestResults) return // Not interested in other values
 
         if (analyticsSettings.analyticsEnabled.value) {
             val lastRiskResult = riskLevelStorage
