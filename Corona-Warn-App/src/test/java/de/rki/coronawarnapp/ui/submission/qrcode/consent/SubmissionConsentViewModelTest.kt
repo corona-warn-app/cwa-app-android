@@ -42,6 +42,7 @@ class SubmissionConsentViewModelTest {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
         every { submissionRepository.giveConsentToSubmission() } just Runs
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
         viewModel = SubmissionConsentViewModel(
             submissionRepository,
             interoperabilityRepository,
