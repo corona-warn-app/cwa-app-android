@@ -130,15 +130,7 @@ class DefaultTEKHistoryProvider @Inject constructor(
     }
 
     private suspend fun getPreAuthTEKHistoryOnV18(): List<TemporaryExposureKey> {
-        val isPreAuthorized = try {
-            preAuthorizeExposureKeyHistory()
-        } catch (exception: Exception) {
-            Timber.d(exception, "Requesting Pre-Auth history failed")
-            if (exception.isResolvable) throw exception
-            false
-        }
-
-        return if (isPreAuthorized) {
+        return if (enfVersion.isAtLeast(ENFVersion.V1_8)) {
             try {
                 Timber.d("Pre-Auth retrieving TEK.")
                 getPreAuthorizedExposureKeys().also {
