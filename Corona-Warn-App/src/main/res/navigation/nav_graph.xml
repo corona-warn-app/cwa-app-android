@@ -576,19 +576,18 @@
 
     <fragment
         android:id="@+id/verifyEventFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.ConfirmCheckInFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInFragment"
         android:label="fragment_verify_event"
         tools:layout="@layout/fragment_confrim_check_in">
-        <deepLink app:uri="https://coronawarn.app/E1/{event}" />
-
+        <deepLink app:uri="https://coronawarn.app/E1/{encodedEvent}" />
         <argument
-            android:name="event"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="encodedEvent"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/scanCheckInQrCodeFragment"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.ScanCheckInQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeFragment"
         android:label="ScanCheckInQrCodeFragment"
         tools:layout="@layout/fragment_scan_check_in_qr_code" />
 </navigation>
