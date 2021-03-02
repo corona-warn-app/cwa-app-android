@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.eventregistration.ConfirmCheckInFragment">
+    tools:context=".ui.eventregistration.checkin.ConfirmCheckInFragment">
 
     <TextView
         android:id="@+id/encodedEvent"
