@@ -77,6 +77,14 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 debugLogPrivacyInformation.setOnClickListener {
                     vm.onPrivacyButtonPress()
                 }
+
+                debugLogHistoryContainer.setOnClickListener {
+                    vm.onIdHistoryPress()
+                }
+
+                toggleSendErrorLog.setOnClickListener{
+                    vm.shareRecording()
+                }
             }
         }
 

@@ -58,7 +58,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/explanation_section_one"
                     android:text="@string/debugging_debuglog_intro_explanation_section_two" />
 
-
                 <include
                     android:id="@+id/debug_log_privacy_card"
                     layout="@layout/include_debuglog_privacy_card"
@@ -70,6 +69,43 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/explanation_section_two" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/debug_log_history_container"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/debug_log_privacy_card">
+
+                    <TextView
+                        android:id="@+id/log_history_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/body1"
+                        android:layout_margin="@dimen/spacing_normal"
+                        android:text="@string/debugging_debuglog_id_history_title">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/log_history_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_normal"
+                        android:layout_marginTop="4dp"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/log_history_title"
+                        android:text="@string/debugging_debuglog_id_history_body">
+                    </TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:id="@+id/debug_log_first_divider"
                     android:layout_width="0dp"
@@ -79,7 +115,7 @@
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/debug_log_privacy_card" />
+                    app:layout_constraintTop_toBottomOf="@id/debug_log_history_container" />
 
                 <TextView
                     android:id="@+id/debug_log_privacy_information"

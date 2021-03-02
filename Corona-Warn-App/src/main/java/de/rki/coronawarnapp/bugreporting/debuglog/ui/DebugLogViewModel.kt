@@ -46,6 +46,10 @@ class DebugLogViewModel @AssistedInject constructor(
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
     }
 
+    fun onIdHistoryPress() {
+        // TODO Add Navigation
+    }
+
     val state: LiveData<State> = combine(ticker, manualTick, sharingInProgress) { _, _, sharingInProgress ->
         State(
             isRecording = debugLogger.isLogging,
