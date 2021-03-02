@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AppInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -28,7 +29,11 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
 
         fun start(context: Context, launchIntent: Intent? = null) {
             val intent = Intent(context, OnboardingActivity::class.java)
-            intent.data = launchIntent?.data
+            Timber.i("launchIntent:$launchIntent")
+            launchIntent?.let {
+                intent.fillIn(it, Intent.FILL_IN_DATA)
+                Timber.i("filledIntent:$intent")
+            }
             context.startActivity(intent)
         }
     }
