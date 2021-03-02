@@ -31,7 +31,7 @@ class LogUploadHistoryFragment : Fragment(R.layout.bugreporting_upload_history_f
             adapter = historyAdapter
         }
 
-        vm.logUpload.observe2(this) {
+        vm.logUploads.observe2(this) {
             historyAdapter.apply {
                 data.clearAndAddAll(it)
                 notifyDataSetChanged()

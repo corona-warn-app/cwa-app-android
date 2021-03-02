@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -78,12 +79,12 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
         vm.routeToScreen.observe2(this) {
             when (it) {
-
-                DebugLogNavigationEvents.NavigateToPrivacyFragment -> {
-                    doNavigate(
-                        DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
-                    )
-                }
+                DebugLogNavigationEvents.NavigateToPrivacyFragment -> doNavigate(
+                    DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
+                )
+                DebugLogNavigationEvents.NavigateToUploadHistory -> doNavigate(
+                    DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
+                )
             }
         }
 
@@ -93,6 +94,10 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
         vm.shareEvent.observe2(this) {
             startActivity(it.get(requireActivity()))
+        }
+
+        vm.logUploads.observe2(this@DebugLogFragment) {
+            binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
         }
 
         binding.apply {

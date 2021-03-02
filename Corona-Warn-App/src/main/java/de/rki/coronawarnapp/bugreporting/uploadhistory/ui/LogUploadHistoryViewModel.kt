@@ -16,7 +16,7 @@ class LogUploadHistoryViewModel @AssistedInject constructor(
     bugReportingSettings: BugReportingSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val logUpload: LiveData<List<LogUpload>> = bugReportingSettings.uploadHistory.flow
+    val logUploads: LiveData<List<LogUpload>> = bugReportingSettings.uploadHistory.flow
         .map { history -> history.logs.sortedByDescending { it.uploadedAt } }
         .asLiveData(context = dispatcherProvider.Default)
 
