@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
+import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelResult
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -76,12 +76,6 @@ class TestResultDonorSettings @Inject constructor(
     }
 
     fun clear() = prefs.clearAndNotify()
-
-    private fun RiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
-        when (riskState) {
-            RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-            else -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        }
 
     companion object {
         private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "testResultDonor.testScannedAfterConsent"

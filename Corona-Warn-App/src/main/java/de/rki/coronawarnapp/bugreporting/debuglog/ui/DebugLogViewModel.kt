@@ -38,6 +38,18 @@ class DebugLogViewModel @AssistedInject constructor(
     }
     private val manualTick = MutableStateFlow(Unit)
     private val sharingInProgress = MutableStateFlow(false)
+
+    val routeToScreen: de.rki.coronawarnapp.ui.SingleLiveEvent<DebugLogNavigationEvents> =
+        de.rki.coronawarnapp.ui.SingleLiveEvent()
+
+    fun onPrivacyButtonPress() {
+        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
+    }
+
+    fun onIdHistoryPress() {
+        // TODO Add Navigation
+    }
+
     val state: LiveData<State> = combine(
         ticker,
         manualTick,
