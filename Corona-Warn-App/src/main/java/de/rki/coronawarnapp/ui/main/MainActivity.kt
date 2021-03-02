@@ -29,7 +29,6 @@ import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.navUri
