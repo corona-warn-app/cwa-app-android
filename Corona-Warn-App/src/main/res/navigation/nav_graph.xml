@@ -501,7 +501,11 @@
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
-        android:label="DebuglogFragment" />
+        android:label="DebuglogFragment" >
+        <action
+            android:id="@+id/action_debuglogFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+    </fragment>
 
     <!-- New Release -->
     <fragment

@@ -872,14 +872,20 @@
     <string name="debugging_debuglog_intro_explanation_section_one">"Um den technischen Support der App bei der Fehleranalyse zu unterstützen, können Sie einen Fehlerbericht der CWA aufzeichnen. Hierbei werden die einzelnen technischen Schritte und Ereignisse beim Ablauf der App detailliert aufgezeichnet. Den Fehlerbericht können Sie dann an den technischen Support senden und so helfen, Fehler zu erkennen und zu beheben."</string>
     <!-- YTXT: Description two for the debug option to record log files -->
     <string name="debugging_debuglog_intro_explanation_section_two">"Weitere Informationen finden Sie in den FAQ:\nFAQ zu den Fehlerberichten"</string>
+    <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ zu den Fehlerberichten"</string>
+    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten sensible Daten (z.B. Testergebnis oder Kontakt-Tagebuch-Einträge) enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Starten"</string>
     <!-- XBUT: Button text to stop the log recording -->
-    <string name="debugging_debuglog_action_stop_recording">"Löschen"</string>
+    <string name="debugging_debuglog_action_stop_recording">"Stoppen und Löschen"</string>
     <!-- XBUT: Button text to share the log recording -->
-    <string name="debugging_debuglog_action_share_log">"Teilen"</string>
+    <string name="debugging_debuglog_action_share_log">"Fehlerbericht senden"</string>
+    <!-- XBUT: Button text to locally store the log recording -->
+    <string name="debugging_debuglog_action_local_log_store">"Lokal speichern und fortsetzen"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Aufzeichnung läuft"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->

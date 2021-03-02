@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
+import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingNavigationEvents
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
@@ -38,6 +39,14 @@ class DebugLogViewModel @AssistedInject constructor(
     }
     private val manualTick = MutableStateFlow(Unit)
     private val sharingInProgress = MutableStateFlow(false)
+
+    val routeToScreen: de.rki.coronawarnapp.ui.SingleLiveEvent<DebugLogNavigationEvents> =
+        de.rki.coronawarnapp.ui.SingleLiveEvent()
+
+    fun onPrivacyButtonPress() {
+        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
+    }
+
     val state: LiveData<State> = combine(ticker, manualTick, sharingInProgress) { _, _, sharingInProgress ->
         State(
             isRecording = debugLogger.isLogging,
