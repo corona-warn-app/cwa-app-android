@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/contact_diary_person_close_button"
+            android:id="@+id/person_close_button"
             style="@style/buttonIcon"
             android:layout_width="@dimen/button_icon"
             android:layout_height="@dimen/button_icon"
@@ -28,12 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:text="@string/contact_diary_add_person_title"
-            app:layout_constraintBottom_toBottomOf="@+id/contact_diary_person_close_button"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_person_close_button"
-            app:layout_constraintTop_toTopOf="@+id/contact_diary_person_close_button" />
+            app:layout_constraintBottom_toBottomOf="@+id/person_close_button"
+            app:layout_constraintStart_toEndOf="@+id/person_close_button"
+            app:layout_constraintTop_toTopOf="@+id/person_close_button" />
 
         <ImageView
-            android:id="@+id/contact_diary_person_delete_button"
+            android:id="@+id/person_delete_button"
             style="@style/buttonIcon"
             android:layout_width="@dimen/button_icon"
             android:layout_height="@dimen/button_icon"
@@ -46,50 +46,53 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contact_diary_person_name_input_layout"
+            android:id="@+id/person_name_input_layout"
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
             android:hint="@string/contact_diary_add_person_text_input_name_hint"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_person_close_button">
+            app:layout_constraintTop_toBottomOf="@+id/person_close_button">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contact_diary_person_name_edit_text"
+                android:id="@+id/person_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                app:backgroundTint="@color/colorContactDiaryListItem" />
+                android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contact_diary_person_phone_input_layout"
+            android:id="@+id/person_phone_input_layout"
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:hint="@string/contact_diary_add_text_input_phone_hint"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_person_name_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/person_name_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contact_diary_person_phone_number_edit_text"
+                android:id="@+id/person_phone_number_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionNext"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contact_diary_person_email_input_layout"
+            android:id="@+id/person_email_input_layout"
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -97,21 +100,23 @@
             android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_marginBottom="@dimen/spacing_small"
             android:hint="@string/contact_diary_add_text_input_email_hint"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_person_phone_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/person_phone_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contact_diary_person_email_edit_text"
+                android:id="@+id/person_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/contact_diary_person_save_button"
+            android:id="@+id/person_save_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -123,7 +128,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_person_email_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/person_email_input_layout"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

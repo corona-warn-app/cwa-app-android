@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -55,10 +56,9 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var tek: TemporaryExposureKey
     @MockK lateinit var userSymptoms: Symptoms
     @MockK lateinit var transformedKey: TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
-
     @MockK lateinit var appConfigData: ConfigData
-
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
@@ -100,6 +100,9 @@ class SubmissionTaskTest : BaseTest() {
 
         coEvery { playbook.submit(any()) } just Runs
 
+        every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
+        every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
+
         every { shareTestResultNotificationService.cancelSharePositiveTestResultNotification() } just Runs
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
@@ -117,7 +120,8 @@ class SubmissionTaskTest : BaseTest() {
         shareTestResultNotificationService = shareTestResultNotificationService,
         timeStamper = timeStamper,
         autoSubmission = autoSubmission,
-        testResultAvailableNotificationService = testResultAvailableNotificationService
+        testResultAvailableNotificationService = testResultAvailableNotificationService,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
     )
 
     @Test
@@ -155,6 +159,9 @@ class SubmissionTaskTest : BaseTest() {
                     listOf("NL")
                 )
             )
+
+            analyticsKeySubmissionCollector.reportSubmitted()
+            analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
             tekHistoryStorage.clear()
             submissionSettings.symptoms

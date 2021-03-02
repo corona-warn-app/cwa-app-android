@@ -87,6 +87,10 @@ class RiskLevelChangeDetector @Inject constructor(
 
             surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
         }
+
+        if (oldRiskState == RiskState.LOW_RISK && newRiskState == RiskState.INCREASED_RISK) {
+            riskLevelSettings.lastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
+        }
     }
 
     companion object {

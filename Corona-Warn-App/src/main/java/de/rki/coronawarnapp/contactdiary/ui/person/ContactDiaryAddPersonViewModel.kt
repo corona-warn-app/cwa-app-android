@@ -38,7 +38,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
         .asLiveData()
 
     fun nameChanged(value: String) {
-        name.value = value.trim()
+        name.value = value
     }
 
     fun addPerson(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {

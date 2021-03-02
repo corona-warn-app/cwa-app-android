@@ -59,29 +59,28 @@
         app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_button"
-        style="@style/buttonLight"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginEnd="8dp"
         android:text="@string/duration_dialog_cancel_button"
-        android:textColor="@color/colorTextTint"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/ok_button"
         app:layout_constraintEnd_toStartOf="@id/ok_button"
-        app:layout_constraintTop_toBottomOf="@+id/minutes" />
+        app:layout_constraintTop_toTopOf="@+id/ok_button" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/ok_button"
-        style="@style/buttonLight"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/duration_dialog_ok_button"
-        android:textColor="@color/colorTextTint"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/minutes" />

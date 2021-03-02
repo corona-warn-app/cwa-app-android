@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
@@ -34,7 +35,8 @@ class SubmissionRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
-    private val backgroundNoise: BackgroundNoise
+    private val backgroundNoise: BackgroundNoise,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -127,6 +129,8 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
+        analyticsKeySubmissionCollector.reportTestRegistered()
+        analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
@@ -137,6 +141,7 @@ class SubmissionRepository @Inject constructor(
         updateTestResult(registrationData.testResult)
         submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
         backgroundNoise.scheduleDummyPattern()
+        analyticsKeySubmissionCollector.reportTestRegistered()
         return registrationData.testResult
     }
 
@@ -152,6 +157,7 @@ class SubmissionRepository @Inject constructor(
 
         if (testResult == TestResult.POSITIVE) {
             submissionSettings.isAllowedToSubmitKeys = true
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
@@ -180,6 +186,7 @@ class SubmissionRepository @Inject constructor(
     fun removeTestFromDevice() {
         submissionSettings.hasViewedTestResult.update { false }
         submissionSettings.hasGivenConsent.update { false }
+        analyticsKeySubmissionCollector.reset()
         revokeConsentToSubmission()
         submissionSettings.registrationToken.update { null }
         submissionSettings.devicePairingSuccessfulAt = null
