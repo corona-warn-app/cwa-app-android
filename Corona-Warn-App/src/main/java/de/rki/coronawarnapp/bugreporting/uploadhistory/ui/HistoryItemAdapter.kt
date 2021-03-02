@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.uploadhistory.LogUpload
 import de.rki.coronawarnapp.databinding.BugreportingUploadHistoryItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.BindableVH
 import org.joda.time.format.DateTimeFormat
 
@@ -33,7 +34,7 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
             item: LogUpload,
             payloads: List<Any>
         ) -> Unit = { item, _ ->
-            title.text = FORMATTER.print(item.uploadedAt)
+            title.text = FORMATTER.print(item.uploadedAt.toUserTimeZone())
             description.text = "ID ${item.id}"
         }
     }
