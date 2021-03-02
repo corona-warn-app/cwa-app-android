@@ -36,9 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/submission_scan_qr_code_viewfinder_center_offset"
         android:text="@string/submission_qr_code_scan_body"
-        app:layout_constraintEnd_toEndOf="@+id/check_in_qr_code_scan_preview"
-        app:layout_constraintStart_toStartOf="@+id/check_in_qr_code_scan_preview"
-        app:layout_constraintTop_toBottomOf="@+id/check_in_qr_code_scan_guideline_center" />
+        app:layout_constraintEnd_toEndOf="@id/check_in_qr_code_scan_preview"
+        app:layout_constraintStart_toStartOf="@id/check_in_qr_code_scan_preview"
+        app:layout_constraintTop_toBottomOf="@id/check_in_qr_code_scan_guideline_center" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,10 +46,10 @@
         style="@style/buttonIcon"
         android:layout_width="@dimen/icon_size_button"
         android:layout_height="@dimen/icon_size_button"
-        app:layout_constraintBottom_toTopOf="@+id/check_in_qr_code_scan_guideline_top"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_start"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toTopOf="@+id/check_in_qr_code_scan_guideline_top">
+        app:layout_constraintBottom_toTopOf="@id/check_in_qr_code_scan_guideline_top"
+        app:layout_constraintEnd_toStartOf="@id/guideline_start"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="@id/check_in_qr_code_scan_guideline_top">
 
         <androidx.appcompat.widget.AppCompatImageView
             style="@style/iconStable"
@@ -72,10 +72,10 @@
         android:backgroundTint="@color/colorStableLight"
         android:textOff=""
         android:textOn=""
-        app:layout_constraintBottom_toTopOf="@+id/check_in_qr_code_scan_guideline_top"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toStartOf="@+id/guideline_end"
-        app:layout_constraintTop_toTopOf="@+id/check_in_qr_code_scan_guideline_top" />
+        app:layout_constraintBottom_toTopOf="@id/check_in_qr_code_scan_guideline_top"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_end"
+        app:layout_constraintTop_toTopOf="@id/check_in_qr_code_scan_guideline_top" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/check_in_qr_code_scan_guideline_top"
