@@ -14,7 +14,9 @@ abstract class LogUploadHistoryModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(LogUploadHistoryViewModel::class)
-    abstract fun uploadHistoryViewModel(factory: LogUploadHistoryViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun uploadHistoryViewModel(
+        factory: LogUploadHistoryViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
     abstract fun uploadHistory(): LogUploadHistoryFragment
