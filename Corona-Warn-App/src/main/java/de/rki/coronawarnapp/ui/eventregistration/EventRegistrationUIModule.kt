@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInModule
-import de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInViewModel
 import de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeFragment
 import de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeModule
 
