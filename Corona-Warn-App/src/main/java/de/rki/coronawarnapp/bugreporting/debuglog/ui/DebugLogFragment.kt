@@ -70,11 +70,13 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                         if (it.isRecording) R.string.debugging_debuglog_action_stop_recording
                         else R.string.debugging_debuglog_action_start_recording
                     )
+                    setOnClickListener { vm.toggleRecording() }
                 }
 
                 toggleSendErrorLog.apply {
                     isGone = !it.isRecording
                     isEnabled = it.currentSize > 0L && !it.sharingInProgress
+                    setOnClickListener { vm.shareRecording() }
                 }
 
                 toggleStoreLog.isGone = !it.isRecording
@@ -100,8 +102,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         }
 
         binding.apply {
-            toggleRecording.setOnClickListener { vm.toggleRecording() }
-            toggleSendErrorLog.setOnClickListener { vm.shareRecording() }
             debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
             debugLogPrivacyInformation.setOnClickListener { vm.onPrivacyButtonPress() }
             toolbar.setNavigationOnClickListener { popBackStack() }
