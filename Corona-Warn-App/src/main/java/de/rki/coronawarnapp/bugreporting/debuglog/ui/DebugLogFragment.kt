@@ -73,18 +73,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 toggleStoreLog.visibility = if (it.isRecording) View.VISIBLE else View.GONE
 
                 toggleRecording.isEnabled = !it.sharingInProgress
-
-                debugLogPrivacyInformation.setOnClickListener {
-                    vm.onPrivacyButtonPress()
-                }
-
-                debugLogHistoryContainer.setOnClickListener {
-                    vm.onIdHistoryPress()
-                }
-
-                toggleSendErrorLog.setOnClickListener {
-                    vm.shareRecording()
-                }
             }
         }
 
@@ -109,7 +97,9 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
         binding.apply {
             toggleRecording.setOnClickListener { vm.toggleRecording() }
-            // shareRecording.setOnClickListener { vm.shareRecording() }
+            toggleSendErrorLog.setOnClickListener { vm.shareRecording() }
+            debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
+            debugLogPrivacyInformation.setOnClickListener { vm.onPrivacyButtonPress() }
             toolbar.setNavigationOnClickListener { popBackStack() }
         }
     }
