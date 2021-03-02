@@ -1,0 +1,3 @@
+package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
+
+class AnalyticsKeySubmissionDonorTest

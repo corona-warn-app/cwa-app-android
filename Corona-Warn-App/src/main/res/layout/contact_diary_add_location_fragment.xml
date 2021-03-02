@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/contact_diary_add_location_close_button"
+            android:id="@+id/location_close_button"
             style="@style/buttonIcon"
             android:layout_width="@dimen/button_icon"
             android:layout_height="@dimen/button_icon"
@@ -22,19 +22,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/contact_diary_add_location_title"
+            android:id="@+id/location_title"
             style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:text="@string/contact_diary_add_location_title"
-            app:layout_constraintBottom_toBottomOf="@id/contact_diary_add_location_close_button"
-            app:layout_constraintEnd_toStartOf="@id/contact_diary_add_location_delete_button"
-            app:layout_constraintStart_toEndOf="@id/contact_diary_add_location_close_button"
-            app:layout_constraintTop_toTopOf="@id/contact_diary_add_location_close_button" />
+            app:layout_constraintBottom_toBottomOf="@id/location_close_button"
+            app:layout_constraintEnd_toStartOf="@id/location_delete_button"
+            app:layout_constraintStart_toEndOf="@id/location_close_button"
+            app:layout_constraintTop_toTopOf="@id/location_close_button" />
 
         <ImageView
-            android:id="@+id/contact_diary_add_location_delete_button"
+            android:id="@+id/location_delete_button"
             style="@style/buttonIcon"
             android:layout_width="@dimen/button_icon"
             android:layout_height="@dimen/button_icon"
@@ -47,70 +47,76 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contact_diary_add_location_name_input_layout"
+            android:id="@+id/location_name_input_layout"
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
             android:hint="@string/contact_diary_add_location_text_input_hint"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_add_location_close_button">
+            app:layout_constraintTop_toBottomOf="@id/location_close_button">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contact_diary_add_location_name_input_edit_text"
+                android:id="@+id/location_name_input_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contact_diary_add_location_phone_input_layout"
+            android:id="@+id/location_phone_input_layout"
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:hint="@string/contact_diary_add_text_input_phone_hint"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_add_location_name_input_layout">
+            app:layout_constraintTop_toBottomOf="@id/location_name_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contact_diary_add_location_phone_input_edit_text"
+                android:id="@+id/location_phone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionNext"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contact_diary_add_location_email_input_layout"
+            android:id="@+id/location_email_input_layout"
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:hint="@string/contact_diary_add_text_input_email_hint"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_add_location_phone_input_layout">
+            app:layout_constraintTop_toBottomOf="@id/location_phone_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contact_diary_add_location_email_input_edit_text"
+                android:id="@+id/location_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/contact_diary_add_location_save_button"
+            android:id="@+id/location_save_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -122,7 +128,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.166"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_diary_add_location_email_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/location_email_input_layout"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

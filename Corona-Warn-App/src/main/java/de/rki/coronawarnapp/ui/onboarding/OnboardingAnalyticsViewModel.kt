@@ -7,18 +7,23 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 class OnboardingAnalyticsViewModel @AssistedInject constructor(
-    settings: AnalyticsSettings,
-    dispatcherProvider: DispatcherProvider,
+    private val settings: AnalyticsSettings,
+    private val dispatcherProvider: DispatcherProvider,
     private val analytics: Analytics,
-    val districts: Districts
+    val districts: Districts,
+    @AppScope private val appScope: CoroutineScope
 ) : CWAViewModel() {
 
     val completedOnboardingEvent = SingleLiveEvent<Unit>()
@@ -32,19 +37,11 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
         districtsList.singleOrNull { it.districtId == id }
     }.asLiveData(dispatcherProvider.IO)
 
-    fun onNextButtonClick() {
-        launch {
-            analytics.setAnalyticsEnabled(enabled = true)
+    fun onProceed(enable: Boolean) {
+        appScope.launch(context = dispatcherProvider.IO) {
+            analytics.setAnalyticsEnabled(enabled = enable)
         }
-
-        completedOnboardingEvent.postValue(Unit)
-    }
-
-    fun onDisableClick() {
-        launch {
-            analytics.setAnalyticsEnabled(enabled = false)
-        }
-
+        settings.lastOnboardingVersionCode.update { BuildConfigWrap.VERSION_CODE }
         completedOnboardingEvent.postValue(Unit)
     }
 

@@ -1,0 +1,13 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+import "internal/ppdd/ppac_android.proto";
+import "internal/ppdd/els_otp.proto";
+
+message ELSOneTimePasswordRequestAndroid {
+
+  PPACAndroid authentication = 1;
+
+  ELSOneTimePassword payload = 2;
+}
