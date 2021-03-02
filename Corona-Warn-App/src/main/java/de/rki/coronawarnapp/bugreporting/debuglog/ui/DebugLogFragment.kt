@@ -78,7 +78,6 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 }
 
                 toggleStoreLog.isGone = !it.isRecording
-
             }
         }
 
