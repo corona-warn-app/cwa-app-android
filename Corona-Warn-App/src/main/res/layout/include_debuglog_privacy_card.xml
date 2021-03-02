@@ -13,11 +13,11 @@
         <TextView
             android:id="@+id/debug_log_privacy_card_title"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/debugging_debuglog_privacy_card_title"
+            android:accessibilityHeading="true"
             android:focusable="true"
+            android:text="@string/debugging_debuglog_privacy_card_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
