@@ -885,6 +885,11 @@
     <!-- XHED: Title for native sharing dialog -->
     <string name="debugging_debuglog_sharing_dialog_title">"CWA Fehlerbericht teilen"</string>
 
+    <!-- XHED: Title for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_title">"ID Historie"</string>
+    <!-- YTXT: Description for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_description">"Hier sehen Sie die IDs Ihrer Fehleranalyse-Protokolle."</string>
+
     <!-- ####################################
               Interoperability
     ###################################### -->
