@@ -41,7 +41,7 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
                             .actionLoadingFragmentToOnboardingFragment()
                     )
                 OnboardingFragmentEvents.OnboardingDone -> {
-                    MainActivity.start(requireContext(), OnboardingActivity.getShortcutFromIntent(activity?.intent))
+                    MainActivity.start(requireContext(), requireActivity().intent)
                     activity?.overridePendingTransition(0, 0)
                     activity?.finish()
                 }

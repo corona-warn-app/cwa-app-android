@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.databinding.FragmentConfrimCheckInBinding
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
 import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import timber.log.Timber
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in) {
 
@@ -17,6 +18,8 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Timber.i("ConfirmCheckInFragment")
 
         val event = args.event ?: return
         val decodeBase32 = event.split(".")[0].decodeBase32()

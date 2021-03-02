@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.di.AppInjector
 import javax.inject.Inject
 
@@ -26,21 +25,11 @@ import javax.inject.Inject
  */
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInjector {
     companion object {
-        private val TAG: String? = OnboardingActivity::class.simpleName
-        private const val EXTRA_DATA = "shortcut"
 
-        fun start(context: Context, shortcut: AppShortcuts? = null) {
-            val intent = Intent(context, OnboardingActivity::class.java).apply {
-                putExtra(EXTRA_DATA, shortcut?.toString())
-            }
+        fun start(context: Context, launchIntent: Intent? = null) {
+            val intent = Intent(context, OnboardingActivity::class.java)
+            intent.data = launchIntent?.data
             context.startActivity(intent)
-        }
-
-        fun getShortcutFromIntent(intent: Intent?): AppShortcuts? {
-            intent?.getStringExtra(EXTRA_DATA)?.let {
-                return AppShortcuts.valueOf(it)
-            }
-            return null
         }
     }
 
@@ -74,7 +63,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
         LocalData.isOnboarded(true)
         LocalData.onboardingCompletedTimestamp(System.currentTimeMillis())
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        MainActivity.start(this)
+        MainActivity.start(this, intent)
         finish()
     }
 

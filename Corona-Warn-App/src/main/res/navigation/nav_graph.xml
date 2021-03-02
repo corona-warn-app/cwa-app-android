@@ -579,7 +579,6 @@
         android:name="de.rki.coronawarnapp.ui.eventregistration.ConfirmCheckInFragment"
         android:label="fragment_verify_event"
         tools:layout="@layout/fragment_confrim_check_in">
-        <deepLink app:uri="https://wwww.coronawarn.app/E1/{event}" />
         <deepLink app:uri="https://coronawarn.app/E1/{event}" />
 
         <argument
