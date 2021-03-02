@@ -323,8 +323,8 @@
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Test yaptırırsanız SSS bölümünde test prosedürü hakkında ek bilgi bulabilirsiniz."</string>
-    <!-- XTXT: Explanation screen increased risk level link label -->
-    <string name="risk_details_increased_risk_faq_link_label">"SSS: Test Prosedürü"</string>
+    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="risk_details_increased_risk_faq_link_label">"SSS"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
@@ -537,11 +537,11 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
     <string name="onboarding_ppa_regional_evaluation_text">"Federal eyalet ve bölge bilgilerinizi de paylaşırsanız bölgesel analizler yapabiliriz."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
-    <string name="onboarding_ppa_age_title">"Yaşınız (isteğe bağlı)"</string>
+    <string name="onboarding_ppa_age_title">"Yaş grubunuz (isteğe bağlı)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
     <string name="onboarding_ppa_more_info_title">"ABD’de ve Diğer Üçüncü Ülkelerde Veri İşleme ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
-    <string name="onboarding_ppa_consent_donate_button">"Verileri Paylaş"</string>
+    <string name="onboarding_ppa_consent_donate_button">"Kabul Et"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
     <string name="onboarding_ppa_consent_not_donate_button">"Paylaşma"</string>
 
@@ -1754,6 +1754,9 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"İptal"</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">"Giriş Ekle"</string>
+
     <!-- XTXT: Statistics information (Accessibilty) -->
     <string name="statistics_info_button">"Daha fazla bilgi"</string>
     <!-- XHED: Title for statistics reproduction card -->
@@ -1830,7 +1833,7 @@
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">"Bilgi yok"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">"0-29 yaş"</string>
+    <string name="analytics_userinput_agegroup_0_to_29">"29 yaşa kadar"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
     <string name="analytics_userinput_agegroup_30_to_59">"30-59 yaş"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
@@ -1877,4 +1880,17 @@
     <string name="analytics_userinput_district_title">"Bölgeniz (İlçe)"</string>
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">"Bilgi yok"</string>
+
+    <!-- ####################################
+       Duration dialog
+   ###################################### -->
+
+    <!-- XHED: Duration dialog title -->
+    <string name="duration_dialog_title">"Süre"</string>
+    <!-- XBUT: Duration dialog cancel button -->
+    <string name="duration_dialog_cancel_button">"İptal Et"</string>
+    <!-- XBUT: Duration dialog ok button -->
+    <string name="duration_dialog_ok_button">"Tamam"</string>
+    <!-- NOTR -->
+    <string name="duration_dialog_default_value">"00:00"</string>
 </resources>

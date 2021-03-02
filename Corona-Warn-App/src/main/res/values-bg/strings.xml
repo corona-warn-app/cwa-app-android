@@ -322,7 +322,7 @@
     <string name="risk_details_behavior_body_stay_away">"Спазвайте дистанция от поне 1,5 м от околните."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Ако се тествате, ще получите допълнителна информация относно процедурата за тестване в ЧЗВ."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Ако се тествате, вижте Процедура за тестване в ЧЗВ, за да получите допълнителна информация."</string>
     <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="risk_details_increased_risk_faq_link_label">"ЧЗВ"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
@@ -537,11 +537,11 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
     <string name="onboarding_ppa_regional_evaluation_text">"Ако посочите федерална провинция и регион, ще можем да правим и регионални анализи."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
-    <string name="onboarding_ppa_age_title">"Вашата възраст (незадължително)"</string>
+    <string name="onboarding_ppa_age_title">"Вашата възрастова група (незадължително)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
     <string name="onboarding_ppa_more_info_title">"Подробна информация относно обработката на тези данни и рисковете относно защитата на данните в САЩ и други държави."</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
-    <string name="onboarding_ppa_consent_donate_button">"Споделяне на данни"</string>
+    <string name="onboarding_ppa_consent_donate_button">"Приемам"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
     <string name="onboarding_ppa_consent_not_donate_button">"Без споделяне на данни"</string>
 
@@ -1754,6 +1754,9 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Отказ"</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">"Добавяне на запис"</string>
+
     <!-- XTXT: Statistics information (Accessibilty) -->
     <string name="statistics_info_button">"Още информация"</string>
     <!-- XHED: Title for statistics reproduction card -->
@@ -1830,7 +1833,7 @@
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">"Без отговор"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">"0-29 години"</string>
+    <string name="analytics_userinput_agegroup_0_to_29">"До 29 години"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
     <string name="analytics_userinput_agegroup_30_to_59">"30-59 години"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
@@ -1877,4 +1880,17 @@
     <string name="analytics_userinput_district_title">"В кой окръг се намирате"</string>
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">"Без отговор"</string>
+
+    <!-- ####################################
+       Duration dialog
+   ###################################### -->
+
+    <!-- XHED: Duration dialog title -->
+    <string name="duration_dialog_title">"Продължителност"</string>
+    <!-- XBUT: Duration dialog cancel button -->
+    <string name="duration_dialog_cancel_button">"Отказ"</string>
+    <!-- XBUT: Duration dialog ok button -->
+    <string name="duration_dialog_ok_button">"OK"</string>
+    <!-- NOTR -->
+    <string name="duration_dialog_default_value">"00:00"</string>
 </resources>

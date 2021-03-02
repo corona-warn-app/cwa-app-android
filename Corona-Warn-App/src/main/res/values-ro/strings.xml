@@ -537,11 +537,11 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
     <string name="onboarding_ppa_regional_evaluation_text">"Dacă specificați, de asemenea, statul federal și regiunea dvs., putem efectua analize regionale."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
-    <string name="onboarding_ppa_age_title">"Vârsta dvs. (opțional)"</string>
+    <string name="onboarding_ppa_age_title">"Grupul dvs. de vârstă (opțional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
     <string name="onboarding_ppa_more_info_title">"Informații detaliate despre prelucrarea acestor date și riscurile privind prelucrarea datelor din SUA și din alte țări terțe"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
-    <string name="onboarding_ppa_consent_donate_button">"Partajare date"</string>
+    <string name="onboarding_ppa_consent_donate_button">"Accept"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
     <string name="onboarding_ppa_consent_not_donate_button">"Fără partajare"</string>
 
@@ -1754,6 +1754,9 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Anulare"</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">"Adăugare intrare"</string>
+
     <!-- XTXT: Statistics information (Accessibilty) -->
     <string name="statistics_info_button">"Informații suplimentare"</string>
     <!-- XHED: Title for statistics reproduction card -->
@@ -1830,7 +1833,7 @@
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">"Nu răspund"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">"0-29 de ani"</string>
+    <string name="analytics_userinput_agegroup_0_to_29">"Sub 29 de ani"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
     <string name="analytics_userinput_agegroup_30_to_59">"30-59 de ani"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
@@ -1877,4 +1880,17 @@
     <string name="analytics_userinput_district_title">"Districtul (județul) dvs."</string>
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">"Nu răspund"</string>
+
+    <!-- ####################################
+       Duration dialog
+   ###################################### -->
+
+    <!-- XHED: Duration dialog title -->
+    <string name="duration_dialog_title">"Durată"</string>
+    <!-- XBUT: Duration dialog cancel button -->
+    <string name="duration_dialog_cancel_button">"Anulare"</string>
+    <!-- XBUT: Duration dialog ok button -->
+    <string name="duration_dialog_ok_button">"OK"</string>
+    <!-- NOTR -->
+    <string name="duration_dialog_default_value">"00:00"</string>
 </resources>
