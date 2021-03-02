@@ -1,29 +1,32 @@
-package de.rki.coronawarnapp.ui.eventregistration
+package de.rki.coronawarnapp.ui.eventregistration.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
-import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentScanCheckInQrCodeBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.navUri
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class ScanCheckInQrCodeFragment : Fragment(R.layout.fragment_scan_check_in_qr_code) {
+class ScanCheckInQrCodeFragment :
+    Fragment(R.layout.fragment_scan_check_in_qr_code),
+    AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentScanCheckInQrCodeBinding by viewBindingLazy()
     private var showsPermissionDialog = false
@@ -31,14 +34,22 @@ class ScanCheckInQrCodeFragment : Fragment(R.layout.fragment_scan_check_in_qr_co
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
-    ) = with(binding) {
-        checkInQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-            binding.checkInQrCodeScanPreview.setTorch(isChecked)
+    ) {
+        with(binding) {
+            checkInQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                binding.checkInQrCodeScanPreview.setTorch(isChecked)
+            }
+            checkInQrCodeScanClose.setOnClickListener { popBackStack() }
+            checkInQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            checkInQrCodeScanViewfinderView.setCameraPreview(binding.checkInQrCodeScanPreview)
         }
 
-        checkInQrCodeScanClose.setOnClickListener { popBackStack() }
-        checkInQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-        checkInQrCodeScanViewfinderView.setCameraPreview(binding.checkInQrCodeScanPreview)
+        viewModel.navigationEvents.observe2(this) { navEvent ->
+            when (navEvent) {
+                is ScanCheckInQrCodeEvent.BackEvent -> popBackStack()
+                is ScanCheckInQrCodeEvent.ConfirmCheckInEvent -> findNavController().navigate(navEvent.uri)
+            }
+        }
     }
 
     override fun onResume() {
@@ -72,8 +83,8 @@ class ScanCheckInQrCodeFragment : Fragment(R.layout.fragment_scan_check_in_qr_co
     }
 
     private fun startDecode() = binding.checkInQrCodeScanPreview
-        .decodeSingle {
-            findNavController().navigate(it.result.text.toUri().navUri)
+        .decodeSingle { barcodeResult ->
+            viewModel.onScanResult(barcodeResult)
         }
 
     private fun showCameraPermissionDeniedDialog() {
@@ -85,8 +96,7 @@ class ScanCheckInQrCodeFragment : Fragment(R.layout.fragment_scan_check_in_qr_co
             cancelable = false,
             positiveButtonFunction = {
                 showsPermissionDialog = false
-                popBackStack()
-                Unit
+                viewModel.onNavigateUp()
             }
         )
         showsPermissionDialog = true
@@ -107,8 +117,7 @@ class ScanCheckInQrCodeFragment : Fragment(R.layout.fragment_scan_check_in_qr_co
             },
             {
                 showsPermissionDialog = false
-                popBackStack()
-                Unit
+                viewModel.onNavigateUp()
             }
         )
 
