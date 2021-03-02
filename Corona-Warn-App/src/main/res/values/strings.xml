@@ -880,16 +880,30 @@
 
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Error Report"</string>
-    <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"This option logs the app’s behavior in a text file. If this option is activated before an error occurs, you can make this report available to help the developers solve the problem.\nIf you leave this option activated, it will result in high storage requirements. If you deactivate the option, the error report is deleted."</string>
+    <!-- XHED: Headline for current status of debug log screen -->
+    <string name="debugging_debuglog_current_status_title">"Fehleranalyse"</string>
+    <!-- YTXT: Description one for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_one">"Um den technischen Support der App bei der Fehleranalyse zu unterstützen, können Sie einen Fehlerbericht der CWA aufzeichnen. Hierbei werden die einzelnen technischen Schritte und Ereignisse beim Ablauf der App detailliert aufgezeichnet. Den Fehlerbericht können Sie dann an den technischen Support senden und so helfen, Fehler zu erkennen und zu beheben."</string>
+    <!-- YTXT: Description two for the debug option to record log files -->
+    <string name="debugging_debuglog_intro_explanation_section_two">"Weitere Informationen finden Sie in den FAQ:\nFAQ zu den Fehlerberichten"</string>
+    <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
+    <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ zu den Fehlerberichten"</string>
+    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
+    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
+    <!-- YTXT: Title of ID History -->
+    <string name="debugging_debuglog_id_history_title">"ID History"</string>
+    <!-- YTXT: Description of ID History -->
+    <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Please note that error reports may contain sensitive data (such as a test result or contact journal entries). Therefore, you should not share these error reports publicly."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
-    <string name="debugging_debuglog_action_stop_recording">"Delete"</string>
+    <string name="debugging_debuglog_action_stop_recording">"Stoppen und löschen"</string>
     <!-- XBUT: Button text to share the log recording -->
-    <string name="debugging_debuglog_action_share_log">"Share"</string>
+    <string name="debugging_debuglog_action_share_log">"Fehlerbericht senden"</string>
+    <!-- XBUT: Button text to locally store the log recording -->
+    <string name="debugging_debuglog_action_local_log_store">"Lokal speichern und fortsetzen"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Recording Active"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->
@@ -898,6 +912,14 @@
     <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
     <!-- XHED: Title for native sharing dialog -->
     <string name="debugging_debuglog_sharing_dialog_title">"Share CWA Error Report"</string>
+
+    <string name="debugging_debuglog_privacy_card_title">"Datenschutz und Datensicherheit"</string>
+    <string name="debug_log_privacy_card_section_body_one">"Die Aufzeichnung des Fehlerberichts ist freiwillig."</string>
+    <string name="debug_log_privacy_card_container_section_two">"Auf den Fehlerbericht haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie den Fehlerbericht an den technischen Support senden, ob Sie den Fehlerbericht zunächst auf Ihrem Smartphone speichern oder die Aufzeichnung stoppen und löschen wollen. Wenn Sie den Fehlerbericht zunächst lokal speichern, haben Sie die Möglichkeit, sich den Fehlerbericht selbst anzuschauen, bevor Sie diesen an den Support übermitteln."</string>
+    <string name="debug_log_privacy_card_container_section_three">"Der Fehlerbericht enthält sensible Informationen, zum Beispiel Angaben über Ihr Testergebnis oder das für Sie ermittelte Ansteckungsrisiko. Er enthält keine Informationen über die QR-Codes, die Sie bei der Testregistrierung verwendet haben, über Angaben, die Sie im Kontakt-Tagebuch erfasste haben oder Angaben zu Ihrer Identität."</string>
+    <string name="debug_log_privacy_card_container_section_four">"Wir empfehlen die Fehlerberichte nicht zu veröffentlichen und nicht per E-Mail zu versenden."</string>
+    <string name="debug_log_privacy_card_container_section_five">"Private Personen oder Unternehmen dürfen von Ihnen nicht die Weitergabe eines aufgezeichneten Fehlerberichtes verlangen."</string>
+
 
     <!-- ####################################
               Interoperability
