@@ -121,7 +121,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/debugging_debuglog_title"
+            android:text="@string/debugging_debuglog_current_status_title"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -144,14 +144,12 @@
                 android:id="@+id/debuglog_activity_indicator"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_marginTop="@dimen/spacing_mega_tiny"
-                android:src="@drawable/ic_debug_log_indicator_deactivated"
                 android:importantForAccessibility="no"
+                android:src="@drawable/ic_debug_log_indicator_deactivated"
                 app:layout_constraintBottom_toBottomOf="@+id/debuglog_status_secondary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/debuglog_status_primary"
                 tools:src="@drawable/ic_debug_log_indicator_deactivated" />
-
 
             <TextView
                 android:id="@+id/debuglog_status_primary"
@@ -162,7 +160,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/debuglog_activity_indicator"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_goneMarginStart="0dp"
                 tools:text="@string/debugging_debuglog_status_not_recording" />
 
             <TextView
@@ -174,7 +171,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/debuglog_activity_indicator"
                 app:layout_constraintTop_toBottomOf="@id/debuglog_status_primary"
-                app:layout_goneMarginStart="0dp"
                 tools:text="@string/debugging_debuglog_status_additional_infos" />
 
 
