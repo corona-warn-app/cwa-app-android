@@ -94,6 +94,7 @@ class ScanCheckInQrCodeFragment :
     private fun showCameraPermissionDeniedDialog() {
         val permissionDeniedDialog = DialogHelper.DialogInstance(
             requireActivity(),
+            // TODO use strings for this screen
             R.string.submission_qr_code_scan_permission_denied_dialog_headline,
             R.string.submission_qr_code_scan_permission_denied_dialog_body,
             R.string.submission_qr_code_scan_permission_denied_dialog_button,
@@ -110,6 +111,7 @@ class ScanCheckInQrCodeFragment :
     private fun showCameraPermissionRationaleDialog() {
         val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
             requireActivity(),
+            // TODO use strings for this screen
             R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
             R.string.submission_qr_code_scan_permission_rationale_dialog_body,
             R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
