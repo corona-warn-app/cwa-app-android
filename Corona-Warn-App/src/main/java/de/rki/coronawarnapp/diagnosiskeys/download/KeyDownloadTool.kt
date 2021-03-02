@@ -6,14 +6,12 @@ import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class KeyDownloadTool @Inject constructor(
-    private val legacyKeyCache: LegacyKeyCacheMigration,
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository
 ) {
@@ -25,15 +23,7 @@ class KeyDownloadTool @Inject constructor(
         val keyInfo = cachedKey.info
 
         val preconditionHook: suspend (DownloadInfo) -> Boolean =
-            { downloadInfo ->
-                /**
-                 * To try legacy migration, we attempt to the etag as checksum.
-                 * Removing the quotes, the etag can represent the file's MD5 checksum.
-                 */
-                val etagAsChecksum = downloadInfo.etag?.removePrefix("\"")?.removeSuffix("\"")
-                val continueDownload = !legacyKeyCache.tryMigration(etagAsChecksum, saveTo)
-                continueDownload // Continue download if no migration happened
-            }
+            { _ -> true }
 
         val downloadInfo = withTimeout(downloadConfig.individualDownloadTimeout.millis) {
             keyServer.downloadKeyFile(

@@ -12,12 +12,10 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
-import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -33,18 +31,12 @@ import timber.log.Timber
 class SettingsTracingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
-    tracingRepository: TracingRepository,
     private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = combine(
-        tracingRepository.activeTracingDaysInRetentionPeriod,
-        tracingStatus.generalStatus
-    ) { activeTracingDays,
-        status ->
-        PeriodLoggedBox.Item(activeTracingDays.toInt(), status)
-    }
+    val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
+        tracingStatus.generalStatus.map { PeriodLoggedBox.Item(it) }
         .onEach { Timber.v("logginPeriod onEach") }
         .asLiveData(dispatcherProvider.Main)
 

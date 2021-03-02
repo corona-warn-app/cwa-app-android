@@ -34,13 +34,8 @@ class PeriodLoggedBox(
     }
 
     data class Item(
-        val activeTracingDaysInRetentionPeriod: Int,
         val tracingStatus: GeneralTracingStatus.Status
     ) : DetailsItem {
-
-        fun getRiskActiveTracingDaysInRetentionPeriodLogged(context: Context): String = context.getString(
-            R.string.risk_details_information_body_period_logged_assessment
-        ).format(activeTracingDaysInRetentionPeriod)
 
         fun getProgressColor(context: Context) = when (tracingStatus) {
             GeneralTracingStatus.Status.TRACING_INACTIVE,

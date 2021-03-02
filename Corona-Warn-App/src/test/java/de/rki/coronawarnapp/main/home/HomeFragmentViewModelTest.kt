@@ -185,16 +185,9 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
         every { cwaSettings.lastChangelogVersion.value } returns 1L andThen 1120004
 
-        every { LocalData.tracingExplanationDialogWasShown() } returns false andThen true
-        mockkObject(TimeVariables)
-        coEvery { TimeVariables.getActiveTracingDaysInRetentionPeriod() } coAnswers { 1 }
-
         every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
 
         with(createInstance()) {
-            showPopUps()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
-
             showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }

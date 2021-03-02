@@ -29,7 +29,6 @@ import javax.inject.Inject
 @Reusable
 class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
-    tracingRepository: TracingRepository,
     riskLevelStorage: RiskLevelStorage,
     surveys: Surveys
 ) {
@@ -37,11 +36,9 @@ class TracingDetailsItemProvider @Inject constructor(
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
         riskLevelStorage.latestAndLastSuccessful,
-        tracingRepository.activeTracingDaysInRetentionPeriod,
         surveys.availableSurveys
     ) { status,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod,
         availableSurveys ->
 
         val (latestCalc, _) = riskLevelResults.tryLatestResultsWithDefaults()
@@ -72,7 +69,6 @@ class TracingDetailsItemProvider @Inject constructor(
 
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
-                    activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod.toInt(),
                     tracingStatus = status
                 ).also { add(it) }
             }

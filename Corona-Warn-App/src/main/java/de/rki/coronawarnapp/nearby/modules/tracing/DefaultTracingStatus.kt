@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToSeconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -79,8 +78,6 @@ class DefaultTracingStatus @Inject constructor(
             .addOnFailureListener { cont.resumeWithException(it) }
     }.also {
         LocalData.lastNonActiveTracingTimestamp()?.let { ts ->
-            TracingIntervalRepository.getDateRepository(CoronaWarnApplication.getAppContext())
-                .createInterval(ts, System.currentTimeMillis())
             val difference = Date().time.minus(ts).millisecondsToSeconds()
             if (difference >= TimeVariables.getDeactivationTracingMeasureThresholdTimeRange()) {
                 LocalData.totalNonActiveTracing(

@@ -165,7 +165,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine("Days since last Exposure: $daysSinceLastExposure days")
         .appendLine("Last key submission: $lastKeySubmission")
         .appendLine("Tracing Duration: ${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days")
-        .appendLine("Tracing Duration in last 14 days: ${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days")
         .appendLine("Last time risk level calculation $lastTimeRiskLevelCalculation")
         .toString()
 
