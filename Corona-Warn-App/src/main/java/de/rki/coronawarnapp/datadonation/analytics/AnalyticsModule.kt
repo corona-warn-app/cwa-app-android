@@ -7,6 +7,7 @@ import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata.ClientMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
@@ -45,9 +46,9 @@ class AnalyticsModule {
     @Provides
     fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
 
-//    @IntoSet
-//    @Provides
-//    fun keySubmission(module: KeySubmissionStateDonor): DonorModule = module
+    @IntoSet
+    @Provides
+    fun keySubmission(module: AnalyticsKeySubmissionDonor): DonorModule = module
 
     @IntoSet
     @Provides

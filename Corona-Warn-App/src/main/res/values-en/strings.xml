@@ -537,11 +537,11 @@
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
     <string name="onboarding_ppa_regional_evaluation_text">"If you also specify your federal state and region, we can conduct regional analyses."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
-    <string name="onboarding_ppa_age_title">"Your age (optional)"</string>
+    <string name="onboarding_ppa_age_title">"Your age group (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
     <string name="onboarding_ppa_more_info_title">"Detailed Information about This Data Processing and Data Protection Risks in the U.S. and Other Third Countries"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - donate button -->
-    <string name="onboarding_ppa_consent_donate_button">"Share Data"</string>
+    <string name="onboarding_ppa_consent_donate_button">"Accept"</string>
     <!-- XBUT: onboarding privacy preserving analytics (ppa) - dont donate button -->
     <string name="onboarding_ppa_consent_not_donate_button">"Do Not Share"</string>
 
@@ -1754,6 +1754,9 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Cancel"</string>
 
+    <!-- XHED: Title of contact diary app shortcut -->
+    <string name="app_shortcut_contact_diary_title">"Add Entry"</string>
+
     <!-- XTXT: Statistics information (Accessibilty) -->
     <string name="statistics_info_button">"Further information"</string>
     <!-- XHED: Title for statistics reproduction card -->
@@ -1830,7 +1833,7 @@
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_UNSPECIFIED -->
     <string name="analytics_userinput_agegroup_unspecified">"No answer"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
-    <string name="analytics_userinput_agegroup_0_to_29">"0-29 years old"</string>
+    <string name="analytics_userinput_agegroup_0_to_29">"Up to 29"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
     <string name="analytics_userinput_agegroup_30_to_59">"30-59 years old"</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
@@ -1877,4 +1880,17 @@
     <string name="analytics_userinput_district_title">"Your District (County)"</string>
     <!-- XTXT: Analytics voluntary user input, district: UNSPECIFIED -->
     <string name="analytics_userinput_district_unspecified">"No answer"</string>
+
+    <!-- ####################################
+       Duration dialog
+   ###################################### -->
+
+    <!-- XHED: Duration dialog title -->
+    <string name="duration_dialog_title">"Duration"</string>
+    <!-- XBUT: Duration dialog cancel button -->
+    <string name="duration_dialog_cancel_button">"Cancel"</string>
+    <!-- XBUT: Duration dialog ok button -->
+    <string name="duration_dialog_ok_button">"OK"</string>
+    <!-- NOTR -->
+    <string name="duration_dialog_default_value">"00:00"</string>
 </resources>
