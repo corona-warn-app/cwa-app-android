@@ -504,6 +504,9 @@
         android:label="DebuglogFragment"
         tools:layout="@layout/bugreporting_debuglog_fragment">
         <action
+            android:id="@+id/action_debuglogFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+        <action
             android:id="@+id/action_debuglogFragment_to_logUploadHistoryFragment"
             app:destination="@id/logUploadHistoryFragment" />
     </fragment>
