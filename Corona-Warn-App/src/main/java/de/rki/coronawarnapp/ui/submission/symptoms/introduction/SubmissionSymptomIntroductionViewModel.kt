@@ -4,6 +4,8 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -17,7 +19,8 @@ import timber.log.Timber
 class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
-    private val autoSubmission: AutoSubmission
+    private val autoSubmission: AutoSubmission,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
@@ -105,6 +108,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

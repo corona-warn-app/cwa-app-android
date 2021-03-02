@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddLocationFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -40,52 +41,52 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         val location = navArgs.selectedLocation
         if (location != null) {
             binding.apply {
-                contactDiaryAddLocationNameInputEditText.setText(location.locationName)
-                contactDiaryAddLocationPhoneInputEditText.setText(location.phoneNumber)
-                contactDiaryAddLocationEmailInputEditText.setText(location.emailAddress)
-                contactDiaryAddLocationDeleteButton.visibility = View.VISIBLE
-                contactDiaryAddLocationDeleteButton.setOnClickListener {
+                locationNameInputEdit.setText(location.locationName)
+                locationPhoneInput.setTextOnTextInput(location.phoneNumber, endIconVisible = false)
+                locationEmailInput.setTextOnTextInput(location.emailAddress, endIconVisible = false)
+                locationDeleteButton.visibility = View.VISIBLE
+                locationDeleteButton.setOnClickListener {
                     DialogHelper.showDialog(deleteLocationConfirmationDialog)
                 }
-                contactDiaryAddLocationSaveButton.setOnClickListener {
+                locationSaveButton.setOnClickListener {
                     it.hideKeyboard()
                     viewModel.updateLocation(
                         location,
-                        phoneNumber = binding.contactDiaryAddLocationPhoneInputEditText.text.toString().trim(),
-                        emailAddress = binding.contactDiaryAddLocationEmailInputEditText.text.toString().trim()
+                        phoneNumber = binding.locationPhoneInput.text.toString(),
+                        emailAddress = binding.locationEmailInput.text.toString()
                     )
                 }
             }
             viewModel.locationChanged(location.locationName)
         } else {
             binding.apply {
-                contactDiaryAddLocationDeleteButton.visibility = View.GONE
-                contactDiaryAddLocationSaveButton.setOnClickListener {
+                locationDeleteButton.visibility = View.GONE
+                locationSaveButton.setOnClickListener {
                     it.hideKeyboard()
                     viewModel.addLocation(
-                        phoneNumber = binding.contactDiaryAddLocationPhoneInputEditText.text.toString().trim(),
-                        emailAddress = binding.contactDiaryAddLocationEmailInputEditText.text.toString().trim()
+                        phoneNumber = binding.locationPhoneInput.text.toString(),
+                        emailAddress = binding.locationEmailInput.text.toString()
                     )
                 }
             }
         }
 
         binding.apply {
-            contactDiaryAddLocationNameInputEditText.focusAndShowKeyboard()
+            locationNameInputEdit.focusAndShowKeyboard()
 
-            contactDiaryAddLocationCloseButton.setOnClickListener {
+            locationCloseButton.setOnClickListener {
                 it.hideKeyboard()
                 viewModel.closePressed()
             }
-            contactDiaryAddLocationNameInputEditText.doAfterTextChanged {
+            locationNameInputEdit.doAfterTextChanged {
                 viewModel.locationChanged(it.toString())
             }
 
-            contactDiaryAddLocationEmailInputEditText.setOnEditorActionListener { _, actionId, _ ->
+            locationEmailInput.setOnEditorActionListener { _, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
                         if (viewModel.isValid.value == true) {
-                            binding.contactDiaryAddLocationSaveButton.performClick()
+                            binding.locationSaveButton.performClick()
                         }
                         false
                     }
@@ -99,7 +100,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         }
 
         viewModel.isValid.observe2(this) {
-            binding.contactDiaryAddLocationSaveButton.isEnabled = it
+            binding.locationSaveButton.isEnabled = it
         }
     }
 

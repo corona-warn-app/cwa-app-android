@@ -42,7 +42,9 @@ class ContactDiaryDurationPickerFragment : DialogFragment() {
         }
 
         with(binding.value) {
-            val duration = requireArguments().getString(DURATION_ARGUMENT_KEY)!!.split(":").toTypedArray()
+            var duration = requireArguments().getString(DURATION_ARGUMENT_KEY)!!.split(":").toTypedArray()
+            if (duration.size < 2) duration = arrayOf("00", "00")
+
             hours.value = hoursArray.indexOf(duration[0])
             minutes.value = minutesArray.indexOf(duration[1])
 

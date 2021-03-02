@@ -11,7 +11,9 @@
     <string name="contact_diary_person_list_no_items_title">"Все още няма въведени лица"</string>
     <string name="contact_diary_person_list_no_items_subtitle">"Създайте лице и го добавете към Вашия дневник на контактите."</string>
     <string name="contact_diary_add_person_title">"Лице"</string>
-    <string name="contact_diary_add_person_text_input_name_hint">"Име"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Име, фамилия"</string>
+    <string name="contact_diary_add_text_input_phone_hint">"Телефон"</string>
+    <string name="contact_diary_add_text_input_email_hint">"Имейл"</string>
     <string name="contact_diary_add_person_save_button">"Запазване"</string>
     <string name="contact_diary_add_location_title">"Място"</string>
     <string name="contact_diary_add_location_text_input_hint">"Описание"</string>
@@ -70,8 +72,10 @@
     <string name="contact_diary_low_risk_title">"Нисък риск"</string>
     <!-- XTXT: Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body">"въз основа на оценените от приложението контакти."</string>
+    <!-- XTXT: Body for contact diary overview screen risk information when high risk due to low risk encounters-->
+    <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"въз основа на повече от едно излагане на нисък риск."</string>
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
-    <string name="contact_diary_risk_body_extended">"въз основа на оценените от приложението контакти. Не е задължително те да са свързани с отбелязаните от Вас хора и места."</string>
+    <string name="contact_diary_risk_body_extended">"Не е задължително те да са свързани с отбелязаните от Вас хора и места."</string>
 
 
     <!-- XTXT: content description of contact journal image on home screen -->
@@ -111,6 +115,13 @@
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
     <string name="contact_diary_delete_person_title">"Наистина ли искате да изтриете това лице?"</string>
 
+    <!-- XHED: Title for the contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_title">"Бележка"</string>
+    <!-- XTXT: Description for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_description">"Тук можете да въведете бележки, които ще ви помогнат да оцените по-добре своя риск от заразяване."</string>
+    <!-- XTXT: Body for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_body">"Опишете обстоятелствата, които биха могли да доведат до повишаване на вашето ниво на риск, например в каква близост сте били до други хора и каква дейност с потенциално влияние върху качеството на въздуха сте извършвали (напр. „седяхме близо един до друг“, „спортувахме“, „пространството беше малко“ или „пяхме“).\n\nАко се заразите, тази информация може да помогне на службата за обществено здравеопазване да проследи потенциалните вериги на заразяване."</string>
+
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Място %s"</string>
     <!-- XTXT: person (description for screen readers) -->
@@ -133,4 +144,29 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Редактиране"</string>
 
+    <!-- XACT: Add Person Button (description for screen readers) -->
+    <string name="accessibility_day_add_person">"Добавяне на лице"</string>
+    <!-- XACT: Add Location Button (description for screen readers) -->
+    <string name="accessibility_day_add_location">"Добавяне на място"</string>
+
+    <!-- XBUT: Option - person encounter - below 15 Min -->
+    <string name="contact_diary_person_encounter_duration_below_15_min">"По-малко от 15 мин"</string>
+    <!-- XBUT: Option - person encounter - above 15 Min -->
+    <string name="contact_diary_person_encounter_duration_above_15_min">"Повече от 15 мин"</string>
+    <!-- XBUT: Option - person encounter - with mask -->
+    <string name="contact_diary_person_encounter_mask_with">"С маска"</string>
+    <!-- XBUT: Option - person encounter - without mask -->
+    <string name="contact_diary_person_encounter_mask_without">"Без маска"</string>
+    <!-- XBUT: Option - person encounter - outside -->
+    <string name="contact_diary_person_encounter_environment_outside">"На открито"</string>
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_person_encounter_environment_inside">"На закрито"</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_person_encounter_circumstances_hint">"Забележка (напр. близко разстояние)"</string>
+
+
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_location_visit_duration_label">"Продължителност"</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_location_visit_circumstances_hint">"Забележка (напр. препълнено)"</string>
 </resources>

@@ -19,5 +19,9 @@ fun String.toLazyString() = object : LazyString {
 }
 
 fun Int.toResolvingString(vararg formatArgs: Any): LazyString = object : LazyString {
-    override fun get(context: Context): String = context.getString(this@toResolvingString, *formatArgs)
+    override fun get(context: Context): String = if (formatArgs.isNotEmpty()) {
+        context.getString(this@toResolvingString, *formatArgs)
+    } else {
+        context.getString(this@toResolvingString)
+    }
 }

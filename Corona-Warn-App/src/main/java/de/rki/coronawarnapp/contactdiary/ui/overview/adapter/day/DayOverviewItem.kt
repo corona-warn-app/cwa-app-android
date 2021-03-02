@@ -1,15 +1,19 @@
-package de.rki.coronawarnapp.contactdiary.ui.overview.adapter
+package de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 
-data class ListItem(
-    val date: LocalDate
-) {
-    val data: MutableList<Data> = mutableListOf()
-    var risk: Risk? = null
+data class DayOverviewItem(
+    val date: LocalDate,
+    val data: List<Data>,
+    val risk: Risk?,
+    val onItemSelectionListener: (DayOverviewItem) -> Unit
+) : DiaryOverviewItem {
+
+    override val stableId: Long = date.hashCode().toLong()
 
     data class Data(
         @DrawableRes val drawableId: Int,

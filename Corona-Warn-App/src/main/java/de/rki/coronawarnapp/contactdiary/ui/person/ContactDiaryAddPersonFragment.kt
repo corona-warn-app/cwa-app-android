@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddPersonFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -42,50 +43,50 @@ class ContactDiaryAddPersonFragment :
         val person = navArgs.selectedPerson
         if (person != null) {
             binding.apply {
-                contactDiaryPersonNameEditText.setText(person.fullName)
-                contactDiaryPersonPhoneNumberEditText.setText(person.phoneNumber)
-                contactDiaryPersonEmailEditText.setText(person.emailAddress)
-                contactDiaryPersonDeleteButton.visibility = View.VISIBLE
-                contactDiaryPersonDeleteButton.setOnClickListener {
+                personNameInput.setText(person.fullName)
+                personPhoneNumberInput.setTextOnTextInput(person.phoneNumber, endIconVisible = false)
+                personEmailInput.setTextOnTextInput(person.emailAddress, endIconVisible = false)
+                personDeleteButton.visibility = View.VISIBLE
+                personDeleteButton.setOnClickListener {
                     DialogHelper.showDialog(deletePersonConfirmationDialog)
                 }
-                contactDiaryPersonSaveButton.setOnClickListener {
+                personSaveButton.setOnClickListener {
                     it.hideKeyboard()
                     viewModel.updatePerson(
                         person,
-                        phoneNumber = binding.contactDiaryPersonPhoneNumberEditText.text.toString().trim(),
-                        emailAddress = binding.contactDiaryPersonEmailEditText.text.toString().trim()
+                        phoneNumber = binding.personPhoneNumberInput.text.toString(),
+                        emailAddress = binding.personEmailInput.text.toString()
                     )
                 }
             }
             viewModel.nameChanged(person.fullName)
         } else {
-            binding.contactDiaryPersonDeleteButton.visibility = View.GONE
-            binding.contactDiaryPersonSaveButton.setOnClickListener {
+            binding.personDeleteButton.visibility = View.GONE
+            binding.personSaveButton.setOnClickListener {
                 it.hideKeyboard()
                 viewModel.addPerson(
-                    phoneNumber = binding.contactDiaryPersonPhoneNumberEditText.text.toString().trim(),
-                    emailAddress = binding.contactDiaryPersonEmailEditText.text.toString().trim()
+                    phoneNumber = binding.personPhoneNumberInput.text.toString(),
+                    emailAddress = binding.personEmailInput.text.toString()
                 )
             }
         }
 
         binding.apply {
-            contactDiaryPersonNameEditText.focusAndShowKeyboard()
+            personNameInput.focusAndShowKeyboard()
 
-            contactDiaryPersonCloseButton.setOnClickListener {
+            personCloseButton.setOnClickListener {
                 it.hideKeyboard()
                 viewModel.closePressed()
             }
-            contactDiaryPersonNameEditText.doAfterTextChanged {
+            personNameInput.doAfterTextChanged {
                 viewModel.nameChanged(it.toString())
             }
 
-            contactDiaryPersonEmailEditText.setOnEditorActionListener { _, actionId, _ ->
+            personEmailInput.setOnEditorActionListener { _, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
                     IME_ACTION_DONE -> {
                         if (viewModel.isNameValid.value == true) {
-                            binding.contactDiaryPersonSaveButton.performClick()
+                            binding.personSaveButton.performClick()
                         }
                         false
                     }
@@ -99,7 +100,7 @@ class ContactDiaryAddPersonFragment :
         }
 
         viewModel.isNameValid.observe2(this) { isValid ->
-            binding.contactDiaryPersonSaveButton.isEnabled = isValid
+            binding.personSaveButton.isEnabled = isValid
         }
     }
 
