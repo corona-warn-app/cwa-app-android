@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
+import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.databinding.FragmentScanCheckInQrCodeBinding
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.navUri
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -47,7 +49,9 @@ class ScanCheckInQrCodeFragment :
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
                 is ScanCheckInQrCodeEvent.BackEvent -> popBackStack()
-                is ScanCheckInQrCodeEvent.ConfirmCheckInEvent -> findNavController().navigate(navEvent.uri)
+                is ScanCheckInQrCodeEvent.ConfirmCheckInEvent -> findNavController().navigate(
+                    navEvent.url.toUri().navUri
+                )
             }
         }
     }
