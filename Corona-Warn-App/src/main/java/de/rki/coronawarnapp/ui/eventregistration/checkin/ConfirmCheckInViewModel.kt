@@ -14,11 +14,11 @@ class ConfirmCheckInViewModel @AssistedInject constructor() : CWAViewModel() {
     val eventData = eventLiveData
     val navigationEvents = SingleLiveEvent<ConfirmCheckInEvent>()
 
-    fun decodeEvent(encodedEventString: String) = launch {
-        val decodedEventString = encodedEventString.split(".")[0].decodeBase32()
-        eventLiveData.postValue(
-            EventOuterClass.Event.parseFrom(decodedEventString.toByteArray())
-        )
+    fun decodeEvent(encodedEvent: String) = launch {
+        // TODO (EXPOSUREAPP-5423)
+        val decodedEventString = encodedEvent.split(".")[0].decodeBase32()
+        val parseEvent = EventOuterClass.Event.parseFrom(decodedEventString.toByteArray())
+        eventLiveData.postValue(parseEvent)
     }
 
     fun onClose() {
