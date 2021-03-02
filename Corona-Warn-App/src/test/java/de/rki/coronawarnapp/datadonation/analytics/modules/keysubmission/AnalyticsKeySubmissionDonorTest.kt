@@ -39,7 +39,7 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
     }
 
     @Test
-    fun testNoContributionWithoutTestResult() {
+    fun `no contribution without test result`() {
         every { repository.testResultReceivedAt } returns -1
         every { repository.submitted } returns false
         runBlockingTest {
@@ -49,7 +49,7 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
     }
 
     @Test
-    fun testNoContributionWhenNeitherSubmittedNorEnoughTimePassed() {
+    fun `no contribution when neither submitted nor enough time passed`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.submitted } returns false
         runBlockingTest {
@@ -59,7 +59,7 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
     }
 
     @Test
-    fun testRegularContributionWhenKeysSubmitted() {
+    fun `regular contribution when keys submitted`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.advancedConsentGiven } returns true
         every { repository.daysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
@@ -87,7 +87,7 @@ class AnalyticsKeySubmissionDonorTest : BaseTest() {
     }
 
     @Test
-    fun testSubmitContributionAfterEnoughTimeHasPassed() {
+    fun `submit contribution after enough time has passed`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.submitted } returns true
         val minTimePassedToSubmit = Duration.standardHours(3)

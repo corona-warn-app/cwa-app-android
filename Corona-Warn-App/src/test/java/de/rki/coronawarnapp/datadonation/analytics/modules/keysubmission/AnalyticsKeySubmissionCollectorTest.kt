@@ -38,7 +38,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportTestRegistered() {
+    fun `save test registered`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         every { riskLevelResult.riskState } returns RiskState.INCREASED_RISK
         coEvery {
@@ -64,7 +64,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportSubmitted() {
+    fun `save keys submitted`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val submittedFlow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.submitted } returns submittedFlow
@@ -79,7 +79,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportSubmittedAfterCancel() {
+    fun `save keys submitted after cancel`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.submittedAfterCancel } returns flow
@@ -91,7 +91,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportSubmittedInBackground() {
+    fun `save keys submitted in background`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.submittedInBackground } returns flow
@@ -103,7 +103,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportSubmittedAfterSymptomFlow() {
+    fun `save keys submitted after symptom flow`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.submittedAfterSymptomFlow } returns flow
@@ -115,7 +115,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportPositiveTestResultReceived() {
+    fun `save positive test result received`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(now.millis)
         every { analyticsKeySubmissionStorage.testResultReceivedAt } returns flow
@@ -127,7 +127,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportAdvancedConsentGiven() {
+    fun `save advanced consent given`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.advancedConsentGiven } returns flow
@@ -139,7 +139,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportConsentWithdrawn() {
+    fun `save consent withdrawn`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.advancedConsentGiven } returns flow
@@ -151,7 +151,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportRegisteredWithTeleTAN() {
+    fun `save registered with tele tan`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsKeySubmissionStorage.registeredWithTeleTAN } returns flow
@@ -163,7 +163,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testReportLastSubmissionFlowScreen() {
+    fun `save last submission flow screen`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(0)
         every { analyticsKeySubmissionStorage.lastSubmissionFlowScreen } returns flow
@@ -175,7 +175,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     }
 
     @Test
-    fun testNoCollectionIfDisabled() {
+    fun `no data collection if disabled`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns false
         runBlockingTest {
             val collector = createInstance()

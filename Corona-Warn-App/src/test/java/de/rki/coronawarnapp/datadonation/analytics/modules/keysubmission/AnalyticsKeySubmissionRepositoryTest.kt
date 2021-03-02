@@ -30,7 +30,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun testHoursSinceTestResult() {
+    fun `hours since test result are calculated correctly`() {
         coEvery { storage.submittedAt.value } returns now.millis
         coEvery { storage.testResultReceivedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
@@ -38,7 +38,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testHoursSinceTestResultWhenNotSubmitted() {
+    fun `hours since test result when not submitted should be 0`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testResultReceivedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
@@ -46,7 +46,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testHoursSinceTestResultWhenNotReceivedOrSubmitted() {
+    fun `hours since test result when not received or submitted should be 0`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testResultReceivedAt.value } returns -1
         val repository = createInstance()
@@ -54,7 +54,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testHoursSinceTestResultMixedUp() {
+    fun `hours since test result should be 0 when dates have been manipulated`() {
         coEvery { storage.submittedAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         coEvery { storage.testResultReceivedAt.value } returns now.millis
         val repository = createInstance()
@@ -62,7 +62,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testHoursSinceTestRegistration() {
+    fun `hours since test registration are calculated correctly`() {
         coEvery { storage.submittedAt.value } returns now.millis
         coEvery { storage.testRegisteredAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
@@ -70,7 +70,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testHoursSinceTestRegistrationNotSubmitted() {
+    fun `hours since test registration should be 0 if not submitted`() {
         coEvery { storage.submittedAt.value } returns -1
         coEvery { storage.testRegisteredAt.value } returns now.minus(Hours.hours(5).toStandardDuration()).millis
         val repository = createInstance()
@@ -78,7 +78,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testDaysSinceMostRecentDateAtRiskLevelAtTestRegistration() {
+    fun `days since most recent date at risk level at test registration are calculated correctly`() {
         coEvery {
             riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
         } returns now
@@ -91,7 +91,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testDaysSinceMostRecentDateAtRiskLevelAtTestRegistrationSameDay() {
+    fun `days between most recent risk level change and test registration should be 0 if on same day`() {
         coEvery {
             riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
         } returns now
@@ -104,7 +104,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testDaysSinceMostRecentDateAtRiskLevelAtTestRegistrationMissingChange() {
+    fun `days should be 0 if lastChangeCheckedRiskLevelTimestamp is null`() {
         coEvery {
             riskLevelSettings.lastChangeCheckedRiskLevelTimestamp
         } returns null

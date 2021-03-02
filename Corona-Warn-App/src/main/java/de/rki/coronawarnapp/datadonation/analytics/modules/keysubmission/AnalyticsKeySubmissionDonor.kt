@@ -54,7 +54,7 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
             .setSubmittedInBackground(repository.submittedInBackground)
             .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
         return positiveTestResultReceived && (
             keysSubmitted || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit)
@@ -67,7 +67,7 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
     private val keysSubmitted: Boolean
         get() = repository.submitted
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
         timeStamper.nowUTC.minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
 
@@ -76,7 +76,7 @@ class AnalyticsKeySubmissionDonor @Inject constructor(
     }
 }
 
-@VisibleForTesting
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 object AnalyticsKeySubmissionNoContribution : DonorModule.Contribution {
     override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
     override suspend fun finishDonation(successful: Boolean) = Unit

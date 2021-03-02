@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
+import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
-import org.joda.time.Days
 import org.joda.time.Duration
 import org.joda.time.Instant
 import javax.inject.Inject
@@ -49,15 +48,10 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
         get() = Duration.millis(max(submittedAt - testRegisteredAt, 0L)).toStandardHours().hours
 
     val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() {
-            val lastChangeCheckedRiskLevelDate =
-                riskLevelSettings.lastChangeCheckedRiskLevelTimestamp?.toLocalDate() ?: return 0
-            val testRegisteredAtDate = Instant.ofEpochMilli(testRegisteredAt)?.toLocalDate() ?: return 0
-            return Days.daysBetween(
-                lastChangeCheckedRiskLevelDate,
-                testRegisteredAtDate
-            ).days
-        }
+        get() = calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+            riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
+            Instant.ofEpochMilli(testRegisteredAt)
+        )
 
     val hoursSinceHighRiskWarningAtTestRegistration: Int
         get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value
