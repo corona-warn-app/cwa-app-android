@@ -30,7 +30,9 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         vm.state.observe2(this) {
             binding.apply {
 
-                if (explanationSectionTwo.text == context?.getString(R.string.debugging_debuglog_intro_explanation_section_two)) {
+                if (explanationSectionTwo.text ==
+                    context?.getString(R.string.debugging_debuglog_intro_explanation_section_two)
+                ) {
                     explanationSectionTwo.setUrl(
                         R.string.debugging_debuglog_intro_explanation_section_two,
                         R.string.debugging_debuglog_intro_explanation_section_two_link_label,
