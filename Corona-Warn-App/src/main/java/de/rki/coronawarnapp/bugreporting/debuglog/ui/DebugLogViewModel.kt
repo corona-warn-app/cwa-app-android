@@ -15,10 +15,8 @@ import de.rki.coronawarnapp.util.sharing.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
@@ -30,17 +28,24 @@ class DebugLogViewModel @AssistedInject constructor(
     private val fileSharing: FileSharing,
     private val enfClient: ENFClient
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val ticker = flow {
-        while (true) {
-            emit(Unit)
-            delay(500)
-        }
-    }
-    private val manualTick = MutableStateFlow(Unit)
     private val sharingInProgress = MutableStateFlow(false)
 
-    val routeToScreen: de.rki.coronawarnapp.ui.SingleLiveEvent<DebugLogNavigationEvents> =
-        de.rki.coronawarnapp.ui.SingleLiveEvent()
+    val routeToScreen = SingleLiveEvent<DebugLogNavigationEvents>()
+
+    val state: LiveData<State> = combine(
+        sharingInProgress,
+        debugLogger.logState
+    ) { sharingInProgress, logState ->
+        State(
+            isRecording = logState.isLogging,
+            isLowStorage = logState.isLowStorage,
+            currentSize = logState.logSize + debugLogger.getShareSize(),
+            sharingInProgress = sharingInProgress
+        )
+    }.asLiveData(context = dispatcherProvider.Default)
+
+    val errorEvent = SingleLiveEvent<Throwable>()
+    val shareEvent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
 
     fun onPrivacyButtonPress() {
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
@@ -49,22 +54,6 @@ class DebugLogViewModel @AssistedInject constructor(
     fun onIdHistoryPress() {
         // TODO Add Navigation
     }
-
-    val state: LiveData<State> = combine(
-        ticker,
-        manualTick,
-        sharingInProgress,
-        debugLogger.logState
-    ) { _, _, sharingInProgress, logState ->
-        State(
-            isRecording = logState.isLogging,
-            currentSize = logState.logSize + debugLogger.getShareSize(),
-            sharingInProgress = sharingInProgress
-        )
-    }.asLiveData(context = dispatcherProvider.Default)
-
-    val errorEvent = SingleLiveEvent<Throwable>()
-    val shareEvent = SingleLiveEvent<FileSharing.ShareIntentProvider>()
 
     fun toggleRecording() = launch {
         try {
@@ -76,8 +65,6 @@ class DebugLogViewModel @AssistedInject constructor(
             }
         } catch (e: Exception) {
             errorEvent.postValue(e)
-        } finally {
-            manualTick.value = Unit
         }
     }
 
@@ -124,6 +111,7 @@ class DebugLogViewModel @AssistedInject constructor(
 
     data class State(
         val isRecording: Boolean,
+        val isLowStorage: Boolean,
         val sharingInProgress: Boolean = false,
         val currentSize: Long = 0
     )
