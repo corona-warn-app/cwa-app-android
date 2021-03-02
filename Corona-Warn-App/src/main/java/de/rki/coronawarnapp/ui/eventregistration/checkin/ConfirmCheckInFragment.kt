@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfrimCheckInBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -24,16 +25,26 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        with(binding) {
+            toolbar.setNavigationOnClickListener { viewModel.onClose() }
+            confirmButton.setOnClickListener { viewModel.onConfirmEvent() }
+        }
+
         viewModel.decodeEvent(args.encodedEvent)
+        viewModel.navigationEvents.observe2(this) { navEvent ->
+            when (navEvent) {
+                ConfirmCheckInEvent.BackEvent -> popBackStack()
+                ConfirmCheckInEvent.ConfirmEvent -> popBackStack() // TODO Do something else
+            }
+        }
+
+        // TODO bind data to actual UI
         viewModel.eventData.observe2(this) {
-            binding.encodedEvent.text = with(it) {
-                """
-            guid=${String(guid.toByteArray())}
-            desc=$description
-            start=$start
-            end=$end
-            defaultCheckInLengthInMinutes=$defaultCheckInLengthInMinutes
-            """.trimIndent()
+            with(binding) {
+                eventGuid.text = "GUID: %s".format(it.guid)
+                startTime.text = "Start time: %s".format(it.start)
+                endTime.text = "End time: %s".format(it.end)
+                description.text = "Description: %s".format(it.description)
             }
         }
     }
