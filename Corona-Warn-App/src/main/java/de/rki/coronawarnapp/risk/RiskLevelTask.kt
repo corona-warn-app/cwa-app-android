@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTra
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -31,7 +31,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("ReturnCount")
+@Suppress("ReturnCount", "LongParameterList")
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     @AppContext private val context: Context,
@@ -41,7 +41,8 @@ class RiskLevelTask @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
-    private val keyCacheRepository: KeyCacheRepository
+    private val keyCacheRepository: KeyCacheRepository,
+    private val submissionSettings: SubmissionSettings
 ) : Task<DefaultProgress, RiskLevelTaskResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -78,7 +79,7 @@ class RiskLevelTask @Inject constructor(
             Timber.d("The current time is %s", it)
         }
 
-        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (submissionSettings.isAllowedToSubmitKeys) {
             Timber.i("Positive test result, skip risk calculation")
             return RiskLevelTaskResult(
                 calculatedAt = nowUTC,

@@ -35,6 +35,7 @@ import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
     @MockK lateinit var context: Context
@@ -63,8 +64,9 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest : BaseTest() {
         every { appComponent.encryptedPreferencesFactory } returns encryptedPreferencesFactory
         every { appComponent.errorResetTool } returns encryptionErrorResetTool
 
+        every { submissionSettings.registrationToken } returns mockFlowPreference(registrationToken)
+
         mockkObject(LocalData)
-        every { LocalData.registrationToken() } returns registrationToken
         every { LocalData.isTestResultAvailableNotificationSent() } returns false
         every { LocalData.initialPollingForTestResultTimeStamp() } returns currentInstant.millis
         every { LocalData.initialPollingForTestResultTimeStamp(any()) } just Runs

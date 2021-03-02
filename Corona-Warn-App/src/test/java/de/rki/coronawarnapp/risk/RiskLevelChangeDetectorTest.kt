@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
@@ -41,6 +42,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: NotificationHelper
     @MockK lateinit var surveys: Surveys
+    @MockK lateinit var submissionSettings: SubmissionSettings
 
     @BeforeEach
     fun setup() {
@@ -49,7 +51,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         mockkObject(LocalData)
 
         every { LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any() } just Runs
-        every { LocalData.submissionWasSuccessful() } returns false
+        every { submissionSettings.isSubmissionSuccessful } returns false
         every { foregroundState.isInForeground } returns flowOf(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
         every { riskLevelSettings.lastChangeCheckedRiskLevelTimestamp = any() } just Runs
@@ -78,7 +80,8 @@ class RiskLevelChangeDetectorTest : BaseTest() {
         foregroundState = foregroundState,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        surveys = surveys
+        surveys = surveys,
+        submissionSettings = submissionSettings
     )
 
     @Test
@@ -138,7 +141,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData.submissionWasSuccessful()
+                submissionSettings.isSubmissionSuccessful
                 foregroundState.isInForeground
                 LocalData.isUserToBeNotifiedOfLoweredRiskLevel = any()
                 surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER)
@@ -162,7 +165,7 @@ class RiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                LocalData.submissionWasSuccessful()
+                submissionSettings.isSubmissionSuccessful
                 foregroundState.isInForeground
                 surveys wasNot Called
             }

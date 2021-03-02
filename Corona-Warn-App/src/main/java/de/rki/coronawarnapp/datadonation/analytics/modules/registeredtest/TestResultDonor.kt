@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettin
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.flow.first
@@ -21,6 +21,7 @@ class TestResultDonor @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val timeStamper: TimeStamper,
+    private val submissionSettings: SubmissionSettings
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
@@ -30,7 +31,7 @@ class TestResultDonor @Inject constructor(
             return TestResultMetadataNoContribution
         }
 
-        val timestampAtRegistration = LocalData.initialTestResultReceivedTimestamp()
+        val timestampAtRegistration = submissionSettings.initialTestResultReceivedAt
 
         if (timestampAtRegistration == null) {
             Timber.d("Skipping TestResultMetadata donation timestampAtRegistration isn't found")
@@ -42,8 +43,7 @@ class TestResultDonor @Inject constructor(
             .analytics
             .hoursSinceTestRegistrationToSubmitTestResultMetadata
 
-        val registrationTime = Instant.ofEpochMilli(timestampAtRegistration)
-        val hoursSinceTestRegistrationTime = Duration(registrationTime, timeStamper.nowUTC).standardHours.toInt()
+        val hoursSinceTestRegistrationTime = Duration(timestampAtRegistration, timeStamper.nowUTC).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
 
         val testResultAtRegistration =
@@ -52,7 +52,7 @@ class TestResultDonor @Inject constructor(
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration =
             Duration(
                 riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
-                registrationTime
+                timestampAtRegistration
             ).standardDays.toInt()
 
         val riskLevelAtRegistration = testResultDonorSettings.riskLevelAtTestRegistration.value
@@ -61,7 +61,7 @@ class TestResultDonor @Inject constructor(
             if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_LOW) {
                 DEFAULT_HOURS_SINCE_HIGH_RISK_WARNING
             } else {
-                calculatedHoursSinceHighRiskWarning(registrationTime)
+                calculatedHoursSinceHighRiskWarning(timestampAtRegistration)
             }
 
         return when {
@@ -86,7 +86,7 @@ class TestResultDonor @Inject constructor(
              */
             testResultAtRegistration.isFinal ->
                 finalTestMetadataDonation(
-                    registrationTime,
+                    timestampAtRegistration,
                     testResultAtRegistration,
                     daysSinceMostRecentDateAtRiskLevelAtTestRegistration,
                     hoursSinceHighRiskWarningAtTestRegistration

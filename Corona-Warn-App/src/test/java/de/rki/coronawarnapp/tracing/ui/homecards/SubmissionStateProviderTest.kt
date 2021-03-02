@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.homecards
 import android.content.Context
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.ui.homecards.NoTest
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.preferences.mockFlowPreference
 import java.util.Date
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
@@ -29,6 +31,7 @@ class SubmissionStateProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var submissionSettings: SubmissionSettings
 
     @BeforeEach
     fun setup() {
@@ -40,10 +43,13 @@ class SubmissionStateProviderTest : BaseTest() {
             emit(NetworkRequestWrapper.RequestSuccessful<DeviceUIState, Throwable>(DeviceUIState.PAIRED_POSITIVE))
         }
         every { submissionRepository.testResultReceivedDateFlow } returns flow { emit(Date()) }
-        every { LocalData.registrationToken() } returns null
+        every { submissionSettings.registrationToken } returns mockFlowPreference(null)
     }
 
-    private fun createInstance() = SubmissionStateProvider(submissionRepository)
+    private fun createInstance() = SubmissionStateProvider(
+        submissionRepository = submissionRepository,
+        submissionSettings = submissionSettings
+    )
 
     @Test
     fun `state determination, unregistered test`() = runBlockingTest {
@@ -54,7 +60,7 @@ class SubmissionStateProviderTest : BaseTest() {
                 submissionRepository.deviceUIStateFlow
                 submissionRepository.hasViewedTestResult
                 submissionRepository.testResultReceivedDateFlow
-                LocalData.registrationToken()
+                submissionSettings.registrationToken
             }
         }
     }

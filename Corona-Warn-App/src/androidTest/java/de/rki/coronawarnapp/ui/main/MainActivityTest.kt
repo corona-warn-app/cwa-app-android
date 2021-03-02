@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -97,6 +98,7 @@ class MainActivityTest : BaseUITest() {
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
     @MockK lateinit var tracingStateProvider: TracingStateProvider
     @MockK lateinit var diarySettings: ContactDiarySettings
+    @MockK lateinit var backgroundNoise: BackgroundNoise
 
     // ContactDiaryOverviewFragment mocks
     @MockK lateinit var taskController: TaskController
@@ -125,8 +127,6 @@ class MainActivityTest : BaseUITest() {
         every { CWADebug.isDeviceForTestersBuild } returns false
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
         every { LocalData.isBackgroundCheckDone() } returns true
-        every { LocalData.submissionWasSuccessful() } returns false
-        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
         every { BackgroundWorkScheduler.startWorkScheduler() } just Runs
         // Setup ViewModels
         setupActivityViewModel()
@@ -341,7 +341,8 @@ class MainActivityTest : BaseUITest() {
             dispatcherProvider = TestDispatcherProvider(),
             environmentSetup = environmentSetup,
             backgroundModeStatus = backgroundModeStatus,
-            contactDiarySettings = diarySettings
+            contactDiarySettings = diarySettings,
+            backgroundNoise = backgroundNoise
         )
     )
 

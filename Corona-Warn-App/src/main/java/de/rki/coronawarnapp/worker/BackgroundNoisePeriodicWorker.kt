@@ -6,11 +6,11 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 
 /**
@@ -20,7 +20,8 @@ import timber.log.Timber
  */
 class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters
+    @Assisted workerParams: WorkerParameters,
+    private val submissionSettings: SubmissionSettings
 ) : CoroutineWorker(context, workerParams) {
 
     /**
@@ -31,13 +32,10 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
 
         var result = Result.success()
         try {
-            val initialPairingDate = DateTime(
-                LocalData.devicePairingSuccessfulTimestamp(),
-                DateTimeZone.UTC
-            )
+            val initialPairingDate = submissionSettings.devicePairingSuccessfulAt ?: Instant.ofEpochMilli(0)
 
             // Check if the numberOfDaysToRunPlaybook are over
-            if (initialPairingDate.plusDays(BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK).isBeforeNow) {
+            if (initialPairingDate.plus(Duration.standardDays(NUMBER_OF_DAYS_TO_RUN_PLAYBOOK)).isBeforeNow) {
                 stopWorker()
                 return result
             }
@@ -64,5 +62,6 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
 
     companion object {
         private val TAG = BackgroundNoisePeriodicWorker::class.java.simpleName
+        private val NUMBER_OF_DAYS_TO_RUN_PLAYBOOK = BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK.toLong()
     }
 }

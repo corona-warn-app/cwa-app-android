@@ -8,8 +8,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -17,7 +16,6 @@ import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -26,7 +24,7 @@ import java.util.UUID
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val submissionRepository: SubmissionRepository,
+    private val submissionSettings: SubmissionSettings,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -60,8 +58,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     )
 
     val errorEvents = SingleLiveEvent<Throwable>()
-    private val internalToken = MutableStateFlow(LocalData.registrationToken())
-    val currentTestId = internalToken.asLiveData()
+    val currentTestId = submissionSettings.registrationToken.flow.asLiveData()
 
     val shareTEKsEvent = SingleLiveEvent<TEKExport>()
 
@@ -85,13 +82,15 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     fun scrambleRegistrationToken() {
-        LocalData.registrationToken(UUID.randomUUID().toString())
-        internalToken.value = LocalData.registrationToken()
+        submissionSettings.registrationToken.update {
+            UUID.randomUUID().toString()
+        }
     }
 
     fun deleteRegistrationToken() {
-        LocalData.registrationToken(null)
-        internalToken.value = LocalData.registrationToken()
+        submissionSettings.registrationToken.update {
+            null
+        }
     }
 
     fun updateStorage() {

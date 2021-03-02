@@ -33,7 +33,8 @@ class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val backgroundNoise: BackgroundNoise
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -74,18 +75,18 @@ class SubmissionRepository @Inject constructor(
     }
 
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
-        if (LocalData.submissionWasSuccessful()) {
+        if (submissionSettings.isSubmissionSuccessful) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
             return
         }
 
-        val registrationToken = LocalData.registrationToken()
+        val registrationToken = submissionSettings.registrationToken.value
         if (registrationToken == null) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
             return
         }
 
-        if (LocalData.isAllowedToSubmitDiagnosisKeys()) {
+        if (submissionSettings.isAllowedToSubmitKeys) {
             deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
             return
         }
@@ -120,18 +121,22 @@ class SubmissionRepository @Inject constructor(
 
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(tan)
-        LocalData.registrationToken(registrationData.registrationToken)
+        submissionSettings.registrationToken.update {
+            registrationData.registrationToken
+        }
         updateTestResult(registrationData.testResult)
-        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
-        BackgroundNoise.getInstance().scheduleDummyPattern()
+        submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        backgroundNoise.scheduleDummyPattern()
     }
 
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(guid)
-        LocalData.registrationToken(registrationData.registrationToken)
+        submissionSettings.registrationToken.update {
+            registrationData.registrationToken
+        }
         updateTestResult(registrationData.testResult)
-        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
-        BackgroundNoise.getInstance().scheduleDummyPattern()
+        submissionSettings.devicePairingSuccessfulAt = timeStamper.nowUTC
+        backgroundNoise.scheduleDummyPattern()
         return registrationData.testResult
     }
 
@@ -146,21 +151,21 @@ class SubmissionRepository @Inject constructor(
         testResultFlow.value = testResult
 
         if (testResult == TestResult.POSITIVE) {
-            LocalData.isAllowedToSubmitDiagnosisKeys(true)
+            submissionSettings.isAllowedToSubmitKeys = true
             deadmanNotificationScheduler.cancelScheduledWork()
         }
 
-        val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
+        val initialTestResultReceivedTimestamp = submissionSettings.initialTestResultReceivedAt
 
         if (initialTestResultReceivedTimestamp == null) {
-            val currentTime = System.currentTimeMillis()
-            LocalData.initialTestResultReceivedTimestamp(currentTime)
-            testResultReceivedDateFlowInternal.value = Date(currentTime)
+            val currentTime = timeStamper.nowUTC
+            submissionSettings.initialTestResultReceivedAt = currentTime
+            testResultReceivedDateFlowInternal.value = currentTime.toDate()
             if (testResult == TestResult.PENDING) {
                 BackgroundWorkScheduler.startWorkScheduler()
             }
         } else {
-            testResultReceivedDateFlowInternal.value = Date(initialTestResultReceivedTimestamp)
+            testResultReceivedDateFlowInternal.value = initialTestResultReceivedTimestamp.toDate()
         }
     }
 
@@ -176,13 +181,13 @@ class SubmissionRepository @Inject constructor(
         submissionSettings.hasViewedTestResult.update { false }
         submissionSettings.hasGivenConsent.update { false }
         revokeConsentToSubmission()
-        LocalData.registrationToken(null)
-        LocalData.devicePairingSuccessfulTimestamp(0L)
+        submissionSettings.registrationToken.update { null }
+        submissionSettings.devicePairingSuccessfulAt = null
         LocalData.initialPollingForTestResultTimeStamp(0L)
-        LocalData.initialTestResultReceivedTimestamp(0L)
-        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        submissionSettings.initialTestResultReceivedAt = null
+        submissionSettings.isAllowedToSubmitKeys = false
         LocalData.isTestResultAvailableNotificationSent(false)
-        LocalData.numberOfSuccessfulSubmissions(0)
+        submissionSettings.isSubmissionSuccessful = false
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {

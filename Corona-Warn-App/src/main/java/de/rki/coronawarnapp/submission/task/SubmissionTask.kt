@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -110,7 +109,7 @@ class SubmissionTask @Inject constructor(
     }
 
     private suspend fun performSubmission(): Result {
-        val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+        val registrationToken = submissionSettings.registrationToken.value ?: throw NoRegistrationTokenSetException()
         Timber.tag(TAG).d("Using registrationToken=$registrationToken")
 
         val keys: List<TemporaryExposureKey> = try {
@@ -155,7 +154,7 @@ class SubmissionTask @Inject constructor(
     private fun setSubmissionFinished() {
         Timber.tag(TAG).d("setSubmissionFinished()")
         BackgroundWorkScheduler.stopWorkScheduler()
-        LocalData.numberOfSuccessfulSubmissions(1)
+        submissionSettings.isSubmissionSuccessful = true
         BackgroundWorkScheduler.startWorkScheduler()
 
         shareTestResultNotificationService.cancelSharePositiveTestResultNotification()

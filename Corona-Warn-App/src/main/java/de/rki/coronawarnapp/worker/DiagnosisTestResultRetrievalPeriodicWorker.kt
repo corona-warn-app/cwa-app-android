@@ -55,7 +55,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker @AssistedInject constructor(
             } else {
                 Timber.tag(TAG).d(" $id Running worker.")
 
-                val registrationToken = LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+                val registrationToken =
+                    submissionSettings.registrationToken.value ?: throw NoRegistrationTokenSetException()
                 val testResult = submissionService.asyncRequestTestResult(registrationToken)
                 Timber.tag(TAG).d("$id: Test Result retrieved is $testResult")
 

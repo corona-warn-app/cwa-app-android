@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
@@ -38,7 +38,6 @@ import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 
 class RiskLevelTaskTest : BaseTest() {
-
     @MockK lateinit var riskLevels: RiskLevels
     @MockK lateinit var context: Context
     @MockK lateinit var enfClient: ENFClient
@@ -49,6 +48,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
+    @MockK lateinit var submissionSettings: SubmissionSettings
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -57,9 +57,8 @@ class RiskLevelTaskTest : BaseTest() {
         MockKAnnotations.init(this)
 
         mockkObject(TimeVariables)
-        mockkObject(LocalData)
 
-        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns false
+        every { submissionSettings.isAllowedToSubmitKeys } returns false
         every { configData.isDeviceTimeCorrect } returns true
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
@@ -92,7 +91,8 @@ class RiskLevelTaskTest : BaseTest() {
         riskLevelSettings = riskLevelSettings,
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
-        keyCacheRepository = keyCacheRepository
+        keyCacheRepository = keyCacheRepository,
+        submissionSettings = submissionSettings
     )
 
     @Test
@@ -212,7 +212,7 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         every { timeStamper.nowUTC } returns now
-        every { LocalData.isAllowedToSubmitDiagnosisKeys() } returns true
+        every { submissionSettings.isAllowedToSubmitKeys } returns true
 
         createTask().run(arguments) shouldBe RiskLevelTaskResult(
             calculatedAt = now,

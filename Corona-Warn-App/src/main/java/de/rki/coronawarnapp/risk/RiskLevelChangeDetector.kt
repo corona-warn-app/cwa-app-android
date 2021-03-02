@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -30,7 +31,8 @@ class RiskLevelChangeDetector @Inject constructor(
     private val notificationManagerCompat: NotificationManagerCompat,
     private val foregroundState: ForegroundState,
     private val notificationHelper: NotificationHelper,
-    private val surveys: Surveys
+    private val surveys: Surveys,
+    private val submissionSettings: SubmissionSettings
 ) {
 
     fun launch() {
@@ -64,7 +66,7 @@ class RiskLevelChangeDetector @Inject constructor(
 
         Timber.d("Last state was $oldRiskState and current state is $newRiskState")
 
-        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !LocalData.submissionWasSuccessful()) {
+        if (hasHighLowLevelChanged(oldRiskState, newRiskState) && !submissionSettings.isSubmissionSuccessful) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             if (!foregroundState.isInForeground.first()) {
