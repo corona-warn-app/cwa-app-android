@@ -52,8 +52,8 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                     it.hideKeyboard()
                     viewModel.updateLocation(
                         location,
-                        phoneNumber = binding.locationPhoneInput.text.toString().trim(),
-                        emailAddress = binding.locationEmailInput.text.toString().trim()
+                        phoneNumber = binding.locationPhoneInput.text.toString(),
+                        emailAddress = binding.locationEmailInput.text.toString()
                     )
                 }
             }
@@ -64,8 +64,8 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                 locationSaveButton.setOnClickListener {
                     it.hideKeyboard()
                     viewModel.addLocation(
-                        phoneNumber = binding.locationPhoneInput.text.toString().trim(),
-                        emailAddress = binding.locationEmailInput.text.toString().trim()
+                        phoneNumber = binding.locationPhoneInput.text.toString(),
+                        emailAddress = binding.locationEmailInput.text.toString()
                     )
                 }
             }

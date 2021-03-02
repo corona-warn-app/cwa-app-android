@@ -54,8 +54,8 @@ class ContactDiaryAddPersonFragment :
                     it.hideKeyboard()
                     viewModel.updatePerson(
                         person,
-                        phoneNumber = binding.personPhoneNumberInput.text.toString().trim(),
-                        emailAddress = binding.personEmailInput.text.toString().trim()
+                        phoneNumber = binding.personPhoneNumberInput.text.toString(),
+                        emailAddress = binding.personEmailInput.text.toString()
                     )
                 }
             }
@@ -65,8 +65,8 @@ class ContactDiaryAddPersonFragment :
             binding.personSaveButton.setOnClickListener {
                 it.hideKeyboard()
                 viewModel.addPerson(
-                    phoneNumber = binding.personPhoneNumberInput.text.toString().trim(),
-                    emailAddress = binding.personEmailInput.text.toString().trim()
+                    phoneNumber = binding.personPhoneNumberInput.text.toString(),
+                    emailAddress = binding.personEmailInput.text.toString()
                 )
             }
         }
