@@ -6,7 +6,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingNavigationEvents
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
