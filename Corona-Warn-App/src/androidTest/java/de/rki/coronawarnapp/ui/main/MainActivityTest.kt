@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.ui.homecards.SubmissionStateProvider
 import de.rki.coronawarnapp.submission.ui.homecards.TestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
@@ -477,4 +478,9 @@ class MainProviderModule {
         mockk<DataDonationAnalyticsScheduler>(relaxed = true).apply {
             every { schedulePeriodic() } just Runs
         }
+
+    @Provides
+    fun submissionSettings(): SubmissionSettings = mockk<SubmissionSettings>(relaxed = true).apply {
+        every { isAllowedToSubmitKeys } returns true
+    }
 }
