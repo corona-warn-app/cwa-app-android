@@ -44,23 +44,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/event_title" />
 
             <Button
-                android:id="@+id/create_event"
+                android:id="@+id/create_event_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Create Event"
-                app:layout_constraintEnd_toStartOf="@+id/show_events"
+                app:layout_constraintEnd_toStartOf="@+id/show_events_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/events_body" />
 
             <Button
-                android:id="@+id/show_events"
+                android:id="@+id/show_events_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Show stored Events"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/create_event"
+                app:layout_constraintStart_toEndOf="@id/create_event_button"
                 app:layout_constraintTop_toBottomOf="@id/events_body" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
