@@ -82,7 +82,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     vm.onIdHistoryPress()
                 }
 
-                toggleSendErrorLog.setOnClickListener{
+                toggleSendErrorLog.setOnClickListener {
                     vm.shareRecording()
                 }
             }
