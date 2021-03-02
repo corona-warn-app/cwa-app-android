@@ -6,7 +6,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
@@ -45,6 +44,6 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     @Test
     fun onConfirmEvent() {
         viewModel.onConfirmEvent()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInEvent.BackEvent
+        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInEvent.ConfirmEvent
     }
 }
