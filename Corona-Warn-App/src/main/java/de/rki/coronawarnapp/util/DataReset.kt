@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -44,7 +45,8 @@ class DataReset @Inject constructor(
     private val statisticsProvider: StatisticsProvider,
     private val surveySettings: SurveySettings,
     private val analyticsSettings: AnalyticsSettings,
-    private val analytics: Analytics
+    private val analytics: Analytics,
+    private val bugReportingSettings: BugReportingSettings
 ) {
 
     private val mutex = Mutex()
@@ -82,6 +84,8 @@ class DataReset @Inject constructor(
         contactDiaryRepository.clear()
 
         statisticsProvider.clear()
+
+        bugReportingSettings.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
