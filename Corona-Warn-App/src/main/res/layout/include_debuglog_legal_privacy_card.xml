@@ -13,11 +13,11 @@
         <TextView
             android:id="@+id/debug_log_legal_privacy_card_title"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/debugging_debuglog_legal_privacy_card_title"
+            android:accessibilityHeading="true"
             android:focusable="true"
+            android:text="@string/debugging_debuglog_legal_privacy_card_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -25,15 +25,15 @@
         <TextView
             android:id="@+id/debug_log_legal_privacy_card_first_section"
             style="@style/subtitle"
-            android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/debugging_debuglog_legal_privacy_card_first_section"
+            android:accessibilityHeading="true"
             android:focusable="true"
+            android:text="@string/debugging_debuglog_legal_privacy_card_first_section"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debug_log_legal_privacy_card_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/debug_log_legal_privacy_card_title" />
 
         <TextView
             android:id="@+id/debug_log_legal_privacy_card_second_section"
