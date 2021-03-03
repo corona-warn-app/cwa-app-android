@@ -42,7 +42,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
                     android:focusable="true"
-                    android:text="Ausführliche Informationen zur Übersendung der Fehlerberichte"
+                    android:text="@string/debugging_debuglog_legal_dialog_title"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toTopOf="parent"
@@ -68,12 +68,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="Zur Auswertung der Fehlerberichte durch das RKI"
+                    android:text="@string/debugging_debuglog_legal_section_title"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/debuglog_legal_privacy_card"
-                    tools:text="Zur Auswertung der Fehlerberichte durch das RKI" />
-
+                    tools:text="@string/debugging_debuglog_legal_section_title" />
 
                 <TextView
                     android:id="@+id/debuglog_legal_body_text"
@@ -82,11 +81,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="Nachdem die Echtheit Ihrer App geprüft wurde, wird der Fehlerbericht über eine gesicherte Verbindung an das RKI übermittelt. Die Fehlerberichte werden nur zur Fehleranalyse und Fehlerbehebung im Rahmen zukünftiger Updates der App genutzt. Nur Mitarbeiter des technischen Support können auf die Fehlerberichte zugreifen. Die Fehlerberichte enthalten eine Vielzahl von Statusmeldungen und Ereignissen, die in der App ausgelöst wurden, sie enthalten aber keine Hinweise anhand derer das RKI auf Ihre Identität schließen kann. Erst wenn Sie die Fehlerbericht-ID im Zusammenhang mit weiteren Mitteilungen nennen, kann ein Zusammenhang zwischen der Mitteilung (und z.B. Ihrem dort enthaltenen Namen) und den im Fehlerbericht enthaltenen Angaben (z.B. technische Meldungen zur Berechnung im Rahmen der Risiko-Ermittlung, in der App angezeigte Informationen und durchlaufene Schritte, aber ggf. auch einem abgerufenen Testergebnis und ggf. im Rahmen der Warnung geteilter Zufalls-IDs) hergestellt werden."
+                    android:text="@string/debugging_debuglog_legal_section_body"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/debuglog_legal_body_headline"
-                    tools:text="Nachdem die Echtheit Ihrer App geprüft wurde, wird der Fehlerbericht über eine gesicherte Verbindung an das RKI übermittelt. Die Fehlerberichte werden nur zur Fehleranalyse und Fehlerbehebung im Rahmen zukünftiger Updates der App genutzt. Nur Mitarbeiter des technischen Support können auf die Fehlerberichte zugreifen. Die Fehlerberichte enthalten eine Vielzahl von Statusmeldungen und Ereignissen, die in der App ausgelöst wurden, sie enthalten aber keine Hinweise anhand derer das RKI auf Ihre Identität schließen kann. Erst wenn Sie die Fehlerbericht-ID im Zusammenhang mit weiteren Mitteilungen nennen, kann ein Zusammenhang zwischen der Mitteilung (und z.B. Ihrem dort enthaltenen Namen) und den im Fehlerbericht enthaltenen Angaben (z.B. technische Meldungen zur Berechnung im Rahmen der Risiko-Ermittlung, in der App angezeigte Informationen und durchlaufene Schritte, aber ggf. auch einem abgerufenen Testergebnis und ggf. im Rahmen der Warnung geteilter Zufalls-IDs) hergestellt werden." />
+                    tools:text="@string/debugging_debuglog_legal_section_body" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
