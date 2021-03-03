@@ -100,8 +100,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.d("showEnableTracingEvent:Unit")
-                showEnableTracingEvent.postValue(Unit)
                 showKeysRetrievalProgress.postValue(false)
+                showEnableTracingEvent.postValue(Unit)
             }
         }
     }
