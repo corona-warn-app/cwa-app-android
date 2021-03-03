@@ -8,8 +8,7 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/contact_diary_onboarding_background"
-        android:contentDescription="@string/contact_diary_title"
+        android:contentDescription="Fehlerbericht senden"
         android:focusable="true">
 
         <androidx.appcompat.widget.Toolbar
@@ -34,21 +33,21 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/onboarding_headline"
+                    android:id="@+id/bugreporting_share_log_headline"
                     style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
                     android:focusable="true"
-                    android:text="@string/contact_diary_information_card_title"
+                    android:text="Fehlerbericht senden"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Fehlerbericht senden" />
 
                 <TextView
-                    android:id="@+id/contact_diary_onboarding_body"
+                    android:id="@+id/bugreporting_share_log_body_one"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -57,11 +56,11 @@
                     android:text="Bevor Sie den aufgezeichneten Fehlerbericht an den technischen Support des RKI übersenden können, ist Ihr Einverständnis erforderlich."
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
+                    app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_headline"
                     tools:text="Bevor Sie den aufgezeichneten Fehlerbericht an den technischen Support des RKI übersenden können, ist Ihr Einverständnis erforderlich." />
 
                 <TextView
-                    android:id="@+id/contact_diary_onboarding_body_2"
+                    android:id="@+id/bugreporting_share_log_body_two"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,11 +69,11 @@
                     android:text="Nach der Übersendung erhalten Sie eine Fehlerbericht-ID. Diese können Sie angeben, um dem technischen Support z.B. weitere Informationen zukommen zu lassen und dabei eine Zuordnung zu Ihrem Fehlerbericht zu ermöglichen. Wenn Sie die Fehlerbericht-ID nicht mitteilen, ist dem RKI eine Zuordnung zu Ihrer Person nicht möglich."
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_body"
+                    app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_body_one"
                     tools:text="Nach der Übersendung erhalten Sie eine Fehlerbericht-ID. Diese können Sie angeben, um dem technischen Support z.B. weitere Informationen zukommen zu lassen und dabei eine Zuordnung zu Ihrem Fehlerbericht zu ermöglichen. Wenn Sie die Fehlerbericht-ID nicht mitteilen, ist dem RKI eine Zuordnung zu Ihrer Person nicht möglich." />
 
                 <include
-                    android:id="@+id/contact_diary_onboarding_privacy_card"
+                    android:id="@+id/bugreporting_share_log_privacy_card"
                     layout="@layout/include_debugging_debuglog_share_privacy_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -83,17 +82,17 @@
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_body_2" />
+                    app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_body_two" />
 
                 <View
-                    android:id="@+id/contact_diary_onboarding_first_divider"
+                    android:id="@+id/bugreporting_share_log_first_divider"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_privacy_card" />
+                    app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_privacy_card" />
 
                 <TextView
                     android:id="@+id/debug_log_share_privacy_information"
@@ -107,11 +106,11 @@
                     android:text="Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern."
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_first_divider"
+                    app:layout_constraintTop_toBottomOf="@id/bugreporting_share_log_first_divider"
                     tools:text="Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern." />
 
                 <View
-                    android:id="@+id/contact_diary_onboarding_second_divider"
+                    android:id="@+id/bugreporting_share_log_second_divider"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:background="?android:attr/listDivider"
