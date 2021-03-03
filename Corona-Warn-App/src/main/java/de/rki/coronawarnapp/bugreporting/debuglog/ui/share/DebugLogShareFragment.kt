@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-
 class DebugLogShareFragment : Fragment(R.layout.bugreporting_debuglog_share_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
@@ -30,24 +29,21 @@ class DebugLogShareFragment : Fragment(R.layout.bugreporting_debuglog_share_frag
             }
 
             debugLogSharePrivacyInformation.setOnClickListener {
-                //TODO Add navigation to new screen
+                // TODO Add navigation to new screen
             }
 
             toolbar.setNavigationOnClickListener { popBackStack() }
-
         }
 
         vm.routeToScreen.observe2(this) {
             when (it) {
 
                 DebugLogShareNavigationEvents.NavigateToMoreInformationFragment -> {
-                    //TODO Add navigation to new screen
+                    // TODO Add navigation to new screen
                 }
             }
         }
-
     }
-
 
     override fun onResume() {
         super.onResume()

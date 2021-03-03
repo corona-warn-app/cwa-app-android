@@ -9,8 +9,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class DebugLogShareViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-
-    ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen: SingleLiveEvent<DebugLogShareNavigationEvents> = SingleLiveEvent()
 
     fun onUploadLog() {
