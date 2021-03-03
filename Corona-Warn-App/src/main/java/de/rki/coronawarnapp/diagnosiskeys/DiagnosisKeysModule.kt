@@ -25,5 +25,4 @@ class DiagnosisKeysModule {
         .addConverterFactory(gsonConverterFactory)
         .build()
         .create(DiagnosisKeyApiV1::class.java)
-
 }

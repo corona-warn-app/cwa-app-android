@@ -37,8 +37,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
 
     val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
         tracingStatus.generalStatus.map { PeriodLoggedBox.Item(it) }
-        .onEach { Timber.v("logginPeriod onEach") }
-        .asLiveData(dispatcherProvider.Main)
+            .onEach { Timber.v("logginPeriod onEach") }
+            .asLiveData(dispatcherProvider.Main)
 
     val tracingSettingsState: LiveData<TracingSettingsState> = tracingStatus.generalStatus
         .map { it.toTracingSettingsState() }
