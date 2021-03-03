@@ -509,6 +509,9 @@
         <action
             android:id="@+id/action_debuglogFragment_to_logUploadHistoryFragment"
             app:destination="@id/logUploadHistoryFragment" />
+        <action
+            android:id="@+id/action_debuglogFragment_to_debugLogShareFragment"
+            app:destination="@id/debugLogShareFragment" />
     </fragment>
 
     <!-- New Release -->
@@ -588,4 +591,9 @@
         android:name="de.rki.coronawarnapp.bugreporting.uploadhistory.ui.LogUploadHistoryFragment"
         android:label="LogUploadHistoryFragment"
         tools:layout="@layout/bugreporting_upload_history_fragment" />
+    <fragment
+        android:id="@+id/debugLogShareFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.share.DebugLogShareFragment"
+        android:label="DebugLogShareFragment"
+        tools:layout="@layout/bugreporting_debuglog_share_fragment"/>
 </navigation>

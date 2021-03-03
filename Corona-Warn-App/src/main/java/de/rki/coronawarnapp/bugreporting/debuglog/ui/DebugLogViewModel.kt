@@ -57,6 +57,10 @@ class DebugLogViewModel @AssistedInject constructor(
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
     }
 
+    fun onShareButtonPress() {
+        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToShareFragment)
+    }
+
     fun onIdHistoryPress() {
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToUploadHistory)
     }

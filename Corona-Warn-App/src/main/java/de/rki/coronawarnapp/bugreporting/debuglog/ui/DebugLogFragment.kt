@@ -77,7 +77,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 toggleSendErrorLog.apply {
                     isGone = !it.isRecording
                     isEnabled = it.currentSize > 0L && !it.sharingInProgress
-                    setOnClickListener { vm.shareRecording() }
+                    setOnClickListener { vm.onShareButtonPress() }
                 }
 
                 toggleStoreLog.isGone = !it.isRecording
@@ -91,6 +91,10 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 )
                 DebugLogNavigationEvents.NavigateToUploadHistory -> doNavigate(
                     DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
+                )
+
+                DebugLogNavigationEvents.NavigateToShareFragment -> doNavigate(
+                    DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogShareFragment()
                 )
             }
         }

@@ -19,6 +19,7 @@ class DebugLogShareViewModel @AssistedInject constructor() : CWAViewModel() {
     }
 
 
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DebugLogShareViewModel>
 }
