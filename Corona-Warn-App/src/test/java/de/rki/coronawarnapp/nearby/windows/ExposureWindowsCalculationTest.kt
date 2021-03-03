@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import com.google.gson.Gson
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.appconfig.TransmissionRiskValueMappingPlaceHolder
 import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.nearby.windows.entities.ExposureWindowsJsonInput
 import de.rki.coronawarnapp.nearby.windows.entities.cases.JsonScanInstance
@@ -392,9 +391,10 @@ class ExposureWindowsCalculationTest : BaseTest() {
         }
         every { testConfig.transmissionRiskLevelFilters } returns trlFilters
 
-        val transmissionRiskValueMapping = mutableListOf<TransmissionRiskValueMappingPlaceHolder>()
+        val transmissionRiskValueMapping =
+            mutableListOf<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>()
         for (jsonMapping: JsonTransmissionRiskValueMapping in json.transmissionRiskValueMapping) {
-            val mapping: TransmissionRiskValueMappingPlaceHolder = mockk()
+            val mapping: RiskCalculationParametersOuterClass.TransmissionRiskValueMapping = mockk()
             mapping.run {
                 every { transmissionRiskLevel } returns jsonMapping.transmissionRiskLevel
                 every { transmissionRiskValue } returns jsonMapping.transmissionRiskValue
