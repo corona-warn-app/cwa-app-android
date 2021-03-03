@@ -101,7 +101,6 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/guideline_end" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
