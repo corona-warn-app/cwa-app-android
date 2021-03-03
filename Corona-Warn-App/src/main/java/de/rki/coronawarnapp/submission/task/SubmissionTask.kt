@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
@@ -26,6 +27,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("LongParameterList")
 class SubmissionTask @Inject constructor(
     private val playbook: Playbook,
     private val appConfigProvider: AppConfigProvider,
@@ -35,7 +37,8 @@ class SubmissionTask @Inject constructor(
     private val autoSubmission: AutoSubmission,
     private val timeStamper: TimeStamper,
     private val shareTestResultNotificationService: ShareTestResultNotificationService,
-    private val testResultAvailableNotificationService: TestResultAvailableNotificationService
+    private val testResultAvailableNotificationService: TestResultAvailableNotificationService,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -43,14 +46,20 @@ class SubmissionTask @Inject constructor(
 
     private var isCanceled = false
 
+    private var inBackground = false
+
     override suspend fun run(arguments: Task.Arguments): Result {
         try {
             Timber.tag(TAG).d("Running with arguments=%s", arguments)
             arguments as Arguments
 
-            if (arguments.checkUserActivity && hasRecentUserActivity()) {
-                Timber.tag(TAG).w("User has recently been active in submission, skipping submission.")
-                return Result(state = Result.State.SKIPPED)
+            if (arguments.checkUserActivity) {
+                if (hasRecentUserActivity()) {
+                    Timber.tag(TAG).w("User has recently been active in submission, skipping submission.")
+                    return Result(state = Result.State.SKIPPED)
+                } else {
+                    inBackground = true
+                }
             }
 
             if (!submissionSettings.hasGivenConsent.value) {
@@ -140,6 +149,9 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submitting %s", submissionData)
         playbook.submit(submissionData)
+
+        analyticsKeySubmissionCollector.reportSubmitted()
+        if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

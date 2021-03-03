@@ -53,6 +53,10 @@ class NewReleaseInfoFragmentTest : BaseTest() {
     @Test
     fun `ensure TURKISH new release info arrays are of equal length`() = loadAndCompareStringArrayResources()
 
+    @Config(qualifiers = "bg")
+    @Test
+    fun `ensure BULGARIAN new release info arrays are of equal length`() = loadAndCompareStringArrayResources()
+
     @Config(qualifiers = "fr")
     @Test
     fun `ensure DEFAULT aka FRENCH new release info arrays are of equal length`() = loadAndCompareStringArrayResources()
