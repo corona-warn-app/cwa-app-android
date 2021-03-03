@@ -26,6 +26,22 @@
                 tools:ignore="HardcodedText" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/eventOrLocationSpinner"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type">
+
+                <AutoCompleteTextView
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +65,24 @@
                 android:layout_marginBottom="@dimen/spacing_tiny">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_start"
+                    android:id="@+id/event_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Location"
+                    android:maxLines="1"
+                    android:padding="@dimen/spacing_tiny"
+                    tools:ignore="HardcodedText" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/event_start"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_tiny">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Start (yyyy-MM-dd HH:mm)"
@@ -60,13 +93,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/event_end"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_tiny">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="End (yyyy-MM-dd HH:mm)"
@@ -90,6 +123,7 @@
                     android:hint="Default Check-In Lenght in Minutes - multiple of 10"
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
+                    android:inputType="numberDecimal"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
