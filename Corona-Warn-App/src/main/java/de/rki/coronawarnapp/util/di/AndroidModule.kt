@@ -17,6 +17,7 @@ import com.google.android.gms.safetynet.SafetyNetClient
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
 import javax.inject.Singleton

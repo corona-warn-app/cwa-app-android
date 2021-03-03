@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.di.EncryptedPreferences
+import de.rki.coronawarnapp.storage.EncryptedPreferences
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
