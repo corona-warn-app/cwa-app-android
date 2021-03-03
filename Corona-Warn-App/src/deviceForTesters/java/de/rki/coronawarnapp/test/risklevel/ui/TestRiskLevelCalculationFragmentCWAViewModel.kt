@@ -113,8 +113,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .asLiveData()
 
     private fun ConfigData.toReadableString(): String = StringBuilder()
-        .appendLine("Transmission RiskLevel Multiplier: $transmissionRiskLevelMultiplier")
-        .appendLine()
         .appendLine("Minutes At Attenuation Filters:")
         .appendLine(minutesAtAttenuationFilters)
         .appendLine()
@@ -126,6 +124,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .appendLine()
         .appendLine("Transmission RiskLevel Filters:")
         .appendLine(transmissionRiskLevelFilters)
+        .appendLine()
+        .appendLine("Transmission Risk Value Mapping:")
+        .appendLine(transmissionRiskValueMapping)
         .appendLine()
         .appendLine("Normalized Time Per Exposure Window To RiskLevel Mapping:")
         .appendLine(normalizedTimePerExposureWindowToRiskLevelMapping)
