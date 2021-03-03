@@ -46,8 +46,7 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Ausführliche Informationen zur Übersendung der Fehlerberichte" />
-
+                    tools:text="@string/debugging_debuglog_legal_dialog_title" />
 
                 <include
                     android:id="@+id/debuglog_legal_privacy_card"
