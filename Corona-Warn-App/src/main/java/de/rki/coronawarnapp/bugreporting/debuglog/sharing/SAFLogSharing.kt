@@ -37,7 +37,7 @@ class SAFLogSharing @Inject constructor() {
             putExtra(Intent.EXTRA_TITLE, snapshot.path.name)
         }
 
-        fun storeSnapshot(resolver: ContentResolver, uri: Uri) {
+        fun storeSnapshot(resolver: ContentResolver, uri: Uri): Result {
             Timber.tag(TAG).d("Writing to %s", uri)
             resolver.openOutputStream(uri)!!.sink().buffer().use { dest ->
                 snapshot.path.source().buffer().use { source ->
@@ -49,7 +49,10 @@ class SAFLogSharing @Inject constructor() {
             snapshot.delete().also {
                 Timber.tag(TAG).d("Snapshot deleted: %s", snapshot)
             }
+            return Result(uri)
         }
+
+        data class Result(val storageUri: Uri)
     }
 
     companion object {

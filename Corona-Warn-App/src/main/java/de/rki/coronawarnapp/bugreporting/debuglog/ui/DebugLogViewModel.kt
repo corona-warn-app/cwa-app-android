@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
@@ -30,27 +31,28 @@ class DebugLogViewModel @AssistedInject constructor(
     private val contentResolver: ContentResolver,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val logUploads = bugReportingSettings.uploadHistory.flow
-        .asLiveData(context = dispatcherProvider.Default)
-
-    private val sharingInProgress = MutableStateFlow(false)
+    private val isActionInProgress = MutableStateFlow(false)
 
     val routeToScreen = SingleLiveEvent<DebugLogNavigationEvents>()
 
+    val logUploads = bugReportingSettings.uploadHistory.flow
+        .asLiveData(context = dispatcherProvider.Default)
+
     val state: LiveData<State> = combine(
-        sharingInProgress,
+        isActionInProgress,
         debugLogger.logState
-    ) { sharingInProgress, logState ->
+    ) { isActionInProgress, logState ->
         State(
             isRecording = logState.isLogging,
             isLowStorage = logState.isLowStorage,
             currentSize = logState.logSize,
-            sharingInProgress = sharingInProgress
+            isActionInProgress = isActionInProgress
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val shareEvent = SingleLiveEvent<SAFLogSharing.Request>()
+    val logStoreResult = SingleLiveEvent<SAFLogSharing.Request.Result>()
 
     fun onPrivacyButtonPress() {
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
@@ -60,68 +62,69 @@ class DebugLogViewModel @AssistedInject constructor(
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToUploadHistory)
     }
 
-    fun toggleRecording() = launch {
-        try {
-            if (debugLogger.isLogging.value) {
-                debugLogger.stop()
-            } else {
-                debugLogger.start()
-                printExtendedLogInfos()
-            }
-        } catch (e: Exception) {
-            errorEvent.postValue(e)
-        }
-    }
+    fun onToggleRecording() = launchWithProgress {
+        if (debugLogger.isLogging.value) {
+            debugLogger.stop()
+        } else {
+            debugLogger.start()
 
-    private suspend fun printExtendedLogInfos() {
-        CWADebug.logDeviceInfos()
-        try {
-            val enfVersion = enfClient.getENFClientVersion()
-            Timber.tag("ENFClient").i("ENF Version: %d", enfVersion)
-        } catch (e: Exception) {
-            Timber.tag("ENFClient").e(e, "Failed to get ENF version for debug log.")
-        }
-    }
-
-    fun shareRecording() {
-        sharingInProgress.value = true
-        launch {
+            CWADebug.logDeviceInfos()
             try {
-                val snapshot = logSnapshotter.snapshot()
-                val shareRequest = safLogSharing.createSAFRequest(snapshot)
-                shareEvent.postValue(shareRequest)
+                val enfVersion = enfClient.getENFClientVersion()
+                Timber.tag("ENFClient").i("ENF Version: %d", enfVersion)
             } catch (e: Exception) {
-                Timber.e(e, "Sharing debug log failed.")
-                errorEvent.postValue(e)
-            } finally {
-                sharingInProgress.value = false
+                Timber.tag("ENFClient").e(e, "Failed to get ENF version for debug log.")
             }
         }
     }
 
-    fun processSAFResult(requestCode: Int, safPath: Uri?) {
+    fun onUploadLog() = launchWithProgress {
+        Timber.d("uploadLog()")
+        throw NotImplementedError("TODO")
+    }
+
+    fun onStoreLog() = launchWithProgress(finishProgressAction = false) {
+        Timber.d("storeLog()")
+        val snapshot = logSnapshotter.snapshot()
+        val shareRequest = safLogSharing.createSAFRequest(snapshot)
+        shareEvent.postValue(shareRequest)
+    }
+
+    fun processSAFResult(requestCode: Int, safPath: Uri?) = launchWithProgress {
         if (safPath == null) {
-            errorEvent.postValue(IllegalStateException("Received positive result, but storage path was null"))
-            return
+            Timber.i("No SAF path available.")
+            return@launchWithProgress
         }
 
         val request = safLogSharing.getRequest(requestCode)
         if (request == null) {
             Timber.w("Unknown request with code $requestCode")
-            return
+            return@launchWithProgress
         }
 
-        sharingInProgress.value = true
+        val storageResult = request.storeSnapshot(contentResolver, safPath)
+        Timber.i("Log stored %s", storageResult)
+
+        logStoreResult.postValue(storageResult)
+    }
+
+    private fun launchWithProgress(
+        finishProgressAction: Boolean = true,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
+        val startTime = System.currentTimeMillis()
+        isActionInProgress.value = true
 
         launch {
             try {
-                request.storeSnapshot(contentResolver, safPath)
-                Timber.i("Log stored to %s", safPath)
-            } catch (e: Exception) {
-                Timber.e(e, "Storing to SAF Uri failed.")
+                block()
+            } catch (e: Throwable) {
+                Timber.e(e, "launchWithProgress() failed.")
                 errorEvent.postValue(e)
             } finally {
-                sharingInProgress.value = false
+                val duration = System.currentTimeMillis() - startTime
+                Timber.v("launchWithProgress() took ${duration}ms")
+                if (finishProgressAction) isActionInProgress.value = false
             }
         }
     }
@@ -129,7 +132,7 @@ class DebugLogViewModel @AssistedInject constructor(
     data class State(
         val isRecording: Boolean,
         val isLowStorage: Boolean,
-        val sharingInProgress: Boolean = false,
+        val isActionInProgress: Boolean = false,
         val currentSize: Long = 0
     )
 

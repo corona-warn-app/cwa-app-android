@@ -33,6 +33,8 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            toolbar.setNavigationOnClickListener { popBackStack() }
+
             if (explanationSectionTwo.text ==
                 getString(R.string.debugging_debuglog_intro_explanation_section_two)
             ) {
@@ -42,6 +44,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     R.string.debugging_debuglog_intro_explanation_section_two_faq_link
                 )
             }
+            debugLogPrivacyInformation.setOnClickListener { vm.onPrivacyButtonPress() }
         }
 
         vm.state.observe2(this) {
@@ -69,23 +72,44 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
                 toggleRecording.apply {
                     isActivated = it.isRecording
-                    isEnabled = !it.sharingInProgress
+                    isEnabled = !it.isActionInProgress
                     text = getString(
                         if (it.isRecording) R.string.debugging_debuglog_action_stop_recording
                         else R.string.debugging_debuglog_action_start_recording
                     )
-                    setOnClickListener { vm.toggleRecording() }
+                    setOnClickListener { vm.onToggleRecording() }
                 }
 
                 toggleSendErrorLog.apply {
                     isGone = !it.isRecording
-                    isEnabled = it.currentSize > 0L && !it.sharingInProgress
-                    setOnClickListener { vm.shareRecording() }
+                    isEnabled = it.currentSize > 0L && !it.isActionInProgress
+                    setOnClickListener { vm.onUploadLog() }
                 }
 
-                toggleStoreLog.isGone = !it.isRecording
+                toggleStoreLog.apply {
+                    isGone = !it.isRecording
+                    isEnabled = it.currentSize > 0L && !it.isActionInProgress
+                    setOnClickListener { vm.onStoreLog() }
+                }
             }
         }
+
+        vm.shareEvent.observe2(this@DebugLogFragment) {
+            startActivityForResult(it.createIntent(), it.id)
+        }
+
+        vm.logStoreResult.observe2(this) {
+            Toast.makeText(
+                requireContext(),
+                "TODO: Show store result dialog: ${it.storageUri}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        vm.logUploads.observe2(this@DebugLogFragment) {
+            binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
+        }
+        binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
 
         vm.routeToScreen.observe2(this) {
             when (it) {
@@ -101,26 +125,13 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         vm.errorEvent.observe2(this) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
-
-        vm.shareEvent.observe2(this) {
-            startActivityForResult(it.createIntent(), it.id)
-        }
-
-        vm.logUploads.observe2(this@DebugLogFragment) {
-            binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
-        }
-
-        binding.apply {
-            debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
-            debugLogPrivacyInformation.setOnClickListener { vm.onPrivacyButtonPress() }
-            toolbar.setNavigationOnClickListener { popBackStack() }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         Timber.d("onActivityResult(requestCode=$requestCode, resultCode=$resultCode, resultData=$resultData")
-        if (resultCode == Activity.RESULT_OK) {
-            vm.processSAFResult(requestCode, resultData?.data)
-        }
+        vm.processSAFResult(
+            requestCode,
+            if (resultCode == Activity.RESULT_OK) resultData?.data else null
+        )
     }
 }
