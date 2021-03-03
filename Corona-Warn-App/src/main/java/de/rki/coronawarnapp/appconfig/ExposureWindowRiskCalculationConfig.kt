@@ -22,7 +22,7 @@ interface ExposureWindowRiskCalculationConfig {
     }
 }
 
-//TODO remove once protobufs were updated
+// TODO remove once protobufs were updated
 @Deprecated("remove once protobufs were updated")
 data class TransmissionRiskValueMappingPlaceHolder(
     val transmissionRiskLevel: Int = 0,
