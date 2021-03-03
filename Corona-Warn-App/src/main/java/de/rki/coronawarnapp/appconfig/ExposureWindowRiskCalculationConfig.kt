@@ -9,14 +9,22 @@ interface ExposureWindowRiskCalculationConfig {
     val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>
     val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
     val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>
-    val transmissionRiskLevelMultiplier: Double
+    @Deprecated("Deprecated in v2") val transmissionRiskLevelMultiplier: Double
     val normalizedTimePerExposureWindowToRiskLevelMapping:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
     val normalizedTimePerDayToRiskLevelMappingList:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
+    val transmissionRiskValueMapping: List<TransmissionRiskValueMappingPlaceHolder>
     val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
 
     interface Mapper {
         fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskCalculationConfig
     }
 }
+
+//TODO remove once protobufs were updated
+@Deprecated("remove once protobufs were updated")
+data class TransmissionRiskValueMappingPlaceHolder(
+    val transmissionRiskLevel: Int = 0,
+    val transmissionRiskValue: Double = 0.0
+)

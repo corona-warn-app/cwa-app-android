@@ -127,9 +127,9 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             return null
         }
 
-        //TODO(Adjust once the protobufs are updated)
-        val transmissionRiskValue: Double =
-            transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
+        val transmissionRiskValue: Double = appConfig.transmissionRiskValueMapping
+            .find { it.transmissionRiskLevel == transmissionRiskLevel }
+            ?.transmissionRiskValue ?: 0.0
 
         Timber.d("%s's transmissionRiskValue is: %s", exposureWindow, transmissionRiskValue)
 
