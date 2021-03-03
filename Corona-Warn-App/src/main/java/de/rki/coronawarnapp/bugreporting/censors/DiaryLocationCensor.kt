@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import dagger.Reusable
-import de.rki.coronawarnapp.bugreporting.debuglog.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope

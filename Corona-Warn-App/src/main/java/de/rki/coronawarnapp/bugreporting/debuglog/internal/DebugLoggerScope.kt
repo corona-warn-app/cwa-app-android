@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.debuglog
+package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import de.rki.coronawarnapp.util.threads.NamedThreadFactory
 import kotlinx.coroutines.CoroutineScope
