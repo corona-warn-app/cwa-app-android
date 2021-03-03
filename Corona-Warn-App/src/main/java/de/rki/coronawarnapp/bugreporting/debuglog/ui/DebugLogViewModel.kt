@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.sharing.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.sharing.SAFLogSharing
@@ -15,36 +16,34 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
+    private val enfClient: ENFClient,
+    bugReportingSettings: BugReportingSettings,
     private val logSnapshotter: LogSnapshotter,
     private val safLogSharing: SAFLogSharing,
-    private val enfClient: ENFClient,
-    private val contentResolver: ContentResolver
+    private val contentResolver: ContentResolver,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val ticker = flow {
-        while (true) {
-            emit(Unit)
-            delay(500)
-        }
-    }
-    private val manualTick = MutableStateFlow(Unit)
+
+    val logUploads = bugReportingSettings.uploadHistory.flow
+        .asLiveData(context = dispatcherProvider.Default)
+
     private val sharingInProgress = MutableStateFlow(false)
+
+    val routeToScreen = SingleLiveEvent<DebugLogNavigationEvents>()
+
     val state: LiveData<State> = combine(
-        ticker,
-        manualTick,
         sharingInProgress,
         debugLogger.logState
-    ) { _, _, sharingInProgress, logState ->
+    ) { sharingInProgress, logState ->
         State(
             isRecording = logState.isLogging,
+            isLowStorage = logState.isLowStorage,
             currentSize = logState.logSize,
             sharingInProgress = sharingInProgress
         )
@@ -52,6 +51,14 @@ class DebugLogViewModel @AssistedInject constructor(
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val shareEvent = SingleLiveEvent<SAFLogSharing.Request>()
+
+    fun onPrivacyButtonPress() {
+        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
+    }
+
+    fun onIdHistoryPress() {
+        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToUploadHistory)
+    }
 
     fun toggleRecording() = launch {
         try {
@@ -63,8 +70,6 @@ class DebugLogViewModel @AssistedInject constructor(
             }
         } catch (e: Exception) {
             errorEvent.postValue(e)
-        } finally {
-            manualTick.value = Unit
         }
     }
 
@@ -123,6 +128,7 @@ class DebugLogViewModel @AssistedInject constructor(
 
     data class State(
         val isRecording: Boolean,
+        val isLowStorage: Boolean,
         val sharingInProgress: Boolean = false,
         val currentSize: Long = 0
     )

@@ -47,6 +47,10 @@ class DebugLogStorageCheck @Inject constructor(
             }
         }
 
+        if (isNowLow) {
+            Log.w(TAG, "Not enough storage to write debug log (${currentSpace}B free)")
+        }
+
         return isNowLow
     }
 

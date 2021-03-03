@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -38,6 +39,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @Rule
     @JvmField
@@ -55,7 +57,8 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
             SubmissionSymptomIntroductionViewModel(
                 TestDispatcherProvider(),
                 submissionRepository,
-                autoSubmission
+                autoSubmission,
+                analyticsKeySubmissionCollector
             )
         )
         with(viewModel) {

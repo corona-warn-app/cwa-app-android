@@ -63,6 +63,7 @@
                 android:id="@+id/location_name_input_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords" />
 
@@ -85,6 +86,7 @@
                 android:id="@+id/location_phone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionNext"
                 android:inputType="phone" />
 
@@ -107,6 +109,7 @@
                 android:id="@+id/location_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress" />
 
