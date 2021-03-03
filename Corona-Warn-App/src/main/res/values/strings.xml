@@ -906,6 +906,8 @@
     <string name="debugging_debuglog_action_local_log_store">"Lokal speichern und fortsetzen"</string>
     <!-- YTXT: Status text if a debug log is being recorded -->
     <string name="debugging_debuglog_status_recording">"Recording Active"</string>
+    <!-- YTXT: Status text if a debug log is being recorded but there is not enough free storage space -->
+    <string name="debugging_debuglog_status_lowstorage">"Zu wenig Speicherplatz"</string>
     <!-- YTXT: Status text if a debug log is not being recorded -->
     <string name="debugging_debuglog_status_not_recording">"Inactive"</string>
     <!-- YTXT: Describtion for current logging status text if a debug log is not being recorded -->
