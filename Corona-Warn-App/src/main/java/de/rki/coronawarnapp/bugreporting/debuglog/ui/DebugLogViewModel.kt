@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
@@ -26,8 +27,13 @@ class DebugLogViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
     private val fileSharing: FileSharing,
-    private val enfClient: ENFClient
+    private val enfClient: ENFClient,
+    bugReportingSettings: BugReportingSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    val logUploads = bugReportingSettings.uploadHistory.flow
+        .asLiveData(context = dispatcherProvider.Default)
+
     private val sharingInProgress = MutableStateFlow(false)
 
     val routeToScreen = SingleLiveEvent<DebugLogNavigationEvents>()
@@ -52,7 +58,7 @@ class DebugLogViewModel @AssistedInject constructor(
     }
 
     fun onIdHistoryPress() {
-        // TODO Add Navigation
+        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToUploadHistory)
     }
 
     fun toggleRecording() = launch {

@@ -501,10 +501,14 @@
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
-        android:label="DebuglogFragment" >
+        android:label="DebuglogFragment"
+        tools:layout="@layout/bugreporting_debuglog_fragment">
         <action
             android:id="@+id/action_debuglogFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
+        <action
+            android:id="@+id/action_debuglogFragment_to_logUploadHistoryFragment"
+            app:destination="@id/logUploadHistoryFragment" />
     </fragment>
 
     <!-- New Release -->
@@ -579,4 +583,9 @@
             android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_ppaMoreInfoFragment"
             app:destination="@id/ppaMoreInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/logUploadHistoryFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.uploadhistory.ui.LogUploadHistoryFragment"
+        android:label="LogUploadHistoryFragment"
+        tools:layout="@layout/bugreporting_upload_history_fragment" />
 </navigation>

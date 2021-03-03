@@ -901,6 +901,11 @@
     <!-- XHED: Title for native sharing dialog -->
     <string name="debugging_debuglog_sharing_dialog_title">"CWA Fehlerbericht teilen"</string>
 
+    <!-- XHED: Title for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_title">"ID Historie"</string>
+    <!-- YTXT: Description for log upload history -->
+    <string name="debugging_debuglog_uploadhistory_description">"Hier sehen Sie die IDs Ihrer Fehleranalyse-Protokolle."</string>
+
     <string name="debugging_debuglog_privacy_card_title">"Datenschutz und Datensicherheit"</string>
     <string name="debug_log_privacy_card_section_body_one">"Die Aufzeichnung des Fehlerberichts ist freiwillig."</string>
     <string name="debug_log_privacy_card_container_section_two">"Auf den Fehlerbericht haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie den Fehlerbericht an den technischen Support senden, ob Sie den Fehlerbericht zunächst auf Ihrem Smartphone speichern oder die Aufzeichnung stoppen und löschen wollen. Wenn Sie den Fehlerbericht zunächst lokal speichern, haben Sie die Möglichkeit, sich den Fehlerbericht selbst anzuschauen, bevor Sie diesen an den Support übermitteln."</string>
