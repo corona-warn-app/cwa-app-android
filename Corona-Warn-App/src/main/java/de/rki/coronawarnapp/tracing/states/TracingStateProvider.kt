@@ -39,14 +39,8 @@ class TracingStateProvider @AssistedInject constructor(
         riskLevelStorage.latestAndLastSuccessful.onEach {
             Timber.v("riskLevelResults: $it")
         },
-        tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
-            Timber.v("activeTracingDaysInRetentionPeriod: $it")
-        },
         exposureDetectionTracker.latestSubmission().onEach {
             Timber.v("latestSubmission: $it")
-        },
-        installTimeProvider.daysSinceInstallation.onEach {
-          Timber.v("installedOverTwoWeeksAgo: $it")
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.v("isAutoModeEnabled: $it")
@@ -54,9 +48,7 @@ class TracingStateProvider @AssistedInject constructor(
     ) { tracingStatus,
         tracingProgress,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod,
         latestSubmission,
-        installTime,
         isBackgroundJobEnabled ->
 
         val (
@@ -81,9 +73,8 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
                 allowManualUpdate = !isBackgroundJobEnabled,
-                daysSinceInstallation = installTime
+                daysSinceInstallation = installTimeProvider.daysSinceInstallation
             )
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
                 isInDetailsMode = isDetailsMode,
@@ -91,7 +82,6 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
                 allowManualUpdate = !isBackgroundJobEnabled
             )
             else -> TracingFailed(
@@ -104,7 +94,6 @@ class TracingStateProvider @AssistedInject constructor(
         .onStart { Timber.v("TracingStateProvider FLOW start") }
         .onEach { Timber.d("TracingStateProvider FLOW emission: %s", it) }
         .onCompletion { Timber.v("TracingStateProvider FLOW completed.") }
-
 
     @AssistedFactory
     interface Factory {

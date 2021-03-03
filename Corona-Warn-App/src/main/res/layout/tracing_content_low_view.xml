@@ -58,6 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/headline"
             tools:text="@plurals/risk_card_low_risk_encounter_days_body" />
+
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_contact_last"
             gone="@{state.getRiskContactLast(context) == null}"
@@ -73,7 +74,7 @@
             tools:text="@string/risk_card_low_risk_most_recent_body_encounters_on_more_than_one_day" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/row_saved_days"
+            android:id="@+id/row_app_installed_under_14_days"
             gone="@{!state.appInstalledForOverTwoWeeks()}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -82,19 +83,18 @@
             app:layout_constraintTop_toBottomOf="@+id/row_contact_last">
 
             <ImageView
-                android:id="@+id/risk_card_row_saved_days_circle_progress"
+                android:id="@+id/risk_card_row_installed_days_download_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_download"
                 android:layout_marginStart="@dimen/spacing_tiny"
-                app:layout_constraintBottom_toBottomOf="@+id/risk_card_row_saved_days_body"
+                app:layout_constraintBottom_toBottomOf="@+id/risk_card_row_Installed_days_body"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/risk_card_row_saved_days_body"
+                app:layout_constraintTop_toTopOf="@+id/risk_card_row_Installed_days_body"
                 android:contentDescription="Days since installation" />
 
-
             <TextView
-                android:id="@+id/risk_card_row_saved_days_body"
+                android:id="@+id/risk_card_row_Installed_days_body"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -105,9 +105,9 @@
                 android:textColor="@color/colorTextPrimary1InvertedStable"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/risk_card_row_saved_days_circle_progress"
+                app:layout_constraintStart_toEndOf="@+id/risk_card_row_installed_days_download_icon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/risk_card_body_saved_days"
+                tools:text="@string/risk_card_body_days_since_installation"
                 tools:textColor="@color/colorStableLight" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -121,7 +121,7 @@
             app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_saved_days"
+            app:layout_constraintTop_toBottomOf="@+id/row_app_installed_under_14_days"
             tools:text="@string/risk_card_body_not_yet_fetched" />
 
         <Button
