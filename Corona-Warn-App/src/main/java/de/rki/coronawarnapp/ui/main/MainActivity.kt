@@ -32,7 +32,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.navUri
-import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -50,39 +50,14 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
-        private const val EXTRA_DATA = "shortcut"
-
-        fun start(context: Context, shortcut: AppShortcuts? = null) {
-            val intent = Intent(context, MainActivity::class.java).apply {
-                if (shortcut != null) {
-                    putExtra(EXTRA_DATA, shortcut.toString())
-                    flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-            }
-            context.startActivity(intent)
-        }
-
         fun start(context: Context, launchIntent: Intent) {
-            val shortcut = AppShortcutsHelper.getShortcutType(launchIntent)
-            val intent = Intent(context, MainActivity::class.java).apply {
-                if (shortcut != null) {
-                    putExtra(EXTRA_DATA, shortcut.toString())
-                    flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                }
+            Intent(context, MainActivity::class.java).apply {
+                flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                Timber.i("launchIntent:$launchIntent")
+                fillIn(launchIntent, Intent.FILL_IN_DATA)
+                Timber.i("filledIntent:$this")
+                context.startActivity(this)
             }
-
-            Timber.i("launchIntent:$launchIntent")
-            intent.fillIn(launchIntent, Intent.FILL_IN_DATA)
-            Timber.i("filledIntent:$intent")
-            context.startActivity(intent)
-        }
-
-        private fun getShortcutFromIntent(intent: Intent): AppShortcuts? {
-            val extra = intent.getStringExtra(EXTRA_DATA)
-            if (extra != null) {
-                return AppShortcuts.valueOf(extra)
-            }
-            return null
         }
     }
 
@@ -140,17 +115,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Timber.i("onNewIntent:$intent")
-        checkDataAndNavigate(intent)
+        navigateByIntentUri(intent)
     }
 
     private fun processExtraParameters() {
-        when (getShortcutFromIntent(intent)) {
-            AppShortcuts.CONTACT_DIARY -> {
-                goToContactJournal()
-            }
+        when (intent.getShortcutExtra()) {
+            AppShortcuts.CONTACT_DIARY -> goToContactJournal()
         }
 
-        checkDataAndNavigate(intent)
+        navigateByIntentUri(intent)
     }
 
     private fun goToContactJournal() {
@@ -180,7 +153,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
-    private fun checkDataAndNavigate(intent: Intent?) {
+    private fun navigateByIntentUri(intent: Intent?) {
         val uri = intent?.data ?: return
         Timber.i("Uri:$uri")
         Timber.i("NavUri:%s", uri.navUri)
