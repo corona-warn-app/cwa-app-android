@@ -344,8 +344,8 @@
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излагания на риск е било активно. Затова тази функция трябва да бъде активирана постоянно."</string>
-    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Регистрирането на излагания на риск покрива последните 14 дни. За този период от време функцията е била активна на Вашия смартфон в продължение на %1$s дни. Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Регистрирането на излагания на риск покрива последните 14 дни. За този период от време функцията е била активна на Вашия смартфон в продължение на %1$s дни. Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
