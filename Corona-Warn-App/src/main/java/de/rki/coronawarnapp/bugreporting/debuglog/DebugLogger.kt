@@ -35,7 +35,6 @@ class DebugLogger(
 ) : DebugLoggerBase() {
 
     private val triggerFile = File(debugDir, "debug.trigger")
-    val sharedDirectory = File(debugDir, "shared")
     internal val runningLog: File
         get() = logWriter.logFile
 
@@ -146,8 +145,6 @@ class DebugLogger(
         logJob = null
 
         logWriter.teardown()
-
-        clearSharedFiles()
     }
 
     private fun startNewLogJob(logLines: Flow<LogLine>) = scope.launch {
@@ -172,22 +169,6 @@ class DebugLogger(
             Timber.tag(TAG).i("Logging was canceled.")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to call appendLogLine(...)", e)
-        }
-    }
-
-    fun getShareSize(): Long = sharedDirectory.listFiles()
-        ?.fold(0L) { prev, file -> prev + file.length() }
-        ?: 0L
-
-    fun clearSharedFiles() {
-        if (!sharedDirectory.exists()) return
-
-        sharedDirectory.listFiles()?.forEach {
-            if (it.delete()) {
-                Timber.tag(TAG).d("Deleted shared file: %s", it)
-            } else {
-                Timber.tag(TAG).w("Failed to delete shared file: %s", it)
-            }
         }
     }
 
