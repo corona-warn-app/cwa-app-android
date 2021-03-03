@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
+import de.rki.coronawarnapp.appconfig.TransmissionRiskValueMappingPlaceHolder
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -42,6 +43,7 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
                 .normalizedTimePerEWToRiskLevelMappingList,
             normalizedTimePerDayToRiskLevelMappingList = riskCalculationParameters
                 .normalizedTimePerDayToRiskLevelMappingList,
+            transmissionRiskValueMapping = emptyList(), //TODO get this from risk calc params
             diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
         )
     }
@@ -66,9 +68,10 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         override val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val transmissionRiskLevelMultiplier: Double,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
-            List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
-            List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        override val transmissionRiskValueMapping: List<TransmissionRiskValueMappingPlaceHolder>,
         override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
     ) : ExposureWindowRiskCalculationConfig
 }
