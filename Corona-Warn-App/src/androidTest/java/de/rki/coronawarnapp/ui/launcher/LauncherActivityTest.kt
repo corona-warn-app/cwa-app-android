@@ -11,12 +11,14 @@ import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.update.UpdateChecker
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
 import org.junit.After
@@ -37,18 +39,18 @@ class LauncherActivityTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this)
         mockkObject(LocalData)
-        mockkObject(OnboardingActivity)
-
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
         every { LocalData.isOnboarded() } returns false
-        every { OnboardingActivity.start(any()) } just Runs
-
         viewModel = launcherActivityViewModel()
         setupMockViewModel(
             object : LauncherActivityViewModel.Factory {
                 override fun create(): LauncherActivityViewModel = viewModel
             }
         )
+
+        every { viewModel.events } returns mockk<SingleLiveEvent<LauncherEvent>>().apply {
+            every { observe(any(), any()) } just Runs
+        }
     }
 
     @After
