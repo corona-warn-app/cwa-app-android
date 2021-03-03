@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 
 class SettingsCrashReportViewModel @AssistedInject constructor(
@@ -26,7 +25,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         createBugEventFormattedText(it)
     }
 
-    fun deleteAllCrashReports() = launch(Dispatchers.IO) {
+    fun deleteAllCrashReports() = launch {
         crashReportRepository.clear()
     }
 
