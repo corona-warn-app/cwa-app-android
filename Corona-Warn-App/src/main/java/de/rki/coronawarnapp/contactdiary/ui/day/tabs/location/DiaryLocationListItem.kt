@@ -16,7 +16,8 @@ data class DiaryLocationListItem(
     override val onItemClick: (SelectableDiaryItem<ContactDiaryLocation>) -> Unit,
     val onDurationChanged: (DiaryLocationListItem, Duration?) -> Unit,
     val onCircumstancesChanged: (DiaryLocationListItem, String) -> Unit,
-    val onCircumStanceInfoClicked: () -> Unit
+    val onCircumStanceInfoClicked: () -> Unit,
+    val onDurationDialog: (DiaryLocationListItem, String) -> Unit
 ) : SelectableDiaryItem<ContactDiaryLocation>(), HasPayloadDiffer {
     override val selected: Boolean
         get() = visit != null

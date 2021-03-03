@@ -13,7 +13,7 @@
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">Weiter</string>
     <!-- XTXT: New release info footer -->
-    <string name="new_release_bottom">Änderungen zum Release finden Sie in den App-Einstellungen unter dem Menüpunkt „Neue Funktionen”.</string>
+    <string name="new_release_bottom">Änderungen zum Release finden Sie in den App-Informationen unter dem Menüpunkt „Neue Funktionen”.</string>
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">

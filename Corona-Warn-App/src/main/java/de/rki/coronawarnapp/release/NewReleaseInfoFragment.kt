@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -52,16 +53,21 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
             recyclerView.adapter = ItemAdapter(getItems())
         }
 
+        // Override android back button to bypass the infinite loop
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = vm.onNextButtonClick()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         vm.routeToScreen.observe2(this) {
-            if (it is NewReleaseInfoNavigationEvents.CloseScreen) {
-                if (args.comesFromInfoScreen) {
+            when (it) {
+                is NewReleaseInfoNavigationEvents.CloseScreen ->
                     popBackStack()
-                } else {
+                is NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment ->
                     doNavigate(
                         NewReleaseInfoFragmentDirections
                             .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
                     )
-                }
             }
         }
     }

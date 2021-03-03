@@ -24,6 +24,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -111,10 +112,10 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
             fragmentArgs = fragmentArgs,
             themeResId = R.style.AppTheme_Main
         )
-        takeScreenshot<ContactDiaryDayFragment>(suffix)
+        takeScreenshot<ContactDiaryDayFragment>("persons_$suffix")
         onView(withId(R.id.contact_diary_day_tab_layout))
             .perform(selectTabAtPosition(1))
-        takeScreenshot<ContactDiaryDayFragment>(suffix + "_2")
+        takeScreenshot<ContactDiaryDayFragment>("locations_$suffix")
     }
 
     private fun setupViewModels() {
@@ -128,14 +129,16 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
         personListViewModel = spyk(
             ContactDiaryPersonListViewModel(
                 TestDispatcherProvider(),
+                TestCoroutineScope(),
                 selectedDay,
-                contactDiaryRepository
+                contactDiaryRepository,
             )
         )
 
         locationListViewModel = spyk(
             ContactDiaryLocationListViewModel(
                 TestDispatcherProvider(),
+                TestCoroutineScope(),
                 selectedDay,
                 contactDiaryRepository
             )

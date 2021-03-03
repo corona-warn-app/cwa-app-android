@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -49,6 +50,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
+    @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -92,7 +94,8 @@ class RiskLevelTaskTest : BaseTest() {
         riskLevelSettings = riskLevelSettings,
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
-        keyCacheRepository = keyCacheRepository
+        keyCacheRepository = keyCacheRepository,
+        analyticsExposureWindowCollector = analyticsExposureWindowCollector
     )
 
     @Test
@@ -234,8 +237,10 @@ class RiskLevelTaskTest : BaseTest() {
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         coEvery { enfClient.exposureWindows() } returns listOf()
-        every { riskLevels.determineRisk(any(), listOf()) } returns aggregatedRiskResult
+        every { riskLevels.calculateRisk(any(), any()) } returns null
+        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
+        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
 
         createTask().run(arguments) shouldBe RiskLevelTaskResult(
             calculatedAt = now,
