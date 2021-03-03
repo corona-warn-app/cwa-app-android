@@ -26,11 +26,11 @@ class DebugLogShareFragment : Fragment(R.layout.bugreporting_debuglog_share_frag
         binding.apply {
 
             debugLogShareButton.setOnClickListener {
-                //vm.onXXXPress()
+                vm.onUploadLog()
             }
 
             debugLogSharePrivacyInformation.setOnClickListener {
-                //vm.onPrivacyButtonPress()
+                //TODO Add navigation to new screen
             }
 
             toolbar.setNavigationOnClickListener { popBackStack() }
@@ -40,11 +40,8 @@ class DebugLogShareFragment : Fragment(R.layout.bugreporting_debuglog_share_frag
         vm.routeToScreen.observe2(this) {
             when (it) {
 
-                DebugLogShareNavigationEvents.NavigateToXXXFragment -> {
-                    /* doNavigate(
-                        ContactDiaryOnboardingFragmentDirections
-                            .actionContactDiaryOnboardingFragmentToContactDiaryInformationPrivacyFragment()
-                    ) */
+                DebugLogShareNavigationEvents.NavigateToMoreInformationFragment -> {
+                    //TODO Add navigation to new screen
                 }
             }
         }
