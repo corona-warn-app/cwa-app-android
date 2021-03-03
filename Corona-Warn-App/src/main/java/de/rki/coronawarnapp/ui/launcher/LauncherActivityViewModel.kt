@@ -5,7 +5,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.preferences.EncryptedPreferencesMigration
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -15,15 +14,13 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 class LauncherActivityViewModel @AssistedInject constructor(
     private val updateChecker: UpdateChecker,
     dispatcherProvider: DispatcherProvider,
-    private val cwaSettings: CWASettings,
-    private val encryptedPreferencesMigration: EncryptedPreferencesMigration
+    private val cwaSettings: CWASettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
 
     init {
         launch {
-            encryptedPreferencesMigration.migrate()
             val updateResult = updateChecker.checkForUpdate()
             when {
                 updateResult.isUpdateNeeded -> LauncherEvent.ShowUpdateDialog(updateResult.updateIntent?.invoke()!!)

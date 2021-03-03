@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.ui.settings.notifications
 
 import androidx.core.app.NotificationManagerCompat
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.preferences.SettingsPreferences
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.di.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -13,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class NotificationSettings @Inject constructor(
     foregroundState: ForegroundState,
-    @Preferences private val settingsPreferences: SettingsPreferences,
+    private val cwaSettings: CWASettings,
     private val notificationManagerCompat: NotificationManagerCompat
 ) {
 
@@ -23,7 +22,7 @@ class NotificationSettings @Inject constructor(
         notificationManagerCompat.areNotificationsEnabled()
     }
 
-    val isNotificationsRiskEnabled: Flow<Boolean> = settingsPreferences.isNotificationsRiskEnabledFlow
+    val isNotificationsRiskEnabled: Flow<Boolean> = cwaSettings.isNotificationsRiskEnabledFlow.flow
 
     /**
      * Toggle notifications risk updates.
@@ -31,10 +30,10 @@ class NotificationSettings @Inject constructor(
      * @see LocalData
      */
     fun toggleNotificationsRiskEnabled() {
-        settingsPreferences.isNotificationsRiskEnabled = !settingsPreferences.isNotificationsRiskEnabled
+        cwaSettings.isNotificationsRiskEnabledFlow.update { !it }
     }
 
-    val isNotificationsTestEnabled: Flow<Boolean> = LocalData.isNotificationsTestEnabledFlow
+    val isNotificationsTestEnabled: Flow<Boolean> = cwaSettings.isNotificationsTestEnabledFlow.flow
 
     /**
      * Toggle notifications for test updates in shared preferences and refresh it afterwards.
@@ -42,6 +41,6 @@ class NotificationSettings @Inject constructor(
      * @see LocalData
      */
     fun toggleNotificationsTestEnabled() {
-        LocalData.isNotificationsTestEnabled = !LocalData.isNotificationsTestEnabled
+        cwaSettings.isNotificationsTestEnabledFlow.update { !it }
     }
 }
