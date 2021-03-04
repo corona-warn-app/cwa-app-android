@@ -121,7 +121,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 )
 
                 DebugLogNavigationEvents.NavigateToShareFragment -> doNavigate(
-                    DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogShareFragment()
+                    DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
                 )
             }
         }

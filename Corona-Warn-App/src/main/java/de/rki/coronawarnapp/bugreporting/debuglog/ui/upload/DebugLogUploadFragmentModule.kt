@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.debuglog.ui.share
+package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload
 
 import dagger.Binds
 import dagger.Module
@@ -9,12 +9,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class DebugLogShareFragmentModule {
+abstract class DebugLogUploadFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(DebugLogShareViewModel::class)
-    abstract fun debugLogViewModel(factory: DebugLogShareViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    @CWAViewModelKey(DebugLogUploadViewModel::class)
+    abstract fun debugLogViewModel(factory: DebugLogUploadViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
-    abstract fun debugLogFragment(): DebugLogShareFragment
+    abstract fun debugLogFragment(): DebugLogUploadFragment
 }

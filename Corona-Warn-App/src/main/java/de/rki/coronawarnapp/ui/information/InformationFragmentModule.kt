@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragmentModule
-import de.rki.coronawarnapp.bugreporting.debuglog.ui.share.DebugLogShareFragmentModule
+import de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragmentModule
 import de.rki.coronawarnapp.bugreporting.uploadhistory.ui.LogUploadHistoryModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
     includes = [
         DebugLogFragmentModule::class,
         LogUploadHistoryModule::class,
-        DebugLogShareFragmentModule::class
+        DebugLogUploadFragmentModule::class
     ]
 )
 abstract class InformationFragmentModule {
