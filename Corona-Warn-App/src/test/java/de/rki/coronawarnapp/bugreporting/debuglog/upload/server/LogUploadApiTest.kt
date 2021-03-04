@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.logupload.server
+package de.rki.coronawarnapp.bugreporting.debuglog.upload.server
 
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest

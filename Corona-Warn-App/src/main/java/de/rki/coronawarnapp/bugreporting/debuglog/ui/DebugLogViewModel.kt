@@ -82,11 +82,6 @@ class DebugLogViewModel @AssistedInject constructor(
         }
     }
 
-    fun onUploadLog() = launchWithProgress {
-        Timber.d("uploadLog()")
-        throw NotImplementedError("TODO")
-    }
-
     fun onStoreLog() = launchWithProgress(finishProgressAction = false) {
         Timber.d("storeLog()")
         val snapshot = logSnapshotter.snapshot()
