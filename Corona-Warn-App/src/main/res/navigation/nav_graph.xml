@@ -601,10 +601,6 @@
             app:destination="@id/debugLogLegalFragment" />
     </fragment>
     <fragment
-        android:id="@+id/contactDiaryEditLocationsFragment2"
-        android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"
-        android:label="ContactDiaryEditLocationsFragment" />
-    <fragment
         android:id="@+id/debugLogLegalFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
         android:label="DebugLogLegalFragment"
