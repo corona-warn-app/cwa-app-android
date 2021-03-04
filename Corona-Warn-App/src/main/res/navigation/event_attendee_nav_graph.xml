@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/event_attendee_nav_graph">
     <fragment
-        android:id="@+id/verifyEventFragment"
+        android:id="@+id/confirmCheckInFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
-        android:label="fragment_verify_event"
+        android:label="fragment_confirm_check_in"
         tools:layout="@layout/fragment_confrim_check_in">
         <deepLink app:uri="https://coronawarn.app/E1/{encodedEvent}" />
         <argument
