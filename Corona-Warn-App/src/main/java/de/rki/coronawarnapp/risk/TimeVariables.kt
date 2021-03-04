@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.risk
 
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 
@@ -103,56 +102,4 @@ object TimeVariables {
      * @return max attenuation duration in minutes
      */
     fun getMaxAttenuationDuration() = MAX_ATTENUATION_DURATION
-
-    /****************************************************
-     * STORED DATA
-     ****************************************************/
-    /**
-     * timestamp when the tracing was activated by the user read from the mobile device storage.
-     * The parameter is only filled once the tracing was activated and
-     * not if the user activated or deactivates the tracing.
-     *
-     * It will change when you reinstall your app and activate tracing again.
-     *
-     * @return time in milliseconds when tracing was initially activated
-     */
-    fun getInitialExposureTracingActivationTimestamp(): Long? =
-        LocalData.initialTracingActivationTimestamp()
-
-    /****************************************************
-     * CALCULATED TIME VARIABLES
-     ****************************************************/
-
-    /**
-     * The time the tracing is active.
-     *
-     * @return in milliseconds
-     */
-    fun getTimeActiveTracingDuration(): Long = System.currentTimeMillis() -
-        (getInitialExposureTracingActivationTimestamp() ?: 0L) -
-        LocalData.totalNonActiveTracing()
-
-    /****************************************************
-     * HELPER FUNCTIONS
-     ****************************************************/
-
-    /**
-     * Return the maximum time of the time range that is used as retention time range.
-     * The retention time range will be corrected to the initial exposure activation timestamp
-     * (e.g. when we reset our data or start tracing for the first time after a fresh install)
-     *
-     * @return max number of days the server should fetch
-     */
-    private fun getTimeRangeFromRetentionPeriod(): Long {
-        val activeTracingTimeInMS =
-            getInitialExposureTracingActivationTimestamp()?.let {
-                System.currentTimeMillis().minus(it)
-            } ?: return 0
-
-        return if (activeTracingTimeInMS > getDefaultRetentionPeriodInMS()) {
-            getDefaultRetentionPeriodInMS()
-        } else {
-            activeTracingTimeInMS
-        }
-    }
 }

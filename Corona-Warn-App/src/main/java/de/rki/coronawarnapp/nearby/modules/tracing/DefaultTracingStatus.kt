@@ -6,9 +6,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToSeconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CancellationException
@@ -23,7 +21,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -75,18 +72,6 @@ class DefaultTracingStatus @Inject constructor(
         client.start()
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
-    }.also {
-        LocalData.lastNonActiveTracingTimestamp()?.let { ts ->
-            val difference = Date().time.minus(ts).millisecondsToSeconds()
-            if (difference >= TimeVariables.getDeactivationTracingMeasureThresholdTimeRange()) {
-                LocalData.totalNonActiveTracing(
-                    LocalData.totalNonActiveTracing().plus(difference)
-                )
-            }
-        }
-        LocalData.lastNonActiveTracingTimestamp(null)
-        LocalData.initialTracingActivationTimestamp()
-            ?: LocalData.initialTracingActivationTimestamp(System.currentTimeMillis())
     }
 
     private suspend fun asyncStop() = suspendCoroutine<Void> { cont ->
