@@ -74,5 +74,16 @@
             tools:backgroundTint="@color/colorSurface2"
             tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:foregroundTint="@{state.getIconColor(context)}"
+            android:icon="@drawable/ic_risk_details_ventilation"
+            android:text="@string/risk_details_behavior_body_ventilation"
+            tools:backgroundTint="@color/colorSurface2"
+            tools:foregroundTint="@color/colorTextSemanticNeutral" />
+
     </LinearLayout>
 </layout>
