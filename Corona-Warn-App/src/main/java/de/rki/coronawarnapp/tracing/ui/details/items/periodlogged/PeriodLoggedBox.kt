@@ -39,7 +39,7 @@ class PeriodLoggedBox(
     ) : DetailsItem {
 
         fun getInstallTimePeriodLogged(context: Context): String =
-            if (daysSinceInstallation.roundUpMsToDays() <= 14L) {
+            if (daysSinceInstallation.roundUpMsToDays() < 14L) {
                 context.getString(
                     R.string.risk_details_information_body_period_logged_assessment_under_14_days
                 ).format(daysSinceInstallation.roundUpMsToDays())
