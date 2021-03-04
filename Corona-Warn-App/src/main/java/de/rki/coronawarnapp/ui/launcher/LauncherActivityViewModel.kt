@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 class LauncherActivityViewModel @AssistedInject constructor(
     private val updateChecker: UpdateChecker,
     dispatcherProvider: DispatcherProvider,
-    private val cwaSettings: CWASettings,
+    private val cwaSettings: CWASettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
