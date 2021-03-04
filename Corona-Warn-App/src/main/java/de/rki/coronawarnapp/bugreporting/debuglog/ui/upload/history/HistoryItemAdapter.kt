@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.bugreporting.uploadhistory.ui
+package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.history
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.uploadhistory.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
 import de.rki.coronawarnapp.databinding.BugreportingUploadHistoryItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone

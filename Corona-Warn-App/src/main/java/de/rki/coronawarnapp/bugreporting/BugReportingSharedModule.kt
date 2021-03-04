@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
-import de.rki.coronawarnapp.bugreporting.logupload.auth.LogUploadAuthApiV1
-import de.rki.coronawarnapp.bugreporting.logupload.server.LogUploadApi
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApi
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthApiV1
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadHttpClient
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadServerUrl
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient

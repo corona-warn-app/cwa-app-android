@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting
 
 import android.content.Context
 import com.google.gson.Gson
-import de.rki.coronawarnapp.bugreporting.uploadhistory.UploadHistory
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify

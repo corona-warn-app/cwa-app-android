@@ -588,7 +588,7 @@
     </fragment>
     <fragment
         android:id="@+id/logUploadHistoryFragment"
-        android:name="de.rki.coronawarnapp.bugreporting.uploadhistory.ui.LogUploadHistoryFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.history.LogUploadHistoryFragment"
         android:label="LogUploadHistoryFragment"
         tools:layout="@layout/bugreporting_upload_history_fragment" />
     <fragment

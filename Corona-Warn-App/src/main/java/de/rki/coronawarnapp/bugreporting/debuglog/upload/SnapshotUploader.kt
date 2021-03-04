@@ -1,7 +1,7 @@
-package de.rki.coronawarnapp.bugreporting.logupload
+package de.rki.coronawarnapp.bugreporting.debuglog.upload
 
-import de.rki.coronawarnapp.bugreporting.logupload.auth.LogUploadAuthServer
-import de.rki.coronawarnapp.bugreporting.logupload.server.LogUploadServer
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadServer
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthServer
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -8,8 +8,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.bugreporting.debuglog.sharing.LogSnapshotter
-import de.rki.coronawarnapp.bugreporting.debuglog.sharing.SAFLogSharing
+import de.rki.coronawarnapp.bugreporting.debuglog.export.SAFLogExport
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -27,7 +27,7 @@ class DebugLogViewModel @AssistedInject constructor(
     private val enfClient: ENFClient,
     bugReportingSettings: BugReportingSettings,
     private val logSnapshotter: LogSnapshotter,
-    private val safLogSharing: SAFLogSharing,
+    private val safLogExport: SAFLogExport,
     private val contentResolver: ContentResolver,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -51,8 +51,8 @@ class DebugLogViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     val errorEvent = SingleLiveEvent<Throwable>()
-    val shareEvent = SingleLiveEvent<SAFLogSharing.Request>()
-    val logStoreResult = SingleLiveEvent<SAFLogSharing.Request.Result>()
+    val shareEvent = SingleLiveEvent<SAFLogExport.Request>()
+    val logStoreResult = SingleLiveEvent<SAFLogExport.Request.Result>()
 
     fun onPrivacyButtonPress() {
         routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
@@ -90,7 +90,7 @@ class DebugLogViewModel @AssistedInject constructor(
     fun onStoreLog() = launchWithProgress(finishProgressAction = false) {
         Timber.d("storeLog()")
         val snapshot = logSnapshotter.snapshot()
-        val shareRequest = safLogSharing.createSAFRequest(snapshot)
+        val shareRequest = safLogExport.createSAFRequest(snapshot)
         shareEvent.postValue(shareRequest)
     }
 
@@ -100,7 +100,7 @@ class DebugLogViewModel @AssistedInject constructor(
             return@launchWithProgress
         }
 
-        val request = safLogSharing.getRequest(requestCode)
+        val request = safLogExport.getRequest(requestCode)
         if (request == null) {
             Timber.w("Unknown request with code $requestCode")
             return@launchWithProgress

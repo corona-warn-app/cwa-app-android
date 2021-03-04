@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.logupload.auth
+package de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth
 
 import org.joda.time.Instant
 

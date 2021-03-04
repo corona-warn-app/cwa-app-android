@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.logupload.server
+package de.rki.coronawarnapp.bugreporting.debuglog.upload.server
 
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody

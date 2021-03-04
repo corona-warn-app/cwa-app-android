@@ -1,22 +1,29 @@
-package de.rki.coronawarnapp.bugreporting.logupload.auth
+package de.rki.coronawarnapp.bugreporting.debuglog.upload.server
 
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthApiV1
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadOtp
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 
 @Reusable
-class LogUploadAuthServer @Inject constructor(
+class LogUploadServer @Inject constructor(
+    private val uploadApiProvider: Lazy<LogUploadApi>,
     private val authApiProvider: Lazy<LogUploadAuthApiV1>,
     private val deviceAttestation: DeviceAttestation,
     private val configProvider: AppConfigProvider
 ) {
+
+    private val uploadApi: LogUploadApi
+        get() = uploadApiProvider.get()
 
     private val authApi: LogUploadAuthApiV1
         get() = authApiProvider.get()
@@ -51,7 +58,10 @@ class LogUploadAuthServer @Inject constructor(
         )
     }
 
+    suspend fun uploadLog(otp: LogUploadOtp, log: File) {
+    }
+
     companion object {
-        private const val TAG = "LogUploadOtpServer"
+        private const val TAG = "LogUploadServer"
     }
 }

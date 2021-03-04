@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.logupload.auth
+package de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
