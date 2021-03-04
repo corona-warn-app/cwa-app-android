@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.bugreporting.censors.DiaryLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.DebugLoggerScope
-import de.rki.coronawarnapp.bugreporting.debuglog.DebuggerScope
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.logupload.auth.LogUploadAuthApiV1
 import de.rki.coronawarnapp.bugreporting.logupload.server.LogUploadApi
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadHttpClient
