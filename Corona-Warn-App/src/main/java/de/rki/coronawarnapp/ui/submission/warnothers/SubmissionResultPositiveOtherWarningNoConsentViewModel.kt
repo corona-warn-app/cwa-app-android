@@ -44,7 +44,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     val countryList = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
 
-    val showTracingConsentDialog = de.rki.coronawarnapp.ui.SingleLiveEvent<(Boolean) -> Unit>()
+    val showTracingConsentDialog = de.rki.coronawarnapp.util.ui.SingleLiveEvent<(Boolean) -> Unit>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
