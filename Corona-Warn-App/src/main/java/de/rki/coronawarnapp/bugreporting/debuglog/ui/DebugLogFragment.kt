@@ -83,7 +83,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 toggleSendErrorLog.apply {
                     isGone = !it.isRecording
                     isEnabled = it.currentSize > 0L && !it.isActionInProgress
-                    setOnClickListener { vm.onUploadLog() }
+                    setOnClickListener { vm.onShareButtonPress() }
                 }
 
                 toggleStoreLog.apply {
@@ -118,6 +118,10 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 )
                 DebugLogNavigationEvents.NavigateToUploadHistory -> doNavigate(
                     DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
+                )
+
+                DebugLogNavigationEvents.NavigateToShareFragment -> doNavigate(
+                    DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
                 )
             }
         }
