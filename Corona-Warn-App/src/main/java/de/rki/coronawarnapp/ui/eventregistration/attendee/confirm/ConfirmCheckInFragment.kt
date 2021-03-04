@@ -20,7 +20,6 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
     private val viewModel: ConfirmCheckInViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentConfrimCheckInBinding by viewBindingLazy()
-    private val args by navArgs<ConfirmCheckInFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +29,6 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
             confirmButton.setOnClickListener { viewModel.onConfirmEvent() }
         }
 
-        viewModel.decodeEvent(args.encodedEvent)
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()

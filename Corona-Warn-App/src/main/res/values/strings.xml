@@ -623,9 +623,6 @@
     <string name="onboarding_ppa_more_info_much_privacy_body">"This information cannot be linked with you personally. Your identity will remain confidential.\nThe information will be analyzed for statistical purposes. It will not be saved for a profile."</string>
 
 
-
-
-
     <!-- ####################################
                  Onboarding sixteen include
        ###################################### -->
@@ -1792,6 +1789,8 @@
     <string name="bottom_nav_home_title">"Start Screen"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Journal"</string>
+    <!-- XHED: Title for BottomNav check-in screen title -->
+    <string name="bottom_nav_check_ins_title">Check In</string>
 
     <!-- ####################################
            Data Donation & Survey
