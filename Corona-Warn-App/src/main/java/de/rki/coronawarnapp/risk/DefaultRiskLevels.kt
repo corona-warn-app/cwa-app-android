@@ -164,7 +164,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             "uniqueDates: %s",
             uniqueDatesMillisSinceEpoch
         )
-        val exposureHistory = uniqueDatesMillisSinceEpoch.map {
+        val exposureHistory = uniqueDatesMillisSinceEpoch.mapNotNull {
             aggregateRiskPerDate(appConfig, it, exposureWindowResultMap)
         }
 
@@ -247,7 +247,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         appConfig: ExposureWindowRiskCalculationConfig,
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
-    ): AggregatedRiskPerDateResult {
+    ): AggregatedRiskPerDateResult? {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
             .filter { it.key.dateMillisSinceEpoch == dateMillisSinceEpoch }
@@ -263,13 +263,18 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         )
 
         // 3. Determine `Risk Level per Date`
-        val riskLevel = try {
-            appConfig.normalizedTimePerDayToRiskLevelMappingList
-                .filter { it.normalizedTimeRange.inRange(normalizedTime) }
-                .map { it.riskLevel }
-                .first()
-        } catch (e: Exception) {
-            throw NormalizedTimePerDayToRiskLevelMappingMissingException()
+        val riskLevel = appConfig.normalizedTimePerDayToRiskLevelMappingList
+            .filter { it.normalizedTimeRange.inRange(normalizedTime) }
+            .map { it.riskLevel }
+            .firstOrNull()
+
+        if (riskLevel == null) {
+            Timber.d(
+                "No Risk Level is associated with date %d - %s",
+                dateMillisSinceEpoch,
+                Instant.ofEpochMilli(dateMillisSinceEpoch)
+            )
+            return null
         }
 
         Timber.d("riskLevel: %s (%d)", riskLevel.name, riskLevel.ordinal)
