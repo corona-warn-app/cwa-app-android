@@ -534,8 +534,7 @@
         android:id="@+id/surveyConsentDetailFragment"
         android:name="de.rki.coronawarnapp.datadonation.survey.consent.SurveyConsentDetailFragment"
         android:label="survey_consent_detail_fragment"
-        tools:layout="@layout/survey_consent_detail_fragment">
-    </fragment>
+        tools:layout="@layout/survey_consent_detail_fragment" />
     <fragment
         android:id="@+id/analyticsUserInputFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment"
@@ -561,8 +560,7 @@
         android:id="@+id/ppaMoreInfoFragment"
         android:name="de.rki.coronawarnapp.datadonation.analytics.ui.PpaMoreInfoFragment"
         android:label="PpaMoreInfoFragment"
-        tools:layout="@layout/fragment_ppa_more_info">
-    </fragment>
+        tools:layout="@layout/fragment_ppa_more_info" />
     <fragment
         android:id="@+id/settingsPrivacyPreservingAnalyticsFragment"
         android:name="de.rki.coronawarnapp.ui.settings.analytics.SettingsPrivacyPreservingAnalyticsFragment"
@@ -575,4 +573,21 @@
             android:id="@+id/action_settingsPrivacyPreservingAnalyticsFragment_to_ppaMoreInfoFragment"
             app:destination="@id/ppaMoreInfoFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/verifyEventFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.checkin.ConfirmCheckInFragment"
+        android:label="fragment_verify_event"
+        tools:layout="@layout/fragment_confrim_check_in">
+        <deepLink app:uri="https://coronawarn.app/E1/{encodedEvent}" />
+        <argument
+            android:name="encodedEvent"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/scanCheckInQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeFragment"
+        android:label="ScanCheckInQrCodeFragment"
+        tools:layout="@layout/fragment_scan_check_in_qr_code" />
 </navigation>
