@@ -23,6 +23,12 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.scanCheckInQrCode.setOnClickListener {
+            findNavController().navigate(R.id.scanCheckInQrCodeFragment)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.testQrCodeCreation.setOnClickListener {
