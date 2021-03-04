@@ -108,7 +108,7 @@ class ContactDiaryAddPersonFragment :
         DialogHelper.DialogInstance(
             requireActivity(),
             R.string.contact_diary_delete_person_title,
-            R.string.contact_diary_delete_persons_message,
+            R.string.contact_diary_delete_person_message,
             R.string.contact_diary_delete_button_positive,
             R.string.contact_diary_delete_button_negative,
             positiveButtonFunction = {
