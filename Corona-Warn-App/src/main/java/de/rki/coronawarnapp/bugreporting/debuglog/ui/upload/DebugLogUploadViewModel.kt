@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogNavigationEvents
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -14,6 +15,10 @@ class DebugLogUploadViewModel @AssistedInject constructor(
 
     fun onUploadLog() {
         // TODO Implement Uploading
+    }
+
+    fun onPrivacyButtonPress() {
+        routeToScreen.postValue(DebugLogUploadNavigationEvents.NavigateToMoreInformationFragment)
     }
 
     @AssistedFactory

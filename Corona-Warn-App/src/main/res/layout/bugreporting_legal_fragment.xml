@@ -24,11 +24,14 @@
 
         <ScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -82,16 +85,16 @@
                     android:focusable="true"
                     android:text="@string/debugging_debuglog_legal_section_body"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/debuglog_legal_body_headline"
                     tools:text="@string/debugging_debuglog_legal_section_body" />
-
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                    app:layout_constraintGuide_begin="47dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_end"

@@ -595,5 +595,18 @@
         android:id="@+id/debugLogUploadFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.DebugLogUploadFragment"
         android:label="DebugLogUploadFragment"
-        tools:layout="@layout/bugreporting_debuglog_upload_fragment" />
+        tools:layout="@layout/bugreporting_debuglog_upload_fragment" >
+        <action
+            android:id="@+id/action_debugLogUploadFragment_to_debugLogLegalFragment"
+            app:destination="@id/debugLogLegalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDiaryEditLocationsFragment2"
+        android:name="de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsFragment"
+        android:label="ContactDiaryEditLocationsFragment" />
+    <fragment
+        android:id="@+id/debugLogLegalFragment"
+        android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.legal.DebugLogLegalFragment"
+        android:label="DebugLogLegalFragment"
+        tools:layout="@layout/bugreporting_legal_fragment" />
 </navigation>
