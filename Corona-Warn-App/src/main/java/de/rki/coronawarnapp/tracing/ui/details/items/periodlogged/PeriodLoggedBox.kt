@@ -39,7 +39,7 @@ class PeriodLoggedBox(
     ) : DetailsItem {
 
         fun getRiskActiveTracingDaysInRetentionPeriodLogged(context: Context): String = context.getString(
-            R.string.risk_details_information_body_period_logged_assessment
+            R.string.risk_details_information_body_period_logged_assessment_under_14_days
         ).format(activeTracingDaysInRetentionPeriod)
 
         fun getProgressColor(context: Context) = when (tracingStatus) {
