@@ -24,7 +24,7 @@ class TestResultAvailableNotificationService @Inject constructor(
     suspend fun showTestResultAvailableNotification(testResult: TestResult) {
         if (foregroundState.isInForeground.first()) return
 
-        if (!cwaSettings.isNotificationsTestEnabledFlow.value) {
+        if (!cwaSettings.isNotificationsTestEnabled.value) {
             Timber.i("Don't show test result available notification because user doesn't want to be informed")
             return
         }

@@ -22,7 +22,7 @@ class NotificationSettings @Inject constructor(
         notificationManagerCompat.areNotificationsEnabled()
     }
 
-    val isNotificationsRiskEnabled: Flow<Boolean> = cwaSettings.isNotificationsRiskEnabledFlow.flow
+    val isNotificationsRiskEnabled: Flow<Boolean> = cwaSettings.isNotificationsRiskEnabled.flow
 
     /**
      * Toggle notifications risk updates.
@@ -30,10 +30,10 @@ class NotificationSettings @Inject constructor(
      * @see LocalData
      */
     fun toggleNotificationsRiskEnabled() {
-        cwaSettings.isNotificationsRiskEnabledFlow.update { !it }
+        cwaSettings.isNotificationsRiskEnabled.update { !it }
     }
 
-    val isNotificationsTestEnabled: Flow<Boolean> = cwaSettings.isNotificationsTestEnabledFlow.flow
+    val isNotificationsTestEnabled: Flow<Boolean> = cwaSettings.isNotificationsTestEnabled.flow
 
     /**
      * Toggle notifications for test updates in shared preferences and refresh it afterwards.
@@ -41,6 +41,6 @@ class NotificationSettings @Inject constructor(
      * @see LocalData
      */
     fun toggleNotificationsTestEnabled() {
-        cwaSettings.isNotificationsTestEnabledFlow.update { !it }
+        cwaSettings.isNotificationsTestEnabled.update { !it }
     }
 }
