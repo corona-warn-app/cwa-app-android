@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -18,13 +18,25 @@ import javax.inject.Inject
 class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregistration), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.scanCheckInQrCode.setOnClickListener {
-            findNavController().navigate(R.id.scanCheckInQrCodeFragment)
+        with(binding) {
+            scanCheckInQrCode.setOnClickListener {
+                doNavigate(
+                    EventRegistrationTestFragmentDirections
+                        .actionEventRegistrationTestFragmentToScanCheckInQrCodeFragment()
+                )
+            }
+
+            testQrCodeCreation.setOnClickListener {
+                doNavigate(
+                    EventRegistrationTestFragmentDirections
+                        .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
+                )
+            }
         }
     }
 
