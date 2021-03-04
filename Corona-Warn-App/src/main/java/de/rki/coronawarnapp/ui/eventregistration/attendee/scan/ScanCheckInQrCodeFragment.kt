@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.scan
+package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -48,8 +48,8 @@ class ScanCheckInQrCodeFragment :
 
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
-                is ScanCheckInQrCodeEvent.BackEvent -> popBackStack()
-                is ScanCheckInQrCodeEvent.ConfirmCheckInEvent -> findNavController().navigate(
+                is ScanCheckInQrCodeNavigation.BackNavigation -> popBackStack()
+                is ScanCheckInQrCodeNavigation.ScanResultNavigation -> findNavController().navigate(
                     navEvent.url.toUri().navUri
                 )
             }

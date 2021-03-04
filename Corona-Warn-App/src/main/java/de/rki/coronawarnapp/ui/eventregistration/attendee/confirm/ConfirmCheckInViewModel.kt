@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.checkin
+package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
@@ -14,7 +14,7 @@ import org.joda.time.Instant
 class ConfirmCheckInViewModel @AssistedInject constructor() : CWAViewModel() {
     private val eventLiveData = MutableLiveData<EventQRCode>()
     val eventData = eventLiveData
-    val navigationEvents = SingleLiveEvent<ConfirmCheckInEvent>()
+    val navigationEvents = SingleLiveEvent<ConfirmCheckInNavigation>()
 
     fun decodeEvent(encodedEvent: String) = launch {
         // TODO Verify event(EXPOSUREAPP-5423)
@@ -25,11 +25,11 @@ class ConfirmCheckInViewModel @AssistedInject constructor() : CWAViewModel() {
     }
 
     fun onClose() {
-        navigationEvents.value = ConfirmCheckInEvent.BackEvent
+        navigationEvents.value = ConfirmCheckInNavigation.BackNavigation
     }
 
     fun onConfirmEvent() {
-        navigationEvents.value = ConfirmCheckInEvent.ConfirmEvent
+        navigationEvents.value = ConfirmCheckInNavigation.ConfirmNavigation
     }
 
     private fun EventOuterClass.Event.toEventQrCode() = EventQRCode(

@@ -1,6 +1,8 @@
-package de.rki.coronawarnapp.ui.eventregistration.checkin
+package de.rki.coronawarnapp.eventregistration.attendee.confirm
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
+import de.rki.coronawarnapp.eventregistration.qrcode.EventQRCode
+import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInNavigation
+import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInViewModel
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -38,12 +40,12 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     @Test
     fun onClose() {
         viewModel.onClose()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInEvent.BackEvent
+        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.BackNavigation
     }
 
     @Test
     fun onConfirmEvent() {
         viewModel.onConfirmEvent()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInEvent.ConfirmEvent
+        viewModel.navigationEvents.getOrAwaitValue() shouldBe ConfirmCheckInNavigation.ConfirmNavigation
     }
 }

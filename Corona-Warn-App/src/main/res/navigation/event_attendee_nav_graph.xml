@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/event_attendee_nav_graph">
+    <fragment
+        android:id="@+id/verifyEventFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
+        android:label="fragment_verify_event"
+        tools:layout="@layout/fragment_confrim_check_in">
+        <deepLink app:uri="https://coronawarn.app/E1/{encodedEvent}" />
+        <argument
+            android:name="encodedEvent"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/scanCheckInQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment"
+        android:label="ScanCheckInQrCodeFragment"
+        tools:layout="@layout/fragment_scan_check_in_qr_code" />
+
+</navigation>

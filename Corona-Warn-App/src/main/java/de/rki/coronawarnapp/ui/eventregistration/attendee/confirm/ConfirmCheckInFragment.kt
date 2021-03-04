@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.checkin
+package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 
 import android.os.Bundle
 import android.view.View
@@ -33,8 +33,8 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
         viewModel.decodeEvent(args.encodedEvent)
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
-                ConfirmCheckInEvent.BackEvent -> popBackStack()
-                ConfirmCheckInEvent.ConfirmEvent -> popBackStack() // TODO Do something else
+                ConfirmCheckInNavigation.BackNavigation -> popBackStack()
+                ConfirmCheckInNavigation.ConfirmNavigation -> popBackStack() // TODO Do something else
             }
         }
 

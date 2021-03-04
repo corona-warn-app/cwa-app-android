@@ -148,7 +148,7 @@
         tools:layout="@layout/fragment_test_qrcode_creation" />
     <fragment
         android:id="@+id/scanCheckInQrCodeFragmentTest"
-        android:name="de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeFragment"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment"
         android:label="ScanCheckInQrCodeFragment"
         tools:layout="@layout/fragment_submission_qr_code_scan" />
 

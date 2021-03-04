@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.eventregistration.scan
+package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 
 import com.google.zxing.Result
 import com.journeyapps.barcodescanner.BarcodeResult
@@ -25,7 +25,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
     @Test
     fun `onNavigateUp goes back`() {
         viewModel.onNavigateUp()
-        viewModel.navigationEvents.getOrAwaitValue() shouldBe ScanCheckInQrCodeEvent.BackEvent
+        viewModel.navigationEvents.getOrAwaitValue() shouldBe ScanCheckInQrCodeNavigation.BackNavigation
     }
 
     @Test
@@ -37,6 +37,6 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
         }
         viewModel.onScanResult(mockedResult)
         viewModel.navigationEvents.getOrAwaitValue() shouldBe
-            ScanCheckInQrCodeEvent.ConfirmCheckInEvent("https://coronawarn.app/E1/SOME_PATH_GOES_HERE")
+            ScanCheckInQrCodeNavigation.ScanResultNavigation("https://coronawarn.app/E1/SOME_PATH_GOES_HERE")
     }
 }
