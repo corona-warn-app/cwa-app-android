@@ -23,7 +23,7 @@ class DefaultQRCodeVerifier @Inject constructor(
                 verificationKeys.hasInvalidSignature(
                     signedEvent.event.toByteArray(),
                     signedEvent.signature.toByteArray()
-                ).also {
+                ).not().also {
                     Timber.i("Qr-code event verification passed:$it")
                 }
             } catch (e: Exception) {
