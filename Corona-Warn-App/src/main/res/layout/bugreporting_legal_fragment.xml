@@ -36,7 +36,7 @@
 
                 <TextView
                     android:id="@+id/debuglog_legal_headline"
-                    style="@style/headline5"
+                    style="@style/headline4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
