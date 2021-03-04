@@ -99,7 +99,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/icon_background"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/risk_details_information_body_period_logged_assessment" />
+                tools:text="@string/risk_details_information_body_period_logged_assessment_under_14_days" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
