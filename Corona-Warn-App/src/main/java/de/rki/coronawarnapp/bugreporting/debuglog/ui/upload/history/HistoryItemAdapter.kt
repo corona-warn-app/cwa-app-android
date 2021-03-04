@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.history
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
@@ -8,6 +11,7 @@ import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.BindableVH
 import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
 
 class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>() {
 
@@ -36,6 +40,23 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
         ) -> Unit = { item, _ ->
             title.text = FORMATTER.print(item.uploadedAt.toUserTimeZone())
             description.text = "ID ${item.id}"
+            itemView.setOnClickListener {
+                try {
+                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipboard.setPrimaryClip(
+                        ClipData.newPlainText(
+                            context.getString(R.string.debugging_debuglog_share_log_title),
+                            """
+                                ${context.getString(R.string.debugging_debuglog_share_log_title)}
+                                ${title.text}
+                                ${description.text} 
+                            """.trimIndent()
+                        )
+                    )
+                } catch (e: Throwable) {
+                    Timber.e(e, "Failed to copy ID to clipboard.")
+                }
+            }
         }
     }
 
