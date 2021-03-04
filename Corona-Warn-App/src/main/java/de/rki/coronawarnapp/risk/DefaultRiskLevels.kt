@@ -306,17 +306,6 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             .size
 
     companion object {
-
-        open class RiskLevelMappingMissingException(msg: String) : Exception(msg)
-
-        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
-            "Failed to map the normalized Time per Exposure Window to a Risk Level"
-        )
-
-        class NormalizedTimePerDayToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
-            "Failed to map the normalized Time per Day to a Risk Level"
-        )
-
         class UnknownReportTypeException : Exception(
             "The Report Type returned by the ENF is not known"
         )
