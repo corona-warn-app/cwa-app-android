@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
     includes = [
         DebugLogFragmentModule::class,
         LogUploadHistoryModule::class,
-        DebugLogLegalModule::class
+        DebugLogLegalModule::class,
         DebugLogUploadFragmentModule::class
     ]
 )
