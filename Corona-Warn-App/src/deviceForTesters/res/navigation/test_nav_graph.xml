@@ -136,6 +136,9 @@
         <action
             android:id="@+id/action_eventRegistrationTestFragment_to_test_qr_code_creation_fragment"
             app:destination="@id/test_qr_code_creation_fragment" />
+        <action
+            android:id="@+id/action_eventRegistrationTestFragment_to_scanCheckInQrCodeFragment"
+            app:destination="@id/scanCheckInQrCodeFragmentTest" />
     </fragment>
 
     <fragment
@@ -143,5 +146,10 @@
         android:name="de.rki.coronawarnapp.test.eventregistration.ui.qrcode.QrCodeCreationTestFragment"
         android:label="QrCodeCreationTestFragment"
         tools:layout="@layout/fragment_test_qrcode_creation" />
+    <fragment
+        android:id="@+id/scanCheckInQrCodeFragmentTest"
+        android:name="de.rki.coronawarnapp.ui.eventregistration.scan.ScanCheckInQrCodeFragment"
+        android:label="ScanCheckInQrCodeFragment"
+        tools:layout="@layout/fragment_submission_qr_code_scan" />
 
 </navigation>

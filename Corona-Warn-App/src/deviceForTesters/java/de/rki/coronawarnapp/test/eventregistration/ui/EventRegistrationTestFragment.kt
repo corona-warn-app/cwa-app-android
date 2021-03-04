@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -23,19 +24,20 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.scanCheckInQrCode.setOnClickListener {
-            findNavController().navigate(R.id.scanCheckInQrCodeFragment)
-        }
-    }
+        with(binding) {
+            scanCheckInQrCode.setOnClickListener {
+                doNavigate(
+                    EventRegistrationTestFragmentDirections
+                        .actionEventRegistrationTestFragmentToScanCheckInQrCodeFragment()
+                )
+            }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.testQrCodeCreation.setOnClickListener {
-            findNavController().navigate(
-                EventRegistrationTestFragmentDirections
-                    .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
-            )
+            testQrCodeCreation.setOnClickListener {
+                doNavigate(
+                    EventRegistrationTestFragmentDirections
+                        .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
+                )
+            }
         }
     }
 
