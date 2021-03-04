@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
+import de.rki.coronawarnapp.util.trimToLength
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -19,10 +20,13 @@ data class ContactDiaryLocationEntity(
         get() = locationId
 }
 
+private const val MAX_CHARACTERS = 250
+private fun String.trimMaxCharacters(): String = this.trimToLength(MAX_CHARACTERS)
+
 fun ContactDiaryLocation.toContactDiaryLocationEntity(): ContactDiaryLocationEntity =
     ContactDiaryLocationEntity(
         locationId = this.locationId,
-        locationName = this.locationName,
-        phoneNumber = this.phoneNumber,
-        emailAddress = this.emailAddress
+        locationName = this.locationName.trimMaxCharacters(),
+        phoneNumber = this.phoneNumber?.trimMaxCharacters(),
+        emailAddress = this.emailAddress?.trimMaxCharacters()
     )

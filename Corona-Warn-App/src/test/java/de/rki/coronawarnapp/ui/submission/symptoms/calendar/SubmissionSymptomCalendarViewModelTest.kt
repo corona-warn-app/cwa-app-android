@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -29,6 +30,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     private lateinit var currentSymptoms: FlowPreference<Symptoms?>
 
     @BeforeEach
@@ -48,7 +50,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             symptomIndication = indication,
             dispatcherProvider = TestDispatcherProvider(),
             submissionRepository = submissionRepository,
-            autoSubmission = autoSubmission
+            autoSubmission = autoSubmission,
+            analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
         )
 
     @Test

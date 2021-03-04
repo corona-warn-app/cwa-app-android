@@ -11,23 +11,29 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 
 class ContactDiaryAddLocationViewModel @AssistedInject constructor(
+    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
-        shouldClose.postValue(null)
-        ex.report(ExceptionCategory.INTERNAL, TAG)
+
+    init {
+        launchErrorHandler = CoroutineExceptionHandler { _, ex ->
+            shouldClose.postValue(null)
+            ex.report(ExceptionCategory.INTERNAL, TAG)
+        }
     }
 
     val shouldClose = SingleLiveEvent<Unit>()
@@ -39,10 +45,10 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
         .asLiveData()
 
     fun locationChanged(value: String) {
-        locationName.value = value.trim()
+        locationName.value = value
     }
 
-    fun addLocation(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
+    fun addLocation(phoneNumber: String, emailAddress: String) = launch(scope = appScope) {
         val location = contactDiaryRepository.addLocation(
             DefaultContactDiaryLocation(
                 locationName = locationName.value,
@@ -63,7 +69,7 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
     }
 
     fun updateLocation(location: ContactDiaryLocationEntity, phoneNumber: String, emailAddress: String) =
-        launch(coroutineExceptionHandler) {
+        launch(scope = appScope) {
             contactDiaryRepository.updateLocation(
                 DefaultContactDiaryLocation(
                     location.locationId,
@@ -75,7 +81,7 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
             shouldClose.postValue(null)
         }
 
-    fun deleteLocation(location: ContactDiaryLocationEntity) = launch(coroutineExceptionHandler) {
+    fun deleteLocation(location: ContactDiaryLocationEntity) = launch(scope = appScope) {
         contactDiaryRepository.locationVisits.firstOrNull()?.forEach {
             if (it.contactDiaryLocation.locationId == location.locationId)
                 contactDiaryRepository.deleteLocationVisit(it)

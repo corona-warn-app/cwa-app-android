@@ -10,18 +10,24 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
 
 class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
+    @AppScope private val appScope: CoroutineScope,
     private val contactDiaryRepository: ContactDiaryRepository,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
-        ex.report(ExceptionCategory.INTERNAL, TAG)
+
+    init {
+        launchErrorHandler = CoroutineExceptionHandler { _, ex ->
+            ex.report(ExceptionCategory.INTERNAL, TAG)
+        }
     }
 
     val locationsLiveData = contactDiaryRepository.locations
@@ -40,7 +46,7 @@ class ContactDiaryEditLocationsViewModel @AssistedInject constructor(
     }
 
     fun onDeleteAllConfirmedClick() {
-        launch(coroutineExceptionHandler) {
+        launch(scope = appScope) {
             contactDiaryRepository.deleteAllLocationVisits()
             contactDiaryRepository.deleteAllLocations()
         }
