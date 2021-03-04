@@ -8,12 +8,13 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
 import kotlinx.coroutines.flow.first
+import org.joda.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 
 @Reusable
-class LogUploadAuthorization @Inject constructor(
+class LogUploadAuthorizer @Inject constructor(
     private val authApiProvider: Lazy<LogUploadAuthApiV1>,
     private val deviceAttestation: DeviceAttestation,
     private val configProvider: AppConfigProvider
@@ -22,8 +23,7 @@ class LogUploadAuthorization @Inject constructor(
     private val authApi: LogUploadAuthApiV1
         get() = authApiProvider.get()
 
-    suspend fun getAuthorizedOTP(): LogUploadOtp {
-        val otp = UUID.randomUUID()
+    suspend fun getAuthorizedOTP(otp: UUID = UUID.randomUUID()): LogUploadOtp {
         Timber.tag(TAG).d("getAuthorizedOTP() trying to authorize %s", otp)
 
         val elsOtp = ElsOtp.ELSOneTimePassword.newBuilder().apply {
@@ -54,7 +54,7 @@ class LogUploadAuthorization @Inject constructor(
 //            expirationDate = Instant.now().plus(Duration.standardDays(1))
 //        )
 
-        return LogUploadOtp(otp = otp.toString(), expirationDate = authResponse.expirationDate).also {
+        return LogUploadOtp(otp = otp.toString(), expirationDate = Instant.parse(authResponse.expirationDate)).also {
             Timber.tag(TAG).d("%s created", it)
         }
     }

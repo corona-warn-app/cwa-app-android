@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 @Reusable
 class LogUploadServer @Inject constructor(
-    private val uploadApiProvider: Lazy<LogUploadApi>,
+    private val uploadApiProvider: Lazy<LogUploadApiV1>,
     private val timeStamper: TimeStamper
 ) {
 
-    private val uploadApi: LogUploadApi
+    private val uploadApi: LogUploadApiV1
         get() = uploadApiProvider.get()
 
     suspend fun uploadLog(uploadOtp: LogUploadOtp, snapshot: LogSnapshotter.Snapshot): LogUpload {

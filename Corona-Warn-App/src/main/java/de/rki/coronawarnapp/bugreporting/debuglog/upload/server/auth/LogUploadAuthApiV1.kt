@@ -2,14 +2,13 @@ package de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
-import org.joda.time.Instant
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LogUploadAuthApiV1 {
 
     data class AuthResponse(
-        @SerializedName("expirationDate") val expirationDate: Instant
+        @SerializedName("expirationDate") val expirationDate: String
     )
 
     data class AuthError(

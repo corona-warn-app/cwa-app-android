@@ -7,7 +7,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 
-interface LogUploadApi {
+interface LogUploadApiV1 {
 
     @Multipart
     @POST("/api/logs")
@@ -18,7 +18,7 @@ interface LogUploadApi {
 
     data class UploadResponse(
         @SerializedName("id") val id: String,
-        @SerializedName("hash") val hash: String,
+        @SerializedName("hash") val hash: String?,
         @SerializedName("errorCode") val errorCode: String?
     )
 }

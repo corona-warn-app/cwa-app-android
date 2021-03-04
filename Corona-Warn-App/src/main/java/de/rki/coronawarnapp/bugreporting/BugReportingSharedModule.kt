@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApi
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthApiV1
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadHttpClient
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadServerUrl
@@ -35,13 +35,13 @@ class BugReportingSharedModule {
         @LogUploadServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
         gsonConverterFactory: GsonConverterFactory
-    ): LogUploadApi = Retrofit.Builder()
+    ): LogUploadApiV1 = Retrofit.Builder()
         .client(client)
         .baseUrl(url)
         .addConverterFactory(protoConverterFactory)
         .addConverterFactory(gsonConverterFactory)
         .build()
-        .create(LogUploadApi::class.java)
+        .create(LogUploadApiV1::class.java)
 
     @Reusable
     @Provides
