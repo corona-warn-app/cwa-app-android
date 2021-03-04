@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.bugreporting.censors.DiaryLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.censors.QRCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.RegistrationTokenCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.logupload.auth.LogUploadAuthApiV1
@@ -17,6 +16,7 @@ import de.rki.coronawarnapp.environment.bugreporting.LogUploadHttpClient
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadServerUrl
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
+import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -55,7 +55,7 @@ class BugReportingSharedModule {
 
     @Singleton
     @Provides
-    fun debugLogger() = DebugLogger
+    fun debugLogger() = CWADebug.debugLogger
 
     @Singleton
     @DebuggerScope

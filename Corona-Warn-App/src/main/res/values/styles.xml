@@ -104,6 +104,11 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
+    <style name="debugLogButton" parent="button">
+        <item name="android:backgroundTint">@color/button_debug_log</item>
+        <item name="android:textColor">@color/button_text_color_emphasized</item>
+    </style>
+
     <style name="contactDiaryPersonButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/button_contact_diary_person</item>
         <item name="strokeWidth">2dp</item>
