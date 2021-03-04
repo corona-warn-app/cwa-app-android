@@ -1,13 +1,15 @@
 package de.rki.coronawarnapp.eventregistration.checkins.riskcalculation
 
 import de.rki.coronawarnapp.eventregistration.checkins.EventCheckIn
+import de.rki.coronawarnapp.eventregistration.checkins.download.CheckInsPackage
 import org.joda.time.Duration
 import org.joda.time.Instant
 
-fun filterRelevantEventCheckIns(
+suspend fun filterRelevantEventCheckIns(
     localCheckIns: List<EventCheckIn>,
-    reportedCheckIns: List<EventCheckIn>
+    checkInsPackage: CheckInsPackage
 ): List<EventCheckIn> {
+    val reportedCheckIns = checkInsPackage.extractCheckIns()
     return reportedCheckIns.filter { reported ->
         localCheckIns.find { local ->
             reported.guid == local.guid
