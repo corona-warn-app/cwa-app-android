@@ -47,7 +47,8 @@
                 android:id="@+id/qrCodeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/qr_code_input" />
+                android:text="@string/qr_code_input"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,8 +72,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/qrCodeImage"
-                android:layout_width="270dp"
-                android:layout_height="270dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
