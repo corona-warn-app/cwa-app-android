@@ -336,21 +336,4 @@ class EncryptionResetToolTest : BaseIOTest() {
             this["ea1851.reset.shownotice"] shouldBe null
         }
     }
-
-    @Test
-    fun `the reset is considered failed if the database exists and can not be deleted`() {
-        createMockFiles()
-
-        createInstance().tryResetIfNecessary(
-            GeneralSecurityException("decryption failed")
-        ) shouldBe false
-
-        encryptedPrefsFile.exists() shouldBe false
-
-        mockPreferences.dataMapPeek.apply {
-            this["ea1851.reset.performedAt"] shouldBe null
-            this["ea1851.reset.windowconsumed.160"] shouldBe true
-            this["ea1851.reset.shownotice"] shouldBe null
-        }
-    }
 }
