@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.confirm
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfrimCheckInBinding
 import de.rki.coronawarnapp.util.di.AutoInject
