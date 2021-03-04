@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -25,18 +26,18 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         override val currentConfig: ConfigData
             get() = configData
     }
-    private val window = AnalyticsExposureWindowEntity(
-        "hash",
-        1,
-        1L,
-        1,
-        1,
-        1.0,
-        1
+    private val testWindow = AnalyticsExposureWindowEntity(
+        sha256Hash = "hash",
+        calibrationConfidence = 1,
+        dateMillis = 1234567890L,
+        infectiousness = 2,
+        reportType = 3,
+        normalizedTime = 4.0,
+        transmissionRiskLevel = 5
     )
     private val scanInstance = AnalyticsScanInstanceEntity(1, "hash", 1, 1, 1)
     private val wrapper = AnalyticsExposureWindowEntityWrapper(
-        window,
+        testWindow,
         listOf(scanInstance)
     )
 
@@ -47,6 +48,20 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         coEvery { analyticsExposureWindowRepository.deleteStaleData() } just Runs
         coEvery { analyticsExposureWindowRepository.rollback(any(), any()) } just Runs
         every { Random.nextDouble() } returns .5
+    }
+
+    @Test
+    fun `protobuf conversion uses correct formats`() {
+        val newWindow = listOf(wrapper).asPpaData().single().apply {
+            normalizedTime shouldBe 4.0
+            transmissionRiskLevel shouldBe 5
+        }
+        newWindow.exposureWindow.apply {
+            date shouldBe 1234567L
+            calibrationConfidence shouldBe 1
+            infectiousness shouldBe PpaData.PPAExposureWindowInfectiousness.INFECTIOUSNESS_HIGH
+            reportType shouldBe PpaData.PPAExposureWindowReportType.REPORT_TYPE_SELF_REPORT
+        }
     }
 
     @Test
