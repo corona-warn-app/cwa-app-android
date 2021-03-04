@@ -12,26 +12,23 @@ class DefaultQRCodeVerifier @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val verificationKeys: VerificationKeys,
 ) : QRCodeVerifier {
-    override suspend fun verify(encodedEvent: String): Boolean {
+    override suspend fun verify(encodedEvent: String) =
         withContext(dispatcherProvider.Default) {
             try {
+                Timber.i("encodedEvent:$encodedEvent")
                 val signedEvent = SignedEventOuterClass.SignedEvent
-                    .parseFrom(
-                        encodedEvent.decodeBase32().toByteArray()
-                    )
+                    .parseFrom(encodedEvent.decodeBase32().toByteArray())
 
-                val hasInvalidSignature = verificationKeys.hasInvalidSignature(
+                Timber.i("signedEvent:$signedEvent")
+                verificationKeys.hasInvalidSignature(
                     signedEvent.event.toByteArray(),
                     signedEvent.signature.toByteArray()
-                )
-                if (hasInvalidSignature) {
-                    Timber.w("Qr-code event has invalid signature")
+                ).also {
+                    Timber.i("Qr-code event verification passed:$it")
                 }
             } catch (e: Exception) {
                 Timber.d(e, "Qr-code event verification failed")
+                false
             }
         }
-
-        return false
-    }
 }
