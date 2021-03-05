@@ -51,7 +51,7 @@ class ScanCheckInQrCodeFragment :
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
                 is ScanCheckInQrCodeNavigation.BackNavigation -> popBackStack()
-                is ScanCheckInQrCodeNavigation.ScanResultNavigation ->{
+                is ScanCheckInQrCodeNavigation.ScanResultNavigation -> {
                     Timber.i(navEvent.url)
                     findNavController().navigate(
                         navEvent.url.toUri().navUri,
@@ -60,7 +60,6 @@ class ScanCheckInQrCodeFragment :
                             .build()
                     )
                 }
-
             }
         }
     }
