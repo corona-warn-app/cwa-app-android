@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.security.VerificationKeys
+import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -33,7 +33,7 @@ import java.io.File
 class AppConfigServerTest : BaseIOTest() {
 
     @MockK lateinit var api: AppConfigApiV2
-    @MockK lateinit var verificationKeys: VerificationKeys
+    @MockK lateinit var signatureValidation: SignatureValidation
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var testSettings: TestSettings
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
@@ -45,7 +45,7 @@ class AppConfigServerTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
-        every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
+        every { signatureValidation.hasValidSignature(any(), any()) } returns true
 
         mockkObject(CWADebug)
         every { CWADebug.isDeviceForTestersBuild } returns false
@@ -59,7 +59,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     private fun createInstance() = AppConfigServer(
         api = { api },
-        verificationKeys = verificationKeys,
+        signatureValidation = signatureValidation,
         timeStamper = timeStamper,
         testSettings = testSettings
     )
@@ -92,7 +92,7 @@ class AppConfigServerTest : BaseIOTest() {
             cacheValidity = Duration.standardSeconds(123)
         )
 
-        verify(exactly = 1) { verificationKeys.hasInvalidSignature(any(), any()) }
+        verify(exactly = 1) { signatureValidation.hasValidSignature(any(), any()) }
     }
 
     @Test
@@ -113,7 +113,7 @@ class AppConfigServerTest : BaseIOTest() {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody()
         )
-        every { verificationKeys.hasInvalidSignature(any(), any()) } returns true
+        every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         val downloadServer = createInstance()
 

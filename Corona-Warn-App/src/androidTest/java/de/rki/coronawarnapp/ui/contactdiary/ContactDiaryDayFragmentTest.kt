@@ -112,10 +112,10 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
             fragmentArgs = fragmentArgs,
             themeResId = R.style.AppTheme_Main
         )
-        takeScreenshot<ContactDiaryDayFragment>(suffix)
+        takeScreenshot<ContactDiaryDayFragment>("persons_$suffix")
         onView(withId(R.id.contact_diary_day_tab_layout))
             .perform(selectTabAtPosition(1))
-        takeScreenshot<ContactDiaryDayFragment>(suffix + "_2")
+        takeScreenshot<ContactDiaryDayFragment>("locations_$suffix")
     }
 
     private fun setupViewModels() {
