@@ -7,6 +7,8 @@ import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -27,7 +29,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val autoSubmission: AutoSubmission,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     interoperabilityRepository: InteroperabilityRepository,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -41,7 +44,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     val countryList = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
 
-    val showTracingConsentDialog = de.rki.coronawarnapp.ui.SingleLiveEvent<(Boolean) -> Unit>()
+    val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -113,6 +116,10 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         showKeysRetrievalProgress.value = true
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
+    }
+
+    fun onResume() {
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS)
     }
 
     @AssistedFactory
