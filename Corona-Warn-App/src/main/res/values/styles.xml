@@ -57,9 +57,17 @@
         <item name="navigationContentDescription">@string/accessibility_back</item>
     </style>
 
+    <style name="CWAToolbar.BackArrow.Transparent">
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
     <style name="CWAToolbar.Close">
         <item name="navigationIcon">@drawable/ic_close</item>
         <item name="navigationContentDescription">@string/accessibility_close</item>
+    </style>
+
+    <style name="CWAToolbar.Close.Transparent">
+        <item name="android:background">@color/colorTransparent</item>
     </style>
 
     <!-- Dialog Theme-->

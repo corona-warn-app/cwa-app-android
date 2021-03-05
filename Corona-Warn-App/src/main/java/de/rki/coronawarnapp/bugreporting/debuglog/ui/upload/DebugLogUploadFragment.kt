@@ -35,7 +35,7 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
             }
 
             debugLogSharePrivacyInformation.setOnClickListener {
-                // TODO Add navigation to new screen
+                vm.onPrivacyButtonPress()
             }
 
             toolbar.setNavigationOnClickListener { popBackStack() }

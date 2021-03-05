@@ -32,6 +32,10 @@ class DebugLogUploadViewModel @AssistedInject constructor(
         }
     }
 
+    fun onPrivacyButtonPress() {
+        routeToScreen.postValue(DebugLogUploadNavigationEvents.NavigateToMoreInformationFragment)
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DebugLogUploadViewModel>
 }
