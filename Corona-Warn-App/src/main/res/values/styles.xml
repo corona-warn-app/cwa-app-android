@@ -62,6 +62,10 @@
         <item name="navigationContentDescription">@string/accessibility_close</item>
     </style>
 
+    <style name="CWAToolbar.Close.Transparent">
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
     <!-- Dialog Theme-->
     <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTheme</item>

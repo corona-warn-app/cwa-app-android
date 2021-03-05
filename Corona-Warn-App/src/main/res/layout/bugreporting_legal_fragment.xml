@@ -9,16 +9,15 @@
     android:contentDescription="@string/contact_diary_title"
     android:focusable="true">
 
-    <Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/CWAToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:navigationIcon="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/contact_diary_title" />
+        app:navigationIcon="@drawable/ic_close" />
 
     <ScrollView
         android:layout_width="0dp"
