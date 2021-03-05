@@ -54,8 +54,8 @@ class ContactDiaryAddPersonFragment :
                     it.hideKeyboard()
                     viewModel.updatePerson(
                         person,
-                        phoneNumber = binding.personPhoneNumberInput.text.toString().trim(),
-                        emailAddress = binding.personEmailInput.text.toString().trim()
+                        phoneNumber = binding.personPhoneNumberInput.text.toString(),
+                        emailAddress = binding.personEmailInput.text.toString()
                     )
                 }
             }
@@ -65,8 +65,8 @@ class ContactDiaryAddPersonFragment :
             binding.personSaveButton.setOnClickListener {
                 it.hideKeyboard()
                 viewModel.addPerson(
-                    phoneNumber = binding.personPhoneNumberInput.text.toString().trim(),
-                    emailAddress = binding.personEmailInput.text.toString().trim()
+                    phoneNumber = binding.personPhoneNumberInput.text.toString(),
+                    emailAddress = binding.personEmailInput.text.toString()
                 )
             }
         }
@@ -108,7 +108,7 @@ class ContactDiaryAddPersonFragment :
         DialogHelper.DialogInstance(
             requireActivity(),
             R.string.contact_diary_delete_person_title,
-            R.string.contact_diary_delete_persons_message,
+            R.string.contact_diary_delete_person_message,
             R.string.contact_diary_delete_button_positive,
             R.string.contact_diary_delete_button_negative,
             positiveButtonFunction = {

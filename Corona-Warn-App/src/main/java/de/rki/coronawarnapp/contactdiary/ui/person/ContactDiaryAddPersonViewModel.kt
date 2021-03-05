@@ -10,23 +10,29 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 
 class ContactDiaryAddPersonViewModel @AssistedInject constructor(
+    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     @Assisted private val addedAt: String?,
     private val contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, ex ->
-        ex.report(ExceptionCategory.INTERNAL, TAG)
+
+    init {
+        launchErrorHandler = CoroutineExceptionHandler { _, ex ->
+            ex.report(ExceptionCategory.INTERNAL, TAG)
+        }
     }
 
     val shouldClose = SingleLiveEvent<Unit>()
@@ -38,10 +44,10 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
         .asLiveData()
 
     fun nameChanged(value: String) {
-        name.value = value.trim()
+        name.value = value
     }
 
-    fun addPerson(phoneNumber: String, emailAddress: String) = launch(coroutineExceptionHandler) {
+    fun addPerson(phoneNumber: String, emailAddress: String) = launch(scope = appScope) {
         val person = contactDiaryRepository.addPerson(
             DefaultContactDiaryPerson(
                 fullName = name.value,
@@ -62,7 +68,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     }
 
     fun updatePerson(person: ContactDiaryPersonEntity, phoneNumber: String, emailAddress: String) =
-        launch(coroutineExceptionHandler) {
+        launch(scope = appScope) {
             contactDiaryRepository.updatePerson(
                 DefaultContactDiaryPerson(
                     person.personId,
@@ -75,7 +81,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
             shouldClose.postValue(null)
         }
 
-    fun deletePerson(person: ContactDiaryPersonEntity) = launch(coroutineExceptionHandler) {
+    fun deletePerson(person: ContactDiaryPersonEntity) = launch(scope = appScope) {
         contactDiaryRepository.personEncounters.firstOrNull()?.forEach {
             if (it.contactDiaryPerson.personId == person.personId)
                 contactDiaryRepository.deletePersonEncounter(it)
