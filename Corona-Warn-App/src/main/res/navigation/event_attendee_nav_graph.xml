@@ -8,7 +8,12 @@
         android:id="@+id/confirmCheckInFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
         android:label="fragment_confirm_check_in"
-        tools:layout="@layout/fragment_confrim_check_in" />
+        tools:layout="@layout/fragment_confirm_check_in">
+        <!-- TODO remove this, after merging validation PR. this screen should only open for verified Event-->
+        <argument
+            android:name="encodedEvent"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/scanCheckInQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.scan.ScanCheckInQrCodeFragment"
@@ -21,15 +26,17 @@
         android:label="CheckInsFragment"
         tools:layout="@layout/fragment_check_ins">
         <deepLink app:uri="https://coronawarn.app/E1/{encodedEvent}" />
-        <argument
-            android:name="encodedEvent"
-            app:argType="string" />
         <action
             android:id="@+id/action_checkInsFragment_to_scanCheckInQrCodeFragment"
             app:destination="@id/scanCheckInQrCodeFragment" />
         <action
             android:id="@+id/action_checkInsFragment_to_confirmCheckInFragment"
             app:destination="@id/confirmCheckInFragment" />
+        <argument
+            android:name="encodedEvent"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

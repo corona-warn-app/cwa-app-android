@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.core.net.toUri
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class ScanCheckInQrCodeFragment :
@@ -49,9 +51,16 @@ class ScanCheckInQrCodeFragment :
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
                 is ScanCheckInQrCodeNavigation.BackNavigation -> popBackStack()
-                is ScanCheckInQrCodeNavigation.ScanResultNavigation -> findNavController().navigate(
-                    navEvent.url.toUri().navUri
-                )
+                is ScanCheckInQrCodeNavigation.ScanResultNavigation ->{
+                    Timber.i(navEvent.url)
+                    findNavController().navigate(
+                        navEvent.url.toUri().navUri,
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.checkInsFragment, true)
+                            .build()
+                    )
+                }
+
             }
         }
     }
