@@ -33,7 +33,7 @@ class DebugLogUploadViewModel @AssistedInject constructor(
     }
 
     fun onPrivacyButtonPress() {
-        routeToScreen.postValue(DebugLogUploadNavigationEvents.NavigateToMoreInformationFragment)
+        routeToScreen.postValue(DebugLogUploadFragmentDirections.actionDebugLogUploadFragmentToDebugLogLegalFragment())
     }
 
     @AssistedFactory
