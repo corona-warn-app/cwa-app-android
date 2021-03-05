@@ -501,7 +501,7 @@
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, da Google bzw. Android diese für die Verwendung von Bluetooth voraussetzt."</string>
+    <string name="onboarding_tracing_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, um die Verwendung von Bluetooth Low Energy in Android 10 und früheren Versionen zu ermöglichen."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: Onboarding (test) page title -->
