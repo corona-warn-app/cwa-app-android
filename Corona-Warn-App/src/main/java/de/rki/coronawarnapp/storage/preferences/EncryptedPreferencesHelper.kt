@@ -9,7 +9,7 @@ import java.io.File
 import javax.inject.Inject
 
 class EncryptedPreferencesHelper @Inject constructor(
-    @EncryptedPreferences private val sharedPreferences: SharedPreferences,
+    @EncryptedPreferences private val sharedPreferences: SharedPreferences?,
     applicationInfo: ApplicationInfo
 ) {
 
@@ -19,7 +19,7 @@ class EncryptedPreferencesHelper @Inject constructor(
     fun isAvailable(): Boolean = file.exists()
 
     fun clean() {
-        sharedPreferences.edit(true) {
+        sharedPreferences?.edit(true) {
             clear()
         }
         file.delete()

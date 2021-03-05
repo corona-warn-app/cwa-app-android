@@ -411,7 +411,7 @@ object LocalData {
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
-    private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
+    private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance!!
 
     /****************************************************
      * INTEROPERABILITY

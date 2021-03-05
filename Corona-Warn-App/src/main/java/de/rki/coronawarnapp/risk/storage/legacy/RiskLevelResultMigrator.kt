@@ -25,7 +25,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class RiskLevelResultMigrator @Inject constructor(
-    @EncryptedPreferences encryptedPreferences: Lazy<SharedPreferences>,
+    @EncryptedPreferences encryptedPreferences: Lazy<SharedPreferences?>,
     private val timeStamper: TimeStamper,
     @AppContext
     private val context: Context
@@ -34,20 +34,20 @@ class RiskLevelResultMigrator @Inject constructor(
     private val prefs by lazy { encryptedPreferences.get() }
 
     private fun lastTimeRiskLevelCalculation(): Instant? {
-        prefs.getLong("preference_timestamp_risk_level_calculation", -1L).also {
+        (prefs?.getLong("preference_timestamp_risk_level_calculation", -1L) ?: -1L).also {
             Timber.tag(TAG).d("preference_timestamp_risk_level_calculation=$it")
             return if (it < 0) null else Instant.ofEpochMilli(it)
         }
     }
 
     private fun lastCalculatedRiskLevel(): RiskState? {
-        val rawRiskLevel = prefs.getInt("preference_risk_level_score", -1)
+        val rawRiskLevel = prefs?.getInt("preference_risk_level_score", -1) ?: -1
         Timber.tag(TAG).d("preference_risk_level_score=$rawRiskLevel")
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
     private fun lastSuccessfullyCalculatedRiskLevel(): RiskState? {
-        val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", -1)
+        val rawRiskLevel = prefs?.getInt("preference_risk_level_score_successful", -1) ?: -1
         Timber.tag(TAG).d("preference_risk_level_score_successful=$rawRiskLevel")
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }

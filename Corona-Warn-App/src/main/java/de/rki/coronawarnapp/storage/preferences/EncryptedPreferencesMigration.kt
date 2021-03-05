@@ -1,13 +1,15 @@
 package de.rki.coronawarnapp.storage.preferences
 
 import android.content.SharedPreferences
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.EncryptedPreferences
 import timber.log.Timber
 import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
     private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
-    @EncryptedPreferences private val encryptedSharedPreferences: SharedPreferences
+    private val cwaSettings: CWASettings,
+    @EncryptedPreferences private val encryptedSharedPreferences: SharedPreferences?
 ) {
 
     fun doMigration() {
@@ -20,10 +22,13 @@ class EncryptedPreferencesMigration @Inject constructor(
 
     private fun copyData() {
         Timber.d("EncryptedPreferencesMigration START")
-        if (encryptedPreferencesHelper.isAvailable()) {
+        if (encryptedSharedPreferences != null && encryptedPreferencesHelper.isAvailable()) {
             Timber.d("EncryptedPreferences are available")
             SettingsLocalData(encryptedSharedPreferences).apply {
-                // TODO: setting migration
+                cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
+                cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
+                cwaSettings.numberOfRemainingSharePositiveTestResultReminders =
+                    numberOfRemainingSharePositiveTestResultReminders()
             }
 
             OnboardingLocalData(encryptedSharedPreferences).apply {
@@ -47,7 +52,6 @@ class EncryptedPreferencesMigration @Inject constructor(
     // TODO: delete or update LocalData, SecurityConstants, SecurityHelper after all methods are migrated
     private class SettingsLocalData(private val sharedPreferences: SharedPreferences) {
 
-        // TODO: remove methods from LocalData object
         fun isNotificationsRiskEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
 
         fun isNotificationsTestEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)

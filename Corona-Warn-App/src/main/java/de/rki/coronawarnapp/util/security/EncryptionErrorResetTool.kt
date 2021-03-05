@@ -22,6 +22,9 @@ import javax.inject.Singleton
  *
  * https://github.com/corona-warn-app/cwa-app-android/issues/642
  */
+
+// TODO: remove it!
+
 @Singleton
 class EncryptionErrorResetTool @Inject constructor(
     @AppContext private val context: Context,
