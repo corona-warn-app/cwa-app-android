@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.eventregistration.events
 
-import org.joda.time.Duration
 import org.joda.time.Instant
 
 /**
@@ -11,8 +10,9 @@ interface HostedEvent {
 
     val guid: String
     val description: String
+    val location: String
     val startTime: Instant?
     val endTime: Instant?
-    val defaultCheckInLength: Duration?
+    val defaultCheckInLengthInMinutes: Int?
     val signature: String
 }

@@ -141,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/createEventTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.CreateEventTestFragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragment"
         android:label="CreateEventTestFragment"
         tools:layout="@layout/fragment_test_createevent" />
     <fragment
