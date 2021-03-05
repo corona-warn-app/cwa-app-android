@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -29,7 +30,7 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
             }
 
             debugLogSharePrivacyInformation.setOnClickListener {
-                // TODO Add navigation to new screen
+                vm.onPrivacyButtonPress()
             }
 
             toolbar.setNavigationOnClickListener { popBackStack() }
@@ -39,7 +40,9 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
             when (it) {
 
                 DebugLogUploadNavigationEvents.NavigateToMoreInformationFragment -> {
-                    // TODO Add navigation to new screen
+                    doNavigate(
+                        DebugLogUploadFragmentDirections.actionDebugLogUploadFragmentToDebugLogLegalFragment()
+                    )
                 }
             }
         }
