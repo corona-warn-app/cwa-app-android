@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
 import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
-import de.rki.coronawarnapp.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import org.joda.time.Instant

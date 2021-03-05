@@ -13,10 +13,10 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.sharing.FileSharing
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
@@ -36,7 +36,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
     /**
      * Creates a QR Code [Bitmap] ,result is delivered by [qrCodeBitmap]
      */
-    fun createQrCode(input: String) = launch(dispatcher.IO) {
+    fun createQrCode(input: String) = launch(context = dispatcher.IO) {
         qrCodeBitmap.postValue(encodeAsBitmap(input))
     }
 
@@ -46,7 +46,7 @@ class QrCodeCreationTestViewModel @AssistedInject constructor(
      */
     fun createPDF(
         view: View
-    ) = launch(dispatcher.IO) {
+    ) = launch(context = dispatcher.IO) {
         try {
             val file = pdfFile()
             val pageInfo = PdfDocument.PageInfo.Builder(
