@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestEventregistrationBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -25,6 +26,15 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.scanCheckInQrCode.setOnClickListener {
             findNavController().navigate(R.id.scanCheckInQrCodeFragment)
+        }
+        binding.runMatcher.setOnClickListener {
+            vm.runMatcher()
+        }
+        vm.checkInOverlaps.observe2(this) {
+            val text = it.fold(StringBuilder()) { stringBuilder, eventOverlap ->
+                stringBuilder.append(eventOverlap.toString()).append("\n")
+            }
+            binding.resultText.text = text
         }
     }
 

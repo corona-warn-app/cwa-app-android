@@ -4,8 +4,9 @@ import de.rki.coronawarnapp.eventregistration.checkins.CheckInsRepository
 import de.rki.coronawarnapp.eventregistration.checkins.download.DownloadedCheckInsRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class CheckInMatcher(
+class CheckInMatcher @Inject constructor(
     private val checkInsRepository: CheckInsRepository,
     private val downloadedCheckInsRepo: DownloadedCheckInsRepo
 ) {

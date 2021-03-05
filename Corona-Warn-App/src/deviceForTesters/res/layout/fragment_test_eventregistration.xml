@@ -42,18 +42,21 @@
             android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/downloadReportedCheckIns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="download check-ins" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/runMatcher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Start matching" />
+                android:text="Run matcher" />
 
             <TextView
+                android:id="@+id/resultText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
