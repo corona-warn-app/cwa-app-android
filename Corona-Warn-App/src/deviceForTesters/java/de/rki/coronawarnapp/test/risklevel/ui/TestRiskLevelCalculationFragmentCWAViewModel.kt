@@ -9,7 +9,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -109,30 +108,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     val backendParameters = appConfigProvider
         .currentConfig
-        .map { it.toReadableString() }
+        .map { it.rawConfig.riskCalculationParameters.toString() }
         .asLiveData()
-
-    private fun ConfigData.toReadableString(): String = StringBuilder()
-        .appendLine("Transmission RiskLevel Multiplier: $transmissionRiskLevelMultiplier")
-        .appendLine()
-        .appendLine("Minutes At Attenuation Filters:")
-        .appendLine(minutesAtAttenuationFilters)
-        .appendLine()
-        .appendLine("Minutes At Attenuation Weights:")
-        .appendLine(minutesAtAttenuationWeights)
-        .appendLine()
-        .appendLine("Transmission RiskLevel Encoding:")
-        .appendLine(transmissionRiskLevelEncoding)
-        .appendLine()
-        .appendLine("Transmission RiskLevel Filters:")
-        .appendLine(transmissionRiskLevelFilters)
-        .appendLine()
-        .appendLine("Normalized Time Per Exposure Window To RiskLevel Mapping:")
-        .appendLine(normalizedTimePerExposureWindowToRiskLevelMapping)
-        .appendLine()
-        .appendLine("Normalized Time Per Day To RiskLevel Mapping List:")
-        .appendLine(normalizedTimePerDayToRiskLevelMappingList)
-        .toString()
 
     val additionalRiskCalcInfo = combine(
         riskLevelStorage.latestAndLastSuccessful,
