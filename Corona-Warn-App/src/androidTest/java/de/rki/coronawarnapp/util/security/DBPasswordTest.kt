@@ -134,5 +134,5 @@ class DBPasswordTest : BaseTestInstrumentation() {
         db.tracingIntervalDao().getAllIntervals().first()
 
     private fun clearSharedPreferences() =
-        SecurityHelper.globalEncryptedSharedPreferencesInstance.edit().clear().commit()
+        SecurityHelper.globalEncryptedSharedPreferencesInstance?.edit()?.clear()?.commit()
 }
