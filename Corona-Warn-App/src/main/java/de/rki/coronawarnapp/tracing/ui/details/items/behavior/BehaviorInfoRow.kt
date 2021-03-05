@@ -14,6 +14,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.ViewCompat
 import androidx.core.widget.ImageViewCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.setUrl
 
 class BehaviorInfoRow @JvmOverloads constructor(
     context: Context,
@@ -44,6 +45,14 @@ class BehaviorInfoRow @JvmOverloads constructor(
                 body.text = if (it != 0) resources.getString(it)
                 else getString(R.styleable.TracingDetailsBehaviorRow_android_text)
             }
+        }
+
+        if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
+            body.setUrl(
+                R.string.risk_details_increased_risk_faq_link_text,
+                R.string.risk_details_increased_risk_faq_link_label,
+                R.string.risk_details_increased_risk_faq_url
+            )
         }
     }
 

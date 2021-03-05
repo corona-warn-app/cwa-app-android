@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
+import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -27,9 +29,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SubmissionTestResultAvailableViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTestResultAvailableBinding by viewBindingLazy()
+    private lateinit var keyRetrievalProgress: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        keyRetrievalProgress = SubmissionBlockingDialog(requireContext())
 
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() = vm.goBack()
@@ -47,6 +52,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
                 )
             }
             binding.submissionTestResultAvailableConsentStatus.consent = it
+        }
+
+        vm.showKeysRetrievalProgress.observe2(this) { show ->
+            Timber.i("SubmissionTestResult:showKeyRetrievalProgress:$show")
+            keyRetrievalProgress.setState(show)
+            binding.submissionTestResultAvailableProceedButton.isEnabled = !show
         }
 
         binding.apply {
@@ -80,12 +91,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     }
 
     private fun showCloseDialog() {
-        var dialogTitle = R.string.submission_test_result_available_close_dialog_title_consent_not_given
-        var dialogBody = R.string.submission_test_result_available_close_dialog_body_consent_not_given
+        var dialogTitle = R.string.submission_test_result_available_close_dialog_title_consent_given
+        var dialogBody = R.string.submission_test_result_available_close_dialog_body_consent_given
 
-        if (binding.submissionTestResultAvailableConsentStatus.consent) {
-            dialogTitle = R.string.submission_test_result_available_close_dialog_title_consent_given
-            dialogBody = R.string.submission_test_result_available_close_dialog_body_consent_given
+        if (!binding.submissionTestResultAvailableConsentStatus.consent) {
+            dialogTitle = R.string.submission_test_result_available_close_dialog_title_consent_not_given
+            dialogBody = R.string.submission_test_result_available_close_dialog_body_consent_not_given
         }
 
         val closeDialogInstance = DialogHelper.DialogInstance(

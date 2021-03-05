@@ -96,7 +96,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                 R.id.menu_contact_diary_information -> {
                     doNavigate(
                         ContactDiaryOverviewFragmentDirections
-                            .actionContactDiaryOverviewFragmentToContactDiaryOnboardingFragment()
+                            .actionContactDiaryOverviewFragmentToContactDiaryOnboardingFragment(showBottomNav = false)
                     )
                     true
                 }

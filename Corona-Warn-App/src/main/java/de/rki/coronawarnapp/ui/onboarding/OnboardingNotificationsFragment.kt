@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -34,8 +35,14 @@ class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_no
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
             onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
         }
-        vm.completedOnboardingEvent.observe2(this) {
-            (requireActivity() as OnboardingActivity).completeOnboarding()
+        vm.routeToScreen.observe2(this) {
+            when (it) {
+                is OnboardingNavigationEvents.NavigateToOnboardingAnalytics ->
+                    doNavigate(
+                        OnboardingNotificationsFragmentDirections
+                            .actionOnboardingNotificationsFragmentToOnboardingAnalyticsFragment()
+                    )
+            }
         }
     }
 

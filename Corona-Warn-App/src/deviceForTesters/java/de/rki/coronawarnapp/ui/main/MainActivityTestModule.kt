@@ -8,12 +8,16 @@ import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
+import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
+import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
+import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
+import de.rki.coronawarnapp.test.playground.ui.PlaygroundModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
@@ -50,4 +54,10 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [ContactDiaryTestFragmentModule::class])
     abstract fun contactDiaryTest(): ContactDiaryTestFragment
+
+    @ContributesAndroidInjector(modules = [PlaygroundModule::class])
+    abstract fun playground(): PlaygroundFragment
+
+    @ContributesAndroidInjector(modules = [DataDonationTestFragmentModule::class])
+    abstract fun dataDonation(): DataDonationTestFragment
 }

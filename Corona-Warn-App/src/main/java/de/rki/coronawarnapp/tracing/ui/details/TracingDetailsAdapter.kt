@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingProgressBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -24,7 +25,9 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
+class TracingDetailsAdapter(
+    private val onItemClickListener: (item: DetailsItem) -> Unit
+) : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DetailsItem> {
 
     override val asyncDiffer: AsyncDiffer<DetailsItem> = AsyncDiffer(this)
@@ -44,7 +47,13 @@ class TracingDetailsAdapter : ModularAdapter<TracingDetailsAdapter.DetailsItemVH
             TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
             TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
             TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
-            TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) }
+            TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) },
+            TypedVHCreatorMod({ data[it] is UserSurveyBox.Item }) {
+                UserSurveyBox(
+                    parent = it,
+                    onItemClickListener = onItemClickListener
+                )
+            }
         ))
     }
 

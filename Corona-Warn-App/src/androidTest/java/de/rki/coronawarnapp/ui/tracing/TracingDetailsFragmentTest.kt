@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -24,13 +25,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
-import testhelpers.SCREENSHOT_DELAY_TIME
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -42,6 +42,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var tracingDetailsItemProvider: TracingDetailsItemProvider
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
     @MockK lateinit var tracingRepository: TracingRepository
+    @MockK lateinit var surveys: Surveys
 
     private lateinit var viewModel: TracingDetailsFragmentViewModel
 
@@ -64,7 +65,8 @@ class TracingDetailsFragmentTest : BaseUITest() {
                 riskLevelStorage = riskLevelStorage,
                 tracingDetailsItemProvider = tracingDetailsItemProvider,
                 tracingStateProviderFactory = tracingStateProviderFactory,
-                tracingRepository = tracingRepository
+                tracingRepository = tracingRepository,
+                surveys = surveys
             )
         )
 
@@ -118,11 +120,9 @@ class TracingDetailsFragmentTest : BaseUITest() {
         every { viewModel.detailsItems } returns MutableLiveData(pair.second)
     }
 
-    private fun captureScreenshot(nameSuffix: String) {
-        val name = TracingDetailsFragment::class.simpleName + "_" + nameSuffix
+    private fun captureScreenshot(suffix: String) {
         launchFragmentInContainer2<TracingDetailsFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(name)
+        takeScreenshot<TracingDetailsFragment>(suffix)
     }
 }
 

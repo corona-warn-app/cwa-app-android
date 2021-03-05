@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.appconfig.internal
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.ConfigData.DeviceTimeState.CORRECT
 import de.rki.coronawarnapp.appconfig.sources.fallback.DefaultAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.remote.RemoteAppConfigSource
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,6 +50,20 @@ class AppConfigSource @Inject constructor(
                 if (remoteConfig.isDeviceTimeCorrect && cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
                     Timber.tag(TAG).i("Resetting previous incorrect device time acknowledgement.")
                     cwaSettings.wasDeviceTimeIncorrectAcknowledged = false
+                }
+                if (remoteConfig.deviceTimeState == CORRECT && cwaSettings.firstReliableDeviceTime == Instant.EPOCH) {
+                    Timber.tag(TAG).i("Setting firstReliableDeviceTime to NOW (UTC). ")
+                    cwaSettings.firstReliableDeviceTime = timeStamper.nowUTC
+                }
+                if (remoteConfig.deviceTimeState != cwaSettings.lastDeviceTimeStateChangeState) {
+                    Timber.tag(TAG).i(
+                        "New device time state, saving timestamp (old=%s(%s), new=%s#)",
+                        cwaSettings.lastDeviceTimeStateChangeState,
+                        cwaSettings.lastDeviceTimeStateChangeAt,
+                        remoteConfig.deviceTimeState
+                    )
+                    cwaSettings.lastDeviceTimeStateChangeState = remoteConfig.deviceTimeState
+                    cwaSettings.lastDeviceTimeStateChangeAt = timeStamper.nowUTC
                 }
                 remoteConfig
             }

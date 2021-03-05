@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.details
 import android.content.Context
 import android.content.res.Resources
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.ProtoRiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBo
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -41,6 +43,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
+    @MockK lateinit var surveys: Surveys
 
     @BeforeEach
     fun setup() {
@@ -56,17 +59,20 @@ class TracingDetailsItemProviderTest : BaseTest() {
     private fun createInstance() = TracingDetailsItemProvider(
         tracingStatus = tracingStatus,
         tracingRepository = tracingRepository,
-        riskLevelStorage = riskLevelStorage
+        riskLevelStorage = riskLevelStorage,
+        surveys = surveys
     )
 
     private fun prepare(
         status: GeneralTracingStatus.Status,
         riskLevel: ProtoRiskLevel,
-        matchedKeyCount: Int
+        matchedKeyCount: Int,
+        availableSurveys: List<Surveys.Type> = emptyList()
     ) {
         every { tracingStatus.generalStatus } returns flowOf(status)
         every { tracingRepository.activeTracingDaysInRetentionPeriod } returns flowOf(0)
         every { aggregatedRiskResult.totalRiskLevel } returns riskLevel
+        every { surveys.availableSurveys } returns flowOf(availableSurveys)
 
         if (riskLevel == ProtoRiskLevel.LOW) {
             every { aggregatedRiskResult.isLowRisk() } returns true
@@ -331,5 +337,65 @@ class TracingDetailsItemProviderTest : BaseTest() {
         testCollector.latestValue!!.any { it is DetailsFailedCalculationBox.Item } shouldBe false
         testCollector.latestValue!!.any { it is DetailsLowRiskBox.Item } shouldBe false
         testCollector.latestValue!!.any { it is DetailsIncreasedRiskBox.Item } shouldBe true
+    }
+
+    @Test
+    fun `low risk no high risk survey box`() = runBlockingTest {
+
+        prepare(
+            status = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskLevel = ProtoRiskLevel.LOW,
+            matchedKeyCount = 0,
+            availableSurveys = listOf(Surveys.Type.HIGH_RISK_ENCOUNTER)
+        )
+
+        val instance = createInstance()
+        val testCollector = instance.state.test(startOnScope = this)
+
+        testCollector.latestValue!!.run {
+            any { it is DetailsLowRiskBox.Item } shouldBe true
+            any { it is DetailsIncreasedRiskBox.Item } shouldBe false
+            any { it is UserSurveyBox.Item } shouldBe false
+        }
+    }
+
+    @Test
+    fun `high risk but feature disabled so no high risk survey box`() = runBlockingTest {
+
+        prepare(
+            status = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskLevel = ProtoRiskLevel.HIGH,
+            matchedKeyCount = 0,
+            availableSurveys = emptyList()
+        )
+
+        val instance = createInstance()
+        val testCollector = instance.state.test(startOnScope = this)
+
+        testCollector.latestValue!!.run {
+            any { it is DetailsLowRiskBox.Item } shouldBe false
+            any { it is DetailsIncreasedRiskBox.Item } shouldBe true
+            any { it is UserSurveyBox.Item } shouldBe false
+        }
+    }
+
+    @Test
+    fun `high risk and feature enabled so high risk survey box`() = runBlockingTest {
+
+        prepare(
+            status = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskLevel = ProtoRiskLevel.HIGH,
+            matchedKeyCount = 0,
+            availableSurveys = listOf(Surveys.Type.HIGH_RISK_ENCOUNTER)
+        )
+
+        val instance = createInstance()
+        val testCollector = instance.state.test(startOnScope = this)
+
+        testCollector.latestValue!!.run {
+            any { it is DetailsLowRiskBox.Item } shouldBe false
+            any { it is DetailsIncreasedRiskBox.Item } shouldBe true
+            any { it is UserSurveyBox.Item } shouldBe true
+        }
     }
 }

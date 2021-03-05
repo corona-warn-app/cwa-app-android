@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -31,7 +32,8 @@ class SubmissionRepository @Inject constructor(
     private val submissionService: SubmissionService,
     @AppScope private val scope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    private val tekHistoryStorage: TEKHistoryStorage
+    private val tekHistoryStorage: TEKHistoryStorage,
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
 ) {
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
@@ -71,10 +73,24 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    // TODO this should be more UI agnostic
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
-        var refresh = refreshTestResult
+        if (LocalData.submissionWasSuccessful()) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.SUBMITTED_FINAL)
+            return
+        }
 
+        val registrationToken = LocalData.registrationToken()
+        if (registrationToken == null) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.UNPAIRED)
+            return
+        }
+
+        if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestSuccessful(DeviceUIState.PAIRED_POSITIVE)
+            return
+        }
+
+        var refresh = refreshTestResult
         deviceUIStateFlowInternal.value.withSuccess {
             if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
                 refresh = false
@@ -82,41 +98,24 @@ class SubmissionRepository @Inject constructor(
             }
         }
 
-        deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
+        if (refresh) {
+            deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestStarted
 
-        scope.launch {
-            try {
-                deviceUIStateFlowInternal.value = refreshUIState(refresh)
-            } catch (err: CwaWebException) {
-                deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
-            } catch (err: Exception) {
-                deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
-                err.report(ExceptionCategory.INTERNAL)
-            }
-        }
-    }
-
-    // TODO this should be more UI agnostic
-    private suspend fun refreshUIState(refreshTestResult: Boolean): NetworkRequestWrapper<DeviceUIState, Throwable> {
-        var uiState = DeviceUIState.UNPAIRED
-
-        if (LocalData.submissionWasSuccessful()) {
-            uiState = DeviceUIState.SUBMITTED_FINAL
-        } else {
-            val registrationToken = LocalData.registrationToken()
-            if (registrationToken != null) {
-                uiState = when {
-                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
-                        DeviceUIState.PAIRED_POSITIVE
-                    }
-                    refreshTestResult -> fetchTestResult(registrationToken)
-                    else -> {
-                        deriveUiState(testResultFlow.value)
-                    }
+            scope.launch {
+                try {
+                    deviceUIStateFlowInternal.value =
+                        NetworkRequestWrapper.RequestSuccessful(fetchTestResult(registrationToken))
+                } catch (err: CwaWebException) {
+                    deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
+                } catch (err: Exception) {
+                    deviceUIStateFlowInternal.value = NetworkRequestWrapper.RequestFailed(err)
+                    err.report(ExceptionCategory.INTERNAL)
                 }
             }
+        } else {
+            deviceUIStateFlowInternal.value =
+                NetworkRequestWrapper.RequestSuccessful(deriveUiState(testResultFlow.value))
         }
-        return NetworkRequestWrapper.RequestSuccessful(uiState)
     }
 
     suspend fun asyncRegisterDeviceViaTAN(tan: String) {
@@ -148,6 +147,7 @@ class SubmissionRepository @Inject constructor(
 
         if (testResult == TestResult.POSITIVE) {
             LocalData.isAllowedToSubmitDiagnosisKeys(true)
+            deadmanNotificationScheduler.cancelScheduledWork()
         }
 
         val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
@@ -163,9 +163,6 @@ class SubmissionRepository @Inject constructor(
             testResultReceivedDateFlowInternal.value = Date(initialTestResultReceivedTimestamp)
         }
     }
-
-    suspend fun asyncRequestTestResult(registrationToken: String): TestResult =
-        submissionService.asyncRequestTestResult(registrationToken)
 
     private suspend fun fetchTestResult(registrationToken: String): DeviceUIState = try {
         val testResult = submissionService.asyncRequestTestResult(registrationToken)
@@ -185,6 +182,7 @@ class SubmissionRepository @Inject constructor(
         LocalData.initialTestResultReceivedTimestamp(0L)
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.isTestResultAvailableNotificationSent(false)
+        LocalData.numberOfSuccessfulSubmissions(0)
     }
 
     private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {

@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
+import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
@@ -13,6 +15,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.Headers
@@ -25,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
 import testhelpers.BaseIOTest
+import testhelpers.preferences.mockFlowPreference
 import java.io.File
 
 class AppConfigServerTest : BaseIOTest() {
@@ -32,6 +36,7 @@ class AppConfigServerTest : BaseIOTest() {
     @MockK lateinit var api: AppConfigApiV2
     @MockK lateinit var verificationKeys: VerificationKeys
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var testSettings: TestSettings
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
     @BeforeEach
@@ -42,6 +47,10 @@ class AppConfigServerTest : BaseIOTest() {
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
         every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
+
+        mockkObject(CWADebug)
+        every { CWADebug.isDeviceForTestersBuild } returns false
+        every { testSettings.fakeCorrectDeviceTime } returns mockFlowPreference(false)
     }
 
     @AfterEach
@@ -53,7 +62,8 @@ class AppConfigServerTest : BaseIOTest() {
     private fun createInstance() = AppConfigServer(
         api = { api },
         verificationKeys = verificationKeys,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        testSettings = testSettings
     )
 
     @Test
@@ -159,6 +169,50 @@ class AppConfigServerTest : BaseIOTest() {
         val downloadServer = createInstance()
 
         downloadServer.downloadAppConfig() shouldBe InternalConfigData(
+            rawData = APPCONFIG_RAW,
+            serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
+            localOffset = Duration.standardHours(-1),
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(300)
+        )
+    }
+
+    @Test
+    fun `test setting can override device time offset on tester builds`() = runBlockingTest {
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody(),
+            Headers.headersOf(
+                "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
+                "ETag", "I am an ETag :)!"
+            )
+        )
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+
+        every { CWADebug.isDeviceForTestersBuild } returns true
+        every { testSettings.fakeCorrectDeviceTime } returns mockFlowPreference(true)
+        createInstance().downloadAppConfig() shouldBe InternalConfigData(
+            rawData = APPCONFIG_RAW,
+            serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
+            localOffset = Duration.ZERO,
+            etag = "I am an ETag :)!",
+            cacheValidity = Duration.standardSeconds(300)
+        )
+    }
+
+    @Test
+    fun `test setting can not override device time offset on prod builds`() = runBlockingTest {
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody(),
+            Headers.headersOf(
+                "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
+                "ETag", "I am an ETag :)!"
+            )
+        )
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+
+        every { CWADebug.isDeviceForTestersBuild } returns false
+        every { testSettings.fakeCorrectDeviceTime } returns mockFlowPreference(true)
+        createInstance().downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.standardHours(-1),

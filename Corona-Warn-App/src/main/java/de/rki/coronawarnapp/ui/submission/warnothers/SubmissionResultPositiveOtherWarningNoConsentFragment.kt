@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
+import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -38,6 +39,8 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val keysRetrievalProgress = SubmissionBlockingDialog(requireContext())
+
         binding.submissionPositiveOtherWarningNoConsentButtonNext.setOnClickListener {
             viewModel.onConsentButtonClicked()
         }
@@ -47,6 +50,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
 
         viewModel.routeToScreen.observe2(this) {
             doNavigate(it)
+        }
+
+        viewModel.showKeysRetrievalProgress.observe2(this) { show ->
+            keysRetrievalProgress.setState(show)
+            binding.submissionPositiveOtherWarningNoConsentButtonNext.isEnabled = !show
         }
 
         viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
@@ -85,6 +93,6 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        viewModel.handleActivityRersult(requestCode, resultCode, data)
+        viewModel.handleActivityResult(requestCode, resultCode, data)
     }
 }

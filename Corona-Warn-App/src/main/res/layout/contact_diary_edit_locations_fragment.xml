@@ -6,14 +6,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contact_diary_edit_locations_title">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/contact_diary_edit_locations_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,6 +30,7 @@
             android:id="@+id/contact_diary_location_list_no_items_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:contentDescription="@string/contact_diary_edit_locations_image_content_description"
             app:layout_constraintBottom_toTopOf="@id/contact_diary_location_list_no_items_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +43,7 @@
             android:id="@+id/contact_diary_location_list_no_items_title"
             style="@style/subtitleMedium"
             android:layout_width="0dp"
+            android:focusable="true"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_huge"
             android:layout_marginTop="@dimen/spacing_normal"

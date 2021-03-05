@@ -64,12 +64,11 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:autoLink="all"
+            android:autoLink="web|email"
             android:focusable="true"
             android:text="@{body}"
             android:textColorLink="@color/colorTextTint"
-            android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
-            tools:text="@tools:sample/lorem/random" />
+            android:visibility="@{FormatterHelper.formatVisibilityText(body)}" />
 
     </LinearLayout>
 

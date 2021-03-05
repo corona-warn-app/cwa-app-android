@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -51,9 +52,9 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
-import de.rki.coronawarnapp.ui.main.home.items.DiaryCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.items.ReenableRiskCard
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -79,7 +80,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider,
-    statisticsProvider: StatisticsProvider
+    statisticsProvider: StatisticsProvider,
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -173,7 +175,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 onRetryClick = { refreshDiagnosisKeys() }
             )
         }
-    }
+    }.distinctUntilChanged()
 
     private val submissionCardItems = submissionStateProvider.state.map { state ->
         when (state) {
@@ -215,17 +217,17 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
             is SubmissionDone -> TestSubmissionDoneCard.Item(state)
         }
-    }
+    }.distinctUntilChanged()
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         submissionCardItems,
-        submissionStateProvider.state,
-        statisticsProvider.current
+        submissionStateProvider.state.distinctUntilChanged(),
+        statisticsProvider.current.distinctUntilChanged()
     ) { tracingItem, submissionItem, submissionState, statsData ->
         mutableListOf<HomeItem>().apply {
             when (submissionState) {
-                TestPositive, SubmissionDone -> {
+                TestPositive, is SubmissionDone -> {
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
@@ -233,13 +235,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
             add(submissionItem)
 
+            if (submissionState is SubmissionDone) {
+                add(
+                    ReenableRiskCard.Item(
+                        state = submissionState,
+                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) })
+                )
+            }
+
             if (statsData.isDataAvailable) {
                 add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
                     popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                 }))
             }
-
-            add(DiaryCard.Item(onClickAction = { popupEvents.postValue(HomeFragmentEvents.GoToContactDiary) }))
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
         }
@@ -259,6 +267,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
             .also { shareTestResultNotificationService.scheduleSharePositiveTestResultReminder() }
+    }
+
+    fun reenableRiskCalculation() {
+        deregisterWarningAccepted()
+        deadmanNotificationScheduler.schedulePeriodic()
+        refreshDiagnosisKeys()
     }
 
     // TODO only lazy to keep tests going which would break because of LocalData access

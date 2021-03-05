@@ -83,6 +83,10 @@
             app:destination="@id/contactDiaryOverviewFragment"
             app:popUpTo="@id/contact_diary_nav_graph"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="showBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/contactDiaryInformationPrivacyFragment"

@@ -1,0 +1,14 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+
+message PPDDPrivacyPreservingAccessControlParametersIOS {
+}
+
+message PPDDPrivacyPreservingAccessControlParametersAndroid {
+  bool requireBasicIntegrity = 1;
+  bool requireCTSProfileMatch = 2;
+  bool requireEvaluationTypeBasic = 3;
+  bool requireEvaluationTypeHardwareBacked = 4;
+}

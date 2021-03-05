@@ -69,6 +69,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
                 environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
                 environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
+                environmentUrlDatadonation.text = "DataDonation:\n${state.urlDataDonation}"
             }
         }
         vm.environmentChangeEvent.observe2(this) {

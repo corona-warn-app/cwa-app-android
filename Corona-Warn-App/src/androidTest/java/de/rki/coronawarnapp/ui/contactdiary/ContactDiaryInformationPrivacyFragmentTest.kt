@@ -5,12 +5,11 @@ import de.rki.coronawarnapp.ui.information.InformationPrivacyFragment
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.SCREENSHOT_DELAY_TIME
+import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -31,7 +30,6 @@ class ContactDiaryInformationPrivacyFragmentTest {
     @Test
     fun capture_screenshot() {
         launchFragmentInContainer2<InformationPrivacyFragment>()
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(InformationPrivacyFragment::class.simpleName)
+        takeScreenshot<InformationPrivacyFragment>()
     }
 }

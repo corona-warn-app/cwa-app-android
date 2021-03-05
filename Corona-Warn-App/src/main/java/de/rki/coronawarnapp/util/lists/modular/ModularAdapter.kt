@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util.lists.modular
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 
 abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
@@ -41,7 +42,20 @@ abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
     override fun onBindBaseVH(holder: VH, position: Int, payloads: MutableList<Any>) {
         modules.filterIsInstance<Module.Binder<VH>>().forEach {
             it.onBindModularVH(this, holder, position, payloads)
+            it.onPostBind(this, holder, position)
         }
+    }
+
+    @CallSuper
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        modules.filterIsInstance<Module.RecyclerViewLifecycle>().forEach { it.onAttachedToRecyclerView(recyclerView) }
+        super.onAttachedToRecyclerView(recyclerView)
+    }
+
+    @CallSuper
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        modules.filterIsInstance<Module.RecyclerViewLifecycle>().forEach { it.onDetachedFromRecyclerView(recyclerView) }
+        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     abstract class VH(@LayoutRes layoutRes: Int, parent: ViewGroup) : BaseAdapter.VH(layoutRes, parent)
@@ -56,7 +70,8 @@ abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
         }
 
         interface Binder<T : VH> : Module {
-            fun onBindModularVH(adapter: ModularAdapter<T>, vh: T, pos: Int, payloads: MutableList<Any>)
+            fun onBindModularVH(adapter: ModularAdapter<T>, vh: T, pos: Int, payloads: MutableList<Any>) {}
+            fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {}
         }
 
         interface Typing : Module {
@@ -65,6 +80,11 @@ abstract class ModularAdapter<VH : ModularAdapter.VH> : BaseAdapter<VH>() {
 
         interface ItemId : Module {
             fun getItemId(adapter: ModularAdapter<*>, position: Int): Long?
+        }
+
+        interface RecyclerViewLifecycle : Module {
+            fun onDetachedFromRecyclerView(recyclerView: RecyclerView)
+            fun onAttachedToRecyclerView(recyclerView: RecyclerView)
         }
     }
 }

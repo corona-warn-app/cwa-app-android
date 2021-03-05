@@ -23,8 +23,9 @@ class SubmissionStateProvider @Inject constructor(
 
     val state: Flow<SubmissionState> = combine(
         submissionRepository.deviceUIStateFlow,
-        submissionRepository.hasViewedTestResult
-    ) { uiState, hasTestBeenSeen ->
+        submissionRepository.hasViewedTestResult,
+        submissionRepository.testResultReceivedDateFlow
+    ) { uiState, hasTestBeenSeen, testRegistrationDate ->
 
         val eval = Evaluation(
             deviceUiState = uiState,
@@ -40,7 +41,7 @@ class SubmissionStateProvider @Inject constructor(
             eval.isInvalid() -> TestInvalid
             eval.isError() -> TestError
             eval.isResultNegative() -> TestNegative
-            eval.isSubmissionDone() -> SubmissionDone
+            eval.isSubmissionDone() -> SubmissionDone(testRegisteredOn = testRegistrationDate)
             eval.isPending() -> TestPending
             else -> if (CWADebug.isDeviceForTestersBuild) throw IllegalStateException() else TestPending
         }

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.linkifyPhoneNumbers
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -31,6 +32,8 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        binding.includeSubmissionContact.submissionContactBodyOther.linkifyPhoneNumbers()
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {

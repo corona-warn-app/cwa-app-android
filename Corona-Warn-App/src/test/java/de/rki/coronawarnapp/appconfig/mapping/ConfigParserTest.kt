@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import com.google.protobuf.InvalidProtocolBufferException
+import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
+import de.rki.coronawarnapp.appconfig.SurveyConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -26,6 +28,8 @@ class ConfigParserTest : BaseTest() {
     @MockK lateinit var keyDownloadConfigMapper: KeyDownloadConfig.Mapper
     @MockK lateinit var exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper
     @MockK lateinit var exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper
+    @MockK lateinit var surveyConfigMapper: SurveyConfig.Mapper
+    @MockK lateinit var analyticsConfigMapper: AnalyticsConfig.Mapper
 
     private val appConfig171 = File("src/test/resources/appconfig_1_7_1.bin")
     private val appConfig180 = File("src/test/resources/appconfig_1_8_0.bin")
@@ -38,6 +42,8 @@ class ConfigParserTest : BaseTest() {
         every { keyDownloadConfigMapper.map(any()) } returns mockk()
         every { exposureDetectionConfigMapper.map(any()) } returns mockk()
         every { exposureWindowRiskCalculationConfigMapper.map(any()) } returns mockk()
+        every { surveyConfigMapper.map(any()) } returns mockk()
+        every { analyticsConfigMapper.map(any()) } returns mockk()
 
         appConfig171.exists() shouldBe true
         appConfig180.exists() shouldBe true
@@ -52,7 +58,9 @@ class ConfigParserTest : BaseTest() {
         cwaConfigMapper = cwaConfigMapper,
         keyDownloadConfigMapper = keyDownloadConfigMapper,
         exposureDetectionConfigMapper = exposureDetectionConfigMapper,
-        exposureWindowRiskCalculationConfigMapper = exposureWindowRiskCalculationConfigMapper
+        exposureWindowRiskCalculationConfigMapper = exposureWindowRiskCalculationConfigMapper,
+        surveyConfigMapper = surveyConfigMapper,
+        analyticsConfigMapper = analyticsConfigMapper
     )
 
     @Test
@@ -64,6 +72,7 @@ class ConfigParserTest : BaseTest() {
                 keyDownloadConfigMapper.map(any())
                 exposureDetectionConfigMapper.map(any())
                 exposureWindowRiskCalculationConfigMapper.map(any())
+                surveyConfigMapper.map(any())
             }
         }
     }

@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
+import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
@@ -25,7 +27,8 @@ import javax.inject.Inject
 class AppConfigServer @Inject constructor(
     private val api: Lazy<AppConfigApiV2>,
     private val verificationKeys: VerificationKeys,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val testSettings: TestSettings
 ) {
 
     internal suspend fun downloadAppConfig(): InternalConfigData {
@@ -62,7 +65,12 @@ class AppConfigServer @Inject constructor(
             ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
 
         val serverTime = response.getServerDate() ?: localTime
-        val offset = Duration(serverTime, localTime)
+        val offset = if (CWADebug.isDeviceForTestersBuild && testSettings.fakeCorrectDeviceTime.value) {
+            Timber.tag(TAG).w("Test setting 'fakeCorrectDeviceTime' is active; time offset is now 0")
+            Duration.ZERO
+        } else {
+            Duration(serverTime, localTime)
+        }
         Timber.tag(TAG).v("Time offset was %dms", offset.millis)
 
         val cacheControl = CacheControl.parse(headers)

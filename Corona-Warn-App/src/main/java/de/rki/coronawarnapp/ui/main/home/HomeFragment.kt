@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryActivity
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
@@ -97,20 +96,17 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         onPositive = { vm.errorResetDialogDismissed() }
                     )
                 }
-                HomeFragmentEvents.ShowDeleteTestDialog -> {
-                    showRemoveTestDialog()
-                }
-                HomeFragmentEvents.GoToContactDiary -> {
-                    context?.let { ContactDiaryActivity.start(it) }
-                }
+                HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog()
 
-                HomeFragmentEvents.ShowNewReleaseFragment -> {
-                    doNavigate(HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false))
-                }
-                HomeFragmentEvents.GoToStatisticsExplanation -> {
-                    doNavigate(
-                        HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
-                    )
+                HomeFragmentEvents.ShowNewReleaseFragment -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToNewReleaseInfoFragment(false)
+                )
+
+                HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
+                )
+                HomeFragmentEvents.ShowReactivateRiskCheckDialog -> {
+                    showReactivateRiskCheckDialog()
                 }
             }
         }
@@ -143,6 +139,23 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
                 vm.deregisterWarningAccepted()
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+        }
+    }
+
+    private fun showReactivateRiskCheckDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.dialog_reactivate_risk_calculation_title,
+            R.string.dialog_reactivate_risk_calculation_message,
+            R.string.dialog_reactivate_risk_calculation_button_positive,
+            R.string.dialog_reactivate_risk_calculation_button_negative,
+            positiveButtonFunction = {
+                vm.reenableRiskCalculation()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {

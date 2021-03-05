@@ -5,6 +5,8 @@ package de.rki.coronawarnapp.server.protocols.internal.v2;
 import "internal/v2/app_features.proto";
 import "internal/v2/exposure_detection_parameters.proto";
 import "internal/v2/key_download_parameters.proto";
+import "internal/v2/ppdd_edus_parameters.proto";
+import "internal/v2/ppdd_ppa_parameters.proto";
 import "internal/v2/risk_calculation_parameters.proto";
 import "internal/v2/semantic_version.proto";
 
@@ -24,6 +26,9 @@ message ApplicationConfigurationIOS {
   RiskCalculationParameters riskCalculationParameters = 7;
 
   ExposureConfiguration exposureConfiguration = 8;
+
+  PPDDEventDrivenUserSurveyParametersIOS eventDrivenUserSurveyParameters = 9;
+  PPDDPrivacyPreservingAnalyticsParametersIOS privacyPreservingAnalyticsParameters = 10;
 }
 
 message ExposureConfiguration {

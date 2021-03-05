@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -30,7 +31,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
     )
     private val binding: TracingDetailsFragmentLayoutBinding by viewBindingLazy()
 
-    private val detailsAdapter = TracingDetailsAdapter()
+    private val detailsAdapter = TracingDetailsAdapter { vm.onItemClicked(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,10 +48,23 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
 
         vm.buttonStates.observe2(this) {
             binding.tracingDetailsState = it
+            binding.toolbar.navigationIcon?.setTint(it.getStableTextColor(requireContext()))
         }
 
-        binding.riskDetailsHeaderButtonBack.setOnClickListener {
-            (activity as MainActivity).goBack()
+        vm.routeToScreen.observe2(this) {
+            when (it) {
+                is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> doNavigate(
+                    TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
+                )
+                is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> ExternalActionHelper.openUrl(
+                    this,
+                    it.url
+                )
+            }
+        }
+
+        binding.toolbar.setNavigationOnClickListener {
+            popBackStack()
         }
         binding.riskDetailsButtonUpdate.setOnClickListener {
             vm.updateRiskDetails()
