@@ -17,34 +17,26 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Additional Features in the Contact Journal"</item>
-        <item>"Direct Access to Contact Journal"</item>
-        <item>"More Details about Your Risk Status"</item>
-        <item>"Screenshots for the Corona-Warn-App"</item>
+        <item>Länderübergreifende Risiko-Ermittlung um Schweiz erweitert </item>
+        <item>Erstellung von Fehlerberichten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now enter the specific circumstances of each encounter. You can select from the predefined options (such as duration of the encounter, with or without mask) and also enter a brief note to record other circumstances that might result in an increased risk. If you become infected, this information can help the public health authority trace potential chains of infection."</item>
-        <item>"You can now add an entry to your contact journal directly, without having to open the app first. To do so, tap and hold the icon for the Corona-Warn-App for approximately 2 seconds, until a menu appears, and then tap “Add Journal Entry for Today”."</item>
-        <item>"If the app indicates that you have an increased risk, you can now see whether the risk status is displayed based on one or more exposures with an increased risk or one or more exposures with a low risk."</item>
-        <item>"The website https://www.coronawarn.app now contains all the screenshots for the app, so you can find out about planned features, for example."</item>
+        <item>Die Corona-Warn-App nutzende Personen können nun auch verschlüsselte Zufalls-IDs mit Personen austauschen, die die offizielle Warn-App der Schweiz nutzen. Somit können Warnungen an App nutzende Personen in der Schweiz geschickt sowie von ihnen empfangen werden.</item>
+        <item>Sie können nun nach Aufforderung des technischen Supports einen Fehlerbericht erstellen und die Schritte aufzeichnen, die Sie in der App ausführen. Mögliche technische Fehler können so besser analysiert und schneller behoben werden. </item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
-        <item/>
-        <item/>
-        <item>"https://www.coronawarn.app"</item>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item>"https://www.coronawarn.app/en/screenshots"</item>
+        <item></item>
+        <item></item>
     </string-array>
 
 </resources>
