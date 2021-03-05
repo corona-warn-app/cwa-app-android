@@ -20,6 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
+import java.io.FileNotFoundException
 
 class DefaultAppConfigSourceTest : BaseIOTest() {
     @MockK private lateinit var context: Context
@@ -81,6 +82,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
     @Test
     fun `exceptions when getting the default config are rethrown`() = runBlockingTest {
+        every { assetManager.open("default_app_config_android.bin") } throws FileNotFoundException("default_app_config_android.bin does not exist")
         val instance = createInstance()
 
         shouldThrowAny {

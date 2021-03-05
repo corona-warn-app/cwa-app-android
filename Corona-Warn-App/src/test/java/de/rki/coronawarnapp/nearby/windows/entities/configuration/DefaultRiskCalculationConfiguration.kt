@@ -11,10 +11,10 @@ data class DefaultRiskCalculationConfiguration(
     val normalizedTimePerDayToRiskLevelMapping: List<JsonNormalizedTimeToRiskLevelMapping>,
     @SerializedName("normalizedTimePerEWToRiskLevelMapping")
     val normalizedTimePerEWToRiskLevelMapping: List<JsonNormalizedTimeToRiskLevelMapping>,
-    @SerializedName("transmissionRiskLevelMultiplier")
-    val transmissionRiskLevelMultiplier: Double,
     @SerializedName("trlEncoding")
     val trlEncoding: JsonTrlEncoding,
     @SerializedName("trlFilters")
-    val trlFilters: List<JsonTrlFilter>
+    val trlFilters: List<JsonTrlFilter>,
+    @SerializedName("transmissionRiskValueMapping")
+    val transmissionRiskValueMapping: List<JsonTransmissionRiskValueMapping>
 )
