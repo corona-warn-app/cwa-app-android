@@ -146,7 +146,7 @@
         tools:layout="@layout/fragment_test_createevent" />
     <fragment
         android:id="@+id/showStoredEventsTestFragment"
-        android:name="de.rki.coronawarnapp.test.eventregistration.ui.ShowStoredEventsTestFragment"
+        android:name="de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment"
         android:label="ShowStoredEventsTestFragment"
         tools:layout="@layout/fragment_test_showstoredevents" />
 

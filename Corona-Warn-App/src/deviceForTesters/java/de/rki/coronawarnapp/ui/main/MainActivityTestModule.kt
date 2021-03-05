@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragm
 import de.rki.coronawarnapp.test.eventregistration.ui.EventRegistrationTestFragmentModule
 import de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragment
 import de.rki.coronawarnapp.test.eventregistration.ui.createevent.CreateEventTestFragmentModule
+import de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragment
+import de.rki.coronawarnapp.test.eventregistration.ui.showevents.ShowStoredEventsTestFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
@@ -75,4 +77,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [CreateEventTestFragmentModule::class])
     abstract fun createEvent(): CreateEventTestFragment
+
+    @ContributesAndroidInjector(modules = [ShowStoredEventsTestFragmentModule::class])
+    abstract fun showStoredEvents(): ShowStoredEventsTestFragment
 }
