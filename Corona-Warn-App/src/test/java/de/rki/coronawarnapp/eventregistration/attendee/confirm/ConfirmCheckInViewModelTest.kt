@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.attendee.confirm
 
-import de.rki.coronawarnapp.eventregistration.qrcode.EventQRCode
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInNavigation
 import de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInViewModel
 import io.kotest.matchers.shouldBe
