@@ -41,7 +41,7 @@ class CreateEventTestFragment : Fragment(R.layout.fragment_test_createevent), Au
             when (it) {
                 is CreateEventTestViewModel.Result.Success ->
                     binding.resultText.text =
-                        "Successfully entered event: ${it.eventEntity}"
+                        "Successfully stored event: ${it.eventEntity}"
                 is CreateEventTestViewModel.Result.Error ->
                     binding.resultText.text =
                         "There is something wrong with your input values, please check again."
@@ -79,6 +79,8 @@ class CreateEventTestFragment : Fragment(R.layout.fragment_test_createevent), Au
                     locationString -> {
                         binding.eventStart.visibility = View.GONE
                         binding.eventEnd.visibility = View.GONE
+                        binding.eventStartEditText.text = null
+                        binding.eventEndEditText.text = null
                     }
                 }
             }

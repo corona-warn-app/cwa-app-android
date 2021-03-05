@@ -18,8 +18,9 @@ fun SignedEventOuterClass.SignedEvent.toHostedEvent(): HostedEvent =
         guid = event.guid.toString(),
         description = event.description,
         location = "hardcodedLocation", // event.location,
-        startTime = Instant.ofEpochMilli(event.start.toLong()),
-        endTime = Instant.ofEpochMilli(event.end.toLong()),
+        // backend needs UNIX timestamp in seconds, so we have to multiply it by 1000 to get milliseconds
+        startTime = Instant.ofEpochMilli(event.start.toLong() * 1000),
+        endTime = Instant.ofEpochMilli(event.end.toLong() * 1000),
         defaultCheckInLengthInMinutes = event.defaultCheckInLengthInMinutes,
         signature = signature.toString()
     )

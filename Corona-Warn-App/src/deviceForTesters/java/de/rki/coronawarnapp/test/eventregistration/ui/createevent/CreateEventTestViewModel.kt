@@ -37,19 +37,23 @@ class CreateEventTestViewModel @AssistedInject constructor(
         launch {
             try {
                 val startDate =
-                    if (start.isBlank()) null else DateTime.parse(start, DateTimeFormat.forPattern("YYYY-MM-dd HH:mm"))
+                    if (start.isBlank()) null else DateTime.parse(start, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"))
                 val endDate =
-                    if (end.isBlank()) null else DateTime.parse(end, DateTimeFormat.forPattern("YYYY-MM-dd HH:mm"))
+                    if (end.isBlank()) null else DateTime.parse(end, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"))
 
-                val startTimeStamp = startDate?.toInstant()?.millis?.toInt() ?: 0
-                val endTimeStamp = endDate?.toInstant()?.millis?.toInt() ?: 0
+                val startTimeStampMillis = startDate?.toInstant()?.millis ?: 0
+                val endTimeStampMillis = endDate?.toInstant()?.millis ?: 0
+
+                // Backend needs UNIX timestamp in Seconds, not milliseconds
+                val startTimeStampSeconds = (startTimeStampMillis / 1000).toInt()
+                val endTimeStampSeconds = (endTimeStampMillis / 1000).toInt()
 
                 // details yet tbd, but we basically sent our event entity to the backend ...
                 val event = EventOuterClass.Event.newBuilder()
                     .setDescription(description)
                     // .setLocation(location) // will probably added in a future protobuf
-                    .setStart(startTimeStamp)
-                    .setEnd(endTimeStamp)
+                    .setStart(startTimeStampSeconds)
+                    .setEnd(endTimeStampSeconds)
                     .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes.toInt())
 
                 // and the server responds with an event object with additional information
