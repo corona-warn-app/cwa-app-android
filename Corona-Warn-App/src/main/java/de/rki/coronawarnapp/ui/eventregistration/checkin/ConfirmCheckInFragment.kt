@@ -41,10 +41,10 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
         // TODO bind data to actual UI
         viewModel.eventData.observe2(this) {
             with(binding) {
-                eventGuid.text = "GUID: %s".format(it.guid)
-                startTime.text = "Start time: %s".format(it.start)
-                endTime.text = "End time: %s".format(it.end)
-                description.text = "Description: %s".format(it.description)
+                eventGuid.text = "GUID: %s".format(it.event.guid)
+                startTime.text = "Start time: %s".format(it.event.start)
+                endTime.text = "End time: %s".format(it.event.end)
+                description.text = "Description: %s".format(it.event.description)
             }
         }
     }

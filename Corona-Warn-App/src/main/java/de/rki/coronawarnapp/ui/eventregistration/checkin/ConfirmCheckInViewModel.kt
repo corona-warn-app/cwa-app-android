@@ -4,24 +4,26 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
-import de.rki.coronawarnapp.eventregistration.common.decodeBase32
-import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
+import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import org.joda.time.Instant
+import timber.log.Timber
 
-class ConfirmCheckInViewModel @AssistedInject constructor() : CWAViewModel() {
+class ConfirmCheckInViewModel @AssistedInject constructor(
+    private val qrCodeVerifier: QRCodeVerifier
+) : CWAViewModel() {
     private val eventLiveData = MutableLiveData<EventQRCode>()
     val eventData = eventLiveData
     val navigationEvents = SingleLiveEvent<ConfirmCheckInEvent>()
 
     fun decodeEvent(encodedEvent: String) = launch {
-        // TODO Verify event(EXPOSUREAPP-5423)
-        //  and finalise event parsing logic
-        val decodedEventString = encodedEvent.split(".")[0].decodeBase32()
-        val parseEvent = EventOuterClass.Event.parseFrom(decodedEventString.toByteArray())
-        eventLiveData.postValue(parseEvent.toEventQrCode())
+        // TODO this logic should moved from here. Here user should confirm event only
+        try {
+            eventLiveData.postValue(qrCodeVerifier.verify(encodedEvent))
+        } catch (e: Exception) {
+            Timber.d(e)
+        }
     }
 
     fun onClose() {
@@ -31,13 +33,6 @@ class ConfirmCheckInViewModel @AssistedInject constructor() : CWAViewModel() {
     fun onConfirmEvent() {
         navigationEvents.value = ConfirmCheckInEvent.ConfirmEvent
     }
-
-    private fun EventOuterClass.Event.toEventQrCode() = EventQRCode(
-        guid = String(guid.toByteArray()),
-        description = description,
-        start = Instant.ofEpochMilli(start.toLong()),
-        end = Instant.ofEpochMilli(end.toLong())
-    )
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<ConfirmCheckInViewModel>
