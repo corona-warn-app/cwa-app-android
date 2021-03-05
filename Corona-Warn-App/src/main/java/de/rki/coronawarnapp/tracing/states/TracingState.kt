@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -133,9 +132,9 @@ data class LowRisk(
 
     fun getDaysSinceInstall(context: Context): String =
         context.getString(R.string.risk_card_body_days_since_installation)
-            .format(daysSinceInstallation.roundUpMsToDays())
+            .format(daysSinceInstallation)
 
-    fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation.roundUpMsToDays() <= 14
+    fun appInstalledForOverTwoWeeks(): Boolean = daysSinceInstallation <= 14
 
     fun getRiskContactLast(context: Context): String? {
         if (lastEncounterAt == null) return null

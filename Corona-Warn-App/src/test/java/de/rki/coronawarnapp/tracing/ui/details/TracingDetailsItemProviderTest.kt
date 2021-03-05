@@ -195,7 +195,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
         testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
         testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        //testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe true
+        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe true
     }
 
     @Test

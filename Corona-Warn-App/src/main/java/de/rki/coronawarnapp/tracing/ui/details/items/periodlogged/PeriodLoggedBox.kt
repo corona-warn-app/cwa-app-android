@@ -42,7 +42,7 @@ class PeriodLoggedBox(
             if (daysSinceInstallation.roundUpMsToDays() < 14L) {
                 context.getString(
                     R.string.risk_details_information_body_period_logged_assessment_under_14_days
-                ).format(daysSinceInstallation.roundUpMsToDays())
+                ).format(daysSinceInstallation)
             } else context.getString(
                 R.string.risk_details_information_body_period_logged_assessment_over_14_days
             )
