@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatisticsModule
 import de.rki.coronawarnapp.statistics.source.StatisticsParser
 import de.rki.coronawarnapp.statistics.source.StatisticsServer
-import de.rki.coronawarnapp.util.security.VerificationKeys
+import de.rki.coronawarnapp.util.security.SignatureValidation
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.every
 import io.mockk.mockk
@@ -34,7 +34,7 @@ object Statistics {
         val httpClient = HttpModule().defaultHttpClient()
         val cdnClient = cdnModule.cdnHttpClient(httpClient)
         val url = cdnModule.provideDownloadServerUrl(environmentSetup)
-        val verificationKeys = VerificationKeys(environmentSetup)
+        val signatureValidation = SignatureValidation(environmentSetup)
         val gsonFactory = GsonConverterFactory.create()
 
         val statisticsServer = StatisticsServer(
@@ -47,7 +47,7 @@ object Statistics {
                 )
             },
             cache = cache,
-            verificationKeys = verificationKeys
+            signatureValidation = signatureValidation
         )
 
         return runBlocking {
