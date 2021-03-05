@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
-import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import kotlinx.coroutines.withTimeout
@@ -22,16 +21,12 @@ class KeyDownloadTool @Inject constructor(
         val saveTo = cachedKey.path
         val keyInfo = cachedKey.info
 
-        val preconditionHook: suspend (DownloadInfo) -> Boolean =
-            { _ -> true }
-
         val downloadInfo = withTimeout(downloadConfig.individualDownloadTimeout.millis) {
             keyServer.downloadKeyFile(
                 locationCode = keyInfo.location,
                 day = keyInfo.day,
                 hour = keyInfo.hour,
-                saveTo = saveTo,
-                precondition = preconditionHook
+                saveTo = saveTo
             )
         }
         Timber.tag(TAG).v("Download finished: %s -> %s", cachedKey, saveTo)
