@@ -100,6 +100,7 @@
                     android:paddingBottom="@dimen/spacing_tiny"
                     android:background="?android:selectableItemBackground"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
 
                     <ImageView
