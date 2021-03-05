@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.databinding.TracingDetailsItemPeriodloggedViewBindin
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
 
 class PeriodLoggedBox(
     parent: ViewGroup,
@@ -39,7 +38,7 @@ class PeriodLoggedBox(
     ) : DetailsItem {
 
         fun getInstallTimePeriodLogged(context: Context): String =
-            if (daysSinceInstallation.roundUpMsToDays() < 14L) {
+            if (daysSinceInstallation < 14L) {
                 context.getString(
                     R.string.risk_details_information_body_period_logged_assessment_under_14_days
                 ).format(daysSinceInstallation)
