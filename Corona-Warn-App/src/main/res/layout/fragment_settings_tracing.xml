@@ -103,11 +103,11 @@
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/flag_eu"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
-                        android:src="@drawable/ic_country_eu"
+                        app:srcCompat="@drawable/ic_country_eu"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -122,11 +122,11 @@
                         app:layout_constraintStart_toEndOf="@id/flag_eu"
                         app:layout_constraintTop_toTopOf="@id/flag_eu" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/flag_ch"
                         android:layout_width="0dp"
                         android:layout_height="22dp"
-                        android:src="@drawable/ic_country_ch"
+                        app:srcCompat="@drawable/ic_country_ch"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/interoperability_title" />
 
