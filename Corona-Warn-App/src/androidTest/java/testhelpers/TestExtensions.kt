@@ -1,11 +1,15 @@
 package testhelpers
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.launchActivity
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.main.FakeMainActivity
 
 /** Delay time before taking screenshot
  */
@@ -37,3 +41,13 @@ inline fun <reified F : Fragment> launchFragment2(
     @StyleRes themeResId: Int = R.style.AppTheme,
     factory: FragmentFactory? = null
 ) = FragmentScenario.launch(F::class.java, fragmentArgs, themeResId, factory)
+
+inline fun <reified F : Fragment> launchInMainActivity() {
+    val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        FakeMainActivity::class.java
+    ).apply {
+        putExtra(FakeMainActivity.FRAGMENT_CLASS, F::class.qualifiedName)
+    }
+    launchActivity<FakeMainActivity>(intent)
+}
