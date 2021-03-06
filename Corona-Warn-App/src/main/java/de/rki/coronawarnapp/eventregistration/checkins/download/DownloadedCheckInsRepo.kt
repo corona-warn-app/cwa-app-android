@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins.download
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import javax.inject.Inject
 
 interface DownloadedCheckInsRepo {
 
@@ -12,7 +13,7 @@ interface DownloadedCheckInsRepo {
     fun removeCheckIns(checkins: List<CheckInsPackage>)
 }
 
-object FakeDownloadedCheckInsRepo : DownloadedCheckInsRepo {
+class FakeDownloadedCheckInsRepo @Inject constructor() : DownloadedCheckInsRepo {
     override val allCheckInsPackages: Flow<List<CheckInsPackage>>
         get() = listOf(listOf<CheckInsPackage>(FakeCheckInsPackage)).asFlow()
 

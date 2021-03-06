@@ -32,7 +32,8 @@ class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregis
         }
         vm.checkInOverlaps.observe2(this) {
             val text = it.fold(StringBuilder()) { stringBuilder, eventOverlap ->
-                stringBuilder.append(eventOverlap.toString()).append("\n")
+                stringBuilder.append("Overlap ${eventOverlap.guid} ${eventOverlap.overlap.standardSeconds} sec")
+                    .append("\n")
             }
             binding.resultText.text = text
         }

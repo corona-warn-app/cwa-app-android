@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import org.joda.time.DateTime
 import org.joda.time.Instant
+import javax.inject.Inject
 
 interface CheckInsRepository {
 
@@ -12,7 +13,7 @@ interface CheckInsRepository {
     suspend fun addCheckIn(checkIn: EventCheckIn)
 }
 
-class FakeCheckInsRepository : CheckInsRepository {
+class FakeCheckInsRepository @Inject constructor() : CheckInsRepository {
     override val allCheckIns: Flow<List<EventCheckIn>>
         get() = listOf(listOf(fakeEventCheckIn1)).asFlow()
 
