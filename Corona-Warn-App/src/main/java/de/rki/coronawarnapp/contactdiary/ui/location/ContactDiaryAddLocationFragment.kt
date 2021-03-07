@@ -52,8 +52,8 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                     it.hideKeyboard()
                     viewModel.updateLocation(
                         location,
-                        phoneNumber = binding.locationPhoneInput.text.toString().trim(),
-                        emailAddress = binding.locationEmailInput.text.toString().trim()
+                        phoneNumber = binding.locationPhoneInput.text.toString(),
+                        emailAddress = binding.locationEmailInput.text.toString()
                     )
                 }
             }
@@ -64,8 +64,8 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                 locationSaveButton.setOnClickListener {
                     it.hideKeyboard()
                     viewModel.addLocation(
-                        phoneNumber = binding.locationPhoneInput.text.toString().trim(),
-                        emailAddress = binding.locationEmailInput.text.toString().trim()
+                        phoneNumber = binding.locationPhoneInput.text.toString(),
+                        emailAddress = binding.locationEmailInput.text.toString()
                     )
                 }
             }
@@ -108,7 +108,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         DialogHelper.DialogInstance(
             requireActivity(),
             R.string.contact_diary_delete_location_title,
-            R.string.contact_diary_delete_locations_message,
+            R.string.contact_diary_delete_location_message,
             R.string.contact_diary_delete_button_positive,
             R.string.contact_diary_delete_button_negative,
             positiveButtonFunction = {
