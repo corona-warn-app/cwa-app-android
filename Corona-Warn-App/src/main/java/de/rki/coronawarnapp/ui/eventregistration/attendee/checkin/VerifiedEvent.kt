@@ -16,7 +16,6 @@ data class VerifiedEvent(
 ) : Parcelable
 
 fun EventQRCode.toVerifiedEvent() = with(event) {
-
     VerifiedEvent(
         guid = guid.toByteArray().toByteString().base64(),
         start = start.instant(),

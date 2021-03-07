@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.eventregistration.common.decodeBase32
-import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClass
 import timber.log.Timber
 import javax.inject.Inject

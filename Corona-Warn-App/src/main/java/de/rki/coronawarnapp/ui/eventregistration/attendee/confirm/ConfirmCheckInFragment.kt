@@ -38,7 +38,10 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         viewModel.navigationEvents.observe2(this) { navEvent ->
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()
-                ConfirmCheckInNavigation.ConfirmNavigation -> popBackStack() // TODO Do something else
+                ConfirmCheckInNavigation.ConfirmNavigation -> {
+                    // TODO Navigate to the rightful destination
+                    popBackStack()
+                }
             }
         }
     }

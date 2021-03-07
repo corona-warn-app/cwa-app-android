@@ -7,7 +7,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.Hold
-import com.google.android.play.core.internal.by
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentCheckInsBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -27,12 +26,9 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
 
     // Encoded event is a one-time use data and then cleared
     private val encodedEvent: String?
-        get() = CheckInsFragmentArgs
-            .fromBundle(requireArguments())
+        get() = navArgs<CheckInsFragmentArgs>().value
             .encodedEvent
-            .also {
-                requireArguments().clear()
-            }
+            .also { arguments?.clear() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +54,10 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
             viewModel.verifyEvent(it)
         }
 
-        viewModel.navigationData.observe2(this) {
+        viewModel.navigationRoutes.observe2(this) {
             doNavigate(
-                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                    it.toVerifiedEvent()
-                )
+                CheckInsFragmentDirections
+                    .actionCheckInsFragmentToConfirmCheckInFragment(it.toVerifiedEvent())
             )
         }
     }

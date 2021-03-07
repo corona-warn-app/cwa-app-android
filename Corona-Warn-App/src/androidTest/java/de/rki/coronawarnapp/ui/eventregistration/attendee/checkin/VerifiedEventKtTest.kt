@@ -6,11 +6,7 @@ import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClas
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import testhelpers.BaseTestInstrumentation

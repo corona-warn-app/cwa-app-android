@@ -17,14 +17,14 @@ class CheckInsViewModel @AssistedInject constructor(
     private val qrCodeVerifier: QRCodeVerifier,
 ) : CWAViewModel(dispatcherProvider) {
 
-    val navigationData = SingleLiveEvent<EventQRCode>()
+    val navigationRoutes = SingleLiveEvent<EventQRCode>()
 
     fun verifyEvent(encodedEvent: String) = launch {
         try {
             Timber.i("encodedEvent: $encodedEvent")
             val eventQRCode = qrCodeVerifier.verify(encodedEvent)
             Timber.i("eventQRCode: $eventQRCode")
-            navigationData.postValue(eventQRCode)
+            navigationRoutes.postValue(eventQRCode)
         } catch (e: Exception) {
             Timber.d(e, "Event verification failed")
             e.report(ExceptionCategory.INTERNAL)
