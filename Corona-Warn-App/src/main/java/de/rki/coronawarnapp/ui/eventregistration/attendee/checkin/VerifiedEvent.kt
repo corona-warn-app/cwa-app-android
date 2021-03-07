@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
 import android.os.Parcelable
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
 import kotlinx.parcelize.Parcelize
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 
 @Parcelize
@@ -15,8 +16,9 @@ data class VerifiedEvent(
 ) : Parcelable
 
 fun EventQRCode.toVerifiedEvent() = with(event) {
+
     VerifiedEvent(
-        guid = String(guid.toByteArray()),
+        guid = guid.toByteArray().toByteString().base64(),
         start = start.instant(),
         end = end.instant(),
         description = description,
