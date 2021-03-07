@@ -12,14 +12,13 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
 class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ConfirmCheckInViewModel by cwaViewModels { viewModelFactory }
 
+    private val viewModel: ConfirmCheckInViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentConfirmCheckInBinding by viewBindingLazy()
     private val args by navArgs<ConfirmCheckInFragmentArgs>()
 
@@ -29,25 +28,17 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         with(binding) {
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             confirmButton.setOnClickListener { viewModel.onConfirmEvent() }
+            // TODO bind final UI
+            eventGuid.text = "GUID: %s".format(args.event.guid)
+            startTime.text = "Start time: %s".format(args.event.start)
+            endTime.text = "End time: %s".format(args.event.end)
+            description.text = "Description: %s".format(args.event.description)
         }
 
-        Timber.tag("DEEP").i(args.encodedEvent)
-        viewModel.decodeEvent(args.encodedEvent)
         viewModel.navigationEvents.observe2(this) { navEvent ->
-            Timber.tag("DEEP").i(navEvent.toString())
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()
                 ConfirmCheckInNavigation.ConfirmNavigation -> popBackStack() // TODO Do something else
-            }
-        }
-
-        // TODO bind data to actual UI
-        viewModel.eventData.observe2(this) {
-            with(binding) {
-                eventGuid.text = "GUID: %s".format(it.guid)
-                startTime.text = "Start time: %s".format(it.start)
-                endTime.text = "End time: %s".format(it.end)
-                description.text = "Description: %s".format(it.description)
             }
         }
     }

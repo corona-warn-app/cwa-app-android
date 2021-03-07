@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
-import org.joda.time.Instant
+import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
 
 data class EventQRCode(
-    val guid: String,
-    val description: String? = null,
-    val start: Instant? = null,
-    val end: Instant? = null,
+    val event: EventOuterClass.Event
 )

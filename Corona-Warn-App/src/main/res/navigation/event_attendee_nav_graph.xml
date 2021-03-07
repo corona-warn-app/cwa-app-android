@@ -9,10 +9,9 @@
         android:name="de.rki.coronawarnapp.ui.eventregistration.attendee.confirm.ConfirmCheckInFragment"
         android:label="fragment_confirm_check_in"
         tools:layout="@layout/fragment_confirm_check_in">
-        <!-- TODO remove this, after merging validation PR. this screen should only open for verified Event-->
         <argument
-            android:name="encodedEvent"
-            app:argType="string" />
+            android:name="event"
+            app:argType="de.rki.coronawarnapp.ui.eventregistration.attendee.checkin.VerifiedEvent" />
     </fragment>
     <fragment
         android:id="@+id/scanCheckInQrCodeFragment"
