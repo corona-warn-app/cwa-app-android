@@ -49,7 +49,7 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
         }
 
         encodedEvent?.let {
-            Timber.i("encodedEvent:$it")
+            Timber.i("encodedEvent: $it")
             doNavigate(
                 CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(it)
             )
