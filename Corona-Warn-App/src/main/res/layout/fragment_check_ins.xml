@@ -28,7 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_normal"
-        android:text="Scan Qr code"
+        android:text="@string/scan_check_in_qr_code"
+        android:transitionName="shared_element_container"
         app:icon="@drawable/ic_nav_check_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

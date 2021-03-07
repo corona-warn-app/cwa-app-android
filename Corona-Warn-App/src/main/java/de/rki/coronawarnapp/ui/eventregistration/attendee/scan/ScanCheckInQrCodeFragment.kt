@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.ui.eventregistration.attendee.scan
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
@@ -34,6 +35,13 @@ class ScanCheckInQrCodeFragment :
 
     private val binding: FragmentScanCheckInQrCodeBinding by viewBindingLazy()
     private var showsPermissionDialog = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementReturnTransition = MaterialContainerTransform()
+    }
 
     override fun onViewCreated(
         view: View,
