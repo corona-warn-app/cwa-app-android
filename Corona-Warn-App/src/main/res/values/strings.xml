@@ -1908,4 +1908,8 @@
     <string name="duration_dialog_ok_button">OK</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
+
+    <!-- Scan check in QR Code-->
+    <!-- XTXT: Scan check in QR-Code  FAB text-->
+    <string name="scan_check_in_qr_code">Scan QR-Code</string>
 </resources>
