@@ -6,7 +6,9 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import org.joda.time.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class OnboardingSettings @Inject constructor(
     @AppContext private val context: Context
 ) {
