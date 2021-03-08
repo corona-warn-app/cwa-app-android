@@ -3,10 +3,13 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -20,12 +23,14 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: DebugLogUploadViewModel by cwaViewModels { viewModelFactory }
     private val binding: BugreportingDebuglogUploadFragmentBinding by viewBindingLazy()
+    private lateinit var uploadDialog: LogUploadBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        uploadDialog = LogUploadBlockingDialog(requireContext())
 
-            debugLogShareButton.setOnClickListener {
+        binding.apply {
+            uploadAction.setOnClickListener {
                 vm.onUploadLog()
             }
 
@@ -37,7 +42,23 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
         }
 
         vm.routeToScreen.observe2(this) {
-            doNavigate(it)
+            when (it) {
+                null -> popBackStack()
+                else -> doNavigate(it)
+            }
+        }
+
+        vm.errorEvent.observe2(this) {
+            AlertDialog.Builder(requireContext()).apply {
+                val errorForHumans = it.tryHumanReadableError(requireContext())
+                setTitle(errorForHumans.title ?: getString(R.string.errors_generic_headline))
+                setMessage(errorForHumans.description)
+            }.show()
+        }
+
+        vm.uploadInProgress.observe2(this) { uploadDialog.setState(it) }
+        vm.uploadSuccess.observe2(this) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
     }
 

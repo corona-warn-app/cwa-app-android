@@ -7,6 +7,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.LOG_UPLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SAFETYNET_API_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SUBMISSION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
@@ -33,6 +34,7 @@ class EnvironmentSetup @Inject constructor(
         DOWNLOAD("DOWNLOAD_CDN_URL"),
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION"),
         DATA_DONATION("DATA_DONATION_CDN_URL"),
+        LOG_UPLOAD("LOG_UPLOAD_SERVER_URL"),
         SAFETYNET_API_KEY("SAFETYNET_API_KEY")
     }
 
@@ -122,6 +124,9 @@ class EnvironmentSetup @Inject constructor(
 
     val safetyNetApiKey: String
         get() = getEnvironmentValue(SAFETYNET_API_KEY).asString
+
+    val logUploadServerUrl: String
+        get() = getEnvironmentValue(LOG_UPLOAD).asString
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"

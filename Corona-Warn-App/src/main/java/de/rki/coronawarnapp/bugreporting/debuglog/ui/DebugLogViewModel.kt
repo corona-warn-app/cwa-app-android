@@ -8,8 +8,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.bugreporting.debuglog.sharing.LogSnapshotter
-import de.rki.coronawarnapp.bugreporting.debuglog.sharing.SAFLogSharing
+import de.rki.coronawarnapp.bugreporting.debuglog.export.SAFLogExport
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -28,7 +28,7 @@ class DebugLogViewModel @AssistedInject constructor(
     private val enfClient: ENFClient,
     bugReportingSettings: BugReportingSettings,
     private val logSnapshotter: LogSnapshotter,
-    private val safLogSharing: SAFLogSharing,
+    private val safLogExport: SAFLogExport,
     private val contentResolver: ContentResolver,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -86,15 +86,10 @@ class DebugLogViewModel @AssistedInject constructor(
         }
     }
 
-    fun onUploadLog() = launchWithProgress {
-        Timber.d("uploadLog()")
-        throw NotImplementedError("TODO")
-    }
-
     fun onStoreLog() = launchWithProgress(finishProgressAction = false) {
         Timber.d("storeLog()")
         val snapshot = logSnapshotter.snapshot()
-        val shareRequest = safLogSharing.createSAFRequest(snapshot)
+        val shareRequest = safLogExport.createSAFRequest(snapshot)
         events.postValue(Event.LocalExport(shareRequest))
     }
 
@@ -104,7 +99,7 @@ class DebugLogViewModel @AssistedInject constructor(
             return@launchWithProgress
         }
 
-        val request = safLogSharing.getRequest(requestCode)
+        val request = safLogExport.getRequest(requestCode)
         if (request == null) {
             Timber.w("Unknown request with code $requestCode")
             return@launchWithProgress
@@ -156,8 +151,8 @@ class DebugLogViewModel @AssistedInject constructor(
         object ShowLowStorageDialog : Event()
         data class ShowLocalExportError(val error: Throwable) : Event()
         data class Error(val error: Throwable) : Event()
-        data class LocalExport(val request: SAFLogSharing.Request) : Event()
-        data class ExportResult(val result: SAFLogSharing.Request.Result) : Event()
+        data class LocalExport(val request: SAFLogExport.Request) : Event()
+        data class ExportResult(val result: SAFLogExport.Request.Result) : Event()
     }
 
     @AssistedFactory
