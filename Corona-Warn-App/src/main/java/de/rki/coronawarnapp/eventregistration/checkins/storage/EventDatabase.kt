@@ -23,9 +23,9 @@ abstract class EventDatabase : RoomDatabase() {
 
     abstract fun eventCheckInDao(): EventCheckInDao
 
-    class Factory @Inject constructor(@AppContext private val ctx: Context) {
+    class Factory @Inject constructor(@AppContext private val context: Context) {
         fun create(databaseName: String = EVENT_DATABASE_NAME): EventDatabase = Room
-            .databaseBuilder(ctx, EventDatabase::class.java, databaseName)
+            .databaseBuilder(context, EventDatabase::class.java, databaseName)
             .build()
     }
 
