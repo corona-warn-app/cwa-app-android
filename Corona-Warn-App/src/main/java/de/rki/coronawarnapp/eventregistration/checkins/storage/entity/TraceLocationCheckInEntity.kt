@@ -4,13 +4,13 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import de.rki.coronawarnapp.eventregistration.checkins.EventCheckIn
+import de.rki.coronawarnapp.eventregistration.checkins.TraceLocationCheckIn
 import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
 
 @Parcelize
 @Entity(tableName = "checkin")
-data class EventCheckInEntity(
+data class TraceLocationCheckInEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") override val id: Long = 0L,
     @ColumnInfo(name = "guid") override val guid: String,
     @ColumnInfo(name = "version") override val version: Int,
@@ -25,4 +25,4 @@ data class EventCheckInEntity(
     @ColumnInfo(name = "checkInEnd") override val checkInEnd: Instant?,
     @ColumnInfo(name = "targetCheckInEnd") override val targetCheckInEnd: Instant?,
     @ColumnInfo(name = "createJournalEntry") override val createJournalEntry: Boolean
-) : EventCheckIn, Parcelable
+) : TraceLocationCheckIn, Parcelable
