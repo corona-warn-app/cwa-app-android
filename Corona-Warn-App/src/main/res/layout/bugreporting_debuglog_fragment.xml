@@ -230,7 +230,7 @@
 
         <android.widget.Button
             android:id="@+id/toggle_recording"
-            style="@style/debugLogButton"
+            style="@style/buttonBarAlertRed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/debugging_debuglog_action_start_recording"
