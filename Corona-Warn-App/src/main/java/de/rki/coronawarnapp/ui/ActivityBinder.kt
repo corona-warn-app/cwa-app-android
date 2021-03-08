@@ -5,7 +5,6 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionModule
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryStorageModule
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUIModule
-import de.rki.coronawarnapp.eventregistration.storage.EventRegistrationStorageModule
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.ui.launcher.LauncherActivityModule
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -17,8 +16,7 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingActivityModule
 @Module(
     includes = [
         ContactDiaryStorageModule::class,
-        ContactDiaryRetentionModule::class,
-        EventRegistrationStorageModule::class
+        ContactDiaryRetentionModule::class
     ]
 )
 abstract class ActivityBinder {
