@@ -37,14 +37,7 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
         }
 
         vm.routeToScreen.observe2(this) {
-            when (it) {
-
-                DebugLogUploadNavigationEvents.NavigateToMoreInformationFragment -> {
-                    doNavigate(
-                        DebugLogUploadFragmentDirections.actionDebugLogUploadFragmentToDebugLogLegalFragment()
-                    )
-                }
-            }
+            doNavigate(it)
         }
     }
 
