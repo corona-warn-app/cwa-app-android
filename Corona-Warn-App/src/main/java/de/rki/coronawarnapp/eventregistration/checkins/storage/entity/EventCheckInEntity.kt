@@ -25,4 +25,4 @@ data class EventCheckInEntity(
     @ColumnInfo(name = "checkInEnd") override val checkInEnd: Instant,
     @ColumnInfo(name = "targetCheckInEnd") override val targetCheckInEnd: Instant,
     @ColumnInfo(name = "createJournalEntry") override val createJournalEntry: Boolean
-) : EventCheckIn,Parcelable
+) : EventCheckIn, Parcelable
