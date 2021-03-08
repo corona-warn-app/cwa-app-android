@@ -75,9 +75,13 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [EventRegistrationTestFragmentModule::class])
     abstract fun eventRegistration(): EventRegistrationTestFragment
 
+    @ContributesAndroidInjector(modules = [QrCodeCreationTestFragmentModule::class])
+    abstract fun qrCodeCreation(): QrCodeCreationTestFragment
+
     @ContributesAndroidInjector(modules = [CreateEventTestFragmentModule::class])
     abstract fun createEvent(): CreateEventTestFragment
 
     @ContributesAndroidInjector(modules = [ShowStoredEventsTestFragmentModule::class])
     abstract fun showStoredEvents(): ShowStoredEventsTestFragment
+
 }

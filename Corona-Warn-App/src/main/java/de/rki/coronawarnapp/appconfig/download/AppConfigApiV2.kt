@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface AppConfigApiV2 {
 
-    @GET("/version/v1/app_config_android")
+    @GET("/version/v2/app_config_android")
     suspend fun getApplicationConfiguration(): Response<ResponseBody>
 }

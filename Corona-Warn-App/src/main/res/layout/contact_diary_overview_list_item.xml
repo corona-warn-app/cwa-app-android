@@ -1,94 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contact_diary_overview_element_body"
+    style="@style/contactDiaryCardRipple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:layout_marginBottom="@dimen/spacing_tiny"
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_overview_element_body"
-        style="@style/contactDiaryCardRipple"
+    <TextView
+        android:id="@+id/contact_diary_overview_element_name"
+        style="@style/contactDiaryListItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:focusable="false"
+        app:layout_constraintBottom_toTopOf="@id/contact_diary_overview_element_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/contact_diary_overview_element_right_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Donnerstag, 01.12.2020" />
+
+    <ImageView
+        android:id="@+id/contact_diary_overview_element_right_arrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/spacing_tiny"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:importantForAccessibility="no"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_contact_diary_right_arrow"
+        app:layout_constraintBottom_toTopOf="@id/contact_diary_overview_element_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/contact_diary_overview_element_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/contact_diary_list_item" />
+
+    <include
+        android:id="@+id/contact_diary_overview_nested_list_item_risk"
+        layout="@layout/contact_diary_overview_nested_list_item_risk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_tiny"
-        android:focusable="true">
+        android:focusable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_guideline" />
 
-        <TextView
-            android:id="@+id/contact_diary_overview_element_name"
-            style="@style/contactDiaryListItem"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:focusable="false"
-            app:layout_constraintBottom_toTopOf="@id/contact_diary_overview_element_guideline"
-            app:layout_constraintEnd_toStartOf="@+id/contact_diary_overview_element_right_arrow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Donnerstag, 01.12.2020" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/contact_diary_overview_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierAllowsGoneWidgets="false"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="contact_diary_overview_element_guideline, contact_diary_overview_nested_list_item_risk" />
 
-        <ImageView
-            android:id="@+id/contact_diary_overview_element_right_arrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_tiny"
-            android:layout_marginEnd="@dimen/spacing_small"
-            android:importantForAccessibility="no"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_contact_diary_right_arrow"
-            app:layout_constraintBottom_toTopOf="@id/contact_diary_overview_element_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/contact_diary_overview_element_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_divider"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_barrier" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/contact_diary_overview_element_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/contact_diary_list_item" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contact_diary_overview_nested_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:paddingVertical="@dimen/spacing_tiny"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider" />
 
-        <include
-            android:id="@+id/contact_diary_overview_nested_list_item_risk"
-            layout="@layout/contact_diary_overview_nested_list_item_risk"
-            android:layout_width="match_parent"
-            android:focusable="false"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/contact_diary_overview_nested_element_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="contact_diary_overview_element_divider,contact_diary_overview_nested_recycler_view" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/contact_diary_overview_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:barrierAllowsGoneWidgets="false"
-            app:constraint_referenced_ids="contact_diary_overview_element_guideline, contact_diary_overview_nested_list_item_risk"/>
-
-        <View
-            android:id="@+id/contact_diary_overview_element_divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_divider"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_barrier"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contact_diary_overview_nested_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:paddingVertical="@dimen/spacing_tiny"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_element_divider" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contact_diary_overview_nested_element_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="contact_diary_overview_element_divider,contact_diary_overview_nested_recycler_view"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.test.eventregistration.ui
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -18,19 +16,35 @@ import javax.inject.Inject
 class EventRegistrationTestFragment : Fragment(R.layout.fragment_test_eventregistration), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: EventRegistrationTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestEventregistrationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.createEventButton.setOnClickListener {
-            findNavController().navigate(R.id.createEventTestFragment)
-        }
+        with(binding) {
+            scanCheckInQrCode.setOnClickListener {
+                doNavigate(
+                    EventRegistrationTestFragmentDirections
+                        .actionEventRegistrationTestFragmentToScanCheckInQrCodeFragment()
+                )
+            }
 
-        binding.showEventsButton.setOnClickListener {
-            findNavController().navigate(R.id.showStoredEventsTestFragment)
+            testQrCodeCreation.setOnClickListener {
+                doNavigate(
+                    EventRegistrationTestFragmentDirections
+                        .actionEventRegistrationTestFragmentToTestQrCodeCreationFragment()
+                )
+            }
+
+            createEventButton.setOnClickListener {
+                findNavController().navigate(R.id.createEventTestFragment)
+            }
+
+            showEventsButton.setOnClickListener {
+                findNavController().navigate(R.id.showStoredEventsTestFragment)
+            }
         }
     }
 
