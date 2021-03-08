@@ -4,7 +4,6 @@ import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
@@ -31,13 +30,18 @@ class DiaryLocationCensor @Inject constructor(
 
         if (locationsNow.isEmpty()) return null
 
-        val newMessage = locationsNow.fold(entry.message) { oldMsg, location ->
-            if (CWADebug.isDeviceForTestersBuild) {
-                // We want this info in tester builds, but we also want to know censoring is working
-                oldMsg.replace(location.locationName, "${location.locationName}#${location.locationId}")
-            } else {
-                oldMsg.replace(location.locationName, "Location#${location.locationId}")
+        val newMessage = locationsNow.fold(entry.message) { orig, location ->
+            var wip = orig.replace(location.locationName, "Location#${location.locationId}/Name")
+
+            location.emailAddress?.let {
+                wip = wip.replace(it, "Location#${location.locationId}/EMail")
             }
+
+            location.phoneNumber?.let {
+                wip = wip.replace(it, "Location#${location.locationId}/PhoneNumber")
+            }
+
+            wip
         }
 
         return entry.copy(message = newMessage)

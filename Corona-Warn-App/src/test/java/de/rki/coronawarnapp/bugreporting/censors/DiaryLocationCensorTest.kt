@@ -3,17 +3,14 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,14 +22,6 @@ class DiaryLocationCensorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockkObject(CWADebug)
-        every { CWADebug.isDeviceForTestersBuild } returns false
-    }
-
-    @AfterEach
-    fun teardown() {
-        QRCodeCensor.lastGUID = null
     }
 
     private fun createInstance(scope: CoroutineScope) = DiaryLocationCensor(
@@ -40,31 +29,45 @@ class DiaryLocationCensorTest : BaseTest() {
         diary = diaryRepo
     )
 
-    private fun mockLocation(id: Long, name: String) = mockk<ContactDiaryLocation>().apply {
+    private fun mockLocation(
+        id: Long,
+        name: String,
+        phone: String?,
+        mail: String?
+    ) = mockk<ContactDiaryLocation>().apply {
         every { locationId } returns id
         every { locationName } returns name
+        every { phoneNumber } returns phone
+        every { emailAddress } returns mail
     }
 
     @Test
     fun `censoring replaces the logline message`() = runBlockingTest {
         every { diaryRepo.locations } returns flowOf(
-            listOf(mockLocation(1, "Berlin"), mockLocation(2, "Munich"), mockLocation(3, "Aachen"))
+            listOf(
+                mockLocation(1, "Munich", phone = "+49 089 3333", mail = "bürgermeister@münchen.de"),
+                mockLocation(2, "Bielefeld", phone = null, mail = null),
+                mockLocation(3, "Aachen", phone = "+49 0241 9999", mail = "karl@aachen.de")
+            )
         )
         val instance = createInstance(this)
         val censorMe = LogLine(
             timestamp = 1,
             priority = 3,
-            message = "Munich is nice, but Aachen is nice too.",
+            message = """
+                Bürgermeister of Munich (+49 089 3333) and Karl of Aachen [+49 0241 9999] called each other.
+                Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
+                and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
+            """.trimIndent(),
             tag = "I'm a tag",
             throwable = null
         )
         instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message = "Location#2 is nice, but Location#3 is nice too."
-        )
-
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message = "Munich#2 is nice, but Aachen#3 is nice too."
+            message = """
+                Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
+                Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
+                and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
+            """.trimIndent()
         )
     }
 

@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @Reusable
-class DiaryPersonCensor @Inject constructor(
+class DiaryEncounterCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val persons by lazy {
-        diary.people.stateIn(
+    private val encounters by lazy {
+        diary.personEncounters.stateIn(
             scope = debugScope,
             started = SharingStarted.Lazily,
             initialValue = null
@@ -26,22 +26,14 @@ class DiaryPersonCensor @Inject constructor(
     }
 
     override suspend fun checkLog(entry: LogLine): LogLine? {
-        val personsNow = persons.first()
+        val encountersNow = encounters.first().filter { !it.circumstances.isNullOrBlank() }
 
-        if (personsNow.isEmpty()) return null
+        if (encountersNow.isEmpty()) return null
 
-        val newMessage = personsNow.fold(entry.message) { orig, person ->
-            var wip = orig.replace(person.fullName, "Person#${person.personId}/Name")
+        val newMessage = encountersNow.fold(entry.message) { orig, encounter ->
+            if (encounter.circumstances.isNullOrBlank()) return@fold orig
 
-            person.emailAddress?.let {
-                wip = wip.replace(it, "Person#${person.personId}/EMail")
-            }
-
-            person.phoneNumber?.let {
-                wip = wip.replace(it, "Person#${person.personId}/PhoneNumber")
-            }
-
-            wip
+            orig.replace(encounter.circumstances!!, "Encounter#${encounter.id}/Circumstances")
         }
 
         return entry.copy(message = newMessage)
