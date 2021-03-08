@@ -226,46 +226,6 @@ object LocalData {
             .also { isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value }
 
     /****************************************************
-     * SETTINGS DATA
-     ****************************************************/
-
-    private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
-
-    private val isNotificationsRiskEnabledFlowInternal by lazy {
-        MutableStateFlow(isNotificationsRiskEnabled)
-    }
-    val isNotificationsRiskEnabledFlow: Flow<Boolean> by lazy {
-        isNotificationsRiskEnabledFlowInternal
-    }
-    var isNotificationsRiskEnabled: Boolean
-        get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
-        set(value) = getSharedPreferenceInstance().edit(true) {
-            putBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, value)
-            isNotificationsRiskEnabledFlowInternal.value = value
-        }
-
-    private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
-    private val isNotificationsTestEnabledFlowInternal by lazy {
-        MutableStateFlow(isNotificationsTestEnabled)
-    }
-    val isNotificationsTestEnabledFlow: Flow<Boolean> by lazy {
-        isNotificationsTestEnabledFlowInternal
-    }
-    var isNotificationsTestEnabled: Boolean
-        get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)
-        set(value) = getSharedPreferenceInstance().edit(true) {
-            putBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, value)
-            isNotificationsTestEnabledFlowInternal.value = value
-        }
-
-    private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT = "preference_positive_test_result_reminder_count"
-    var numberOfRemainingSharePositiveTestResultReminders: Int
-        get() = getSharedPreferenceInstance().getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)
-        set(value) = getSharedPreferenceInstance().edit(true) {
-            putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, value)
-        }
-
-    /****************************************************
      * SUBMISSION DATA
      ****************************************************/
 
@@ -368,7 +328,7 @@ object LocalData {
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
-    private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
+    private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance!!
 
     /****************************************************
      * INTEROPERABILITY

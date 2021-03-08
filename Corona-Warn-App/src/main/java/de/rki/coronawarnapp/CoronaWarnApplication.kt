@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.preferences.EncryptedPreferencesMigration
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -59,6 +60,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
     @Inject lateinit var onboardingSettings: OnboardingSettings
+    @Inject lateinit var encryptedPreferencesMigration: EncryptedPreferencesMigration
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -75,6 +77,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
+
+        encryptedPreferencesMigration.doMigration()
 
         notificationHelper.createNotificationChannel()
 

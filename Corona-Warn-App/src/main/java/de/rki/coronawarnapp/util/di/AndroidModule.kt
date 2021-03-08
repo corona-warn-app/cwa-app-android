@@ -59,7 +59,7 @@ class AndroidModule {
     @EncryptedPreferences
     @Provides
     @Singleton
-    fun encryptedPreferences(): SharedPreferences = SecurityHelper.globalEncryptedSharedPreferencesInstance
+    fun encryptedPreferences(): SharedPreferences? = SecurityHelper.globalEncryptedSharedPreferencesInstance
 
     @Provides
     fun navDeepLinkBuilder(@AppContext context: Context): NavDeepLinkBuilder = NavDeepLinkBuilder(context)

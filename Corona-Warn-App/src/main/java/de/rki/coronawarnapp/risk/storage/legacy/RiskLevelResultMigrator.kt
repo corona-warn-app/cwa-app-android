@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.EncryptedPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.storage.EncryptedPreferences
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -25,7 +25,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class RiskLevelResultMigrator @Inject constructor(
-    @EncryptedPreferences encryptedPreferences: Lazy<SharedPreferences>,
+    @EncryptedPreferences encryptedPreferences: Lazy<SharedPreferences?>,
     private val timeStamper: TimeStamper,
     @AppContext
     private val context: Context
@@ -34,20 +34,20 @@ class RiskLevelResultMigrator @Inject constructor(
     private val prefs by lazy { encryptedPreferences.get() }
 
     private fun lastTimeRiskLevelCalculation(): Instant? {
-        prefs.getLong("preference_timestamp_risk_level_calculation", -1L).also {
+        (prefs?.getLong("preference_timestamp_risk_level_calculation", -1L) ?: -1L).also {
             Timber.tag(TAG).d("preference_timestamp_risk_level_calculation=$it")
             return if (it < 0) null else Instant.ofEpochMilli(it)
         }
     }
 
     private fun lastCalculatedRiskLevel(): RiskState? {
-        val rawRiskLevel = prefs.getInt("preference_risk_level_score", -1)
+        val rawRiskLevel = prefs?.getInt("preference_risk_level_score", -1) ?: -1
         Timber.tag(TAG).d("preference_risk_level_score=$rawRiskLevel")
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
 
     private fun lastSuccessfullyCalculatedRiskLevel(): RiskState? {
-        val rawRiskLevel = prefs.getInt("preference_risk_level_score_successful", -1)
+        val rawRiskLevel = prefs?.getInt("preference_risk_level_score_successful", -1) ?: -1
         Timber.tag(TAG).d("preference_risk_level_score_successful=$rawRiskLevel")
         return if (rawRiskLevel != -1) mapRiskLevelConstant(rawRiskLevel) else null
     }
