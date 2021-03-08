@@ -1,14 +1,17 @@
 package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,6 +22,7 @@ import testhelpers.BaseTestInstrumentation
 class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
+    @MockK lateinit var timeStamper: TimeStamper
 
     private lateinit var qrCodeVerifier: QRCodeVerifier
 
@@ -26,14 +30,20 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
-
-        qrCodeVerifier = DefaultQRCodeVerifier(SignatureValidation(environmentSetup))
+        qrCodeVerifier = DefaultQRCodeVerifier(
+            SignatureValidation(environmentSetup),
+            timeStamper
+        )
     }
 
     @Test
     fun verifyEvent() = runBlockingTest {
+        val time = 2687960 * 1_000L
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(time)
         shouldNotThrowAny {
-            qrCodeVerifier.verify(ENCODED_EVENT).apply {
+            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
+            verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.Success>()
+            verifyResult.apply {
                 event.description shouldBe "CWA Launch Party"
             }
         }

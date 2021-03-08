@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.eventregistration.checkin
 
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
 import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
 import io.kotest.matchers.shouldBe
@@ -28,7 +27,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        coEvery { qrCodeVerifier.verify(any()) } returns object : EventQRCode {
+        coEvery { qrCodeVerifier.verify(any()) } returns object : LocationQRCode {
             override val event: EventOuterClass.Event
                 get() = mockk<EventOuterClass.Event>().apply {
                     every { description } returns "CWA Event"
@@ -43,7 +42,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         val decodedEvent =
             "BIYAUEDBZY6EIWF7QX6JOKSRPAGEB3H7CIIEGV2BEBG"
         viewModel.decodeEvent(decodedEvent)
-        viewModel.eventData.getOrAwaitValue().apply {
+        viewModel.verifyResult.getOrAwaitValue().apply {
             event.description shouldBe "CWA Event"
         }
         coVerify { qrCodeVerifier.verify(any()) }

@@ -2,5 +2,5 @@ package de.rki.coronawarnapp.eventregistration.checkins.qrcode
 
 interface QRCodeVerifier {
 
-    suspend fun verify(encodedEvent: String): EventQRCode
+    suspend fun verify(encodedEvent: String): QRCodeVerifyResult
 }
