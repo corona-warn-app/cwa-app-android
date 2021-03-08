@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.eventregistration.storage
 
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultHostedEventRepository
-import de.rki.coronawarnapp.eventregistration.storage.repo.HostedEventRepository
+import de.rki.coronawarnapp.eventregistration.storage.repo.DefaultTraceLocationRepository
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import javax.inject.Singleton
 
 @Module
@@ -11,6 +11,6 @@ class EventRegistrationStorageModule {
 
     @Singleton
     @Provides
-    fun hostedEventRepository(defaultHostedEventRepository: DefaultHostedEventRepository): HostedEventRepository =
-        defaultHostedEventRepository
+    fun traceLocationRepository(defaultTraceLocationRepository: DefaultTraceLocationRepository): TraceLocationRepository =
+        defaultTraceLocationRepository
 }

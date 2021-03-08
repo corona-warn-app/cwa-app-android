@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.eventregistration.storage.repo
 
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.EventRegistrationDatabase
-import de.rki.coronawarnapp.eventregistration.storage.dao.HostedEventDao
-import de.rki.coronawarnapp.eventregistration.storage.entity.toHostedEventEntity
+import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
+import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -13,42 +13,42 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultHostedEventRepository @Inject constructor(
+class DefaultTraceLocationRepository @Inject constructor(
     eventRegistrationDatabaseFactory: EventRegistrationDatabase.Factory,
     @AppScope private val appScope: CoroutineScope
-) : HostedEventRepository {
+) : TraceLocationRepository {
 
     private val eventRegistrationDatabase: EventRegistrationDatabase by lazy {
         eventRegistrationDatabaseFactory.create()
     }
 
-    private val hostedEventDao: HostedEventDao by lazy {
-        eventRegistrationDatabase.hostedEventsDao()
+    private val traceLocationDao: TraceLocationDao by lazy {
+        eventRegistrationDatabase.traceLocation()
     }
 
-    override val allHostedEvents: Flow<List<TraceLocation>>
-        get() = hostedEventDao.allEntries() // TODO: SORTING
+    override val allTraceLocations: Flow<List<TraceLocation>>
+        get() = traceLocationDao.allEntries() // TODO: SORTING
 
-    override fun addHostedEvent(event: TraceLocation) {
+    override fun addTraceLocation(event: TraceLocation) {
         appScope.launch {
             Timber.d("Add hosted event: $event")
-            val eventEntity = event.toHostedEventEntity()
-            hostedEventDao.insert(eventEntity)
+            val eventEntity = event.toTraceLocationEntity()
+            traceLocationDao.insert(eventEntity)
         }
     }
 
-    override fun deleteHostedEvent(event: TraceLocation) {
+    override fun deleteTraceLocation(event: TraceLocation) {
         appScope.launch {
             Timber.d("Delete hosted event: $event")
-            val eventEntity = event.toHostedEventEntity()
-            hostedEventDao.delete(eventEntity)
+            val eventEntity = event.toTraceLocationEntity()
+            traceLocationDao.delete(eventEntity)
         }
     }
 
-    override fun deleteAllHostedEvents() {
+    override fun deleteAllTraceLocations() {
         appScope.launch {
             Timber.d("Delete all hosted events.")
-            hostedEventDao.deleteAll()
+            traceLocationDao.deleteAll()
         }
     }
 }

@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4920c34b52ab4187f89584baada511ee",
+    "identityHash": "65f3afcf5d1c6bf0e15c9b721418e49e",
     "entities": [
       {
-        "tableName": "hostedEvents",
+        "tableName": "traceLocations",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `location` TEXT NOT NULL, `startTime` TEXT, `endTime` TEXT, `defaultCheckInLength` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
         "fields": [
           {
@@ -76,7 +76,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4920c34b52ab4187f89584baada511ee')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '65f3afcf5d1c6bf0e15c9b721418e49e')"
     ]
   }
 }

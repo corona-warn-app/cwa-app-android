@@ -5,7 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
-import de.rki.coronawarnapp.eventregistration.storage.repo.HostedEventRepository
+import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -16,7 +16,7 @@ import java.util.UUID
 
 class CreateEventTestViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val hostedEventRepository: HostedEventRepository
+    private val traceLocationRepository: TraceLocationRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     @AssistedFactory
@@ -62,7 +62,7 @@ class CreateEventTestViewModel @AssistedInject constructor(
                 "ServerSignature"
             )
 
-            hostedEventRepository.addHostedEvent(traceLocation)
+            traceLocationRepository.addTraceLocation(traceLocation)
             result.postValue(Result.Success(traceLocation))
         } catch (exception: Exception) {
             Timber.d("Something went wrong when trying to create an event: $exception")

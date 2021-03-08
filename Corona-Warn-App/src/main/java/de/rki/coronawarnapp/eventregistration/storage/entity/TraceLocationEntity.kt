@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
 
 @Parcelize
-@Entity(tableName = "hostedEvents")
+@Entity(tableName = "traceLocations")
 data class TraceLocationEntity(
 
     @PrimaryKey @ColumnInfo(name = "guid") override val guid: String,
@@ -24,7 +24,7 @@ data class TraceLocationEntity(
 
 ) : TraceLocation, Parcelable
 
-fun TraceLocation.toHostedEventEntity(): TraceLocationEntity =
+fun TraceLocation.toTraceLocationEntity(): TraceLocationEntity =
     TraceLocationEntity(
         guid = guid,
         type = type,

@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 @Suppress("UnnecessaryAbstractClass")
-abstract class HostedEventDao {
+abstract class TraceLocationDao {
 
-    @Query("SELECT * FROM hostedEvents")
+    @Query("SELECT * FROM traceLocations")
     abstract fun allEntries(): Flow<List<TraceLocationEntity>>
 
     @Insert
-    abstract suspend fun insert(hostedEvent: TraceLocationEntity)
+    abstract suspend fun insert(traceLocation: TraceLocationEntity)
 
     @Delete
-    abstract suspend fun delete(hostedEvent: TraceLocationEntity)
+    abstract suspend fun delete(traceLocation: TraceLocationEntity)
 
-    @Query("DELETE FROM hostedEvents")
+    @Query("DELETE FROM traceLocations")
     abstract suspend fun deleteAll()
 }
