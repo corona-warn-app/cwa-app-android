@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
-import de.rki.coronawarnapp.risk.storage.legacy.RiskLevelResultMigrator
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -32,7 +31,6 @@ class DefaultRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var database: RiskResultDatabase
     @MockK lateinit var riskResultTables: RiskResultDatabase.RiskResultsDao
     @MockK lateinit var exposureWindowTables: RiskResultDatabase.ExposureWindowsDao
-    @MockK lateinit var riskLevelResultMigrator: RiskLevelResultMigrator
 
     private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
@@ -75,8 +73,6 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         every { database.exposureWindows() } returns exposureWindowTables
         every { database.clearAllTables() } just Runs
 
-        coEvery { riskLevelResultMigrator.getLegacyResults() } returns emptyList()
-
         every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
         every { riskResultTables.latestEntries(2) } returns emptyFlow()
         every { riskResultTables.latestAndLastSuccessful() } returns emptyFlow()
@@ -93,8 +89,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         scope: CoroutineScope = TestCoroutineScope()
     ) = DefaultRiskLevelStorage(
         scope = scope,
-        riskResultDatabaseFactory = databaseFactory,
-        riskLevelResultMigrator = riskLevelResultMigrator
+        riskResultDatabaseFactory = databaseFactory
     )
 
     @Test
