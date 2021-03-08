@@ -51,4 +51,11 @@ class DefaultTraceLocationRepository @Inject constructor(
             traceLocationDao.deleteAll()
         }
     }
+
+    override fun clear() {
+        appScope.launch {
+            Timber.d("Deleting all tables of event registration database.")
+            eventRegistrationDatabase.clearAllTables()
+        }
+    }
 }
