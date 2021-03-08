@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
-import timber.log.Timber
 
 /**
  * Key Store and Password Access
@@ -20,24 +19,20 @@ import timber.log.Timber
 object SecurityHelper {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal val encryptedPreferencesProvider: (ApplicationComponent) -> SharedPreferences = {
+    internal val encryptedPreferencesProvider: (ApplicationComponent) -> SharedPreferences? = {
         val factory = it.encryptedPreferencesFactory
         val encryptionErrorResetTool = it.errorResetTool
         withSecurityCatch {
             try {
                 factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
             } catch (e: Exception) {
-                if (encryptionErrorResetTool.tryResetIfNecessary(e)) {
-                    Timber.w("We could recovery from this error via reset. Now retrying.")
-                    factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
-                } else {
-                    throw e
-                }
+                encryptionErrorResetTool.isResetNoticeToBeShown = true
+                null
             }
         }
     }
 
-    val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
+    val globalEncryptedSharedPreferencesInstance: SharedPreferences? by lazy {
         encryptedPreferencesProvider(AppInjector.component)
     }
 
@@ -60,18 +55,18 @@ object SecurityHelper {
 
     @SuppressLint("ApplySharedPref")
     fun resetSharedPrefs() {
-        globalEncryptedSharedPreferencesInstance.clearAndNotify()
+        globalEncryptedSharedPreferencesInstance?.clearAndNotify()
     }
 
     private fun getStoredDbPassword(): ByteArray? =
         globalEncryptedSharedPreferencesInstance
-            .getString(CWA_APP_SQLITE_DB_PW, null)?.toPreservedByteArray
+            ?.getString(CWA_APP_SQLITE_DB_PW, null)?.toPreservedByteArray
 
     private fun storeDbPassword(keyBytes: ByteArray): ByteArray {
         globalEncryptedSharedPreferencesInstance
-            .edit()
-            .putString(CWA_APP_SQLITE_DB_PW, keyBytes.toPreservedString)
-            .apply()
+            ?.edit()
+            ?.putString(CWA_APP_SQLITE_DB_PW, keyBytes.toPreservedString)
+            ?.apply()
         return keyBytes
     }
 
