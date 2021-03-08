@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a810ccdf608db572903feb22025fc32b",
+    "identityHash": "244eed2a4665a1c60d0792de5945888b",
     "entities": [
       {
         "tableName": "checkin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT NOT NULL, `traceLocationEnd` TEXT NOT NULL, `defaultCheckInLengthInMinutes` INTEGER NOT NULL, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT NOT NULL, `targetCheckInEnd` TEXT NOT NULL, `createJournalEntry` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `address` TEXT NOT NULL, `traceLocationStart` TEXT, `traceLocationEnd` TEXT, `defaultCheckInLengthInMinutes` INTEGER, `signature` TEXT NOT NULL, `checkInStart` TEXT NOT NULL, `checkInEnd` TEXT, `targetCheckInEnd` TEXT, `createJournalEntry` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -48,19 +48,19 @@
             "fieldPath": "traceLocationStart",
             "columnName": "traceLocationStart",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "traceLocationEnd",
             "columnName": "traceLocationEnd",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "defaultCheckInLengthInMinutes",
             "columnName": "defaultCheckInLengthInMinutes",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "signature",
@@ -78,13 +78,13 @@
             "fieldPath": "checkInEnd",
             "columnName": "checkInEnd",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "targetCheckInEnd",
             "columnName": "targetCheckInEnd",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "createJournalEntry",
@@ -106,7 +106,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a810ccdf608db572903feb22025fc32b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '244eed2a4665a1c60d0792de5945888b')"
     ]
   }
 }

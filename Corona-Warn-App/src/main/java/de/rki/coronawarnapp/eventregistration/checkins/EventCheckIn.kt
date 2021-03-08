@@ -10,12 +10,12 @@ interface EventCheckIn {
     val type: Int
     val description: String
     val address: String
-    val traceLocationStart: Instant
-    val traceLocationEnd: Instant
-    val defaultCheckInLengthInMinutes: Int
+    val traceLocationStart: Instant?
+    val traceLocationEnd: Instant?
+    val defaultCheckInLengthInMinutes: Int?
     val signature: String
     val checkInStart: Instant
-    val checkInEnd: Instant
-    val targetCheckInEnd: Instant
+    val checkInEnd: Instant?
+    val targetCheckInEnd: Instant?
     val createJournalEntry: Boolean
 }
