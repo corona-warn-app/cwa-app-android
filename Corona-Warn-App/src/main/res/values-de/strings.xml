@@ -904,7 +904,7 @@
     <!-- YTXT: Dialog message if the log recording is stopped, and thus deleted. -->
     <string name="debugging_debuglog_stop_confirmation_message">"Der Fehlerbericht wurde gelöscht. Wenn Sie eine lokale Kopie des Fehlerberichts gespeichert haben, wurde diese nicht gelöscht."</string>
     <!-- YTXT: Dialog message if there is not enough free storage to start a debug log -->
-    <string name="debugging_debuglog_start_low_storage_error">"Sie brauchen mindestens 200 MB  Speicherplatz, um die Fehleranalyse zu starten. Bitte geben Sie Speicherplatz frei."</string>
+    <string name="debugging_debuglog_start_low_storage_error">"Sie brauchen mindestens 200 MB Speicherplatz, um die Fehleranalyse zu starten. Bitte geben Sie Speicherplatz frei."</string>
     <!-- XHED: Dialog title if a user has stored a debug log locally -->
     <string name="debugging_debuglog_localexport_title">"Lokal gespeichert"</string>
     <!-- YTXT: Dialog message if a user has stored a debug log locally -->
