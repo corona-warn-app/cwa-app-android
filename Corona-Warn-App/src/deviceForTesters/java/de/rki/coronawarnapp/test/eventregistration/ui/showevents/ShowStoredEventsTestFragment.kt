@@ -26,6 +26,10 @@ class ShowStoredEventsTestFragment : Fragment(R.layout.fragment_test_showstorede
         vm.storedEvents.observe2(this) { events ->
             binding.storedEvents.text = events.joinToString(separator = "\n\n") { it.getSimpleUIString() }
         }
+
+        binding.deleteAllEvents.setOnClickListener {
+            vm.deleteAllEvents()
+        }
     }
 
     private fun HostedEvent.getSimpleUIString(): String {

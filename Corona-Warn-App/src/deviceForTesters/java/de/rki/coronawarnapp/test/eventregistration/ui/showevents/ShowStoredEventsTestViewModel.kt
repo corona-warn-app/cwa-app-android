@@ -17,4 +17,10 @@ class ShowStoredEventsTestViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<ShowStoredEventsTestViewModel>
 
     val storedEvents = hostedEventRepository.allHostedEvents.asLiveData()
+
+    fun deleteAllEvents() {
+        launch {
+            hostedEventRepository.deleteAllHostedEvents()
+        }
+    }
 }
