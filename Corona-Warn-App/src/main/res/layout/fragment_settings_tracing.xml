@@ -92,35 +92,55 @@
                     app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/settings_interoperability_row"
-                    style="@style/row"
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/settingsInteroperabilityRow"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:paddingBottom="@dimen/spacing_tiny"
+                    android:background="?android:selectableItemBackground"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
 
-                    <TextView
-                        android:id="@+id/settings_plain_row_header_subtitle"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_interoperability_title" />
-
-                    <TextView
-                        android:id="@+id/settings_plain_row_header_body"
-                        style="@style/body2Medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_mega_tiny"
-                        android:text="@string/settings_interoperability_subtitle"
-                        app:layout_constraintEnd_toEndOf="parent"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/flag_eu"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        app:srcCompat="@drawable/ic_country_eu"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settings_plain_row_header_subtitle" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    <TextView
+                        android:id="@+id/interoperability_title"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_tiny"
+                        android:text="@string/settings_interoperability_title"
+                        app:layout_constraintBottom_toBottomOf="@id/flag_eu"
+                        app:layout_constraintStart_toEndOf="@id/flag_eu"
+                        app:layout_constraintTop_toTopOf="@id/flag_eu" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/flag_ch"
+                        android:layout_width="0dp"
+                        android:layout_height="22dp"
+                        app:srcCompat="@drawable/ic_country_ch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/interoperability_title" />
+
+                    <TextView
+                        android:id="@+id/interoperability_subtitle"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_interoperability_subtitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/flag_ch"
+                        app:layout_constraintStart_toStartOf="@id/interoperability_title"
+                        app:layout_constraintTop_toTopOf="@+id/flag_ch" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -129,7 +149,7 @@
                     android:background="@color/colorHairline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_interoperability_row" />
+                    app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"
@@ -138,7 +158,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_interoperability_row">
+                    app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow">
 
                     <include
                         android:id="@+id/settings_tracing_status_location"
