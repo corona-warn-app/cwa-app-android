@@ -3,12 +3,15 @@ package de.rki.coronawarnapp.storage.preferences
 import android.content.SharedPreferences
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.EncryptedPreferences
+import de.rki.coronawarnapp.submission.SubmissionSettings
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
 class EncryptedPreferencesMigration @Inject constructor(
     private val encryptedPreferencesHelper: EncryptedPreferencesHelper,
     private val cwaSettings: CWASettings,
+    private val submissionSettings: SubmissionSettings,
     @EncryptedPreferences private val encryptedSharedPreferences: SharedPreferences?
 ) {
 
@@ -39,8 +42,20 @@ class EncryptedPreferencesMigration @Inject constructor(
                 // TODO: tracing migration
             }
 
-            val submissionLocalData = SubmissionLocalData(encryptedSharedPreferences).apply {
-                // TODO: submission migration
+            SubmissionLocalData(encryptedSharedPreferences).apply {
+                submissionSettings.registrationToken.update {
+                    registrationToken()
+                }
+                submissionSettings.initialTestResultReceivedAt = initialTestResultReceivedTimestamp()?.let {
+                    Instant.ofEpochMilli(it)
+                }
+                submissionSettings.devicePairingSuccessfulAt = devicePairingSuccessfulTimestamp().let {
+                    if (it != 0L) {
+                        Instant.ofEpochMilli(it)
+                    } else null
+                }
+                submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
+                submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
             }
 
             encryptedPreferencesHelper.clean()
@@ -76,6 +91,27 @@ class EncryptedPreferencesMigration @Inject constructor(
     }
 
     private class SubmissionLocalData(private val sharedPreferences: SharedPreferences) {
-        // TODO:
+        fun registrationToken(): String? = sharedPreferences.getString(PKEY_REGISTRATION_TOKEN, null)
+
+        fun initialTestResultReceivedTimestamp(): Long? {
+            val timestamp = sharedPreferences.getLong(PKEY_INITIAL_RESULT_RECEIVED_TIME, 0L)
+
+            if (timestamp == 0L) return null
+            return timestamp
+        }
+
+        fun devicePairingSuccessfulTimestamp(): Long = sharedPreferences.getLong(PKEY_DEVICE_PARING_SUCCESSFUL_TIME, 0L)
+
+        fun numberOfSuccessfulSubmissions(): Int = sharedPreferences.getInt(PKEY_NUMBER_SUCCESSFUL_SUBMISSIONS, 0)
+
+        fun isAllowedToSubmitDiagnosisKeys(): Boolean = sharedPreferences.getBoolean(PKEY_IS_ALLOWED_TO_SUBMIT, false)
+
+        companion object {
+            private const val PKEY_REGISTRATION_TOKEN = "preference_registration_token"
+            private const val PKEY_INITIAL_RESULT_RECEIVED_TIME = "preference_initial_result_received_time"
+            private const val PKEY_DEVICE_PARING_SUCCESSFUL_TIME = "preference_device_pairing_successful_time"
+            private const val PKEY_NUMBER_SUCCESSFUL_SUBMISSIONS = "preference_number_successful_submissions"
+            private const val PKEY_IS_ALLOWED_TO_SUBMIT = "preference_is_allowed_to_submit_diagnosis_keys"
+        }
     }
 }
