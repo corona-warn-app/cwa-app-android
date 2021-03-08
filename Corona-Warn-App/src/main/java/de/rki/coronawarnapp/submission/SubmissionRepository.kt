@@ -35,7 +35,8 @@ class SubmissionRepository @Inject constructor(
     private val tekHistoryStorage: TEKHistoryStorage,
     private val deadmanNotificationScheduler: DeadmanNotificationScheduler
 ) {
-    private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
+    private val testResultReceivedDateFlowInternal =
+        MutableStateFlow(Date(LocalData.initialTestResultReceivedTimestamp() ?: System.currentTimeMillis()))
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
 
     private val deviceUIStateFlowInternal =
