@@ -477,8 +477,6 @@
         <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
-        <item name="counterTextAppearance">@color/colorTransparent</item>
-        <item name="android:maxLength">5</item>
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">

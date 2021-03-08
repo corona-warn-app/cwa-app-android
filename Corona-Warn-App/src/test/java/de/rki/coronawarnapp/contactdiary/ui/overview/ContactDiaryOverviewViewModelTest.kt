@@ -8,7 +8,8 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ListItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.contactdiary.util.ContactDiaryData
 import de.rki.coronawarnapp.contactdiary.util.mockStringsForContactDiaryExporterTests
 import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
@@ -110,8 +111,13 @@ open class ContactDiaryOverviewViewModelTest {
     }
 
     @Test
+    fun `first item is subheader`() {
+        createInstance().listItems.getOrAwaitValue().first() is OverviewSubHeaderItem
+    }
+
+    @Test
     fun `overview list lists all days as expected`() {
-        with(createInstance().listItems.getOrAwaitValue()) {
+        with(createInstance().listItems.getOrAwaitValue().filterIsInstance<DayOverviewItem>()) {
             size shouldBe ContactDiaryOverviewViewModel.DAY_COUNT
 
             var days = 0
@@ -129,7 +135,11 @@ open class ContactDiaryOverviewViewModelTest {
 
     @Test
     fun `navigate to day fragment with correct day`() {
-        val listItem = ListItem(date)
+        val listItem = DayOverviewItem(
+            date = date,
+            data = emptyList(),
+            risk = null
+        ) {}
 
         with(createInstance()) {
             onItemPress(listItem)
@@ -148,7 +158,11 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.locationVisits } returns flowOf(listOf(locationVisit))
         every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(listOf(aggregatedRiskPerDateResultLowRisk))
 
-        with(createInstance().listItems.getOrAwaitValue().first { it.date == date }) {
+        val item = createInstance().listItems.getOrAwaitValue().first {
+            it is DayOverviewItem && it.date == date
+        } as DayOverviewItem
+
+        with(item) {
             data.validate(
                 hasPerson = true,
                 hasLocation = true
@@ -166,7 +180,11 @@ open class ContactDiaryOverviewViewModelTest {
     fun `low risk without person or location`() {
         every { riskLevelStorage.aggregatedRiskPerDateResults } returns flowOf(listOf(aggregatedRiskPerDateResultLowRisk))
 
-        with(createInstance().listItems.getOrAwaitValue().first { it.date == date }) {
+        val item = createInstance().listItems.getOrAwaitValue().first {
+            it is DayOverviewItem && it.date == date
+        } as DayOverviewItem
+
+        with(item) {
             data.validate(
                 hasPerson = false,
                 hasLocation = false
@@ -190,7 +208,11 @@ open class ContactDiaryOverviewViewModelTest {
             )
         )
 
-        with(createInstance().listItems.getOrAwaitValue().first { it.date == date }) {
+        val item = createInstance().listItems.getOrAwaitValue().first {
+            it is DayOverviewItem && it.date == date
+        } as DayOverviewItem
+
+        with(item) {
             data.validate(
                 hasPerson = true,
                 hasLocation = true
@@ -212,7 +234,11 @@ open class ContactDiaryOverviewViewModelTest {
             )
         )
 
-        with(createInstance().listItems.getOrAwaitValue().first { it.date == date }) {
+        val item = createInstance().listItems.getOrAwaitValue().first {
+            it is DayOverviewItem && it.date == date
+        } as DayOverviewItem
+
+        with(item) {
             data.validate(
                 hasPerson = false,
                 hasLocation = false
@@ -236,7 +262,11 @@ open class ContactDiaryOverviewViewModelTest {
             )
         )
 
-        with(createInstance().listItems.getOrAwaitValue().first { it.date == date }) {
+        val item = createInstance().listItems.getOrAwaitValue().first {
+            it is DayOverviewItem && it.date == date
+        } as DayOverviewItem
+
+        with(item) {
             data.validate(
                 hasPerson = true,
                 hasLocation = true
@@ -258,7 +288,11 @@ open class ContactDiaryOverviewViewModelTest {
             )
         )
 
-        with(createInstance().listItems.getOrAwaitValue().first { it.date == date }) {
+        val item = createInstance().listItems.getOrAwaitValue().first {
+            it is DayOverviewItem && it.date == date
+        } as DayOverviewItem
+
+        with(item) {
             data.validate(
                 hasPerson = false,
                 hasLocation = false
@@ -298,7 +332,7 @@ open class ContactDiaryOverviewViewModelTest {
         }
     }
 
-    private fun List<ListItem.Data>.validate(hasPerson: Boolean, hasLocation: Boolean) {
+    private fun List<DayOverviewItem.Data>.validate(hasPerson: Boolean, hasLocation: Boolean) {
         var count = 0
         if (hasPerson) count++
         if (hasLocation) count++
@@ -306,17 +340,21 @@ open class ContactDiaryOverviewViewModelTest {
         size shouldBe count
         forEach {
             when (it.type) {
-                ListItem.Type.PERSON -> {
+                DayOverviewItem.Type.PERSON -> {
                     it.drawableId shouldBe R.drawable.ic_contact_diary_person_item
                 }
-                ListItem.Type.LOCATION -> {
+                DayOverviewItem.Type.LOCATION -> {
                     it.drawableId shouldBe R.drawable.ic_contact_diary_location_item
                 }
             }
         }
     }
 
-    private fun ListItem.Risk.validate(highRisk: Boolean, dueToLowEncounters: Boolean, hasPersonOrLocation: Boolean) {
+    private fun DayOverviewItem.Risk.validate(
+        highRisk: Boolean,
+        dueToLowEncounters: Boolean,
+        hasPersonOrLocation: Boolean
+    ) {
         when (highRisk) {
             true -> {
                 title shouldBe R.string.contact_diary_high_risk_title

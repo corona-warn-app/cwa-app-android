@@ -56,6 +56,7 @@ class FileSharing @Inject constructor(
 
     private fun determineMimeType(path: File): String = when {
         path.name.endsWith(".zip") -> "application/zip"
+        path.name.endsWith(".pdf") -> "application/pdf"
         else -> throw UnsupportedOperationException("Unsupported MIME type: $path")
     }
 

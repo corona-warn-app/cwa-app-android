@@ -18,7 +18,7 @@ class TracingExplanationDialog @Inject constructor(
             context.getString(R.string.risk_details_information_body_period_logged)
         val infoPeriodLoggedAssessment =
             context.getString(
-                R.string.risk_details_information_body_period_logged_assessment,
+                R.string.risk_details_information_body_period_logged_assessment_under_14_days,
                 activeTracingDaysInRetentionPeriod.toString()
             )
         val infoFAQ = context.getString(R.string.risk_details_explanation_dialog_faq_body)
