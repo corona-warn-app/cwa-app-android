@@ -54,7 +54,6 @@
             android:textColor="@color/colorTextPrimary1InvertedStable"
             app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/headline"
             tools:text="@plurals/risk_card_low_risk_encounter_days_body" />

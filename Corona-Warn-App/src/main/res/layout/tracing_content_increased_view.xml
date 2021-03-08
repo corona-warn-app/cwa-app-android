@@ -69,6 +69,17 @@
             app:layout_constraintTop_toBottomOf="@id/row_contact"
             tools:text="@string/risk_card_high_risk_most_recent_body_encounters_on_more_than_one_day" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/row_tracing_days"
+            gone="@{!state.inDetailsMode}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row_contact_last">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_time_fetched"
             android:layout_width="0dp"

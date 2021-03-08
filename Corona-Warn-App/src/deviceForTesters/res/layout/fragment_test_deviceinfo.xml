@@ -54,48 +54,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/google_play_services_version_info" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/tracing_container"
-                style="@style/Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
-
-                <TextView
-                    android:id="@+id/tracing_container_title"
-                    style="@style/headline6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tracing Infos"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tracing_infos_inactive_intervals"
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="Inactive tracing intervals: ?"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tracing_container_title" />
-
-                <TextView
-                    android:id="@+id/tracing_infos_active_tracing_retention"
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="Active tracing days in retention period: ?"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tracing_infos_inactive_intervals" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

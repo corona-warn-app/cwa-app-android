@@ -96,6 +96,20 @@ class TracingDetailsFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
+    fun capture_screenshot_tracing_low_risk_with_one_encounter() {
+        mockData(TracingData.LOW_RISK_WITH_ONE_ENCOUNTER)
+        captureScreenshot("tracing_low_risk_with_one_encounters")
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_tracing_low_risk_with_two_encounters() {
+        mockData(TracingData.LOW_RISK_WITH_TWO_ENCOUNTERS)
+        captureScreenshot("tracing_low_risk_with_two_encounters")
+    }
+
+    @Screenshot
+    @Test
     fun capture_screenshot_tracing_disabled() {
         mockData(TracingData.TRACING_DISABLED)
         captureScreenshot("tracing_disabled")

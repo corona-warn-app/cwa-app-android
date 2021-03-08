@@ -41,8 +41,6 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -107,10 +105,6 @@
                   Risk Card
     ###################################### -->
 
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days."</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Exposure logging permanently active"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Encounters have not yet been checked."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -344,8 +338,6 @@
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
-    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Exposure logging covers the past 14 days. During this time, the logging feature on your smartphone was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -380,10 +372,6 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Your Risk Status"</string>
 
-    <!-- XHED: one time risk explanation dialog title  -->
-    <string name="risk_details_explanation_dialog_title">"Information about exposure logging functionality"</string>
-    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Your Risk Status"</string>
     <!-- YTXT: risk details - deadman notification text -->

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
-import de.rki.coronawarnapp.util.security.VerificationKeys
+import de.rki.coronawarnapp.util.security.SignatureValidation
 import okhttp3.CacheControl
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @Reusable
 class AppConfigServer @Inject constructor(
     private val api: Lazy<AppConfigApiV2>,
-    private val verificationKeys: VerificationKeys,
+    private val signatureValidation: SignatureValidation,
     private val timeStamper: TimeStamper,
     private val testSettings: TestSettings
 ) {
@@ -49,7 +49,11 @@ class AppConfigServer @Inject constructor(
                 throw ApplicationConfigurationInvalidException(message = "Unknown files: ${fileMap.keys}")
             }
 
-            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
+            val hasValidSignature = signatureValidation.hasValidSignature(
+                exportBinary,
+                SignatureValidation.parseTEKStyleSignature(exportSignature)
+            )
+            if (!hasValidSignature) {
                 throw ApplicationConfigurationCorruptException()
             }
 

@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.risk.ProtoRiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
@@ -41,7 +40,6 @@ class TracingDetailsItemProviderTest : BaseTest() {
     @MockK(relaxed = true) lateinit var aggregatedRiskResult: AggregatedRiskResult
 
     @MockK lateinit var tracingStatus: GeneralTracingStatus
-    @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var installTimeProvider: InstallTimeProvider
     @MockK lateinit var surveys: Surveys
@@ -67,7 +65,6 @@ class TracingDetailsItemProviderTest : BaseTest() {
         availableSurveys: List<Surveys.Type> = emptyList()
     ) {
         every { tracingStatus.generalStatus } returns flowOf(status)
-        every { tracingRepository.activeTracingDaysInRetentionPeriod } returns flowOf(0)
         every { aggregatedRiskResult.totalRiskLevel } returns riskLevel
         every { installTimeProvider.daysSinceInstallation } returns daysSinceInstallation
         every { surveys.availableSurveys } returns flowOf(availableSurveys)

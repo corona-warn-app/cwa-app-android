@@ -8,9 +8,6 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
-import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
-import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
 import timber.log.Timber
 
@@ -47,42 +44,9 @@ object SecurityHelper {
     private val ByteArray.toPreservedString: String
         get() = Base64.encodeToString(this, Base64.NO_WRAP)
 
-    /**
-     * Retrieves the db password from encrypted shared preferences. The password is automatically
-     * encrypted when storing the password and decrypted when retrieving the password.
-     *
-     * If no password exists yet, a new password is generated and stored into
-     * encrypted shared preferences. The length of the password will be in the interval
-     * of [[DB_PASSWORD_MIN_LENGTH], [DB_PASSWORD_MAX_LENGTH]]
-     */
-    fun getDBPassword(): ByteArray =
-        getStoredDbPassword() ?: storeDbPassword(generateDBPassword())
-
     @SuppressLint("ApplySharedPref")
     fun resetSharedPrefs() {
         globalEncryptedSharedPreferencesInstance.clearAndNotify()
-    }
-
-    private fun getStoredDbPassword(): ByteArray? =
-        globalEncryptedSharedPreferencesInstance
-            .getString(CWA_APP_SQLITE_DB_PW, null)?.toPreservedByteArray
-
-    private fun storeDbPassword(keyBytes: ByteArray): ByteArray {
-        globalEncryptedSharedPreferencesInstance
-            .edit()
-            .putString(CWA_APP_SQLITE_DB_PW, keyBytes.toPreservedString)
-            .apply()
-        return keyBytes
-    }
-
-    private fun generateDBPassword(): ByteArray {
-        val secureRandom = SecurityModule().secureRandom()
-        val max = DB_PASSWORD_MAX_LENGTH
-        val min = DB_PASSWORD_MIN_LENGTH
-        val passwordLength = secureRandom.nextInt(max - min + 1) + min
-        val password = ByteArray(passwordLength)
-        secureRandom.nextBytes(password)
-        return password
     }
 
     fun <T> withSecurityCatch(doInCatch: () -> T) = try {
