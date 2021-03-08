@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
+import de.rki.coronawarnapp.eventregistration.events.toTraceLocations
 import de.rki.coronawarnapp.eventregistration.storage.EventRegistrationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toTraceLocationEntity
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,7 +29,7 @@ class DefaultTraceLocationRepository @Inject constructor(
     }
 
     override val allTraceLocations: Flow<List<TraceLocation>>
-        get() = traceLocationDao.allEntries() // TODO: SORTING
+        get() = traceLocationDao.allEntries().map { it.toTraceLocations() }
 
     override fun addTraceLocation(event: TraceLocation) {
         appScope.launch {

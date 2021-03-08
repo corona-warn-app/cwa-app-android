@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.events
 
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import org.joda.time.Instant
 
 const val TRACE_LOCATION_VERSION = 1
@@ -15,6 +16,20 @@ data class DefaultTraceLocation(
     override val signature: String,
     override val version: Int = TRACE_LOCATION_VERSION,
 ) : TraceLocation
+
+fun List<TraceLocationEntity>.toTraceLocations() = this.map { it.toTraceLocation() }
+
+fun TraceLocationEntity.toTraceLocation() = DefaultTraceLocation(
+    guid,
+    type,
+    description,
+    address,
+    startDate,
+    endDate,
+    defaultCheckInLengthInMinutes,
+    signature,
+    version
+)
 
 /*fun SignedEventOuterClass.SignedEvent.toHostedEvent(): TraceLocation =
     DefaultTraceLocation(
