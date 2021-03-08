@@ -13,6 +13,7 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 object TimeAndDateExtensions {
@@ -87,4 +88,6 @@ object TimeAndDateExtensions {
     fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
+
+    fun Instant.toUserTimeZone() = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
 }

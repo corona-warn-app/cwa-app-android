@@ -854,7 +854,7 @@
     <!-- XHED: Headline for debug log screen -->
     <string name="debugging_debuglog_title">"Error Report"</string>
     <!-- YTXT: Description for the debug option to record log files -->
-    <string name="debugging_debuglog_intro_explanation">"This option logs the app’s behavior in a text file. If this option is activated before an error occurs, you can make this report available to help the developers solve the problem.\nIf you leave this option activated, it will result in high storage requirements. If you deactivate the option, the error report is deleted."</string>
+    <string name="debugging_debuglog_intro_explanation_section_one">"This option logs the app’s behavior in a text file. If this option is activated before an error occurs, you can make this report available to help the developers solve the problem.\nIf you leave this option activated, it will result in high storage requirements. If you deactivate the option, the error report is deleted."</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
     <string name="debugging_debuglog_intro_warning">"Please note that error reports may contain sensitive data (such as a test result or contact journal entries). Therefore, you should not share these error reports publicly."</string>
     <!-- XBUT: Button text to start the log recording -->
