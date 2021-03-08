@@ -37,12 +37,37 @@ class DefaultQRCodeVerifierTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun verifyEvent() = runBlockingTest {
+    fun verifyEventSuccess() = runBlockingTest {
         val time = 2687960 * 1_000L
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(time)
         shouldNotThrowAny {
             val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
             verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.Success>()
+            verifyResult.apply {
+                event.description shouldBe "CWA Launch Party"
+            }
+        }
+    }
+
+    @Test
+    fun verifyEventStartTimeWaning() = runBlockingTest {
+        val time = 2687940 * 1_000L
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(time)
+        shouldNotThrowAny {
+            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
+            verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.StartTimeWarning>()
+            verifyResult.apply {
+                event.description shouldBe "CWA Launch Party"
+            }
+        }
+    }
+
+    @Test
+    fun verifyEventEndTimeWarning() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.now()
+        shouldNotThrowAny {
+            val verifyResult = qrCodeVerifier.verify(ENCODED_EVENT)
+            verifyResult.shouldBeInstanceOf<QRCodeVerifyResult.EndTimeWarning>()
             verifyResult.apply {
                 event.description shouldBe "CWA Launch Party"
             }
