@@ -6,6 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
 import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -41,12 +42,9 @@ class CreateEventTestViewModel @AssistedInject constructor(
             /* TODO: wait for new protobuf messages 'TraceLocation' and perform network request to get
                 'SignedTraceLocation' */
 
-            // val startTimeStampMillis = startDate?.toInstant()?.millis ?: 0
-            // val endTimeStampMillis = endDate?.toInstant()?.millis ?: 0
-
             // Backend needs UNIX timestamp in Seconds, not milliseconds
-            // val startTimeStampSeconds = (startTimeStampMillis / 1000).toInt()
-            // val endTimeStampSeconds = (endTimeStampMillis / 1000).toInt()
+            val startTimeStampSeconds = startDate?.toInstant()?.seconds ?: 0
+            val endTimeStampSeconds = endDate?.toInstant()?.seconds ?: 0
 
             val traceLocationType =
                 if (type == "Event") TraceLocation.Type.TEMPORARY_OTHER else TraceLocation.Type.PERMANENT_OTHER
