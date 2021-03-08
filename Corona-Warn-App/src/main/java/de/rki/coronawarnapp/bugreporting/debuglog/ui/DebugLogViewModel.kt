@@ -56,7 +56,7 @@ class DebugLogViewModel @AssistedInject constructor(
     }
 
     fun onShareButtonPress() {
-        events.postValue(Event.NavigateToShareFragment)
+        events.postValue(Event.NavigateToUploadFragment)
     }
 
     fun onIdHistoryPress() {
@@ -150,7 +150,7 @@ class DebugLogViewModel @AssistedInject constructor(
 
     sealed class Event {
         object NavigateToPrivacyFragment : Event()
-        object NavigateToShareFragment : Event()
+        object NavigateToUploadFragment : Event()
         object NavigateToUploadHistory : Event()
         object ShowLogDeletedConfirmation : Event()
         object ShowLowStorageDialog : Event()

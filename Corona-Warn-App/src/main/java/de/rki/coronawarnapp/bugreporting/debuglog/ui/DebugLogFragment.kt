@@ -109,14 +109,14 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                         DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
                     )
                 }
-                DebugLogViewModel.Event.NavigateToShareFragment -> {
+                DebugLogViewModel.Event.NavigateToUploadFragment -> {
                     doNavigate(
-                        DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
+                        DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
                     )
                 }
                 DebugLogViewModel.Event.NavigateToUploadHistory -> {
                     doNavigate(
-                        DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
+                        DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
                     )
                 }
                 is DebugLogViewModel.Event.Error -> {
