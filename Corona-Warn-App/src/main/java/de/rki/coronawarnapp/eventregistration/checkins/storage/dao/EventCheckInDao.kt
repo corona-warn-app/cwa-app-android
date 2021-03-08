@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.eventregistration.checkins.storage.dao
 import androidx.room.Dao
 import androidx.room.Query
 import de.rki.coronawarnapp.contactdiary.storage.dao.BaseRoomDao
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.eventregistration.checkins.storage.entity.EventCheckInEntity
 import kotlinx.coroutines.flow.Flow
 
