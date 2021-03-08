@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import io.kotest.assertions.throwables.shouldThrowAny
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -30,9 +32,10 @@ class ExposureWindowRiskCalculationConfigMapperTest : BaseTest() {
             hasDiagnosisKeysDataMapping() shouldBe false
         }
 
-        shouldThrowAny {
+        val error = shouldThrow<ApplicationConfigurationInvalidException> {
             createInstance().map(rawConfig)
         }
+        error.message shouldContain "Risk Calculation Parameters"
     }
 
     @Test
@@ -46,9 +49,10 @@ class ExposureWindowRiskCalculationConfigMapperTest : BaseTest() {
             hasDiagnosisKeysDataMapping() shouldBe false
         }
 
-        shouldThrowAny {
+        val error = shouldThrow<ApplicationConfigurationInvalidException> {
             createInstance().map(rawConfig)
         }
+        error.message shouldContain "Diagnosis Keys Data Mapping"
     }
 
     @Test
@@ -64,9 +68,10 @@ class ExposureWindowRiskCalculationConfigMapperTest : BaseTest() {
             riskCalculationParameters.transmissionRiskValueMappingList.isEmpty() shouldBe true
         }
 
-        shouldThrowAny {
+        val error = shouldThrow<ApplicationConfigurationInvalidException> {
             createInstance().map(rawConfig)
         }
+        error.message shouldContain "Transmission Risk Value Mapping List"
     }
 
     @Test

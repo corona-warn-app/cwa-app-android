@@ -29,7 +29,7 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         val riskCalculationParameters = rawConfig.riskCalculationParameters
 
         if (riskCalculationParameters.transmissionRiskValueMappingList.isEmpty()) {
-            val msg = "Transmission Risk Value Mapping list is empty which indicates an outdated app config"
+            val msg = "Transmission Risk Value Mapping List is empty which indicates an outdated app config"
             Timber.w(msg)
             throw ApplicationConfigurationInvalidException(
                 message = msg
@@ -64,10 +64,14 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         }
 
     data class ExposureWindowRiskCalculationContainer(
-        override val minutesAtAttenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
-        override val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
-        override val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
-        override val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>,
+        override val minutesAtAttenuationFilters:
+            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
+        override val minutesAtAttenuationWeights:
+            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
+        override val transmissionRiskLevelEncoding:
+            RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
+        override val transmissionRiskLevelFilters:
+            List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
             List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
