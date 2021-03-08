@@ -48,8 +48,6 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -118,6 +116,8 @@
                   Risk Card
     ###################################### -->
 
+    <!-- XTXT: risk card - Days since installation if < 14 days -->
+    <string name="risk_card_body_days_since_installation">"Seit %s Tagen installiert"</string>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -339,6 +339,8 @@
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 
+    <!-- XMSG: risk details - ventilation bullet point -->
+    <string name="risk_details_behavior_body_ventilation">"Lüften Sie Innenräume mehrmals täglich. Öffnen Sie dazu die Fenster einige Minuten lang so weit wie möglich (Stoßlüftung)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Sneeze or cough into your elbow or a tissue."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
@@ -355,7 +357,11 @@
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Exposure logging covers the past 14 days. During this time, the logging feature on your smartphone was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
+    <!-- XTXT: risk details - infection period logged information body, over 14 days -->
+    <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Wenn die Risiko-Ermittlung zu Zeiten in denen sie andere Personen getroffen haben aktiv war, kann die Berechnung des Infektionsrisikos für diesen Zeitraum erfolgen."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the past 14 days. During this time, the logging feature on your smartphone was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
@@ -390,11 +396,6 @@
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Your Risk Status"</string>
-
-    <!-- XHED: one time risk explanation dialog title  -->
-    <string name="risk_details_explanation_dialog_title">"Information about exposure logging functionality"</string>
-    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
 
     <!-- XHED: risk details - deadman notification title -->
     <string name="risk_details_deadman_notification_title">"Your Risk Status"</string>
