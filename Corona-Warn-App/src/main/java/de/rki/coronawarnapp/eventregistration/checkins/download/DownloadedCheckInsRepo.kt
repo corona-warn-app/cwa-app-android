@@ -18,10 +18,10 @@ class FakeDownloadedCheckInsRepo @Inject constructor() : DownloadedCheckInsRepo 
         get() = listOf(listOf<CheckInsPackage>(FakeCheckInsPackage)).asFlow()
 
     override fun addCheckIns(checkins: List<CheckInsPackage>) {
-        //TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun removeCheckIns(checkins: List<CheckInsPackage>) {
-        //TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }
