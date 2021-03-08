@@ -1,12 +1,12 @@
-package de.rki.coronawarnapp.eventregistration.checkins.storage
+package de.rki.coronawarnapp.eventregistration.storage
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import de.rki.coronawarnapp.eventregistration.checkins.storage.dao.TraceLocationCheckInDao
-import de.rki.coronawarnapp.eventregistration.checkins.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationCheckInDao
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject

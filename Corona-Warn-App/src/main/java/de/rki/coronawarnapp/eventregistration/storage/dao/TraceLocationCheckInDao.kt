@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.eventregistration.checkins.storage.dao
+package de.rki.coronawarnapp.eventregistration.storage.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import de.rki.coronawarnapp.eventregistration.checkins.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

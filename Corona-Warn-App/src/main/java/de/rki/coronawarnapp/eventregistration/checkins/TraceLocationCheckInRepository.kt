@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.eventregistration.checkins
 
-import de.rki.coronawarnapp.eventregistration.checkins.storage.TraceLocationDatabase
-import de.rki.coronawarnapp.eventregistration.checkins.storage.dao.TraceLocationCheckInDao
-import de.rki.coronawarnapp.eventregistration.checkins.storage.entity.TraceLocationCheckInEntity
+import de.rki.coronawarnapp.eventregistration.storage.TraceLocationDatabase
+import de.rki.coronawarnapp.eventregistration.storage.dao.TraceLocationCheckInDao
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckInEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

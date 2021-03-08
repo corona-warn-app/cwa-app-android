@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.eventregistration.checkins.storage.entity
+package de.rki.coronawarnapp.eventregistration.storage.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
