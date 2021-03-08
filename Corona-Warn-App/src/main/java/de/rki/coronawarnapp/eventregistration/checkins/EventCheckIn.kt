@@ -6,6 +6,6 @@ interface EventCheckIn {
 
     val id: Long
     val guid: String
-    val startTime: Instant
-    val endTime: Instant
+    val start: Instant
+    val end: Instant
 }
