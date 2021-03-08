@@ -1,14 +1,11 @@
 package de.rki.coronawarnapp.test.eventregistration.ui.createevent
 
 import androidx.lifecycle.MutableLiveData
-import com.google.protobuf.ByteString
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.eventregistration.events.HostedEvent
-import de.rki.coronawarnapp.eventregistration.events.toHostedEvent
+import de.rki.coronawarnapp.eventregistration.events.DefaultTraceLocation
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.repo.HostedEventRepository
-import de.rki.coronawarnapp.server.protocols.internal.evreg.EventOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.evreg.SignedEventOuterClass
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -28,8 +25,9 @@ class CreateEventTestViewModel @AssistedInject constructor(
     val result = MutableLiveData<Result>()
 
     fun createEvent(
+        type: String,
         description: String,
-        location: String,
+        address: String,
         start: String,
         end: String,
         defaultCheckInLengthInMinutes: String
@@ -40,35 +38,32 @@ class CreateEventTestViewModel @AssistedInject constructor(
             val endDate =
                 if (end.isBlank()) null else DateTime.parse(end, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"))
 
-            val startTimeStampMillis = startDate?.toInstant()?.millis ?: 0
-            val endTimeStampMillis = endDate?.toInstant()?.millis ?: 0
+            /* TODO: wait for new protobuf messages 'TraceLocation' and perform network request to get
+                'SignedTraceLocation' */
+
+            // val startTimeStampMillis = startDate?.toInstant()?.millis ?: 0
+            // val endTimeStampMillis = endDate?.toInstant()?.millis ?: 0
 
             // Backend needs UNIX timestamp in Seconds, not milliseconds
-            val startTimeStampSeconds = (startTimeStampMillis / 1000).toInt()
-            val endTimeStampSeconds = (endTimeStampMillis / 1000).toInt()
+            // val startTimeStampSeconds = (startTimeStampMillis / 1000).toInt()
+            // val endTimeStampSeconds = (endTimeStampMillis / 1000).toInt()
 
-            // details yet tbd, but we basically sent our event entity to the backend ...
-            val event = EventOuterClass.Event.newBuilder()
-                .setDescription(description)
-                // .setLocation(location) // will probably added in a future protobuf
-                .setStart(startTimeStampSeconds)
-                .setEnd(endTimeStampSeconds)
-                .setDefaultCheckInLengthInMinutes(defaultCheckInLengthInMinutes.toInt())
+            val traceLocationType =
+                if (type == "Event") TraceLocation.Type.TEMPORARY_OTHER else TraceLocation.Type.PERMANENT_OTHER
 
-            // and the server responds with an event object with additional information
-            val serverEvent = event
-                .setGuid(ByteString.copyFrom(UUID.randomUUID().toString().toByteArray())) // Server creates GUID
-                .build()
+            val traceLocation = DefaultTraceLocation(
+                UUID.randomUUID().toString(), // will be provided by the server when the endpoint is ready
+                traceLocationType,
+                description,
+                address,
+                startDate?.toInstant(),
+                endDate?.toInstant(),
+                defaultCheckInLengthInMinutes.toInt(),
+                "ServerSignature"
+            )
 
-            val signedEvent = SignedEventOuterClass.SignedEvent.newBuilder()
-                .setEvent(serverEvent)
-                .setSignature(ByteString.copyFrom("ServerSignature".toByteArray()))
-                .build()
-
-            val hostedEvent = signedEvent.toHostedEvent()
-
-            hostedEventRepository.addHostedEvent(hostedEvent)
-            result.postValue(Result.Success(hostedEvent))
+            hostedEventRepository.addHostedEvent(traceLocation)
+            result.postValue(Result.Success(traceLocation))
         } catch (exception: Exception) {
             Timber.d("Something went wrong when trying to create an event: $exception")
             result.postValue(Result.Error)
@@ -77,6 +72,6 @@ class CreateEventTestViewModel @AssistedInject constructor(
 
     sealed class Result {
         object Error : Result()
-        data class Success(val eventEntity: HostedEvent) : Result()
+        data class Success(val eventEntity: TraceLocation) : Result()
     }
 }

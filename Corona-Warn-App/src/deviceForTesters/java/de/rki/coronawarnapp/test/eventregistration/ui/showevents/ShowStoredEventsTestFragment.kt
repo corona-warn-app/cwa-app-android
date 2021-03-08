@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestShowstoredeventsBinding
-import de.rki.coronawarnapp.eventregistration.events.HostedEvent
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -32,15 +32,17 @@ class ShowStoredEventsTestFragment : Fragment(R.layout.fragment_test_showstorede
         }
     }
 
-    private fun HostedEvent.getSimpleUIString(): String {
+    private fun TraceLocation.getSimpleUIString(): String {
         return listOf(
             "guid = $guid",
+            "type = $type",
             "description = $description",
-            "location = $location",
-            "startTime = $startTime",
-            "endTime = $endTime",
+            "location = $address",
+            "startTime = $startDate",
+            "endTime = $endDate",
             "defaultCheckInLengthInMinutes = $defaultCheckInLengthInMinutes",
-            "signature = $signature"
+            "signature = $signature",
+            "version = $version"
         ).joinToString(separator = "\n")
     }
 }

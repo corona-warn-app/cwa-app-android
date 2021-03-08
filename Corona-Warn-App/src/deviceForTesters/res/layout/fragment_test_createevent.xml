@@ -65,10 +65,10 @@
                 android:layout_marginBottom="@dimen/spacing_tiny">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/event_location"
+                    android:id="@+id/event_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Location"
+                    android:hint="Address"
                     android:maxLines="1"
                     android:padding="@dimen/spacing_tiny"
                     tools:ignore="HardcodedText" />

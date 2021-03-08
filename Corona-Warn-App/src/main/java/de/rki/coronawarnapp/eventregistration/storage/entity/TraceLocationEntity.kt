@@ -4,31 +4,35 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import de.rki.coronawarnapp.eventregistration.events.HostedEvent
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
 
 @Parcelize
 @Entity(tableName = "hostedEvents")
-data class HostedEventEntity(
+data class TraceLocationEntity(
 
     @PrimaryKey @ColumnInfo(name = "guid") override val guid: String,
+    @ColumnInfo(name = "version") override val version: Int,
+    @ColumnInfo(name = "type") override val type: TraceLocation.Type,
     @ColumnInfo(name = "description") override val description: String,
-    @ColumnInfo(name = "location") override val location: String,
-    @ColumnInfo(name = "startTime") override val startTime: Instant?,
-    @ColumnInfo(name = "endTime") override val endTime: Instant?,
+    @ColumnInfo(name = "location") override val address: String,
+    @ColumnInfo(name = "startTime") override val startDate: Instant?,
+    @ColumnInfo(name = "endTime") override val endDate: Instant?,
     @ColumnInfo(name = "defaultCheckInLength") override val defaultCheckInLengthInMinutes: Int?,
     @ColumnInfo(name = "signature") override val signature: String
 
-) : HostedEvent, Parcelable
+) : TraceLocation, Parcelable
 
-fun HostedEvent.toHostedEventEntity(): HostedEventEntity =
-    HostedEventEntity(
+fun TraceLocation.toHostedEventEntity(): TraceLocationEntity =
+    TraceLocationEntity(
         guid = guid,
+        type = type,
         description = description,
-        location = "hardcodedLocation", // event.location will be in the protobuf at some point in the future
-        startTime = startTime,
-        endTime = endTime,
+        address = address,
+        startDate = startDate,
+        endDate = endDate,
         defaultCheckInLengthInMinutes = defaultCheckInLengthInMinutes,
-        signature = signature
+        signature = signature,
+        version = version
     )

@@ -2,16 +2,28 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6570bad9213df22a0fe02a3f2185da8e",
+    "identityHash": "4920c34b52ab4187f89584baada511ee",
     "entities": [
       {
         "tableName": "hostedEvents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `description` TEXT NOT NULL, `location` TEXT NOT NULL, `startTime` TEXT, `endTime` TEXT, `defaultCheckInLength` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`guid` TEXT NOT NULL, `version` INTEGER NOT NULL, `type` INTEGER NOT NULL, `description` TEXT NOT NULL, `location` TEXT NOT NULL, `startTime` TEXT, `endTime` TEXT, `defaultCheckInLength` INTEGER, `signature` TEXT NOT NULL, PRIMARY KEY(`guid`))",
         "fields": [
           {
             "fieldPath": "guid",
             "columnName": "guid",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -21,19 +33,19 @@
             "notNull": true
           },
           {
-            "fieldPath": "location",
+            "fieldPath": "address",
             "columnName": "location",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "startTime",
+            "fieldPath": "startDate",
             "columnName": "startTime",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "endTime",
+            "fieldPath": "endDate",
             "columnName": "endTime",
             "affinity": "TEXT",
             "notNull": false
@@ -64,7 +76,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6570bad9213df22a0fe02a3f2185da8e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4920c34b52ab4187f89584baada511ee')"
     ]
   }
 }

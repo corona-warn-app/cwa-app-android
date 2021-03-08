@@ -40,11 +40,9 @@ class CreateEventTestFragment : Fragment(R.layout.fragment_test_createevent), Au
         vm.result.observe2(this) {
             when (it) {
                 is CreateEventTestViewModel.Result.Success ->
-                    binding.resultText.text =
-                        "Successfully stored event: ${it.eventEntity}"
+                    binding.resultText.text = "Successfully stored: ${it.eventEntity}"
                 is CreateEventTestViewModel.Result.Error ->
-                    binding.resultText.text =
-                        "There is something wrong with your input values, please check again."
+                    binding.resultText.text = "There is something wrong with your input values, please check again."
             }
         }
     }
@@ -52,8 +50,9 @@ class CreateEventTestFragment : Fragment(R.layout.fragment_test_createevent), Au
     private fun initOnCreateEventClicked() = with(binding) {
         createEventButton.setOnClickListener {
             vm.createEvent(
+                eventOrLocationSpinner.editText!!.text.toString(),
                 eventDescription.text.toString(),
-                eventLocation.text.toString(),
+                eventAddress.text.toString(),
                 eventStartEditText.text.toString(),
                 eventEndEditText.text.toString(),
                 eventDefaultCheckinLengthInMinutes.text.toString()

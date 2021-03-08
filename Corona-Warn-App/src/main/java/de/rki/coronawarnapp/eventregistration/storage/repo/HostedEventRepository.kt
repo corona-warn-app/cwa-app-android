@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
-import de.rki.coronawarnapp.eventregistration.events.HostedEvent
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import kotlinx.coroutines.flow.Flow
 
 interface HostedEventRepository {
 
-    val allHostedEvents: Flow<List<HostedEvent>>
+    val allHostedEvents: Flow<List<TraceLocation>>
 
-    fun addHostedEvent(event: HostedEvent)
+    fun addHostedEvent(event: TraceLocation)
 
-    fun deleteHostedEvent(event: HostedEvent)
+    fun deleteHostedEvent(event: TraceLocation)
 
     fun deleteAllHostedEvents()
 }

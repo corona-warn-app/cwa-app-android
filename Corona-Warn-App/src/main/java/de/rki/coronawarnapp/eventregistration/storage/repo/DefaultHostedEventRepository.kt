@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.eventregistration.storage.repo
 
-import de.rki.coronawarnapp.eventregistration.events.HostedEvent
+import de.rki.coronawarnapp.eventregistration.events.TraceLocation
 import de.rki.coronawarnapp.eventregistration.storage.EventRegistrationDatabase
 import de.rki.coronawarnapp.eventregistration.storage.dao.HostedEventDao
 import de.rki.coronawarnapp.eventregistration.storage.entity.toHostedEventEntity
@@ -26,10 +26,10 @@ class DefaultHostedEventRepository @Inject constructor(
         eventRegistrationDatabase.hostedEventsDao()
     }
 
-    override val allHostedEvents: Flow<List<HostedEvent>>
+    override val allHostedEvents: Flow<List<TraceLocation>>
         get() = hostedEventDao.allEntries() // TODO: SORTING
 
-    override fun addHostedEvent(event: HostedEvent) {
+    override fun addHostedEvent(event: TraceLocation) {
         appScope.launch {
             Timber.d("Add hosted event: $event")
             val eventEntity = event.toHostedEventEntity()
@@ -37,7 +37,7 @@ class DefaultHostedEventRepository @Inject constructor(
         }
     }
 
-    override fun deleteHostedEvent(event: HostedEvent) {
+    override fun deleteHostedEvent(event: TraceLocation) {
         appScope.launch {
             Timber.d("Delete hosted event: $event")
             val eventEntity = event.toHostedEventEntity()

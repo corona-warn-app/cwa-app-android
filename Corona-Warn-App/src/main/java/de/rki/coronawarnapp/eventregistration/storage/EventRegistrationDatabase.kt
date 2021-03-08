@@ -6,19 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.eventregistration.storage.dao.HostedEventDao
-import de.rki.coronawarnapp.eventregistration.storage.entity.HostedEventEntity
+import de.rki.coronawarnapp.eventregistration.storage.entity.EventRegistrationConverters
+import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 @Database(
     entities = [
-        HostedEventEntity::class
+        TraceLocationEntity::class
     ],
     version = 1,
     exportSchema = true
 )
-@TypeConverters(CommonConverters::class)
+@TypeConverters(CommonConverters::class, EventRegistrationConverters::class)
 abstract class EventRegistrationDatabase : RoomDatabase() {
 
     abstract fun hostedEventsDao(): HostedEventDao
