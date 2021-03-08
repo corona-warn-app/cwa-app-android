@@ -7,9 +7,9 @@ import android.provider.Settings
 import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -152,17 +152,17 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
     }
 
     private fun showLogDeletionConfirmation() {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setMessage(R.string.debugging_debuglog_stop_confirmation_message)
             setPositiveButton(android.R.string.yes) { _, _ -> }
         }.show()
     }
 
     private fun showLowStorageError() {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.errors_generic_headline_short)
             setMessage(R.string.debugging_debuglog_start_low_storage_error)
-            setPositiveButton(android.R.string.yes) { _, _ -> }
+            setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
             setNeutralButton(R.string.menu_settings) { _, _ ->
                 try {
                     startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
@@ -174,21 +174,21 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
     }
 
     private fun showExportResult() {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.debugging_debuglog_localexport_title)
             setMessage(R.string.debugging_debuglog_localexport_message)
-            setPositiveButton(android.R.string.yes) { _, _ -> }
+            setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
         }.show()
     }
 
     private fun showLocalExportError(cause: Throwable) {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.errors_generic_headline_short)
             setMessage(
                 getString(R.string.debugging_debuglog_localexport_error_message) + "\n(" +
                     cause.tryHumanReadableError(requireContext()).description + ")"
             )
-            setPositiveButton(android.R.string.yes) { _, _ -> }
+            setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
             setNeutralButton(R.string.menu_settings) { _, _ ->
                 try {
                     startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
