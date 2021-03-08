@@ -75,6 +75,6 @@ class AppConfigApiTest : BaseIOTest() {
 
         val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!
         request.method shouldBe "GET"
-        request.path shouldBe "/version/v1/app_config_android"
+        request.path shouldBe "/version/v2/app_config_android"
     }
 }
