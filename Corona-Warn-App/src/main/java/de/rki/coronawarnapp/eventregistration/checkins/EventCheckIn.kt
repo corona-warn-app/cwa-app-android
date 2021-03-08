@@ -6,6 +6,16 @@ interface EventCheckIn {
 
     val id: Long
     val guid: String
-    val start: Instant
-    val end: Instant
+    val version: Int
+    val type: Int
+    val description: String
+    val address: String
+    val traceLocationStart: Instant
+    val traceLocationEnd: Instant
+    val defaultCheckInLengthInMinutes: Int
+    val signature: String
+    val checkInStart: Instant
+    val checkInEnd: Instant
+    val targetCheckInEnd: Instant
+    val createJournalEntry: Boolean
 }
