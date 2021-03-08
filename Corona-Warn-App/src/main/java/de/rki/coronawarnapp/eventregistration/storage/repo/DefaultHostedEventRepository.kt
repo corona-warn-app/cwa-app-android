@@ -29,7 +29,7 @@ class DefaultHostedEventRepository @Inject constructor(
     override val allHostedEvents: Flow<List<HostedEvent>>
         get() = hostedEventDao.allEntries() // TODO: SORTING
 
-    override suspend fun addHostedEvent(event: HostedEvent) {
+    override fun addHostedEvent(event: HostedEvent) {
         appScope.launch {
             Timber.d("Add hosted event: $event")
             val eventEntity = event.toHostedEventEntity()
@@ -37,7 +37,7 @@ class DefaultHostedEventRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteHostedEvent(event: HostedEvent) {
+    override fun deleteHostedEvent(event: HostedEvent) {
         appScope.launch {
             Timber.d("Delete hosted event: $event")
             val eventEntity = event.toHostedEventEntity()
@@ -45,7 +45,7 @@ class DefaultHostedEventRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteAllHostedEvents() {
+    override fun deleteAllHostedEvents() {
         appScope.launch {
             Timber.d("Delete all hosted events.")
             hostedEventDao.deleteAll()

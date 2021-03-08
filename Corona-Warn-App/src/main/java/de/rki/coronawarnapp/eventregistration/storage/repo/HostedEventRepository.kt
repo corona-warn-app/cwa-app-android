@@ -7,9 +7,9 @@ interface HostedEventRepository {
 
     val allHostedEvents: Flow<List<HostedEvent>>
 
-    suspend fun addHostedEvent(event: HostedEvent)
+    fun addHostedEvent(event: HostedEvent)
 
-    suspend fun deleteHostedEvent(event: HostedEvent)
+    fun deleteHostedEvent(event: HostedEvent)
 
-    suspend fun deleteAllHostedEvents()
+    fun deleteAllHostedEvents()
 }

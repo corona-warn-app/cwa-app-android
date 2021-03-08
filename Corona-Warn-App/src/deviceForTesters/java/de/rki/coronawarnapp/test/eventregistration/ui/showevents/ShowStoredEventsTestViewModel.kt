@@ -19,8 +19,6 @@ class ShowStoredEventsTestViewModel @AssistedInject constructor(
     val storedEvents = hostedEventRepository.allHostedEvents.asLiveData()
 
     fun deleteAllEvents() {
-        launch {
-            hostedEventRepository.deleteAllHostedEvents()
-        }
+        hostedEventRepository.deleteAllHostedEvents()
     }
 }
