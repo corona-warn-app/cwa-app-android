@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
-
         <LinearLayout
             style="@style/Card"
             android:layout_width="match_parent"
