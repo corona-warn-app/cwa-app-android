@@ -44,7 +44,7 @@ class DebugLogger(
 
     private var isDaggerReady = false
 
-    private val storageCheck = DebugLogStorageCheck(targetPath = debugDir, logWriter = logWriter)
+    val storageCheck = DebugLogStorageCheck(targetPath = debugDir, logWriter = logWriter)
     internal val isLogging = MutableStateFlow(false)
 
     val logState: Flow<LogState> = combine(
@@ -154,7 +154,7 @@ class DebugLogger(
                     yield()
                 }
 
-                if (storageCheck.checkLowStorage()) return@collect
+                if (storageCheck.isLowStorage()) return@collect
 
                 launch {
                     // Censor data sources need a moment to know what to censor

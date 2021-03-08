@@ -22,9 +22,9 @@ class DebugLogStorageCheck @Inject constructor(
         @SuppressLint("UsableSpace")
         get() = targetPath.usableSpace
 
-    fun checkLowStorage(): Boolean {
+    fun isLowStorage(forceCheck: Boolean = false): Boolean {
         val now = timeProvider()
-        if (now - lastCheckAt < 5_000) return isLowStorage.value
+        if (!forceCheck && now - lastCheckAt < 5_000) return isLowStorage.value
 
         val currentSpace = try {
             availableSpace

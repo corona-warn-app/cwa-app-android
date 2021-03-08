@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import timber.log.Timber
+import java.io.IOException
 
 class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
@@ -32,8 +33,6 @@ class DebugLogViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val isActionInProgress = MutableStateFlow(false)
-
-    val routeToScreen = SingleLiveEvent<DebugLogNavigationEvents>()
 
     val logUploads = bugReportingSettings.uploadHistory.flow
         .asLiveData(context = dispatcherProvider.Default)
@@ -50,26 +49,31 @@ class DebugLogViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
-    val errorEvent = SingleLiveEvent<Throwable>()
-    val shareEvent = SingleLiveEvent<SAFLogSharing.Request>()
-    val logStoreResult = SingleLiveEvent<SAFLogSharing.Request.Result>()
+    val events = SingleLiveEvent<Event>()
 
     fun onPrivacyButtonPress() {
-        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToPrivacyFragment)
+        events.postValue(Event.NavigateToPrivacyFragment)
     }
 
     fun onShareButtonPress() {
-        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToShareFragment)
+        events.postValue(Event.NavigateToShareFragment)
     }
 
     fun onIdHistoryPress() {
-        routeToScreen.postValue(DebugLogNavigationEvents.NavigateToUploadHistory)
+        events.postValue(Event.NavigateToUploadHistory)
     }
 
     fun onToggleRecording() = launchWithProgress {
         if (debugLogger.isLogging.value) {
             debugLogger.stop()
+            events.postValue(Event.ShowLogDeletedConfirmation)
         } else {
+            if (debugLogger.storageCheck.isLowStorage(forceCheck = true)) {
+                Timber.d("Low storage, not starting logger.")
+                events.postValue(Event.ShowLowStorageDialog)
+                return@launchWithProgress
+            }
+
             debugLogger.start()
 
             CWADebug.logDeviceInfos()
@@ -91,7 +95,7 @@ class DebugLogViewModel @AssistedInject constructor(
         Timber.d("storeLog()")
         val snapshot = logSnapshotter.snapshot()
         val shareRequest = safLogSharing.createSAFRequest(snapshot)
-        shareEvent.postValue(shareRequest)
+        events.postValue(Event.LocalExport(shareRequest))
     }
 
     fun processSAFResult(requestCode: Int, safPath: Uri?) = launchWithProgress {
@@ -106,10 +110,14 @@ class DebugLogViewModel @AssistedInject constructor(
             return@launchWithProgress
         }
 
-        val storageResult = request.storeSnapshot(contentResolver, safPath)
-        Timber.i("Log stored %s", storageResult)
-
-        logStoreResult.postValue(storageResult)
+        try {
+            val storageResult = request.storeSnapshot(contentResolver, safPath)
+            Timber.i("Log stored %s", storageResult)
+            events.postValue(Event.ExportResult(storageResult))
+        } catch (e: IOException) {
+            Timber.e(e, "Failed to store log file.")
+            events.postValue(Event.ShowLocalExportError(e))
+        }
     }
 
     private fun launchWithProgress(
@@ -124,7 +132,7 @@ class DebugLogViewModel @AssistedInject constructor(
                 block()
             } catch (e: Throwable) {
                 Timber.e(e, "launchWithProgress() failed.")
-                errorEvent.postValue(e)
+                events.postValue(Event.Error(e))
             } finally {
                 val duration = System.currentTimeMillis() - startTime
                 Timber.v("launchWithProgress() took ${duration}ms")
@@ -139,6 +147,18 @@ class DebugLogViewModel @AssistedInject constructor(
         val isActionInProgress: Boolean = false,
         val currentSize: Long = 0
     )
+
+    sealed class Event {
+        object NavigateToPrivacyFragment : Event()
+        object NavigateToShareFragment : Event()
+        object NavigateToUploadHistory : Event()
+        object ShowLogDeletedConfirmation : Event()
+        object ShowLowStorageDialog : Event()
+        data class ShowLocalExportError(val error: Throwable) : Event()
+        data class Error(val error: Throwable) : Event()
+        data class LocalExport(val request: SAFLogSharing.Request) : Event()
+        data class ExportResult(val result: SAFLogSharing.Request.Result) : Event()
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DebugLogViewModel>

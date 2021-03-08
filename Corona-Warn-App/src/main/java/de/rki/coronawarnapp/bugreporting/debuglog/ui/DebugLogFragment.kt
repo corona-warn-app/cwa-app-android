@@ -3,9 +3,11 @@ package de.rki.coronawarnapp.bugreporting.debuglog.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -13,6 +15,7 @@ import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setUrl
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -29,9 +32,11 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
     private val vm: DebugLogViewModel by cwaViewModels { viewModelFactory }
     private val binding: BugreportingDebuglogFragmentBinding by viewBindingLazy()
 
+    @Suppress("ComplexMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Static screen elements
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
 
@@ -94,41 +99,48 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
             }
         }
 
-        vm.shareEvent.observe2(this@DebugLogFragment) {
-            startActivityForResult(it.createIntent(), it.id)
-        }
-
-        vm.logStoreResult.observe2(this) {
-            Toast.makeText(
-                requireContext(),
-                "TODO: Show store result dialog: ${it.storageUri}",
-                Toast.LENGTH_LONG
-            ).show()
+        vm.events.observe2(this) {
+            when (it) {
+                DebugLogViewModel.Event.ShowLogDeletedConfirmation -> {
+                    showLogDeletionConfirmation()
+                }
+                DebugLogViewModel.Event.NavigateToPrivacyFragment -> {
+                    doNavigate(
+                        DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
+                    )
+                }
+                DebugLogViewModel.Event.NavigateToShareFragment -> {
+                    doNavigate(
+                        DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
+                    )
+                }
+                DebugLogViewModel.Event.NavigateToUploadHistory -> {
+                    doNavigate(
+                        DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
+                    )
+                }
+                is DebugLogViewModel.Event.Error -> {
+                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                }
+                DebugLogViewModel.Event.ShowLowStorageDialog -> {
+                    showLowStorageError()
+                }
+                is DebugLogViewModel.Event.LocalExport -> {
+                    startActivityForResult(it.request.createIntent(), it.request.id)
+                }
+                is DebugLogViewModel.Event.ExportResult -> {
+                    showExportResult()
+                }
+                is DebugLogViewModel.Event.ShowLocalExportError -> {
+                    showLocalExportError(it.error)
+                }
+            }
         }
 
         vm.logUploads.observe2(this@DebugLogFragment) {
             binding.debugLogHistoryContainer.setGone(it.logs.isEmpty())
         }
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
-
-        vm.routeToScreen.observe2(this) {
-            when (it) {
-                DebugLogNavigationEvents.NavigateToPrivacyFragment -> doNavigate(
-                    DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
-                )
-                DebugLogNavigationEvents.NavigateToUploadHistory -> doNavigate(
-                    DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
-                )
-
-                DebugLogNavigationEvents.NavigateToShareFragment -> doNavigate(
-                    DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
-                )
-            }
-        }
-
-        vm.errorEvent.observe2(this) {
-            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -137,5 +149,53 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
             requestCode,
             if (resultCode == Activity.RESULT_OK) resultData?.data else null
         )
+    }
+
+    private fun showLogDeletionConfirmation() {
+        AlertDialog.Builder(requireContext()).apply {
+            setMessage(R.string.debugging_debuglog_stop_confirmation_message)
+            setPositiveButton(android.R.string.yes) { _, _ -> }
+        }.show()
+    }
+
+    private fun showLowStorageError() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.errors_generic_headline_short)
+            setMessage(R.string.debugging_debuglog_start_low_storage_error)
+            setPositiveButton(android.R.string.yes) { _, _ -> }
+            setNeutralButton(R.string.menu_settings) { _, _ ->
+                try {
+                    startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        }.show()
+    }
+
+    private fun showExportResult() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.debugging_debuglog_localexport_title)
+            setMessage(R.string.debugging_debuglog_localexport_message)
+            setPositiveButton(android.R.string.yes) { _, _ -> }
+        }.show()
+    }
+
+    private fun showLocalExportError(cause: Throwable) {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.errors_generic_headline_short)
+            setMessage(
+                getString(R.string.debugging_debuglog_localexport_error_message) + "\n(" +
+                    cause.tryHumanReadableError(requireContext()).description + ")"
+            )
+            setPositiveButton(android.R.string.yes) { _, _ -> }
+            setNeutralButton(R.string.menu_settings) { _, _ ->
+                try {
+                    startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        }.show()
     }
 }
