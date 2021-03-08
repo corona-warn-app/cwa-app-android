@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.compression
+package de.rki.coronawarnapp.util.files
 
 import timber.log.Timber
 import java.io.File
