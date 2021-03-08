@@ -46,14 +46,8 @@ class EncryptedPreferencesMigration @Inject constructor(
                 submissionSettings.registrationToken.update {
                     registrationToken()
                 }
-                submissionSettings.initialTestResultReceivedAt = initialTestResultReceivedTimestamp()?.let {
-                    Instant.ofEpochMilli(it)
-                }
-                submissionSettings.devicePairingSuccessfulAt = devicePairingSuccessfulTimestamp().let {
-                    if (it != 0L) {
-                        Instant.ofEpochMilli(it)
-                    } else null
-                }
+                submissionSettings.initialTestResultReceivedAt = initialTestResultReceivedTimestamp().toInstantOrNull()
+                submissionSettings.devicePairingSuccessfulAt = devicePairingSuccessfulTimestamp().toInstantOrNull()
                 submissionSettings.isSubmissionSuccessful = numberOfSuccessfulSubmissions() >= 1
                 submissionSettings.isAllowedToSubmitKeys = isAllowedToSubmitDiagnosisKeys()
             }
@@ -114,4 +108,9 @@ class EncryptedPreferencesMigration @Inject constructor(
             private const val PKEY_IS_ALLOWED_TO_SUBMIT = "preference_is_allowed_to_submit_diagnosis_keys"
         }
     }
+
+    private fun Long?.toInstantOrNull(): Instant? =
+        if (this != null && this != 0L) {
+            Instant.ofEpochMilli(this)
+        } else null
 }
