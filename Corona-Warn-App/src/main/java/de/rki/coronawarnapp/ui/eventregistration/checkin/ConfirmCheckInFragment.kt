@@ -48,7 +48,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confrim_check_in), Aut
                 is QRCodeVerifyResult.StartTimeWarning -> {
                     // TODO
                 }
-                
+
                 is QRCodeVerifyResult.Success -> with(binding) {
                     eventGuid.text = "GUID: %s".format(it.event.guid)
                     startTime.text = "Start time: %s".format(it.event.start)
