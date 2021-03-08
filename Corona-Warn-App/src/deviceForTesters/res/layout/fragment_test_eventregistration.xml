@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:textIsSelectable="true"
-                android:text="After creating an event in the app, it is sent to the server and returned together with a guid, a signature and a QR code."
+                android:text="After creating an event in the app, it is sent to the server and returned together with a guid and a signature."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_title" />
