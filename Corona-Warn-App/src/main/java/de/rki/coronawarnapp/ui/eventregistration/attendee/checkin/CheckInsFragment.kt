@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.ui.eventregistration.attendee.checkin
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.core.net.toUri
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -25,9 +27,9 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
     private val binding: FragmentCheckInsBinding by viewBindingLazy()
 
     // Encoded event is a one-time use data and then cleared
-    private val encodedEvent: String?
+    private val uri: String?
         get() = navArgs<CheckInsFragmentArgs>().value
-            .encodedEvent
+            .uri
             .also { arguments?.clear() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +51,8 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
             }
         }
 
-        encodedEvent?.let {
+        // TODO validate uri
+        uri?.toUri()?.lastPathSegment?.let {
             Timber.i("onViewCreated")
             viewModel.verifyEvent(it)
         }
@@ -60,5 +63,9 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
                     .actionCheckInsFragmentToConfirmCheckInFragment(it.toVerifiedEvent())
             )
         }
+    }
+
+    companion object {
+        fun uri(rootUri: String): Uri = "coronawarnapp://check-ins/$rootUri".toUri()
     }
 }
