@@ -31,12 +31,13 @@ class DiaryPersonCensor @Inject constructor(
 
         if (personsNow.isEmpty()) return null
 
-        var newMessage = personsNow.fold(entry.message) { oldMsg, person ->
-            oldMsg.replace(person.fullName, "Person#${person.personId}")
-        }
-
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
+        val newMessage = personsNow.fold(entry.message) { oldMsg, person ->
+            if (CWADebug.isDeviceForTestersBuild) {
+                // We want this info in tester builds, but we also want to know censoring is working
+                oldMsg.replace(person.fullName, "${person.fullName}#${person.personId}")
+            } else {
+                oldMsg.replace(person.fullName, "Person#${person.personId}")
+            }
         }
 
         return entry.copy(message = newMessage)

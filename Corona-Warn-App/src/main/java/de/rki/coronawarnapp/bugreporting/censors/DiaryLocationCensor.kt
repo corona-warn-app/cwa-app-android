@@ -31,12 +31,13 @@ class DiaryLocationCensor @Inject constructor(
 
         if (locationsNow.isEmpty()) return null
 
-        var newMessage = locationsNow.fold(entry.message) { oldMsg, location ->
-            oldMsg.replace(location.locationName, "Location#${location.locationId}")
-        }
-
-        if (CWADebug.isDeviceForTestersBuild) {
-            newMessage = entry.message
+        val newMessage = locationsNow.fold(entry.message) { oldMsg, location ->
+            if (CWADebug.isDeviceForTestersBuild) {
+                // We want this info in tester builds, but we also want to know censoring is working
+                oldMsg.replace(location.locationName, "${location.locationName}#${location.locationId}")
+            } else {
+                oldMsg.replace(location.locationName, "Location#${location.locationId}")
+            }
         }
 
         return entry.copy(message = newMessage)

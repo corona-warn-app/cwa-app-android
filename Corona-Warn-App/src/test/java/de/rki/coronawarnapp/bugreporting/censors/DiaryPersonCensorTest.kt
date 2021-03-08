@@ -64,7 +64,7 @@ class DiaryPersonCensorTest : BaseTest() {
 
         every { CWADebug.isDeviceForTestersBuild } returns true
         instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message = "Ralf needs more coffee, but Matthias has had enough for today."
+            message = "Ralf#2 needs more coffee, but Matthias#3 has had enough for today."
         )
     }
 

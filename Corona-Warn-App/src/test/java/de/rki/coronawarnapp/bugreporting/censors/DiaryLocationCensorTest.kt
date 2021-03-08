@@ -64,7 +64,7 @@ class DiaryLocationCensorTest : BaseTest() {
 
         every { CWADebug.isDeviceForTestersBuild } returns true
         instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message = "Munich is nice, but Aachen is nice too."
+            message = "Munich#2 is nice, but Aachen#3 is nice too."
         )
     }
 
