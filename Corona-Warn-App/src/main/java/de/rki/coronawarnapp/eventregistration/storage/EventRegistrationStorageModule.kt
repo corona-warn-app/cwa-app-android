@@ -11,6 +11,6 @@ class EventRegistrationStorageModule {
 
     @Singleton
     @Provides
-    fun traceLocationRepository(defaultTraceLocationRepository: DefaultTraceLocationRepository): TraceLocationRepository =
-        defaultTraceLocationRepository
+    fun traceLocationRepository(defaultTraceLocationRepo: DefaultTraceLocationRepository): TraceLocationRepository =
+        defaultTraceLocationRepo
 }
