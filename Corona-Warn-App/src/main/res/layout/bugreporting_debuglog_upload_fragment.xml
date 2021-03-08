@@ -20,6 +20,7 @@
         app:title="@string/debugging_debuglog_share_log_title" />
 
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/spacing_small"
