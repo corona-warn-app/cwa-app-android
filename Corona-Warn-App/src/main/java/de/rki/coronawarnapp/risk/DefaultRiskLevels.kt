@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.risk
 
-import android.text.TextUtils
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.Infectiousness
 import com.google.android.gms.nearby.exposurenotification.ReportType
@@ -114,8 +113,9 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             return null
         }
 
-        val transmissionRiskValue: Double =
-            transmissionRiskLevel * appConfig.transmissionRiskLevelMultiplier
+        val transmissionRiskValue: Double = appConfig.transmissionRiskValueMapping
+            .find { it.transmissionRiskLevel == transmissionRiskLevel }
+            ?.transmissionRiskValue ?: 0.0
 
         Timber.d("%s's transmissionRiskValue is: %s", exposureWindow, transmissionRiskValue)
 
@@ -135,8 +135,12 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         )
 
         if (riskLevel == null) {
-            Timber.e("Exposure Window: $exposureWindow could not be mapped to a risk level")
-            throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
+            Timber.d(
+                "%s dropped due to risk level filter is %s",
+                exposureWindow,
+                riskLevel
+            )
+            return null
         }
 
         Timber.d("%s's riskLevel is: %s", exposureWindow, riskLevel)
@@ -158,13 +162,13 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         Timber.d(
             "uniqueDates: %s",
-            { TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch) }
+            uniqueDatesMillisSinceEpoch
         )
-        val exposureHistory = uniqueDatesMillisSinceEpoch.map {
+        val exposureHistory = uniqueDatesMillisSinceEpoch.mapNotNull {
             aggregateRiskPerDate(appConfig, it, exposureWindowResultMap)
         }
 
-        Timber.d("exposureHistory size: ${exposureHistory.size}")
+        Timber.d("exposureHistory size: %d", exposureHistory.size)
 
         // 6. Determine `Total Risk`
         val totalRiskLevel =
@@ -180,43 +184,43 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
             }
 
-        Timber.d("totalRiskLevel: ${totalRiskLevel.name} (${totalRiskLevel.ordinal})")
+        Timber.d("totalRiskLevel: %s (%d)", totalRiskLevel.name, totalRiskLevel.ordinal)
 
         // 7. Determine `Date of Most Recent Date with Low Risk`
         val mostRecentDateWithLowRisk =
             exposureHistory.mostRecentDateForRisk(ProtoRiskLevel.LOW)
 
-        Timber.d("mostRecentDateWithLowRisk: $mostRecentDateWithLowRisk")
+        Timber.d("mostRecentDateWithLowRisk: %s", mostRecentDateWithLowRisk)
 
         // 8. Determine `Date of Most Recent Date with High Risk`
         val mostRecentDateWithHighRisk =
             exposureHistory.mostRecentDateForRisk(ProtoRiskLevel.HIGH)
 
-        Timber.d("mostRecentDateWithHighRisk: $mostRecentDateWithHighRisk")
+        Timber.d("mostRecentDateWithHighRisk: %s", mostRecentDateWithHighRisk)
 
         // 9. Determine `Total Minimum Distinct Encounters With Low Risk`
         val totalMinimumDistinctEncountersWithLowRisk = exposureHistory
             .sumBy { it.minimumDistinctEncountersWithLowRisk }
 
-        Timber.d("totalMinimumDistinctEncountersWithLowRisk: $totalMinimumDistinctEncountersWithLowRisk")
+        Timber.d("totalMinimumDistinctEncountersWithLowRisk: %d", totalMinimumDistinctEncountersWithLowRisk)
 
         // 10. Determine `Total Minimum Distinct Encounters With High Risk`
         val totalMinimumDistinctEncountersWithHighRisk = exposureHistory
             .sumBy { it.minimumDistinctEncountersWithHighRisk }
 
-        Timber.d("totalMinimumDistinctEncountersWithHighRisk: $totalMinimumDistinctEncountersWithHighRisk")
+        Timber.d("totalMinimumDistinctEncountersWithHighRisk: %d", totalMinimumDistinctEncountersWithHighRisk)
 
         // 11. Determine `Number of Days With Low Risk`
         val numberOfDaysWithLowRisk =
             exposureHistory.numberOfDaysForRisk(ProtoRiskLevel.LOW)
 
-        Timber.d("numberOfDaysWithLowRisk: $numberOfDaysWithLowRisk")
+        Timber.d("numberOfDaysWithLowRisk: %d", numberOfDaysWithLowRisk)
 
         // 12. Determine `Number of Days With High Risk`
         val numberOfDaysWithHighRisk =
             exposureHistory.numberOfDaysForRisk(ProtoRiskLevel.HIGH)
 
-        Timber.d("numberOfDaysWithHighRisk: $numberOfDaysWithHighRisk")
+        Timber.d("numberOfDaysWithHighRisk: %d", numberOfDaysWithHighRisk)
 
         return AggregatedRiskResult(
             totalRiskLevel = totalRiskLevel,
@@ -243,7 +247,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         appConfig: ExposureWindowRiskCalculationConfig,
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
-    ): AggregatedRiskPerDateResult {
+    ): AggregatedRiskPerDateResult? {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
             .filter { it.key.dateMillisSinceEpoch == dateMillisSinceEpoch }
@@ -252,31 +256,40 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         val normalizedTime = exposureWindowsAndResultForDate.values
             .sumOf { it.normalizedTime }
 
-        Timber.d("Aggregating result for date $dateMillisSinceEpoch - ${Instant.ofEpochMilli(dateMillisSinceEpoch)}")
+        Timber.d(
+            "Aggregating result for date %d - %s",
+            dateMillisSinceEpoch,
+            Instant.ofEpochMilli(dateMillisSinceEpoch)
+        )
 
         // 3. Determine `Risk Level per Date`
-        val riskLevel = try {
-            appConfig.normalizedTimePerDayToRiskLevelMappingList
-                .filter { it.normalizedTimeRange.inRange(normalizedTime) }
-                .map { it.riskLevel }
-                .first()
-        } catch (e: Exception) {
-            throw NormalizedTimePerDayToRiskLevelMappingMissingException()
+        val riskLevel = appConfig.normalizedTimePerDayToRiskLevelMappingList
+            .filter { it.normalizedTimeRange.inRange(normalizedTime) }
+            .map { it.riskLevel }
+            .firstOrNull()
+
+        if (riskLevel == null) {
+            Timber.d(
+                "No Risk Level is associated with date %d - %s",
+                dateMillisSinceEpoch,
+                Instant.ofEpochMilli(dateMillisSinceEpoch)
+            )
+            return null
         }
 
-        Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
+        Timber.d("riskLevel: %s (%d)", riskLevel.name, riskLevel.ordinal)
 
         // 4. Determine `Minimum Distinct Encounters With Low Risk per Date`
         val minimumDistinctEncountersWithLowRisk =
             exposureWindowsAndResultForDate.minimumDistinctEncountersForRisk(ProtoRiskLevel.LOW)
 
-        Timber.d("minimumDistinctEncountersWithLowRisk: $minimumDistinctEncountersWithLowRisk")
+        Timber.d("minimumDistinctEncountersWithLowRisk: %d", minimumDistinctEncountersWithLowRisk)
 
         // 5. Determine `Minimum Distinct Encounters With High Risk per Date`
         val minimumDistinctEncountersWithHighRisk =
             exposureWindowsAndResultForDate.minimumDistinctEncountersForRisk(ProtoRiskLevel.HIGH)
 
-        Timber.d("minimumDistinctEncountersWithHighRisk: $minimumDistinctEncountersWithHighRisk")
+        Timber.d("minimumDistinctEncountersWithHighRisk: %d", minimumDistinctEncountersWithHighRisk)
 
         return AggregatedRiskPerDateResult(
             dateMillisSinceEpoch = dateMillisSinceEpoch,
@@ -293,17 +306,6 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             .size
 
     companion object {
-
-        open class RiskLevelMappingMissingException(msg: String) : Exception(msg)
-
-        class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
-            "Failed to map the normalized Time per Exposure Window to a Risk Level"
-        )
-
-        class NormalizedTimePerDayToRiskLevelMappingMissingException : RiskLevelMappingMissingException(
-            "Failed to map the normalized Time per Day to a Risk Level"
-        )
-
         class UnknownReportTypeException : Exception(
             "The Report Type returned by the ENF is not known"
         )

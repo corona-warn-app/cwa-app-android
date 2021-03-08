@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.nearby.windows.entities.configuration.DefaultRiskCal
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonMinutesAtAttenuationFilter
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonMinutesAtAttenuationWeight
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonNormalizedTimeToRiskLevelMapping
+import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTransmissionRiskValueMapping
 import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTrlFilter
 import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
@@ -261,8 +262,14 @@ class ExposureWindowsCalculationTest : BaseTest() {
             result.append(logRange(filter.dropIfTrlInRange, "Drop If Trl In Range"))
         }
 
-        result.append("\n").append("◦ Transmission Risk Level Multiplier: ${config.transmissionRiskLevelMultiplier}")
-        result.append("\n").append("-------------------------------------------- ⚙ -").append("\n")
+        result.append("\n").appendLine("◦ Transmission Risk Value Mapping (${config.transmissionRiskValueMapping.size})")
+        for (mapping in config.transmissionRiskValueMapping) {
+            result.append("\t").appendLine("⇥ Mapping")
+            result.append("\t\t").append("↳ transmissionRiskLevel: ").appendLine(mapping.transmissionRiskLevel)
+            result.append("\t\t").append("↳ transmissionRiskValue: ").appendLine(mapping.transmissionRiskValue)
+        }
+
+        result.appendLine("-------------------------------------------- ⚙ -")
         debugLog(result.toString(), LogLevel.NONE)
     }
 
@@ -364,8 +371,6 @@ class ExposureWindowsCalculationTest : BaseTest() {
         }
         every { testConfig.normalizedTimePerExposureWindowToRiskLevelMapping } returns normalizedTimePerExposureWindowToRiskLevelMapping
 
-        every { testConfig.transmissionRiskLevelMultiplier } returns json.transmissionRiskLevelMultiplier
-
         val trlEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding = mockk()
         every { trlEncoding.infectiousnessOffsetHigh } returns json.trlEncoding.infectiousnessOffsetHigh
         every { trlEncoding.infectiousnessOffsetStandard } returns json.trlEncoding.infectiousnessOffsetStandard
@@ -385,6 +390,18 @@ class ExposureWindowsCalculationTest : BaseTest() {
             trlFilters.add(filter)
         }
         every { testConfig.transmissionRiskLevelFilters } returns trlFilters
+
+        val transmissionRiskValueMapping =
+            mutableListOf<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>()
+        for (jsonMapping: JsonTransmissionRiskValueMapping in json.transmissionRiskValueMapping) {
+            val mapping: RiskCalculationParametersOuterClass.TransmissionRiskValueMapping = mockk()
+            mapping.run {
+                every { transmissionRiskLevel } returns jsonMapping.transmissionRiskLevel
+                every { transmissionRiskValue } returns jsonMapping.transmissionRiskValue
+            }
+            transmissionRiskValueMapping += mapping
+        }
+        every { testConfig.transmissionRiskValueMapping } returns transmissionRiskValueMapping
     }
 
     private fun jsonToExposureWindow(json: JsonWindow): ExposureWindow {

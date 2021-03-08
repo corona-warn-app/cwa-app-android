@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -185,16 +184,9 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
         every { cwaSettings.lastChangelogVersion.value } returns 1L andThen 1120004
 
-        every { LocalData.tracingExplanationDialogWasShown() } returns false andThen true
-        mockkObject(TimeVariables)
-        coEvery { TimeVariables.getActiveTracingDaysInRetentionPeriod() } coAnswers { 1 }
-
-        every { errorResetTool.isResetNoticeToBeShown } returns false andThen true
+        every { errorResetTool.isResetNoticeToBeShown } returns true
 
         with(createInstance()) {
-            showPopUps()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowTracingExplanation(1)
-
             showPopUps()
             popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }

@@ -28,20 +28,15 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         val riskCalculationParameters = rawConfig.riskCalculationParameters
 
         return ExposureWindowRiskCalculationContainer(
-            minutesAtAttenuationFilters = riskCalculationParameters
-                .minutesAtAttenuationFiltersList,
-            minutesAtAttenuationWeights = riskCalculationParameters
-                .minutesAtAttenuationWeightsList,
-            transmissionRiskLevelEncoding = riskCalculationParameters
-                .trlEncoding,
-            transmissionRiskLevelFilters = riskCalculationParameters
-                .trlFiltersList,
-            transmissionRiskLevelMultiplier = riskCalculationParameters
-                .transmissionRiskLevelMultiplier,
-            normalizedTimePerExposureWindowToRiskLevelMapping = riskCalculationParameters
-                .normalizedTimePerEWToRiskLevelMappingList,
-            normalizedTimePerDayToRiskLevelMappingList = riskCalculationParameters
-                .normalizedTimePerDayToRiskLevelMappingList,
+            minutesAtAttenuationFilters = riskCalculationParameters.minutesAtAttenuationFiltersList,
+            minutesAtAttenuationWeights = riskCalculationParameters.minutesAtAttenuationWeightsList,
+            transmissionRiskLevelEncoding = riskCalculationParameters.trlEncoding,
+            transmissionRiskLevelFilters = riskCalculationParameters.trlFiltersList,
+            normalizedTimePerExposureWindowToRiskLevelMapping =
+                riskCalculationParameters.normalizedTimePerEWToRiskLevelMappingList,
+            normalizedTimePerDayToRiskLevelMappingList =
+                riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
+            transmissionRiskValueMapping = riskCalculationParameters.transmissionRiskValueMappingList,
             diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
         )
     }
@@ -63,12 +58,14 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         override val minutesAtAttenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
         override val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
         override val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
-        override val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>,
-        override val transmissionRiskLevelMultiplier: Double,
+        override val transmissionRiskLevelFilters:
+            List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
             List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
             List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        override val transmissionRiskValueMapping:
+            List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
         override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
     ) : ExposureWindowRiskCalculationConfig
 }
