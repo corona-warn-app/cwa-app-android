@@ -5,6 +5,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifyResult
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -23,6 +25,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             internalVerifyResult.postValue(qrCodeVerifier.verify(encodedEvent))
         } catch (e: Exception) {
             Timber.d(e)
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 
