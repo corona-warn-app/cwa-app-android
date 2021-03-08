@@ -7,7 +7,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -50,7 +49,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -59,6 +57,7 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.NetworkRequestWrapper.Companion.withSuccess
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -81,7 +80,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
     appConfigProvider: AppConfigProvider,
     statisticsProvider: StatisticsProvider,
-    private val deadmanNotificationScheduler: DeadmanNotificationScheduler
+    private val deadmanNotificationScheduler: DeadmanNotificationScheduler,
+    private val appShortcutsHelper: AppShortcutsHelper
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -95,29 +95,19 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val popupEvents = SingleLiveEvent<HomeFragmentEvents>()
 
-    fun showPopUpsOrNavigate() {
-        when {
-            !LocalData.isInteroperabilityShownAtLeastOnce -> {
-                popupEvents.postValue(ShowInteropDeltaOnboarding)
+    fun showPopUps() {
+        launch {
+            if (!LocalData.tracingExplanationDialogWasShown()) {
+                popupEvents.postValue(
+                    ShowTracingExplanation(
+                        TimeVariables.getActiveTracingDaysInRetentionPeriod()
+                    )
+                )
             }
-            cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
-                popupEvents.postValue(HomeFragmentEvents.ShowNewReleaseFragment)
-            }
-            else -> {
-                launch {
-                    if (!LocalData.tracingExplanationDialogWasShown()) {
-                        popupEvents.postValue(
-                            ShowTracingExplanation(
-                                TimeVariables.getActiveTracingDaysInRetentionPeriod()
-                            )
-                        )
-                    }
-                }
-                launch {
-                    if (errorResetTool.isResetNoticeToBeShown) {
-                        popupEvents.postValue(ShowErrorResetDialog)
-                    }
-                }
+        }
+        launch {
+            if (errorResetTool.isResetNoticeToBeShown) {
+                popupEvents.postValue(ShowErrorResetDialog)
             }
         }
     }
@@ -239,14 +229,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 add(
                     ReenableRiskCard.Item(
                         state = submissionState,
-                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) })
+                        onClickAction = { popupEvents.postValue(HomeFragmentEvents.ShowReactivateRiskCheckDialog) }
+                    )
                 )
             }
 
             if (statsData.isDataAvailable) {
-                add(StatisticsHomeCard.Item(data = statsData, onHelpAction = {
-                    popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
-                }))
+                add(
+                    StatisticsHomeCard.Item(
+                        data = statsData,
+                        onHelpAction = {
+                            popupEvents.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                        }
+                    )
+                )
             }
 
             add(FAQCard.Item(onClickAction = { openFAQUrlEvent.postValue(Unit) }))
@@ -298,6 +294,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             submissionRepository.refreshDeviceUIState()
             tracingRepository.refreshRiskLevel()
             tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+        }
+    }
+
+    fun restoreAppShortcuts() {
+        launch {
+            appShortcutsHelper.restoreAppShortcut()
         }
     }
 

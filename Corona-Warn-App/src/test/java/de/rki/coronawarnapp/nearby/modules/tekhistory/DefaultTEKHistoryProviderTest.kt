@@ -17,7 +17,6 @@ import io.kotest.matchers.types.instanceOf
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -29,7 +28,6 @@ import io.mockk.verifyOrder
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -96,11 +94,6 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
             )
         }
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forValue(null) }
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = DefaultTEKHistoryProvider(
@@ -192,7 +185,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
             every { status.hasResolution() } returns true
             every { printStackTrace(any<PrintWriter>()) } just Runs
         }
-        every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } answers { MockGMSTask.forError(error) }
+        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forError(error) }
 
         shouldThrow<ApiException> {
             createInstance().getTEKHistory()
@@ -202,13 +195,25 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     @Test
     fun `ENFV1_8 getTEKHistory request keys from new Api fallback to old Api on error`() = runBlockingTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
-        every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } answers { MockGMSTask.forError(Exception()) }
+        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forError(Exception()) }
         val mockTEK = mockk<TemporaryExposureKey>()
         every { client.temporaryExposureKeyHistory } answers { MockGMSTask.forValue(listOf(mockTEK)) }
 
         createInstance().getTEKHistory() shouldBe listOf(mockTEK)
 
         verify(exactly = 1) { client.temporaryExposureKeyHistory }
+        verify { client.requestPreAuthorizedTemporaryExposureKeyHistory() wasNot Called }
+    }
+
+    @Test
+    fun `ENFV1_8 getTEKHistory request keys from new Api does not check for preAuth`() = runBlockingTest {
+        coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
+        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forValue(null) }
+
+        createInstance().getTEKHistory()
+
+        verify(exactly = 1) { client.requestPreAuthorizedTemporaryExposureKeyRelease() }
+        verify { client.requestPreAuthorizedTemporaryExposureKeyHistory() wasNot Called }
     }
 
     @Test
@@ -272,7 +277,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     @Test
     fun `ENFV1_8 getTEKHistoryOrRequestPermission - if not preauthorized and no resolution then use the old API`() {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
-        every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } returns MockGMSTask.forError(Exception())
+        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns MockGMSTask.forError(Exception())
 
         val onTEKHistoryAvailable = mockk<(List<TemporaryExposureKey>) -> Unit>(relaxed = true)
         val onPermissionRequired = mockk<(Status) -> Unit>(relaxed = true)
@@ -327,7 +332,6 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
             onPermissionRequired wasNot Called
         }
         verifyOrder {
-            client.requestPreAuthorizedTemporaryExposureKeyHistory()
             client.requestPreAuthorizedTemporaryExposureKeyRelease()
             client.temporaryExposureKeyHistory
         }

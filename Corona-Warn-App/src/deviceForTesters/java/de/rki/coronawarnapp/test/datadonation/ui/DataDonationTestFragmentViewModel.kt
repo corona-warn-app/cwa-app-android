@@ -106,10 +106,11 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
             val payload = ByteArray(16)
             secureRandom.nextBytes(payload)
             try {
-                val result = cwaSafetyNet.attest(object : DeviceAttestation.Request {
-                    override val scenarioPayload: ByteArray
-                        get() = payload
-                })
+                val result = cwaSafetyNet.attest(
+                    object : DeviceAttestation.Request {
+                        override val scenarioPayload: ByteArray = payload
+                    }
+                )
                 result.requirePass(requirements)
                 currentValidationInternal.value = requirements to null
             } catch (e: Exception) {
@@ -128,8 +129,9 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
 
     fun collectAnalyticsData() = launch {
         try {
+            val configData = appConfigProvider.getAppConfig()
             val ppaDataAndroid = PpaData.PPADataAndroid.newBuilder()
-            analytics.collectContributions(ppaDataBuilder = ppaDataAndroid)
+            analytics.collectContributions(configData, ppaDataAndroid)
             currentAnalyticsDataInternal.value = ppaDataAndroid.build()
         } catch (e: Exception) {
             Timber.e(e, "collectContributions() failed.")
@@ -139,8 +141,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
 
     fun submitAnalytics() = launch {
         infoEvents.postValue("Starting Analytics Submission")
-        val analyticsConfig = appConfigProvider.getAppConfig().analytics
-        analytics.submitAnalyticsData(analyticsConfig)
+        val configData = appConfigProvider.getAppConfig()
+        analytics.submitAnalyticsData(configData)
         infoEvents.postValue("Analytics Submission Done")
         checkLastAnalytics()
     }

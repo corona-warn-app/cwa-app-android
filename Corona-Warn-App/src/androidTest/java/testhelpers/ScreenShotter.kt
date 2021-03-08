@@ -9,6 +9,7 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.ViewAction
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import de.rki.coronawarnapp.R
 import tools.fastlane.screengrab.Screengrab
@@ -31,7 +32,8 @@ inline fun <reified T> takeScreenshot(suffix: String = "", delay: Long = SCREENS
 
     val contentResolver = getInstrumentation().targetContext.contentResolver
     val testLabSetting = Settings.System.getString(contentResolver, "firebase.test.lab")
-    if ("true" == testLabSetting) {
+    val androidStudioMode = InstrumentationRegistry.getArguments().getString("androidStudioMode")
+    if ("true" in listOf(testLabSetting, androidStudioMode)) {
         Screengrab.screenshot(
             name,
             UiAutomatorScreenshotStrategy(),

@@ -8,14 +8,12 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -31,11 +29,6 @@ class TimeAndDateExtensionsTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication)
-    }
-
-    @AfterEach
-    fun cleanUp() {
-        unmockkAll()
     }
 
     @Test

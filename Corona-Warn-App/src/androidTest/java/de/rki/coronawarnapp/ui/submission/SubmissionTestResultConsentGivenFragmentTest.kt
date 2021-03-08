@@ -12,6 +12,7 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiT
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.notification.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -24,7 +25,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -46,6 +46,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var testResultAvailableNotificationService: TestResultAvailableNotificationService
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @Rule
     @JvmField
@@ -71,6 +72,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
                     submissionRepository,
                     autoSubmission,
                     testResultAvailableNotificationService,
+                    analyticsKeySubmissionCollector,
                     TestDispatcherProvider()
                 )
             )
@@ -84,7 +86,6 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
-        unmockkAll()
     }
 
     @Test
@@ -108,7 +109,8 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 NetworkRequestWrapper.RequestSuccessful(
                     DeviceUIState.PAIRED_POSITIVE
-                ), Date()
+                ),
+                Date()
             )
         )
 

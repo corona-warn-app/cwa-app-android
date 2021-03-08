@@ -7,6 +7,7 @@ import androidx.navigation.NavDirections
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -23,7 +24,8 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     submissionRepository: SubmissionRepository,
-    private val autoSubmission: AutoSubmission
+    private val autoSubmission: AutoSubmission,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -35,49 +37,49 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
-    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(object : TEKHistoryUpdater.Callback {
-        override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
-            Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
-            autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+    private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
+        object : TEKHistoryUpdater.Callback {
+            override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
+                Timber.d("onTEKAvailable(teks.size=%d)", teks.size)
+                autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
+                showKeysRetrievalProgress.postValue(false)
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
+                )
+            }
 
-            routeToScreen.postValue(
-                SubmissionTestResultAvailableFragmentDirections
-                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment()
-            )
+            override fun onTEKPermissionDeclined() {
+                Timber.d("onTEKPermissionDeclined")
+                showKeysRetrievalProgress.postValue(false)
+                routeToScreen.postValue(
+                    SubmissionTestResultAvailableFragmentDirections
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
+                )
+            }
 
-            showKeysRetrievalProgress.postValue(false)
+            override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
+                Timber.d("onTracingConsentRequired")
+                showKeysRetrievalProgress.postValue(false)
+                showTracingConsentDialog.postValue(onConsentResult)
+            }
+
+            override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
+                Timber.d("onPermissionRequired")
+                showKeysRetrievalProgress.postValue(false)
+                showPermissionRequest.postValue(permissionRequest)
+            }
+
+            override fun onError(error: Throwable) {
+                Timber.e(error, "Failed to update TEKs.")
+                showKeysRetrievalProgress.postValue(false)
+                error.report(
+                    exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
+                    prefix = "SubmissionTestResultAvailableViewModel"
+                )
+            }
         }
-
-        override fun onTEKPermissionDeclined() {
-            Timber.d("onTEKPermissionDeclined")
-            routeToScreen.postValue(
-                SubmissionTestResultAvailableFragmentDirections
-                    .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment()
-            )
-            showKeysRetrievalProgress.postValue(false)
-        }
-
-        override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
-            Timber.d("onTracingConsentRequired")
-            showTracingConsentDialog.postValue(onConsentResult)
-            showKeysRetrievalProgress.postValue(false)
-        }
-
-        override fun onPermissionRequired(permissionRequest: (Activity) -> Unit) {
-            Timber.d("onPermissionRequired")
-            showPermissionRequest.postValue(permissionRequest)
-            showKeysRetrievalProgress.postValue(false)
-        }
-
-        override fun onError(error: Throwable) {
-            Timber.e(error, "Failed to update TEKs.")
-            error.report(
-                exceptionCategory = ExceptionCategory.EXPOSURENOTIFICATION,
-                prefix = "SubmissionTestResultAvailableViewModel"
-            )
-            showKeysRetrievalProgress.postValue(false)
-        }
-    })
+    )
 
     init {
         submissionRepository.refreshDeviceUIState(refreshTestResult = false)
@@ -111,6 +113,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.d("routeToScreen:SubmissionTestResultNoConsentFragment")
+                analyticsKeySubmissionCollector.reportConsentWithdrawn()
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections

@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -51,7 +50,6 @@ class AppConfigStorageTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 
@@ -95,7 +93,7 @@ class AppConfigStorageTest : BaseIOTest() {
                 "localOffset": 3600000,
                 "cacheValidity": 123000
             }
-        """.trimIndent()
+            """.trimIndent()
         )
         val storage = createStorage()
         storage.getStoredConfig() shouldBe testConfigDownload
@@ -198,7 +196,7 @@ class AppConfigStorageTest : BaseIOTest() {
             {
                
             }
-        """.trimIndent()
+            """.trimIndent()
         )
         val storage = createStorage()
         storage.getStoredConfig() shouldBe null

@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
@@ -55,7 +54,6 @@ class DebugLoggerTest : BaseIOTest() {
     fun teardown() {
         runBlocking { DebugLogger.stop() }
         testDir.deleteRecursively()
-        clearAllMocks()
         Timber.uprootAll()
     }
 

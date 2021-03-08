@@ -44,9 +44,12 @@ class SubmissionCountrySelectionFragment : Fragment() {
             viewModel.updateCountryCheckedState(it)
         }
 
-        viewModel.countries.observe(viewLifecycleOwner, Observer {
-            adapter.setCountries(it)
-        })
+        viewModel.countries.observe(
+            viewLifecycleOwner,
+            Observer {
+                adapter.setCountries(it)
+            }
+        )
 
         binding.submissionCountrySelectionSelector.submissionCountrySelectorRecyclerview.adapter =
             adapter

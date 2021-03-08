@@ -10,14 +10,12 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.decodeBase64
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -35,11 +33,6 @@ class SurveyServerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { attestationResult.accessControlProtoBuf } returns build
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     @Test

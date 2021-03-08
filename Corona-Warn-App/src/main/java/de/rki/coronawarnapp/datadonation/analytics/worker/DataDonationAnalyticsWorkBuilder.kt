@@ -16,7 +16,8 @@ import javax.inject.Inject
 class DataDonationAnalyticsWorkBuilder @Inject constructor() {
     fun buildPeriodicWork(initialDelay: Duration): PeriodicWorkRequest =
         PeriodicWorkRequestBuilder<DataDonationAnalyticsPeriodicWorker>(
-            DateTimeConstants.HOURS_PER_DAY.toLong(), TimeUnit.HOURS
+            DateTimeConstants.HOURS_PER_DAY.toLong(),
+            TimeUnit.HOURS
         )
             .setInitialDelay(
                 initialDelay.standardHours,

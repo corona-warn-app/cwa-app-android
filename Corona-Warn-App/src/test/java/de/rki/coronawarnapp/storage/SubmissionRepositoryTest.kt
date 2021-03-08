@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -34,9 +35,10 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class SubmissionRepositoryTest {
+class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var submissionService: SubmissionService
@@ -50,6 +52,7 @@ class SubmissionRepositoryTest {
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
+    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -93,7 +96,8 @@ class SubmissionRepositoryTest {
         submissionService = submissionService,
         timeStamper = timeStamper,
         tekHistoryStorage = tekHistoryStorage,
-        deadmanNotificationScheduler = deadmanNotificationScheduler
+        deadmanNotificationScheduler = deadmanNotificationScheduler,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
     )
 
     @Test
@@ -105,6 +109,7 @@ class SubmissionRepositoryTest {
         every { LocalData.isAllowedToSubmitDiagnosisKeys(any()) } just Runs
         every { LocalData.isTestResultAvailableNotificationSent(any()) } just Runs
         every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
+        every { analyticsKeySubmissionCollector.reset() } just Runs
 
         submissionRepository.removeTestFromDevice()
 
@@ -122,6 +127,7 @@ class SubmissionRepositoryTest {
     @Test
     fun registrationWithGUIDSucceeds() = runBlockingTest {
         coEvery { submissionService.asyncRegisterDeviceViaGUID(guid) } returns registrationData
+        coEvery { analyticsKeySubmissionCollector.reportTestRegistered() } just Runs
 
         val submissionRepository = createInstance(scope = this)
 
@@ -138,6 +144,8 @@ class SubmissionRepositoryTest {
     @Test
     fun registrationWithTeleTANSucceeds() = runBlockingTest {
         coEvery { submissionService.asyncRegisterDeviceViaTAN(tan) } returns registrationData
+        coEvery { analyticsKeySubmissionCollector.reportTestRegistered() } just Runs
+        every { analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN() } just Runs
 
         val submissionRepository = createInstance(scope = this)
 

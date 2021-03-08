@@ -1,37 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.ExpandingDiaryListItemView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:id="@+id/main_box"
+    style="@style/ContactDiaryExpandableListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contact_diary_location_list_item"
-        style="@style/contactDiaryCardRipple"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/duration_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/spacing_huge">
-
-        <ImageView
-            android:id="@+id/contact_diary_location_list_item_icon"
-            android:layout_width="@dimen/spacing_medium"
-            android:layout_height="@dimen/spacing_medium"
-            android:layout_marginStart="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_selected" />
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            style="@style/subtitleBoldSixteen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:text="@string/contact_diary_location_visit_duration_label" />
 
         <TextView
-            android:id="@+id/contact_diary_location_list_item_name"
-            style="@style/subtitle"
-            android:layout_width="0dp"
+            android:id="@+id/duration_input"
+            style="@style/bodyNeutral"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginVertical="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/contact_diary_location_list_item_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/cities" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="center_vertical|end"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:text="@string/duration_dialog_default_value"
+            android:background="@drawable/contact_diary_duration_background_default"/>
+    </FrameLayout>
 
-</layout>
+    <de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.DiaryCircumstancesTextView
+        android:id="@+id/circumstances"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/duration_container" />
+
+</de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.ExpandingDiaryListItemView>

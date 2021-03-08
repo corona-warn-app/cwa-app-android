@@ -15,7 +15,8 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 
 class InfectionsCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsInfectionsLayoutBinding>(
-        R.layout.home_statistics_cards_basecard_layout, parent
+        R.layout.home_statistics_cards_basecard_layout,
+        parent
     ) {
 
     override val viewBinding = lazy {
@@ -50,8 +51,13 @@ class InfectionsCard(parent: ViewGroup) :
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
-                .appendWithTrailingSpace(formatStatisticalValue(context, sevenDayAverage.value,
-                    sevenDayAverage.decimals))
+                .appendWithTrailingSpace(
+                    formatStatisticalValue(
+                        context,
+                        sevenDayAverage.value,
+                        sevenDayAverage.decimals
+                    )
+                )
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_title))
                 .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -26,6 +27,7 @@ import javax.inject.Inject
  */
 class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submission_test_result_available), AutoInject {
 
+    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SubmissionTestResultAvailableViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTestResultAvailableBinding by viewBindingLazy()
@@ -88,6 +90,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultAvailableContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        appShortcutsHelper.removeAppShortcut()
     }
 
     private fun showCloseDialog() {

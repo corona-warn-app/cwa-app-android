@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
@@ -28,7 +27,8 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    private val demoJsonString = """
+    private val demoJsonString =
+        """
             {
               "b2b98400-058d-43e6-b952-529a5255248b": {
                 "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
@@ -78,7 +78,6 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     @AfterEach
     fun teardown() {
-        clearAllMocks()
         testDir.deleteRecursively()
     }
 

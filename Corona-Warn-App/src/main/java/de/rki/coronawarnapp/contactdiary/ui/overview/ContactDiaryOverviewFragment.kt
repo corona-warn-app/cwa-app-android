@@ -7,12 +7,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.ContactDiaryOverviewAdapter
-import de.rki.coronawarnapp.contactdiary.util.getLocale
-import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
-import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -29,24 +27,20 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ContactDiaryOverviewAdapter(
-            { it.toFormattedDay(requireContext().getLocale()) },
-            { it.toFormattedDayForAccessibility(requireContext().getLocale()) },
-            { vm.onItemPress(it) }
-        )
 
-        setupMenu(binding.toolbar)
+        val adapter = DiaryOverviewAdapter()
 
         binding.apply {
             contactDiaryOverviewRecyclerview.adapter = adapter
 
+            setupMenu(toolbar)
             toolbar.setNavigationOnClickListener {
                 vm.onBackButtonPress()
             }
         }
 
         vm.listItems.observe2(this) {
-            adapter.setItems(it)
+            adapter.update(it)
         }
 
         vm.routeToScreen.observe2(this) {
@@ -101,7 +95,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     true
                 }
                 R.id.menu_contact_diary_export_entries -> {
-                    vm.onExportPress(context)
+                    vm.onExportPress()
                     true
                 }
                 R.id.menu_contact_diary_edit_persons -> {

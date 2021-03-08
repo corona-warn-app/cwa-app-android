@@ -57,8 +57,8 @@ class SettingsPrivacyPreservingAnalyticsFragment :
                 doNavigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
-                        type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
-                    )
+                            type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
+                        )
                 )
             }
 
@@ -66,8 +66,8 @@ class SettingsPrivacyPreservingAnalyticsFragment :
                 doNavigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
-                        type = AnalyticsUserInputFragment.InputType.DISTRICT
-                    )
+                            type = AnalyticsUserInputFragment.InputType.DISTRICT
+                        )
                 )
             }
             ageGroupRow.setOnClickListener {

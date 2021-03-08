@@ -5,7 +5,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -15,7 +14,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.Cache
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeHex
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
@@ -34,11 +32,6 @@ class StatisticsServerTest : BaseIOTest() {
 
         every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
         every { cache.evictAll() } just Runs
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = StatisticsServer(

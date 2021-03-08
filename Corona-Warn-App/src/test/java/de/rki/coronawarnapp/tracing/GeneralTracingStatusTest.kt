@@ -5,13 +5,11 @@ import de.rki.coronawarnapp.util.bluetooth.BluetoothProvider
 import de.rki.coronawarnapp.util.location.LocationProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -40,11 +38,6 @@ class GeneralTracingStatusTest : BaseTest() {
         every { enfClient.isTracingEnabled } returns isTracingEnabled
         every { locationProvider.isLocationEnabled } returns isLocationEnabled
         every { enfClient.isLocationLessScanningSupported } returns isLocationLessScanningSupported
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance(): GeneralTracingStatus = GeneralTracingStatus(

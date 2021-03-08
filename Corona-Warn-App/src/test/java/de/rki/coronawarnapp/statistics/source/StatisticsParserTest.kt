@@ -10,9 +10,7 @@ import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -22,11 +20,6 @@ class StatisticsParserTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-    }
-
-    @AfterEach
-    fun teardown() {
-        clearAllMocks()
     }
 
     private fun createInstance() = StatisticsParser()
@@ -159,7 +152,8 @@ class StatisticsParserTest : BaseTest() {
                     decimals = 0
                     trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
                     trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build(), KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
                     value = 429181.0
                     decimals = 0
@@ -187,7 +181,8 @@ class StatisticsParserTest : BaseTest() {
                     decimals = 0
                     trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
                     trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build(), KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
                     value = 429181.0
                     decimals = 0

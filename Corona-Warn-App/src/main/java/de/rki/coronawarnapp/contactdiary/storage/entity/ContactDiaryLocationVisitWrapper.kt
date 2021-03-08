@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.sortByNameAndIdASC
 
-class ContactDiaryLocationVisitWrapper(
+data class ContactDiaryLocationVisitWrapper(
     @Embedded val contactDiaryLocationVisitEntity: ContactDiaryLocationVisitEntity,
     @Relation(parentColumn = "fkLocationId", entityColumn = "locationId")
     val contactDiaryLocationEntity: ContactDiaryLocationEntity
@@ -16,7 +16,9 @@ fun ContactDiaryLocationVisitWrapper.toContactDiaryLocationVisit(): ContactDiary
     DefaultContactDiaryLocationVisit(
         id = this.contactDiaryLocationVisitEntity.id,
         date = this.contactDiaryLocationVisitEntity.date,
-        contactDiaryLocation = this.contactDiaryLocationEntity
+        contactDiaryLocation = this.contactDiaryLocationEntity,
+        duration = contactDiaryLocationVisitEntity.duration,
+        circumstances = contactDiaryLocationVisitEntity.circumstances
     )
 
 fun List<ContactDiaryLocationVisitWrapper>.toContactDiaryLocationVisitSortedList(): List<ContactDiaryLocationVisit> =
