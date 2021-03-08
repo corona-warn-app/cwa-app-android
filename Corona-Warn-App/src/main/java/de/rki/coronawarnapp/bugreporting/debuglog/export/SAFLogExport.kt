@@ -1,8 +1,9 @@
-package de.rki.coronawarnapp.bugreporting.debuglog.sharing
+package de.rki.coronawarnapp.bugreporting.debuglog.export
 
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.util.files.determineMimeType
 import okio.buffer
 import okio.sink
@@ -12,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SAFLogSharing @Inject constructor() {
+class SAFLogExport @Inject constructor() {
     private var lastId = 1
     private val requestMap = mutableMapOf<Int, Request>()
 

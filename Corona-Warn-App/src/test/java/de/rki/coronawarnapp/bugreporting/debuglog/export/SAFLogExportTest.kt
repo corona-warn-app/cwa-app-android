@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.bugreporting.debuglog.sharing
+package de.rki.coronawarnapp.bugreporting.debuglog.export
 
 import android.content.ContentResolver
+import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -14,7 +15,7 @@ import testhelpers.BaseIOTest
 import timber.log.Timber
 import java.io.File
 
-class SAFLogSharingTest : BaseIOTest() {
+class SAFLogExportTest : BaseIOTest() {
 
     @MockK lateinit var contentResolver: ContentResolver
 
@@ -40,7 +41,7 @@ class SAFLogSharingTest : BaseIOTest() {
         Timber.uprootAll()
     }
 
-    private fun createInstance() = SAFLogSharing()
+    private fun createInstance() = SAFLogExport()
 
     @Test
     fun `request creation and write`() {

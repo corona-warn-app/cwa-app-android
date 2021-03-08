@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.uploadhistory
+package de.rki.coronawarnapp.bugreporting.debuglog.upload.history
 
 import org.joda.time.Instant
 

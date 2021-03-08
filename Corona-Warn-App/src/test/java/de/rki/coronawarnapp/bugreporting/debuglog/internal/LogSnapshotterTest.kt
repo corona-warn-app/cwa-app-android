@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.debuglog.sharing
+package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import android.content.Context
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger

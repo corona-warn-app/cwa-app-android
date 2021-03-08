@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.uploadhistory.ui
+package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload.history
 
 import dagger.Binds
 import dagger.Module

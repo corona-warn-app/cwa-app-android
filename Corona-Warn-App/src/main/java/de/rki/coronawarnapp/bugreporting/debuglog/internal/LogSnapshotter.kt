@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.debuglog.sharing
+package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import android.content.Context
 import dagger.Reusable
@@ -27,8 +27,9 @@ class LogSnapshotter @Inject constructor(
      */
     fun snapshot(): Snapshot {
         Timber.tag(TAG).d("snapshot()")
+
         snapshotDir.listFiles()?.forEach {
-            Timber.tag(TAG).w("Deleting stale snapshot: %s", it)
+            if (it.delete()) Timber.tag(TAG).w("Deleted stale snapshot: %s", it)
         }
 
         val now = timeStamper.nowUTC
@@ -46,9 +47,7 @@ class LogSnapshotter @Inject constructor(
         return Snapshot(path = zipFile)
     }
 
-    data class Snapshot(
-        val path: File
-    ) {
+    data class Snapshot(val path: File) {
         fun delete() = path.delete()
     }
 
