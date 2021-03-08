@@ -51,8 +51,7 @@ class CheckInsFragment : Fragment(R.layout.fragment_check_ins), AutoInject {
             }
         }
 
-        // TODO validate uri
-        uri?.toUri()?.lastPathSegment?.let {
+        uri?.let {
             Timber.i("onViewCreated")
             viewModel.verifyEvent(it)
         }

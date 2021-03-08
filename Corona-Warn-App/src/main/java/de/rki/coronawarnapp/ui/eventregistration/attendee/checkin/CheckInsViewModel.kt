@@ -4,7 +4,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.EventQRCode
 import de.rki.coronawarnapp.eventregistration.checkins.qrcode.QRCodeVerifier
-import de.rki.coronawarnapp.eventregistration.checkins.qrcode.isValidQRCodeUri
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -20,11 +19,10 @@ class CheckInsViewModel @AssistedInject constructor(
 
     val navigationRoutes = SingleLiveEvent<EventQRCode>()
 
-    fun verifyEvent(encodedEvent: String) = launch {
+    fun verifyEvent(uri: String) = launch {
         try {
-            encodedEvent.isValidQRCodeUri()
-            Timber.i("encodedEvent: $encodedEvent")
-            val eventQRCode = qrCodeVerifier.verify(encodedEvent)
+            Timber.i("uri: $uri")
+            val eventQRCode = qrCodeVerifier.verify(uri)
             Timber.i("eventQRCode: $eventQRCode")
             navigationRoutes.postValue(eventQRCode)
         } catch (e: Exception) {
