@@ -76,6 +76,64 @@ object TracingData {
         )
     )
 
+    val LOW_RISK_WITH_ONE_ENCOUNTER = Pair(
+        TracingDetailsState(
+            tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskState = RiskState.LOW_RISK,
+            isManualKeyRetrievalEnabled = false
+        ),
+        listOf(
+            LowRiskBox.Item(
+                state = LowRisk(
+                    riskState = RiskState.LOW_RISK,
+                    isInDetailsMode = true,
+                    lastExposureDetectionTime = Instant.now(),
+                    allowManualUpdate = false,
+                    daysWithEncounters = 1,
+                    lastEncounterAt = Instant.now()
+                )
+            ),
+            BehaviorNormalRiskBox.Item(
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                riskState = RiskState.LOW_RISK
+            ),
+
+            PeriodLoggedBox.Item(
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+            ),
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+        )
+    )
+
+    val LOW_RISK_WITH_TWO_ENCOUNTERS = Pair(
+        TracingDetailsState(
+            tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+            riskState = RiskState.LOW_RISK,
+            isManualKeyRetrievalEnabled = false
+        ),
+        listOf(
+            LowRiskBox.Item(
+                state = LowRisk(
+                    riskState = RiskState.LOW_RISK,
+                    isInDetailsMode = true,
+                    lastExposureDetectionTime = Instant.now(),
+                    allowManualUpdate = false,
+                    daysWithEncounters = 2,
+                    lastEncounterAt = Instant.now()
+                )
+            ),
+            BehaviorNormalRiskBox.Item(
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                riskState = RiskState.LOW_RISK
+            ),
+
+            PeriodLoggedBox.Item(
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+            ),
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedKeyCount = 0)
+        )
+    )
+
     val INCREASED_RISK = Pair(
         TracingDetailsState(
             tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
