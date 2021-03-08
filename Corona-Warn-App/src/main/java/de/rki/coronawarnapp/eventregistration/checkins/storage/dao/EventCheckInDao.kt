@@ -8,17 +8,17 @@ import de.rki.coronawarnapp.eventregistration.checkins.storage.entity.EventCheck
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class EventCheckInDao {
+interface EventCheckInDao {
 
     @Query("SELECT * FROM checkin")
-    abstract fun allEntries(): Flow<List<EventCheckInEntity>>
+    fun allEntries(): Flow<List<EventCheckInEntity>>
 
     @Insert
-    abstract suspend fun insert(entity: EventCheckInEntity): Long
+    suspend fun insert(entity: EventCheckInEntity): Long
 
     @Update
-    abstract suspend fun update(entity: EventCheckInEntity)
+    suspend fun update(entity: EventCheckInEntity)
 
     @Query("DELETE FROM checkin")
-    abstract suspend fun deleteAll()
+    suspend fun deleteAll()
 }
