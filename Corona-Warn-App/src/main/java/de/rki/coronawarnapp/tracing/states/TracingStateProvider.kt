@@ -38,9 +38,6 @@ class TracingStateProvider @AssistedInject constructor(
         riskLevelStorage.latestAndLastSuccessful.onEach {
             Timber.v("riskLevelResults: $it")
         },
-        tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
-            Timber.v("activeTracingDaysInRetentionPeriod: $it")
-        },
         exposureDetectionTracker.latestSubmission().onEach {
             Timber.v("latestSubmission: $it")
         },
@@ -50,7 +47,6 @@ class TracingStateProvider @AssistedInject constructor(
     ) { tracingStatus,
         tracingProgress,
         riskLevelResults,
-        activeTracingDaysInRetentionPeriod,
         latestSubmission,
         isBackgroundJobEnabled ->
 
@@ -76,7 +72,6 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
                 allowManualUpdate = !isBackgroundJobEnabled
             )
             latestCalc.riskState == RiskState.INCREASED_RISK -> IncreasedRisk(
@@ -85,7 +80,6 @@ class TracingStateProvider @AssistedInject constructor(
                 lastExposureDetectionTime = latestSubmission?.startedAt,
                 lastEncounterAt = latestCalc.lastRiskEncounterAt,
                 daysWithEncounters = latestCalc.daysWithEncounters,
-                activeTracingDays = activeTracingDaysInRetentionPeriod.toInt(),
                 allowManualUpdate = !isBackgroundJobEnabled
             )
             else -> TracingFailed(

@@ -61,7 +61,6 @@ internal class IncreasedRiskTest {
         lastExposureDetectionTime = Instant.now(),
         allowManualUpdate = false,
         daysWithEncounters = 1,
-        activeTracingDays = 1,
         lastEncounterAt = Instant.now()
     )
 }
