@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.TestResultDonorSettin
 import de.rki.coronawarnapp.risk.RiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.formatter.TestResult
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -64,6 +65,26 @@ class TestResultDataCollectorTest : BaseTest() {
 
         verify(exactly = 1) {
             testResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
+        }
+    }
+
+    @Test
+    fun `saveTestResultAnalyticsSettings does not save data when TestResult is INVALID`() = runBlockingTest {
+        every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
+        testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.INVALID)
+
+        verify {
+            analyticsSettings.analyticsEnabled wasNot Called
+        }
+    }
+
+    @Test
+    fun `saveTestResultAnalyticsSettings does not save data when TestResult is REDEEMED`() = runBlockingTest {
+        every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
+        testResultDataCollector.saveTestResultAnalyticsSettings(TestResult.REDEEMED)
+
+        verify {
+            analyticsSettings.analyticsEnabled wasNot Called
         }
     }
 }
