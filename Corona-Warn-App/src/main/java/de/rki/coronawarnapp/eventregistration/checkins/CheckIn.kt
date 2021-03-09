@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.eventregistration.checkins
 
 import org.joda.time.Instant
 
-interface TraceLocationCheckIn {
+interface CheckIn {
 
     val id: Long
     val guid: String

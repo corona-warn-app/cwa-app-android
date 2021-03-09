@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckI
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,13 +24,48 @@ class TraceLocationCheckInRepository @Inject constructor(
         traceLocationDatabase.eventCheckInDao()
     }
 
-    val allCheckIns: Flow<List<TraceLocationCheckIn>> =
+    val allCheckIns: Flow<List<CheckIn>> =
         traceLocationCheckInDao
             .allEntries()
+            .map { list -> list.map { it.toCheckIn() } }
 
-    fun addCheckIn(checkIn: TraceLocationCheckIn) {
+    fun addCheckIn(checkIn: CheckIn) {
         appScope.launch {
-            traceLocationCheckInDao.insert(checkIn as TraceLocationCheckInEntity)
+            traceLocationCheckInDao.insert(checkIn.toEntity())
         }
     }
 }
+
+private fun TraceLocationCheckInEntity.toCheckIn() = DefaultCheckIn(
+    id,
+    guid,
+    version,
+    type,
+    description,
+    address,
+    traceLocationStart,
+    traceLocationEnd,
+    defaultCheckInLengthInMinutes,
+    signature,
+    checkInStart,
+    checkInEnd,
+    targetCheckInEnd,
+    createJournalEntry
+)
+
+private fun CheckIn.toEntity() = TraceLocationCheckInEntity(
+    id,
+    guid,
+    version,
+    type,
+    description,
+    address,
+    traceLocationStart,
+    traceLocationEnd,
+    defaultCheckInLengthInMinutes,
+    signature,
+    checkInStart,
+    checkInEnd,
+    targetCheckInEnd,
+    createJournalEntry
+)
