@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.eventregistration.storage.entity.TraceLocationCheckI
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TraceLocationCheckInDao {
+interface CheckInDao {
 
     @Query("SELECT * FROM checkin")
     fun allEntries(): Flow<List<TraceLocationCheckInEntity>>
