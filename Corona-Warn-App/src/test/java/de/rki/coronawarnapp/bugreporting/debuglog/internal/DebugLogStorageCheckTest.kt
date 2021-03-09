@@ -44,7 +44,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     @Test
     fun `normal not low storage case`() {
         val instance = createInstance()
-        instance.checkLowStorage() shouldBe false
+        instance.isLowStorage() shouldBe false
 
         verify { logWriter wasNot Called }
     }
@@ -58,7 +58,7 @@ class DebugLogStorageCheckTest : BaseTest() {
         every { logWriter.write(capture(logSlot)) } just Runs
 
         val instance = createInstance()
-        instance.checkLowStorage() shouldBe true
+        instance.isLowStorage() shouldBe true
 
         logSlot.captured.throwable shouldBe unexpectedError
     }
@@ -67,11 +67,11 @@ class DebugLogStorageCheckTest : BaseTest() {
     fun `low storage default is 200MB`() {
         every { targetPath.usableSpace } returns 199 * 1000 * 1024L
         val instance = createInstance()
-        instance.checkLowStorage() shouldBe true
-        instance.checkLowStorage() shouldBe true
+        instance.isLowStorage() shouldBe true
+        instance.isLowStorage() shouldBe true
 
         currentTime += 60 * 1000L
-        instance.checkLowStorage() shouldBe true
+        instance.isLowStorage() shouldBe true
 
         // We only write the warning once
         verify(exactly = 1) { logWriter.write(any()) }
@@ -80,21 +80,21 @@ class DebugLogStorageCheckTest : BaseTest() {
     @Test
     fun `checks happen at most every 5 seconds`() {
         val instance = createInstance()
-        instance.checkLowStorage() shouldBe false
+        instance.isLowStorage() shouldBe false
 
         every { targetPath.usableSpace } returns 1024L
 
-        instance.checkLowStorage() shouldBe false
+        instance.isLowStorage() shouldBe false
 
         verify(exactly = 1) { targetPath.usableSpace }
 
         currentTime += 5000L
 
-        instance.checkLowStorage() shouldBe true
+        instance.isLowStorage() shouldBe true
 
         every { targetPath.usableSpace } returns 250 * 1000 * 1024L
 
-        instance.checkLowStorage() shouldBe true
+        instance.isLowStorage() shouldBe true
 
         verify(exactly = 2) { targetPath.usableSpace }
     }

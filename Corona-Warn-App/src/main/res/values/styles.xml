@@ -112,8 +112,8 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="debugLogButton" parent="button">
-        <item name="android:backgroundTint">@color/button_debug_log</item>
+    <style name="buttonBarAlertRed" parent="button">
+        <item name="android:backgroundTint">@color/button_alert_red</item>
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 

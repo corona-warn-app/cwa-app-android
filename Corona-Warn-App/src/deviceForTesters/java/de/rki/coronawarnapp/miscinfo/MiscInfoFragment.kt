@@ -34,14 +34,6 @@ class MiscInfoFragment : Fragment(R.layout.fragment_test_deviceinfo), AutoInject
             binding.googlePlayServicesVersionInfo.text = "Google Play Services: ${it.gmsVersion}"
             binding.exposureNotificationServiceVersionInfo.text = "Exposure Notification Services: ${it.enfVersion}"
         }
-
-        vm.inActiveTracingIntervals.observe2(this) {
-            binding.tracingInfosInactiveIntervals.text = "Inactive tracing intervals:\n$it"
-        }
-
-        vm.tracingDaysInRetention.observe2(this) {
-            binding.tracingInfosActiveTracingRetention.text = "Active tracing days in retention period: $it"
-        }
     }
 
     companion object {

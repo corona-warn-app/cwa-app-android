@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -27,21 +28,24 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
 
         val riskCalculationParameters = rawConfig.riskCalculationParameters
 
+        if (riskCalculationParameters.transmissionRiskValueMappingList.isEmpty()) {
+            val msg = "Transmission Risk Value Mapping List is empty which indicates an outdated app config"
+            Timber.w(msg)
+            throw ApplicationConfigurationInvalidException(
+                message = msg
+            )
+        }
+
         return ExposureWindowRiskCalculationContainer(
-            minutesAtAttenuationFilters = riskCalculationParameters
-                .minutesAtAttenuationFiltersList,
-            minutesAtAttenuationWeights = riskCalculationParameters
-                .minutesAtAttenuationWeightsList,
-            transmissionRiskLevelEncoding = riskCalculationParameters
-                .trlEncoding,
-            transmissionRiskLevelFilters = riskCalculationParameters
-                .trlFiltersList,
-            transmissionRiskLevelMultiplier = riskCalculationParameters
-                .transmissionRiskLevelMultiplier,
-            normalizedTimePerExposureWindowToRiskLevelMapping = riskCalculationParameters
-                .normalizedTimePerEWToRiskLevelMappingList,
-            normalizedTimePerDayToRiskLevelMappingList = riskCalculationParameters
-                .normalizedTimePerDayToRiskLevelMappingList,
+            minutesAtAttenuationFilters = riskCalculationParameters.minutesAtAttenuationFiltersList,
+            minutesAtAttenuationWeights = riskCalculationParameters.minutesAtAttenuationWeightsList,
+            transmissionRiskLevelEncoding = riskCalculationParameters.trlEncoding,
+            transmissionRiskLevelFilters = riskCalculationParameters.trlFiltersList,
+            normalizedTimePerExposureWindowToRiskLevelMapping =
+                riskCalculationParameters.normalizedTimePerEWToRiskLevelMappingList,
+            normalizedTimePerDayToRiskLevelMappingList =
+                riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
+            transmissionRiskValueMapping = riskCalculationParameters.transmissionRiskValueMappingList,
             diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
         )
     }
@@ -60,15 +64,20 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         }
 
     data class ExposureWindowRiskCalculationContainer(
-        override val minutesAtAttenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
-        override val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
-        override val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
-        override val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>,
-        override val transmissionRiskLevelMultiplier: Double,
+        override val minutesAtAttenuationFilters:
+            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
+        override val minutesAtAttenuationWeights:
+            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
+        override val transmissionRiskLevelEncoding:
+            RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
+        override val transmissionRiskLevelFilters:
+            List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
             List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
             List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        override val transmissionRiskValueMapping:
+            List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
         override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
     ) : ExposureWindowRiskCalculationConfig
 }

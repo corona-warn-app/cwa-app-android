@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -38,7 +37,6 @@ class KeyDownloadToolTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val testFile = File(testDir, "testfile")
 
-    @MockK private lateinit var legacyKeyCache: LegacyKeyCacheMigration
     @MockK private lateinit var keyServer: DiagnosisKeyServer
     @MockK private lateinit var keyCache: KeyCacheRepository
     @MockK private lateinit var downloadConfig: KeyDownloadConfig
@@ -78,7 +76,6 @@ class KeyDownloadToolTest : BaseIOTest() {
     }
 
     private fun createInstance() = KeyDownloadTool(
-        legacyKeyCache = legacyKeyCache,
         keyServer = keyServer,
         keyCache = keyCache
     )
